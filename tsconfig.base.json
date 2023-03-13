@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@lths/shared/ui-elements": ["libs/shared/ui-elements/src/index.ts"],
+      "@lths/shared/ui-login": ["libs/shared/ui-login/src/index.ts"],
+      "@lths/shared/ui-login/login": [
+        "libs/shared/ui-login/src/lib/login.tsx"
+      ],
+      "@lths/shared/data-access": ["libs/shared/data-access/src/index.ts"],
+      "@lths/shared/ui-layouts": ["libs/shared/ui-layouts/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

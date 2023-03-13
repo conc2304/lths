@@ -4,21 +4,17 @@
     "allowJs": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
-    "strict": false,
-    "declaration": true,
-    /*"types": [
-      "libs/shared/data-access/src/lib/users/types.d.ts"
-    ]*/
+    "strict": false
   },
   "files": [],
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.lib.json"
     },
     {
       "path": "./tsconfig.spec.json"
     }
   ],
-  "extends": "../../tsconfig.base.json"
+  "extends": "../../../tsconfig.base.json"
 }
