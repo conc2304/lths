@@ -1,21 +1,33 @@
-import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { Action, configureStore, isRejectedWithValue, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import { api,authReducer } from "@lths/shared/data-access";
-//import {Todo} from 'lths-data-access-models';
+import { api } from "@lths/shared/data-access";
+
 import rootReducer from './root-reducer';
-export type RootState = ReturnType<typeof rootReducer>;
+import toast from "react-hot-toast";
+export const rtkQueryErrorHandler = (api) => (next) => (action) => {
+  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
+  if (isRejectedWithValue(action)) {
+    const error =action.payload?.data?.error || 'Something went wrong. Please try logging in again.';
+    toast.error(error);
+    console.warn("ERROR", action);
+  }
+  return next(action);
+};
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),//.concat(rtkQueryErrorLogger),
+    getDefaultMiddleware().concat(api.middleware).concat(rtkQueryErrorHandler),
   devTools: process.env.NODE_ENV !== "production",
 });
 
 
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
+
+
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;

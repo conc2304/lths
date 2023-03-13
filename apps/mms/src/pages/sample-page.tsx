@@ -11,12 +11,12 @@ const SamplePage = ():JSX.Element => {
     
 
  
-    //const user = useAppSelector(state=>state.user);
+    const user = useAppSelector(state=>state.users.user);
 
-
+console.log('user',user)
     return (
     <Box title="Sample Card">
-        <Typography>Hello user?.name</Typography>
+        <Typography>Hello {user?.name}</Typography>
         <Profile/>
         <PositionedPopper/>
         <Typography variant="body2">

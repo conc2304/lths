@@ -14,6 +14,11 @@ export type AuthenticatedSession = {
   authenticated: boolean;
 };
 
+export type LogoutResponse = {
+    status: string;
+    message: string;
+  } 
+
 export type UserResponse = {
   //accounts: LTHS_Account[];
   biography: string;

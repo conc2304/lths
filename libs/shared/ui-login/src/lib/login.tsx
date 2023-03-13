@@ -4,9 +4,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
-  Button,
   Checkbox,
-  Divider,
   FormControlLabel,
   FormHelperText,
   Grid,
@@ -18,10 +16,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-
 import LoadingButton from '@mui/lab/LoadingButton';
-
-import CenterCard from './center-card';
 
 import { Formik } from 'formik';
 
@@ -29,8 +24,10 @@ import { LoginRequest } from '@lths/shared/data-access';
 import {
   useLoginMutation,
   useLazyGetUserQuery,
-  authApi,
 } from '@lths/shared/data-access';
+
+import CenterCard from './center-card';
+
 const LoginForm: React.FC = (): JSX.Element => {
   const defaultErrorMsg = 'Something went wrong. Please try logging in again.';
   const navigate = useNavigate();

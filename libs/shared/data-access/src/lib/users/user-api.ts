@@ -1,5 +1,6 @@
 import { api } from '../core/api';
 import { UserResponse } from './types';
+import { getAuthUserByIdUrl } from './urls';
 
 export const userApi = api
   .enhanceEndpoints({ addTagTypes: ['User'] })
@@ -7,7 +8,7 @@ export const userApi = api
     endpoints: (builder) => ({
       getUser: builder.query<UserResponse, string>({
         query: (userId: string) => ({
-          url: `/models/users/${userId}/service/ports/getUserById`,
+          url: getAuthUserByIdUrl(userId),
           method: 'GET',
         }),
 

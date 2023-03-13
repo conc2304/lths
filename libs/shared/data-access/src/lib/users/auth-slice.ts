@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from './auth-api';
-import { api } from '../core/api';
 import { AuthenticatedSession } from './types';
 
 const addToken = (state, action) => {
@@ -20,7 +19,6 @@ const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    console.log(builder);
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
       // api.endpoints.login.matchFulfilled,
@@ -32,6 +30,11 @@ const authSlice = createSlice({
         state.authenticated = true;
       }
     );
+    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state, _) => {
+      state.token = null;
+      state.userId = null;
+      state.authenticated = false;
+    });
   },
 });
 

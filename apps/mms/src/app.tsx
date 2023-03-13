@@ -1,12 +1,16 @@
 
-import Routes from "./routes";
-import { BrowserRouter } from "react-router-dom";
 
-import LayoutThemeProvider from "./themes";
 
 import { Provider } from "react-redux";
-import {store} from "./store";
+import { BrowserRouter } from "react-router-dom";
 
+import {store} from "./store";
+import Routes from "./routes";
+
+
+import { LayoutToaster } from "./components/layouts";
+
+import LayoutThemeProvider from "./themes";
 function App() {
   return (
     <Provider store={store}>
@@ -14,8 +18,10 @@ function App() {
     <BrowserRouter >
       <LayoutThemeProvider>
         <Routes />
+        <LayoutToaster/>
       </LayoutThemeProvider>
     </BrowserRouter>
+
     </Provider>
   );
 }
