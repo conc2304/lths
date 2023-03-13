@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
-import { Transitions, useTheme } from "@mui/material/styles";
+import { Transitions, useTheme } from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -22,38 +22,53 @@ import {
   Tab,
   Tabs,
   Typography,
-} from "@mui/material";
-import { LogoutOutlined,EditAttributes} from "@mui/icons-material";
-
+} from '@mui/material';
+import { LogoutOutlined, EditAttributes } from '@mui/icons-material';
+import { useLogoutMutation } from '@lths/shared/data-access';
+import { useAppSelector ,selectUserId} from '@lths/features/mms/data-access';
 const ProfileTab = ({ handleLogout }) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const handleListItemClick = (event, index) => {
-        setSelectedIndex(index);
-    };
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
-    return (
-        <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32,color: theme.palette.grey[500] } }}>
-            <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
-                <ListItemIcon>
-                    <EditAttributes />
-                </ListItemIcon>
-                <ListItemText primary="Edit Profile" />
-            </ListItemButton>
-           
-           
-            <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
-                <ListItemIcon>
-                    <LogoutOutlined />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-            </ListItemButton>
-        </List>
-    );
+  return (
+    <List
+      component="nav"
+      sx={{
+        p: 0,
+        '& .MuiListItemIcon-root': {
+          minWidth: 32,
+          color: theme.palette.grey[500],
+        },
+      }}
+    >
+      <ListItemButton
+        selected={selectedIndex === 0}
+        onClick={(event) => handleListItemClick(event, 0)}
+      >
+        <ListItemIcon>
+          <EditAttributes />
+        </ListItemIcon>
+        <ListItemText primary="Edit Profile" />
+      </ListItemButton>
+
+      <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
+        <ListItemIcon>
+          <LogoutOutlined />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </ListItemButton>
+    </List>
+  );
 };
 
 const Profile = () => {
+  const [logout, { isLoading }] = useLogoutMutation();
+  const userId = useAppSelector((state) => selectUserId(state));
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -62,25 +77,29 @@ const Profile = () => {
     setOpen((prev) => !prev);
   };
   const handleClose = () => setOpen(false);
-  const handleLogout = () => {};
-  const iconBackColorOpen = "grey.300";
-const theme = useTheme();
+  const handleLogout = async () => {
+    await logout(userId);
+  };
+  const iconBackColorOpen = 'grey.300';
+  const theme = useTheme();
   return (
     <Box>
-      <Popper open={open} anchorEl={anchorEl} placement={"bottom"} transition>
+      <Popper open={open} anchorEl={anchorEl} placement={'bottom'} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
-            <Paper  sx={{
-                                    width: 290,
-                                    minWidth: 240,
-                                    maxWidth: 290,
-                                    [theme.breakpoints.down('md')]: {
-                                        maxWidth: 250
-                                    }
-                                }}>
+            <Paper
+              sx={{
+                width: 290,
+                minWidth: 240,
+                maxWidth: 290,
+                [theme.breakpoints.down('md')]: {
+                  maxWidth: 250,
+                },
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
-                <Card elevation={0} sx={{mt:1,p:0,minWidth:150}}>
-                  <CardContent sx={{ px: 1, pt: 1,py:1 }}>
+                <Card elevation={0} sx={{ mt: 1, p: 0, minWidth: 150 }}>
+                  <CardContent sx={{ px: 1, pt: 1, py: 1 }}>
                     <Grid
                       container
                       justifyContent="space-between"
@@ -98,9 +117,10 @@ const theme = useTheme();
                           />
                           <Stack>
                             <Typography variant="h6">User Name</Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              
-                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                            ></Typography>
                           </Stack>
                         </Stack>
                       </Grid>
@@ -114,7 +134,7 @@ const theme = useTheme();
                         </IconButton>
                       </Grid>
                     </Grid>
-                    <ProfileTab handleLogout={handleLogout}/>
+                    <ProfileTab handleLogout={handleLogout} />
                   </CardContent>
                 </Card>
               </ClickAwayListener>
@@ -125,9 +145,9 @@ const theme = useTheme();
       <Button
         sx={{
           p: 0.25,
-          bgcolor: open ? iconBackColorOpen : "transparent",
+          bgcolor: open ? iconBackColorOpen : 'transparent',
           borderRadius: 1,
-          "&:hover": { bgcolor: "secondary.lighter" },
+          '&:hover': { bgcolor: 'secondary.lighter' },
         }}
         onClick={handleClick}
       >

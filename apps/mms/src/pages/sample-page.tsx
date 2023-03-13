@@ -4,7 +4,7 @@ import { Profile } from '../components/layouts';
 import PositionedPopper from '../components/layouts/popper-test';
 
 
-import { useAppSelector } from '../store';
+import { useAppSelector } from '@lths/features/mms/data-access';
 
 
 const SamplePage = ():JSX.Element => {

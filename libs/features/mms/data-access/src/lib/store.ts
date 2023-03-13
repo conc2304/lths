@@ -1,25 +1,18 @@
-import { Action, configureStore, isRejectedWithValue, ThunkAction } from '@reduxjs/toolkit';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import { api } from "@lths/shared/data-access";
 
 import rootReducer from './root-reducer';
-import toast from "react-hot-toast";
-export const rtkQueryErrorHandler = (api) => (next) => (action) => {
-  // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
-  if (isRejectedWithValue(action)) {
-    const error =action.payload?.data?.error || 'Something went wrong. Please try logging in again.';
-    toast.error(error);
-    console.warn("ERROR", action);
-  }
-  return next(action);
-};
+import { errorToasterMiddleware } from './middlewares/error-toaster-middleware';
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware).concat(rtkQueryErrorHandler),
-  devTools: process.env.NODE_ENV !== "production",
+    getDefaultMiddleware()
+      .concat(api.middleware)
+      .concat(errorToasterMiddleware),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 
