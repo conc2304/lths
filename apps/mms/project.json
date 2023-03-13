@@ -1,0 +1,87 @@
+{
+  "name": "mms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mms/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/mms",
+        "index": "apps/mms/src/index.html",
+        "baseHref": "/",
+        "main": "apps/mms/src/main.tsx",
+        "tsConfig": "apps/mms/tsconfig.app.json",
+        "assets": ["apps/mms/src/favicon.ico", "apps/mms/src/assets"],
+        "styles": ["apps/mms/src/styles.css"],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/mms/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/mms/src/environments/environment.ts",
+              "with": "apps/mms/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "mms:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "mms:build:development"
+        },
+        "production": {
+          "buildTarget": "mms:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/mms/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mms/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
