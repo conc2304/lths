@@ -22,19 +22,33 @@
 ## Installation
 
 
-To install dependencies, you can run the following
+To install dependencies, you can run the following from root dir (/lths-mui). The packages are managed on a root level. 
 ```
 yarn install
 ```
+
+## Add New Packages
+To add a package, make sure your terminal is pointed to the root nx-workspace(/lths-mui), then run yarn add <package-name>
+
 
 ## Running app
 
 
 ## Development server
 
-Run `nx serve mms` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve mms` for a dev server. Navigate to http://localhost:4200/. Alternatively, you can add the NX console extension in your VS code and hit run (refer screen-short). The app will automatically reload if you change any of the source files.
+```
+yarn nx run ams:serve:development
+```
+or
 ```
 nx serve mms
+```
+
+## Running multiple apps
+To run multiple apps simultaneously, you can run the following with --port flag.
+```
+yarn nx run ams:serve:development --port 4202
 ```
 
 ## Understand this workspace

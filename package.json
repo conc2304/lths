@@ -6,6 +6,8 @@
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@faker-js/faker": "^7.6.0",
+    "@mswjs/data": "^0.11.2",
     "@nrwl/cypress": "^15.7.2",
     "@nrwl/eslint-plugin-nx": "15.7.2",
     "@nrwl/jest": "15.7.2",
@@ -35,6 +37,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
+    "msw": "^1.1.0",
     "nx": "15.7.2",
     "prettier": "^2.6.2",
     "react-refresh": "^0.10.0",
@@ -62,5 +65,8 @@
     "tslib": "^2.3.0",
     "typesafe-actions": "^5.1.0",
     "yup": "^1.0.2"
+  },
+  "msw": {
+    "workerDirectory": "apps/mms/src"
   }
 }

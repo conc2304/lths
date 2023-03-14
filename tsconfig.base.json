@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lths/shared/mocks": ["libs/shared/mocks/src/index.ts"],
       "@lths/features/mms/data-access": [
         "libs/features/mms/data-access/src/index.ts"
       ],

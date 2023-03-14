@@ -1,1 +1,1 @@
-export {BreadcrumbTrail} from './Breadcrumbs';
+export {BreadcrumbTrail} from './breadcrumbs';
