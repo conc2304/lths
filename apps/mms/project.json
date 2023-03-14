@@ -16,7 +16,7 @@
         "main": "apps/mms/src/main.tsx",
         "tsConfig": "apps/mms/tsconfig.app.json",
         "assets": ["apps/mms/src/favicon.ico", "apps/mms/src/assets","apps/mms/src/mockServiceWorker.js"],
-        "styles": ["apps/mms/src/styles.css"],
+        "styles": [],
         "scripts": [],
         "isolatedConfig": true,
         "webpackConfig": "apps/mms/webpack.config.js"
