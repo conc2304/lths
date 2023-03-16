@@ -31,7 +31,6 @@ const StyledButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   '& .MuiTouchRipple-child': {
     backgroundColor: '#e3f3ff',
   },
-
 }));
 
 export const LTHS_ButtonGroup = (props: Props) => {
@@ -45,40 +44,21 @@ export const LTHS_ButtonGroup = (props: Props) => {
   };
 
   return (
-    <div>
-      <StyledButtonGroup
-        variant="outlined"
-        disableElevation
-        aria-label="outline button group"
-      >
-        {buttons.map((buttonItem, i) => {
-          return (
-            <Button
-              className={activeIndex === i ? 'active' : ''}
-              onClick={() => handleOnClick(buttonItem.onClick, i)}
-            >
-              {buttonItem.label}
-            </Button>
-          );
-        })}
-      </StyledButtonGroup>
-      <br />
-      <ButtonGroup
-        variant="outlined"
-        disableElevation
-        aria-label="outline button group"
-      >
-        {buttons.map((buttonItem, i) => {
-          return (
-            <Button
-              className={activeIndex === i ? 'active' : ''}
-              onClick={() => handleOnClick(buttonItem.onClick, i)}
-            >
-              {buttonItem.label}
-            </Button>
-          );
-        })}
-      </ButtonGroup>
-    </div>
+    <StyledButtonGroup
+      variant="outlined"
+      disableElevation
+      aria-label="outline button group"
+    >
+      {buttons.map((buttonItem, i) => {
+        return (
+          <Button
+            className={activeIndex === i ? 'active' : ''}
+            onClick={() => handleOnClick(buttonItem.onClick, i)}
+          >
+            {buttonItem.label}
+          </Button>
+        );
+      })}
+    </StyledButtonGroup>
   );
 };
