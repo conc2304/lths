@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'; //
-import { LTHS_ButtonGroup } from '@lths/shared/ui-elements';
+import { LthsButtonGroup } from '@lths/shared/ui-elements';
 import React from 'react';
 
 type InsightOverviewProps = {
@@ -54,7 +54,7 @@ const ButtonGroupConf: Array<{ label: string; onClick: () => void }> = [
 const InsightsOverviewPage = (props: InsightOverviewProps): JSX.Element => {
   console.log('InsightsOverviewPage');
   console.log(props);
-  return <LTHS_ButtonGroup buttons={ButtonGroupConf}></LTHS_ButtonGroup>;
+  return <LthsButtonGroup buttons={ButtonGroupConf} color="secondary" />
 };
 
 export default InsightsOverviewPage;

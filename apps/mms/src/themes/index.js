@@ -13,7 +13,7 @@ export default function DashThemeProvider({ children }) {
     const theme = getPalette();
 
     const themeTypography = getTypography(`'Public Sans', sans-serif`);
-   
+
     const themeOptions = useMemo(
         () => ({
             breakpoints: {
@@ -42,7 +42,10 @@ export default function DashThemeProvider({ children }) {
 
     const themes = createTheme(themeOptions);
     themes.components= getOverrides(themes);
-   
+
+    console.log('themes.components')
+    console.log(themes.components)
+
     return (<ThemeProvider theme={themes}>
                 <CssBaseline />
                 {children}

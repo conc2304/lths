@@ -36,7 +36,8 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
     children: [
       {
         path: "/login",
-        element: <LoginPage2 />,
+        // element: <LoginPage2 />,
+        element: <JosePage />,
       },
     ],
   };

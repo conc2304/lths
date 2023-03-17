@@ -1,16 +1,17 @@
-import { ButtonGroup, Button } from '@mui/material';
+import { ButtonGroup, Button, Typography, Color } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
+import { ButtonGroupProps } from '@mui/material/ButtonGroup';
 
 type Props = {
   buttons: Array<{ label: string; onClick: () => void }>;
-};
+} & ButtonGroupProps;
 
 const StyledButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   '& .MuiButtonBase-root': {
     border: '1px solid #D9D9D9',
     textTransform: 'uppercase',
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: `'Roboto', sans-serif`,
     fontWeight: 400,
     fontSize: '0.9rem',
     color: '#000',
@@ -33,19 +34,24 @@ const StyledButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   },
 }));
 
-export const LTHS_ButtonGroup = (props: Props) => {
-  const { buttons } = props;
+export const LthsButtonGroup = ({
+  color = 'primary',
+  variant = 'outlined',
+  ...rest
+}: Props) => {
+  const { buttons } = rest;
 
   const [activeIndex, setIsActiveIndex] = useState<number | null>(null);
 
-  const handleOnClick = (onClickAction: () => void, index: number) => {
+  const handleOnClick = (onClickHandler: () => void, index: number) => {
     setIsActiveIndex(index);
-    onClickAction();
+    onClickHandler();
   };
 
   return (
-    <StyledButtonGroup
-      variant="outlined"
+    <ButtonGroup
+      variant={variant}
+      color={color}
       disableElevation
       aria-label="outline button group"
     >
@@ -54,11 +60,12 @@ export const LTHS_ButtonGroup = (props: Props) => {
           <Button
             className={activeIndex === i ? 'active' : ''}
             onClick={() => handleOnClick(buttonItem.onClick, i)}
+            key={buttonItem.label}
           >
             {buttonItem.label}
           </Button>
         );
       })}
-    </StyledButtonGroup>
+    </ButtonGroup>
   );
 };
