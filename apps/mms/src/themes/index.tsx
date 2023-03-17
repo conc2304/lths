@@ -14,7 +14,7 @@ export default function DashThemeProvider({ children }) {
 
     const themeTypography = getTypography(`'Public Sans', sans-serif`);
 
-    const themeOptions = useMemo(
+    const themeOptions: Theme = useMemo(
         () => ({
             breakpoints: {
                 values: {
@@ -35,10 +35,10 @@ export default function DashThemeProvider({ children }) {
                 },
             },
             palette: theme.palette,
-            typography: themeTypography
+            ...themeTypography
         }),
         [theme, themeTypography]
-    ) as Theme;
+    );
 
     const themes = createTheme(themeOptions);
     themes.components= getComponentOverrides(themes);
