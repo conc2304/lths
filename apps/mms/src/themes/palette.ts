@@ -1,7 +1,7 @@
 import { PaletteMode } from '@mui/material';
 import { createTheme, Theme } from '@mui/material/styles';
 
-const Palette = (mode: PaletteMode = null): Theme => {
+const Palette = (mode: PaletteMode = 'light'): Theme => {
 
     return createTheme({
         palette: {
