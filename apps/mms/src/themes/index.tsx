@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, Theme } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import getPalette from './palette';
 import getTypography from './typography';
-import getOverrides from './overrides';
+import getComponentOverrides from './overrides/index';
 
 
 export default function DashThemeProvider({ children }) {
     const theme = getPalette();
 
     const themeTypography = getTypography(`'Public Sans', sans-serif`);
-   
+
     const themeOptions = useMemo(
         () => ({
             breakpoints: {
@@ -38,11 +38,11 @@ export default function DashThemeProvider({ children }) {
             typography: themeTypography
         }),
         [theme, themeTypography]
-    );
+    ) as Theme;
 
     const themes = createTheme(themeOptions);
-    themes.components= getOverrides(themes);
-   
+    themes.components= getComponentOverrides(themes);
+
     return (<ThemeProvider theme={themes}>
                 <CssBaseline />
                 {children}
