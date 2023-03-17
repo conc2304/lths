@@ -7,7 +7,6 @@ const Palette = (mode: PaletteMode = 'light'): Theme => {
         palette: {
             mode,
             primary: {
-                // main:'#3D4752'
                 main: '#3D4752'
             },
             secondary: {
