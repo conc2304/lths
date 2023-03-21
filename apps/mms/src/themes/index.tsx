@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react';
 
-import { CssBaseline, Theme } from '@mui/material';
+import { CssBaseline, Theme, ThemeOptions } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import getPalette from './palette';
@@ -12,11 +12,10 @@ type Props = {
 }
 
 export default function DashThemeProvider({ children }: Props) {
-    const theme = getPalette();
-
+    const themePalette = getPalette();
     const themeTypography = getTypography(`'Public Sans', sans-serif`);
 
-    const themeOptions: Theme = useMemo(
+    const themeOptions: ThemeOptions = useMemo(
         () => ({
             breakpoints: {
                 values: {
@@ -36,15 +35,20 @@ export default function DashThemeProvider({ children }: Props) {
                     paddingBottom: 4
                 },
             },
-            palette: theme.palette,
-            ...themeTypography
+            palette: themePalette,
+            typography: themeTypography
         }),
-        [theme, themeTypography]
+        [themePalette, themeTypography]
     );
 
+    console.log('themeOptions')
+    console.log(themeOptions.palette.info)
     const themes = createTheme(themeOptions);
     themes.components= getComponentOverrides(themes);
 
+    console.log(' provider')
+    console.log(themes.palette.info)
+    console.log(themes)
     return (<ThemeProvider theme={themes}>
                 <CssBaseline />
                 {children}

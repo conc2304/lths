@@ -20,7 +20,7 @@ const SamplePage = LazyLoader(lazy(() => import("../pages/sample-page")));
 
 const ChartPage = LazyLoader(lazy(() => import("../pages/chart-page")));
 
-const JosePage = LazyLoader(lazy(() => import("../pages/insights-overview")))
+const JosePage = LazyLoader(lazy(() => import("../pages/design-system")))
 
 //const LoginPage = LazyLoader(lazy(() => import("@lths/shared/ui-login/login")));
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries

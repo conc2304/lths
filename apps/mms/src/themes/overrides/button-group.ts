@@ -1,10 +1,14 @@
-export default function ButtonGroup(theme) {
+import { Components, Theme } from '@mui/material';
+
+export default function ButtonGroup(theme: Theme): Components {
   return {
     MuiButtonGroup: {
       styleOverrides: {
-        root: {},
+        root: {
+          padding: theme.spacing(2),
+        },
         outlined: {
-          backgroundColkor: 'transparent'
+          backgroundColor: 'transparent',
         },
         grouped: {
           textTransform: 'uppercase',
@@ -12,35 +16,34 @@ export default function ButtonGroup(theme) {
           fontWeight: 400,
           fontSize: '0.9rem',
           padding: '9px 12px',
-          height: '34px',
           transition: theme.transitions.create('background-color', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
           }),
+          '&.MuiButton-outlinedInfo': {
+            color: theme.palette.info.contrastText,
+            border: `1px solid ${theme.palette.grey[300]}`,
+            '&:hover': {
+              backgroundColor: theme.palette.info.light,
+            },
+            '&.active': {
+              background: theme.palette.info.main,
+            },
+            '& .MuiTouchRipple-child': {
+              backgroundColor: theme.palette.info.dark,
+            },
+          },
         },
         groupedOutlinedPrimary: {
           border: '1px solid #D9D9D9',
-          '&:hover': {
-            backgroundColor: 'rgba(216, 216, 216, 0.4)',
-          },
           '&.active': {
-            background: '#e3f3ff',
-          },
-          '& .MuiTouchRipple-child': {
-            backgroundColor: '#e3f3ff',
+            background: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText
           },
         },
-        groupedOutlinedSecondary: { // TODO just for testing
-          color: "#000",
-          border: '1px solid purple',
-          '&:hover': {
-            backgroundColor: 'cyan',
-          },
+        groupedContainedPrimary: {
           '&.active': {
-            background: 'orange',
-          },
-          '& .MuiTouchRipple-child': {
-            backgroundColor: 'pruple',
+            background: theme.palette.primary.light,
           },
         },
       },

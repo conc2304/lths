@@ -1,15 +1,17 @@
-import { ButtonGroup, Button, Typography, Color } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { ButtonGroup, Button } from '@mui/material';
 import { useState } from 'react';
 import { ButtonGroupProps } from '@mui/material/ButtonGroup';
 
 type Props = {
-  buttons: Array<{ label: string; onClick: () => void }>;
+  buttons: Array<{
+    label: string;
+    value: string | number;
+    onClick: (value: string | number) => void;
+  }>;
 } & ButtonGroupProps;
 
-
 export const LthsButtonGroup = ({
-  color = 'primary',
+  color = 'info',
   variant = 'outlined',
   ...rest
 }: Props) => {
@@ -17,9 +19,13 @@ export const LthsButtonGroup = ({
 
   const [activeIndex, setIsActiveIndex] = useState<number | null>(null);
 
-  const handleOnClick = (onClickHandler: () => void, index: number) => {
+  const handleOnClick = (
+    onClickHandler: (value: string | number) => void,
+    buttonValue: string | number,
+    index: number
+  ) => {
     setIsActiveIndex(index);
-    onClickHandler();
+    onClickHandler(buttonValue);
   };
 
   return (
@@ -34,7 +40,11 @@ export const LthsButtonGroup = ({
         return (
           <Button
             className={activeIndex === i ? 'active' : ''}
-            onClick={() => handleOnClick(buttonItem.onClick, i)}
+            value={buttonItem.value}
+            aria-label="button"
+            onClick={(e) =>
+              handleOnClick(buttonItem.onClick, buttonItem.value, i)
+            }
             key={buttonItem.label}
           >
             {buttonItem.label}
