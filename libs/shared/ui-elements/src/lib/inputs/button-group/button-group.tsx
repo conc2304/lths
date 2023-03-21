@@ -15,7 +15,7 @@ export const LthsButtonGroup = ({
   variant = 'outlined',
   ...rest
 }: Props) => {
-  const { buttons, sx } = rest;
+  const { buttons, sx, ...buttonGroupProps } = rest;
 
   const [activeIndex, setIsActiveIndex] = useState<number | null>(null);
 
@@ -35,6 +35,7 @@ export const LthsButtonGroup = ({
       disableElevation
       aria-label="outline button group"
       sx={sx}
+      {...buttonGroupProps}
     >
       {buttons.map((buttonItem, i) => {
         return (
