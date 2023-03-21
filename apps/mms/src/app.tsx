@@ -34,7 +34,7 @@ function App() {
       <BrowserRouter>
         <LayoutThemeProvider>
           <Routes />
-          <LayoutToaster /> 
+          <LayoutToaster />
         </LayoutThemeProvider>
       </BrowserRouter>
     </Provider>
