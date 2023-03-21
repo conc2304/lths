@@ -20,7 +20,7 @@ const SamplePage = LazyLoader(lazy(() => import("../pages/sample-page")));
 
 const ChartPage = LazyLoader(lazy(() => import("../pages/chart-page")));
 
-const JosePage = LazyLoader(lazy(() => import("../pages/design-system")))
+const DesignSystem = LazyLoader(lazy(() => import("../pages/design-system")))
 
 //const LoginPage = LazyLoader(lazy(() => import("@lths/shared/ui-login/login")));
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
@@ -37,6 +37,10 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
       {
         path: "/login",
         element: <LoginPage2 />,
+      },
+      {
+        path: "/design-system",
+        element: <DesignSystem />,
       },
     ],
   };
@@ -63,10 +67,6 @@ export const DashRoutes = (authenticated: boolean) => {
       {
         path: "/dashboard/charts",
         element: <ChartPage />,
-      },
-      {
-        path: "/dashboard/jose",
-        element: <JosePage />,
       },
       {
         path: "*",

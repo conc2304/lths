@@ -1,11 +1,16 @@
 import { Typography, Box } from '@mui/material'; //
 import { LthsButtonGroup } from '@lths/shared/ui-elements';
+import { DateRangeInput } from '@lths/shared/ui-elements';
 
 type DesignSystemProps = {
   //
 };
 
-const ButtonGroupConf: Array<{ label: string; value: string|number;onClick: (value: string | number) => void }> = [
+const ButtonGroupConf: Array<{
+  label: string;
+  value: string | number;
+  onClick: (value: string | number) => void;
+}> = [
   {
     label: '1 Hour',
     value: '1 Hour',
@@ -52,7 +57,7 @@ const ButtonGroupConf: Array<{ label: string; value: string|number;onClick: (val
     label: '12 Months',
     value: '12 Months',
     onClick: (value: string | number) => {
-      console.log(value)
+      console.log(value);
     },
   },
 ];
@@ -60,12 +65,20 @@ const ButtonGroupConf: Array<{ label: string; value: string|number;onClick: (val
 const DesignSystem = (props: DesignSystemProps): JSX.Element => {
   return (
     <Box title="MMS Design System" width={'100%'}>
-      <Typography variant='h1' textAlign={'center'}>MMS Design System</Typography>
+      <Typography variant="h1" textAlign={'center'}>
+        MMS Design System
+      </Typography>
 
-
-      <Typography variant='h3' >Inputs</Typography>
+      <Typography variant="h3">Inputs</Typography>
       <Typography>Button Group</Typography>
-      <LthsButtonGroup buttons={ButtonGroupConf} />
+      {/* <LthsButtonGroup buttons={ButtonGroupConf} /> */}
+
+      <DateRangeInput
+        dateOptions={ButtonGroupConf}
+        onChange={() => {
+          console.log('date changed');
+        }}
+      />
     </Box>
   );
 };

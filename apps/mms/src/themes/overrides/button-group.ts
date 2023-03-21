@@ -3,6 +3,10 @@ import { Components, Theme } from '@mui/material';
 export default function ButtonGroup(theme: Theme): Components {
   return {
     MuiButtonGroup: {
+      defaultProps: {
+        variant: 'outlined',
+        color: 'info',
+      },
       styleOverrides: {
         root: {
           padding: theme.spacing(2),

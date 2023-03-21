@@ -1,31 +1,45 @@
 import { ButtonGroup, Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonGroupProps } from '@mui/material/ButtonGroup';
+import { group } from 'console';
 
 type Props = {
   buttons: Array<{
     label: string;
     value: string | number;
-    onClick: (value: string | number) => void;
+    onClick?: (value: string | number) => void;
   }>;
+  onOptionSelected: (value: string | number) => void;
+  value: string | number | null;
 } & ButtonGroupProps;
 
 export const LthsButtonGroup = ({
   color = 'info',
   variant = 'outlined',
+  value: groupValue = null,
   ...rest
 }: Props) => {
-  const { buttons, sx, ...buttonGroupProps } = rest;
+  const { buttons, sx, onOptionSelected, ...buttonGroupProps } = rest;
 
-  const [activeIndex, setIsActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setIsActiveIndex] = useState<number | null>();
 
-  const handleOnClick = (
-    onClickHandler: (value: string | number) => void,
-    buttonValue: string | number,
-    index: number
-  ) => {
-    setIsActiveIndex(index);
-    onClickHandler(buttonValue);
+  useEffect(() => {
+    setIsActiveIndex(buttons.findIndex((b) => b.value === groupValue));
+  }, [groupValue, buttons]);
+
+
+  const handleOnClick = ({
+    value,
+    i,
+    onClick,
+  }: {
+    value: string | number;
+    i: number;
+    onClick?: (value: string | number) => void;
+  }) => {
+    setIsActiveIndex(i);
+    onOptionSelected(value);
+    !!onClick && onClick(value);
   };
 
   return (
@@ -38,17 +52,15 @@ export const LthsButtonGroup = ({
       {...buttonGroupProps}
     >
       {buttons.map((buttonItem, i) => {
+        const { onClick, value, label } = buttonItem;
         return (
           <Button
             className={activeIndex === i ? 'active' : ''}
-            value={buttonItem.value}
             aria-label="button"
-            onClick={(e) =>
-              handleOnClick(buttonItem.onClick, buttonItem.value, i)
-            }
-            key={buttonItem.label}
+            onClick={(e) => handleOnClick({ value, i, onClick })}
+            key={label}
           >
-            {buttonItem.label}
+            {label}
           </Button>
         );
       })}

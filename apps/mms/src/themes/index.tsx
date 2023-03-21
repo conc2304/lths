@@ -1,7 +1,9 @@
 import { ReactNode, useMemo } from 'react';
 
-import { CssBaseline, Theme, ThemeOptions } from '@mui/material';
+import { CssBaseline, ThemeOptions } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { deDE as coreDeDE } from '@mui/material/locale';
+import { deDE } from '@mui/x-date-pickers';
 
 import getPalette from './palette';
 import getTypography from './typography';
@@ -37,6 +39,8 @@ export default function DashThemeProvider({ children }: Props) {
       },
       palette: themePalette,
       typography: themeTypography,
+      deDE, // x-date-pickers translations
+      coreDeDE, // core translations
     }),
     [themePalette, themeTypography]
   );
