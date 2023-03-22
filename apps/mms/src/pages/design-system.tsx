@@ -1,6 +1,5 @@
 import { Typography, Box } from '@mui/material'; //
-import { LthsButtonGroup } from '@lths/shared/ui-elements';
-import { DateRangeInput } from '@lths/shared/ui-elements';
+import { DateRangeSelector } from '@lths/shared/ui-elements';
 
 type DesignSystemProps = {
   //
@@ -73,7 +72,7 @@ const DesignSystem = (props: DesignSystemProps): JSX.Element => {
       <Typography>Button Group</Typography>
       {/* <LthsButtonGroup buttons={ButtonGroupConf} /> */}
 
-      <DateRangeInput
+      <DateRangeSelector
         dateOptions={ButtonGroupConf}
         onChange={() => {
           console.log('date changed');

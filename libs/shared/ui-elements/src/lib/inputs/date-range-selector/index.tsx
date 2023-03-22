@@ -1,6 +1,6 @@
 import { Container, Divider } from '@mui/material';
 import { LthsButtonGroup } from 'libs/shared/ui-elements/src';
-import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range/types';
+import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -18,7 +18,7 @@ type Props = {
   onChange: ({ startDate, endDate }: DateRange) => void;
 };
 
-export const DateRangeInput = ({
+export const DateRangeSelector = ({
   dateOptions,
   onChange,
 }: Props): JSX.Element => {
