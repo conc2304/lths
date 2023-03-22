@@ -74,8 +74,8 @@ const DesignSystem = (props: DesignSystemProps): JSX.Element => {
 
       <DateRangeSelector
         dateOptions={ButtonGroupConf}
-        onChange={() => {
-          console.log('date changed');
+        onChange={({startDate, endDate}) => {
+          console.log('date changed', startDate, endDate);
         }}
       />
     </Box>
