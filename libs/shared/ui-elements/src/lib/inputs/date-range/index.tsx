@@ -8,7 +8,13 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 type Props = {
   dateOptions: DateFilterOption;
-  onChange: () => void;
+  onChange: ({
+    startDate,
+    endDate,
+  }: {
+    startDate: DateValue;
+    endDate: DateValue;
+  }) => void;
 };
 type DateValue = string | number | Date | null;
 
@@ -24,12 +30,14 @@ export const DateRangeInput = ({
   >(null);
 
   const onOptionSelected = (value: string | number) => {
-    console.log('onOptionSelected', value);
     setDateOptionGroupValue(value);
     setStartDate(null);
     setEndDate(null);
 
-    onChange();
+    onChange({
+      startDate: value,
+      endDate: currentDate,
+    });
   };
 
   const onDatePickerAccepted = (value: DateValue, temp: 'start' | 'end') => {
@@ -38,34 +46,41 @@ export const DateRangeInput = ({
 
     if (temp === 'start') setStartDate(value);
     if (temp === 'end') setEndDate(value);
+
+    if (startDate && endDate) onChange({ startDate, endDate });
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Container>
+      <Container style={{ display: 'flex', alignItems: 'center' }}>
         <LthsButtonGroup
           buttons={dateOptions}
           value={dateOptionGroupValue}
           onOptionSelected={onOptionSelected}
         />
-        <Divider orientation="vertical" flexItem />
-        <DatePicker
-          label="Start"
-          disableFuture
-          value={startDate}
-          onAccept={(value: DateValue) => {
-            onDatePickerAccepted(value, 'start');
-          }}
-          maxDate={endDate || currentDate || undefined}
-        />
-        <DatePicker
-          label="End"
-          disableFuture
-          value={endDate}
-          onAccept={(value: DateValue) => {
-            onDatePickerAccepted(value, 'end');
-          }}
-        />
+        <Divider orientation="vertical"  variant='middle' sx={{height: '34px'}
+
+        }/>
+
+        <div style={{ marginLeft: '10px' }}>
+          <DatePicker
+            label="START"
+            disableFuture
+            value={startDate}
+            onAccept={(value: DateValue) => {
+              onDatePickerAccepted(value, 'start');
+            }}
+            maxDate={endDate || currentDate || undefined}
+          />
+          <DatePicker
+            label="END"
+            disableFuture
+            value={endDate}
+            onAccept={(value: DateValue) => {
+              onDatePickerAccepted(value, 'end');
+            }}
+          />
+        </div>
       </Container>
     </LocalizationProvider>
   );

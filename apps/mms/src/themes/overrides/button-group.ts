@@ -6,6 +6,7 @@ export default function ButtonGroup(theme: Theme): Components {
       defaultProps: {
         variant: 'outlined',
         color: 'info',
+        size: 'small'
       },
       styleOverrides: {
         root: {
@@ -18,7 +19,7 @@ export default function ButtonGroup(theme: Theme): Components {
           textTransform: 'uppercase',
           fontFamily: `'Roboto', sans-serif`,
           fontWeight: 400,
-          fontSize: '0.9rem',
+          fontSize: '0.688rem',
           padding: '9px 12px',
           transition: theme.transitions.create('background-color', {
             easing: theme.transitions.easing.sharp,
