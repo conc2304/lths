@@ -11,11 +11,12 @@ type DateRange = {
   endDate: DateValue;
 };
 
+type DateValue = string | number | Date | null;
+
 type Props = {
   dateOptions: DateFilterOption;
   onChange: ({ startDate, endDate }: DateRange) => void;
 };
-type DateValue = string | number | Date | null;
 
 export const DateRangeInput = ({
   dateOptions,
