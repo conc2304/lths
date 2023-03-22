@@ -21,7 +21,8 @@ export default function DatePicker(theme: Theme): Components {
               '&.MuiTextField-root': {
                 marginLeft: theme.spacing(1),
                 marginRight: theme.spacing(1),
-                width: '150px'
+                width: '150px',
+                ml: 0,
               },
               '& .MuiFormLabel-root': {
                 textTransform: 'uppercase',

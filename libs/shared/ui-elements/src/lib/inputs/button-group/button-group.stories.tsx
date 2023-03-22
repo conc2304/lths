@@ -1,5 +1,5 @@
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
-import { LthsButtonGroup } from './button-group';
+import { LthsButtonGroup } from '.';
 
 const Story: ComponentMeta<typeof LthsButtonGroup> = {
   component: LthsButtonGroup,
