@@ -6,15 +6,14 @@ import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
+type DateRange = {
+  startDate: DateValue;
+  endDate: DateValue;
+};
+
 type Props = {
   dateOptions: DateFilterOption;
-  onChange: ({
-    startDate,
-    endDate,
-  }: {
-    startDate: DateValue;
-    endDate: DateValue;
-  }) => void;
+  onChange: ({ startDate, endDate }: DateRange) => void;
 };
 type DateValue = string | number | Date | null;
 
@@ -41,7 +40,6 @@ export const DateRangeInput = ({
   };
 
   const onDatePickerAccepted = (value: DateValue, temp: 'start' | 'end') => {
-    console.log('onDatePickerAccepted', value);
     setDateOptionGroupValue(null);
 
     if (temp === 'start') setStartDate(value);
@@ -51,17 +49,18 @@ export const DateRangeInput = ({
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Container style={{ display: 'flex', alignItems: 'center' }}>
+    <Container style={{ display: 'flex', alignItems: 'center' }} className="LthsDateRange-root">
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <LthsButtonGroup
           buttons={dateOptions}
           value={dateOptionGroupValue}
           onOptionSelected={onOptionSelected}
         />
-        <Divider orientation="vertical"  variant='middle' sx={{height: '34px'}
-
-        }/>
-
+        <Divider
+          orientation="vertical"
+          variant="middle"
+          sx={{ height: '34px' }}
+        />
         <div style={{ marginLeft: '10px' }}>
           <DatePicker
             label="START"
@@ -81,7 +80,7 @@ export const DateRangeInput = ({
             }}
           />
         </div>
-      </Container>
-    </LocalizationProvider>
+      </LocalizationProvider>
+    </Container>
   );
 };

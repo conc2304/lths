@@ -20,6 +20,8 @@ export default function ButtonGroup(theme: Theme): Components {
           fontFamily: `'Roboto', sans-serif`,
           fontWeight: 400,
           fontSize: '0.688rem',
+          whiteSpace: 'nowrap',
+          height: '34px',
           padding: '9px 12px',
           transition: theme.transitions.create('background-color', {
             easing: theme.transitions.easing.sharp,
