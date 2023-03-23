@@ -67,8 +67,6 @@ export const DateRangeSelector = ({
   const onDatePickerAccepted = (value: DateValue, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
 
-    console.log('onDatePickerAccepted');
-
     if (range === 'start') setStartDate(value);
     if (range === 'end') setEndDate(value);
     if (startDate && endDate) onChange({ startDate, endDate });

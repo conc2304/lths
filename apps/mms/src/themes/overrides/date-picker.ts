@@ -32,7 +32,7 @@ export default function DatePicker(theme: Theme): Components {
                 fontSize: '0.688rem'
               },
               '& .MuiInputBase-root': {
-                color: theme.palette.grey[600],
+                color: theme.palette.grey[900],
                 fontSize: '0.688rem'
               },
             },
