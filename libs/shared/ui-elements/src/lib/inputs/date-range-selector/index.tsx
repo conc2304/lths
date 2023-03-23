@@ -13,6 +13,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
+import { isBefore } from 'date-fns';
 
 type DateRange = {
   startDate: DateValue;
@@ -35,7 +36,8 @@ export const DateRangeSelector = ({
   const [tempStartDate, setTempStartDate] = useState<DateValue>(null);
   const [endDate, setEndDate] = useState<DateValue>(null);
   const [tempEndDate, setTempEndDate] = useState<DateValue>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<DateValue>(null)
+  const [dateOptionGroupValue, setDateOptionGroupValue] =
+    useState<DateValue>(null);
   const [pickerKey, setPickerKey] = useState<number>(98765);
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
@@ -64,10 +66,16 @@ export const DateRangeSelector = ({
 
   const onDatePickerAccepted = (value: DateValue, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
-
-    if (range === 'start') setStartDate(value);
-    if (range === 'end') setEndDate(value);
-    if (startDate && endDate) onChange({ startDate, endDate });
+    let start = startDate;
+    let end = endDate;
+    if (range === 'start') {
+      setStartDate(value);
+      start = value;
+    } else if (range === 'end') {
+      setEndDate(value);
+      end = value;
+    }
+    if (start && end && isBefore(start as Date, end as Date)) onChange({ startDate: start, endDate: end });
   };
 
   return (
