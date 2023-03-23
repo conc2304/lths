@@ -1,5 +1,5 @@
 export type DateFilterOption = Array<{
   label: string;
-  value: string | number;
-  onClick: (value: string | number) => void;
+  value: string | number | Date;
+  onClick: (value: string | number | Date) => void;
 }>;

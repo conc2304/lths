@@ -35,9 +35,7 @@ export const DateRangeSelector = ({
   const [tempStartDate, setTempStartDate] = useState<DateValue>(null);
   const [endDate, setEndDate] = useState<DateValue>(null);
   const [tempEndDate, setTempEndDate] = useState<DateValue>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<
-    string | number | null
-  >(null);
+  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<DateValue>(null)
   const [pickerKey, setPickerKey] = useState<number>(98765);
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
@@ -95,7 +93,7 @@ export const DateRangeSelector = ({
                 return (
                   <ToggleButton
                     value={value}
-                    key={value}
+                    key={value.toString()}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}
                   >
@@ -128,11 +126,7 @@ export const DateRangeSelector = ({
               m: (theme: Theme) => `${theme.spacing(0.5)} 0`,
             }}
           >
-            <Grid
-              container
-
-              className="banana"
-            >
+            <Grid container>
               <Grid md={6} xs={6}>
                 <DatePicker
                   key={pickerKey + 1}
