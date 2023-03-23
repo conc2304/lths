@@ -16,7 +16,8 @@ export default function ToggleButton(theme: Theme): Components {
 
           marginTop: theme.spacing(0.7),
           marginBottom: theme.spacing(0.7),
-
+          padding: `${theme.spacing(1)} ${theme.spacing(1.5)}  }`,
+          
           '&&.MuiToggleButtonGroup-grouped': {
             borderLeft: `1px solid ${theme.palette.grey[300]}`,
           },
