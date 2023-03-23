@@ -12,6 +12,7 @@ export default function DatePicker(theme: Theme): Components {
       },
       defaultProps: {
         slotProps: {
+          
           textField: {
             color: 'primary',
             variant: 'outlined',
@@ -24,16 +25,21 @@ export default function DatePicker(theme: Theme): Components {
                 width: '9.375rem',
                 ml: 0,
               },
+              '& .MuiInputBase-inputSizeSmall': {
+                boxSizing: 'border-box',
+                height: '2.188rem',
+              },
+
               '& .MuiFormLabel-root': {
                 textTransform: 'uppercase',
               },
               '& .MuiInputLabel-root': {
                 textTransform: 'uppercase',
-                fontSize: '0.688rem'
+                fontSize: '0.688rem',
               },
               '& .MuiInputBase-root': {
                 color: theme.palette.grey[900],
-                fontSize: '0.688rem'
+                fontSize: '0.688rem',
               },
             },
           },

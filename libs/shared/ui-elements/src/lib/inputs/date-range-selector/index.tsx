@@ -75,10 +75,7 @@ export const DateRangeSelector = ({
   return (
     <Container className="LthsDateRangeSelector-root">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Grid
-          container
-          sx={{ display: 'flex', alignItems: 'center', alignContent: 'center' }}
-        >
+        <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
           <Grid
             md="auto"
             xs={12}
@@ -114,7 +111,10 @@ export const DateRangeSelector = ({
               variant="middle"
               sx={{
                 height: '2.118rem',
-                m: (theme: Theme) => `0 ${theme.spacing(2)}`,
+                m: (theme: Theme) =>
+                  `${theme.spacing(1)} ${theme.spacing(2)} ${theme.spacing(
+                    0.25
+                  )}`,
               }}
             />
           )}
@@ -128,7 +128,11 @@ export const DateRangeSelector = ({
               m: (theme: Theme) => `${theme.spacing(0.5)} 0`,
             }}
           >
-            <Grid container>
+            <Grid
+              container
+
+              className="banana"
+            >
               <Grid md={6} xs={6}>
                 <DatePicker
                   key={pickerKey + 1}
