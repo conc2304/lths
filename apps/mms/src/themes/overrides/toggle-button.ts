@@ -14,7 +14,6 @@ export default function ToggleButton(theme: Theme): Components {
           fontSize: '0.688rem',
           whiteSpace: 'nowrap',
           marginTop: theme.spacing(0.7),
-          // marginBottom: theme.spacing(0.5),
           padding: `${theme.spacing(1)} ${theme.spacing(1.5)}  }`,
           boxSizing: 'border-box',
 
@@ -25,8 +24,6 @@ export default function ToggleButton(theme: Theme): Components {
           '&.MuiToggleButton-sizeSmall': {
             height: '2.188rem',
           },
-
-          '&.Mui-selected': {},
 
           '&.MuiToggleButton-secondary, &.MuiToggleButton-info': {
             borderColor: theme.palette.grey[300],
