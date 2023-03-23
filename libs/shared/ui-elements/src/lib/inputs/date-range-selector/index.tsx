@@ -13,14 +13,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { isBefore, toDate } from 'date-fns';
+import { addDays, isBefore } from 'date-fns';
 
 type DateRange = {
   startDate: Date;
   endDate: Date;
 };
-
-// type DateValue = string | number | Date | null;
 
 type Props = {
   dateOptions: DateFilterOption;
@@ -78,7 +76,9 @@ export const DateRangeSelector = ({
       end = value;
     }
     if (start && end && isBefore(start, end))
-      onChange({ startDate: start, endDate: end });
+      // date selection defaults to start of day,
+      // to include the day selected in the data add 1 day
+      onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
   return (
