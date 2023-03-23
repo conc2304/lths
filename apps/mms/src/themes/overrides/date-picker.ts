@@ -7,7 +7,7 @@ export default function DatePicker(theme: Theme): Components {
       styleOverrides: {
         '& .MuiFormControl-root': {
           backgroundColor: 'red',
-          margin: '20px',
+          margin: theme.spacing(2),
         },
       },
       defaultProps: {
@@ -21,7 +21,7 @@ export default function DatePicker(theme: Theme): Components {
               '&.MuiTextField-root': {
                 marginLeft: theme.spacing(1),
                 marginRight: theme.spacing(1),
-                width: '150px',
+                width: '9.375rem',
                 ml: 0,
               },
               '& .MuiFormLabel-root': {
@@ -32,7 +32,7 @@ export default function DatePicker(theme: Theme): Components {
                 fontSize: '0.688rem'
               },
               '& .MuiInputBase-root': {
-                color: '#6D7278',
+                color: theme.palette.grey[600],
                 fontSize: '0.688rem'
               },
             },
