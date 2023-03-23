@@ -13,14 +13,14 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { isBefore } from 'date-fns';
+import { isBefore, toDate } from 'date-fns';
 
 type DateRange = {
-  startDate: DateValue;
-  endDate: DateValue;
+  startDate: Date;
+  endDate: Date;
 };
 
-type DateValue = string | number | Date | null;
+// type DateValue = string | number | Date | null;
 
 type Props = {
   dateOptions: DateFilterOption;
@@ -32,31 +32,33 @@ export const DateRangeSelector = ({
   onChange,
 }: Props): JSX.Element => {
   const currentDate = new Date();
-  const [startDate, setStartDate] = useState<DateValue>(null);
-  const [tempStartDate, setTempStartDate] = useState<DateValue>(null);
-  const [endDate, setEndDate] = useState<DateValue>(null);
-  const [tempEndDate, setTempEndDate] = useState<DateValue>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] =
-    useState<DateValue>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
+  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(
+    null
+  );
   const [pickerKey, setPickerKey] = useState<number>(98765);
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
-  const onClose = () => {
+  const setNewPickerKey = () => {
     // set a new key value to force the cancel to
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
   const onOptionSelected = (
     event: React.MouseEvent<HTMLElement>,
-    selectedValue: string
+    selectedValue: Date
   ) => {
     setDateOptionGroupValue(selectedValue);
     setStartDate(null);
     setEndDate(null);
     setTempStartDate(null);
     setTempEndDate(null);
+    setNewPickerKey();
 
     onChange({
       startDate: selectedValue,
@@ -64,7 +66,7 @@ export const DateRangeSelector = ({
     });
   };
 
-  const onDatePickerAccepted = (value: DateValue, range: 'start' | 'end') => {
+  const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
     let start = startDate;
     let end = endDate;
@@ -75,7 +77,8 @@ export const DateRangeSelector = ({
       setEndDate(value);
       end = value;
     }
-    if (start && end && isBefore(start as Date, end as Date)) onChange({ startDate: start, endDate: end });
+    if (start && end && isBefore(start, end))
+      onChange({ startDate: start, endDate: end });
   };
 
   return (
@@ -141,14 +144,14 @@ export const DateRangeSelector = ({
                   label="START"
                   disableFuture
                   value={tempStartDate || startDate || null}
-                  onAccept={(value: DateValue) =>
+                  onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'end')
                   }
-                  onChange={(value: DateValue) => {
+                  onChange={(value: Date | null) => {
                     onDatePickerAccepted(value, 'start');
                   }}
                   onClose={() => {
-                    onClose();
+                    setNewPickerKey();
                     setTempStartDate(null);
                   }}
                   maxDate={endDate || currentDate || undefined}
@@ -161,14 +164,14 @@ export const DateRangeSelector = ({
                   label="END"
                   disableFuture
                   value={tempEndDate || endDate || null}
-                  onAccept={(value: DateValue) =>
+                  onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'end')
                   }
-                  onChange={(value: DateValue) => {
+                  onChange={(value: Date | null) => {
                     setTempEndDate(value);
                   }}
                   onClose={() => {
-                    onClose();
+                    setNewPickerKey();
                     setTempEndDate(null);
                   }}
                 />
