@@ -14,7 +14,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function DashThemeProvider({ children }: Props) {
+export function DashThemeProvider({ children }: Props) {
   const themePalette = getPalette();
   const themeTypography = getTypography(`'Public Sans', sans-serif`);
 
@@ -46,11 +46,11 @@ export default function DashThemeProvider({ children }: Props) {
     [themePalette, themeTypography]
   );
 
-  const themes = createTheme(themeOptions);
-  themes.components = getComponentOverrides(themes);
+  const theme = createTheme(themeOptions);
+  theme.components = getComponentOverrides(theme);
 
   return (
-    <ThemeProvider theme={themes}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       {children}
     </ThemeProvider>

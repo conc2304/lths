@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lths-mui/shared/mui-themes": ["libs/shared/mui-themes/src/index.ts"],
       "@lths/features/mms/data-access": [
         "libs/features/mms/data-access/src/index.ts"
       ],

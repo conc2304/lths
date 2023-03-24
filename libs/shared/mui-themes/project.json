@@ -1,0 +1,16 @@
+{
+  "name": "shared-mui-themes",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/mui-themes/src",
+  "projectType": "library",
+  "tags": ["mms", "shared", "theme"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/mui-themes/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

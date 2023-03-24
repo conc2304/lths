@@ -8,10 +8,9 @@ import Routes from './routes';
 
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
-import LayoutThemeProvider from './themes';
+import { DashThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
-
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING_ENABLED === 'true';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
   useEffect(() => {
