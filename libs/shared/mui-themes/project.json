@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/mui-themes/src",
   "projectType": "library",
-  "tags": ["mms", "shared", "theme"],
+  "tags": ["shared", "themes"],
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
