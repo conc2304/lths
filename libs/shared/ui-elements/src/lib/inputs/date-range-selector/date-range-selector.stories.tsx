@@ -1,4 +1,5 @@
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import { subDays, subHours, subMonths } from 'date-fns';
 import { DateRangeSelector } from './index';
 
 const Story: ComponentMeta<typeof DateRangeSelector> = {
@@ -11,58 +12,54 @@ const Template: ComponentStory<typeof DateRangeSelector> = (args) => (
   <DateRangeSelector {...args} />
 );
 
-type DateValue = string | number | Date;
-const ButtonGroupConf: Array<{
-  label: string;
-  value: DateValue;
-  onClick: (value: DateValue) => void;
-}> = [
+const now = new Date();
+const ButtonGroupConf = [
   {
     label: '1 Hour',
-    value: '1 Hour',
-    onClick: (value: DateValue) => {
+    value: subHours(now, 1),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '1 Day',
-    value: '1 Day',
-    onClick: (value: DateValue) => {
+    value: subDays(now, 1),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '7 Days',
-    value: '7 Days',
-    onClick: (value: DateValue) => {
+    value: subDays(now, 7),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '30 Days',
-    value: '30 Days',
-    onClick: (value: DateValue) => {
+    value: subDays(now, 30),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '3 Months',
-    value: '3 Months',
-    onClick: (value: DateValue) => {
+    value: subMonths(now, 3),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '6 Months',
-    value: '6 Months',
-    onClick: (value: DateValue) => {
+    value: subMonths(now, 6),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
   {
     label: '12 Months',
-    value: '12 Months',
-    onClick: (value: DateValue) => {
+    value: subMonths(now, 12),
+    onClick: (value:  Date) => {
       console.log(value);
     },
   },
