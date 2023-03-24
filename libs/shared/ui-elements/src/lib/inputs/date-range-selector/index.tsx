@@ -88,7 +88,7 @@ export const DateRangeSelector = ({
           <Grid
             md="auto"
             xs={12}
-            sx={{ m: (theme: Theme) => `${theme.spacing(0.5)} 0` }}
+            sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}
           >
             <ToggleButtonGroup
               value={dateOptionGroupValue}
@@ -120,10 +120,7 @@ export const DateRangeSelector = ({
               variant="middle"
               sx={{
                 height: '2.118rem',
-                m: (theme: Theme) =>
-                  `${theme.spacing(1)} ${theme.spacing(2)} ${theme.spacing(
-                    0.25
-                  )}`,
+                m: (theme: Theme) => theme.spacing(2, 0.25),
               }}
             />
           )}
@@ -134,7 +131,7 @@ export const DateRangeSelector = ({
               display: 'flex',
               alignContent: 'center',
               alignItems: 'center',
-              m: (theme: Theme) => `${theme.spacing(0.5)} 0`,
+              m: (theme: Theme) => theme.spacing(0.5, 0),
             }}
           >
             <Grid container>
