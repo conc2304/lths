@@ -1,13 +1,13 @@
 {
-  "name": "shared-ui-elements-e2e",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/shared-ui-elements-e2e/src",
+  "name": "tests-ui-elements-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tests/ui-elements-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/shared-ui-elements-e2e/cypress.config.ts",
+        "cypressConfig": "apps/tests/ui-elements-e2e/cypress.config.ts",
         "devServerTarget": "shared-ui-elements:storybook",
         "testingType": "e2e"
       },
@@ -21,7 +21,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/shared-ui-elements-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/tests/ui-elements-e2e/**/*.{js,ts}"]
       }
     }
   },

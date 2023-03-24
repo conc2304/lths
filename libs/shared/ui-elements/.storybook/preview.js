@@ -8,6 +8,12 @@ const withMMSThemeProvider = (Story, context) => {
   );
 };
 
-export const decorators = [withMMSThemeProvider];
+const withTestingMount = (Story) => (
+  <div id="component-test-mount-point">
+    <Story />
+  </div>
+)
+
+export const decorators = [withMMSThemeProvider, withTestingMount];
 export const parameters = {};
 export const globalTypes = {};

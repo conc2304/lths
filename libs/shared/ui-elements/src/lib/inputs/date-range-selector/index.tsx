@@ -98,6 +98,7 @@ export const DateRangeSelector = ({
               sx={{
                 flexWrap: 'wrap',
               }}
+              className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
                 const { value, label } = option;
@@ -153,6 +154,7 @@ export const DateRangeSelector = ({
                   }}
                   maxDate={endDate || currentDate || undefined}
                   sx={{ ml: 0 }}
+                  className="Lths-Date-Picker"
                 />
               </Grid>
               <Grid md={6} xs={6}>
@@ -171,6 +173,7 @@ export const DateRangeSelector = ({
                     setNewPickerKey();
                     setTempEndDate(null);
                   }}
+                  className="Lths-Date-Picker"
                 />
               </Grid>
             </Grid>
