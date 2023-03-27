@@ -68,6 +68,7 @@
     "@mui/material": "^5.11.12",
     "@mui/x-date-pickers": "^6.0.2",
     "@reduxjs/toolkit": "^1.9.3",
+    "@storybook/addon-knobs": "^6.4.0",
     "date-fns": "^2.29.3",
     "formik": "^2.2.9",
     "react": "18.2.0",

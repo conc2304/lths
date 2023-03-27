@@ -1,12 +1,27 @@
-import { DashThemeProvider as MMSThemeProvider} from '@lths-mui/shared/themes';
+import { withKnobs, select } from "@storybook/addon-knobs";
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { RBTheme } from '@lths-mui/shared/themes';
 
-const withMMSThemeProvider = (Story, context) => {
+const themes = { 'Regatta Bay': RBTheme };
+const themeNames = Object.keys(themes);
+
+const withThemeSelector = (Story) => {
+  const theme = select(
+    "Theme",
+    themeNames,
+    themeNames[0],
+    "Themes"
+  );
+
   return (
-    <MMSThemeProvider>
+    <ThemeProvider theme={themes[theme]}>
+      <CssBaseline />
       <Story />
-    </MMSThemeProvider>
+    </ThemeProvider>
   );
 };
+
+
 
 const withTestingMount = (Story) => (
   <div id="component-test-mount-point">
@@ -14,6 +29,6 @@ const withTestingMount = (Story) => (
   </div>
 )
 
-export const decorators = [withMMSThemeProvider, withTestingMount];
+export const decorators = [withKnobs, withThemeSelector, withTestingMount];
 export const parameters = {};
 export const globalTypes = {};

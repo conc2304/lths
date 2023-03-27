@@ -1,3 +1,4 @@
+import { withKnobs } from '@storybook/addon-knobs';
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import { subDays, subHours, subMonths } from 'date-fns';
 import { DateRangeSelector } from './index';
