@@ -8,7 +8,7 @@ import Routes from './routes';
 
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
-import { DashThemeProvider as LayoutThemeProvider } from './themes';
+import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING_ENABLED === 'true';

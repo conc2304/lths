@@ -1,1 +1,1 @@
-export { DashThemeProvider } from '@lths-mui/shared/themes';
+export { RBThemeProvider } from '@lths-mui/shared/themes';
