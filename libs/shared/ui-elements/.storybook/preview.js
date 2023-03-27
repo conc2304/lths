@@ -1,4 +1,4 @@
-import { DashThemeProvider as MMSThemeProvider} from '@lths-mui/shared/mui-themes';
+import { DashThemeProvider as MMSThemeProvider} from '@lths-mui/shared/themes';
 
 const withMMSThemeProvider = (Story, context) => {
   return (

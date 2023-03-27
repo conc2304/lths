@@ -1,1 +1,1 @@
-export * from "./mms";
+export * from "./regatta-bay";

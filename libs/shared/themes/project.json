@@ -1,7 +1,7 @@
 {
-  "name": "shared-mui-themes",
+  "name": "shared-themes",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/mui-themes/src",
+  "sourceRoot": "libs/shared/themes/src",
   "projectType": "library",
   "tags": ["shared", "themes"],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/shared/mui-themes/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["libs/shared/themes/**/*.{ts,tsx,js,jsx}"]
       }
     }
   }
