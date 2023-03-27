@@ -13,7 +13,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, isBefore } from 'date-fns';
+import { addDays, isBefore, subDays } from 'date-fns';
 
 type DateRange = {
   startDate: Date;
@@ -29,7 +29,7 @@ export const DateRangeSelector = ({
   dateOptions,
   onChange,
 }: Props): JSX.Element => {
-  const currentDate = new Date();
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -47,10 +47,15 @@ export const DateRangeSelector = ({
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
+  // const 
+
   const onOptionSelected = (
     event: React.MouseEvent<HTMLElement>,
     selectedValue: Date
   ) => {
+    const updatedDateTime = new Date();
+    setCurrentDateTime(updatedDateTime);
+
     setDateOptionGroupValue(selectedValue);
     setStartDate(null);
     setEndDate(null);
@@ -60,7 +65,7 @@ export const DateRangeSelector = ({
 
     onChange({
       startDate: selectedValue,
-      endDate: currentDate,
+      endDate: updatedDateTime,
     });
   };
 
@@ -102,6 +107,13 @@ export const DateRangeSelector = ({
             >
               {dateOptions.map((option) => {
                 const { value, label } = option;
+                console.log(value)
+                console.log(typeof value)
+                if (typeof value === 'function') {
+                  console.log('FUNCTION')
+
+
+                }
                 return (
                   <ToggleButton
                     value={value}
@@ -152,7 +164,7 @@ export const DateRangeSelector = ({
                     setNewPickerKey();
                     setTempStartDate(null);
                   }}
-                  maxDate={endDate || currentDate || undefined}
+                  maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
                   className="Lths-Date-Picker"
                 />
