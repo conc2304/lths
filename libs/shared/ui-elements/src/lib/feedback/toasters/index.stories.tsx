@@ -1,9 +1,9 @@
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
-import { LayoutToaster } from './toaster';
+import { LayoutToaster } from '.';
 
 const Story: ComponentMeta<typeof LayoutToaster> = {
   component: LayoutToaster,
-  title: 'LayoutToaster',
+  title: 'Feedback/ Layout Toaster',
 };
 export default Story;
 
