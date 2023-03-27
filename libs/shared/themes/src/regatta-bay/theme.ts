@@ -33,8 +33,7 @@ const baseThemeOptions: ThemeOptions = {
 };
 
 const theme = createTheme(baseThemeOptions, deDE, coreDeDE);
-const themeWithComponents: Theme = {...theme, components: {...theme.components, ...getComponentOverrides(theme)}}
+export const RBTheme: Theme = {...theme, components: {...theme.components, ...getComponentOverrides(theme)}}
 
-export default themeWithComponents;
 
 

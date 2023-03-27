@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './theme';
+import { RBTheme } from './theme';
 
 type Props = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type Props = {
 
 export function RBThemeProvider({ children }: Props) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={RBTheme}>
       <CssBaseline />
       {children}
     </ThemeProvider>
