@@ -1,6 +1,6 @@
 import { subDays, subHours, subMonths } from 'date-fns';
 
-const now = new Date('December 17, 1995 03:24:00');
+export const now = new Date('December 17, 1995 03:24:00');
 export const ButtonGroupConf = [
   {
     label: '1 Hour',
