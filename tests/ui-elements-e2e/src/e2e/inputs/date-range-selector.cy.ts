@@ -5,14 +5,13 @@ const rootToMountSelector = '#component-test-mount-point';
 
 describe('shared-ui-elements: Date Range Input', () => {
   beforeEach(() => {
-    cy.visit('/iframe.html?id=daterangeselector--primary');
+    cy.visit('/iframe.html?id=inputs-date-range-selector--primary');
     cy.get(rootToMountSelector);
     cy.waitForReact(1000, rootToMountSelector);
   });
 
   afterEach(() => {
     cy.document().then((doc) => {
-      // ReactDOM.unmountComponentAtNode(doc.querySelector(rootToMountSelector))
     });
   });
 
@@ -27,7 +26,6 @@ describe('shared-ui-elements: Date Range Input', () => {
   it('should render 2 MUI DatePicker Components group', () => {
     cy.get('.Lths-Date-Picker').should('have.length', 2);
   });
-
 
   it('should set selected toggle on click, and unset selected toggle button after selecting custom date', () => {
     cy.get('.MuiButtonBase-root').first().as('button');

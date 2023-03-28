@@ -38,10 +38,10 @@ export const DateRangeSelector = ({
     null
   );
   const [pickerKey, setPickerKey] = useState<number>(98765);
-
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
+
   const setNewPickerKey = () => {
     // set a new key value to force the cancel to
     setPickerKey(Math.floor(Math.random() * 20));
@@ -155,9 +155,7 @@ export const DateRangeSelector = ({
                   onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'start')
                   }
-                  onChange={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'start')
-                  }
+                  onChange={setTempStartDate}
                   onClose={onDatePickerClose}
                   maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
@@ -173,9 +171,7 @@ export const DateRangeSelector = ({
                   onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'end')
                   }
-                  onChange={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'end')
-                  }
+                  onChange={setTempEndDate}
                   onClose={onDatePickerClose}
                   className="Lths-Date-Picker"
                 />

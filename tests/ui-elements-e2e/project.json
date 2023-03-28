@@ -17,6 +17,22 @@
         }
       }
     },
+    "e2e-headed": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "tests/ui-elements-e2e/cypress.config.ts",
+        "devServerTarget": "shared-ui-elements:storybook",
+        "testingType": "e2e",
+        "headed": true,
+        "browser": "chrome",
+        "watch": true
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "shared-ui-elements:storybook:ci"
+        }
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
