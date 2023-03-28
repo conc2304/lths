@@ -47,8 +47,6 @@ export const DateRangeSelector = ({
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  // const 
-
   const onOptionSelected = (
     event: React.MouseEvent<HTMLElement>,
     selectedValue: Date
@@ -107,13 +105,6 @@ export const DateRangeSelector = ({
             >
               {dateOptions.map((option) => {
                 const { value, label } = option;
-                console.log(value)
-                console.log(typeof value)
-                if (typeof value === 'function') {
-                  console.log('FUNCTION')
-
-
-                }
                 return (
                   <ToggleButton
                     value={value}
