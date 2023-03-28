@@ -2,7 +2,13 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
-import { cleanup, render, RenderResult, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+} from '@testing-library/react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import { DateRangeSelector } from './index';
 import { ButtonGroupConf, now } from './mockButtonRanges';
@@ -140,14 +146,17 @@ describe('Date Range Selector', () => {
     expect(buttonElem).toHaveClass('Mui-selected');
   });
 
-  it.only('should call the onChange prop after a user selects a date range', async () => {
+  it('should call the onChange prop after a user selects a date range', async () => {
     // Arrange
     cleanup();
     const user = userEvent.setup();
-    render(RBThemeProvider({ children: component }));
-    const buttonTested = ButtonGroupConf[2];
-    const beforeClickTime = new Date();
+    const onChange = jest.fn();
+    component = (
+      <DateRangeSelector dateOptions={ButtonGroupConf} onChange={onChange} />
+    );
+    themedComponent = render(RBThemeProvider({ children: component }));
 
+    const buttonTested = ButtonGroupConf[2];
     const buttonElem = screen.queryByText(buttonTested.label, {
       selector: '.MuiButtonBase-root',
     });
@@ -165,5 +174,41 @@ describe('Date Range Selector', () => {
         endDate: expect.any(Date), // end date is set to now, so just make sure its a valid date
       })
     );
+  });
+
+  xit.only('should unset the selected button when user enters a custom date range and back', async () => {
+    cleanup();
+    const user = userEvent.setup();
+    const { container } = render(RBThemeProvider({ children: component }));
+    const buttonTested = ButtonGroupConf[2];
+    const buttonElem = screen.queryByText(buttonTested.label, {
+      selector: '.MuiButtonBase-root',
+    });
+    const calendarButton = container.querySelector(
+      '.MuiInputAdornment-root button.MuiButtonBase-root'
+    );
+
+    const dateButton = container.querySelector(
+      'button[data-timestamp].MuiPickersDay-root'
+    );
+
+    // Assert
+    if (buttonElem) {
+      await user.click(buttonElem);
+    }
+
+    expect(buttonElem).toHaveClass('Mui-selected');
+
+    // Act
+    if (calendarButton && dateButton) {
+      console.log(calendarButton)
+      console.log(dateButton)
+      await user.click(calendarButton);
+      await user.click(dateButton);
+    }
+
+
+    // Assert
+    expect(buttonElem).not.toHaveClass('Mui-selected');
   });
 });

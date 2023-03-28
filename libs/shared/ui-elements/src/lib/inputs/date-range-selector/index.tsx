@@ -84,6 +84,11 @@ export const DateRangeSelector = ({
       onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
+  const onDatePickerClose = () => {
+    setNewPickerKey();
+    setTempEndDate(null);
+  };
+
   return (
     <Container className="LthsDateRangeSelector-root">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -112,6 +117,7 @@ export const DateRangeSelector = ({
                     key={value.toString()}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}
+                    aria-pressed={value === dateOptionGroupValue}
                   >
                     {label}
                   </ToggleButton>
@@ -145,18 +151,14 @@ export const DateRangeSelector = ({
                   key={pickerKey + 1}
                   label="START"
                   disableFuture
-                  // format="dd-mm-yyyy"
                   value={tempStartDate || startDate || null}
                   onAccept={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'end')
+                    onDatePickerAccepted(value, 'start')
                   }
-                  onChange={(value: Date | null) => {
-                    onDatePickerAccepted(value, 'start');
-                  }}
-                  onClose={() => {
-                    setNewPickerKey();
-                    setTempStartDate(null);
-                  }}
+                  onChange={(value: Date | null) =>
+                    onDatePickerAccepted(value, 'start')
+                  }
+                  onClose={onDatePickerClose}
                   maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
                   className="Lths-Date-Picker"
@@ -166,19 +168,15 @@ export const DateRangeSelector = ({
                 <DatePicker
                   key={pickerKey}
                   label="END"
-                  // format="dd-mm-yyyy"
                   disableFuture
                   value={tempEndDate || endDate || null}
                   onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'end')
                   }
-                  onChange={(value: Date | null) => {
-                    setTempEndDate(value);
-                  }}
-                  onClose={() => {
-                    setNewPickerKey();
-                    setTempEndDate(null);
-                  }}
+                  onChange={(value: Date | null) =>
+                    onDatePickerAccepted(value, 'end')
+                  }
+                  onClose={onDatePickerClose}
                   className="Lths-Date-Picker"
                 />
               </Grid>
