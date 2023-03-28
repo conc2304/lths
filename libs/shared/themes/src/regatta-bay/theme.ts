@@ -1,6 +1,6 @@
 import { createTheme, Theme, ThemeOptions } from '@mui/material';
-import { deDE as coreDeDE } from '@mui/material/locale'; // core translations
-import { deDE } from '@mui/x-date-pickers'; // translations for date picker
+import { enUS as coreEnUs } from '@mui/material/locale'; // core translations
+import { enUS } from '@mui/x-date-pickers'; // translations for date picker
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import getPalette from './palette';
 import getTypography from './typography';
@@ -32,7 +32,7 @@ const baseThemeOptions: ThemeOptions = {
   typography,
 };
 
-const theme = createTheme(baseThemeOptions, deDE, coreDeDE);
+const theme = createTheme(baseThemeOptions, enUS, coreEnUs);
 export const RBTheme: Theme = {...theme, components: {...theme.components, ...getComponentOverrides(theme)}}
 
 

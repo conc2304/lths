@@ -13,7 +13,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, isBefore, subDays } from 'date-fns';
+import { addDays, isBefore } from 'date-fns';
 
 type DateRange = {
   startDate: Date;
@@ -107,6 +107,7 @@ export const DateRangeSelector = ({
                 const { value, label } = option;
                 return (
                   <ToggleButton
+                    role="button"
                     value={value}
                     key={value.toString()}
                     aria-label={label}
@@ -144,6 +145,7 @@ export const DateRangeSelector = ({
                   key={pickerKey + 1}
                   label="START"
                   disableFuture
+                  // format="dd-mm-yyyy"
                   value={tempStartDate || startDate || null}
                   onAccept={(value: Date | null) =>
                     onDatePickerAccepted(value, 'end')
@@ -164,6 +166,7 @@ export const DateRangeSelector = ({
                 <DatePicker
                   key={pickerKey}
                   label="END"
+                  // format="dd-mm-yyyy"
                   disableFuture
                   value={tempEndDate || endDate || null}
                   onAccept={(value: Date | null) =>

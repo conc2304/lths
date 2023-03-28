@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Date Range Selector matches the snapshot 1`] = `
+exports[`Date Range Selector Component Rendering and Initialization matches the snapshot 1`] = `
 <body>
   <div>
     <div
@@ -22,6 +22,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sun Dec 17 1995 02:24:00 GMT-0800 (Pacific Standard Time)"
@@ -36,6 +37,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sat Dec 16 1995 03:24:00 GMT-0800 (Pacific Standard Time)"
@@ -50,6 +52,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sun Dec 10 1995 03:24:00 GMT-0800 (Pacific Standard Time)"
@@ -64,6 +67,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Fri Nov 17 1995 03:24:00 GMT-0800 (Pacific Standard Time)"
@@ -78,6 +82,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sun Sep 17 1995 03:24:00 GMT-0700 (Pacific Daylight Time)"
@@ -92,6 +97,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sat Jun 17 1995 03:24:00 GMT-0700 (Pacific Daylight Time)"
@@ -106,6 +112,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
               aria-pressed="false"
               aria-selected="false"
               class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-info MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1jem0qs-MuiButtonBase-root-MuiToggleButton-root"
+              role="button"
               tabindex="0"
               type="button"
               value="Sat Dec 17 1994 03:24:00 GMT-0800 (Pacific Standard Time)"
@@ -149,7 +156,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r4:"
                     inputmode="text"
-                    placeholder="⁦⁨MM⁩ / ⁨TT⁩ / ⁨JJJJ⁩⁩"
+                    placeholder="⁦⁨MM⁩ / ⁨DD⁩ / ⁨YYYY⁩⁩"
                     type="text"
                     value=""
                   />
@@ -157,7 +164,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
                     class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                   >
                     <button
-                      aria-label="Datum auswählen"
+                      aria-label="Choose date"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                       tabindex="0"
                       type="button"
@@ -216,7 +223,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r6:"
                     inputmode="text"
-                    placeholder="⁦⁨MM⁩ / ⁨TT⁩ / ⁨JJJJ⁩⁩"
+                    placeholder="⁦⁨MM⁩ / ⁨DD⁩ / ⁨YYYY⁩⁩"
                     type="text"
                     value=""
                   />
@@ -224,7 +231,7 @@ exports[`Date Range Selector matches the snapshot 1`] = `
                     class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                   >
                     <button
-                      aria-label="Datum auswählen"
+                      aria-label="Choose date"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                       tabindex="0"
                       type="button"
