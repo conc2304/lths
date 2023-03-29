@@ -2,9 +2,7 @@
   "name": "lths-mui",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {
-    "prepare": "husky install"
-  },
+  "scripts": {},
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
