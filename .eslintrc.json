@@ -41,10 +41,7 @@
       ],
       "extends": [
         "plugin:@nrwl/nx/typescript"
-        // "eslint:recommended",
-        // "plugin:@typescript-eslint/recommended"
       ],
-      // "parser": "@typescript-eslint/parser",
       "rules": {
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",
@@ -56,7 +53,26 @@
                 "message": "Use Record when you do not know the exact shape of the object",
                 "fixWith": "Record<string, unknown>"
               },
-              "Function": false
+              "String": {
+                "message": "Use string instead",
+                "fixWith": "string"
+              },
+              "Number": {
+                "message": "Use number instead",
+                "fixWith": "number"
+              },
+              "Boolean": {
+                "message": "Use boolean instead",
+                "fixWith": "boolean"
+              },
+              "Function": {
+                "message": "The Function type accepts any function-like value. It provides no type safety when calling the function, which can be a common source of bugs. It also accepts things like class declarations, which will throw at runtime as they will not be called with new. For a function that takes no args and returns nothing use: `()=> void`",
+                "fixWith": "(...args: unknown) => unknown"
+              },
+              "any": {
+                "message": "unknown is recommended over any because it provides safer typing — you have to use type assertion or narrow to a specific type if you want to perform operations on unknown.",
+                "fixWith": "unknown"
+              }
             },
             "extendDefaults": true
           }
@@ -76,6 +92,24 @@
                 "pattern": "@mui/**",
                 "group": "external",
                 "position": "before"
+              },
+              {
+                "pattern": "**/*.+(css|sass|less|scss|pcss|styl)",
+                "patternOptions": {
+                  "dot": true,
+                  "nocomment": true
+                },
+                "group": "unknown",
+                "position": "after"
+              },
+              {
+                "pattern": "{.,..}/**/*.+(css|sass|less|scss|pcss|styl)",
+                "patternOptions": {
+                  "dot": true,
+                  "nocomment": true
+                },
+                "group": "unknown",
+                "position": "after"
               }
             ],
             "pathGroupsExcludedImportTypes": [
@@ -92,13 +126,18 @@
                 "external",
                 "internal"
               ],
+              // space between
               [
                 "parent",
                 "sibling",
                 "index"
               ],
-              "object",
-              "type"
+              // space between
+              [
+                "type",
+                "object",
+                "unknown"
+              ]
             ]
           }
         ],
