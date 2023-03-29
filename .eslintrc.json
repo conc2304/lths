@@ -50,7 +50,7 @@
           {
             "types": {
               "{}": {
-                "message": "Use Record when you do not know the exact shape of the object",
+                "message": "If you want a type meaning 'any object', you probably want `Record<string, unknown>` instead. If you want a type meaning 'any value', you probably want `unknown` instead. If you want a type meaning 'empty object', you probably want `Record<string, never>` instead.",
                 "fixWith": "Record<string, unknown>"
               },
               "String": {
@@ -70,7 +70,7 @@
                 "fixWith": "(...args: unknown) => unknown"
               },
               "any": {
-                "message": "unknown is recommended over any because it provides safer typing — you have to use type assertion or narrow to a specific type if you want to perform operations on unknown.",
+                "message": "`unknown` is recommended over `any` because it provides safer typing — you have to use type assertion or narrow to a specific type if you want to perform operations on unknown.",
                 "fixWith": "unknown"
               }
             },
