@@ -12,7 +12,7 @@
         "lintFilePatterns": ["libs/shared/ui-elements/**/*.{ts,tsx,js,jsx}"]
       }
     },
-    "test": {
+    "unit-test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
@@ -24,6 +24,66 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/shared/ui-elements/cypress.config.ts",
+        "devServerTarget": "shared-ui-elements:storybook",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "headless-watch": {
+          "cypressConfig": "libs/shared/ui-elements/cypress.config.ts",
+          "devServerTarget": "shared-ui-elements:storybook",
+          "testingType": "e2e",
+          "watch": true
+        },
+        "browser": {
+          "cypressConfig": "libs/shared/ui-elements/cypress.config.ts",
+          "devServerTarget": "shared-ui-elements:storybook",
+          "testingType": "e2e",
+          "headed": true,
+          "browser": "chrome",
+          "watch": true
+        },
+        "ci": {
+          "devServerTarget": "shared-ui-elements:storybook:ci"
+        }
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/shared/ui-elements/.storybook",
+        "uiFramework": "@storybook/react"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/shared-ui-elements",
+        "configDir": "libs/shared/ui-elements/.storybook",
+        "uiFramework": "@storybook/react"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/shared/ui-elements/.storybook --url=http://localhost:4400"
       }
     }
   }

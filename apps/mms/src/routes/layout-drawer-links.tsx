@@ -64,6 +64,11 @@ const sections: DrawerSectionProps[] = [
             path: "/dashboard/charts",
           },
           {
+            title: "Jose's Page",
+            icon: <DraftsIcon />,
+            path: "/dashboard/jose",
+          },
+          {
             title: "Login",
             icon: <DraftsIcon />,
             path: "/login",
