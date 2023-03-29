@@ -1,7 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-
 import {
   act,
   cleanup,
@@ -12,7 +11,7 @@ import {
 } from '@testing-library/react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import { DateRangeSelector } from './index';
-import { ButtonGroupConf } from './mockButtonRanges';
+import { ButtonGroupConf } from './mock-button-ranges';
 
 describe('Date Range Selector', () => {
   let themedComponent: RenderResult;
@@ -119,133 +118,137 @@ describe('Date Range Selector', () => {
     });
   });
 
-  it('should update the toggle group button selected state on click', async () => {
-    // Arrange
-    cleanup();
-    const user = userEvent.setup();
-    render(RBThemeProvider({ children: component }));
-    const buttonTested = ButtonGroupConf[2];
+  describe('User Interactions', () => {
+    it('should update the toggle group button selected state on click', async () => {
+      // Arrange
+      cleanup();
+      const user = userEvent.setup();
+      render(RBThemeProvider({ children: component }));
+      const buttonTested = ButtonGroupConf[2];
 
-    const buttonElem = screen.queryByText(buttonTested.label, {
-      selector: '.MuiButtonBase-root',
+      const buttonElem = screen.queryByText(buttonTested.label, {
+        selector: '.MuiButtonBase-root',
+      });
+
+      // verify before state before click
+      expect(buttonElem).toHaveAttribute('aria-pressed', 'false');
+      expect(buttonElem).toHaveAttribute('aria-selected', 'false');
+      expect(buttonElem).not.toHaveClass('Mui-selected');
+
+      // Act
+      if (buttonElem) {
+        await user.click(buttonElem);
+      }
+
+      // Assert
+      expect(buttonElem).toBeTruthy();
+      expect(buttonElem).toHaveAttribute('aria-pressed', 'true');
+      expect(buttonElem).toHaveAttribute('aria-selected', 'true');
+      expect(buttonElem).toHaveClass('Mui-selected');
     });
 
-    // verify before state before click
-    expect(buttonElem).toHaveAttribute('aria-pressed', 'false');
-    expect(buttonElem).toHaveAttribute('aria-selected', 'false');
-    expect(buttonElem).not.toHaveClass('Mui-selected');
+    it('should call the onChange prop after a user selects a date range', async () => {
+      // Arrange
+      cleanup();
+      const user = userEvent.setup();
+      const onChange = jest.fn();
+      component = (
+        <DateRangeSelector dateOptions={ButtonGroupConf} onChange={onChange} />
+      );
+      themedComponent = render(RBThemeProvider({ children: component }));
 
-    // Act
-    if (buttonElem) {
-      await user.click(buttonElem);
-    }
+      const buttonTested = ButtonGroupConf[2];
+      const buttonElem = screen.queryByText(buttonTested.label, {
+        selector: '.MuiButtonBase-root',
+      });
 
-    // Assert
-    expect(buttonElem).toBeTruthy();
-    expect(buttonElem).toHaveAttribute('aria-pressed', 'true');
-    expect(buttonElem).toHaveAttribute('aria-selected', 'true');
-    expect(buttonElem).toHaveClass('Mui-selected');
-  });
+      // Act
+      if (buttonElem) {
+        await user.click(buttonElem);
+      }
 
-  it('should call the onChange prop after a user selects a date range', async () => {
-    // Arrange
-    cleanup();
-    const user = userEvent.setup();
-    const onChange = jest.fn();
-    component = (
-      <DateRangeSelector dateOptions={ButtonGroupConf} onChange={onChange} />
-    );
-    themedComponent = render(RBThemeProvider({ children: component }));
-
-    const buttonTested = ButtonGroupConf[2];
-    const buttonElem = screen.queryByText(buttonTested.label, {
-      selector: '.MuiButtonBase-root',
+      // Assert
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          startDate: buttonTested.value,
+          endDate: expect.any(Date), // end date is set to now, so just make sure its a valid date
+        })
+      );
     });
 
-    // Act
-    if (buttonElem) {
-      await user.click(buttonElem);
-    }
+    xit('should unset the selected button when user enters a custom date range and back', async () => {
+      // bypassing this test
+      // unable to get mui date picker to trigger an onchange event neither through clicking nor text input
+      // which then unsets the selected button group
 
-    // Assert
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        startDate: buttonTested.value,
-        endDate: expect.any(Date), // end date is set to now, so just make sure its a valid date
-      })
-    );
-  });
+      cleanup();
+      const user = userEvent.setup();
+      const { container, baseElement } = render(
+        RBThemeProvider({ children: component })
+      );
+      const buttonTested = ButtonGroupConf[2];
+      const buttonElem = screen.queryByText(buttonTested.label, {
+        selector: '.MuiButtonBase-root',
+      });
+      // const startDateInput = (await screen.findByLabelText(
+      //   'START'
+      // )) as HTMLInputElement;
 
-  xit('should unset the selected button when user enters a custom date range and back', async () => {
-    // bypassing this test
-    // unable to get mui date picker to trigger an onchange event neither through clicking nor text input
-    // which then unsets the selected button group
+      // expect(startDateInput).toBeTruthy();
+      // screen.debug(startDateInput);
 
-    cleanup();
-    const user = userEvent.setup();
-    const { container, baseElement } = render(RBThemeProvider({ children: component }));
-    const buttonTested = ButtonGroupConf[2];
-    const buttonElem = screen.queryByText(buttonTested.label, {
-      selector: '.MuiButtonBase-root',
+      const calButton = baseElement.querySelector(
+        'button.MuiButtonBase-root[aria-label="Choose date"'
+      ) as HTMLButtonElement;
+
+      expect(calButton).toBeTruthy();
+      screen.debug(calButton);
+
+      // Assert
+      if (buttonElem) {
+        await user.click(buttonElem);
+      }
+
+      expect(buttonElem).toHaveClass('Mui-selected');
+
+      // Act
+      await act(async () => {
+        // user.click(calButton)
+        fireEvent.click(calButton);
+      });
+      const dayPickerButton = baseElement.querySelector(
+        'button.MuiPickersDay-root'
+      ) as HTMLButtonElement;
+      screen.debug(dayPickerButton);
+      console.log(dayPickerButton);
+      await act(async () => {
+        fireEvent.click(dayPickerButton);
+      });
+
+      // user.type(startDateInput, '03 / 08 / 2021');
+      // await act(async () => {
+      //   // const chosenDate = await screen.findByRole('gridcell', { name: '8' });
+      //   // expect(chosenDate).toBeTruthy()
+      //   // fireEvent.click(chosenDate);
+      //   fireEvent.input(startDateInput, { target: { value: '03 / 08 / 2021' } });
+      //   fireEvent.change(startDateInput, { target: { value: '03 / 08 / 2021' } });
+      //   expect(startDateInput).toHaveValue('03 / 08 / 2021');
+      // });
+
+      // if (calendarButton && dateButton && dateInput) {
+      //   console.log(calendarButton);
+      //   console.log(dateButton);
+      //   await user.click(calendarButton);
+      //   await user.click(dateButton);
+      //   dateInput?.setAttribute('value', '03 / 14 / 2021');
+      //   fireEvent.input(dateInput, { target: { value: '03 / 14 / 2021' } });
+      //   fireEvent.change(dateInput, { target: { value: '03 / 14 / 2021' } });
+      //   // this is not triggering the date picker's on change events
+      // }
+
+      // Assert
+      expect(buttonElem).not.toHaveClass('Mui-selected');
     });
-    // const startDateInput = (await screen.findByLabelText(
-    //   'START'
-    // )) as HTMLInputElement;
-
-    // expect(startDateInput).toBeTruthy();
-    // screen.debug(startDateInput);
-
-    const calButton = baseElement.querySelector(
-      'button.MuiButtonBase-root[aria-label="Choose date"'
-    ) as HTMLButtonElement;
-
-    expect(calButton).toBeTruthy();
-    screen.debug(calButton);
-
-    // Assert
-    if (buttonElem) {
-      await user.click(buttonElem);
-    }
-
-    expect(buttonElem).toHaveClass('Mui-selected');
-
-    // Act
-    await act(async () => {
-      // user.click(calButton)
-      fireEvent.click(calButton);
-    });
-    const dayPickerButton = baseElement.querySelector(
-      'button.MuiPickersDay-root'
-    ) as HTMLButtonElement;
-    screen.debug(dayPickerButton)
-    console.log(dayPickerButton)
-    await act(async () => {
-      fireEvent.click(dayPickerButton);
-    });
-
-    // user.type(startDateInput, '03 / 08 / 2021');
-    // await act(async () => {
-    //   // const chosenDate = await screen.findByRole('gridcell', { name: '8' });
-    //   // expect(chosenDate).toBeTruthy()
-    //   // fireEvent.click(chosenDate);
-    //   fireEvent.input(startDateInput, { target: { value: '03 / 08 / 2021' } });
-    //   fireEvent.change(startDateInput, { target: { value: '03 / 08 / 2021' } });
-    //   expect(startDateInput).toHaveValue('03 / 08 / 2021');
-    // });
-
-    // if (calendarButton && dateButton && dateInput) {
-    //   console.log(calendarButton);
-    //   console.log(dateButton);
-    //   await user.click(calendarButton);
-    //   await user.click(dateButton);
-    //   dateInput?.setAttribute('value', '03 / 14 / 2021');
-    //   fireEvent.input(dateInput, { target: { value: '03 / 14 / 2021' } });
-    //   fireEvent.change(dateInput, { target: { value: '03 / 14 / 2021' } });
-    //   // this is not triggering the date picker's on change events
-    // }
-
-    // Assert
-    expect(buttonElem).not.toHaveClass('Mui-selected');
   });
 });
