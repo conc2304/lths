@@ -39,7 +39,7 @@
         }
       }
     },
-    "e2e-headed": {
+    "e2e-browser": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "libs/shared/ui-elements/cypress.config.ts",
