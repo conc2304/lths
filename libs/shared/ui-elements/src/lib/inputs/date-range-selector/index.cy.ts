@@ -12,6 +12,7 @@ describe('shared-ui-elements: Date Range Input', () => {
 
   afterEach(() => {
     cy.document().then((doc) => {
+      // nothing
     });
   });
 
