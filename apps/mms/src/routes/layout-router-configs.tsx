@@ -1,7 +1,7 @@
 import { lazy } from "react";
+import { LazyLoader,BasicLayout } from "@lths/shared/ui-layouts";
 import { Navigate } from "react-router-dom";
 
-import { LazyLoader,BasicLayout } from "@lths/shared/ui-layouts";
 import DashboardLayout from "./layout-drawer-links";
 //import {LoginForm as LoginPage2} from '@lths/shared/ui-login';
 function getRandomArbitrary(min: number, max: number) {
@@ -19,6 +19,7 @@ const LazyPageTest = LazyLoader(
 const SamplePage = LazyLoader(lazy(() => import("../pages/sample-page")));
 
 const ChartPage = LazyLoader(lazy(() => import("../pages/chart-page")));
+const NotificationsPage = LazyLoader(lazy(() => import("../pages/insights/notifications-page")));
 
 const DesignSystem = LazyLoader(lazy(() => import("../pages/design-system")))
 
@@ -67,6 +68,10 @@ export const DashRoutes = (authenticated: boolean) => {
       {
         path: "/dashboard/charts",
         element: <ChartPage />,
+      },
+      {
+        path: "/Insights/Notifications",
+        element: <NotificationsPage />,
       },
       {
         path: "*",
