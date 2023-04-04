@@ -1,29 +1,31 @@
 import { SxProps } from '@mui/material/styles';
 
-export type HeadCellProps = {
+export type TableHeaderCellProps = {
   id: string;
   label: string;
   sortable: boolean;
 };
 
-export type OrderProp = 'asc' | 'desc';
-
+export type TableOrderProp = 'asc' | 'desc';
+export type TablePaginationProps = {
+  page: number;
+  pageSize: number;
+};
+export type TableSortingProps = {
+  order: TableOrderProp;
+  column: string | null;
+};
 export type TableProps = {
-  totalCount: number;
+  total: number;
+  loading: boolean;
   title: string;
-  onExportClick?: () => void;
-  onPageChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, page: number) => void;
-  onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
-  headers: HeadCellProps[];
+  headerCells: TableHeaderCellProps[];
   tableRows: JSX.Element[];
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-  sorting: {
-    order: OrderProp;
-    orderBy: string;
-  };
-  handleSortRequest: (key: string) => void;
+  pagination?: TablePaginationProps;
+  sorting?: TableSortingProps;
+  onSortClick?: (pagination: TablePaginationProps, sorting: TableSortingProps) => void;
+  onExportClick?: () => void;
+  onPageChange?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => void;
+  onRowsPerPageChange?: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   sx?: SxProps;
 };

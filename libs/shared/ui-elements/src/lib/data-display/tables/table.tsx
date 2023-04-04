@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -16,22 +16,52 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Paper from '@mui/material/Paper';
-import { TableProps } from './types';
-
+import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
+import { formatString } from '../../utils/string-utils';
+const DEFAULT_TABLE_PAGE_SIZE = 5;
+const DEFAULT_TABLE_PAGE = 1;
+const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [5, 10, 25];
 export const Table = (props: TableProps) => {
   const {
-    totalCount,
+    total = 0,
+    loading = false,
     title,
+    headerCells,
+    tableRows,
+    pagination: page,
+    sorting: sort,
+    onSortClick,
     onExportClick,
     onPageChange,
     onRowsPerPageChange,
-    headers,
-    tableRows,
-    pagination: { page, itemsPerPage },
-    sorting: { order, orderBy },
-    handleSortRequest,
     sx = {},
   } = props;
+
+  const [pagination, setPagination] = useState<TablePaginationProps>({
+    page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
+    pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
+  });
+
+  const [sorting, setSorting] = useState<TableSortingProps>({
+    column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
+    order: (sort != null && sort.order) || 'asc',
+  });
+
+  const _onSortClick = (column: string) => {
+    const newSorting = { ...sorting, column };
+    setSorting(newSorting);
+    onSortClick && onSortClick(pagination, newSorting);
+  };
+
+  const _onPageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
+    const newPagination = { ...pagination, page };
+    setPagination(newPagination);
+    onPageChange && onPageChange(event, newPagination, sorting);
+  };
+
+  const _onRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    onRowsPerPageChange && onRowsPerPageChange(event);
+  };
 
   return (
     <Box sx={sx}>
@@ -44,7 +74,7 @@ export const Table = (props: TableProps) => {
       >
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="h2" fontWeight={400}>
-            {totalCount && totalCount.toLocaleString()} {title}
+            {formatString(title, total.toLocaleString())}
           </Typography>
           {onExportClick && (
             <Button variant="outlined" onClick={onExportClick}>
@@ -60,7 +90,7 @@ export const Table = (props: TableProps) => {
           <MuiTable>
             <TableHead>
               <TableRow>
-                {headers.map((head) => (
+                {headerCells.map((head) => (
                   <TableCell
                     key={head.id}
                     sx={{
@@ -70,9 +100,9 @@ export const Table = (props: TableProps) => {
                   >
                     {head.sortable ? (
                       <TableSortLabel
-                        active={orderBy === head.id}
-                        direction={orderBy === head.id ? order : 'desc'}
-                        onClick={() => handleSortRequest(head.id)}
+                        active={sorting.column === head.id}
+                        direction={sorting.column === head.id ? sorting.order : 'desc'}
+                        onClick={() => _onSortClick(head.id)}
                         IconComponent={KeyboardArrowDownIcon}
                       >
                         {head.label}
@@ -89,12 +119,12 @@ export const Table = (props: TableProps) => {
         </TableContainer>
         <TablePagination
           component="div"
-          rowsPerPageOptions={[5, 10, 25]}
-          count={totalCount}
-          page={page}
-          onPageChange={onPageChange}
-          rowsPerPage={itemsPerPage}
-          onRowsPerPageChange={onRowsPerPageChange}
+          rowsPerPageOptions={DEFAULT_TABLE_PAGE_SIZE_OPTIONS}
+          count={total}
+          page={pagination.page}
+          onPageChange={_onPageChange}
+          rowsPerPage={pagination.pageSize}
+          onRowsPerPageChange={_onRowsPerPageChange}
           sx={{
             width: '100%',
           }}
