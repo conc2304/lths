@@ -31,7 +31,7 @@ const data = {
     },
     {
       title: 'In District',
-      value: 781,
+      value: 1000,
       color: '#1E88E5',
     },
   ],
