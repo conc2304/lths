@@ -2,9 +2,10 @@ import { HOST_API } from '@lths/shared/data-access';
 import { DefaultBodyType, PathParams, ResponseComposition, rest, RestContext, RestRequest } from 'msw';
 
 import mockedPaths from './mocked-path-registry';
+import UserService from '../lib/modules/user/user-service';
 
 // Handlers that need custom logic in the response transformer
-export const customHandlers = [];
+export const customHandlers = [...UserService];
 
 // Handlers that are generated from the config object
 const generatedHandlers = mockedPaths.map(({ path, method, fail, passThrough, delay, successResponse, failResponse, responseTransformer }) => {
