@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
   const RADIAN = Math.PI / 180;
@@ -35,9 +35,10 @@ const DonutChart = ({ data }) => {
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
+        <Legend layout="horizontal" align="center" verticalAlign="bottom" iconType="square" iconSize={16} wrapperStyle={{ lineHeight: '40px' }} />
         <text
           x="50%"
-          y="50%"
+          y="40%"
           textAnchor="middle"
           dominantBaseline="central"
           style={{
@@ -50,7 +51,7 @@ const DonutChart = ({ data }) => {
         </text>
         <text
           x="50%"
-          y="60%"
+          y="50%"
           textAnchor="middle"
           dominantBaseline="central"
           style={{
