@@ -9,7 +9,44 @@ import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-char
 //const SamplePage = ():JSX.Element => {
 //const SamplePage :React.FC<{}> = ():JSX.Element => {
 //  const SamplePage = (props:any):JSX.Element => {
+
+const data = {
+  // ...rest of the data
+  summaries: [
+    {
+      title: 'Club Members',
+      value: 400,
+      // Colors can be randomly generated
+      color: '#0D47A1',
+    },
+    {
+      title: 'New Attendees',
+      value: 781,
+      color: '#90CAF9',
+    },
+    {
+      title: 'In arena',
+      value: 600,
+      color: '#1976D2',
+    },
+    {
+      title: 'In District',
+      value: 781,
+      color: '#1E88E5',
+    },
+  ],
+};
+
+const transformDataForDonutChart = (summaries) => {
+  return summaries.map((summary) => ({
+    name: summary.title,
+    value: summary.value,
+    color: summary.color,
+  }));
+};
+
 const SamplePage = (): JSX.Element => {
+  const donutChartData = transformDataForDonutChart(data.summaries);
   return (
     <Box title="Sample Card">
       <Typography variant="h1">Charts</Typography>
@@ -29,7 +66,7 @@ const SamplePage = (): JSX.Element => {
           padding: '16px',
         }}
       >
-        <DonutChart />
+        <DonutChart data={donutChartData} />
       </Box>
     </Box>
   );

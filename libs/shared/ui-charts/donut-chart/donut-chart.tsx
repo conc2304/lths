@@ -1,12 +1,4 @@
-import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-
-const data = [
-  { name: 'Type 1', value: 200, color: '#0D47A1' },
-  { name: 'Type 2', value: 100, color: '#90CAF9' },
-  { name: 'Type 3', value: 300, color: '#1976D2' },
-  { name: 'Type 4', value: 50, color: '#1E88E5' },
-];
 
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
   const RADIAN = Math.PI / 180;
@@ -30,7 +22,7 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
   );
 };
 
-const DonutChart = () => {
+const DonutChart = ({ data }) => {
   const totalValue = data.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.value;
   }, 0);
