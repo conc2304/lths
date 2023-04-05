@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw';
 
-import user  from './user-service';
+import handlers from './handlers';
 
-export const worker = setupWorker(...user);
+export const worker = setupWorker(...handlers);
