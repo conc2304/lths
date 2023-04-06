@@ -8,7 +8,7 @@ import Routes from './routes';
 import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
-  const mockingEnable = process.env.NX_PUBLIC_API_MOCKING_ENABLED === 'true';
+  const mockingEnable = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
   useEffect(() => {
     async function prepareMocks() {

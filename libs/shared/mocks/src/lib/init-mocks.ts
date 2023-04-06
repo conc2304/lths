@@ -5,8 +5,8 @@ export async function initMocks() {
     const { worker } = await import('./browser');
     worker.start({
       onUnhandledRequest(req, print) {
-        const { host } = req.url;
-        const ingorePath = host !== HOST.domainName;
+        const { host, pathname } = req.url;
+        const ingorePath = pathname.startsWith(HOST.apiPath) || host !== HOST.domainName;
         if (ingorePath) {
           // don't log warnings for paths that we are not actively mocking
           return;
