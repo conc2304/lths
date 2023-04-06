@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Paper from '@mui/material/Paper';
+
 import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
 import { formatString } from '../../utils/string-utils';
 const DEFAULT_TABLE_PAGE_SIZE = 5;
@@ -25,6 +26,7 @@ export const Table = (props: TableProps) => {
   const {
     total = 0,
     loading = false,
+    fetching = false,
     title,
     headerCells,
     tableRows,
@@ -48,7 +50,8 @@ export const Table = (props: TableProps) => {
   });
 
   const _onSortClick = (column: string) => {
-    const newSorting = { ...sorting, column };
+    const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'asc';
+    const newSorting = { ...sorting, column, order };
     setSorting(newSorting);
     onSortClick && onSortClick(pagination, newSorting);
   };

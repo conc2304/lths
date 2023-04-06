@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, IconButton, TableCell, TableRow } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
 import { Table, Order, PageHeader, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 const headers = [
@@ -37,39 +38,39 @@ const headers = [
 ];
 
 const NotificationPage = (): JSX.Element => {
-  const [notifications, setNotifications] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const params = [];
-    if (pagination != null) params.push(`page=${pagination.page}&itemsPerPage=${pagination.pageSize}`);
-    if (sorting != null) params.push(`orderBy=${sorting.column}&order=${sorting.order}`);
+  const [getData, { isFetching, isLoading, isSuccess, data }] = useLazyGetNotificationItemsQuery();
+  console.log('🚀 ~ file: notification-page.tsx:44 ~ NotificationPage ~ result:', isFetching, isLoading, data);
 
-    const url = `/api/notifications?${params.join('&')}`;
-    try {
-      const res = await fetch(url);
-      console.error('res', res);
-      const data = await res.json();
-      setNotifications(data.data);
-      setTotalCount(data.totalCount);
-    } catch (error) {
-      console.error('Error in fetchind data', error);
+  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
+    const req: NotificationRequest = {};
+    if (pagination != null) {
+      req.page = pagination.page;
+      req.page_size = pagination.pageSize;
     }
+    if (sorting != null) {
+      req.sort_key = sorting.column;
+      req.sort_order = sorting.order;
+    }
+
+    getData(req);
   }
+
   useEffect(() => {
     fetchData(null, undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => {
+  const onPageChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
-  const handleChangeRowsPerPage: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {};
+  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {};
 
-  const handleSortRequest = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
+  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
-  const tableRows = notifications.map((row) => (
+  const tableRows = data?.data.map((row) => (
     <TableRow key={row.id}>
       <TableCell>{row.page}</TableCell>
       <TableCell>{row.impressions}</TableCell>
@@ -87,20 +88,23 @@ const NotificationPage = (): JSX.Element => {
   return (
     <Box>
       <PageHeader title="Notifications" createReportHandler={() => console.log('handling create report')} sx={{ mt: 2 }} />
-      <Table
-        loading={false}
-        total={totalCount}
-        title="{0} notifications"
-        headerCells={headers}
-        tableRows={tableRows}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        onSortClick={handleSortRequest}
-        onExportClick={() => console.log('handling export csv')}
-        sx={{
-          mt: 4,
-        }}
-      />
+      {!isFetching && isSuccess && (
+        <Table
+          loading={isLoading}
+          fetching={isFetching}
+          total={data.meta.total}
+          title="{0} notifications"
+          headerCells={headers}
+          tableRows={tableRows}
+          onPageChange={onPageChange}
+          onRowsPerPageChange={onRowsPerPageChange}
+          onSortClick={onSortClick}
+          onExportClick={() => console.log('handling export csv')}
+          sx={{
+            mt: 4,
+          }}
+        />
+      )}
     </Box>
   );
 };

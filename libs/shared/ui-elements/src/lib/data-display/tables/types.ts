@@ -18,6 +18,7 @@ export type TableSortingProps = {
 export type TableProps = {
   total: number;
   loading: boolean;
+  fetching: boolean;
   title: string;
   headerCells: TableHeaderCellProps[];
   tableRows: JSX.Element[];

@@ -1,15 +1,16 @@
 import { rest } from 'msw';
 
 import { RESPONSE_DELAY_MS, ITEMS_PER_PAGE } from '../constants';
-import { db } from '../database/notifications-db';
+import { db } from '../databases/notifications';
+//const regex = /\/api\/notifications\/\$/;
 
 const handlers = [
-  rest.get('/api/notifications', function (req, res, ctx) {
+  rest.get(/\/api\/notifications[?|/]?$/, function (req, res, ctx) {
     console.log('search params', req.url.searchParams.get('page'));
     const page = Number(req.url.searchParams.get('page')) || 1;
-    const itemsPerPage = Number(req.url.searchParams.get('itemsPerPage')) || ITEMS_PER_PAGE;
-    const order = req.url.searchParams.get('order') || 'asc';
-    const orderBy = req.url.searchParams.get('orderBy') || 'page';
+    const itemsPerPage = Number(req.url.searchParams.get('page_size')) || ITEMS_PER_PAGE;
+    const order = req.url.searchParams.get('sort_order') || 'asc';
+    const orderBy = req.url.searchParams.get('sort_key') || 'page';
     const notifications = db.notifications.getAll();
     const totalCount = notifications.length;
 
@@ -26,9 +27,11 @@ const handlers = [
       ctx.delay(RESPONSE_DELAY_MS),
       ctx.json({
         data: sortedData,
-        totalCount,
-        currentPage: page,
-        itemsPerPage,
+        meta: {
+          total: totalCount,
+          page,
+          page_size: itemsPerPage,
+        },
       })
     );
   }),
