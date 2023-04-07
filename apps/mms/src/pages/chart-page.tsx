@@ -1,6 +1,7 @@
 import { Typography, Box } from "@mui/material"; //
 import React from "react";
 import { KpiRolloverCard } from "../components/kpi-rollover-card/kpi-rollover-card";
+import { KpiSparklineCard } from "../components/kpi-sparkline-card/kpi-sparkline-card";
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -21,52 +22,20 @@ const trendProp = {
     median: {
       title: "Median",
       unit: "%",
-      value: 1,
-      direction: "up"
+      value: 7,
+      direction: "down"
     }
 };
-const roloverDataList = [
-  {
-    duration: 7,
-    span: {
-      title: "Prev 7 days",
-      unit: "%",
-      value: 31,
-      direction: "up"
-    },
-    median: {
-      title: "Median",
-      unit: "%",
-      value: 1,
-      direction: "down"
-    }
-  },
-  {
-    duration: 30,
-    span: {
-      title: "Prev 30 days",
-      unit: "%",
-      value: 27,
-      direction: "up"
-    },
-    median: {
-      title: "Median",
-      unit: "%",
-      value: 3,
-      direction: "down"
-    }
-  },
-]
 
 const props = {
   title: "Retention", 
-  hero: 1780, // comp format to add commas
+  hero: 799, // comp format to add commas
+  heroUnit: "SECS",
   trends: trendProp,
-  sparkLine: (<div>react Spark line</div>),
   tooltipDesc: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
   tooltipActionUrl : "https://en.wikipedia.org/wiki/Retention",
-  rolloverData: roloverDataList, // Get better data for thius
-  rolloverTitle: "Retention Average",
+  sparkLine: (<div>react Spark line</div>),
+  routeUrl: "https://en.wikipedia.org/wiki/Retention",
 }
 
 const SamplePage = (): JSX.Element => {
@@ -91,8 +60,12 @@ const SamplePage = (): JSX.Element => {
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       </Typography>
-      <KpiRolloverCard {...props}/>
-      <KpiRolloverCard {...props}/>
+      <div style={{width: "276px"}}>
+        <KpiSparklineCard {...props}/>
+      </div>
+      <div style={{width: "376px"}}>
+        <KpiSparklineCard {...props}/>
+      </div>
     </Box>
   );
 };
