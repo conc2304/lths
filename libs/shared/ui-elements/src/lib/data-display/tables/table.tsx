@@ -18,11 +18,81 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Paper from '@mui/material/Paper';
 
-import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
+import { TableHeaderCellProps, TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
 import { formatString } from '../../utils/string-utils';
+
 const DEFAULT_TABLE_PAGE_SIZE = 5;
 const DEFAULT_TABLE_PAGE = 1;
 const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [5, 10, 25];
+
+type TableRowSkeletonProps = { id: string; loading: boolean; cells: number; rows?: number };
+
+const TablePaginationSkeleton = ({ loading }: { loading: boolean }) => {
+  return loading ? (
+    <Stack justifyContent={'flex-end'} direction="row" spacing={4} mr={1}>
+      <Skeleton width={140} />
+      <Skeleton width={80} />
+      <Skeleton width={60} />
+    </Stack>
+  ) : null;
+};
+
+const TableRowSkeleton = ({ id, loading, cells = 5, rows = 1 }: TableRowSkeletonProps) => {
+  return loading ? (
+    <React.Fragment>
+      {Array(rows)
+        .fill(null)
+        .map((_, r) => (
+          <TableRow key={`ske_${id}_row_${r}`}>
+            {Array(cells)
+              .fill(null)
+              .map((_, c) => (
+                <TableCell key={`ske_${id}_row_${r}_cell_${c}`}>
+                  <Skeleton />
+                </TableCell>
+              ))}
+          </TableRow>
+        ))}
+    </React.Fragment>
+  ) : null;
+};
+
+const TableHeaderRow = ({
+  cells,
+  sorting,
+  onSortClick,
+}: {
+  cells: TableHeaderCellProps[];
+  sorting?: TableSortingProps;
+  onSortClick?: (column: string) => void;
+}) => {
+  return !cells ? null : (
+    <TableRow>
+      {cells.map((head) => (
+        <TableCell
+          key={head.id}
+          sx={{
+            color: 'text.secondary',
+            fontWeight: 500,
+          }}
+        >
+          {head.sortable ? (
+            <TableSortLabel
+              active={sorting.column === head.id}
+              direction={sorting.column === head.id ? sorting.order : 'desc'}
+              onClick={() => onSortClick(head.id)}
+              IconComponent={KeyboardArrowDownIcon}
+            >
+              {head.label}
+            </TableSortLabel>
+          ) : (
+            head.label
+          )}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+};
 export const Table = (props: TableProps) => {
   const {
     total = 0,
@@ -66,7 +136,7 @@ export const Table = (props: TableProps) => {
   const _onRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     onRowsPerPageChange && onRowsPerPageChange(event);
   };
-  const skeletonArray = Array(DEFAULT_TABLE_PAGE_SIZE).fill('');
+
   return (
     <Box sx={sx}>
       <Paper
@@ -93,60 +163,16 @@ export const Table = (props: TableProps) => {
         >
           <MuiTable>
             <TableHead>
-              <TableRow>
-                {headerCells.map((head) => (
-                  <TableCell
-                    key={head.id}
-                    sx={{
-                      color: 'text.secondary',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {head.sortable ? (
-                      <TableSortLabel
-                        active={sorting.column === head.id}
-                        direction={sorting.column === head.id ? sorting.order : 'desc'}
-                        onClick={() => _onSortClick(head.id)}
-                        IconComponent={KeyboardArrowDownIcon}
-                      >
-                        {head.label}
-                      </TableSortLabel>
-                    ) : (
-                      head.label
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
+              <TableRowSkeleton id="head" loading={loading} cells={headerCells?.length} />
+              <TableHeaderRow cells={headerCells} sorting={sorting} onSortClick={_onSortClick} />
             </TableHead>
             <TableBody>
-              {loading &&
-                skeletonArray.map((item, row) => (
-                  <TableRow key={`skeleton_row_${row}`}>
-                    {headerCells.map((_, cell) => (
-                      <TableCell key={`skeleton_row_${row}_cell_${cell}`}>
-                        <Skeleton />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-
+              <TableRowSkeleton id="body" loading={loading} cells={headerCells?.length} rows={DEFAULT_TABLE_PAGE_SIZE} />
               {!loading && tableRows}
             </TableBody>
           </MuiTable>
         </TableContainer>
-        <TableRow>
-          <TableCell align="right">
-            <Skeleton />
-          </TableCell>
-        </TableRow>
-        {loading && (
-          <Stack justifyContent={'flex-end'} direction="row" spacing={4} mr={1}>
-            <Skeleton width={140} />
-            <Skeleton width={80} />
-            <Skeleton width={60} />
-          </Stack>
-        )}
-
+        <TablePaginationSkeleton loading={loading} />
         {!loading && (
           <TablePagination
             component="div"

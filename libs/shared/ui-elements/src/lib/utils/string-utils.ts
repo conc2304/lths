@@ -8,4 +8,4 @@ import { ObjectIteratee } from 'cypress/types/lodash';
  * @param b The object to format.
  * @returns A copy of format in which any format items are replaced by the string representation of arg0
  */
-export const formatString = (format: string, ...args: string[]) => format.replace(/{(\d+)}/g, (match, index) => args[index] || '');
+export const formatString = (format: string, ...args: string[]) => (!format ? '' : format.replace(/{(\d+)}/g, (match, index) => args[index] || ''));

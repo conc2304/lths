@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Table } from './table';
 import { SampleHeaderCells } from './mocks';
+import { Table } from './table';
+
 import type { ComponentStory } from '@storybook/react';
 export default {
   component: Table,
@@ -17,7 +18,7 @@ Empty.args = {
 };
 export const Loading = Template.bind({});
 Loading.args = {
-  headerCells: SampleHeaderCells,
+  //headerCells: SampleHeaderCells,
   tableRows: [],
   loading: true,
 };
