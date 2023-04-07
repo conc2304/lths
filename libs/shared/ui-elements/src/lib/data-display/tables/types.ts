@@ -1,5 +1,7 @@
 import { SxProps } from '@mui/material/styles';
 
+import { ProgressLoadingProps, ProgressProps } from '../../types';
+
 export type TableHeaderCellProps = {
   id: string;
   label: string;
@@ -15,18 +17,15 @@ export type TableSortingProps = {
   order: TableOrderProp;
   column: string | null;
 };
-export type TableProps = {
-  total: number;
-  loading: boolean;
-  fetching: boolean;
-  title: string;
-  headerCells: TableHeaderCellProps[];
-  tableRows: JSX.Element[];
-  pagination?: TablePaginationProps;
-  sorting?: TableSortingProps;
-  onSortClick?: (pagination: TablePaginationProps, sorting: TableSortingProps) => void;
-  onExportClick?: () => void;
-  onPageChange?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => void;
-  onRowsPerPageChange?: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
-  sx?: SxProps;
-};
+export type TableTitleProps = ProgressLoadingProps & { total: number; title: string; onExportClick?: () => void };
+export type TableProps = ProgressProps &
+  TableTitleProps & {
+    onSortClick?: (pagination: TablePaginationProps, sorting: TableSortingProps) => void;
+    headerCells: TableHeaderCellProps[];
+    tableRows: JSX.Element[];
+    pagination?: TablePaginationProps;
+    sorting?: TableSortingProps;
+    onPageChange?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => void;
+    onRowsPerPageChange?: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+    sx?: SxProps;
+  };
