@@ -84,27 +84,26 @@ const NotificationPage = (): JSX.Element => {
       </TableCell>
     </TableRow>
   ));
-
+  const total = data?.meta.total;
   return (
     <Box>
       <PageHeader title="Notifications" createReportHandler={() => console.log('handling create report')} sx={{ mt: 2 }} />
-      {!isFetching && isSuccess && (
-        <Table
-          loading={isLoading}
-          fetching={isFetching}
-          total={data.meta.total}
-          title="{0} notifications"
-          headerCells={headers}
-          tableRows={tableRows}
-          onPageChange={onPageChange}
-          onRowsPerPageChange={onRowsPerPageChange}
-          onSortClick={onSortClick}
-          onExportClick={() => console.log('handling export csv')}
-          sx={{
-            mt: 4,
-          }}
-        />
-      )}
+
+      <Table
+        loading={isLoading}
+        fetching={isFetching}
+        total={total}
+        title="{0} notifications"
+        headerCells={headers}
+        tableRows={tableRows}
+        onPageChange={onPageChange}
+        onRowsPerPageChange={onRowsPerPageChange}
+        onSortClick={onSortClick}
+        onExportClick={() => console.log('handling export csv')}
+        sx={{
+          mt: 4,
+        }}
+      />
     </Box>
   );
 };

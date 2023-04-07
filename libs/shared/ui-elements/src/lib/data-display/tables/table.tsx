@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  Skeleton,
   Stack,
   SxProps,
   Table as MuiTable,
@@ -65,7 +66,7 @@ export const Table = (props: TableProps) => {
   const _onRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     onRowsPerPageChange && onRowsPerPageChange(event);
   };
-
+  const skeletonArray = Array(DEFAULT_TABLE_PAGE_SIZE).fill('');
   return (
     <Box sx={sx}>
       <Paper
@@ -117,21 +118,49 @@ export const Table = (props: TableProps) => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>{tableRows}</TableBody>
+            <TableBody>
+              {loading &&
+                skeletonArray.map((item, row) => (
+                  <TableRow key={`skeleton_row_${row}`}>
+                    {headerCells.map((_, cell) => (
+                      <TableCell key={`skeleton_row_${row}_cell_${cell}`}>
+                        <Skeleton />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+
+              {!loading && tableRows}
+            </TableBody>
           </MuiTable>
         </TableContainer>
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={DEFAULT_TABLE_PAGE_SIZE_OPTIONS}
-          count={total}
-          page={pagination.page}
-          onPageChange={_onPageChange}
-          rowsPerPage={pagination.pageSize}
-          onRowsPerPageChange={_onRowsPerPageChange}
-          sx={{
-            width: '100%',
-          }}
-        />
+        <TableRow>
+          <TableCell align="right">
+            <Skeleton />
+          </TableCell>
+        </TableRow>
+        {loading && (
+          <Stack justifyContent={'flex-end'} direction="row" spacing={4} mr={1}>
+            <Skeleton width={140} />
+            <Skeleton width={80} />
+            <Skeleton width={60} />
+          </Stack>
+        )}
+
+        {!loading && (
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={DEFAULT_TABLE_PAGE_SIZE_OPTIONS}
+            count={total}
+            page={pagination.page}
+            onPageChange={_onPageChange}
+            rowsPerPage={pagination.pageSize}
+            onRowsPerPageChange={_onRowsPerPageChange}
+            sx={{
+              width: '100%',
+            }}
+          />
+        )}
       </Paper>
     </Box>
   );
