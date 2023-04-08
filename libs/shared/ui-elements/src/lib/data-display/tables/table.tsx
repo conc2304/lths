@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Table as MuiTable, TableBody, TableContainer, TableHead, TablePagination } from '@mui/material';
+import { Box, LinearProgress, Table as MuiTable, TableBody, TableCell, TableContainer, TableHead, TablePagination } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
 import { TableHeaderRow } from './table-header-row';
@@ -76,6 +76,18 @@ export const Table = (props: TableProps) => {
               <TableRowSkeleton id="head" loading={loading} cells={headerCells?.length} />
               <TableHeaderRow cells={headerCells} sorting={sorting} onSortClick={_onSortClick} />
             </TableHead>
+            {
+              !loading && fetching && (
+                <TableCell 
+                  sx={{
+                    p: 0
+                  }} 
+                  colSpan={headerCells.length
+                }>
+                  <LinearProgress />
+                </TableCell>
+              )
+            }
             <TableBody>
               <TableRowSkeleton id="body" loading={loading} cells={headerCells?.length} rows={DEFAULT_TABLE_PAGE_SIZE} />
               {!loading && tableRows}
