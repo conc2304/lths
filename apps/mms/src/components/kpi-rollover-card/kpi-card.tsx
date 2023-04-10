@@ -37,15 +37,15 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
     // TODO: add custum palete theme
     const displayColor = (direction === "up") ? "#01A611" : "#FF0000";
     // Todo: end
-    const iconStyle = { marginLeft: theme.spacing(-0.625), width: theme.spacing(2.5), height: theme.spacing(2.5), color: displayColor };
+    const iconStyle = { marginLeft: theme.spacing(-0.375), marginBottom: theme.spacing(0.25),width: theme.spacing(2.25), height: theme.spacing(2.25), color: displayColor };
 
     const displayIcon = useArrow ? ((direction === "up") ? <ArrowOutward sx={iconStyle} /> : <ArrowOutward sx={{...iconStyle, transform: "rotate(90deg)" }} />) : ( (direction === "up") ? <Add sx={iconStyle}/> : <Remove sx={iconStyle}/>);
 
     return (
       <Stack>
-        <Stack direction="row" spacing={useArrow ? 0.5 : 0}>
+        <Stack direction="row" alignItems="center" spacing={useArrow ? 0.5 : 0}>
           {displayIcon}
-          <Typography sx={{ color: displayColor }} variant="h6">
+          <Typography sx={{ color: displayColor, fontSize: theme.spacing(1.75) }}>
             {value}{unit}
           </Typography>
         </Stack>
@@ -65,7 +65,7 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
         </Typography>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1.5} sx={{paddingTop: theme.spacing(2)}}>
           <Stack direction="row" alignItems="flex-end">
-            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1}}>
+            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium"}}>
               {heroFormated}
             </Typography>
             {
@@ -108,6 +108,7 @@ const InfoToolTip = (props: KpiCardProps) => {
   const tooltipBackgroundColor = "#6c7279";
   const textColor = "#FFFFFF";
   const linkColor = "#A0D6FF2";
+  const infoIconColor = "#979797";
   // ToDo: switch to using theme
 
   return (
@@ -116,7 +117,7 @@ const InfoToolTip = (props: KpiCardProps) => {
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
       >
-        <InfoOutlined/>
+        <InfoOutlined sx={{color: infoIconColor, fontSize: theme.spacing(2.55)}}/>
       </Typography>
       <Popover
         id={"mouse-over-popover"}

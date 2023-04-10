@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material"; //
 import React from "react";
-import { KpiRolloverCard } from "../components/kpi-rollover-card/kpi-rollover-card";
 import { KpiSparklineCard } from "../components/kpi-sparkline-card/kpi-sparkline-card";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -34,9 +34,15 @@ const props = {
   trends: trendProp,
   tooltipDesc: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
   tooltipActionUrl : "https://en.wikipedia.org/wiki/Retention",
-  sparkLine: (<div>react Spark line</div>),
+  sparkLine: (<div>react Spark1 line</div>),
   routeUrl: "https://en.wikipedia.org/wiki/Retention",
 }
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto",
+  },
+});
 
 const SamplePage = (): JSX.Element => {
   return (
@@ -60,12 +66,14 @@ const SamplePage = (): JSX.Element => {
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       </Typography>
-      <div style={{width: "276px"}}>
-        <KpiSparklineCard {...props}/>
-      </div>
-      <div style={{width: "376px"}}>
-        <KpiSparklineCard {...props}/>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div style={{width: "276px"}}>
+          <KpiSparklineCard {...props}/>
+        </div>
+        <div style={{width: "376px"}}>
+          <KpiSparklineCard {...props}/>
+        </div>
+      </ThemeProvider>
     </Box>
   );
 };
