@@ -107,7 +107,7 @@ const InfoToolTip = (props: KpiCardProps) => {
   // ToDo: switch to using theme
   const tooltipBackgroundColor = "#6c7279";
   const textColor = "#FFFFFF";
-  const linkColor = "#A0D6FF2";
+  const linkColor = "#A0D6FF";
   const infoIconColor = "#979797";
   // ToDo: switch to using theme
 
