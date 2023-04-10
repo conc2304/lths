@@ -1,5 +1,4 @@
-import React from 'react';
-import { Typography, Box } from '@mui/material'; //
+import { Typography, Box } from '@mui/material';
 
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
@@ -15,13 +14,13 @@ const data = {
   summaries: [
     {
       title: 'Club Members',
-      value: 400,
+      value: 450,
       // Colors can be randomly generated
       color: '#0D47A1',
     },
     {
       title: 'New Attendees',
-      value: 781,
+      value: 381,
       color: '#90CAF9',
     },
     {
@@ -31,7 +30,7 @@ const data = {
     },
     {
       title: 'In District',
-      value: 1000,
+      value: 730,
       color: '#1E88E5',
     },
   ],
@@ -66,7 +65,17 @@ const SamplePage = (): JSX.Element => {
           padding: '16px',
         }}
       >
-        <DonutChart data={donutChartData} />
+        <DonutChart
+          data={donutChartData}
+          width="100%"
+          height={400}
+          innerRadius="43%"
+          outerRadius="80%"
+          startAngle={90}
+          endAngle={-270}
+          title="USERS"
+          labelColor="#fff"
+        />
       </Box>
     </Box>
   );
