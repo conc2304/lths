@@ -8,9 +8,9 @@ import UserService from '../lib/modules/user/user-service';
 export const customHandlers = [...UserService];
 
 // Handlers that are generated from the config object
-const generatedHandlers = mockedPaths.map(({ path, method, fail, passThrough, delay, successResponse, failResponse, responseTransformer }) => {
+const generatedHandlers = mockedPaths.map(({ api, path, method, fail, passThrough, delay, successResponse, failResponse, responseTransformer }) => {
   return rest[method](
-    `${HOST_API}${path}`,
+    `${api || HOST_API}${path}`,
     async (req: RestRequest<never, PathParams<string>>, res: ResponseComposition<DefaultBodyType>, ctx: RestContext) => {
       let returnBody: Record<string, unknown> | Record<string, unknown>[];
       let returnStatus: number;

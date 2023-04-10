@@ -5,11 +5,7 @@ type MockResponse = {
   status: number;
 };
 
-type ResponseTransformer = (
-  req: RestRequest<never, PathParams<string>>,
-  res: ResponseComposition<DefaultBodyType>,
-  ctx: RestContext
-) => Promise<MockResponse>;
+type ResponseTransformer = (req: RestRequest<never, PathParams<string>>, res: ResponseComposition<DefaultBodyType>, ctx: RestContext) => Promise<MockResponse>;
 
 /**
  *
@@ -24,6 +20,9 @@ type ResponseTransformer = (
  *  * note - this will take priortity over setting fail to true
  */
 export type MSWPathConf = {
+  /** The domain for MSW to watch and intercept.
+   * It will fall back to the variable set in the `.env` file at build time */
+  api?: string;
   /** The url path for MSW to watch and intercept */
   path: string;
   /** The http method for the call to intercept, set to 'all' to entercept every method for the given path */
