@@ -1,0 +1,16 @@
+{
+  "name": "shared-themes",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/themes/src",
+  "projectType": "library",
+  "tags": ["shared", "themes"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/themes/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

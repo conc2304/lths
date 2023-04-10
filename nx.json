@@ -5,7 +5,13 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook"
+        ],
         "accessToken": "NjYzM2M3MGYtNDEzYy00ZTAyLWI2ZTMtNzhlMDk5MmYwNmM0fHJlYWQtd3JpdGU="
       }
     }
@@ -27,6 +33,15 @@
     },
     "test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    },
+    "build-storybook": {
+      "inputs": [
+        "default",
+        "^production",
+        "!{projectRoot}/.storybook/**/*",
+        "!{projectRoot}/.storybook/**/*",
+        "!{projectRoot}/.storybook/**/*"
+      ]
     }
   },
   "namedInputs": {
@@ -36,7 +51,13 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s"
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)"
     ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
