@@ -10,7 +10,7 @@ export const TableTitleRow = (props: TableTitleProps) => {
   return loading ? (
     <TableTitleSkeleton loading={loading} />
   ) : (
-    <Stack direction="row" justifyContent="space-between">
+    <Stack direction="row" justifyContent="space-between" px={2} py={3}>
       <Typography variant="h2" fontWeight={400}>
         {formatString(title, total.toLocaleString())}
       </Typography>

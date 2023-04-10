@@ -61,14 +61,13 @@ export const Table = (props: TableProps) => {
         elevation={2}
         sx={{
           width: '100%',
-          p: 2,
         }}
       >
         <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
 
         <TableContainer
           sx={{
-            mt: 4,
+            mt: 1,
           }}
         >
           <MuiTable>
