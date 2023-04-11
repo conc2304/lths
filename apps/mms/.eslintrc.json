@@ -21,9 +21,7 @@
         "*.ts",
         "*.tsx"
       ],
-      "rules": {
-        "no-undef": "error"
-      }
+      "rules": {}
     },
     {
       "files": [
