@@ -17,6 +17,7 @@ const LazyPageTest = LazyLoader(
 const SamplePage = LazyLoader(lazy(() => import('../pages/sample-page')));
 
 const ChartPage = LazyLoader(lazy(() => import('../pages/chart-page')));
+const NotificationPage = LazyLoader(lazy(() => import('../pages/insights/notification-page')));
 
 const DesignSystem = LazyLoader(lazy(() => import('../pages/design-system')));
 
@@ -65,6 +66,10 @@ export const DashRoutes = (authenticated: boolean) => {
       {
         path: '/dashboard/charts',
         element: <ChartPage />,
+      },
+      {
+        path: '/insights/notifications',
+        element: <NotificationPage />,
       },
       {
         path: '*',

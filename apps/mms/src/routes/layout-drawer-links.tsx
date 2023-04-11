@@ -90,17 +90,17 @@ const sections: DrawerSectionProps[] = [
           {
             title: 'Flows',
             icon: <FlowIcon />,
-            path: '/Insights/Flows',
+            path: '/insights/flows',
           },
           {
             title: 'Pages',
             icon: <PagesIcon />,
-            path: '/Insights/Pages',
+            path: '/insights/pages',
           },
           {
             title: 'Components',
             icon: <GridViewIcon />,
-            path: '/Insights/Components',
+            path: '/insights/components',
           },
           {
             title: 'Users',
@@ -110,12 +110,12 @@ const sections: DrawerSectionProps[] = [
           {
             title: 'Notifications',
             icon: <NotificationsActiveIcon />,
-            path: '/Insights/Notifications',
+            path: '/insights/notifications',
           },
           {
             title: 'Advertising',
             icon: <LiveTvIcon />,
-            path: '/Insights/Advertising',
+            path: '/insights/advertising',
           },
         ],
       },
