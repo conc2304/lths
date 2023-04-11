@@ -8,6 +8,9 @@
     "@nrwl/nx",
     "import"
   ],
+  "globals": {
+    "JSX": true
+  },
   "overrides": [
     {
       "files": [

@@ -1,17 +1,17 @@
-import Typography from '@mui/material/Typography';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import StarBorder from '@mui/icons-material/StarBorder';
-import HomeIcon from '@mui/icons-material/Home';
-import FlowIcon from '@mui/icons-material/Schema';
-import InsightsIcon from '@mui/icons-material/Insights';
 import PagesIcon from '@mui/icons-material/DocumentScanner';
-import PaletteIcon from '@mui/icons-material/Palette';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import DraftsIcon from '@mui/icons-material/Drafts';
 import GridViewIcon from '@mui/icons-material/GridView';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import HomeIcon from '@mui/icons-material/Home';
+import InsightsIcon from '@mui/icons-material/Insights';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
-
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import PaletteIcon from '@mui/icons-material/Palette';
+import FlowIcon from '@mui/icons-material/Schema';
+import StarBorder from '@mui/icons-material/StarBorder';
+import Typography from '@mui/material/Typography';
 import { DashboardLayout, DrawerSectionProps } from '@lths/shared/ui-layouts';
+
 import { Profile } from '../components/layouts';
 
 const headerLeft = <Typography variant="h6">Mobile Management System</Typography>;
