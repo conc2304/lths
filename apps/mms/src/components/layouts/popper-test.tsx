@@ -1,24 +1,22 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Popper, { PopperPlacementType } from '@mui/material/Popper';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Fade from '@mui/material/Fade';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Popper, { PopperPlacementType } from '@mui/material/Popper';
+import Typography from '@mui/material/Typography';
 
 export default function PositionedPopper() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState<PopperPlacementType>();
 
-  const handleClick =
-    (newPlacement: PopperPlacementType) =>
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget);
-      setOpen((prev) => placement !== newPlacement || !prev);
-      setPlacement(newPlacement);
-    };
+  const handleClick = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => placement !== newPlacement || !prev);
+    setPlacement(newPlacement);
+  };
 
   return (
     <Box sx={{ width: 500 }}>
