@@ -17,10 +17,10 @@ export type TrendProps = {
 };
   
 export type KpiCardProps = {
-  title?: string;
-  hero?: number;
+  title: string;
+  hero: number;
   heroUnit?: string;
-  trends?: TrendProps;
+  trends: TrendProps;
   tooltipDesc?: string;
   tooltipActionUrl? : string;
 }

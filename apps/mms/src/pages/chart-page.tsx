@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material"; //
 import React from "react";
-import { KpiSparklineCard } from "../components/kpi-sparkline-card/kpi-sparkline-card";
+import { KpiSparklineCard } from "../../../../libs/shared/ui-elements/src/lib/data-display/cards/kpi/kpi-sparkline-card";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 //DIFFERENT WAYS TO DEFINE PROPS
 

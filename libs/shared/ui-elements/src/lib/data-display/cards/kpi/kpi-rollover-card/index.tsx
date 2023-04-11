@@ -11,13 +11,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { KpiCard} from "./kpi-card";
-import {KpiCardProps, TrendProps} from "./kpi-card";
+import { KpiCard} from "../kpi-card.tsx/index.js";
+import {KpiCardProps, TrendProps} from "../kpi-card.tsx/index.js";
 
 export type KpiRolloverCardProps = KpiCardProps & {
-  sparkLine?: React.ReactElement;
-  rolloverData?: TrendProps[];
-  rolloverTitle?: string;
+  sparkLine: React.ReactElement;
+  rolloverData: TrendProps[];
+  rolloverTitle: string;
 }
 
 export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
