@@ -22,7 +22,7 @@
       ],
       "rules": {
         "@typescript-eslint/no-var-requires": "off",
-        "no-undef": "error"
+        "no-undef": "off"
       }
     }
   ]
