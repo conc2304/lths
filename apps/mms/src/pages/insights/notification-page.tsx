@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box, IconButton, TableCell, TableRow } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
-import { Table, Order, PageHeader, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { Table, PageHeader, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 const headers = [
   {
