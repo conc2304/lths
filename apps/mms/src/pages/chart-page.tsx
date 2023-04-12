@@ -1,5 +1,8 @@
 import { Typography, Box } from '@mui/material'; //
 import { ChartCard } from '@lths/shared/ui-elements';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+
+
 
 //DIFFERENT WAYS TO DEFINE PROPS
 
@@ -8,6 +11,8 @@ import { ChartCard } from '@lths/shared/ui-elements';
 //const SamplePage = ():JSX.Element => {
 //const SamplePage :React.FC<{}> = ():JSX.Element => {
 //  const SamplePage = (props:any):JSX.Element => {
+
+
 const SamplePage = (): JSX.Element => {
   return (
     <Box title="Sample Card">
@@ -17,7 +22,7 @@ const SamplePage = (): JSX.Element => {
         nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in reprehended in voltage veil esse colum doolie eu
         fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate descent molls anim id est labours.
       </Typography>
-      <ChartCard title="Happy Morning!! 🥳🥳" subheader="Cheers 🙌">
+      <ChartCard title="Happy Morning!! 🥳🥳" subheader="Cheers 🙌" action={<InfoOutlinedIcon/>}>
         Cheers to New Weekdays!!
       </ChartCard>
     </Box>

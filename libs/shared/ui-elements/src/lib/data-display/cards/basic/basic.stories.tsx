@@ -1,5 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { ChartCard } from '@lths/shared/ui-elements';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+
 
 export default {
   title: 'Chart-Card',
@@ -15,4 +17,5 @@ chartcard.args = {
   title: 'Happy Morning!!🌅',
   subheader: 'Cheers🥳',
   children: 'Cheers to New Weekdays🙌',
+  action: <InfoOutlinedIcon/>
 };
