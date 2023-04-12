@@ -1,15 +1,15 @@
-import { KpiSparklineCard } from './index'
+import { KpiCard } from './index'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof KpiSparklineCard> = {
-  component: KpiSparklineCard,
-  title: 'Data Display/ Cards/ Kpi / Kpi Sparkline Card',
+const Story: ComponentMeta<typeof KpiCard> = {
+  component: KpiCard,
+  title: 'Data Display/ Cards/ Kpi / Kpi Card',
 };
 export default Story;
 
-const Template: ComponentStory<typeof KpiSparklineCard> = (args) => (
-  <KpiSparklineCard {...args} />
+const Template: ComponentStory<typeof KpiCard> = (args) => (
+  <KpiCard {...args} />
 );
 
 const trendProp = {
@@ -37,7 +37,4 @@ Primary.args = {
   trends: trendProp,
   tooltipDesc: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
   tooltipActionUrl : "https://en.wikipedia.org/wiki/Retention",
-  sparkLine: (<div>react Spark1 line</div>),
-  routeUrl: "https://en.wikipedia.org/wiki/Retention",
 };
-

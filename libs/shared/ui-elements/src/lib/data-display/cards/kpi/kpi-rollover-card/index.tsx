@@ -1,18 +1,16 @@
 import React from "react";
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
-
+import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-import { KpiCard} from "../kpi-card.tsx/index.js";
-import {KpiCardProps, TrendProps} from "../kpi-card.tsx/index.js";
+import { KpiCard} from "../kpi-card/index";
+import {KpiCardProps, TrendProps} from "../kpi-card/index";
 
 export type KpiRolloverCardProps = KpiCardProps & {
   sparkLine: React.ReactElement;
@@ -32,7 +30,7 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
     };
 
   return (
-    <Paper sx={{ width: "600px", position: "relative", marginBottom: "48px", borderTopLeftRadius: theme.spacing(1), borderTopRightRadius: theme.spacing(1), boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.15)' }} square={true}>
+    <Paper sx={{ position: "relative", marginBottom: "48px", borderTopLeftRadius: theme.spacing(1), borderTopRightRadius: theme.spacing(1), boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.15)' }} square={true}>
       <KpiCard title={title} hero={hero} heroUnit={heroUnit} trends={trends} tooltipDesc={tooltipDesc} tooltipActionUrl={tooltipActionUrl} />
       <Accordion disableGutters sx={{ width: "100%", transform: "rotate(180deg)", zIndex: (expanded ? 2 : 1), position:'absolute',  
         borderTopLeftRadius: theme.spacing(1), borderTopRightRadius: theme.spacing(1), '&:before': { display: 'none'}, 

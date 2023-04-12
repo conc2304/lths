@@ -3,8 +3,7 @@ import {Stack, Link, Paper} from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
-import { KpiCard} from "../kpi-card.tsx/index.js";
-import {KpiCardProps} from "../kpi-card.tsx/index.js";
+import { KpiCard, KpiCardProps} from "../kpi-card/index";
 
 export type KpiSparklineCardProps = KpiCardProps & {
   sparkLine?: React.ReactElement;
