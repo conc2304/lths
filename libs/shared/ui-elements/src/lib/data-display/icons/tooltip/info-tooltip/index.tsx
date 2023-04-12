@@ -55,7 +55,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
             }
           }}
         >
-          <Card sx={{ width: 264, pointerEvents: 'visible', backgroundColor: tooltipBackgroundColor, border: theme.spacing(1)}} elevation={3}>
+          <Card sx={{ width: 264, pointerEvents: 'visible', backgroundColor: theme.palette.grey[700], border: theme.spacing(1)}} elevation={3}>
             <CardContent sx={{paddingTop: theme.spacing(2.25), paddingBottom: theme.spacing(3.75), paddingLeft: theme.spacing(2.3), paddingRight: theme.spacing(1.75)}}>
               <Typography sx={{color: textColor, marginBottom: theme.spacing(1.375), letterSpacing: "0.15px"}} variant="body2">
                 {title.toUpperCase()}
@@ -77,7 +77,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
               position: "relative",
               mb: "18px",
               "&::before": {
-                backgroundColor: tooltipBackgroundColor,
+                backgroundColor: theme.palette.grey[700],
                 content: "''", position: "absolute", width: 24, height: 24, 
                 bottom: -12, transform: "rotate(45deg)", left: "calc(50% - 12px)"
               }
