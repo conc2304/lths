@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-
+import { store } from '@lths/features/mms/data-access';
+import { LayoutToaster } from '@lths/shared/ui-elements';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-import { store } from '@lths/features/mms/data-access';
 import Routes from './routes';
-
-import { LayoutToaster } from '@lths/shared/ui-elements';
-
 import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {

@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material'; //
+import { Typography, Box } from '@mui/material';
 import { ChartCard } from '@lths/shared/ui-elements';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 

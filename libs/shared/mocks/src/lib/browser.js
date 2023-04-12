@@ -1,5 +1,6 @@
 import { setupWorker } from 'msw';
 
-import user  from './user-service';
+import notifications from './services/notifications';
+import user from './user-service';
 
-export const worker = setupWorker(...user);
+export const worker = setupWorker(...user, ...notifications);
