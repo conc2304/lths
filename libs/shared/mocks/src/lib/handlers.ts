@@ -3,9 +3,10 @@ import { DefaultBodyType, PathParams, ResponseComposition, rest, RestContext, Re
 
 import mockedPaths from './mocked-path-registry';
 import UserService from '../lib/modules/user/user-service';
+import NotificationsService from '../lib/services/notifications';
 
 // Handlers that need custom logic in the response transformer
-export const customHandlers = [...UserService];
+export const customHandlers = [...UserService, ...NotificationsService];
 
 // Handlers that are generated from the config object
 const generatedHandlers = mockedPaths.map(({ api, path, method, fail, passThrough, delay, successResponse, failResponse, responseTransformer }) => {
