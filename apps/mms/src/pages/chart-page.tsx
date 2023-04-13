@@ -1,6 +1,8 @@
-import { Typography, Box } from '@mui/material';
+import React from 'react';
+import { Typography, Box } from '@mui/material'; //
 
 import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
+import { HistogramComponentProps } from '../../../../libs/shared/ui-charts/area-chart/types';
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
@@ -15,13 +17,13 @@ const data = {
   summaries: [
     {
       title: 'Club Members',
-      value: 450,
+      value: 400,
       // Colors can be randomly generated
       color: '#0D47A1',
     },
     {
       title: 'New Attendees',
-      value: 381,
+      value: 781,
       color: '#90CAF9',
     },
     {
@@ -31,20 +33,102 @@ const data = {
     },
     {
       title: 'In District',
-      value: 730,
+      value: 1000,
       color: '#1E88E5',
     },
   ],
 };
 
-const dataForLine = [
-  { date: '1 Feb', value: 50, totalDown: 10, medianDown: 5, specialEvent: 'true' },
-  { date: '11 Feb', value: 1020, totalDown: 15, medianDown: 7, specialEvent: 'true' },
-  { date: '1 Feb', value: 300, totalDown: 15, medianDown: 7, specialEvent: '' },
-  { date: '2 Feb', value: 240, totalDown: 15, medianDown: 7, specialEvent: '' },
-  { date: '9 Feb', value: 2220, totalDown: 25, medianDown: 7, specialEvent: true },
-  { date: '9 Feb', value: 2220, totalDown: 25, medianDown: 7, specialEvent: true },
-];
+const histogramData: HistogramComponentProps = {
+  title: 'Active Users',
+  subtitle: 'How many people are using the app?',
+  info: {
+    description: 'Metric for tracking the number of active users',
+    url: 'https://example.com/metrics/active-users',
+  },
+  value: null,
+  trends: undefined,
+  unit: '%',
+  data: [
+    {
+      datetime: '2022-03-10T10:11:22Z',
+      value: 1234,
+      trends: {
+        duration: 7,
+        span: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 25,
+          direction: 'down',
+        },
+        median: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 30,
+          direction: 'up',
+        },
+      },
+    },
+    {
+      datetime: '2022-03-11T10:11:22Z',
+      value: 1456,
+      trends: {
+        duration: 7,
+        span: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 30,
+          direction: 'up',
+        },
+        median: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 33,
+          direction: 'up',
+        },
+      },
+    },
+    {
+      datetime: '2022-03-31T10:11:22Z',
+      value: 126,
+      trends: {
+        duration: 7,
+        span: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 30,
+          direction: 'up',
+        },
+        median: {
+          title: 'Prev 7 days',
+          unit: '%',
+          value: 33,
+          direction: 'up',
+        },
+      },
+    },
+    // add more data points here
+  ],
+  options: {
+    events: [
+      {
+        datetime: '2022-03-10T10:11:22Z',
+        title: 'Beyonce',
+        id: 'a-v90as0b9',
+        description: 'Some description',
+        details: 'Some details',
+      },
+      {
+        datetime: '2022-03-11T10:11:22Z',
+        title: 'Jay-Z',
+        id: 'b-fs20s0j2',
+        description: 'Some description',
+        details: 'Some details',
+      },
+      // add more events here
+    ],
+  },
+};
 
 const transformDataForDonutChart = (summaries) => {
   return summaries.map((summary) => ({
@@ -88,7 +172,7 @@ const SamplePage = (): JSX.Element => {
         />
       </Box>
       <Box>
-        <AreaChartComponent data={dataForLine} />
+        <AreaChartComponent data={histogramData.data} />
       </Box>
     </Box>
   );
