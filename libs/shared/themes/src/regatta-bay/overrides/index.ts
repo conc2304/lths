@@ -2,6 +2,7 @@ import { Theme } from '@mui/material';
 import { Components } from '@mui/material/styles';
 
 import DatePicker from './date-picker';
+import Table from './table';
 import Link from './link';
 import Paper from './paper';
 import ToggleButton from './toggle-button';
@@ -18,5 +19,6 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...Typography(theme),
     ...Paper(theme),
     ...Link(theme),
+    ...Table(theme)
   };
 }
