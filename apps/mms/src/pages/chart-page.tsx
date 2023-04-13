@@ -1,5 +1,6 @@
 import { Typography, Box } from '@mui/material';
 
+import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
@@ -35,6 +36,15 @@ const data = {
     },
   ],
 };
+
+const dataForLine = [
+  { date: '1 Feb', value: 50, totalDown: 10, medianDown: 5, specialEvent: 'true' },
+  { date: '11 Feb', value: 1020, totalDown: 15, medianDown: 7, specialEvent: 'true' },
+  { date: '1 Feb', value: 300, totalDown: 15, medianDown: 7, specialEvent: '' },
+  { date: '2 Feb', value: 240, totalDown: 15, medianDown: 7, specialEvent: '' },
+  { date: '9 Feb', value: 2220, totalDown: 25, medianDown: 7, specialEvent: true },
+  { date: '9 Feb', value: 2220, totalDown: 25, medianDown: 7, specialEvent: true },
+];
 
 const transformDataForDonutChart = (summaries) => {
   return summaries.map((summary) => ({
@@ -76,6 +86,9 @@ const SamplePage = (): JSX.Element => {
           title="USERS"
           labelColor="#fff"
         />
+      </Box>
+      <Box>
+        <AreaChartComponent data={dataForLine} />
       </Box>
     </Box>
   );
