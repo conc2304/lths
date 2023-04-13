@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
+  "homepage": ".",
   "devDependencies": {
     "@babel/core": "7.12.13",
     "@babel/preset-react": "^7.14.5",
