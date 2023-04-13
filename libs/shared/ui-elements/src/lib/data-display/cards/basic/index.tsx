@@ -18,7 +18,7 @@ export function BasicCard(props: BasicCardProps) {
   const { children, title, subheader,action , footerdata , footerIcon} = props;
 
   return (
-    <Card sx={{ maxWidth: 378 }}>
+    <Card>
       <CardHeader
         action={action}
         title={title}
