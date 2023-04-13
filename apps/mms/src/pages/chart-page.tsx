@@ -1,7 +1,5 @@
 import { Typography, Box } from "@mui/material"; //
 import React from "react";
-import { KpiSparklineCard } from "../../../../libs/shared/ui-elements/src/lib/data-display/cards/kpi/kpi-sparkline-card";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -10,70 +8,19 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 //const SamplePage :React.FC<{}> = ():JSX.Element => {
 //  const SamplePage = (props:any):JSX.Element => {
 
-const trendProp = {
-    //types of trens: Time duration, Median
-    duration: 7,
-    span: {
-      title: "Prev 7 days",
-      unit: "%",
-      value: 31,
-      direction: "up"
-    },
-    median: {
-      title: "Median",
-      unit: "%",
-      value: 7,
-      direction: "down"
-    }
-};
-
-const props = {
-  title: "Retention", 
-  hero: 799, // comp format to add commas
-  heroUnit: "SECS",
-  trends: trendProp,
-  tooltipDesc: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
-  tooltipActionUrl : "https://en.wikipedia.org/wiki/Retention",
-  sparkLine: (<div>react Spark1 line</div>),
-  routeUrl: "https://en.wikipedia.org/wiki/Retention",
-}
-
-const theme = createTheme({
-  typography: {
-    fontFamily: "Roboto",
-  },
-});
-
 const SamplePage = (): JSX.Element => {
   return (
     <Box title="Sample Card">
-      <Typography variant="h1">Test Compnents</Typography>
+      <Typography variant="h1">Charts</Typography>
       <Typography variant="body2">
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion
+        tempos incident ut laborers et doolie magna alissa. Ut enif ad minim
+        venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea
+        commons construal. Duos aube grue dolor in reprehended in voltage veil
+        esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate
+        non president, sunk in culpa qui officiate descent molls anim id est
+        labours.
       </Typography>
-      <ThemeProvider theme={theme}>
-        <div style={{width: "276px"}}>
-          <KpiSparklineCard {...props}/>
-        </div>
-        <div style={{width: "376px"}}>
-          <KpiSparklineCard {...props}/>
-        </div>
-      </ThemeProvider>
     </Box>
   );
 };
