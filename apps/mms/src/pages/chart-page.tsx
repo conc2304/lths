@@ -1,6 +1,8 @@
 import { Typography, Box } from '@mui/material';
-import { ChartCard } from '@lths/shared/ui-elements';
+import { BasicCard } from '@lths/shared/ui-elements';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 
 
@@ -22,9 +24,14 @@ const SamplePage = (): JSX.Element => {
         nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in reprehended in voltage veil esse colum doolie eu
         fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate descent molls anim id est labours.
       </Typography>
-      <ChartCard title="Happy Morning!! 🥳🥳" subheader="Cheers 🙌" action={<InfoOutlinedIcon/>}>
+      <BasicCard 
+      title="Happy Morning!! 🥳🥳" 
+      subheader="Cheers 🙌" 
+      action={<InfoOutlinedIcon/>} 
+      footerdata="Have a good weekend 🥰🤞" 
+      footerIcon={<ArrowForwardIcon/>}>
         Cheers to New Weekdays!!
-      </ChartCard>
+      </BasicCard>
     </Box>
   );
 };
