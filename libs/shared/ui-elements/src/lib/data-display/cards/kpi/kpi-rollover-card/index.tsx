@@ -30,10 +30,10 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
     };
 
   return (
-    <Paper sx={{ position: "relative", marginBottom: "48px", borderTopLeftRadius: theme.spacing(1), borderTopRightRadius: theme.spacing(1), boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.15)' }} square={true}>
+    <Paper sx={{ position: "relative", marginBottom: "48px", borderBottomLeftRadius: theme.spacing(0), borderBottomRightRadius: theme.spacing(0), boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.15)' }}>
       <KpiCard title={title} hero={hero} heroUnit={heroUnit} trends={trends} tooltipDesc={tooltipDesc} tooltipActionUrl={tooltipActionUrl} />
       <Accordion disableGutters sx={{ width: "100%", transform: "rotate(180deg)", zIndex: (expanded ? 2 : 1), position:'absolute',  
-        borderTopLeftRadius: theme.spacing(1), borderTopRightRadius: theme.spacing(1), '&:before': { display: 'none'}, 
+        borderBottomLeftRadius: theme.spacing(0), borderBottomRightRadius: theme.spacing(0), '&:before': { display: 'none'}, 
         boxShadow: '-2px -2px 4px -2.5px rgba(0,0,0,0.15), 2px -2px 4px -2.5px rgba(0,0,0,0.15), 0px -3.5px 4px -1.5px rgba(0,0,0,0.15)'}} square={true}  
         expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary

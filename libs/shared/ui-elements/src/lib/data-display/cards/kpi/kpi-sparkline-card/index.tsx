@@ -15,18 +15,15 @@ export const KpiSparklineCard: React.FC<KpiSparklineCardProps> = (props) => {
   const { title, hero, heroUnit, trends, tooltipDesc, tooltipActionUrl, sparkLine, routeUrl } = props;
 
   return (
-    <Paper sx={{ position: "relative", borderRadius: theme.spacing(1), boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.15)' }} square={true}>
+    <Paper sx={{ position: "relative" }}>
       <KpiCard title={title} hero={hero} heroUnit={heroUnit} trends={trends} tooltipDesc={tooltipDesc} tooltipActionUrl={tooltipActionUrl} />
-      <Stack
-      sx={{ paddingLeft: theme.spacing(2.5), paddingBottom: theme.spacing(2.5) }}
-      spacing={1.5}
-      >
+      <Stack sx={{ paddingLeft: theme.spacing(2.5), paddingBottom: theme.spacing(2.5) }} spacing={1.5}>
         <div style={{paddingTop: theme.spacing(1), textAlign: "center"}}>
           {sparkLine}
         </div>
         { 
           routeUrl && (
-            <Link sx={{ fontSize: theme.spacing(1.5), letterSpacing: "0.15px" }} href={tooltipActionUrl} underline="none">
+            <Link sx={{ fontSize: theme.spacing(1.5)}} href={tooltipActionUrl} underline="none">
               <Stack direction="row" alignItems="center">
                 <div>VIEW DETAILS</div>
                 <ArrowForward sx={{ marginLeft: theme.spacing(0.5), width: theme.spacing(2), height: theme.spacing(2) }}/>
