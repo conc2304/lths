@@ -7,12 +7,6 @@ import { blue } from "@mui/material/colors";
 import Link, { LinkProps } from '@mui/material/Link';
 import { useTheme, styled } from '@mui/material/styles';
 
-export type InfoTooltipProps = {
-    title: string;
-    tooltipDesc?: string;
-    tooltipActionUrl? : string;
-}
-
  // ToDo: switch to using theme for color
 const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
   color: "#FFFFFF",   // const textColor = "#FFFFFF";
@@ -35,18 +29,25 @@ const GreyCardLink = styled(Link)<LinkProps>(() => ({
 }));
 // ToDo: switch to using theme for color
 
+export type InfoTooltipProps = {
+  title: string;
+  tooltipDesc?: string;
+  tooltipActionUrl?: string;
+  tooltipActionText?: string;
+}
+
 const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open  = Boolean(anchorEl);
   
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    const onPopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
     };
-    const handlePopoverClose = () => {
+    const onPopperClose = () => {
       setAnchorEl(null);
     };
   
-    const {title, tooltipDesc, tooltipActionUrl} = props;
+    const {title, tooltipDesc, tooltipActionUrl, tooltipActionText} = props;
     const theme = useTheme();
     if (!tooltipDesc || !title) return null;
   
@@ -54,7 +55,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
     const infoIconColor = theme.palette.grey[500];
   
     return (
-      <div style={{float: "right", margin: theme.spacing(0.8)}} onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+      <div style={{float: "right", margin: theme.spacing(0.8)}} onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose}>
         <Typography
           aria-owns={open ? 'mouse-over-popover' : undefined}
           aria-haspopup="true"
@@ -68,7 +69,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
           }}
           open={open}
           anchorEl={anchorEl}
-          onClose={handlePopoverClose}
+          onClose={onPopperClose}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           PaperProps={{
@@ -88,7 +89,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
               {
                 tooltipActionUrl && (
                   <GreyCardLink href={tooltipActionUrl} underline="none" variant="body2">
-                    LEARN MORE
+                    {tooltipActionText}
                   </GreyCardLink>
                 )
               }
@@ -99,5 +100,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props)  => {
       </div>
     )
   }
+
+InfoTooltip.defaultProps={
+  tooltipActionText: "LEARN MORE"
+}
 
 export default InfoTooltip;

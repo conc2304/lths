@@ -50,11 +50,11 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
       <Stack>
         <Stack direction="row" alignItems="center" spacing={useArrow ? 0.5 : 0}>
           {displayIcon}
-          <Typography sx={{ color: displayColor, fontSize: theme.spacing(1.75) }}>
+          <Typography sx={{ color: displayColor, fontSize: theme.spacing(1.75), letterSpacing: theme.spacing(0.01875) }}>
             {value}{unit}
           </Typography>
         </Stack>
-        <Typography noWrap={true} sx={{ fontSize: theme.spacing(1.375), color: "text.secondary" }}>
+        <Typography noWrap={true} sx={{ fontSize: theme.spacing(1.375), color: "text.secondary", letterSpacing: theme.spacing(0.01875) }}>
           {title}
         </Typography>
       </Stack>
@@ -65,17 +65,17 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
     <Card sx={{ boxShadow: 'none'}}>
       <InfoTooltip {...props}/>
       <CardContent sx={{ paddingRight: theme.spacing(1.25), "&:last-child": { paddingBottom: theme.spacing(2)} }}>
-        <Typography sx={{paddingTop: theme.spacing(0.5), paddingLeft: theme.spacing(0.5), fontSize: theme.spacing(1.5)}} variant="body2">
+        <Typography sx={{paddingTop: theme.spacing(0.5), paddingLeft: theme.spacing(0.5), fontSize: theme.spacing(1.5), letterSpacing: theme.spacing(0.01875)}} variant="body2">
           {title.toUpperCase()}
         </Typography>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1.5} sx={{paddingTop: theme.spacing(2)}}>
           <Stack direction="row" alignItems="flex-end">
-            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium"}}>
+            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium", letterSpacing: theme.spacing(0.01875)}}>
               {heroFormated}
             </Typography>
             {
               heroUnit && (
-                <Typography sx={{ ...heroUnitStyle, fontWeight: 500}}>
+                <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875)}}>
                   {heroUnit.toUpperCase()}
                 </Typography>
               )

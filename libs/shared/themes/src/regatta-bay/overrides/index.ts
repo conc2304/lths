@@ -8,7 +8,6 @@ import Paper from './paper';
 import ToggleButton from './toggle-button';
 import ToggleButtonGroup from './toggle-button-group';
 import Toolbar from './toolbar';
-import Typography from './typography';
 
 export default function getComponentOverrides(theme: Theme): Components {
   return {
@@ -16,7 +15,6 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...DatePicker(theme),
     ...ToggleButton(theme),
     ...ToggleButtonGroup(theme),
-    ...Typography(theme),
     ...Paper(theme),
     ...Link(theme),
     ...Table(theme)
