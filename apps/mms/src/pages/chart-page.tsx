@@ -2,8 +2,8 @@ import React from 'react';
 import { Typography, Box } from '@mui/material'; //
 
 import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
-import { HistogramComponentProps } from '../../../../libs/shared/ui-charts/area-chart/types';
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
+import { HistogramComponentProps } from '../../../../libs/shared/ui-charts/types';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -12,32 +12,30 @@ import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-char
 //const SamplePage :React.FC<{}> = ():JSX.Element => {
 //  const SamplePage = (props:any):JSX.Element => {
 
-const data = {
-  // ...rest of the data
-  summaries: [
-    {
-      title: 'Club Members',
-      value: 400,
-      // Colors can be randomly generated
-      color: '#0D47A1',
+const data = [
+  {
+    title: 'User Segments & Location',
+    subtitle: 'Who is using the app? And where do they use it?',
+    info: {
+      description: 'This chart shows the distribution of app users by location and user segment.',
+      url: 'https://example.com/user-segments-location',
     },
-    {
-      title: 'New Attendees',
-      value: 781,
-      color: '#90CAF9',
-    },
-    {
-      title: 'In arena',
-      value: 600,
-      color: '#1976D2',
-    },
-    {
-      title: 'In District',
-      value: 1000,
-      color: '#1E88E5',
-    },
-  ],
-};
+    metrics: [
+      {
+        title: 'Users',
+        description: 'Total number of app users',
+        subtitle: null,
+        data: [
+          { title: 'USA', value: 1000 },
+          { title: 'Europe', value: 500 },
+          { title: 'Asia', value: 250 },
+          { title: 'Australia', value: 150 },
+          { title: 'Other', value: 100 },
+        ],
+      },
+    ],
+  },
+];
 
 const histogramData: HistogramComponentProps = {
   title: 'Active Users',
@@ -130,16 +128,7 @@ const histogramData: HistogramComponentProps = {
   },
 };
 
-const transformDataForDonutChart = (summaries) => {
-  return summaries.map((summary) => ({
-    name: summary.title,
-    value: summary.value,
-    color: summary.color,
-  }));
-};
-
 const SamplePage = (): JSX.Element => {
-  const donutChartData = transformDataForDonutChart(data.summaries);
   return (
     <Box title="Sample Card">
       <Typography variant="h1">Charts</Typography>
@@ -159,17 +148,7 @@ const SamplePage = (): JSX.Element => {
           padding: '16px',
         }}
       >
-        <DonutChart
-          data={donutChartData}
-          width="100%"
-          height={400}
-          innerRadius="43%"
-          outerRadius="80%"
-          startAngle={90}
-          endAngle={-270}
-          title="USERS"
-          labelColor="#fff"
-        />
+        <DonutChart data={data} />
       </Box>
       <Box>
         <AreaChartComponent data={histogramData.data} />

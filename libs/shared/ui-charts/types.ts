@@ -56,3 +56,17 @@ export type Info = {
     label?: string;
   };
   
+  export type DonutChartData = {
+    title: string | null;
+    subtitle?: string | null;
+    info: {
+      description?: string | null;
+      url?: string | null;
+    };
+    metrics: Array<{
+      title: string | null;
+      description?: string | null;
+      subtitle?: string | null;
+      data: Array<{ title: string; value: string | number }>;
+    }>;
+  };

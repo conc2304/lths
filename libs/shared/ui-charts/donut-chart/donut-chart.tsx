@@ -1,83 +1,77 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
-import { Grid } from '@mui/material';
+import { Grid, styled } from '@mui/material';
+import { DonutChartData } from '../types';
 
-interface DataItem {
-  name: string;
-  value: number;
-  color: string;
-}
+const CustomText = styled('text')({
+  fontSize: '0.875rem',
+});
 
-interface DonutChartProps {
-  data: DataItem[];
-  width?: string;
-  height?: number;
-  innerRadius?: string;
-  outerRadius?: string;
-  startAngle?: number;
-  endAngle?: number;
-  title?: string;
-  labelColor?: string;
-}
+type DonutChartProps = {
+  data: DonutChartData[];
+};
 
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value }, labelColor) => {
+const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text
+    <CustomText
       x={x}
       y={y}
-      fill={labelColor}
+      fill="#fff"
       textAnchor="middle"
       dominantBaseline="central"
-      style={{
-        fontSize: '14px',
+      sx={{
+        fontSize: (theme) => theme.spacing(1.5),
       }}
     >
       {value.toLocaleString('en-US')}
-    </text>
+    </CustomText>
   );
 };
 
 const legendFormatter = (value, entry, index) => {
   const item = entry.payload;
-  return <span style={{ color: 'black' }}>{`${item.name} (${item.value.toLocaleString('en-US')})`}</span>;
+  return <span style={{ color: 'black' }}>{`${item.title} (${item.value.toLocaleString('en-US')})`}</span>;
+};
+const randomlyGeneratedColors = () => {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
 
-const DonutChart: React.FC<DonutChartProps> = ({
-  data,
-  width = '100%',
-  height = 400,
-  innerRadius = '43%',
-  outerRadius = '80%',
-  startAngle = 90,
-  endAngle = -270,
-  title = 'USERS',
-  labelColor = '#fff',
-}) => {
+const DonutChart = ({ data }: DonutChartProps) => {
   const totalValue = data.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.value;
+    return (
+      accumulator +
+      currentValue.metrics.reduce((sum, metric) => {
+        return (
+          sum +
+          metric.data.reduce((sum, datum) => {
+            return sum + Number(datum.value);
+          }, 0)
+        );
+      }, 0)
+    );
   }, 0);
 
   return (
     <Grid container>
       <Grid item xs={12} md={8}>
-        <ResponsiveContainer width={width} height={height}>
+        <ResponsiveContainer width="100%" height={400}>
           <PieChart>
             <Pie
-              data={data}
+              data={data[0].metrics[0].data}
               dataKey="value"
-              innerRadius={innerRadius}
-              outerRadius={outerRadius}
-              startAngle={startAngle}
-              endAngle={endAngle}
+              innerRadius="43%"
+              outerRadius="80%"
+              startAngle={90}
+              endAngle={-270}
               labelLine={false}
-              label={(props) => renderCustomLabel(props, labelColor)}
+              label={renderCustomLabel}
             >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
+              {data[0].metrics[0].data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={randomlyGeneratedColors()} />
               ))}
             </Pie>
             <Legend
@@ -95,7 +89,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
               textAnchor="middle"
               dominantBaseline="central"
               style={{
-                fontSize: '24px',
+                fontSize: '1.5rem',
                 fontWeight: 'bold',
                 fill: 'black',
               }}
@@ -108,11 +102,11 @@ const DonutChart: React.FC<DonutChartProps> = ({
               textAnchor="middle"
               dominantBaseline="central"
               style={{
-                fontSize: '16px',
+                fontSize: '1rem',
                 fill: 'black',
               }}
             >
-              {title}
+              {data[0].metrics[0].title?.toUpperCase()}
             </text>
           </PieChart>
         </ResponsiveContainer>

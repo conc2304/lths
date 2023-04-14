@@ -4,7 +4,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Add } from '@mui/icons-material';
-import { HistogramData, CustomTooltipProps } from './types';
+import { HistogramData, CustomTooltipProps } from '../types';
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
