@@ -1,4 +1,5 @@
 import { KpiSparklineCard } from './index'
+import { Stack } from '@mui/material/'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
@@ -11,12 +12,12 @@ export default Story;
 const Template: ComponentStory<typeof KpiSparklineCard> = (args) => (
   <Stack
     direction="row"
-    justifyContent="space-between"
-    spacing={3}
+    //justifyContent="space-between"
+    spacing={2}
   >
+    <KpiSparklineCard {...args} hero={77} heroUnit='%' />
     <KpiSparklineCard {...args} />
-    <KpiSparklineCard {...args} />
-    <KpiSparklineCard {...args} />
+    <KpiSparklineCard {...args} heroUnit='' />
     <KpiSparklineCard {...args} />
   </Stack>
 );
