@@ -4,18 +4,25 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Add } from '@mui/icons-material';
-import { HistogramData, CustomTooltipProps } from '../types';
+
+export type CustomTooltipProps = {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+};
 
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+  const theme = useTheme();
+
   if (active && payload && payload.length) {
-    const data: HistogramData = payload[0].payload;
+    const data = payload[0].payload;
 
     return (
       <Box
         sx={{
           backgroundColor: 'white',
-          padding: '12px 16px',
-          borderRadius: '12px',
+          padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
+          borderRadius: theme.spacing(1.5),
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       >
@@ -25,27 +32,35 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
         <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
           <Box display="flex" alignItems="center">
             <ArrowDownwardIcon fontSize="small" style={{ color: '#FF3D57' }} />
-            <Typography variant="caption" color="#FF0000" sx={{ marginLeft: '4px', fontSize: '14px' }}>
+            <Typography variant="caption" color="#FF0000" sx={{ marginLeft: theme.spacing(0.5), fontSize: '1rem' }}>
               {`${data.trends.span.value}%`}
             </Typography>
           </Box>
-          <Box sx={{ width: '1.2px', height: '20px', backgroundColor: '#D9D9D9', marginLeft: '12px', marginRight: '12px' }} />
+          <Box
+            sx={{
+              width: (theme) => theme.spacing(0.3),
+              height: (theme) => theme.spacing(5),
+              backgroundColor: '#D9D9D9',
+              marginLeft: theme.spacing(2),
+              marginRight: theme.spacing(2),
+            }}
+          />
           <Box display="flex" alignItems="center">
-            <Add fontSize="small" style={{ color: '#01A611', fontSize: '16px' }} />
-            <Typography variant="caption" color="#01A611" sx={{ marginLeft: '4px', fontSize: '16px' }}>
+            <Add fontSize="small" style={{ color: '#01A611', fontSize: '1.25rem' }} />
+            <Typography variant="caption" color="#01A611" sx={{ marginLeft: theme.spacing(0.5), fontSize: '1rem' }}>
               {`${data.trends.median.value}%`}
             </Typography>
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
-          <Typography variant="caption" color="text.secondary" sx={{ marginLeft: '4px', color: '#6A6A6B', fontSize: '12px' }}>
+          <Typography variant="caption" color="text.secondary" sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}>
             {data.trends.duration} days ago
           </Typography>
           <Typography
             variant="caption"
             color="text.secondary
 "
-            sx={{ marginLeft: '4px', color: '#6A6A6B', fontSize: '12px' }}
+            sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}
           >
             Median
           </Typography>
@@ -57,20 +72,18 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
   return null;
 };
 
-type AreaChartProps = {
-  data: HistogramData[];
-};
 const tickFormatter = (value) => {
   const date = new Date(value);
   const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   return formattedDate;
 };
-const AreaChartComponent: React.FC<AreaChartProps> = ({ data }) => {
+
+const AreaChartComponent = ({ data }) => {
   const theme = useTheme();
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+      <AreaChart data={data} margin={{ top: Number(theme.spacing(1)), right: Number(theme.spacing(3)), left: 0 }}>
         <defs>
           <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="40%" stopColor="#0760A4" stopOpacity={0.8} />

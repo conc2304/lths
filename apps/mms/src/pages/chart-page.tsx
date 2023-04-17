@@ -1,9 +1,10 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material'; //
+import { Typography, Box } from '@mui/material';
 
 import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
+import BarGraph from '../../../../libs/shared/ui-charts/bar-chart/bar-chart';
+import ColumnChart from '../../../../libs/shared/ui-charts/column-chart/column-chart';
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
-import { HistogramComponentProps } from '../../../../libs/shared/ui-charts/types';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -37,16 +38,8 @@ const data = [
   },
 ];
 
-const histogramData: HistogramComponentProps = {
-  title: 'Active Users',
-  subtitle: 'How many people are using the app?',
-  info: {
-    description: 'Metric for tracking the number of active users',
-    url: 'https://example.com/metrics/active-users',
-  },
-  value: null,
-  trends: undefined,
-  unit: '%',
+const histogramData = {
+  // other props can be passed here
   data: [
     {
       datetime: '2022-03-10T10:11:22Z',
@@ -152,6 +145,13 @@ const SamplePage = (): JSX.Element => {
       </Box>
       <Box>
         <AreaChartComponent data={histogramData.data} />
+      </Box>
+
+      <Box>
+        <ColumnChart />
+      </Box>
+      <Box>
+        <BarGraph />
       </Box>
     </Box>
   );

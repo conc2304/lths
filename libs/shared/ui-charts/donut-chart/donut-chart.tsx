@@ -1,14 +1,9 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { Grid, styled } from '@mui/material';
-import { DonutChartData } from '../types';
 
 const CustomText = styled('text')({
   fontSize: '0.875rem',
 });
-
-type DonutChartProps = {
-  data: DonutChartData[];
-};
 
 const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }) => {
   const RADIAN = Math.PI / 180;
@@ -40,7 +35,7 @@ const randomlyGeneratedColors = () => {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
 
-const DonutChart = ({ data }: DonutChartProps) => {
+const DonutChart = ({ data }) => {
   const totalValue = data.reduce((accumulator, currentValue) => {
     return (
       accumulator +
