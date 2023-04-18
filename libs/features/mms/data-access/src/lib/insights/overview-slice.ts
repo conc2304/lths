@@ -4,6 +4,7 @@ import { insightOverviewApi } from './overview-api';
 import { InsightItem } from './types';
 
 const initialState = {} as InsightItem;
+
 const insightOverviewSlice = createSlice({
   name: 'insight-overview',
   initialState,

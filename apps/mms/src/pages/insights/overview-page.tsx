@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, IconButton, Stack, TableCell, TableRow } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import { NotificationRequest, useAppSelector, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
 import {
   Table,
@@ -58,6 +59,7 @@ const OverviewPage = (): JSX.Element => {
           />
         </FilterFormStateProvider>
       </Stack>
+
       <Stack
         direction="row"
         //justifyContent="space-between"
