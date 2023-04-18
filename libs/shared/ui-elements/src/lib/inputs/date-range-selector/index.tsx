@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Container,
-  Divider,
-  Theme,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
+import { Container, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -25,32 +19,22 @@ type Props = {
   onChange: ({ startDate, endDate }: DateRange) => void;
 };
 
-export const DateRangeSelector = ({
-  dateOptions,
-  onChange,
-}: Props): JSX.Element => {
+export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(
-    null
-  );
+  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(null);
   const [pickerKey, setPickerKey] = useState<number>(98765);
-  const isSmallScreen = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('md')
-  );
+  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
   const setNewPickerKey = () => {
     // set a new key value to force the cancel to
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  const onOptionSelected = (
-    event: React.MouseEvent<HTMLElement>,
-    selectedValue: Date
-  ) => {
+  const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: Date) => {
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
 
@@ -80,7 +64,7 @@ export const DateRangeSelector = ({
     }
     if (start && end && isBefore(start, end))
       // date selection defaults to start of day,
-      // to include the day selected in the data add 1 day
+      // to include the day selected in the data add 1 day test
       onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
@@ -93,11 +77,7 @@ export const DateRangeSelector = ({
     <Container className="LthsDateRangeSelector-root">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
-          <Grid
-            md="auto"
-            xs={12}
-            sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}
-          >
+          <Grid md="auto" xs={12} sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}>
             <ToggleButtonGroup
               value={dateOptionGroupValue}
               onChange={onOptionSelected}
@@ -152,9 +132,7 @@ export const DateRangeSelector = ({
                   label="START"
                   disableFuture
                   value={tempStartDate || startDate || null}
-                  onAccept={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'start')
-                  }
+                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
                   maxDate={endDate || currentDateTime || undefined}
@@ -168,9 +146,7 @@ export const DateRangeSelector = ({
                   label="END"
                   disableFuture
                   value={tempEndDate || endDate || null}
-                  onAccept={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'end')
-                  }
+                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
                   onChange={setTempEndDate}
                   onClose={onDatePickerClose}
                   className="Lths-Date-Picker"
