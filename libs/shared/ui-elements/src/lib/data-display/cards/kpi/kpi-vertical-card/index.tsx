@@ -55,7 +55,7 @@ export const KpiVerticalCard: React.FC<KpiVerticalCardProps> = (props) => {
     <Card sx={{ boxShadow: 'none'}}>
       <CardContent sx={{ paddingRight: theme.spacing(1.25), "&:last-child": { paddingBottom: theme.spacing(2)} }}>
         <Stack direction="column" justifyContent="space-between" alignItems="flex-start" spacing={1.5} sx={{paddingTop: theme.spacing(2)}}>
-          <Typography sx={{color: grey[700], fontWeight: 500, paddingTop: theme.spacing(0.5), paddingLeft: theme.spacing(0.5), fontSize: theme.spacing(1.5), letterSpacing: theme.spacing(0.01875)}} variant="body2">
+          <Typography sx={{color: grey[700], fontWeight: 500, fontSize: theme.spacing(1.5), letterSpacing: theme.spacing(0.01875)}} variant="body2">
             {title.toUpperCase()}
           </Typography>
           <Stack direction="row" alignItems="flex-end" >
