@@ -1,5 +1,6 @@
-import { KpiSparklineCard } from './index'
 import { Stack } from '@mui/material/'
+
+import { KpiSparklineCard } from './index'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
