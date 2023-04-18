@@ -71,7 +71,10 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
       onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
-  const handleOnToggleClick = (dateFn: () => Date) => {};
+  const handleOnToggleClick = (dateRangeFn: () => DateRange) => {
+    const { startDate, endDate } = dateRangeFn();
+    console.log(startDate, endDate);
+  };
 
   const onDatePickerClose = () => {
     setNewPickerKey();
@@ -96,13 +99,16 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
-                const { value, label, onClick } = option;
+                const { value, label, onClick: dateRangeFn } = option;
                 return (
                   <ToggleButton
                     role="button"
                     value={value}
                     key={value.toString()}
-                    onClick={() => onClick && onClick(value)}
+                    onClick={() => {
+                      console.log('click');
+                      handleOnToggleClick(dateRangeFn);
+                    }}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}
                     aria-pressed={value === dateOptionGroupValue}
