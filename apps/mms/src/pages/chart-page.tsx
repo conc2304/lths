@@ -1,9 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 
-import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
-import BarGraph from '../../../../libs/shared/ui-charts/bar-chart/bar-chart';
-import ColumnChart from '../../../../libs/shared/ui-charts/column-chart/column-chart';
 import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
@@ -38,89 +35,6 @@ const data = [
   },
 ];
 
-const histogramData = {
-  // other props can be passed here
-  data: [
-    {
-      datetime: '2022-03-10T10:11:22Z',
-      value: 1234,
-      trends: {
-        duration: 7,
-        span: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 25,
-          direction: 'down',
-        },
-        median: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 30,
-          direction: 'up',
-        },
-      },
-    },
-    {
-      datetime: '2022-03-11T10:11:22Z',
-      value: 1456,
-      trends: {
-        duration: 7,
-        span: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 30,
-          direction: 'up',
-        },
-        median: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 33,
-          direction: 'up',
-        },
-      },
-    },
-    {
-      datetime: '2022-03-31T10:11:22Z',
-      value: 126,
-      trends: {
-        duration: 7,
-        span: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 30,
-          direction: 'up',
-        },
-        median: {
-          title: 'Prev 7 days',
-          unit: '%',
-          value: 33,
-          direction: 'up',
-        },
-      },
-    },
-    // add more data points here
-  ],
-  options: {
-    events: [
-      {
-        datetime: '2022-03-10T10:11:22Z',
-        title: 'Beyonce',
-        id: 'a-v90as0b9',
-        description: 'Some description',
-        details: 'Some details',
-      },
-      {
-        datetime: '2022-03-11T10:11:22Z',
-        title: 'Jay-Z',
-        id: 'b-fs20s0j2',
-        description: 'Some description',
-        details: 'Some details',
-      },
-      // add more events here
-    ],
-  },
-};
-
 const SamplePage = (): JSX.Element => {
   return (
     <Box title="Sample Card">
@@ -142,16 +56,6 @@ const SamplePage = (): JSX.Element => {
         }}
       >
         <DonutChart data={data} />
-      </Box>
-      <Box>
-        <AreaChartComponent data={histogramData.data} />
-      </Box>
-
-      <Box>
-        <ColumnChart />
-      </Box>
-      <Box>
-        <BarGraph />
       </Box>
     </Box>
   );
