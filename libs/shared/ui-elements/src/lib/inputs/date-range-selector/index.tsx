@@ -26,7 +26,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
   const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(null);
-  const [pickerKey, setPickerKey] = useState<number>(98765);
+  const randomeSeed = Math.floor(Math.random() * 20);
+  const [pickerKey, setPickerKey] = useState<number>(randomeSeed);
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
   const minDate = new Date('1/1/2020');
   const maxEndDate = new Date();
@@ -70,6 +71,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
       onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
+  const handleOnToggleClick = (dateFn: () => Date) => {};
+
   const onDatePickerClose = () => {
     setNewPickerKey();
     setTempEndDate(null);
@@ -93,12 +96,13 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
-                const { value, label } = option;
+                const { value, label, onClick } = option;
                 return (
                   <ToggleButton
                     role="button"
                     value={value}
                     key={value.toString()}
+                    onClick={() => onClick && onClick(value)}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}
                     aria-pressed={value === dateOptionGroupValue}
