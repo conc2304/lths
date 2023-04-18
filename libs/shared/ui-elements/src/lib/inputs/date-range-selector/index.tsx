@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Button, Container, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -74,9 +74,11 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   };
 
   return (
-    <Container className="LthsDateRangeSelector-root">
+    <Box className="LthsDateRangeSelector-root">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* Main Grid Container*/}
         <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
+          {/* Main Grid Item -- Toggle Buttons */}
           <Grid md="auto" xs={12} sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}>
             <ToggleButtonGroup
               value={dateOptionGroupValue}
@@ -111,10 +113,11 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               variant="middle"
               sx={{
                 height: '2.118rem',
-                m: (theme: Theme) => theme.spacing(2, 0.25),
+                m: (theme: Theme) => theme.spacing(2, 2.5),
               }}
             />
           )}
+          {/* Main Grid Item - Date Pickers Column */}
           <Grid
             md="auto"
             xs={12}
@@ -125,7 +128,11 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               m: (theme: Theme) => theme.spacing(0.5, 0),
             }}
           >
+            {/* Date Pickers Grid Container */}
+
             <Grid container>
+              {/* Date Pickers Grid Item - Start */}
+
               <Grid md={6} xs={6}>
                 <DatePicker
                   key={pickerKey + 1}
@@ -140,7 +147,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                   className="Lths-Date-Picker"
                 />
               </Grid>
-              <Grid md={6} xs={6}>
+              {/* Date Pickers Grid Item - End */}
+              <Grid md={4} xs={4} sx={{ height: '34px' }}>
                 <DatePicker
                   key={pickerKey}
                   label="END"
@@ -154,8 +162,17 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               </Grid>
             </Grid>
           </Grid>
+          <Grid>
+            <Button
+              variant="outlined"
+              color="secondary"
+              sx={{ fontSize: '0.688rem', height: '2.188rem', mt: 0.5, ml: 3.5 }}
+            >
+              UPDATE PERIOD
+            </Button>
+          </Grid>
         </Grid>
       </LocalizationProvider>
-    </Container>
+    </Box>
   );
 };

@@ -12,7 +12,6 @@ export default function DatePicker(theme: Theme): Components {
       },
       defaultProps: {
         slotProps: {
-          
           textField: {
             color: 'primary',
             variant: 'outlined',
@@ -20,8 +19,7 @@ export default function DatePicker(theme: Theme): Components {
             margin: 'dense',
             sx: {
               '&.MuiTextField-root': {
-                marginLeft: theme.spacing(1),
-                marginRight: theme.spacing(1),
+                marginRight: theme.spacing(1.25),
                 width: '9.375rem',
                 ml: 0,
               },
