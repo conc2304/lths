@@ -3,6 +3,9 @@
   "ignorePatterns": [
     "**/*"
   ],
+  "globals": {
+    "JSX": true
+  },
   "parser": "",
   "plugins": [
     "@nrwl/nx",
