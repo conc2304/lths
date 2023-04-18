@@ -3,27 +3,27 @@ const GetInsightsOverviewResponse = {
     data: {
       kpi: [
         {
-          title: 'New Users',
+          title: 'Active Users',
           subtitle: 'The number of new users in the past 7 days',
           info: {
             description: 'The number of new users who signed up in the past 7 days',
             url: 'www.newusers.com/info',
           },
-          value: 100,
+          value: 5890,
           unit: null,
           data: [
             {
               duration: 7,
               span: {
                 title: 'Prev 7 days',
-                unit: null,
-                value: 100,
+                unit: '%',
+                value: 24,
                 direction: 'up',
               },
               median: {
-                title: 'Prev 7 days',
-                unit: null,
-                value: 100,
+                title: 'Median',
+                unit: '%',
+                value: 7,
                 direction: 'up',
               },
             },
@@ -57,32 +57,32 @@ const GetInsightsOverviewResponse = {
           ],
         },
         {
-          title: 'Average Time on Page',
+          title: 'Retention',
           subtitle: 'Engagement metric',
           info: {
             description: 'The average amount of time users spend on a given page',
             url: 'https://www.example.com/metrics/avg-time-on-page',
           },
-          value: 56,
-          unit: 'sec',
+          value: 78,
+          unit: '%',
           data: [
             {
-              duration: '7 days',
+              duration: 7,
               span: {
                 title: 'Prev 7 days',
-                unit: 'sec',
-                value: 62,
-                direction: 'down',
+                unit: '%',
+                value: 19,
+                direction: 'up',
               },
               median: {
-                title: 'Prev 7 days',
-                unit: 'sec',
-                value: 54,
+                title: 'Median',
+                unit: '%',
+                value: 12,
                 direction: 'up',
               },
             },
             {
-              duration: '30 days',
+              duration: 30,
               span: {
                 title: 'Prev 30 days',
                 unit: 'sec',
@@ -111,42 +111,27 @@ const GetInsightsOverviewResponse = {
           ],
         },
         {
-          title: 'Session Duration',
+          title: 'App Downloads',
           subtitle: 'How long users are staying on the website?',
           info: {
             description: 'Session duration metric measures the amount of time a user spends on a website during a single session.',
             url: 'https://www.example.com/metrics/session-duration',
           },
-          value: 175,
-          unit: 'sec',
+          value: 264,
+          unit: null,
           data: [
             {
-              duration: 'Last 30 days',
+              duration: 7,
               span: {
-                title: 'Prev 30 days',
-                unit: 'sec',
-                value: 185,
+                title: 'Prev 7 days',
+                unit: '%',
+                value: 16,
                 direction: 'down',
               },
               median: {
-                title: 'Prev 30 days',
-                unit: 'sec',
-                value: 180,
-                direction: 'down',
-              },
-            },
-            {
-              duration: 'Last 7 days',
-              span: {
-                title: 'Prev 7 days',
-                unit: 'sec',
-                value: 170,
-                direction: 'up',
-              },
-              median: {
-                title: 'Prev 7 days',
-                unit: 'sec',
-                value: 172,
+                title: 'Median',
+                unit: '%',
+                value: 23,
                 direction: 'up',
               },
             },
@@ -165,58 +150,28 @@ const GetInsightsOverviewResponse = {
           ],
         },
         {
-          title: 'Pageviews',
+          title: 'Average Session Length',
           subtitle: 'Measure of the number of times a page has been viewed.',
           info: {
             description: 'The total number of times a specific page or set of pages has been viewed.',
             url: 'https://example.com/metrics/pageviews',
           },
-          value: 4200,
-          unit: null,
+          value: 189,
+          unit: 'secs',
           data: [
-            {
-              duration: 30,
-              span: {
-                title: 'Past 30 days',
-                unit: null,
-                value: 4200,
-                direction: 'up',
-              },
-              median: {
-                title: 'Past 30 days',
-                unit: null,
-                value: 4000,
-                direction: 'up',
-              },
-            },
             {
               duration: 7,
               span: {
-                title: 'Past 7 days',
-                unit: null,
-                value: 1200,
+                title: 'Past 30 days',
+                unit: '%',
+                value: 6,
                 direction: 'up',
               },
               median: {
-                title: 'Past 7 days',
-                unit: null,
-                value: 1100,
+                title: 'Median',
+                unit: '%',
+                value: -9,
                 direction: 'up',
-              },
-            },
-            {
-              duration: 1,
-              span: {
-                title: 'Yesterday',
-                unit: null,
-                value: 150,
-                direction: 'down',
-              },
-              median: {
-                title: 'Yesterday',
-                unit: null,
-                value: 160,
-                direction: 'down',
               },
             },
           ],
