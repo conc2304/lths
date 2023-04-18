@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Container, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Button, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -28,6 +28,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(null);
   const [pickerKey, setPickerKey] = useState<number>(98765);
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+  const minDate = new Date('1/1/2020');
+  const maxEndDate = new Date();
 
   const setNewPickerKey = () => {
     // set a new key value to force the cancel to
@@ -142,6 +144,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
+                  minDate={minDate}
                   maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
                   className="Lths-Date-Picker"
@@ -153,6 +156,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                   key={pickerKey}
                   label="END"
                   disableFuture
+                  minDate={minDate}
+                  maxDate={maxEndDate}
                   value={tempEndDate || endDate || null}
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
                   onChange={setTempEndDate}
