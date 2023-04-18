@@ -10,7 +10,9 @@ function getRandomArbitrary(min: number, max: number) {
 //shown only during first load
 const LazyPageTest = LazyLoader(
   lazy(() => {
-    return new Promise((resolve) => setTimeout(resolve, getRandomArbitrary(2000, 4000))).then(() => import('../pages/sample-page'));
+    return new Promise((resolve) => setTimeout(resolve, getRandomArbitrary(2000, 4000))).then(
+      () => import('../pages/sample-page')
+    );
   })
 );
 
@@ -64,6 +66,10 @@ export const DashRoutes = (authenticated: boolean) => {
         element: <SamplePage />,
       },
 
+      {
+        path: '/dashboard/jose',
+        element: <DesignSystem />,
+      },
       {
         path: '/dashboard/charts',
         element: <ChartPage />,
