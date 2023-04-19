@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 
-import LineChart from '../../../../libs/shared/ui-charts/line-chart/line-chart';
+import LineChart from '../../../../libs/shared/ui-charts/line-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
