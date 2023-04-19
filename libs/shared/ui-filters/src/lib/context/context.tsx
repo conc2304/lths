@@ -6,6 +6,7 @@ import {
   clearForm,
   clearFormGroup,
   removeFormItem,
+  setDateRange,
   setFormState,
   setModalIsOpen,
 } from './actions';
@@ -39,6 +40,7 @@ const FilterFormStateProvider = ({ children }: { children: ReactNode }) => {
         addGroupItems: addItems(dispatch),
         clearGroup: clearFormGroup(dispatch),
         setFormState: setFormState(dispatch),
+        setDateRange: setDateRange(dispatch),
       }}
     >
       {children}

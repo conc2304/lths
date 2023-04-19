@@ -1,3 +1,5 @@
+import { DateRange } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
+
 type FormDataType = 'checkbox' | 'range' | 'textfield' | 'textarea' | 'select' | 'radio' | null;
 
 export type Seq = number | [number, number] | undefined;
@@ -38,11 +40,13 @@ export type FilterFormStateContextType = FilterFormStateType & {
   addGroupItems?: (parentID: string, items: FormStateValue) => void;
   clearGroup?: (parentID: string) => void;
   setFormState?: (formState: FormState) => void;
+  setDateRange?: (dateRange: DateRange) => void;
 };
 
 export type FilterFormStateActionType =
   | { type: 'SET_MODAL_OPEN'; isOpen: boolean }
   | { type: 'SET_FORM_STATE'; formState: FormState }
+  | { type: 'SET_DATE_RANGE'; dateRange: DateRange }
   | { type: 'CLEAR_ALL_ITEMS' }
   | { type: 'ADD_ITEM'; parentID: string; itemID: string; item: FormStateValue }
   | { type: 'REMOVE_ITEM'; parentID: string; itemID: string }

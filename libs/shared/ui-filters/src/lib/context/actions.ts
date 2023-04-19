@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-
+import { DateRange } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 import { FilterFormStateActionType, FormState, FormStateValue } from './types';
 
 export const setModalIsOpen = (dispatch: Dispatch<FilterFormStateActionType>) => (isOpen: boolean) => {
@@ -30,4 +30,8 @@ export const clearFormGroup = (dispatch: Dispatch<FilterFormStateActionType>) =>
 
 export const setFormState = (dispatch: Dispatch<FilterFormStateActionType>) => (formState: FormState) => {
   dispatch({ type: 'SET_FORM_STATE', formState });
+};
+
+export const setDateRange = (dispatch: Dispatch<FilterFormStateActionType>) => (dateRange: DateRange) => {
+  dispatch({ type: 'SET_DATE_RANGE', dateRange });
 };
