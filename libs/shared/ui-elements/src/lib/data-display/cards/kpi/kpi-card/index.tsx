@@ -4,7 +4,7 @@ import { Add, Remove, ArrowOutward } from '@mui/icons-material';
 import { green, red } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import InfoTooltip from '../../../icons/tooltip/info-tooltip/index';
+import InfoTooltip, { ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
 
 export type TrendDataPointProps = {
   title: string;
@@ -18,19 +18,19 @@ export type TrendProps = {
   span: TrendDataPointProps;
   median?: TrendDataPointProps;
 };
-
 export type KpiCardProps = {
   title: string;
   hero: number;
   heroUnit?: string;
   trends: TrendProps;
-  tooltipDesc?: string;
-  tooltipActionUrl?: string;
+  tooltip?: InfoTooltipProps;
+  detail?: ActionProps;
 };
 
 export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
-  const { title, hero, heroUnit, trends } = props;
+  const { title, hero, heroUnit, trends, tooltip } = props;
+  console.log('🚀 ~ file: index.tsx:33 ~ tooltip:', tooltip);
 
   const heroFormated = hero.toLocaleString();
   const heroUnitStyle =
@@ -69,12 +69,17 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
       <Stack>
         <Stack direction="row" alignItems="center" spacing={useArrow ? 0.5 : 0}>
           {displayIcon}
-          <Typography sx={{ color: displayColor, fontSize: theme.spacing(1.75), letterSpacing: theme.spacing(0.01875) }}>
+          <Typography
+            sx={{ color: displayColor, fontSize: theme.spacing(1.75), letterSpacing: theme.spacing(0.01875) }}
+          >
             {value}
             {unit}
           </Typography>
         </Stack>
-        <Typography noWrap={true} sx={{ fontSize: theme.spacing(1.375), color: 'text.secondary', letterSpacing: theme.spacing(0.01875) }}>
+        <Typography
+          noWrap={true}
+          sx={{ fontSize: theme.spacing(1.375), color: 'text.secondary', letterSpacing: theme.spacing(0.01875) }}
+        >
           {title}
         </Typography>
       </Stack>
@@ -83,22 +88,52 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
 
   return (
     <Card sx={{ boxShadow: 'none' }}>
-      <InfoTooltip {...props} />
       <CardContent sx={{ paddingRight: theme.spacing(1.25), '&:last-child': { paddingBottom: theme.spacing(2) } }}>
-        <Typography
-          sx={{ paddingTop: theme.spacing(0.5), paddingLeft: theme.spacing(0.5), fontSize: theme.spacing(1.5), letterSpacing: theme.spacing(0.01875) }}
-          variant="body2"
+        <Stack direction={'row'} justifyContent={'space-between'}>
+          <Typography
+            sx={{
+              paddingTop: theme.spacing(0.5),
+              paddingLeft: theme.spacing(0.5),
+              fontSize: theme.spacing(1.5),
+              letterSpacing: theme.spacing(0.01875),
+            }}
+            variant="body2"
+          >
+            {title.toUpperCase()}
+          </Typography>
+          {tooltip && <InfoTooltip {...tooltip} />}
+        </Stack>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={1.5}
+          sx={{ paddingTop: theme.spacing(2) }}
         >
-          {title.toUpperCase()}
-        </Typography>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1.5} sx={{ paddingTop: theme.spacing(2) }}>
           <Stack direction="row" alignItems="flex-end">
-            <Typography sx={{ fontSize: theme.spacing(6), lineHeight: 1, fontStyle: 'Medium', letterSpacing: theme.spacing(0.01875) }}>
+            <Typography
+              sx={{
+                fontSize: theme.spacing(6),
+                lineHeight: 1,
+                fontStyle: 'Medium',
+                letterSpacing: theme.spacing(0.01875),
+              }}
+            >
               {heroFormated}
             </Typography>
-            {heroUnit && <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }}>{heroUnit.toUpperCase()}</Typography>}
+            {heroUnit && (
+              <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }}>
+                {heroUnit.toUpperCase()}
+              </Typography>
+            )}
           </Stack>
-          <Stack direction="row" alignItems="center" spacing={1.125} divider={<Divider orientation="vertical" sx={{ height: theme.spacing(3.75) }} />}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1.125}
+            divider={<Divider orientation="vertical" sx={{ height: theme.spacing(3.75) }} />}
+          >
             {DisplayTrendDataPoint(trends.span, true)}
             {trends.median && DisplayTrendDataPoint(trends.median, false)}
           </Stack>

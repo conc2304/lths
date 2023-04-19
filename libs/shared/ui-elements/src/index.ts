@@ -5,4 +5,6 @@ export * from './lib/data-display/cards/basic';
 export * from './lib/data-display/tables';
 export * from './lib/page-header/page-header';
 
+export * from './lib/layouts/stacks';
+
 export * from './lib/data-display/cards/kpi/kpi-sparkline-card';

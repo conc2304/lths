@@ -10,6 +10,8 @@ import {
   TableSortingProps,
   KpiSparklineCard,
   DateRangeSelector,
+  BasicCard,
+  HStack,
 } from '@lths/shared/ui-elements';
 import {
   useLazyGetInsightOverviewHistogramQuery,
@@ -22,6 +24,7 @@ import DesignSystem from '../design-system';
 import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
 import { ButtonGroupConf } from '../../fixtures/date-button-group-schema';
 import { Schema } from '../../fixtures/filter-schema';
+import InfoTooltip from 'libs/shared/ui-elements/src/lib/data-display/icons/tooltip/info-tooltip';
 
 const OverviewPage = (): JSX.Element => {
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
@@ -60,11 +63,7 @@ const OverviewPage = (): JSX.Element => {
         </FilterFormStateProvider>
       </Stack>
 
-      <Stack
-        direction="row"
-        //justifyContent="space-between"
-        spacing={2}
-      >
+      <HStack>
         {
           /*data?.payload?.data?.kpi.map((o, i) => {*/
           kpiData?.data.map((o, i) => {
@@ -89,18 +88,27 @@ const OverviewPage = (): JSX.Element => {
               },
             };
 
+            const tooltip = !info ? null : { description: info.description, action: { url: info.url }, title };
+            //const tooltip = { description: 'info.description', action: { url: 'info.url' }, title: '' };
             return (
               <KpiSparklineCard
                 hero={value}
                 heroUnit={unit}
                 title={title}
-                tooltipActionUrl="http://localhost:4200/insights/overview"
+                tooltip={tooltip}
                 trends={{ ...trendProp }}
               />
             );
           })
         }
-      </Stack>
+      </HStack>
+      {histogramData?.data.map((o, i) => {
+        const { title, subtitle, info } = o;
+        const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
+        return (
+          <BasicCard key={`overview_histogram_${i}`} title={title} subheader={subtitle} action={action}></BasicCard>
+        );
+      })}
     </Box>
   );
 };

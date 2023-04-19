@@ -1,8 +1,8 @@
 const payload = {
   data: [
     {
-      title: 'Active Users',
-      subtitle: 'How many people are using the app?',
+      subtitle: 'Active Users',
+      title: 'How many people are using the app?',
       info: {
         description: 'Information about histogram view',
         url: 'www.histogram.com/info',
