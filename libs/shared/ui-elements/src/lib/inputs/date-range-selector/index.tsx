@@ -7,7 +7,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, isBefore, isSameDay } from 'date-fns';
+import { addDays, endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
 import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
@@ -40,7 +40,6 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   };
 
   const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: string) => {
-    console.log('HERE');
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
     setDateOptionGroupValue(selectedValue);
@@ -51,16 +50,15 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   };
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
-    console.log('DATE PICKER ACCEPTED');
     setDateOptionGroupValue(null);
     let _startDate = startDate;
     let _endDate = endDate;
-    if (range === 'start') {
-      _startDate = value;
-      setStartDate(value);
-    } else if (range === 'end') {
-      _endDate = value;
-      setEndDate(value);
+    if (range === 'start' && value) {
+      _startDate = startOfDay(value);
+      setStartDate(_startDate);
+    } else if (range === 'end' && value) {
+      _endDate = endOfDay(value);
+      setEndDate(_endDate);
     }
 
     if (_startDate && _endDate) {
@@ -120,7 +118,6 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                     value={value}
                     key={value}
                     onClick={() => {
-                      console.log('click');
                       handleOnToggleClick(dateRange);
                     }}
                     aria-label={label}
@@ -156,7 +153,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
           >
             {/* Date Pickers Grid Container */}
 
-            <Grid container>
+            {/* pb to account for the additional hight of the placeholder label for better centering */}
+            <Grid container pb={0.5}>
               {/* Date Pickers Grid Item - Start */}
 
               <Grid md={6} xs={6}>
@@ -187,6 +185,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                   onChange={setTempEndDate}
                   onClose={onDatePickerClose}
                   className="Lths-Date-Picker"
+                  sx={{ mb: 0.75 }}
                 />
               </Grid>
             </Grid>
@@ -196,7 +195,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               variant="outlined"
               color="secondary"
               disabled={!isDateRangeValid}
-              sx={{ fontSize: '0.688rem', height: '2.188rem', mt: 0.5, ml: 3.5 }}
+              sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}
             >
               UPDATE PERIOD
             </Button>
