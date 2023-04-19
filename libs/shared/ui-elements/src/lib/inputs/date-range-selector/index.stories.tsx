@@ -1,6 +1,7 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import { DateRangeSelector } from './index';
 import {ButtonGroupConf} from './mock-button-ranges';
+
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const Story: ComponentMeta<typeof DateRangeSelector> = {
   component: DateRangeSelector,

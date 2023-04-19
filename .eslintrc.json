@@ -3,11 +3,17 @@
   "ignorePatterns": [
     "**/*"
   ],
+  "globals": {
+    "JSX": true
+  },
   "parser": "",
   "plugins": [
     "@nrwl/nx",
     "import"
   ],
+  "globals": {
+    "JSX": true
+  },
   "overrides": [
     {
       "files": [

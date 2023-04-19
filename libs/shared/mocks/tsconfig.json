@@ -16,5 +16,8 @@
       "path": "./tsconfig.spec.json"
     }
   ],
-  "extends": "../../../tsconfig.base.json"
+  "extends": "../../../tsconfig.base.json",
+  "exclude": [
+    "./built/**/*" // exclude the files in the output directory to fix typescript error
+  ]
 }
