@@ -27,6 +27,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
   const [dateOptionGroupValue, setDateOptionGroupValue] = useState<string | null>(null);
+  const [isDateRangeValid, setIsDateRangeValid] = useState(true);
   const randomeSeed = Math.floor(Math.random() * 20);
   const [pickerKey, setPickerKey] = useState<number>(randomeSeed);
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
@@ -34,28 +35,23 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   const maxEndDate = new Date();
 
   const setNewPickerKey = () => {
-    // set a new key value to force the cancel to
+    // set a new key value to force the cancel to not change the date selected
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
   const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: string) => {
+    console.log('HERE');
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
-
     setDateOptionGroupValue(selectedValue);
-    // setStartDate(null);
-    // setEndDate(null);
+    setIsDateRangeValid(true);
     setTempStartDate(null);
     setTempEndDate(null);
     setNewPickerKey();
-
-    // onChange({
-    //   startDate: selectedValue,
-    //   endDate: updatedDateTime,
-    // });
   };
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
+    console.log('DATE PICKER ACCEPTED');
     setDateOptionGroupValue(null);
     let _startDate = startDate;
     let _endDate = endDate;
@@ -67,28 +63,19 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
       setEndDate(value);
     }
 
-    // how do I map the start and end datetime to a given time range
-
-    // if our date range selector matches a date time, set that as the selected value,
-    // otherwise set it to null
-
     if (_startDate && _endDate) {
       const match = getMatchingPresetValue({ startDate: _startDate, endDate: _endDate });
-      console.log('match: ', match);
-
       const dateValueOption = !!match ? slugify(match?.label as string) : null;
       setDateOptionGroupValue(dateValueOption);
     }
 
-    // if (start && end && isBefore(start, end))
-    //   // date selection defaults to start of day,
-    //   // to include the day selected in the data add 1 day test
-    //   onChange({ startDate: start, endDate: addDays(end, 1) });
+    const isDateRangeValid = !!_startDate && !!_endDate && isBefore(_startDate, _endDate);
+    setIsDateRangeValid(isDateRangeValid);
   };
 
   const getMatchingPresetValue = (dateRange: DateRange) => {
     const { startDate, endDate } = dateRange;
-    return dateOptions.find(({ label, dateRange }) => {
+    return dateOptions.find(({ dateRange }) => {
       const { startDate: optionStartDate, endDate: optionEndDate } =
         typeof dateRange === 'function' ? dateRange() : dateRange;
 
@@ -208,6 +195,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
             <Button
               variant="outlined"
               color="secondary"
+              disabled={!isDateRangeValid}
               sx={{ fontSize: '0.688rem', height: '2.188rem', mt: 0.5, ml: 3.5 }}
             >
               UPDATE PERIOD
