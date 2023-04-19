@@ -1,12 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-import AreaChartComponent from '../../../../libs/shared/ui-charts/area-chart/area-chart';
-
-
-
-
+import LineChart from '../../../../libs/shared/ui-charts/line-chart/line-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -108,7 +103,7 @@ const SamplePage = (): JSX.Element => {
         fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate descent molls anim id est labours.
       </Typography>
       <Box>
-        <AreaChartComponent data={histogramData.data} />
+        <LineChart data={histogramData.data} />
       </Box>
     </Box>
   );

@@ -53,7 +53,11 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
-          <Typography variant="caption" color="text.secondary" sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}
+          >
             {data.trends.duration} days ago
           </Typography>
           <Typography
@@ -78,7 +82,7 @@ const tickFormatter = (value) => {
   return formattedDate;
 };
 
-const AreaChartComponent = ({ data }) => {
+const LineChart = ({ data }) => {
   const theme = useTheme();
 
   return (
@@ -100,4 +104,4 @@ const AreaChartComponent = ({ data }) => {
   );
 };
 
-export default AreaChartComponent;
+export default LineChart;
