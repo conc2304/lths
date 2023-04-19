@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 import { addDays, isBefore } from 'date-fns';
+import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
   startDate: Date;
@@ -25,11 +26,11 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(null);
+  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<string | null>(null);
   const randomeSeed = Math.floor(Math.random() * 20);
   const [pickerKey, setPickerKey] = useState<number>(randomeSeed);
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
-  const minDate = new Date('1/1/2020');
+  const minDate = new Date('1/1/2020'); // as per design requirements
   const maxEndDate = new Date();
 
   const setNewPickerKey = () => {
@@ -37,7 +38,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: Date) => {
+  const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: string) => {
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
 
@@ -48,10 +49,10 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
     setTempEndDate(null);
     setNewPickerKey();
 
-    onChange({
-      startDate: selectedValue,
-      endDate: updatedDateTime,
-    });
+    // onChange({
+    //   startDate: selectedValue,
+    //   endDate: updatedDateTime,
+    // });
   };
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
@@ -73,7 +74,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
 
   const handleOnToggleClick = (dateRangeFn: () => DateRange) => {
     const { startDate, endDate } = dateRangeFn();
-    console.log(startDate, endDate);
+    console.log({ startDate, endDate });
   };
 
   const onDatePickerClose = () => {
@@ -99,7 +100,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
-                const { value, label, onClick: dateRangeFn } = option;
+                const { label, dateRangeFn } = option;
+                const value = slugify(label);
                 return (
                   <ToggleButton
                     role="button"
