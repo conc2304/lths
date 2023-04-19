@@ -1,1 +1,0 @@
-export const RESPONSE_DELAY_MS = 300;

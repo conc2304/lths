@@ -2,9 +2,10 @@ import { createTheme, Theme, ThemeOptions } from '@mui/material';
 import { enUS as coreEnUs } from '@mui/material/locale'; // core translations
 import { enUS } from '@mui/x-date-pickers'; // translations for date picker
 import type {} from '@mui/x-date-pickers/themeAugmentation';
+
+import getComponentOverrides from './overrides/index';
 import getPalette from './palette';
 import getTypography from './typography';
-import getComponentOverrides from './overrides/index';
 
 const palette = getPalette();
 const typography = getTypography(`'Public Sans', sans-serif`);
@@ -33,7 +34,4 @@ const baseThemeOptions: ThemeOptions = {
 };
 
 const theme = createTheme(baseThemeOptions, enUS, coreEnUs);
-export const RBTheme: Theme = {...theme, components: {...theme.components, ...getComponentOverrides(theme)}}
-
-
-
+export const RBTheme: Theme = { ...theme, components: { ...theme.components, ...getComponentOverrides(theme) } };
