@@ -7,7 +7,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, isBefore } from 'date-fns';
+import { addDays, isBefore, isSameDay } from 'date-fns';
 import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
@@ -57,17 +57,43 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
+    let _startDate = startDate;
+    let _endDate = endDate;
     if (range === 'start') {
+      _startDate = value;
       setStartDate(value);
     } else if (range === 'end') {
+      _endDate = value;
       setEndDate(value);
     }
 
     // how do I map the start and end datetime to a given time range
+
+    // if our date range selector matches a date time, set that as the selected value,
+    // otherwise set it to null
+
+    if (_startDate && _endDate) {
+      const match = getMatchingPresetValue({ startDate: _startDate, endDate: _endDate });
+      console.log('match: ', match);
+
+      const dateValueOption = !!match ? slugify(match?.label as string) : null;
+      setDateOptionGroupValue(dateValueOption);
+    }
+
     // if (start && end && isBefore(start, end))
     //   // date selection defaults to start of day,
     //   // to include the day selected in the data add 1 day test
     //   onChange({ startDate: start, endDate: addDays(end, 1) });
+  };
+
+  const getMatchingPresetValue = (dateRange: DateRange) => {
+    const { startDate, endDate } = dateRange;
+    return dateOptions.find(({ label, dateRange }) => {
+      const { startDate: optionStartDate, endDate: optionEndDate } =
+        typeof dateRange === 'function' ? dateRange() : dateRange;
+
+      return isSameDay(startDate, optionStartDate) && isSameDay(endDate, optionEndDate);
+    });
   };
 
   const handleOnToggleClick = (dateRange: (() => DateRange) | DateRange) => {
