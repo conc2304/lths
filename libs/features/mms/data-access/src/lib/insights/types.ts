@@ -4,16 +4,17 @@ export type DateFilter = {
 };
 export type InsightRequest = DateFilter;
 
-export type InsightResponse = {
-  payload: {
-    data: {
-      kpi: Array<KPI>;
-      histogram: Array<Histogram>;
-      segmentations: DonutChartData;
-      overview: TableData;
-    };
-  };
+export type InsightItem = {
+  kpi: Array<KPI>;
+  histogram: Array<Histogram>;
+  segmentations: DonutChartData;
+  overview: TableData;
 };
+export type InsightResponse = {
+  data: InsightItem;
+};
+export type InsightKpiResponse = { data: Array<KPI> };
+export type InsightHistogramResponse = { data: Array<Histogram> };
 
 type KPI = {
   title: string | null; // metric title

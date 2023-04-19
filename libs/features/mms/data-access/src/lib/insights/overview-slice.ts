@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { insightOverviewApi } from './overview-api';
-import { InsightResponse } from './types';
+import { InsightItem } from './types';
 
-const initialState = { data: {} as InsightResponse };
+const initialState = {} as InsightItem;
 const insightOverviewSlice = createSlice({
   name: 'insight-overview',
   initialState,
@@ -11,7 +11,10 @@ const insightOverviewSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addMatcher(insightOverviewApi.endpoints.getInsightOverview.matchFulfilled, (state, { payload }) => {
-      state.data = payload;
+      state = payload.data;
+    });
+    builder.addMatcher(insightOverviewApi.endpoints.getInsightOverviewKpi.matchFulfilled, (state, { payload }) => {
+      state.kpi = payload.data;
     });
   },
 });
