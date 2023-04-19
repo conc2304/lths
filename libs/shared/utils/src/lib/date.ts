@@ -33,7 +33,7 @@ export const myPlaceholderUtil = (date: Date) => {
  */
 
 export const getPrevFullHourRange = (date: Date = new Date()) => {
-  return { startDate: subHours(date, 1), endDate: date };
+  return { start: subHours(date, 1), end: date };
 };
 
 /**
@@ -41,10 +41,10 @@ export const getPrevFullHourRange = (date: Date = new Date()) => {
  */
 export const getPrevFullDayRange = (date: Date = new Date()) => {
   const yesterday = subDays(date, 1);
-  const startDate = startOfDay(yesterday);
-  const endDate = endOfDay(yesterday);
+  const start = startOfDay(yesterday);
+  const end = endOfDay(yesterday);
 
-  return { startDate, endDate };
+  return { start, end };
 };
 
 /**
@@ -56,22 +56,22 @@ export const getPrevFullWeekRange = (date: Date = new Date()) => {
   const prevSunday = previousSunday(subWeeks(date, 1));
   const followingSaturday = endOfDay(nextSaturday(prevSunday));
 
-  const startDate = isLastDayOfWeek ? startOfWeek(date) : prevSunday;
-  const endDate = isLastDayOfWeek ? date : followingSaturday;
+  const start = isLastDayOfWeek ? startOfWeek(date) : prevSunday;
+  const end = isLastDayOfWeek ? date : followingSaturday;
 
-  return { startDate, endDate };
+  return { start, end };
 };
 
 /**
  * @desc Start and End dateTime of previous full month
  */
 export const getPrevFullMonthRange = (date: Date = new Date()) => {
-  const startDate = isLastDayOfMonth(date) ? startOfMonth(date) : startOfDay(subMonths(startOfMonth(date), 1));
-  const endDate = isLastDayOfMonth(date) ? endOfDay(date) : endOfMonth(startDate);
+  const start = isLastDayOfMonth(date) ? startOfMonth(date) : startOfDay(subMonths(startOfMonth(date), 1));
+  const end = isLastDayOfMonth(date) ? endOfDay(date) : endOfMonth(start);
 
   return {
-    startDate,
-    endDate,
+    start,
+    end,
   };
 };
 
@@ -80,12 +80,12 @@ export const getPrevFullMonthRange = (date: Date = new Date()) => {
  */
 export const getPrevFullQuarterRange = (date: Date = new Date()) => {
   const isEndOfQuarter = isSameDay(date, endOfQuarter(date));
-  const startDate = isEndOfQuarter ? startOfQuarter(date) : startOfQuarter(subQuarters(date, 1));
-  const endDate = isEndOfQuarter ? endOfDay(date) : endOfQuarter(subQuarters(date, 1));
+  const start = isEndOfQuarter ? startOfQuarter(date) : startOfQuarter(subQuarters(date, 1));
+  const end = isEndOfQuarter ? endOfDay(date) : endOfQuarter(subQuarters(date, 1));
 
   return {
-    startDate,
-    endDate,
+    start,
+    end,
   };
 };
 
@@ -101,30 +101,30 @@ export const getPrevFullHalfYearRange = (date: Date = new Date()) => {
   const isEndOfQ4 = isSameDay(date, endQ4);
   const isHalfYear = isEndOfQ2 || isEndOfQ4;
 
-  let startDate: Date;
-  let endDate: Date;
+  let start: Date;
+  let end: Date;
 
   if (isHalfYear) {
-    startDate = startOfQuarter(isEndOfQ2 ? subQuarters(endQ2, 1) : subQuarters(endQ4, 1));
-    endDate = isEndOfQ2 ? endQ2 : endQ4;
+    start = startOfQuarter(isEndOfQ2 ? subQuarters(endQ2, 1) : subQuarters(endQ4, 1));
+    end = isEndOfQ2 ? endQ2 : endQ4;
   } else {
     // find the nearest half year in the past (quarters 2 or 4)
     const currQuarter = getQuarter(date); // 1,2,3,4
 
     if ([1, 2].includes(currQuarter)) {
       // then we want quarters 3-4 of last year
-      endDate = endOfQuarter(subDays(startOfYear(date), 5));
-      startDate = startOfQuarter(subQuarters(endDate, 1));
+      end = endOfQuarter(subDays(startOfYear(date), 5));
+      start = startOfQuarter(subQuarters(end, 1));
     } else {
       // then we want quarters 1-2 of this year
-      startDate = startOfYear(date);
-      endDate = endQ2;
+      start = startOfYear(date);
+      end = endQ2;
     }
   }
 
   return {
-    startDate,
-    endDate,
+    start,
+    end,
   };
 };
 
@@ -134,19 +134,19 @@ export const getPrevFullHalfYearRange = (date: Date = new Date()) => {
 export const getPrevFullYearRange = (date: Date = new Date()) => {
   const isEndOfYear = isSameDay(date, lastDayOfYear(date));
 
-  let startDate: Date;
-  let endDate: Date;
+  let start: Date;
+  let end: Date;
 
   if (isEndOfYear) {
-    startDate = startOfYear(date);
-    endDate = date;
+    start = startOfYear(date);
+    end = date;
   } else {
-    startDate = startOfYear(subYears(date, 1));
-    endDate = endOfYear(subYears(date, 1));
+    start = startOfYear(subYears(date, 1));
+    end = endOfYear(subYears(date, 1));
   }
 
   return {
-    startDate,
-    endDate,
+    start,
+    end,
   };
 };

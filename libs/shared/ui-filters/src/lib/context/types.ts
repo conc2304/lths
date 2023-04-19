@@ -24,6 +24,10 @@ export type FormState = {
 export type FilterFormStateType = {
   modalIsOpen: boolean;
   formState: FormState;
+  dateRange?: {
+    start: Date | null;
+    end: Date | null;
+  };
 };
 
 export type FilterFormStateContextType = FilterFormStateType & {

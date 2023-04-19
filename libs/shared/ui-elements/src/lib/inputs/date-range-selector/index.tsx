@@ -11,16 +11,17 @@ import { endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
 import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
-  startDate: Date;
-  endDate: Date;
+  start: Date;
+  end: Date;
 };
 
 type Props = {
   dateOptions: DateFilterOption;
-  onChange: ({ startDate, endDate }: DateRange) => void;
+  onChange: ({ start, end }: DateRange) => void;
+  onUpdateRange: ({ start, end }: DateRange) => void;
 };
 
-export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element => {
+export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
@@ -62,7 +63,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
     }
 
     if (_startDate && _endDate) {
-      const match = getMatchingPresetValue({ startDate: _startDate, endDate: _endDate });
+      const match = getMatchingPresetValue({ start: _startDate, end: _endDate });
       const dateValueOption = !!match ? slugify(match?.label as string) : null;
       setDateOptionGroupValue(dateValueOption);
     }
@@ -72,24 +73,27 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
   };
 
   const getMatchingPresetValue = (dateRange: DateRange) => {
-    const { startDate, endDate } = dateRange;
+    const { start, end } = dateRange;
     return dateOptions.find(({ dateRange }) => {
-      const { startDate: optionStartDate, endDate: optionEndDate } =
-        typeof dateRange === 'function' ? dateRange() : dateRange;
+      const { start: optionStartDate, end: optionEndDate } = typeof dateRange === 'function' ? dateRange() : dateRange;
 
-      return isSameDay(startDate, optionStartDate) && isSameDay(endDate, optionEndDate);
+      return isSameDay(start, optionStartDate) && isSameDay(end, optionEndDate);
     });
   };
 
   const handleOnToggleClick = (dateRange: (() => DateRange) | DateRange) => {
-    const { startDate, endDate } = typeof dateRange === 'function' ? dateRange() : dateRange;
-    setStartDate(startDate);
-    setEndDate(endDate);
+    const { start, end } = typeof dateRange === 'function' ? dateRange() : dateRange;
+    setStartDate(start);
+    setEndDate(end);
   };
 
   const onDatePickerClose = () => {
     setNewPickerKey();
     setTempEndDate(null);
+  };
+
+  const handleUpdateRange = () => {
+    if (startDate && endDate) onUpdateRange({ start: startDate, end: endDate });
   };
 
   return (
@@ -195,6 +199,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               variant="outlined"
               color="secondary"
               disabled={!isDateRangeValid}
+              onClick={handleUpdateRange}
               sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}
             >
               UPDATE PERIOD

@@ -1,6 +1,6 @@
 export type DateRange = {
-  startDate: Date;
-  endDate: Date;
+  start: Date;
+  end: Date;
 };
 
 export type DateRangeFn = () => DateRange;

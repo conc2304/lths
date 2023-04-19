@@ -5,7 +5,7 @@ import { ChipContainer, ConnectedFilterForm, DateRangeSelector } from '@lths/sha
 
 import { FormSchema, FormState, useFilterFormState } from '../../context';
 import { getInitialFormState } from '../utils';
-import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
+import { DateFilterOption, DateRange } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 
 interface UiFiltersProps {
   formSchema: FormSchema[];
@@ -54,12 +54,15 @@ export const UiFilters = (props: UiFiltersProps): JSX.Element => {
     handleApplyFilter(formState);
   };
 
+  const handleUpdateDateRange = ({ start, end }: DateRange) => {};
+
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <DateRangeSelector
           dateOptions={dateOptions}
-          onChange={({ startDate, endDate }) => {
+          onUpdateRange={handleUpdateDateRange}
+          onChange={({ start, end }) => {
             handleFilterApply();
           }}
         />
