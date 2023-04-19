@@ -12,34 +12,34 @@ import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-ra
 export const ButtonGroupConf: DateFilterOption = [
   {
     label: '1 Hour',
-    dateRangeFn: getPrevFullHourRange,
+    dateRange: getPrevFullHourRange,
   },
   {
     label: '1 Day',
-    dateRangeFn: getPrevFullDayRange,
+    dateRange: getPrevFullDayRange,
   },
   {
     label: '7 Days',
-    dateRangeFn: getPrevFullWeekRange,
+    dateRange: getPrevFullWeekRange,
   },
   {
     // Previous full Month
     label: '30 Days',
-    dateRangeFn: getPrevFullMonthRange,
+    dateRange: getPrevFullMonthRange,
   },
   {
     // Previous Quarter
     label: '3 Months',
-    dateRangeFn: getPrevFullQuarterRange,
+    dateRange: getPrevFullQuarterRange,
   },
   {
     // Previous full half year
     label: '6 Months',
-    dateRangeFn: getPrevFullHalfYearRange,
+    dateRange: getPrevFullHalfYearRange,
   },
   {
     // Previous full year
     label: '12 Months',
-    dateRangeFn: getPrevFullYearRange,
+    dateRange: getPrevFullYearRange,
   },
 ];

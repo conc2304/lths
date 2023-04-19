@@ -57,24 +57,21 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
-    let start = startDate;
-    let end = endDate;
     if (range === 'start') {
       setStartDate(value);
-      start = value;
     } else if (range === 'end') {
       setEndDate(value);
-      end = value;
     }
+
+    // how do I map the start and end datetime to a given time range
     // if (start && end && isBefore(start, end))
     //   // date selection defaults to start of day,
     //   // to include the day selected in the data add 1 day test
     //   onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
-  const handleOnToggleClick = (dateRangeFn: () => DateRange) => {
-    const { startDate, endDate } = dateRangeFn();
-    console.log({ startDate, endDate });
+  const handleOnToggleClick = (dateRange: (() => DateRange) | DateRange) => {
+    const { startDate, endDate } = typeof dateRange === 'function' ? dateRange() : dateRange;
     setStartDate(startDate);
     setEndDate(endDate);
   };
@@ -102,7 +99,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
               className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
-                const { label, dateRangeFn } = option;
+                const { label, dateRange } = option;
                 const value = slugify(label);
                 return (
                   <ToggleButton
@@ -111,7 +108,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                     key={value}
                     onClick={() => {
                       console.log('click');
-                      handleOnToggleClick(dateRangeFn);
+                      handleOnToggleClick(dateRange);
                     }}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}

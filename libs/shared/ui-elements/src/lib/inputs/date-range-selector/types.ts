@@ -7,5 +7,5 @@ export type DateRangeFn = () => DateRange;
 
 export type DateFilterOption = Array<{
   label: string;
-  dateRangeFn: DateRangeFn;
+  dateRange: DateRangeFn | DateRange;
 }>;
