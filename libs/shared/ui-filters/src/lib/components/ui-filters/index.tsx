@@ -6,7 +6,6 @@ import { ChipContainer, ConnectedFilterForm, DateRangeSelector } from '@lths/sha
 import { FormSchema, FormState, useFilterFormState } from '../../context';
 import { getInitialFormState } from '../utils';
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { datePickerToolbarClasses } from '@mui/x-date-pickers';
 
 interface UiFiltersProps {
   formSchema: FormSchema[];

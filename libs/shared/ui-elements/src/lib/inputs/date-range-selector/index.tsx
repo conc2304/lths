@@ -7,7 +7,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
+import { endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
 import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
@@ -159,33 +159,33 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
 
               <Grid md={6} xs={6}>
                 <DatePicker
+                  className="Lths-Date-Picker"
+                  disableFuture
                   key={pickerKey + 1}
                   label="START"
-                  disableFuture
-                  value={tempStartDate || startDate || null}
+                  maxDate={endDate || currentDateTime || undefined}
+                  minDate={minDate}
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
-                  minDate={minDate}
-                  maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
-                  className="Lths-Date-Picker"
+                  value={tempStartDate || startDate || null}
                 />
               </Grid>
               {/* Date Pickers Grid Item - End */}
               <Grid md={4} xs={4} sx={{ height: '34px' }}>
                 <DatePicker
+                  className="Lths-Date-Picker"
+                  disableFuture
                   key={pickerKey}
                   label="END"
-                  disableFuture
-                  minDate={minDate}
                   maxDate={maxEndDate}
-                  value={tempEndDate || endDate || null}
+                  minDate={minDate}
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
-                  onChange={setTempEndDate}
+                  // onChange={setTempEndDate}
                   onClose={onDatePickerClose}
-                  className="Lths-Date-Picker"
                   sx={{ mb: 0.75 }}
+                  value={tempEndDate || endDate || null}
                 />
               </Grid>
             </Grid>

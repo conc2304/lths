@@ -3,6 +3,7 @@ import { Components } from '@mui/material/styles';
 
 import Chip from './chip';
 import DatePicker from './date-picker';
+import DateTimePicker from './date-time-picker';
 import Link from './link';
 import Paper from './paper';
 import Table from './table';
@@ -14,6 +15,7 @@ export default function getComponentOverrides(theme: Theme): Components {
   return {
     ...Chip(theme),
     ...DatePicker(theme),
+    ...DateTimePicker(theme),
     ...Link(theme),
     ...Paper(theme),
     ...Table(theme),
