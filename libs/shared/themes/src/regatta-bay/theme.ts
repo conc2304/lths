@@ -34,7 +34,4 @@ const baseThemeOptions: ThemeOptions = {
 };
 
 const theme = createTheme(baseThemeOptions, enUS, coreEnUs);
-export const RBTheme: Theme = {...theme, components: {...theme.components, ...getComponentOverrides(theme)}}
-
-
-
+export const RBTheme: Theme = { ...theme, components: { ...theme.components, ...getComponentOverrides(theme) } };

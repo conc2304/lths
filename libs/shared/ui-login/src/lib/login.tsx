@@ -1,8 +1,4 @@
 import React from 'react';
-
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
   Checkbox,
   FormControlLabel,
@@ -16,15 +12,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
-
-import { Formik } from 'formik';
-
 import { LoginRequest } from '@lths/shared/data-access';
-import {
-  useLoginMutation,
-  useLazyGetUserQuery,
-} from '@lths/shared/data-access';
+import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
+import { Formik } from 'formik';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import CenterCard from './center-card';
 
@@ -74,22 +68,12 @@ const LoginForm: React.FC = (): JSX.Element => {
           setSubmitting(false);
         }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="username-login">
-                    Email Address
-                  </InputLabel>
+                  <InputLabel htmlFor="username-login">Email Address</InputLabel>
                   <OutlinedInput
                     id="username-login"
                     type="login"
@@ -102,10 +86,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                     error={Boolean(touched.login && errors.login)}
                   />
                   {touched.login && errors.login && (
-                    <FormHelperText
-                      error
-                      id="standard-weight-helper-text-username-login"
-                    >
+                    <FormHelperText error id="standard-weight-helper-text-username-login">
                       {errors.login}
                     </FormHelperText>
                   )}
@@ -133,20 +114,13 @@ const LoginForm: React.FC = (): JSX.Element => {
                           edge="end"
                           size="large"
                         >
-                          {showPassword ? (
-                            <VisibilityIcon />
-                          ) : (
-                            <VisibilityOffIcon />
-                          )}
+                          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                         </IconButton>
                       </InputAdornment>
                     }
                   />
                   {touched.password && errors.password && (
-                    <FormHelperText
-                      error
-                      id="standard-weight-helper-text-password-login"
-                    >
+                    <FormHelperText error id="standard-weight-helper-text-password-login">
                       {errors.password}
                     </FormHelperText>
                   )}
@@ -154,12 +128,7 @@ const LoginForm: React.FC = (): JSX.Element => {
               </Grid>
 
               <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
-                >
+                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -170,31 +139,16 @@ const LoginForm: React.FC = (): JSX.Element => {
                         size="small"
                       />
                     }
-                    label={
-                      <Typography variant="h6">Keep me sign in</Typography>
-                    }
+                    label={<Typography variant="h6">Keep me sign in</Typography>}
                   />
-                  <Link
-                    variant="h6"
-                    component={RouterLink}
-                    to=""
-                    color="text.primary"
-                  >
+                  <Link variant="h6" component={RouterLink} to="" color="text.primary">
                     Forgot Password?
                   </Link>
                 </Stack>
               </Grid>
 
               <Grid item xs={12}>
-                <LoadingButton
-                  loading={isLoading}
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
+                <LoadingButton loading={isLoading} disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                   Login
                 </LoadingButton>
               </Grid>
