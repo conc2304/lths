@@ -43,8 +43,8 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
     setCurrentDateTime(updatedDateTime);
 
     setDateOptionGroupValue(selectedValue);
-    setStartDate(null);
-    setEndDate(null);
+    // setStartDate(null);
+    // setEndDate(null);
     setTempStartDate(null);
     setTempEndDate(null);
     setNewPickerKey();
@@ -66,15 +66,17 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
       setEndDate(value);
       end = value;
     }
-    if (start && end && isBefore(start, end))
-      // date selection defaults to start of day,
-      // to include the day selected in the data add 1 day test
-      onChange({ startDate: start, endDate: addDays(end, 1) });
+    // if (start && end && isBefore(start, end))
+    //   // date selection defaults to start of day,
+    //   // to include the day selected in the data add 1 day test
+    //   onChange({ startDate: start, endDate: addDays(end, 1) });
   };
 
   const handleOnToggleClick = (dateRangeFn: () => DateRange) => {
     const { startDate, endDate } = dateRangeFn();
     console.log({ startDate, endDate });
+    setStartDate(startDate);
+    setEndDate(endDate);
   };
 
   const onDatePickerClose = () => {
@@ -106,7 +108,7 @@ export const DateRangeSelector = ({ dateOptions, onChange }: Props): JSX.Element
                   <ToggleButton
                     role="button"
                     value={value}
-                    key={value.toString()}
+                    key={value}
                     onClick={() => {
                       console.log('click');
                       handleOnToggleClick(dateRangeFn);
