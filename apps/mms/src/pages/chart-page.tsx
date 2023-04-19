@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 
-import DonutChart from '../../../../libs/shared/ui-charts/donut-chart/donut-chart';
+import DonutChart from '../../../../libs/shared/ui-charts/donut-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
