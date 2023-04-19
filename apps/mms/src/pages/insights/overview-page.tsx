@@ -12,11 +12,14 @@ import {
   DateRangeSelector,
   BasicCard,
   HStack,
+  VStack,
 } from '@lths/shared/ui-elements';
 import {
   useLazyGetInsightOverviewHistogramQuery,
   useLazyGetInsightOverviewKpiQuery,
   useLazyGetInsightOverviewQuery,
+  useLazyGetInsightOverviewSegmentationQuery,
+  useLazyGetInsightOverviewTabularQuery,
 } from 'libs/features/mms/data-access/src/lib/insights/overview-api';
 import { DateFilter } from 'libs/features/mms/data-access/src/lib/insights/types';
 import { KpiCardProps, TrendProps } from 'libs/shared/ui-elements/src/lib/data-display/cards/kpi/kpi-card';
@@ -25,27 +28,74 @@ import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
 import { ButtonGroupConf } from '../../fixtures/date-button-group-schema';
 import { Schema } from '../../fixtures/filter-schema';
 import InfoTooltip from 'libs/shared/ui-elements/src/lib/data-display/icons/tooltip/info-tooltip';
+import LineChart from 'libs/shared/ui-charts/line-chart';
+import DonutChart from 'libs/shared/ui-charts/donut-chart';
 
 const OverviewPage = (): JSX.Element => {
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
     useLazyGetInsightOverviewKpiQuery();
 
+  const [getTabularData, { isFetching: isTabularFetching, isLoading: isTabularLoading, data: tabularData }] =
+    useLazyGetInsightOverviewTabularQuery();
+
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOverviewHistogramQuery();
+
+  const [
+    getSegmentationData,
+    { isFetching: isSegmentationFetching, isLoading: isSegmentationLoading, data: segmentationData },
+  ] = useLazyGetInsightOverviewSegmentationQuery();
 
   async function fetchData() {
     const filter: DateFilter = { start_date: null, end_date: null };
     //getKpiData(filter);
-    await Promise.all([getKpiData(filter), getHistogramData(filter)]);
+    await Promise.all([
+      getKpiData(filter),
+      getHistogramData(filter),
+      getSegmentationData(filter),
+      getTabularData(filter),
+    ]);
   }
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const DonutChartItems = () => {
+    if (!segmentationData) return null;
 
+    const { title, subtitle, info, metrics } = segmentationData.data;
+    const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
+
+    return (
+      <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1 }}>
+        <div style={{ width: '90%' }}>
+          <div style={{ width: '50%', height: '100%', float: 'left' }}>
+            <DonutChart data={metrics[0]} />
+          </div>
+          <div style={{ width: '50%', height: '100%', float: 'left' }}>
+            <DonutChart data={metrics[0]} />
+          </div>
+        </div>
+        );
+      </BasicCard>
+    );
+    /*
+       Response\iveContainer not working with flexbox 
+    return ( <HStack sx={{ width: '100%' }}>
+          {metrics.map((o, i) => (
+            <div style={{ width: '100%', height: '100%' }}>
+              <DonutChart data={o} />
+            </div>
+          ))}
+        </HStack>
+      </BasicCard>
+      );
+    );
+        */
+  };
   return (
-    <Box>
+    <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
         <DateRangeSelector
           dateOptions={ButtonGroupConf}
@@ -103,13 +153,19 @@ const OverviewPage = (): JSX.Element => {
         }
       </HStack>
       {histogramData?.data.map((o, i) => {
-        const { title, subtitle, info } = o;
+        const { title, subtitle, info, data } = o;
         const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
         return (
-          <BasicCard key={`overview_histogram_${i}`} title={title} subheader={subtitle} action={action}></BasicCard>
+          <BasicCard key={`overview_histogram_${i}`} title={title} subheader={subtitle} action={action}>
+            <LineChart data={data} />
+          </BasicCard>
         );
       })}
-    </Box>
+      <HStack>
+        <DonutChartItems />
+        <BasicCard sx={{ flex: 1 }}></BasicCard>
+      </HStack>
+    </VStack>
   );
 };
 

@@ -15,6 +15,8 @@ export type InsightResponse = {
 };
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
+export type InsightSegmentationResponse = { data: DonutChartData };
+export type InsightTabularResponse = { data: Array<TableData> };
 
 type KPI = {
   title: string | null; // metric title

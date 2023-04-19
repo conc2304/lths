@@ -86,7 +86,7 @@ const LineChart = ({ data }) => {
   const theme = useTheme();
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="90%" height={400}>
       <AreaChart data={data} margin={{ top: Number(theme.spacing(1)), right: Number(theme.spacing(3)), left: 0 }}>
         <defs>
           <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">

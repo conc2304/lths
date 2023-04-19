@@ -1,7 +1,20 @@
 import { api } from '@lths/shared/data-access';
 
-import { InsightHistogramResponse, InsightKpiResponse, InsightRequest, InsightResponse } from './types';
-import { getInsightKpiUrl, getInsightUrl, getInsightOverviewHistogramUrl } from './urls';
+import {
+  InsightHistogramResponse,
+  InsightKpiResponse,
+  InsightRequest,
+  InsightResponse,
+  InsightSegmentationResponse,
+  InsightTabularResponse,
+} from './types';
+import {
+  getInsightKpiUrl,
+  getInsightUrl,
+  getInsightOverviewHistogramUrl,
+  getInsightOverviewSegmentationUrl,
+  getInsightOverviewTabularUrl,
+} from './urls';
 
 export const insightOverviewApi = api.enhanceEndpoints({ addTagTypes: ['insight-overview'] }).injectEndpoints({
   endpoints: (builder) => ({
@@ -26,6 +39,18 @@ export const insightOverviewApi = api.enhanceEndpoints({ addTagTypes: ['insight-
         method: 'GET',
       }),
     }),
+    getInsightOverviewSegmentation: builder.query<InsightSegmentationResponse, InsightRequest>({
+      query: () => ({
+        url: getInsightOverviewSegmentationUrl(),
+        method: 'GET',
+      }),
+    }),
+    getInsightOverviewTabular: builder.query<InsightTabularResponse, InsightRequest>({
+      query: () => ({
+        url: getInsightOverviewTabularUrl(),
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -34,4 +59,8 @@ export const {
   useLazyGetInsightOverviewQuery,
   useLazyGetInsightOverviewKpiQuery,
   useLazyGetInsightOverviewHistogramQuery,
+
+  useLazyGetInsightOverviewSegmentationQuery,
+
+  useLazyGetInsightOverviewTabularQuery,
 } = insightOverviewApi;
