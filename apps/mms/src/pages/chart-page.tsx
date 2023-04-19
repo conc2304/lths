@@ -1,7 +1,6 @@
 import { Typography, Box } from '@mui/material';
 import { BasicCard } from '@lths/shared/ui-elements';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
 
@@ -28,8 +27,8 @@ const SamplePage = (): JSX.Element => {
       title="Happy Morning!! 🥳🥳" 
       subheader="Cheers 🙌" 
       action={<InfoOutlinedIcon/>} 
-      footerdata="Have a good weekend 🥰🤞" 
-      footerIcon={<ArrowForwardIcon/>}>
+      footer="Have a good weekend 🥰🤞" 
+      >
         Cheers to New Weekdays!!
       </BasicCard>
     </Box>

@@ -1,7 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { BasicCard } from '@lths/shared/ui-elements';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
 export default {
@@ -19,6 +18,5 @@ Basic_card.args = {
   subheader: 'Cheers🥳',
   children: 'Cheers to New Weekdays🙌',
   action: <InfoOutlinedIcon/>,
-  footerdata: 'Have a Good Weekend 🥰🤞',
-  footerIcon: <ArrowForwardIcon/>,
+  footer: 'Have a Good Weekend 🥰🤞',
 };

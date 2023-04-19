@@ -10,12 +10,11 @@ export interface BasicCardProps {
   title?: string;
   subheader?: string;
   children?: ReactNode;
-  footerdata?: ReactNode;
-  footerIcon?: ReactNode;
+  footer?: ReactNode;
 }
 
 export function BasicCard(props: BasicCardProps) {
-  const { children, title, subheader,action , footerdata , footerIcon} = props;
+  const { children, title, subheader,action , footer } = props;
 
   return (
     <Card>
@@ -26,8 +25,7 @@ export function BasicCard(props: BasicCardProps) {
       />
       <Stack alignItems="center">{children}</Stack>
       <CardActions sx={{ padding: 2 }}>
-        {footerdata}
-        {footerIcon}
+        {footer}
       </CardActions>
     </Card>
   );
