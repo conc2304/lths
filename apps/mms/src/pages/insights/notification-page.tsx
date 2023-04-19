@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { Box, IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, Button, IconButton, TableCell, TableRow } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
-import { Table, PageHeader, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { PageHeader } from 'libs/shared/ui-layouts/src/lib/components';
 
 const headers = [
   {
@@ -60,7 +62,11 @@ const NotificationPage = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onPageChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => {
+  const onPageChange = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps
+  ) => {
     fetchData(pagination, sorting);
   };
 
@@ -87,8 +93,15 @@ const NotificationPage = (): JSX.Element => {
   const total = data?.meta.total;
   return (
     <Box>
-      <PageHeader title="Notifications" createReportHandler={() => console.log('handling create report')} sx={{ mt: 2 }} />
-
+      <PageHeader
+        title="Notifications"
+        rightContent={
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log(`handling create report`)}>
+            CREATE REPORT
+          </Button>
+        }
+        sx={{ mt: 2 }}
+      />
       <Table
         loading={isLoading}
         fetching={isFetching}
