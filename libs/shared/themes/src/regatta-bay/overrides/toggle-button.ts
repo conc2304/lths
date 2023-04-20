@@ -13,14 +13,14 @@ export default function ToggleButton(theme: Theme): Components {
           textTransform: 'uppercase',
           fontSize: '0.688rem',
           whiteSpace: 'nowrap',
-          marginTop: theme.spacing(0.7),
+          // marginTop: theme.spacing(0.7),
           padding: theme.spacing(1, 1.5),
           boxSizing: 'border-box',
 
           '&&.MuiToggleButtonGroup-grouped': {
             borderLeft: `1px solid ${theme.palette.grey[300]}`,
           },
-          
+
           '&.MuiToggleButton-sizeSmall': {
             height: '2.188rem',
           },

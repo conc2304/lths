@@ -1,55 +1,45 @@
-import { subDays, subHours, subMonths } from 'date-fns';
+import {
+  getPrevFullDayRange,
+  getPrevFullHalfYearRange,
+  getPrevFullHourRange,
+  getPrevFullMonthRange,
+  getPrevFullQuarterRange,
+  getPrevFullWeekRange,
+  getPrevFullYearRange,
+} from '@lths/shared/utils';
+import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 
-const now = new Date();
-
-export const ButtonGroupConf = [
+export const ButtonGroupConf: DateFilterOption = [
   {
     label: '1 Hour',
-    value: subHours(now, 1),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullHourRange,
   },
   {
     label: '1 Day',
-    value: subDays(now, 1),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullDayRange,
   },
   {
     label: '7 Days',
-    value: subDays(now, 7),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullWeekRange,
   },
   {
+    // Previous full Month
     label: '30 Days',
-    value: subDays(now, 30),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullMonthRange,
   },
   {
+    // Previous Quarter
     label: '3 Months',
-    value: subMonths(now, 3),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullQuarterRange,
   },
   {
+    // Previous full half year
     label: '6 Months',
-    value: subMonths(now, 6),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullHalfYearRange,
   },
   {
+    // Previous full year
     label: '12 Months',
-    value: subMonths(now, 12),
-    onClick: (value: Date) => {
-      console.log(value);
-    },
+    dateRange: getPrevFullYearRange,
   },
 ];

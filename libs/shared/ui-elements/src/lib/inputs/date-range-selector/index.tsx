@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Container,
-  Divider,
-  Theme,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
+import { Box, Button, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -13,75 +7,84 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { addDays, isBefore } from 'date-fns';
+import { endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
+import { slugify } from '@lths/shared/utils';
 
 type DateRange = {
-  startDate: Date;
-  endDate: Date;
+  start: Date;
+  end: Date;
 };
 
 type Props = {
   dateOptions: DateFilterOption;
-  onChange: ({ startDate, endDate }: DateRange) => void;
+  onChange: ({ start, end }: DateRange) => void;
+  onUpdateRange: ({ start, end }: DateRange) => void;
 };
 
-export const DateRangeSelector = ({
-  dateOptions,
-  onChange,
-}: Props): JSX.Element => {
+export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
-  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<Date | null>(
-    null
-  );
-  const [pickerKey, setPickerKey] = useState<number>(98765);
-  const isSmallScreen = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('md')
-  );
+  const [dateOptionGroupValue, setDateOptionGroupValue] = useState<string | null>(null);
+  const [isDateRangeValid, setIsDateRangeValid] = useState(true);
+  const randomeSeed = Math.floor(Math.random() * 20);
+  const [pickerKey, setPickerKey] = useState<number>(randomeSeed);
+  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+  const minDate = new Date('1/1/2020'); // as per design requirements
+  const maxEndDate = new Date();
 
   const setNewPickerKey = () => {
-    // set a new key value to force the cancel to
+    // set a new key value to force the cancel to not change the date selected
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  const onOptionSelected = (
-    event: React.MouseEvent<HTMLElement>,
-    selectedValue: Date
-  ) => {
+  const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: string) => {
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
-
     setDateOptionGroupValue(selectedValue);
-    setStartDate(null);
-    setEndDate(null);
+    setIsDateRangeValid(true);
     setTempStartDate(null);
     setTempEndDate(null);
     setNewPickerKey();
-
-    onChange({
-      startDate: selectedValue,
-      endDate: updatedDateTime,
-    });
   };
 
   const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
-    let start = startDate;
-    let end = endDate;
-    if (range === 'start') {
-      setStartDate(value);
-      start = value;
-    } else if (range === 'end') {
-      setEndDate(value);
-      end = value;
+    let _startDate = startDate;
+    let _endDate = endDate;
+    if (range === 'start' && value) {
+      _startDate = startOfDay(value);
+      setStartDate(_startDate);
+    } else if (range === 'end' && value) {
+      _endDate = endOfDay(value);
+      setEndDate(_endDate);
     }
-    if (start && end && isBefore(start, end))
-      // date selection defaults to start of day,
-      // to include the day selected in the data add 1 day
-      onChange({ startDate: start, endDate: addDays(end, 1) });
+
+    if (_startDate && _endDate) {
+      const match = getMatchingPresetValue({ start: _startDate, end: _endDate });
+      const dateValueOption = !!match ? slugify(match?.label as string) : null;
+      setDateOptionGroupValue(dateValueOption);
+    }
+
+    const isDateRangeValid = !!_startDate && !!_endDate && isBefore(_startDate, _endDate);
+    setIsDateRangeValid(isDateRangeValid);
+  };
+
+  const getMatchingPresetValue = (dateRange: DateRange) => {
+    const { start, end } = dateRange;
+    return dateOptions.find(({ dateRange }) => {
+      const { start: optionStartDate, end: optionEndDate } = typeof dateRange === 'function' ? dateRange() : dateRange;
+
+      return isSameDay(start, optionStartDate) && isSameDay(end, optionEndDate);
+    });
+  };
+
+  const handleOnToggleClick = (dateRange: (() => DateRange) | DateRange) => {
+    const { start, end } = typeof dateRange === 'function' ? dateRange() : dateRange;
+    setStartDate(start);
+    setEndDate(end);
   };
 
   const onDatePickerClose = () => {
@@ -89,15 +92,17 @@ export const DateRangeSelector = ({
     setTempEndDate(null);
   };
 
+  const handleUpdateRange = () => {
+    if (startDate && endDate) onUpdateRange({ start: startDate, end: endDate });
+  };
+
   return (
-    <Container className="LthsDateRangeSelector-root">
+    <Box className="LthsDateRangeSelector-root">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {/* Main Grid Container*/}
         <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
-          <Grid
-            md="auto"
-            xs={12}
-            sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}
-          >
+          {/* Main Grid Item -- Toggle Buttons */}
+          <Grid md="auto" xs={12} sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}>
             <ToggleButtonGroup
               value={dateOptionGroupValue}
               onChange={onOptionSelected}
@@ -109,12 +114,16 @@ export const DateRangeSelector = ({
               className="Lths-Button-Group"
             >
               {dateOptions.map((option) => {
-                const { value, label } = option;
+                const { label, dateRange } = option;
+                const value = slugify(label);
                 return (
                   <ToggleButton
                     role="button"
                     value={value}
-                    key={value.toString()}
+                    key={value}
+                    onClick={() => {
+                      handleOnToggleClick(dateRange);
+                    }}
                     aria-label={label}
                     aria-selected={value === dateOptionGroupValue}
                     aria-pressed={value === dateOptionGroupValue}
@@ -131,10 +140,11 @@ export const DateRangeSelector = ({
               variant="middle"
               sx={{
                 height: '2.118rem',
-                m: (theme: Theme) => theme.spacing(2, 0.25),
+                m: (theme: Theme) => theme.spacing(2, 2.5),
               }}
             />
           )}
+          {/* Main Grid Item - Date Pickers Column */}
           <Grid
             md="auto"
             xs={12}
@@ -145,41 +155,58 @@ export const DateRangeSelector = ({
               m: (theme: Theme) => theme.spacing(0.5, 0),
             }}
           >
-            <Grid container>
+            {/* Date Pickers Grid Container */}
+
+            {/* pb to account for the additional hight of the placeholder label for better centering */}
+            <Grid container pb={0.5}>
+              {/* Date Pickers Grid Item - Start */}
+
               <Grid md={6} xs={6}>
                 <DatePicker
+                  className="Lths-Date-Picker"
+                  disableFuture
                   key={pickerKey + 1}
                   label="START"
-                  disableFuture
-                  value={tempStartDate || startDate || null}
-                  onAccept={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'start')
-                  }
+                  maxDate={endDate || currentDateTime || undefined}
+                  minDate={minDate}
+                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
-                  maxDate={endDate || currentDateTime || undefined}
                   sx={{ ml: 0 }}
-                  className="Lths-Date-Picker"
+                  value={tempStartDate || startDate || null}
                 />
               </Grid>
-              <Grid md={6} xs={6}>
+              {/* Date Pickers Grid Item - End */}
+              <Grid md={4} xs={4} sx={{ height: '34px' }}>
                 <DatePicker
+                  className="Lths-Date-Picker"
+                  disableFuture
                   key={pickerKey}
                   label="END"
-                  disableFuture
-                  value={tempEndDate || endDate || null}
-                  onAccept={(value: Date | null) =>
-                    onDatePickerAccepted(value, 'end')
-                  }
-                  onChange={setTempEndDate}
+                  maxDate={maxEndDate}
+                  minDate={minDate}
+                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
+                  // onChange={setTempEndDate}
                   onClose={onDatePickerClose}
-                  className="Lths-Date-Picker"
+                  sx={{ mb: 0.75 }}
+                  value={tempEndDate || endDate || null}
                 />
               </Grid>
             </Grid>
           </Grid>
+          <Grid>
+            <Button
+              variant="outlined"
+              color="secondary"
+              disabled={!isDateRangeValid}
+              onClick={handleUpdateRange}
+              sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}
+            >
+              UPDATE PERIOD
+            </Button>
+          </Grid>
         </Grid>
       </LocalizationProvider>
-    </Container>
+    </Box>
   );
 };
