@@ -163,9 +163,6 @@ const payload = {
           { slug: 'step', label: 'Step' },
           { slug: 'visits', label: 'Visits' },
           { slug: 'cart_additions', label: 'Cart Additions' },
-          { slug: 'checkouts', label: 'Checkouts' },
-          { slug: 'purchases', label: 'Purchases' },
-          { slug: 'conversion_rate', label: 'Conversion Rate' },
         ],
         data: [
           {

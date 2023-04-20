@@ -1,5 +1,16 @@
 import React, { useEffect } from 'react';
-import { Box, IconButton, Stack, TableCell, TableRow } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TableCell,
+  TableRow,
+} from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { NotificationRequest, useAppSelector, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
@@ -13,6 +24,8 @@ import {
   BasicCard,
   HStack,
   VStack,
+  GenericTable,
+  GenericTableCellProps,
 } from '@lths/shared/ui-elements';
 import {
   useLazyGetInsightOverviewHistogramQuery,
@@ -21,7 +34,7 @@ import {
   useLazyGetInsightOverviewSegmentationQuery,
   useLazyGetInsightOverviewTabularQuery,
 } from 'libs/features/mms/data-access/src/lib/insights/overview-api';
-import { DateFilter } from 'libs/features/mms/data-access/src/lib/insights/types';
+import { DateFilter, InsightTabularResponse } from 'libs/features/mms/data-access/src/lib/insights/types';
 import { KpiCardProps, TrendProps } from 'libs/shared/ui-elements/src/lib/data-display/cards/kpi/kpi-card';
 import DesignSystem from '../design-system';
 import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
@@ -37,7 +50,7 @@ const OverviewPage = (): JSX.Element => {
 
   const [getTabularData, { isFetching: isTabularFetching, isLoading: isTabularLoading, data: tabularData }] =
     useLazyGetInsightOverviewTabularQuery();
-
+  console.log('🚀 ~ file: overview-page.tsx:40 ~ tabularData:', tabularData, tabularData?.data?.metrics);
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOverviewHistogramQuery();
 
@@ -61,6 +74,53 @@ const OverviewPage = (): JSX.Element => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [tableFilterId, setTableFilterId] = React.useState('');
+
+  const onChange = (event: SelectChangeEvent) => {
+    setTableFilterId(event.target.value as string);
+  };
+
+  const DropdownList = ({ data }) => {
+    return (
+      <Select value={tableFilterId} label="" onChange={onChange} size="small">
+        {data.map((o, i) => (
+          <MenuItem value={o.id}>{o.title}</MenuItem>
+        ))}
+      </Select>
+    );
+  };
+  const TabularCurrentCard = ({ filter, data }: { filter: string; data: InsightTabularResponse }) => {
+    if (!data?.data) return null;
+
+    const {
+      data: { title, subtitle, info, options, metrics },
+    } = data;
+    if (metrics.length > 0) {
+      //const filter = options?.curr_filter || metrics[0].id;
+      filter = filter || options?.curr_filter;
+      setTableFilterId(filter);
+
+      const data = metrics.find((o) => o.id === filter);
+      const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
+
+      const headers: GenericTableCellProps[] = data.labels.map((o) => ({
+        label: o.label,
+        id: o.slug,
+      }));
+      const comp = (
+        <HStack>
+          <DropdownList data={metrics} /> {action}
+        </HStack>
+      );
+      return (
+        <BasicCard title={title} subheader={subtitle} action={comp} sx={{ flex: 1 }}>
+          <GenericTable headers={headers} data={data.data} />
+        </BasicCard>
+      );
+    }
+    return null;
+  };
   const DonutChartItems = () => {
     if (!segmentationData) return null;
 
@@ -163,7 +223,7 @@ const OverviewPage = (): JSX.Element => {
       })}
       <HStack>
         <DonutChartItems />
-        <BasicCard sx={{ flex: 1 }}></BasicCard>
+        <TabularCurrentCard filter={tableFilterId} data={tabularData} />
       </HStack>
     </VStack>
   );

@@ -16,7 +16,7 @@ export type InsightResponse = {
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };
-export type InsightTabularResponse = { data: Array<TableData> };
+export type InsightTabularResponse = { data: TableData };
 
 type KPI = {
   title: string | null; // metric title
@@ -96,7 +96,8 @@ type Event = {
 
 type TableData = {
   title: string | null; // usage metrics  // ?? is this static or does it change when a new filter is selected
-  // subtitle is derived from the selected metric type
+  // subtitle is derived from the selected metric type if blank
+  subtitle?: string | null;
   info: Info;
   options: {
     curr_filter: string; // the current filter selected, it should title of one of the objects in the metric array
@@ -111,7 +112,7 @@ type TableMetric = {
   title: string;
   // subtitle: here this changes for each different filter selected
   subtitle?: string | null; // "What are our users viewing?"
-  labels: Array<Record<string, string | number>>; // these are the table headers, the key is a slug, and the value is a display label
+  labels: Array<Record<string, string>>; // these are the table headers, the key is a slug, and the value is a display label
   data: Array<
     // data items are the individual rows that have a data item for each label
     | Record<string, string> // where key is the a slug, and value is the display label

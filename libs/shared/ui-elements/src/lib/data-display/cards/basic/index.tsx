@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 export type BasicCardProps = {
   action?: ReactNode;
   title?: string;
-  subheader?: string;
+  subheader?: ReactNode;
   children?: ReactNode;
   footer?: ReactNode;
   sx?: SxProps;
