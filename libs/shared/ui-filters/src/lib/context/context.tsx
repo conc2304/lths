@@ -6,6 +6,7 @@ import {
   clearForm,
   clearFormGroup,
   removeFormItem,
+  setDateRange,
   setFormState,
   setModalIsOpen,
 } from './actions';
@@ -15,28 +16,9 @@ import { FilterFormStateContextType } from './types';
 const INITIAL_STATE: FilterFormStateContextType = {
   modalIsOpen: false,
   formState: {},
-  // these methods will be overwritten in the provider
-  // adding them here so that typescript does not get hangry about not passing these in
-  setModalIsOpen: () => {
-    throw new Error('setModalIsOpen is not initialized with dispatch');
-  },
-  clearForm: () => {
-    throw new Error('clearForm() is not initialized with dispatch');
-  },
-  addItem: () => {
-    throw new Error('addItem() is not initialized with dispatch');
-  },
-  removeItem: () => {
-    throw new Error('removeItem() is not initialized with dispatch');
-  },
-  addGroupItems: () => {
-    throw new Error('addGroupItems() is not initialized with dispatch');
-  },
-  clearGroup: () => {
-    throw new Error('clearGroup() is not initialized with dispatch');
-  },
-  setFormState: () => {
-    throw new Error('setFormState() is not initialized with dispatch');
+  dateRange: {
+    start: null,
+    end: null,
   },
 };
 
@@ -58,6 +40,7 @@ const FilterFormStateProvider = ({ children }: { children: ReactNode }) => {
         addGroupItems: addItems(dispatch),
         clearGroup: clearFormGroup(dispatch),
         setFormState: setFormState(dispatch),
+        setDateRange: setDateRange(dispatch),
       }}
     >
       {children}
