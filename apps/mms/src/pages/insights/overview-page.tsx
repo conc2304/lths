@@ -130,16 +130,9 @@ const OverviewPage = (): JSX.Element => {
   return (
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
-        <DateRangeSelector
-          dateOptions={ButtonGroupConf}
-          onChange={({ startDate, endDate }) => {
-            console.log('date changed', startDate, endDate);
-          }}
-        />
-
         <FilterFormStateProvider>
           <UiFilters
-            // TODO  - add date picker to this component in next ticket
+            dateOptions={ButtonGroupConf}
             formSchema={Schema.payload.data}
             handleApplyFilter={() => console.log(' MAKE FETCH REQUEST THAT WILL RELOAD ANALYTICS DATA')}
           />
