@@ -34,7 +34,11 @@ import {
   useLazyGetInsightOverviewSegmentationQuery,
   useLazyGetInsightOverviewTabularQuery,
 } from 'libs/features/mms/data-access/src/lib/insights/overview-api';
-import { DateFilter, InsightTabularResponse } from 'libs/features/mms/data-access/src/lib/insights/types';
+import {
+  DateFilter,
+  InsightSegmentationResponse,
+  InsightTabularResponse,
+} from 'libs/features/mms/data-access/src/lib/insights/types';
 import { KpiCardProps, TrendProps } from 'libs/shared/ui-elements/src/lib/data-display/cards/kpi/kpi-card';
 import DesignSystem from '../design-system';
 import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
@@ -43,6 +47,7 @@ import { Schema } from '../../fixtures/filter-schema';
 import InfoTooltip from 'libs/shared/ui-elements/src/lib/data-display/icons/tooltip/info-tooltip';
 import LineChart from 'libs/shared/ui-charts/line-chart';
 import DonutChart from 'libs/shared/ui-charts/donut-chart';
+import { DonutCard, TabularCard } from '../../components/insights/overview';
 
 const OverviewPage = (): JSX.Element => {
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
@@ -121,39 +126,7 @@ const OverviewPage = (): JSX.Element => {
     }
     return null;
   };
-  const DonutChartItems = () => {
-    if (!segmentationData) return null;
 
-    const { title, subtitle, info, metrics } = segmentationData.data;
-    const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
-
-    return (
-      <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1 }}>
-        <div style={{ width: '90%' }}>
-          <div style={{ width: '50%', height: '100%', float: 'left' }}>
-            <DonutChart data={metrics[0]} />
-          </div>
-          <div style={{ width: '50%', height: '100%', float: 'left' }}>
-            <DonutChart data={metrics[0]} />
-          </div>
-        </div>
-        );
-      </BasicCard>
-    );
-    /*
-       Response\iveContainer not working with flexbox 
-    return ( <HStack sx={{ width: '100%' }}>
-          {metrics.map((o, i) => (
-            <div style={{ width: '100%', height: '100%' }}>
-              <DonutChart data={o} />
-            </div>
-          ))}
-        </HStack>
-      </BasicCard>
-      );
-    );
-        */
-  };
   return (
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
@@ -181,34 +154,9 @@ const OverviewPage = (): JSX.Element => {
             const trends = data.find((o) => o.duration == 7);
             console.log('🚀 ~ file: overview-page.tsx:35 ~ {data?.payload?.data?.kpi.map ~ trends:', trends, data);
 
-            const trendProp: TrendProps = {
-              //types of trens: Time duration, Median
-              duration: trends.duration,
-              span: {
-                title: trends.span.title,
-                unit: trends.span.unit,
-                value: trends.span.value,
-                direction: trends.span.direction,
-              },
-              median: {
-                title: trends.median.title,
-                unit: trends.median.unit,
-                value: trends.median.value,
-                direction: trends.median.direction,
-              },
-            };
-
             const tooltip = !info ? null : { description: info.description, action: { url: info.url }, title };
             //const tooltip = { description: 'info.description', action: { url: 'info.url' }, title: '' };
-            return (
-              <KpiSparklineCard
-                hero={value}
-                heroUnit={unit}
-                title={title}
-                tooltip={tooltip}
-                trends={{ ...trendProp }}
-              />
-            );
+            return <KpiSparklineCard hero={value} heroUnit={unit} title={title} tooltip={tooltip} trends={trends} />;
           })
         }
       </HStack>
@@ -222,8 +170,8 @@ const OverviewPage = (): JSX.Element => {
         );
       })}
       <HStack>
-        <DonutChartItems />
-        <TabularCurrentCard filter={tableFilterId} data={tabularData} />
+        <DonutCard data={segmentationData} />
+        <TabularCard data={tabularData} />
       </HStack>
     </VStack>
   );
