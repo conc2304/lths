@@ -57,7 +57,7 @@ export const UiFilters = (props: UiFiltersProps): JSX.Element => {
   const handleUpdateDateRange = ({ start, end }: DateRange) => {};
 
   return (
-    <Box>
+    <Box sx={{ flex: 1 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <DateRangeSelector
           dateOptions={dateOptions}

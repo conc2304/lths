@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker';
 import { factory, primaryKey } from '@mswjs/data';
 import { nanoid } from '@reduxjs/toolkit';
 
-export const db = factory({
+const db = factory({
   notifications: {
     id: primaryKey(nanoid),
     page: String,
-    impressions: String,
+    impressions: Number,
     dateTime: String,
     clickThrough: String,
     type: String,
@@ -43,3 +43,5 @@ const createNotificationsData = () => {
 for (let i = 0; i < 100; i++) {
   db.notifications.create(createNotificationsData());
 }
+
+export default db;

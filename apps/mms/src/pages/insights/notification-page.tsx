@@ -60,7 +60,11 @@ const NotificationPage = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onPageChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, pagination: TablePaginationProps, sorting: TableSortingProps) => {
+  const onPageChange = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps
+  ) => {
     fetchData(pagination, sorting);
   };
 
@@ -87,7 +91,11 @@ const NotificationPage = (): JSX.Element => {
   const total = data?.meta.total;
   return (
     <Box>
-      <PageHeader title="Notifications" createReportHandler={() => console.log('handling create report')} sx={{ mt: 2 }} />
+      <PageHeader
+        title="Notifications"
+        createReportHandler={() => console.log('handling create report')}
+        sx={{ mt: 2 }}
+      />
 
       <Table
         loading={isLoading}
