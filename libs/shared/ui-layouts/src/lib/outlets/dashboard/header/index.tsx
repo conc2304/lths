@@ -1,25 +1,15 @@
-import { useTheme } from '@mui/material/styles';
 import { AppBar, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import DrawerIcon from '@mui/icons-material/Apps';
+import { useTheme } from '@mui/material/styles';
 
-import HeaderFullScreenStyled from './header-styled-full';
 import HeaderContent from './header-content';
-
+import HeaderFullScreenStyled from './header-styled-full';
 import { useLayout, setDrawerVisibility } from '../../../context';
-import {
-  LayoutCommonProps,
-  LayoutHeaderContentProps,
-  LayoutHeaderProps,
-} from '../drawer/types';
+import { LayoutCommonProps, LayoutHeaderContentProps, LayoutHeaderProps } from '../drawer/types';
 
 type Props = LayoutHeaderContentProps & LayoutCommonProps;
 
-const Header = ({
-  drawerIcon,
-  headerLeft,
-  headerRight,
-  fixedHeader,
-}: Props) => {
+const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => {
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -67,14 +57,13 @@ const Header = ({
     elevation: 0,
     sx: {
       borderBottom: `1px solid ${theme.palette.divider}`,
+      borderRadius: 0,
     },
   };
   return (
     <>
       {!isMobileOrTablet ? (
-        <HeaderFullScreenStyled {...headerProps}>
-          {mainHeader}
-        </HeaderFullScreenStyled>
+        <HeaderFullScreenStyled {...headerProps}>{mainHeader}</HeaderFullScreenStyled>
       ) : (
         <AppBar {...headerProps}>{mainHeader}</AppBar>
       )}
