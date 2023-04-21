@@ -33,7 +33,7 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const { title, hero, heroUnit, trends } = props;
 
   const heroFormated = hero.toLocaleString("en-US");
-  const heroUnitStyle = heroUnit && heroUnit.length > 1 ? {paddingLeft: theme.spacing(1), fontSize: theme.spacing(1.75), lineHeight: 2} : {fontSize: theme.spacing(6), lineHeight: 1};
+  const heroUnitStyle = heroUnit && heroUnit.length > 1 ? {paddingLeft: theme.spacing(1), fontSize: theme.spacing(1.75), lineHeight: 2, fontWeight: 'bold' } : {fontSize: theme.spacing(6), lineHeight: 1, fontWeight: 500};
 
   const DisplayTrendDataPoint = (trendDataPointProps: TrendDataPointProps, useArrow?: boolean) => {
     const { title, unit, value, direction } = trendDataPointProps;
@@ -70,7 +70,7 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
         </Typography>
         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1.5} sx={{paddingTop: theme.spacing(2)}}>
           <Stack direction="row" alignItems="flex-end">
-            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium", letterSpacing: theme.spacing(0.01875)}}>
+            <Typography sx={{ fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium", letterSpacing: theme.spacing(0.01875)}}>
               {heroFormated}
             </Typography>
             {

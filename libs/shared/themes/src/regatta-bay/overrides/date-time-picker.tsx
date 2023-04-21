@@ -1,18 +1,23 @@
+import { CalendarMonthOutlined } from '@mui/icons-material';
 import { Components, Theme } from '@mui/material/styles';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 
-export default function DatePicker(theme: Theme): Components {
+export default function DateTimePicker(theme: Theme): Components {
   return {
-    MuiDatePicker: {
+    MuiDateTimePicker: {
       styleOverrides: {
-        '& .MuiFormControl-root': {
+        root: {
           backgroundColor: 'red',
+        },
+        '& .MuiFormControl-root': {
           margin: theme.spacing(2),
         },
       },
       defaultProps: {
+        slots: {
+          openPickerIcon: CalendarMonthOutlined,
+        },
         slotProps: {
-          
           textField: {
             color: 'primary',
             variant: 'outlined',
@@ -20,9 +25,9 @@ export default function DatePicker(theme: Theme): Components {
             margin: 'dense',
             sx: {
               '&.MuiTextField-root': {
-                marginLeft: theme.spacing(1),
-                marginRight: theme.spacing(1),
-                width: '9.375rem',
+                marginRight: theme.spacing(1.25),
+                // width: '9.375rem', // in the design bt waaay too short to fit in the data they want
+                width: '12rem',
                 ml: 0,
               },
               '& .MuiInputBase-inputSizeSmall': {

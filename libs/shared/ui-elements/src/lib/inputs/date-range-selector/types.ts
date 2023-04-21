@@ -1,5 +1,11 @@
+export type DateRange = {
+  start: Date;
+  end: Date;
+};
+
+export type DateRangeFn = () => DateRange;
+
 export type DateFilterOption = Array<{
   label: string;
-  value: Date;
-  onClick?: (value: Date) => void;
+  dateRange: DateRangeFn | DateRange;
 }>;
