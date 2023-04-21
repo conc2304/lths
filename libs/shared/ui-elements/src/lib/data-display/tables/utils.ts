@@ -5,8 +5,13 @@ export const formatDate = (date: Date | string) => {
   return formattedDate;
 };
 
-export const formatNumber = (number: number) => {
+export const formatDecimal = (number: number) => {
   const options = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+  const formattedNumber = new Intl.NumberFormat('en-US', options).format(number);
+  return formattedNumber;
+};
+export const formatNumber = (number: number) => {
+  const options = { minimumFractionDigits: 0, maximumFractionDigits: 0 };
   const formattedNumber = new Intl.NumberFormat('en-US', options).format(number);
   return formattedNumber;
 };
@@ -21,11 +26,12 @@ export const formatObject = (obj: Record<string, unknown>): string => {
   else return JSON.stringify(obj);
 };
 export const formatCell = (data: any, type?: TableCellType, unit?: string) => {
+  console.log(`formatCell`, data, type, unit);
   switch (type) {
     case 'string':
-      return data + (unit ? ` ${unit}` : '');
+      return data + (unit ? `${unit}` : '');
     case 'number':
-      return formatNumber(data) + (unit ? ` ${unit}` : '');
+      return formatNumber(data) + (unit ? `${unit}` : '');
     case 'boolean':
       return data ? 'Yes' : 'No';
     case 'date':

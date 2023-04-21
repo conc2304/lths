@@ -1,46 +1,36 @@
 const payload = {
   data: {
-    title: 'User Segmention',
-    subtitle: 'Who is using the app? And how old are they?',
+    title: 'Who is using the app?  And where do they use it?',
+    subtitle: 'User Segments & locations',
     description: 'A donut chart showing the distribution of app users by age group.',
     metrics: [
       {
-        title: 'Active Users',
+        title: 'Users',
         description: 'Total number of active users segmented by location',
         subtitle: null,
         data: [
           {
-            title: 'North America',
-            value: 800,
+            title: 'Club memebers',
+            value: 1234,
           },
           {
-            title: 'Europe',
-            value: 700,
+            title: 'Mighty Program members',
+            value: 2345,
           },
           {
-            title: 'Asia',
-            value: 600,
-          },
-          {
-            title: 'South America',
-            value: 400,
-          },
-          {
-            title: 'Africa',
-            value: 300,
+            title: 'New attendees',
+            value: 781,
           },
         ],
       },
       {
-        title: 'new users',
+        title: 'Users',
         description: 'Number of new users in the past 30 days',
         subtitle: 'Who is using the app? And how old are they?',
         data: [
-          { title: '18-24', value: 983 },
-          { title: '25-34', value: 1647 },
-          { title: '35-44', value: 1220 },
-          { title: '45-54', value: 544 },
-          { title: '55+', value: 201 },
+          { title: 'In arena', value: 2500 },
+          { title: 'In district', value: 1900 },
+          { title: 'At home', value: 650 },
         ],
       },
     ],

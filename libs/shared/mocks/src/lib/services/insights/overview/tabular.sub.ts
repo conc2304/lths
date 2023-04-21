@@ -1,17 +1,74 @@
 const payload = {
   data: {
-    title: 'Usage Metrics',
+    title: 'What are our users viewing?',
     info: {
       description: 'Look at how people are using usage metrics!',
       url: 'www.example.com/useage-metrics',
     },
     options: {
-      curr_filter: 'user-engagement-metric',
+      curr_filter: 'table-metric-0',
     },
     metrics: [
       {
+        id: 'table-metric-0',
+        title: 'Page',
+        subtitle: 'Usage Metrics',
+        labels: [
+          { slug: 'screen', label: 'SCREEN' },
+          { slug: 'total_views', label: 'VIEWS', type: 'number' },
+          { slug: 'dwell', label: 'DWELL', unit: 's', type: 'number' },
+          { slug: 'exit', label: 'EXIT', unit: '%', type: 'number' },
+        ],
+        data: [
+          {
+            screen: 'Home',
+            total_views: 6789,
+            dwell: 24,
+            exit: 15,
+          },
+          {
+            screen: 'View tickets',
+            total_views: 5678,
+            dwell: 67,
+            exit: 24,
+          },
+
+          {
+            screen: 'Mobile ordering',
+            total_views: 4567,
+            dwell: 123,
+            exit: 17,
+          },
+          {
+            screen: 'Event calendar',
+            total_views: 2345,
+            dwell: 45,
+            exit: 56,
+          },
+          {
+            screen: 'Home',
+            total_views: 6789,
+            dwell: 24,
+            exit: 15,
+          },
+          {
+            screen: 'View tickets',
+            total_views: 5678,
+            dwell: 67,
+            exit: 24,
+          },
+
+          { screen: 'Super hero day promo', total_views: 2213, dwell: 23, exit: 18 },
+          { screen: 'Arena map', total_views: 1345, dwell: 78, exit: 25 },
+          { screen: 'Food & drinks', total_views: 999, dwell: 112, exit: 43 },
+          { screen: 'Ducks radio', total_views: 984, dwell: 54, exit: 67 },
+          { screen: 'Ducks news', total_views: 653, dwell: 67, exit: 17 },
+        ],
+      },
+
+      {
         id: 'table-metric-1',
-        title: 'Page Views',
+        title: 'App',
         subtitle: 'What are our users viewing?',
         labels: [
           {

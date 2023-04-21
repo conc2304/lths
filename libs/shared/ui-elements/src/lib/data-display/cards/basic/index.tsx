@@ -16,10 +16,10 @@ export type BasicCardProps = {
 
 export function BasicCard(props: BasicCardProps) {
   const { children, title, subheader, action, footer, sx } = props;
-
+  const _subheader: ReactNode = typeof subheader === 'string' ? subheader?.toLocaleUpperCase() : subheader;
   return (
     <Card sx={sx}>
-      <CardHeader action={action} title={title} subheader={subheader} />
+      <CardHeader action={action} title={title} subheader={_subheader} subheaderTypographyProps={{ fontSize: 11 }} />
       <Stack alignItems="center">{children}</Stack>
       <CardActions sx={{ padding: 2 }}>{footer}</CardActions>
     </Card>

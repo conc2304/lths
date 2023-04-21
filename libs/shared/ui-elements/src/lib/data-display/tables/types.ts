@@ -68,7 +68,7 @@ export type GenericTableProps = {
   //data: any;
 };
 */
-export type TableCellType = 'string' | 'number' | 'boolean' | 'date' | 'object' | 'unknown';
+export type TableCellType = 'string' | 'number' | 'boolean' | 'date' | 'object' | 'unknown' | string | null;
 export type GenericTableCellFormatProps = {
   data: Record<string, string>;
 };

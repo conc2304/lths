@@ -7,7 +7,7 @@ import InfoTooltip from 'libs/shared/ui-elements/src/lib/data-display/icons/tool
 type Props = {
   data: InsightSegmentationResponse;
 };
-export const DonutCard = ({ data }: Props) => {
+export const DonutContainer = ({ data }: Props) => {
   if (!data) return null;
 
   const {
@@ -23,7 +23,7 @@ export const DonutCard = ({ data }: Props) => {
           <DonutChart data={metrics[0]} />
         </div>
         <div style={{ width: '50%', height: '100%', float: 'left' }}>
-          <DonutChart data={metrics[0]} />
+          <DonutChart data={metrics[1]} />
         </div>
       </div>
     </BasicCard>

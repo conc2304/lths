@@ -18,7 +18,7 @@ export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };
 export type InsightTabularResponse = { data: TableData };
 
-type KPI = {
+export type KPI = {
   title: string | null; // metric title
   subtitle?: string | null; // a prompt about what insight this metrics give
   value: number; // the value of the metric
@@ -56,7 +56,7 @@ type DonutChartData = {
   }>;
 };
 
-type Histogram = {
+export type Histogram = {
   title: string | null; // "Active Users",
   subtitle: string | null; //  "How many people are using the app?",
   info: Info;
