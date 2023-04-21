@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof KpiVerticalCard> = (args) => (
 );
 
 const trendProp = {
-  title: "Prev 7 days",
+  title: "Previous 7 days",
   unit: "%",
   value: 31,
   direction: "up"
