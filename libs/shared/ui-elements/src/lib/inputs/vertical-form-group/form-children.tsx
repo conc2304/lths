@@ -65,7 +65,7 @@ export const FormChildren = (props: FormElementsProps & FilterFormStateContextTy
               <Checkbox
                 checked={formStateLength === sortedFields.length}
                 indeterminate={isParentIndeterminate}
-                color="secondary"
+                //color="secondary"
                 onChange={handleToggleAll}
               />
             }
@@ -84,7 +84,7 @@ export const FormChildren = (props: FormElementsProps & FilterFormStateContextTy
                 key={id}
                 control={
                   <Checkbox
-                    color="secondary"
+                    //color="secondary"
                     checked={isChecked}
                     onChange={({ target: { checked } }) =>
                       handleCheckBoxChange({ checked, id: itemID, title: title as string })

@@ -1,6 +1,7 @@
 # shared-mocks
 
-This library was generated with [Nx](https://nx.dev).
+*.db.ts - Has faker database
+*.stub.js - has JSON payload
 
 ## Running unit tests
 

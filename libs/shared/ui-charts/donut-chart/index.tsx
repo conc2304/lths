@@ -36,77 +36,61 @@ const randomlyGeneratedColors = () => {
 };
 
 const DonutChart = ({ data }) => {
-  const totalValue = data.reduce((accumulator, currentValue) => {
-    return (
-      accumulator +
-      currentValue.metrics.reduce((sum, metric) => {
-        return (
-          sum +
-          metric.data.reduce((sum, datum) => {
-            return sum + Number(datum.value);
-          }, 0)
-        );
-      }, 0)
-    );
-  }, 0);
+  const totalValue = data.data.reduce((sum, curr) => sum + curr.value, 0);
 
   return (
-    <Grid container>
-      <Grid item xs={12} md={8}>
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart>
-            <Pie
-              data={data[0].metrics[0].data}
-              dataKey="value"
-              innerRadius="43%"
-              outerRadius="80%"
-              startAngle={90}
-              endAngle={-270}
-              labelLine={false}
-              label={renderCustomLabel}
-            >
-              {data[0].metrics[0].data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={randomlyGeneratedColors()} />
-              ))}
-            </Pie>
-            <Legend
-              layout="horizontal"
-              align="center"
-              verticalAlign="bottom"
-              iconType="square"
-              iconSize={16}
-              wrapperStyle={{ lineHeight: '40px' }}
-              formatter={legendFormatter}
-            />
-            <text
-              x="50%"
-              y="40%"
-              textAnchor="middle"
-              dominantBaseline="central"
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                fill: 'black',
-              }}
-            >
-              {totalValue.toLocaleString('en-US')}
-            </text>
-            <text
-              x="50%"
-              y="48%"
-              textAnchor="middle"
-              dominantBaseline="central"
-              style={{
-                fontSize: '1rem',
-                fill: 'black',
-              }}
-            >
-              {data[0].metrics[0].title?.toUpperCase()}
-            </text>
-          </PieChart>
-        </ResponsiveContainer>
-      </Grid>
-    </Grid>
+    <ResponsiveContainer width={'99%'} height={400}>
+      <PieChart>
+        <Pie
+          data={data.data}
+          dataKey="value"
+          innerRadius="43%"
+          outerRadius="80%"
+          startAngle={90}
+          endAngle={-270}
+          labelLine={false}
+          label={renderCustomLabel}
+        >
+          {data.data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={randomlyGeneratedColors()} />
+          ))}
+        </Pie>
+        <Legend
+          layout="horizontal"
+          align="center"
+          verticalAlign="bottom"
+          iconType="square"
+          iconSize={16}
+          wrapperStyle={{ lineHeight: '40px' }}
+          formatter={legendFormatter}
+        />
+        <text
+          x="50%"
+          y="32%"
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            fill: 'black',
+          }}
+        >
+          {totalValue.toLocaleString('en-US')}
+        </text>
+        <text
+          x="50%"
+          y="38%"
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: '.5rem',
+            fill: 'black',
+          }}
+        >
+          {data.title?.toUpperCase()}
+        </text>
+      </PieChart>
+    </ResponsiveContainer>
   );
 };
 

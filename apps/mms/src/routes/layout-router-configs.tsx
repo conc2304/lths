@@ -10,7 +10,9 @@ function getRandomArbitrary(min: number, max: number) {
 //shown only during first load
 const LazyPageTest = LazyLoader(
   lazy(() => {
-    return new Promise((resolve) => setTimeout(resolve, getRandomArbitrary(2000, 4000))).then(() => import('../pages/sample-page'));
+    return new Promise((resolve) => setTimeout(resolve, getRandomArbitrary(2000, 4000))).then(
+      () => import('../pages/sample-page')
+    );
   })
 );
 
@@ -18,6 +20,7 @@ const SamplePage = LazyLoader(lazy(() => import('../pages/sample-page')));
 
 const ChartPage = LazyLoader(lazy(() => import('../pages/chart-page')));
 const NotificationPage = LazyLoader(lazy(() => import('../pages/insights/notification-page')));
+const OverviewPage = LazyLoader(lazy(() => import('../pages/insights/overview-page')));
 
 const DesignSystem = LazyLoader(lazy(() => import('../pages/design-system')));
 
@@ -64,6 +67,10 @@ export const DashRoutes = (authenticated: boolean) => {
       },
 
       {
+        path: '/dashboard/jose',
+        element: <DesignSystem />,
+      },
+      {
         path: '/dashboard/charts',
         element: <ChartPage />,
       },
@@ -71,6 +78,11 @@ export const DashRoutes = (authenticated: boolean) => {
         path: '/insights/notifications',
         element: <NotificationPage />,
       },
+      {
+        path: '/insights/overview',
+        element: <OverviewPage />,
+      },
+
       {
         path: '*',
         element: <NotFound />,
