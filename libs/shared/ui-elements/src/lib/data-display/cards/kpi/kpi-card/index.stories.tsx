@@ -1,6 +1,7 @@
 import { KpiCard } from './index'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import { SampleKpiCardProps } from './mocks' // todo update mocks
 
 const Story: ComponentMeta<typeof KpiCard> = {
   component: KpiCard,

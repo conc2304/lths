@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { KpiCard } from '../kpi-card/index';
-import { KpiCardProps, TrendProps } from '../kpi-card/index';
+import {KpiCardProps, TrendProps} from "../kpi-card/types"; // todo migarate props
 
 export type KpiRolloverCardProps = KpiCardProps & {
   sparkLine: React.ReactElement;
