@@ -6,7 +6,9 @@
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
-  "files": [],
+  "files": [
+    "./src/themes.d.ts"
+  ],
   "include": [],
   "references": [
     {
