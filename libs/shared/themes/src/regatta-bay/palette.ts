@@ -19,7 +19,10 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
     },
     // @ts-ignore
     alt_button: {
+      // light: '#FALSE',
+      light: '#4DB2FF',
       main: '#0091FF',
+      dark: '#0066B3',
       contrastText: '#0091FF',
     },
   };

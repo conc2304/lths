@@ -7,7 +7,7 @@
     "strict": true
   },
   "files": [
-    "./src/themes.d.ts"
+    "src/createPalette.d.ts"
   ],
   "include": [],
   "references": [
