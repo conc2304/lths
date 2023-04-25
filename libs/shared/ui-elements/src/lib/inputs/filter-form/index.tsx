@@ -66,7 +66,12 @@ export const FilterForm = ({
         </DialogContent>
         <Divider variant="middle" sx={{ mt: 3 }} />
         <DialogActions sx={{ m: 3 }}>
-          <Button variant="text" color="alt_button" onClick={handleClearFilters} sx={{ fontSize: '0.75rem', mr: 1.75 }}>
+          <Button
+            variant="text"
+            color="secondaryButton"
+            onClick={handleClearFilters}
+            sx={{ fontSize: '0.75rem', mr: 1.75 }}
+          >
             CLEAR ALL FILTERS
           </Button>
           <Button variant="outlined" color="primary" onClick={handleCancel} sx={{ mr: 0.75 }}>

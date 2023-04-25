@@ -3,9 +3,9 @@ import { PaletteColor, PaletteColorOptions } from '@mui/material/styles/createPa
 
 declare module '@mui/material/styles/createPalette' {
   interface Palette {
-    alt_button: PaletteColor;
+    secondaryButton: PaletteColor;
   }
   interface PaletteOptions {
-    alt_button: PaletteColorOptions;
+    secondaryButton: PaletteColorOptions;
   }
 }

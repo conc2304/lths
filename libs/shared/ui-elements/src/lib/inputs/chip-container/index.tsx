@@ -174,7 +174,13 @@ export const ChipContainer = ({
           </Box>
 
           <div ref={buttonRef}>
-            <Button variant="text" color="alt_button" size="large" onClick={onClearAll} sx={{ whiteSpace: 'nowrap' }}>
+            <Button
+              variant="text"
+              color="secondaryButton"
+              size="large"
+              onClick={onClearAll}
+              sx={{ whiteSpace: 'nowrap' }}
+            >
               Clear All
             </Button>
           </div>
