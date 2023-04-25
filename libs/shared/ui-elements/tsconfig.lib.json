@@ -8,7 +8,9 @@
   },
   "files": [
     "../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nrwl/react/typings/image.d.ts"
+    "../../../node_modules/@nrwl/react/typings/image.d.ts",
+    "../themes/src/createPalette.d.ts",
+    "../themes/src/Button.d.ts",
   ],
   "exclude": [
     "jest.config.ts",

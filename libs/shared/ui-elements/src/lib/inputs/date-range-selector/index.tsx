@@ -197,7 +197,6 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
           <Grid>
             <Button
               variant="outlined"
-              // @ts-ignore
               color="alt_button"
               disabled={!isDateRangeValid}
               onClick={handleUpdateRange}

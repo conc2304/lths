@@ -1,4 +1,5 @@
-import { Dialog, DialogContent, DialogActions, Button, Divider, useTheme, useMediaQuery, Box } from '@mui/material';
+import { Dialog, DialogContent, DialogActions, Divider, useTheme, useMediaQuery, Box } from '@mui/material';
+import Button from '@mui/material/Button';
 import { FormSchema, FormState } from '@lths/shared/ui-filters';
 
 import { FormTitle } from './form-title';
@@ -65,13 +66,7 @@ export const FilterForm = ({
         </DialogContent>
         <Divider variant="middle" sx={{ mt: 3 }} />
         <DialogActions sx={{ m: 3 }}>
-          <Button
-            variant="text"
-            // @ts-ignore
-            color="alt_button"
-            onClick={handleClearFilters}
-            sx={{ fontSize: '0.75rem', mr: 1.75 }}
-          >
+          <Button variant="text" color="alt_button" onClick={handleClearFilters} sx={{ fontSize: '0.75rem', mr: 1.75 }}>
             CLEAR ALL FILTERS
           </Button>
           <Button variant="outlined" color="primary" onClick={handleCancel} sx={{ mr: 0.75 }}>
