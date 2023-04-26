@@ -34,6 +34,10 @@ export const reducer = (draft: FilterFormStateContextType, action: FilterFormSta
       draft.formState = action.formState;
       break;
     }
+    case 'SET_DATE_RANGE': {
+      draft.dateRange = action.dateRange;
+      break;
+    }
     default:
       throw new Error(`Unhandled action: ${action}`);
   }

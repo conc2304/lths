@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { HOST_API } from './constants';
+import { AUTH_TOKEN, HOST_API } from './constants';
 //import { RootState } from './types';
 import rootReducer from './root-reducer';
 
@@ -10,7 +10,9 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     headers.set('Access-Control-Allow-Origin', '*');
 
-    const token = (getState() as RootState).auth.token;
+    //const token = (getState() as RootState).auth.token;
+
+    const token = localStorage.getItem(AUTH_TOKEN);
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

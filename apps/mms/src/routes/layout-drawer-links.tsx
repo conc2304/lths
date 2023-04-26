@@ -113,9 +113,9 @@ const sections: DrawerSectionProps[] = [
             path: '/insights/notifications',
           },
           {
-            title: 'Advertising',
+            title: 'Overview',
             icon: <LiveTvIcon />,
-            path: '/insights/advertising',
+            path: '/insights/overview',
           },
         ],
       },

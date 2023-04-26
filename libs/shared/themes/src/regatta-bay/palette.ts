@@ -10,8 +10,7 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
       contrastText: '#FFF',
     },
     secondary: {
-      // main: '#e6f4ff',
-      main: '#0091FF',
+      main: '#e6f4ff',
       contrastText: '#1677ff',
     },
     info: {
