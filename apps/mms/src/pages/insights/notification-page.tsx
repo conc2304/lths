@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { Box, IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, Button, IconButton, TableCell, TableRow } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
-import { Table, PageHeader, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { PageHeader } from 'libs/shared/ui-layouts/src/lib/components';
 
 const headers = [
   {
@@ -93,10 +95,13 @@ const NotificationPage = (): JSX.Element => {
     <Box>
       <PageHeader
         title="Notifications"
-        createReportHandler={() => console.log('handling create report')}
+        rightContent={
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log(`handling create report`)}>
+            CREATE REPORT
+          </Button>
+        }
         sx={{ mt: 2 }}
       />
-
       <Table
         loading={isLoading}
         fetching={isFetching}
