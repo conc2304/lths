@@ -1,4 +1,4 @@
-import { ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
+import type { ActionProps, InfoTooltipProps } from '../../icons/tooltip/info-tooltip/index';
 
 export type TrendDataPointProps = {
     title: string;
@@ -8,7 +8,7 @@ export type TrendDataPointProps = {
   };
   
 export type TrendProps = {
-    duration: number | string; // 7
+    duration: number | string;
     span: TrendDataPointProps;
     median?: TrendDataPointProps;
 };

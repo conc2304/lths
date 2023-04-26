@@ -4,7 +4,7 @@ import { ArrowForward } from '@mui/icons-material';
 import { styled, useTheme } from '@mui/material/styles';
 
 import { KpiCard } from '../kpi-card/index';
-import { KpiCardProps } from '../kpi-card/types';
+import { KpiCardProps } from '../types';
 
 export type KpiSparklineCardProps = KpiCardProps & {
   sparkLine?: React.ReactElement;

@@ -4,8 +4,8 @@ import { Add, Remove, ArrowOutward } from '@mui/icons-material';
 import { green, red } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import { TrendDataPointProps, KpiCardProps } from './types';
 import InfoTooltip from '../../../icons/tooltip/info-tooltip/index';
+import { TrendDataPointProps, KpiCardProps } from '../types';
 
 
 export const KpiCard: React.FC<KpiCardProps> = (props) => {

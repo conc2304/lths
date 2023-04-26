@@ -4,7 +4,7 @@ import { ArrowOutward} from '@mui/icons-material';
 import { grey, green, red } from "@mui/material/colors";
 import { useTheme } from '@mui/material/styles';
 
-import { TrendDataPointProps, KpiCardProps } from '../kpi-card/types';
+import { TrendDataPointProps, KpiCardProps } from '../types';
 
 export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
