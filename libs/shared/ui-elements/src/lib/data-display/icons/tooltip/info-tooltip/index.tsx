@@ -65,12 +65,14 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
       style={{ float: 'right', margin: theme.spacing(0.8) }}
       onMouseEnter={onPopoverOpen}
       onMouseLeave={onPopperClose}
+      data-testid="InfoTooltipOnHover"
     >
       <Typography aria-owns={open ? 'mouse-over-popover' : undefined} aria-haspopup="true">
         <InfoOutlined sx={{ color: infoIconColor, fontSize: theme.spacing(2.55) }} />
       </Typography>
       <Popover
         id={'mouse-over-popover'}
+        data-testid="TooltipPopover"
         sx={{
           pointerEvents: 'none',
         }}
@@ -104,8 +106,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
               {description}
             </Typography>
             {action?.url && (
-              <GreyCardLink href={action.url} underline="none" variant="body2">
-                {action.title}
+              <GreyCardLink href={action.url} underline="none" variant="body2" data-testid="Link is here">
+                {action.title ? action.title : 'LEARN MORE'}
               </GreyCardLink>
             )}
           </CardContent>

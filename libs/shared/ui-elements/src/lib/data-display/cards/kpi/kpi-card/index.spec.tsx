@@ -6,7 +6,7 @@ import { render, screen } from "@testing-library/react";
 
 import { KpiCardProps } from "./types";
 import KpiCard from '../kpi-card';
-// add toskip
+
 describe("KpiCard Component", () => {
   let props: KpiCardProps;
   beforeEach(() => {

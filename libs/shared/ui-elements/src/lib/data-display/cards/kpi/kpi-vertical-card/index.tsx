@@ -22,7 +22,7 @@ export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
     // Todo: end
     const iconStyle = { marginLeft: theme.spacing(-0.375), marginBottom: theme.spacing(0.25), width: theme.spacing(2.25), height: theme.spacing(2.25), color: displayColor };
 
-    const displayIcon = (direction === "up") ? <ArrowOutward sx={iconStyle} /> : <ArrowOutward sx={{...iconStyle, transform: "rotate(90deg)" }} />;
+    const displayIcon = (direction === "up") ? <ArrowOutward sx={iconStyle} data-testid="UpArrowOutwardIcon"/> : <ArrowOutward sx={{...iconStyle, transform: "rotate(90deg)" }} data-testid="DownArrowOutwardIcon"/>;
 
     return (
       <Stack direction="row" alignItems="flex-end" spacing={1.75}>
