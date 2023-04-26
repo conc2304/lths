@@ -13,10 +13,20 @@ const Template: ComponentStory<typeof KpiVerticalCard> = (args) => (
 );
 
 const trendProp = {
-  title: "Previous 7 days",
-  unit: "%",
-  value: 31,
-  direction: "up"
+  //types of trens: Time duration, Median
+  duration: 7,
+  span: {
+    title: "Prev 7 days",
+    unit: "%",
+    value: 31,
+    direction: "up"
+  },
+  median: {
+    title: "Median",
+    unit: "%",
+    value: 7,
+    direction: "down"
+  }
 };
 
 export const Primary = Template.bind({});
@@ -24,5 +34,5 @@ Primary.args = {
   title: "Retention", 
   hero: 799, // comp format to add commas
   heroUnit: "SECS",
-  trendDataPoint: trendProp,
+  trends: trendProp,
 };

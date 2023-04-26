@@ -53,5 +53,7 @@ Primary.args = {
   },
 
   sparkLine: <div>react Spark1 line</div>,
-  routeUrl: 'https://en.wikipedia.org/wiki/Retention',
+  detail: { 
+    url: "https://en.wikipedia.org/wiki/Retention",
+  },
 };

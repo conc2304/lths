@@ -4,23 +4,11 @@ import { ArrowOutward} from '@mui/icons-material';
 import { grey, green, red } from "@mui/material/colors";
 import { useTheme } from '@mui/material/styles';
 
-export type TrendDataPointProps = {
-  title: string;
-  unit: string;
-  value: number;
-  direction: string;
-}
-  
-export type KpiVerticalCardProps = {
-  title: string;
-  hero: number;
-  heroUnit?: string;
-  trendDataPoint: TrendDataPointProps;
-}
+import { TrendDataPointProps, KpiCardProps } from '../kpi-card/types';
 
-export const KpiVerticalCard: React.FC<KpiVerticalCardProps> = (props) => {
+export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
-  const { title, hero, heroUnit, trendDataPoint } = props;
+  const { title, hero, heroUnit, trends } = props;
 
   const heroFormated = hero.toLocaleString("en-US");
   const heroUnitStyle = heroUnit && heroUnit.length > 1 ? {paddingLeft: theme.spacing(1), fontSize: theme.spacing(1.75), lineHeight: 2} : {fontSize: theme.spacing(6), lineHeight: 1};
@@ -70,7 +58,7 @@ export const KpiVerticalCard: React.FC<KpiVerticalCardProps> = (props) => {
               )
             }
           </Stack>
-          {DisplayTrendDataPointRow(trendDataPoint)}
+          {DisplayTrendDataPointRow(trends.span)}
         </Stack>
       </CardContent>
     </Card>
