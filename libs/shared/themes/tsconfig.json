@@ -6,7 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
-  "files": [],
+  "files": [
+    "src/createPalette.d.ts",
+    "src/Button.d.ts"
+  ],
   "include": [],
   "references": [
     {

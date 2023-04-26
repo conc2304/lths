@@ -2,7 +2,9 @@
   "name": "lths-mui",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "kill-port": "kill -9 $(lsof -t -i:4200)"
+  },
   "private": true,
   "homepage": ".",
   "devDependencies": {
