@@ -1,14 +1,16 @@
+import { ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
+
 export type TrendDataPointProps = {
     title: string;
     unit: string;
-    value: number;
+    value: number | string;
     direction: string;
-  }
-    
+  };
+  
 export type TrendProps = {
-    duration: number; // 7
-    span: TrendDataPointProps,
-    median?: TrendDataPointProps
+    duration: number | string; // 7
+    span: TrendDataPointProps;
+    median?: TrendDataPointProps;
 };
 
 export type KpiCardProps = {
@@ -16,7 +18,6 @@ export type KpiCardProps = {
     hero: number;
     heroUnit?: string;
     trends: TrendProps;
-    tooltipDesc?: string;
-    tooltipActionUrl? : string;
- }
- 
+    tooltip?: InfoTooltipProps;
+    detail?: ActionProps;
+};

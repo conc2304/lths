@@ -98,7 +98,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             }}
           >
             <Typography sx={{ marginBottom: theme.spacing(1.375) }} variant="body2">
-              {title.toUpperCase()}
+              {title && title.toUpperCase()}
             </Typography>
             <Typography sx={{ marginBottom: theme.spacing(2) }} variant="body2">
               {description}
