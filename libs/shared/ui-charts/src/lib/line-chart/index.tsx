@@ -84,7 +84,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   return null;
 };
 
-const CustomXAxisTick = ({ x, y, payload, eventOptions }) => {
+const CustomXAxisTick = ({ x, y, payload }) => {
   const date = new Date(payload.value);
   const formattedDate = date.toLocaleDateString('en-US', {
     month: 'short',
@@ -94,9 +94,6 @@ const CustomXAxisTick = ({ x, y, payload, eventOptions }) => {
     <g transform={`translate(${x},${y})`}>
       <text x={0} y={0} dy={16} textAnchor="middle" fontSize={16} fill="#000">
         {formattedDate}
-      </text>
-      <text x={0} y={20} dy={14.5} textAnchor="middle" fontSize={16} fill="#055EA3" fontWeight={'bold'}>
-        {eventOptions[payload.index].title?.toUpperCase()}
       </text>
     </g>
   );
@@ -111,7 +108,7 @@ const tickFormatter = ({ value }: any) => {
   return formattedDate;
 };
 
-export const LineChart = ({ data, eventOptions }) => {
+export const LineChart = ({ data }) => {
   const theme = useTheme();
   return (
     <ResponsiveContainer width="98%" height={430}>
@@ -127,7 +124,7 @@ export const LineChart = ({ data, eventOptions }) => {
           dataKey="datetime"
           tickFormatter={tickFormatter}
           tickCount={2}
-          tick={(props) => <CustomXAxisTick {...props} eventOptions={eventOptions} />}
+          tick={(props) => <CustomXAxisTick {...props} />}
         />
         <YAxis />
         <CartesianGrid stroke="#D9D9D9" strokeWidth={0.6} strokeDasharray="0" />
