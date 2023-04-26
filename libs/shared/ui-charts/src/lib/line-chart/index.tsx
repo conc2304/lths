@@ -1,9 +1,9 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { Add } from '@mui/icons-material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { useTheme } from '@mui/material/styles';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export type CustomTooltipProps = {
   active?: boolean;
@@ -11,7 +11,7 @@ export type CustomTooltipProps = {
   label?: string;
 };
 
-const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   const theme = useTheme();
 
   if (active && payload && payload.length) {
@@ -23,6 +23,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
           backgroundColor: 'white',
           padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
           borderRadius: theme.spacing(1.5),
+          marginTop: theme.spacing(1.5),
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       >
@@ -56,15 +57,22 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
           <Typography
             variant="caption"
             color="text.secondary"
-            sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}
+            sx={{
+              marginLeft: theme.spacing(0.5),
+              color: '#6A6A6B',
+              fontSize: '0.75rem',
+            }}
           >
             {data.trends.duration} days ago
           </Typography>
           <Typography
             variant="caption"
-            color="text.secondary
-"
-            sx={{ marginLeft: theme.spacing(0.5), color: '#6A6A6B', fontSize: '0.75rem' }}
+            color="text.secondary"
+            sx={{
+              marginLeft: theme.spacing(0.5),
+              color: '#6A6A6B',
+              fontSize: '0.75rem',
+            }}
           >
             Median
           </Typography>
@@ -76,25 +84,51 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
   return null;
 };
 
-const tickFormatter = (value) => {
+const CustomXAxisTick = ({ x, y, payload, eventOptions }) => {
+  const date = new Date(payload.value);
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text x={0} y={0} dy={16} textAnchor="middle" fontSize={16} fill="#000">
+        {formattedDate}
+      </text>
+      <text x={0} y={20} dy={14.5} textAnchor="middle" fontSize={16} fill="#055EA3" fontWeight={'bold'}>
+        {eventOptions[payload.index].title?.toUpperCase()}
+      </text>
+    </g>
+  );
+};
+
+const tickFormatter = ({ value }: any) => {
   const date = new Date(value);
-  const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
   return formattedDate;
 };
 
-const LineChart = ({ data }) => {
+export const LineChart = ({ data, eventOptions }) => {
   const theme = useTheme();
-
   return (
-    <ResponsiveContainer width="90%" height={400}>
-      <AreaChart data={data} margin={{ top: Number(theme.spacing(1)), right: Number(theme.spacing(3)), left: 0 }}>
-        <defs>
-          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="40%" stopColor="#0760A4" stopOpacity={0.8} />
-            <stop offset="100%" stopColor="#0760A4" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="datetime" tickFormatter={tickFormatter} tickCount={2} />
+    <ResponsiveContainer width="98%" height={430}>
+      <AreaChart
+        data={data}
+        margin={{
+          top: Number(theme.spacing(1)),
+          right: Number(theme.spacing(3)),
+          left: 0,
+        }}
+      >
+        <XAxis
+          dataKey="datetime"
+          tickFormatter={tickFormatter}
+          tickCount={2}
+          tick={(props) => <CustomXAxisTick {...props} eventOptions={eventOptions} />}
+        />
         <YAxis />
         <CartesianGrid stroke="#D9D9D9" strokeWidth={0.6} strokeDasharray="0" />
         <Tooltip content={<CustomTooltip />} />
