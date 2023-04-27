@@ -1,13 +1,14 @@
 import React from "react";
 import { green, red } from "@mui/material/colors";
+import { RBThemeProvider, RBTheme } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
-
 
 import KpiCard from '../kpi-card';
 import { KpiCardProps } from "../types";
 
 describe("KpiCard Component", () => {
+  let component: JSX.Element;
   let props: KpiCardProps;
   beforeEach(() => {
     props = {
@@ -56,59 +57,100 @@ describe("KpiCard Component", () => {
     expect(screen.getByText(`${props.trends.median.value}${props.trends.median.unit}`)).toBeInTheDocument();
   });
 
+  describe("Hero Units", () => {
+    test("should render KpiCard component without heroUnit", () => {
+      props.heroUnit = undefined;
+      render(<KpiCard {...props} />);
+      const heroUnit = screen.queryByLabelText("HeroUnit");
+
+      expect(heroUnit).not.toBeInTheDocument();;
+     });
+
+     test("should render KpiCard component heroUnit with diffrent style when hero unit length equal to 1", () => {
+      props.heroUnit = "%";
+
+      component = (<KpiCard {...props} />);
+      render(RBThemeProvider({ children: component }));
+
+      const heroUnit = screen.getByLabelText("HeroUnit");
+
+      expect(heroUnit).toBeTruthy();
+      expect(heroUnit).toHaveStyle(`
+        font-size: ${RBTheme.spacing(6)};
+        font-weight: 500;
+      `);
+
+     });
+
+     test("should render KpiCard component heroUnit with diffrent style when hero unit length greater than 1", () => {
+      props.heroUnit = "SECS";
+
+      component = (<KpiCard {...props} />);
+      render(RBThemeProvider({ children: component }));
+
+      const heroUnit = screen.getByLabelText("HeroUnit");
+
+      expect(heroUnit).toBeTruthy();
+      expect(heroUnit).toHaveStyle(`
+        font-size: ${RBTheme.spacing(1.75)};
+        padding-left: ${RBTheme.spacing(1)};
+      `);
+
+     });
+  });
+
   describe("Up Down Icons", () => {
     test("should render KpiCard component with up arrow icon", () => {
-        render(<KpiCard {...props} />);
-
-        const upArrowIcon = screen.getByTestId("UpArrowOutwardIcon");
-        expect(upArrowIcon).toBeTruthy();
-        expect(upArrowIcon).toHaveStyle(`color: ${green[500]}`);
+      render(<KpiCard {...props} />);
+      const upArrowIcon = screen.getByLabelText("UpArrowOutwardIcon");
+      expect(upArrowIcon).toBeTruthy();
+      expect(upArrowIcon).toHaveStyle(`color: ${green[500]}`);
     });
 
     test("should render KpiCard component with up add icon", () => {
-        props.trends.median.direction = "up";
-        render(<KpiCard {...props} />);
+      props.trends.median.direction = "up";
+      render(<KpiCard {...props} />);
 
-        const downArrowIcon = screen.getByTestId("AddIcon");
+      const downArrowIcon = screen.getByLabelText("AddIcon");
 
-        expect(downArrowIcon).toBeTruthy();
-        expect(downArrowIcon).toHaveStyle(`color: ${green[500]}`);
+      expect(downArrowIcon).toBeTruthy();
+      expect(downArrowIcon).toHaveStyle(`color: ${green[500]}`);
     });
 
     test("should render KpiCard component with down arrow icon", () => {
-        props.trends.span.direction = "down";
+      props.trends.span.direction = "down";
 
-        render(<KpiCard {...props} />);
+      render(<KpiCard {...props} />);
 
-        const downArrowIcon = screen.getByTestId("DownArrowOutwardIcon");
+      const downArrowIcon = screen.getByLabelText("DownArrowOutwardIcon");
 
-        expect(downArrowIcon).toBeTruthy();
-        expect(downArrowIcon).toHaveStyle(`color: ${red[500]}`);
+      expect(downArrowIcon).toBeTruthy();
+      expect(downArrowIcon).toHaveStyle(`color: ${red[500]}`);
     });
 
     test("should render KpiCard component with down remove icon", () => {
-        render(<KpiCard {...props} />);
+      render(<KpiCard {...props} />);
 
-        const downArrowIcon = screen.getByTestId("RemoveIcon");
+      const downArrowIcon = screen.getByLabelText("RemoveIcon");
 
-        expect(downArrowIcon).toBeTruthy();
-        expect(downArrowIcon).toHaveStyle(`color: ${red[500]}`);
+      expect(downArrowIcon).toBeTruthy();
+      expect(downArrowIcon).toHaveStyle(`color: ${red[500]}`);
     });
   });
 
   describe("Tooltip Icon Render", () => {
     test("should render KpiCard component with tooltip icon", () => {
-        render(<KpiCard {...props} />);
+      render(<KpiCard {...props} />);
 
-        const tooltipIcon = screen.getByTestId("InfoOutlinedIcon");
+      const tooltipIcon = screen.getByTestId("InfoOutlinedIcon");
 
-        expect(tooltipIcon).toBeInTheDocument();
+      expect(tooltipIcon).toBeInTheDocument();
     });
     test("should render KpiCard component without tooltip icon when tooltipDesc is not provided", () => {
-        props.tooltip = undefined;
-        render(<KpiCard {...props} />);
-        
-        expect(screen.queryByTestId("InfoOutlinedIcon")).not.toBeInTheDocument();
+      props.tooltip = undefined;
+      render(<KpiCard {...props} />);
+      
+      expect(screen.queryByTestId("InfoOutlinedIcon")).not.toBeInTheDocument();
     });
   });
 

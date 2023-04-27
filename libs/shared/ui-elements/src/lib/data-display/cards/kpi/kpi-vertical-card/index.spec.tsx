@@ -1,5 +1,6 @@
 import React from "react";
 import { green, red } from "@mui/material/colors";
+import { RBThemeProvider, RBTheme } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
@@ -7,6 +8,7 @@ import KpiVerticalCard from './index';
 import { KpiCardProps } from "../types";
 
 describe("KpiVerticalCard Component", () => {
+  let component: JSX.Element;
   let props: KpiCardProps;
   beforeEach(() => {
     props = {
@@ -45,11 +47,53 @@ describe("KpiVerticalCard Component", () => {
     expect(screen.getByText(`${props.trends.span.value}${props.trends.span.unit}`)).toBeInTheDocument();
   });
 
+  describe("Hero Units", () => {
+    test("should render KpiVerticalCard component without heroUnit", () => {
+      props.heroUnit = undefined;
+      render(<KpiVerticalCard {...props} />);
+      const heroUnit = screen.queryByLabelText("HeroUnit");
+
+      expect(heroUnit).not.toBeInTheDocument();;
+     });
+
+     test("should render KpiVerticalCard component heroUnit with diffrent style when hero unit length equal to 1", () => {
+      props.heroUnit = "%";
+
+      component = (<KpiVerticalCard {...props} />);
+      render(RBThemeProvider({ children: component }));
+
+      const heroUnit = screen.getByLabelText("HeroUnit");
+
+      expect(heroUnit).toBeTruthy();
+      expect(heroUnit).toHaveStyle(`
+        font-size: ${RBTheme.spacing(6)};
+        font-weight: 500;
+      `);
+
+     });
+
+     test("should render KpiCard component heroUnit with diffrent style when hero unit length greater than 1", () => {
+      props.heroUnit = "SECS";
+
+      component = (<KpiVerticalCard {...props} />);
+      render(RBThemeProvider({ children: component }));
+
+      const heroUnit = screen.getByLabelText("HeroUnit");
+
+      expect(heroUnit).toBeTruthy();
+      expect(heroUnit).toHaveStyle(`
+        font-size: ${RBTheme.spacing(1.75)};
+        padding-left: ${RBTheme.spacing(1)};
+      `);
+
+     });
+  });
+
   describe("Up Down Icons", () => {
     test("should render KpiVerticalCard component with up arrow icon", () => {
         render(<KpiVerticalCard {...props} />);
 
-        const upArrowIcon = screen.getByTestId("UpArrowOutwardIcon");
+        const upArrowIcon = screen.getByLabelText("UpArrowOutwardIcon");
         expect(upArrowIcon).toBeTruthy();
         expect(upArrowIcon).toHaveStyle(`color: ${green[500]}`);
     });
@@ -59,7 +103,7 @@ describe("KpiVerticalCard Component", () => {
 
         render(<KpiVerticalCard {...props} />);
 
-        const downArrowIcon = screen.getByTestId("DownArrowOutwardIcon");
+        const downArrowIcon = screen.getByLabelText("DownArrowOutwardIcon");
 
         expect(downArrowIcon).toBeTruthy();
         expect(downArrowIcon).toHaveStyle(`color: ${red[500]}`);

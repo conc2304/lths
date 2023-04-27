@@ -11,8 +11,11 @@ export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
   const { title, hero, heroUnit, trends } = props;
 
   const heroFormated = hero.toLocaleString("en-US");
-  const heroUnitStyle = heroUnit && heroUnit.length > 1 ? {paddingLeft: theme.spacing(1), fontSize: theme.spacing(1.75), lineHeight: 2} : {fontSize: theme.spacing(6), lineHeight: 1};
-
+  const heroUnitStyle =
+    heroUnit && heroUnit.length > 1
+      ? { paddingLeft: theme.spacing(1), fontSize: theme.spacing(1.75), lineHeight: 2, fontWeight: 'bold' }
+      : { fontSize: theme.spacing(6), lineHeight: 1, fontWeight: 500 };
+  
   const DisplayTrendDataPointRow = (trendDataPointProps: TrendDataPointProps) => {
     const { title, unit, value, direction } = trendDataPointProps;
     // TODO: add custum palete theme for increase  and decrease stats
@@ -22,7 +25,7 @@ export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
     // Todo: end
     const iconStyle = { marginLeft: theme.spacing(-0.375), marginBottom: theme.spacing(0.25), width: theme.spacing(2.25), height: theme.spacing(2.25), color: displayColor };
 
-    const displayIcon = (direction === "up") ? <ArrowOutward sx={iconStyle} data-testid="UpArrowOutwardIcon"/> : <ArrowOutward sx={{...iconStyle, transform: "rotate(90deg)" }} data-testid="DownArrowOutwardIcon"/>;
+    const displayIcon = (direction === "up") ? <ArrowOutward sx={iconStyle} aria-label="UpArrowOutwardIcon"/> : <ArrowOutward sx={{...iconStyle, transform: "rotate(90deg)" }} aria-label="DownArrowOutwardIcon"/>;
 
     return (
       <Stack direction="row" alignItems="flex-end" spacing={1.75}>
@@ -47,12 +50,12 @@ export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
             {title.toUpperCase()}
           </Typography>
           <Stack direction="row" alignItems="flex-end" sx={{paddingTop: theme.spacing(0.75)}}>
-            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium", letterSpacing: theme.spacing(0.01875)}}>
+            <Typography sx={{ fontWeight: 500, fontSize: theme.spacing(6), lineHeight: 1, fontStyle: "Medium", letterSpacing: theme.spacing(0.01875)}} aria-label="HeroValue">
               {heroFormated}
             </Typography>
             {
               heroUnit && (
-                <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875)}}>
+                <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875)}} aria-label="HeroUnit">
                   {heroUnit.toUpperCase()}
                 </Typography>
               )
