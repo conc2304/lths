@@ -105,7 +105,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             </Typography>
             {action?.url && (
               <GreyCardLink href={action.url} underline="none" variant="body2">
-                {action.title}
+                {action.title ? action.title : 'LEARN MORE'}
               </GreyCardLink>
             )}
           </CardContent>
