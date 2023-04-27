@@ -4,8 +4,8 @@ import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 
-import { KpiCardProps } from "./types";
 import KpiCard from '../kpi-card';
+import { KpiCardProps } from "../types";
 
 describe("KpiCard Component", () => {
   let props: KpiCardProps;

@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 import KpiVerticalCard from './index';
-import { KpiCardProps } from "../kpi-card/types";
+import { KpiCardProps } from "../types";
 
 describe("KpiVerticalCard Component", () => {
   let props: KpiCardProps;
