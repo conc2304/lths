@@ -9,7 +9,6 @@ const baseQuery = fetchBaseQuery({
   baseUrl: HOST_API,
   prepareHeaders: (headers, { getState }) => {
     headers.set('Access-Control-Allow-Origin', '*');
-
     //const token = (getState() as RootState).auth.token;
 
     const token = localStorage.getItem(AUTH_TOKEN);
