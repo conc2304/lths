@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
-import { useNavigate } from 'react-router-dom';
 
 import DrawerListSection from './drawer-content-section';
 import { DrawerContentSectionListItem } from './drawer-content-section-item';

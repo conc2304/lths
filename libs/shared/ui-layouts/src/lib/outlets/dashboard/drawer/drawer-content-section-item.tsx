@@ -3,7 +3,7 @@ import ChevronRight from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { SxProps, Theme } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ListItemButtonStyled from './list-item-styled';
 import { DrawerSectionItemProps } from '../types';
@@ -27,14 +27,18 @@ export const DrawerContentSectionListItem = ({
   accordionExpanded,
   sx,
 }: Props) => {
-  const { title, icon, path, target } = item;
+  const { title, icon, path } = item;
   // const subitemId = `panel_${s}_${i}_${b}`;
 
   const listItemProps = {};
-  /* if (path) {
+  //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
+  /*if (!showAccordion && path) {
     listItemProps = {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      component: React.forwardRef((props, ref) => <Link {...props} to={path} target={target} />),
+      component: React.forwardRef((props, ref) => (
+        //this is react-router-dom Link
+        <Link {...props} to={path} target={target} style={{ color: 'inherit' }} />
+      )),
     };
   }*/
 
@@ -49,7 +53,10 @@ export const DrawerContentSectionListItem = ({
   const _onListItemClick = () => {
     onListItemClick(itemId, showAccordion, path);
     //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
-    if (showAccordion && path) setTimeout(() => navigate(path), 310);
+    if (path) {
+      if (showAccordion) setTimeout(() => navigate(path), 310);
+      else navigate(path);
+    }
   };
   return (
     <ListItemButtonStyled {...listItemProps} onClick={_onListItemClick} selected={selected} sx={sx}>
