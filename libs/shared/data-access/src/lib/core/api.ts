@@ -7,6 +7,7 @@ type RootState = ReturnType<typeof rootReducer>;
 
 const baseQuery = fetchBaseQuery({
   baseUrl: HOST_API,
+  mode: process.env.NODE_ENV !== 'production' ? 'no-cors' : 'cors',
   prepareHeaders: (headers, { getState }) => {
     headers.set('Access-Control-Allow-Origin', '*');
 
