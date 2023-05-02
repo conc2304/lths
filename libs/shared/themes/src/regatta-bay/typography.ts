@@ -34,8 +34,8 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
       lineHeight: 1.46,
     },
     h6: {
-      fontWeight: 400,
-      fontSize: '0.875rem',
+      fontWeight: 450,
+      fontSize: '0.775rem',
       lineHeight: 1.52,
     },
 

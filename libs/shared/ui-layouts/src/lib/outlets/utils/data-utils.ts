@@ -1,5 +1,5 @@
-import { BreadcrumbPathProps } from '../dashboard/content/types';
-import { DrawerSectionProps } from '../dashboard/types';
+import { BreadcrumbPathProps } from '../dashboard/content';
+import { DrawerSectionProps } from '../dashboard/drawer/sections/types';
 
 export const findRouteTitleByPath = (sections: DrawerSectionProps[], path: string) => {
   const paths: BreadcrumbPathProps[] = [];

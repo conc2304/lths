@@ -1,7 +1,18 @@
 import { ReactNode } from 'react';
 import { AppBarProps } from '@mui/material/AppBar';
 
-import { DrawerSectionProps } from '../types';
+import { BreadcrumbPathProps } from '../../content/breadcrumbs/types';
+
+export type DrawerSectionProps = {
+  header?: string;
+  items?: DrawerSectionItemProps[];
+};
+
+export type DrawerSectionItemProps = BreadcrumbPathProps & {
+  target?: string;
+  icon?: ReactNode;
+  items?: DrawerSectionItemProps[];
+};
 
 export type LayoutHeaderContentProps = {
   headerLeft?: ReactNode;
@@ -17,7 +28,7 @@ export type LayoutDrawerStateProps = {
 };
 export type LayoutHeaderProps = AppBarProps & LayoutDrawerStateProps & LayoutCommonProps;
 
-export type LayoutDrawerSectionProps = {
+export type LayoutDrawerContentProps = {
   sections: DrawerSectionProps[];
 };
 

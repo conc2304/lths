@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { LayoutDrawerStateProps } from './types';
+import { LayoutDrawerStateProps } from './sections/types';
 
 const DrawerHeaderStyled = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })<LayoutDrawerStateProps>(
   ({ theme, open }) => ({

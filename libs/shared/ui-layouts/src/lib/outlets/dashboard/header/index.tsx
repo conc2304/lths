@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import HeaderContent from './header-content';
 import HeaderFullScreenStyled from './header-styled-full';
 import { useLayout, setDrawerVisibility } from '../../../context';
-import { LayoutCommonProps, LayoutHeaderContentProps, LayoutHeaderProps } from '../drawer/types';
+import { LayoutCommonProps, LayoutHeaderContentProps, LayoutHeaderProps } from '../drawer/sections/types';
 
 type Props = LayoutHeaderContentProps & LayoutCommonProps;
 

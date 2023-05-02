@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 
-import { LayoutHeaderContentProps } from '../drawer/types';
+import { LayoutHeaderContentProps } from '../drawer/sections/types';
 
 const HeaderContent = ({ headerLeft, headerRight }: LayoutHeaderContentProps) => {
   return (

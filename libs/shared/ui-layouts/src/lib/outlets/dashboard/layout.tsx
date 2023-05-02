@@ -5,12 +5,12 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { BreadcrumbTrail } from './content';
 import Drawer from './drawer';
-import { LayoutExtendedProps } from './drawer/types';
+import { LayoutExtendedProps } from './drawer/sections/types';
 import Header from './header';
 import { setDrawerVisibility, useLayout } from '../../context';
 import { findRouteTitleByPath } from '../utils/data-utils';
 
-const DashboardLayout = ({
+export const DashboardLayout = ({
   sections,
   //drawerIcon,
   drawerHeader,
@@ -27,7 +27,6 @@ const DashboardLayout = ({
   } = useLayout();
   const location = useLocation();
   const paths = useMemo(() => findRouteTitleByPath(sections, location.pathname), [sections, location.pathname]);
-  console.log('🚀 ~ drawer file: index.tsx:30 ~ sections:', sections, paths);
 
   // set media wise responsive drawer
   useEffect(() => {

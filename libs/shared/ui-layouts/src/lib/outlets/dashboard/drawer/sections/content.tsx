@@ -2,13 +2,13 @@ import * as React from 'react';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 
-import DrawerListSection from './drawer-content-section';
-import { DrawerContentSectionListItem } from './drawer-content-section-item';
-import { LayoutDrawerSectionProps } from './types';
-import { setDrawerSelectedItem, useLayout } from '../../../context';
+import DrawerSectionListItem from './section-item';
+import DrawerSectionList from './section-list';
+import { LayoutDrawerContentProps } from './types';
+import { setDrawerSelectedItem, useLayout } from '../../../../context';
 
 //TODO: item selection login is not solid, needs to switch it to route path
-export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
+export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   const [open, setSelectedSection] = React.useState<string | null>(null);
   const {
     state: { drawerCurrentItem },
@@ -34,7 +34,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
         const { items, header } = section;
         if (!items) return null;
         return (
-          <DrawerListSection key={`list_section_${s}`} header={header}>
+          <DrawerSectionList key={`list_section_${s}`} header={header}>
             {items.map((item, i) => {
               const { items: subitems } = item;
               const collapsible = !!subitems && subitems.length > 0;
@@ -45,7 +45,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
 
               return (
                 <React.Fragment key={`drawer_section_${s}_${i}`}>
-                  <DrawerContentSectionListItem
+                  <DrawerSectionListItem
                     item={item}
                     itemId={panelId}
                     //  onListItemClick={() => onListItemOrCollapsibleClick(panelId, collapsible)}
@@ -63,7 +63,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
                           const selectedItemId = drawerCurrentItem === subitemId;
 
                           return (
-                            <DrawerContentSectionListItem
+                            <DrawerSectionListItem
                               sx={{ pl: 4 }}
                               key={subitemId}
                               item={subitem}
@@ -79,7 +79,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
                 </React.Fragment>
               );
             })}
-          </DrawerListSection>
+          </DrawerSectionList>
         );
       })}
     </>

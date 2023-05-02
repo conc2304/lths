@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import DrawerContent from './drawer-content';
-import DrawerHeader from './drawer-header';
-import DrawerFullScreenStyled from './drawer-styled-full';
-import DrawerMiniScreenStyled from './drawer-styled-mini';
-import { LayoutDrawerProps } from './types';
+import DrawerHeader from './header';
+import DrawerFullScreenStyled from './screens/desktop';
+import DrawerMiniScreenStyled from './screens/mobile';
+import DrawerContent from './sections';
+import { LayoutDrawerProps } from './sections/types';
 import { setDrawerVisibility, useLayout } from '../../../context';
 
 const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) => {

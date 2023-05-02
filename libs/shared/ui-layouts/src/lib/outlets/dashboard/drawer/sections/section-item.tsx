@@ -5,8 +5,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
-import ListItemButtonStyled from './list-item-styled';
-import { DrawerSectionItemProps } from '../types';
+import SectionItemButton from './section-item-button';
+import { DrawerSectionItemProps } from './types';
 
 type Props = {
   item: DrawerSectionItemProps;
@@ -17,8 +17,7 @@ type Props = {
   accordionExpanded?: boolean;
   sx?: SxProps<Theme>;
 };
-
-export const DrawerContentSectionListItem = ({
+const DrawerSectionListItem = ({
   item,
   selected,
   onListItemClick,
@@ -60,10 +59,12 @@ export const DrawerContentSectionListItem = ({
   };
 
   return (
-    <ListItemButtonStyled {...listItemProps} onClick={_onListItemClick} selected={selected} sx={sx}>
+    <SectionItemButton {...listItemProps} onClick={_onListItemClick} selected={selected} sx={sx}>
       {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
       <ListItemText primary={title} />
       {showAccordion && <ChevronRight sx={arrowStyle} />}
-    </ListItemButtonStyled>
+    </SectionItemButton>
   );
 };
+
+export default DrawerSectionListItem;

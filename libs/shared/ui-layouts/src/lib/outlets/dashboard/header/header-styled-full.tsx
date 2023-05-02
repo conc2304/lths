@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 
 import { shouldForwardProp } from '../../utils/mui-utils';
 import { DRAWER_WIDTH } from '../config';
-import { LayoutCommonProps, LayoutDrawerStateProps } from '../drawer/types';
+import { LayoutCommonProps, LayoutDrawerStateProps } from '../drawer/sections/types';
 
 type Props = LayoutDrawerStateProps & LayoutCommonProps;
 //shouldForwardProp - Configure which props should be forwarded on DOM, prop is not array, it just represent single property

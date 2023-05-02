@@ -4,7 +4,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 
 type Props = { header?: string; children: React.ReactNode };
 
-const DrawerListSection = ({ header, children }: Props) => {
+const DrawerSectionList = ({ header, children }: Props) => {
   const subheader = header ? (
     <ListSubheader component="div" id="nested-list-subheader">
       {header}
@@ -22,4 +22,4 @@ const DrawerListSection = ({ header, children }: Props) => {
     </List>
   );
 };
-export default DrawerListSection;
+export default DrawerSectionList;
