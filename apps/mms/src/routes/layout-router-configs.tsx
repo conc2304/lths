@@ -21,6 +21,7 @@ const SamplePage = LazyLoader(lazy(() => import('../pages/sample-page')));
 const ChartPage = LazyLoader(lazy(() => import('../pages/chart-page')));
 const NotificationPage = LazyLoader(lazy(() => import('../pages/insights/notification-page')));
 const OverviewPage = LazyLoader(lazy(() => import('../pages/insights/overview-page')));
+const UsersPage = LazyLoader(lazy(() => import('../pages/insights/users-page')));
 
 const DesignSystem = LazyLoader(lazy(() => import('../pages/design-system')));
 
@@ -81,6 +82,10 @@ export const DashRoutes = (authenticated: boolean) => {
       {
         path: '/insights/overview',
         element: <OverviewPage />,
+      },
+      {
+        path: '/insights/Users',
+        element: <UsersPage />,
       },
 
       {
