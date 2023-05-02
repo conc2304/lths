@@ -78,7 +78,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                     id="email-login"
                     type="email"
                     value={values.email}
-                    name="login"
+                    name="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter username address"
