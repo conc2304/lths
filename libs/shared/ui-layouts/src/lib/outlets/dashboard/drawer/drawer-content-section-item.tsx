@@ -27,8 +27,9 @@ export const DrawerContentSectionListItem = ({
   accordionExpanded,
   sx,
 }: Props) => {
+  const navigate = useNavigate();
+
   const { title, icon, path } = item;
-  // const subitemId = `panel_${s}_${i}_${b}`;
 
   const listItemProps = {};
   //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
@@ -42,14 +43,13 @@ export const DrawerContentSectionListItem = ({
     };
   }*/
 
-  const navigate = useNavigate();
-
   const arrowStyle = showAccordion
     ? {
         transform: `rotate(${!accordionExpanded ? '0deg' : '90deg'})`,
         transition: '.3s all',
       }
     : null;
+
   const _onListItemClick = () => {
     onListItemClick(itemId, showAccordion, path);
     //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
@@ -58,6 +58,7 @@ export const DrawerContentSectionListItem = ({
       else navigate(path);
     }
   };
+
   return (
     <ListItemButtonStyled {...listItemProps} onClick={_onListItemClick} selected={selected} sx={sx}>
       {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}

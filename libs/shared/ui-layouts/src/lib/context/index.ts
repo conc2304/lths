@@ -1,2 +1,2 @@
-export * from './layout-actions';
-export * from './layout-context';
+export * from './actions';
+export * from './context';

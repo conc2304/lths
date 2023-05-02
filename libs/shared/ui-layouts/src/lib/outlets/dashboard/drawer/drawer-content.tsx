@@ -4,7 +4,7 @@ import SimpleBar from '../../../components/simple-bar';
 
 import 'simplebar-react/dist/simplebar.min.css';
 
-const DrawerContent = ({ sections }: LayoutDrawerSectionProps) => {
+const DrawerScrollBarContent = ({ sections }: LayoutDrawerSectionProps) => {
   return (
     <SimpleBar
       sx={{
@@ -19,4 +19,4 @@ const DrawerContent = ({ sections }: LayoutDrawerSectionProps) => {
   );
 };
 
-export default DrawerContent;
+export default DrawerScrollBarContent;
