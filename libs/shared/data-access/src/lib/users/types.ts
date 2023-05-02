@@ -4,7 +4,7 @@ export type LoginResponse = {
 };
 
 export type LoginRequest = {
-  login: string;
+  email: string;
   password: string;
 };
 
@@ -15,9 +15,9 @@ export type AuthenticatedSession = {
 };
 
 export type LogoutResponse = {
-    status: string;
-    message: string;
-  } 
+  status: string;
+  message: string;
+};
 
 export type UserResponse = {
   //accounts: LTHS_Account[];
