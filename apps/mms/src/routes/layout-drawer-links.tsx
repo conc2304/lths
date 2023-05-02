@@ -40,17 +40,7 @@ const sections: DrawerSectionProps[] = [
         icon: <PaletteIcon />,
         path: '/themes/list',
       },
-      {
-        title: 'New Section',
-        icon: <PagesIcon />,
-        items: [
-          {
-            title: 'Charts Page',
-            icon: <DraftsIcon />,
-            path: '/dashboard/charts',
-          },
-        ],
-      },
+
       {
         title: 'Pages',
         icon: <PagesIcon />,
@@ -84,8 +74,20 @@ const sections: DrawerSectionProps[] = [
         ],
       },
       {
+        title: 'New Section',
+        icon: <PagesIcon />,
+        items: [
+          {
+            title: 'Charts Page',
+            icon: <DraftsIcon />,
+            path: '/dashboard/charts',
+          },
+        ],
+      },
+      {
         title: 'Insights',
         icon: <InsightsIcon />,
+        path: '/insights/overview',
         items: [
           {
             title: 'Flows',
@@ -124,7 +126,13 @@ const sections: DrawerSectionProps[] = [
 ];
 
 const DashboardExtendedLayout = (
-  <DashboardLayout sections={sections} headerLeft={headerLeft} headerRight={headerRight} drawerHeader={drawerHeader} fixedHeader={true} />
+  <DashboardLayout
+    sections={sections}
+    headerLeft={headerLeft}
+    headerRight={headerRight}
+    drawerHeader={drawerHeader}
+    fixedHeader={true}
+  />
 );
 
 export default DashboardExtendedLayout;

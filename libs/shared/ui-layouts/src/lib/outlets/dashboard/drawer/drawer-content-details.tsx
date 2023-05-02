@@ -1,13 +1,12 @@
 import * as React from 'react';
-
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
+import { useNavigate } from 'react-router-dom';
 
 import DrawerListSection from './drawer-content-section';
 import { DrawerContentSectionListItem } from './drawer-content-section-item';
-
-import { setDrawerSelectedItem, useLayout } from '../../../context';
 import { LayoutDrawerSectionProps } from './types';
+import { setDrawerSelectedItem, useLayout } from '../../../context';
 
 //TODO: item selection login is not solid, needs to switch it to route path
 export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
@@ -25,10 +24,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
   const onListSectionClick = (panelId: string) => {
     setSelectedSection(panelId === open ? null : panelId);
   };
-  const onListItemOrCollapsibleClick = (
-    panelId: string,
-    collapsible: boolean | null
-  ) => {
+  const onListItemOrCollapsibleClick = (panelId: string, collapsible: boolean) => {
     return collapsible ? onListSectionClick(panelId) : onListItemClick(panelId);
   };
 
@@ -53,9 +49,8 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
                   <DrawerContentSectionListItem
                     item={item}
                     itemId={panelId}
-                    onListItemClick={() =>
-                      onListItemOrCollapsibleClick(panelId, collapsible)
-                    }
+                    //  onListItemClick={() => onListItemOrCollapsibleClick(panelId, collapsible)}
+                    onListItemClick={onListItemOrCollapsibleClick}
                     selected={selectedItemId}
                     showAccordion={collapsible}
                     accordionExpanded={visible}
@@ -66,8 +61,7 @@ export default function DrawerSection({ sections }: LayoutDrawerSectionProps) {
                       <List component="div" disablePadding>
                         {subitems.map((subitem, b) => {
                           const subitemId = `panel_${s}_${i}_${b}`;
-                          const selectedItemId =
-                            drawerCurrentItem === subitemId;
+                          const selectedItemId = drawerCurrentItem === subitemId;
 
                           return (
                             <DrawerContentSectionListItem

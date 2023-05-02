@@ -1,8 +1,8 @@
-import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
 
-import { DRAWER_WIDTH } from '../config';
 import { LayoutDrawerStateProps } from './types';
+import { DRAWER_WIDTH } from '../config';
 
 const DrawerFullScreenStyled = styled(Drawer, {
   shouldForwardProp: (prop) => prop !== 'open',

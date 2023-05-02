@@ -1,9 +1,9 @@
-import { styled } from '@mui/material/styles';
 import ListItemButton from '@mui/material/ListItemButton';
+import { styled } from '@mui/material/styles';
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
   '&:hover': {
-    backgroundColor: theme.palette.secondary.main, 
+    backgroundColor: theme.palette.secondary.main,
   },
   '&.Mui-selected': {
     // bgColor: "primary",
@@ -17,4 +17,4 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
   },
 }));
 
-export  default ListItemButtonStyled;
+export default ListItemButtonStyled;

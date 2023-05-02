@@ -1,9 +1,8 @@
-import 'simplebar-react/dist/simplebar.min.css';
-
 import DrawerSection from './drawer-content-details';
+import { LayoutDrawerSectionProps } from './types';
 import SimpleBar from '../../../components/simple-bar';
 
-import { LayoutDrawerSectionProps } from './types';
+import 'simplebar-react/dist/simplebar.min.css';
 
 const DrawerContent = ({ sections }: LayoutDrawerSectionProps) => {
   return (

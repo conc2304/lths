@@ -1,11 +1,14 @@
+import { ReactNode } from 'react';
+
+import { BreadcrumbPathProps } from './content/types';
+
 export type DrawerSectionProps = {
   header?: string;
   items?: DrawerSectionItemProps[];
 };
-export type DrawerSectionItemProps = {
-  title: string;
-  path?:string,
-  target?:string,
-  icon?: React.ReactNode;
+
+export type DrawerSectionItemProps = BreadcrumbPathProps & {
+  target?: string;
+  icon?: ReactNode;
   items?: DrawerSectionItemProps[];
 };

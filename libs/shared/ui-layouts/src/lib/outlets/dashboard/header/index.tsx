@@ -60,14 +60,10 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
       borderRadius: 0,
     },
   };
-  return (
-    <>
-      {!isMobileOrTablet ? (
-        <HeaderFullScreenStyled {...headerProps}>{mainHeader}</HeaderFullScreenStyled>
-      ) : (
-        <AppBar {...headerProps}>{mainHeader}</AppBar>
-      )}
-    </>
+  return !isMobileOrTablet ? (
+    <HeaderFullScreenStyled {...headerProps}>{mainHeader}</HeaderFullScreenStyled>
+  ) : (
+    <AppBar {...headerProps}>{mainHeader}</AppBar>
   );
 };
 

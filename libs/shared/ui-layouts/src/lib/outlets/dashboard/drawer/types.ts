@@ -1,11 +1,12 @@
+import { ReactNode } from 'react';
 import { AppBarProps } from '@mui/material/AppBar';
 
 import { DrawerSectionProps } from '../types';
 
 export type LayoutHeaderContentProps = {
-  headerLeft?: React.ReactNode;
-  headerRight?: React.ReactNode;
-  drawerIcon?: React.ReactNode;
+  headerLeft?: ReactNode;
+  headerRight?: ReactNode;
+  drawerIcon?: ReactNode;
 };
 
 export type LayoutCommonProps = {
@@ -14,9 +15,7 @@ export type LayoutCommonProps = {
 export type LayoutDrawerStateProps = {
   open: boolean;
 };
-export type LayoutHeaderProps = AppBarProps &
-  LayoutDrawerStateProps &
-  LayoutCommonProps;
+export type LayoutHeaderProps = AppBarProps & LayoutDrawerStateProps & LayoutCommonProps;
 
 export type LayoutDrawerSectionProps = {
   sections: DrawerSectionProps[];
@@ -24,7 +23,7 @@ export type LayoutDrawerSectionProps = {
 
 export type LayoutDrawerProps = LayoutCommonProps & {
   sections: DrawerSectionProps[];
-  drawerHeader?: React.ReactNode;
+  drawerHeader?: ReactNode;
 };
 
 export type LayoutExtendedProps = LayoutHeaderContentProps & LayoutDrawerProps;
