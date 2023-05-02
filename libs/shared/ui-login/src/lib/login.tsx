@@ -23,23 +23,23 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import CenterCard from './center-card';
 
 const LoginForm: React.FC = (): JSX.Element => {
-  //const defaultErrorMsg = 'Something went wrong. Please try logging in again.';
+  const defaultErrorMsg = 'Something went wrong. Please try logging in again.';
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
   };
   const LoginDefaultValues: LoginRequest = {
-    email: '',
+    login: '',
     password: '',
   };
   const onMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, isSuccess, isError }] = useLoginMutation();
 
-  const [getUser] = useLazyGetUserQuery();
+  const [getUser, result] = useLazyGetUserQuery();
 
   const onSubmit = async (values) => {
     try {
@@ -63,7 +63,7 @@ const LoginForm: React.FC = (): JSX.Element => {
       <Formik
         initialValues={LoginDefaultValues}
         //validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           onSubmit(values);
           setSubmitting(false);
         }}
@@ -73,21 +73,21 @@ const LoginForm: React.FC = (): JSX.Element => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                  <InputLabel htmlFor="username-login">Email Address</InputLabel>
                   <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
+                    id="username-login"
+                    type="login"
+                    value={values.login}
+                    name="login"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter username address"
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(touched.login && errors.login)}
                   />
-                  {touched.email && errors.email && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errors.email}
+                  {touched.login && errors.login && (
+                    <FormHelperText error id="standard-weight-helper-text-username-login">
+                      {errors.login}
                     </FormHelperText>
                   )}
                 </Stack>
@@ -148,15 +148,7 @@ const LoginForm: React.FC = (): JSX.Element => {
               </Grid>
 
               <Grid item xs={12}>
-                <LoadingButton
-                  loading={isLoading}
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
+                <LoadingButton loading={isLoading} disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                   Login
                 </LoadingButton>
               </Grid>
