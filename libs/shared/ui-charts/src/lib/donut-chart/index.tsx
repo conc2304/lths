@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Box, styled } from '@mui/material';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
-import { colors } from '../colors';
+import { randomlyGeneratedColors } from '../colors';
 
 const CustomText = styled('text')({
   fontSize: '0.875rem',
@@ -34,10 +34,6 @@ const legendFormatter = (value, entry) => {
   const item = entry.payload;
   console.log(item.title);
   return <Box component="span" sx={{ color: 'black' }}>{`${item.title} (${item.value.toLocaleString('en-US')})`}</Box>;
-};
-const randomlyGeneratedColors = () => {
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
 };
 
 type DonutChartProps = {
