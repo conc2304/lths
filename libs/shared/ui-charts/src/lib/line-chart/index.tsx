@@ -5,6 +5,8 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTheme } from '@mui/material/styles';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+import { randomlyGeneratedColors } from '../colors';
+
 export type CustomTooltipProps = {
   active?: boolean;
   payload?: any[];
@@ -84,16 +86,26 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
   return null;
 };
 
-const CustomXAxisTick = ({ x, y, payload }) => {
-  const date = new Date(payload.value);
+const CustomXAxisTick = ({ x, y, payload, events }: any) => {
+  const date = new Date(payload?.value);
   const formattedDate = date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
   });
+
+  const event = events.find((e: { datetime: any }) => e?.datetime === payload?.value);
+
   return (
     <g transform={`translate(${x},${y})`}>
-      <text x={0} y={0} dy={16} textAnchor="middle" fontSize={16} fill="#000">
-        {formattedDate}
+      <text x={0} y={0} textAnchor="middle" fontSize={16} fill="#000">
+        <tspan x={0} dy="0.8em">
+          {formattedDate}
+        </tspan>
+        {event && (
+          <tspan x={0} dy="2em" fontSize={13.3} fontWeight="medium" fill="#055EA3">
+            {event.title.slice(0, 12).toUpperCase()}
+          </tspan>
+        )}
       </text>
     </g>
   );
@@ -108,28 +120,71 @@ const tickFormatter = ({ value }: any) => {
   return formattedDate;
 };
 
-export const LineChart = ({ data }) => {
+export const LineChart = ({ data, options }: any) => {
   const theme = useTheme();
+
+  // Insert a value in the result of console.log(options.events) and plot the chart
+  const mergedData = data
+    .concat(
+      options.events.map((event: any) => ({
+        ...event,
+        // TODO: Additional Data Required for the Events
+        value: Math.floor(Math.random() * 1000), // Replace 1000 with the desired y-axis value for the event
+        trends: {
+          duration: 7,
+          span: {
+            title: 'Prev 7 days',
+            unit: '%',
+            value: 31,
+            direction: 'up',
+          },
+          median: {
+            title: 'Prev 7 days',
+            unit: '%',
+            value: 31,
+            direction: 'up',
+          },
+        },
+      }))
+    )
+    .sort(
+      (a: { datetime: string | number | Date }, b: { datetime: string | number | Date }) =>
+        new Date(a.datetime).valueOf() - new Date(b.datetime).valueOf()
+    );
+
   return (
     <ResponsiveContainer width="98%" height={430}>
       <AreaChart
-        data={data}
+        data={mergedData}
         margin={{
           top: Number(theme.spacing(1)),
           right: Number(theme.spacing(3)),
           left: 0,
+          bottom: 20,
         }}
       >
+        <defs>
+          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="100%" stopColor={randomlyGeneratedColors()} stopOpacity={0.93} />
+            <stop offset="100%" stopColor={randomlyGeneratedColors()} stopOpacity={0} />
+          </linearGradient>
+        </defs>
         <XAxis
           dataKey="datetime"
           tickFormatter={tickFormatter}
           tickCount={2}
-          tick={(props) => <CustomXAxisTick {...props} />}
+          tick={(props) => <CustomXAxisTick {...props} events={options.events} />}
         />
         <YAxis />
         <CartesianGrid stroke="#D9D9D9" strokeWidth={0.6} strokeDasharray="0" />
-        <Tooltip content={<CustomTooltip />} />
-        <Area type="monotone" dataKey="value" stroke="#0760A4" fillOpacity={1} fill="url(#colorValue)" />
+        <Tooltip animationEasing={'ease-in-out'} content={<CustomTooltip />} />
+        <Area
+          type="monotone"
+          dataKey="value"
+          stroke={randomlyGeneratedColors()}
+          fillOpacity={1}
+          fill="url(#colorValue)"
+        />
       </AreaChart>
     </ResponsiveContainer>
   );
