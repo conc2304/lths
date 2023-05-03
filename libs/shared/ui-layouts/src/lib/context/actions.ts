@@ -12,4 +12,14 @@ export const setDrawerSelectedItem = (dispatch: Dispatch<LayoutContextActionProp
   const type: LayoutProviderActionType = LayoutProviderActionType.CONTEXT_ACTION_ACTIVE_ITEM;
   //return dispatch({ type, LayoutStateType:{drawerCurrentItem}});
   return dispatch({ type, payload });
-};
+}; /*
+/**
+ * Set last part of the breadcrumbs
+ *
+ */ /*
+export const setBreacrumbActiveItem = (dispatch: Dispatch<LayoutContextActionProps>, currentPageTitle: string) => {
+  const payload: {path,title} = {  };
+  const type: LayoutProviderActionType = LayoutProviderActionType.CONTEXT_ACTION_ACTIVE_ITEM;
+  //return dispatch({ type, LayoutStateType:{drawerCurrentItem}});
+  return dispatch({ type, payload });
+};*/

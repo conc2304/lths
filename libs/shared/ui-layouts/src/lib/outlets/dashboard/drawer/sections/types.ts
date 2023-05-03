@@ -11,6 +11,7 @@ export type DrawerSectionProps = {
 export type DrawerSectionItemProps = BreadcrumbPathProps & {
   target?: string;
   icon?: ReactNode;
+  hidden?: boolean;
   items?: DrawerSectionItemProps[];
 };
 

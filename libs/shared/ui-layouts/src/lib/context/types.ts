@@ -3,6 +3,7 @@ import { Dispatch, ReactNode } from 'react';
 export type LayoutStateType = {
   drawerVisible?: boolean;
   drawerCurrentItem?: string;
+  //breadcrumbs: string[];
 };
 export enum LayoutProviderActionType {
   CONTEXT_ACTION_ACTIVE_ITEM = 'CONTEXT_ACTION_ACTIVE_ITEM',

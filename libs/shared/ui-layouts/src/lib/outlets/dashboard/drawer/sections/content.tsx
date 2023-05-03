@@ -58,21 +58,23 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
                   {collapsible && (
                     <Collapse in={visible} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                        {subitems.map((subitem, b) => {
-                          const subitemId = `panel_${s}_${i}_${b}`;
-                          const selectedItemId = drawerCurrentItem === subitemId;
+                        {subitems
+                          .filter((subitem) => !subitem.hidden)
+                          .map((subitem, b) => {
+                            const subitemId = `panel_${s}_${i}_${b}`;
+                            const selectedItemId = drawerCurrentItem === subitemId;
 
-                          return (
-                            <DrawerSectionListItem
-                              sx={{ pl: 4 }}
-                              key={subitemId}
-                              item={subitem}
-                              itemId={subitemId}
-                              onListItemClick={onListItemClick}
-                              selected={selectedItemId}
-                            />
-                          );
-                        })}
+                            return (
+                              <DrawerSectionListItem
+                                sx={{ pl: 4 }}
+                                key={subitemId}
+                                item={subitem}
+                                itemId={subitemId}
+                                onListItemClick={onListItemClick}
+                                selected={selectedItemId}
+                              />
+                            );
+                          })}
                       </List>
                     </Collapse>
                   )}
