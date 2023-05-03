@@ -1,4 +1,4 @@
-import { ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
+import { ActionProps, InfoTooltipProps } from '../../icons/tooltip/info-tooltip';
 
 export type TrendDataPointProps = {
     title: string;
