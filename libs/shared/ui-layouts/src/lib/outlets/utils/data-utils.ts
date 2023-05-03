@@ -1,7 +1,16 @@
 import { BreadcrumbPathProps } from '../dashboard/content';
 import { DrawerSectionItemProps, DrawerSectionProps } from '../dashboard/drawer/sections/types';
 
-function findPathInSection(path: string, section: DrawerSectionProps) {
+export const getActivePageTitle = (breadcrumbs: BreadcrumbPathProps[] | BreadcrumbPathProps) => {
+  if (breadcrumbs != null) {
+    if (Array.isArray(breadcrumbs)) {
+      if (breadcrumbs.length > 0) return breadcrumbs[breadcrumbs.length - 1].title;
+    } else return (breadcrumbs as BreadcrumbPathProps).title;
+  }
+  return null;
+};
+
+const findPathInSection = (path: string, section: DrawerSectionProps) => {
   const paths: BreadcrumbPathProps[] = [];
   section.items?.every((i) => {
     if (i.path === path) {
@@ -18,9 +27,9 @@ function findPathInSection(path: string, section: DrawerSectionProps) {
     return true;
   });
   return paths;
-}
+};
 
-function findPathInItems(path: string, items: DrawerSectionItemProps[]) {
+const findPathInItems = (path: string, items: DrawerSectionItemProps[]) => {
   const paths: BreadcrumbPathProps[] = [];
   items?.forEach((item) => {
     if (item.path === path) {
@@ -34,7 +43,7 @@ function findPathInItems(path: string, items: DrawerSectionItemProps[]) {
     }
   });
   return paths;
-}
+};
 
 export function findPath(path: string, sections: DrawerSectionProps[]) {
   const paths: BreadcrumbPathProps[] = [];

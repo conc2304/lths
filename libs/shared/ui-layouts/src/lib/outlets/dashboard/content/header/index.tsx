@@ -1,7 +1,6 @@
 import { Box, Stack, SxProps, Typography } from '@mui/material';
 
 import { useLayoutActions } from '../../../../context';
-import { BreadcrumbPathProps } from '../breadcrumbs/types';
 
 export type PageHeaderProps = {
   title?: string;
@@ -10,15 +9,12 @@ export type PageHeaderProps = {
   sx?: SxProps;
 };
 
-export function PageHeader(props: PageHeaderProps) {
+const PageHeader = (props: PageHeaderProps) => {
   const { leftContent, rightContent, sx = {} } = props;
 
-  const { breadcrumbs } = useLayoutActions();
-  const title = props.title
-    ? props.title
-    : Array.isArray(breadcrumbs) && breadcrumbs.length > 0
-    ? breadcrumbs[breadcrumbs.length - 1].title
-    : (breadcrumbs as BreadcrumbPathProps).title;
+  const { pageTitle } = useLayoutActions();
+  const title = props.title ? props.title : pageTitle;
+
   return (
     <Box sx={sx}>
       <Stack direction="row" justifyContent="space-between">
@@ -34,6 +30,6 @@ export function PageHeader(props: PageHeaderProps) {
       </Stack>
     </Box>
   );
-}
+};
 
 export default PageHeader;

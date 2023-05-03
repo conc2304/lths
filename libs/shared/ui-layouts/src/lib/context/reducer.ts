@@ -20,6 +20,11 @@ const layoutReducer = (state: LayoutStateType, action: LayoutContextActionProps)
       const breadcrumbs = action.payload?.breadcrumbs;
       return { ...state, breadcrumbs };
     }
+    case LayoutProviderActionType.LAYOUT_ACTION_SET_PAGE_TITLE: {
+      const pageTitle = action.payload?.pageTitle;
+      return { ...state, pageTitle };
+    }
+
     default: {
       return initialState;
     }

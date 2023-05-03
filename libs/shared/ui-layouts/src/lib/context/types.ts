@@ -5,12 +5,14 @@ import { BreadcrumbPathProps } from '../outlets/dashboard/content';
 export type LayoutStateType = {
   drawerVisible?: boolean;
   drawerCurrentItem?: string;
-  breadcrumbs?: BreadcrumbPathProps[] | BreadcrumbPathProps;
+  pageTitle?: string;
+  breadcrumbs?: BreadcrumbPathProps[];
 };
 export enum LayoutProviderActionType {
   LAYOUT_ACTION_SET_ACTIVE_ITEM = 'LAYOUT_ACTION_SET_ACTIVE_ITEM',
   LAYOUT_ACTION_OPEN_DRAWER = 'LAYOUT_ACTION_OPEN_DRAWER',
   LAYOUT_ACTION_SET_BREADCRUMBS = 'LAYOUT_ACTION_SET_BREADCRUMBS',
+  LAYOUT_ACTION_SET_PAGE_TITLE = 'LAYOUT_ACTION_SET_PAGE_TITLE',
 }
 
 export type LayerProviderProps = {

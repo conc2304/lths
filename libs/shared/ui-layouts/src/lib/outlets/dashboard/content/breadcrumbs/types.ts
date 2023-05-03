@@ -1,4 +1,4 @@
 export type BreadcrumbPathProps = {
-  title: string;
+  title?: string;
   path?: string;
 };

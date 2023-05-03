@@ -6,13 +6,23 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { BreadcrumbLink } from './link';
 import { BreadcrumbTitle } from './title';
 import { BreadcrumbPathProps } from './types';
-
-const BreadcrumbTrail = ({ paths }: { paths: BreadcrumbPathProps[] }) => {
+type Props = { paths: BreadcrumbPathProps[]; activePageTitle?: string };
+const BreadcrumbTrail = ({ paths, activePageTitle }: Props) => {
   const renderInactivePaths = useCallback((paths: BreadcrumbPathProps[]) => {
-    return paths.length > 1 && paths.slice(0, -1).map((props) => <BreadcrumbLink {...props} />);
+    return (
+      paths.length > 1 &&
+      paths
+        .slice(0, -1)
+        .filter((o) => o.title) //ignore blank or null titles
+        .map((props) => <BreadcrumbLink {...props} />)
+    );
   }, []);
-  const renderActivePath = useCallback((paths: BreadcrumbPathProps[]) => {
-    return paths.length > 0 && <BreadcrumbTitle title={paths[paths.length - 1].title} />;
+  const renderActivePath = useCallback((paths: BreadcrumbPathProps[], activePageTitle?: string) => {
+    return activePageTitle != null ? (
+      <BreadcrumbTitle title={activePageTitle} />
+    ) : (
+      paths.length > 0 && <BreadcrumbTitle title={paths[paths.length - 1].title} />
+    );
   }, []);
   return (
     <Breadcrumbs
@@ -28,7 +38,7 @@ const BreadcrumbTrail = ({ paths }: { paths: BreadcrumbPathProps[] }) => {
       </Link>
 
       {renderInactivePaths(paths)}
-      {renderActivePath(paths)}
+      {renderActivePath(paths, activePageTitle)}
     </Breadcrumbs>
   );
 };

@@ -30,18 +30,6 @@ const DrawerSectionListItem = ({
 
   const { title, icon, path } = item;
 
-  const listItemProps = {};
-  //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
-  /*if (!showAccordion && path) {
-    listItemProps = {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      component: React.forwardRef((props, ref) => (
-        //this is react-router-dom Link
-        <Link {...props} to={path} target={target} style={{ color: 'inherit' }} />
-      )),
-    };
-  }*/
-
   const arrowStyle = showAccordion
     ? {
         transform: `rotate(${!accordionExpanded ? '0deg' : '90deg'})`,
@@ -49,7 +37,7 @@ const DrawerSectionListItem = ({
       }
     : null;
 
-  const _onListItemClick = () => {
+  const handleListItemClick = () => {
     onListItemClick(itemId, showAccordion, path);
     //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
     if (path) {
@@ -57,12 +45,17 @@ const DrawerSectionListItem = ({
       else navigate(path);
     }
   };
+  const handleListItemArrowClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    onListItemClick(itemId, showAccordion, path);
+    event.stopPropagation();
+    event.preventDefault();
+  };
 
   return (
-    <SectionItemButton {...listItemProps} onClick={_onListItemClick} selected={selected} sx={sx}>
+    <SectionItemButton onClick={handleListItemClick} selected={selected} sx={sx}>
       {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
       <ListItemText primary={title} />
-      {showAccordion && <ChevronRight sx={arrowStyle} />}
+      {showAccordion && <ChevronRight sx={arrowStyle} onClick={handleListItemArrowClick} />}
     </SectionItemButton>
   );
 };

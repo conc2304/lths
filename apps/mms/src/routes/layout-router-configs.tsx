@@ -20,6 +20,7 @@ const SamplePage = LazyLoader(lazy(() => import('../pages/sample-page')));
 
 const ChartPage = LazyLoader(lazy(() => import('../pages/chart-page')));
 const NotificationPage = LazyLoader(lazy(() => import('../pages/insights/notification-page')));
+const DetailPage = LazyLoader(lazy(() => import('../pages/detail-page')));
 const OverviewPage = LazyLoader(lazy(() => import('../pages/insights/overview-page')));
 
 const DesignSystem = LazyLoader(lazy(() => import('../pages/design-system')));
@@ -31,6 +32,7 @@ const NotFound = LazyLoader(lazy(() => import('../pages/404')));
 
 const PublicLayout = <BasicLayout />;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const AuthenticationRoutes = (authenticated: boolean) => {
   return {
     path: '/',
@@ -80,7 +82,7 @@ export const DashRoutes = (authenticated: boolean) => {
       },
       {
         path: '/insights/notifications/detail',
-        element: <NotificationPage />,
+        element: <DetailPage />,
       },
       {
         path: '/insights/overview',

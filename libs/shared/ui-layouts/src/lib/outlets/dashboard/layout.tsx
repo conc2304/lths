@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -21,32 +21,20 @@ export const DashboardLayout = ({
   const theme = useTheme();
   const isMiniScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
-  const { setDrawerVisibility, setBreacrumbsHook, breadcrumbs } = useLayoutActions();
+  const { setDrawerVisibility, setPageTitle, breadcrumbs, pageTitle } = useLayoutActions();
   const location = useLocation();
-  const paths =
-    breadcrumbs == null
-      ? []
-      : Array.isArray(breadcrumbs)
-      ? breadcrumbs
-      : typeof breadcrumbs === 'string'
-      ? [{ title: breadcrumbs }]
-      : [breadcrumbs];
+
   const checkManualPaths = (
-    manualPaths: BreadcrumbPathProps | BreadcrumbPathProps[],
+    manualPaths: BreadcrumbPathProps[],
     currentPath: string,
     sections: DrawerSectionProps[]
   ) => {
-    if (manualPaths == null) return findPath(location.pathname, sections);
-    else if (Array.isArray(manualPaths)) return manualPaths;
-    //if (typeof manualPaths === 'BreadcrumbPathProps') {
-    else {
-      const paths = findPath(location.pathname, sections);
-      if (paths.length > 0) paths[paths.length - 1] = breadcrumbs as BreadcrumbPathProps;
-      return paths;
-    }
+    if (manualPaths != null) return manualPaths;
+    else return findPath(currentPath, sections);
   };
-  /*
-  const paths = useMemo(
+
+  const [paths, setPaths] = useState<BreadcrumbPathProps[]>([]);
+  /*const paths = useMemo(
     () => checkManualPaths(breadcrumbs, location.pathname, sections),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [sections, breadcrumbs, location.pathname]
@@ -58,18 +46,14 @@ export const DashboardLayout = ({
 
   // set media wise responsive drawer
   useEffect(() => {
-    setBreacrumbsHook(checkManualPaths(breadcrumbs, location.pathname, sections));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sections, breadcrumbs, location.pathname]);
-
-  /*
-  useEffect(() => {
-    console.log('setBreacrumbsHook', paths);
-    if (paths.length > 0 && breadcrumbs != null) {
-      setBreacrumbsHook(paths[paths.length - 1].title);
+    //setBreacrumbsHook(checkManualPaths(breadcrumbs, location.pathname, sections));
+    const paths = checkManualPaths(breadcrumbs, location.pathname, sections);
+    setPaths(paths);
+    if (paths.length > 0) {
+      setPageTitle(paths[paths.length - 1].title);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paths]);*/
+  }, [sections, breadcrumbs, location.pathname]);
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
@@ -78,7 +62,7 @@ export const DashboardLayout = ({
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 1, sm: 2 } }}>
         <Toolbar />
         {/* <---toolbar is added here to push down the breadcrumbs menu or TODO:add a gutter equivalent of navbar size*/}
-        <BreadcrumbTrail paths={paths} />
+        <BreadcrumbTrail paths={paths} activePageTitle={pageTitle} />
         <Outlet />
       </Box>
     </Box>

@@ -14,7 +14,6 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   const { setDrawerSelectedItem, drawerCurrentItem } = useLayoutActions();
   const onListItemClick = (id: string) => {
     setDrawerSelectedItem(id);
-    console.log(id);
   };
 
   const onListSectionClick = (panelId: string) => {
