@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
 
-import DonutChart from '../../../../libs/shared/ui-charts/donut-chart';
-import LineChart from '../../../../libs/shared/ui-charts/line-chart';
+// import DonutChart from '../../../../libs/shared/ui-charts/donut-chart';
+// import LineChart from '../../../../libs/shared/ui-charts/line-chart';
 //DIFFERENT WAYS TO DEFINE PROPS
 
 //const SamplePage:React.FC<{children:React.ReactNode}> = ({children}):JSX.Element => {
@@ -128,7 +128,7 @@ const SamplePage = (): JSX.Element => {
         construal. Duos aube grue dolor in reprehended in voltage veil esse colum doolie eu fujian bulla parian.
         Exceptive sin ocean cuspidate non president, sunk in culpa qui officiate descent molls anim id est labours.
       </Typography>
-      <Box
+      {/* <Box
         sx={{
           width: '100%',
           height: '400px',
@@ -142,7 +142,7 @@ const SamplePage = (): JSX.Element => {
         <Box>
           <LineChart data={histogramData.data} />
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

@@ -96,5 +96,3 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
     </Paper>
   );
 };
-
-export default KpiRolloverCard;
