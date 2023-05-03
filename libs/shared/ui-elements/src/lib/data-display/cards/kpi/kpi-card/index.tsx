@@ -4,7 +4,7 @@ import { Add, Remove, ArrowOutward } from '@mui/icons-material';
 import { green, red } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import InfoTooltip from '../../../icons/tooltip/info-tooltip/index';
+import { InfoTooltip } from '../../../icons/tooltip/info-tooltip/index';
 import { TrendDataPointProps, KpiCardProps } from '../types';
 
 
