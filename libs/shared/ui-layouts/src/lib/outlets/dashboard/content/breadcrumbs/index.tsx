@@ -5,9 +5,8 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 
 import { BreadcrumbLink } from './link';
 import { BreadcrumbTitle } from './title';
-import { BreadcrumbPathProps } from './types';
-type Props = { paths: BreadcrumbPathProps[]; activePageTitle?: string };
-const BreadcrumbTrail = ({ paths, activePageTitle }: Props) => {
+import { BreadcrumbPathProps, BreadcrumbTrailProps } from './types';
+const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
   const renderInactivePaths = useCallback((paths: BreadcrumbPathProps[]) => {
     return (
       paths.length > 1 &&
