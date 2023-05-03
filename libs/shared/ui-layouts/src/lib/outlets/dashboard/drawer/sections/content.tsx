@@ -5,18 +5,15 @@ import List from '@mui/material/List';
 import DrawerSectionListItem from './section-item';
 import DrawerSectionList from './section-list';
 import { LayoutDrawerContentProps } from './types';
-import { setDrawerSelectedItem, useLayout } from '../../../../context';
+import { useLayoutActions } from '../../../../context';
 
 //TODO: item selection login is not solid, needs to switch it to route path
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   const [open, setSelectedSection] = React.useState<string | null>(null);
-  const {
-    state: { drawerCurrentItem },
-    dispatch,
-  } = useLayout();
 
+  const { setDrawerSelectedItem, drawerCurrentItem } = useLayoutActions();
   const onListItemClick = (id: string) => {
-    setDrawerSelectedItem(dispatch, id);
+    setDrawerSelectedItem(id);
     console.log(id);
   };
 

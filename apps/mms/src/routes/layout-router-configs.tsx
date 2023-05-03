@@ -79,6 +79,10 @@ export const DashRoutes = (authenticated: boolean) => {
         element: <NotificationPage />,
       },
       {
+        path: '/insights/notifications/detail',
+        element: <NotificationPage />,
+      },
+      {
         path: '/insights/overview',
         element: <OverviewPage />,
       },

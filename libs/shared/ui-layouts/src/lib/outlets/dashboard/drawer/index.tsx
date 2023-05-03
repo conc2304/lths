@@ -7,20 +7,17 @@ import DrawerFullScreenStyled from './screens/desktop';
 import DrawerMiniScreenStyled from './screens/mobile';
 import DrawerContent from './sections';
 import { LayoutDrawerProps } from './sections/types';
-import { setDrawerVisibility, useLayout } from '../../../context';
+import { useLayoutActions } from '../../../context';
 
 const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) => {
   const theme = useTheme();
   const isMiniScreen = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const {
-    dispatch,
-    state: { drawerVisible },
-  } = useLayout();
+  const { setDrawerVisibility, drawerVisible } = useLayoutActions();
   const open = drawerVisible || false;
 
   const onToggleDrawer = () => {
-    setDrawerVisibility(dispatch, !drawerVisible);
+    setDrawerVisibility(!drawerVisible);
   };
 
   // header content

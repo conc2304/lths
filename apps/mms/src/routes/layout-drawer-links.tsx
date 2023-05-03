@@ -113,7 +113,15 @@ const sections: DrawerSectionProps[] = [
             title: 'Notifications',
             icon: <NotificationsActiveIcon />,
             path: '/insights/notifications',
-            hidden: true,
+            hidden: false,
+            items: [
+              {
+                title: 'Notifications Detils',
+                icon: <NotificationsActiveIcon />,
+                path: '/insights/notifications/detail',
+                hidden: true,
+              },
+            ],
           },
           {
             title: 'Overview',

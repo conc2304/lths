@@ -3,12 +3,12 @@ import { Box, Toolbar, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { BreadcrumbTrail } from './content';
+import { BreadcrumbPathProps, BreadcrumbTrail } from './content';
 import Drawer from './drawer';
-import { LayoutExtendedProps } from './drawer/sections/types';
+import { DrawerSectionProps, LayoutExtendedProps } from './drawer/sections/types';
 import Header from './header';
-import { setDrawerVisibility, useLayout } from '../../context';
-import { findRouteTitleByPath } from '../utils/data-utils';
+import { useLayoutActions } from '../../context';
+import { findPath } from '../utils/data-utils';
 
 export const DashboardLayout = ({
   sections,
@@ -21,19 +21,55 @@ export const DashboardLayout = ({
   const theme = useTheme();
   const isMiniScreen = useMediaQuery(theme.breakpoints.down('xl'));
 
-  const {
-    // state: { drawerVisible },
-    dispatch,
-  } = useLayout();
+  const { setDrawerVisibility, setBreacrumbsHook, breadcrumbs } = useLayoutActions();
   const location = useLocation();
-  const paths = useMemo(() => findRouteTitleByPath(sections, location.pathname), [sections, location.pathname]);
+  const paths =
+    breadcrumbs == null
+      ? []
+      : Array.isArray(breadcrumbs)
+      ? breadcrumbs
+      : typeof breadcrumbs === 'string'
+      ? [{ title: breadcrumbs }]
+      : [breadcrumbs];
+  const checkManualPaths = (
+    manualPaths: BreadcrumbPathProps | BreadcrumbPathProps[],
+    currentPath: string,
+    sections: DrawerSectionProps[]
+  ) => {
+    if (manualPaths == null) return findPath(location.pathname, sections);
+    else if (Array.isArray(manualPaths)) return manualPaths;
+    //if (typeof manualPaths === 'BreadcrumbPathProps') {
+    else {
+      const paths = findPath(location.pathname, sections);
+      if (paths.length > 0) paths[paths.length - 1] = breadcrumbs as BreadcrumbPathProps;
+      return paths;
+    }
+  };
+  /*
+  const paths = useMemo(
+    () => checkManualPaths(breadcrumbs, location.pathname, sections),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sections, breadcrumbs, location.pathname]
+  );*/
+  useEffect(() => {
+    setDrawerVisibility(!isMiniScreen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMiniScreen]);
 
   // set media wise responsive drawer
   useEffect(() => {
-    setDrawerVisibility(dispatch, !isMiniScreen);
-
+    setBreacrumbsHook(checkManualPaths(breadcrumbs, location.pathname, sections));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMiniScreen]);
+  }, [sections, breadcrumbs, location.pathname]);
+
+  /*
+  useEffect(() => {
+    console.log('setBreacrumbsHook', paths);
+    if (paths.length > 0 && breadcrumbs != null) {
+      setBreacrumbsHook(paths[paths.length - 1].title);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paths]);*/
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>

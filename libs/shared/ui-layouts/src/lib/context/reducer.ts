@@ -7,16 +7,19 @@ export const initialState: LayoutStateType = {
 
 const layoutReducer = (state: LayoutStateType, action: LayoutContextActionProps) => {
   switch (action.type) {
-    case LayoutProviderActionType.CONTEXT_ACTION_ACTIVE_ITEM: {
+    case LayoutProviderActionType.LAYOUT_ACTION_SET_ACTIVE_ITEM: {
       const drawerCurrentItem = action.payload?.drawerCurrentItem;
       return { ...state, drawerCurrentItem };
     }
 
-    case LayoutProviderActionType.CONTEXT_ACTION_OPEN_DRAWER: {
+    case LayoutProviderActionType.LAYOUT_ACTION_OPEN_DRAWER: {
       const drawerVisible = action.payload?.drawerVisible;
       return { ...state, drawerVisible };
     }
-
+    case LayoutProviderActionType.LAYOUT_ACTION_SET_BREADCRUMBS: {
+      const breadcrumbs = action.payload?.breadcrumbs;
+      return { ...state, breadcrumbs };
+    }
     default: {
       return initialState;
     }

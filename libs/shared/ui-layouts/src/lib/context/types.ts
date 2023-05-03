@@ -1,13 +1,16 @@
 import { Dispatch, ReactNode } from 'react';
 
+import { BreadcrumbPathProps } from '../outlets/dashboard/content';
+
 export type LayoutStateType = {
   drawerVisible?: boolean;
   drawerCurrentItem?: string;
-  //breadcrumbs: string[];
+  breadcrumbs?: BreadcrumbPathProps[] | BreadcrumbPathProps;
 };
 export enum LayoutProviderActionType {
-  CONTEXT_ACTION_ACTIVE_ITEM = 'CONTEXT_ACTION_ACTIVE_ITEM',
-  CONTEXT_ACTION_OPEN_DRAWER = 'CONTEXT_ACTION_OPEN_DRAWER',
+  LAYOUT_ACTION_SET_ACTIVE_ITEM = 'LAYOUT_ACTION_SET_ACTIVE_ITEM',
+  LAYOUT_ACTION_OPEN_DRAWER = 'LAYOUT_ACTION_OPEN_DRAWER',
+  LAYOUT_ACTION_SET_BREADCRUMBS = 'LAYOUT_ACTION_SET_BREADCRUMBS',
 }
 
 export type LayerProviderProps = {

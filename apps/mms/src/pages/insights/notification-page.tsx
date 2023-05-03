@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { useLayoutActions } from '@lths/shared/ui-layouts';
 import { PageHeader } from 'libs/shared/ui-layouts/src/lib/components';
 
 const headers = [
@@ -42,7 +43,7 @@ const headers = [
 const NotificationPage = (): JSX.Element => {
   const [getData, { isFetching, isLoading, isSuccess, data }] = useLazyGetNotificationItemsQuery();
   console.log('🚀 ~ file: notification-page.tsx:44 ~ NotificationPage ~ result:', isFetching, isLoading, data);
-
+  const { setBreacrumbsHook } = useLayoutActions();
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: NotificationRequest = {};
     if (pagination != null) {
@@ -59,6 +60,7 @@ const NotificationPage = (): JSX.Element => {
 
   useEffect(() => {
     fetchData(null, undefined);
+    setBreacrumbsHook('test');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

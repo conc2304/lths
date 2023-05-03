@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 
 import HeaderContent from './header-content';
 import HeaderFullScreenStyled from './header-styled-full';
-import { useLayout, setDrawerVisibility } from '../../../context';
+import { useLayoutActions } from '../../../context';
 import { LayoutCommonProps, LayoutHeaderContentProps, LayoutHeaderProps } from '../drawer/sections/types';
 
 type Props = LayoutHeaderContentProps & LayoutCommonProps;
@@ -13,13 +13,10 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
   const theme = useTheme();
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const {
-    dispatch,
-    state: { drawerVisible },
-  } = useLayout();
+  const { setDrawerVisibility, drawerVisible } = useLayoutActions();
 
   const onToggleDrawer = () => {
-    setDrawerVisibility(dispatch, !drawerVisible);
+    setDrawerVisibility(!drawerVisible);
   };
 
   const anchorStyles = {
