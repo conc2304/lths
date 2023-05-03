@@ -123,5 +123,3 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
     </Card>
   );
 };
-
-export default KpiCard;

@@ -43,7 +43,7 @@ export type InfoTooltipProps = {
   action?: ActionProps;
 };
 
-const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
+export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
@@ -98,7 +98,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             }}
           >
             <Typography sx={{ marginBottom: theme.spacing(1.375) }} variant="body2">
-              {title && title.toUpperCase()}
+              {title?.toUpperCase()}
             </Typography>
             <Typography sx={{ marginBottom: theme.spacing(2) }} variant="body2">
               {description}
@@ -119,5 +119,3 @@ const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
 InfoTooltip.defaultProps = {
   action: { title: 'LEARN MORE' },
 };
-
-export default InfoTooltip;
