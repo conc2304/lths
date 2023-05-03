@@ -10,3 +10,4 @@ export { default as InfoTooltip } from './lib/data-display/icons/tooltip/info-to
 
 export * from './lib/data-display/icons/tooltip/info-tooltip';
 export * from './lib/data-display/cards/kpi/kpi-sparkline-card';
+export * from './lib/data-display/cards/kpi/kpi-card';

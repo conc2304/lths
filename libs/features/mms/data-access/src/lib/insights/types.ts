@@ -13,6 +13,15 @@ export type InsightItem = {
 export type InsightResponse = {
   data: InsightItem;
 };
+export type InsightKpiColumnCardResponse = { 
+  data: {
+    title: string | null; 
+    subtitle?: string | null;
+    info: Info;
+    kpiData: Array<KPI>, 
+    columnData: string // ToDO: add columns data type
+  } };
+
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };

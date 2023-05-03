@@ -81,6 +81,12 @@ const sections: DrawerSectionProps[] = [
             icon: <StarBorder />,
             path: '/emails/Starred2',
           },
+          {
+            // ToDO: Remove when done testing
+            title: 'Flows',
+            icon: <FlowIcon />,
+            path: '/insights/flows/onboarding',
+          },
         ],
       },
       {
@@ -88,6 +94,7 @@ const sections: DrawerSectionProps[] = [
         icon: <InsightsIcon />,
         items: [
           {
+            // ToDO: consider adding onoarding  flwo link
             title: 'Flows',
             icon: <FlowIcon />,
             path: '/insights/flows',

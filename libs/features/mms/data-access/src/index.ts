@@ -7,3 +7,6 @@ export * from './lib/notifications/types';
 export * from './lib/insights/overview-api';
 export * from './lib/insights/overview-slice';
 export * from './lib/insights/types';
+
+export * from './lib/insights/flows/onboarding-api';
+export * from './lib/insights/flows/onboarding-slice';

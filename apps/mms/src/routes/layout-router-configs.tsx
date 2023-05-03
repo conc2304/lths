@@ -21,7 +21,7 @@ const SamplePage = LazyLoader(lazy(() => import('../pages/sample-page')));
 const ChartPage = LazyLoader(lazy(() => import('../pages/chart-page')));
 const NotificationPage = LazyLoader(lazy(() => import('../pages/insights/notification-page')));
 const OverviewPage = LazyLoader(lazy(() => import('../pages/insights/overview-page')));
-
+const OnboardingFlowPage = LazyLoader(lazy(() => import('../pages/insights/onboarding-flow-page')));
 const DesignSystem = LazyLoader(lazy(() => import('../pages/design-system')));
 
 //const LoginPage = LazyLoader(lazy(() => import("@lths/shared/ui-login/login")));
@@ -82,7 +82,10 @@ export const DashRoutes = (authenticated: boolean) => {
         path: '/insights/overview',
         element: <OverviewPage />,
       },
-
+      {
+        path: '/insights/flows/onboarding',
+        element: <OnboardingFlowPage />,
+      },
       {
         path: '*',
         element: <NotFound />,
