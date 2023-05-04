@@ -23,6 +23,7 @@
         "*.jsx"
       ],
       "rules": {
+        "react-hooks/exhaustive-deps": "off",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {

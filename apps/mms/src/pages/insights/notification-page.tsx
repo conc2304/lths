@@ -59,7 +59,6 @@ const NotificationPage = (): JSX.Element => {
 
   useEffect(() => {
     fetchData(null, undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPageChange = (
