@@ -9,7 +9,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: HOST_API,
   prepareHeaders: (headers, { getState }) => {
     headers.set('Access-Control-Allow-Origin', '*');
-    headers.set('Content-Security-Policy', "default-src 'self'; connect-src 'self' http://20.253.146.14:3333;");
+
     //const token = (getState() as RootState).auth.token;
 
     const token = localStorage.getItem(AUTH_TOKEN);
