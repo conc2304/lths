@@ -4,7 +4,9 @@ import { styled } from '@mui/material/styles';
 import { DRAWER_WIDTH } from '../../config';
 
 const DrawerMiniScreenStyled = styled(Drawer)(({ theme }) => ({
-  display: { xs: 'block', lg: 'none' }, //TODO: getting type error??
+  [theme.breakpoints.up('lg')]: {
+    display: 'none',
+  },
   '& .MuiDrawer-paper': {
     boxSizing: 'border-box',
     width: DRAWER_WIDTH,

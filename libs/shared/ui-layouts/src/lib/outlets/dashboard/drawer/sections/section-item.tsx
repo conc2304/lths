@@ -2,21 +2,11 @@ import * as React from 'react';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { SxProps, Theme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 import SectionItemButton from './section-item-button';
-import { DrawerSectionItemProps } from './types';
+import { DrawerSectionListItemProps } from './types';
 
-type Props = {
-  item: DrawerSectionItemProps;
-  selected: boolean;
-  onListItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
-  itemId: string;
-  showAccordion?: boolean;
-  accordionExpanded?: boolean;
-  sx?: SxProps<Theme>;
-};
 const DrawerSectionListItem = ({
   item,
   selected,
@@ -25,7 +15,7 @@ const DrawerSectionListItem = ({
   showAccordion,
   accordionExpanded,
   sx,
-}: Props) => {
+}: DrawerSectionListItemProps) => {
   const navigate = useNavigate();
 
   const { title, icon, path } = item;
@@ -45,6 +35,7 @@ const DrawerSectionListItem = ({
       else navigate(path);
     }
   };
+
   const handleListItemArrowClick = (event: React.MouseEvent<SVGSVGElement>) => {
     onListItemClick(itemId, showAccordion, path);
     event.stopPropagation();

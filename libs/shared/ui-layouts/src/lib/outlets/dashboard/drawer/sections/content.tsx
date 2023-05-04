@@ -1,26 +1,26 @@
-import * as React from 'react';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
+import { Fragment, useState } from 'react';
 
 import DrawerSectionListItem from './section-item';
 import DrawerSectionList from './section-list';
+import DrawerSectionSubList from './section-sub-list';
 import { LayoutDrawerContentProps } from './types';
 import { useLayoutActions } from '../../../../context';
 
 //TODO: item selection login is not solid, needs to switch it to route path
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
-  const [open, setSelectedSection] = React.useState<string | null>(null);
+  const [open, setSelectedSection] = useState<string | null>(null);
 
   const { setDrawerSelectedItem, drawerCurrentItem } = useLayoutActions();
-  const onListItemClick = (id: string) => {
+  const handleListItemClick = (id: string) => {
     setDrawerSelectedItem(id);
   };
 
-  const onListSectionClick = (panelId: string) => {
-    setSelectedSection(panelId === open ? null : panelId);
+  const handleListSectionClick = (sectionId: string, path: string) => {
+    setSelectedSection(sectionId === open ? null : sectionId);
+    if (path) setDrawerSelectedItem(sectionId);
   };
-  const onListItemOrCollapsibleClick = (panelId: string, collapsible: boolean) => {
-    return collapsible ? onListSectionClick(panelId) : onListItemClick(panelId);
+  const handleListItemOrSectionClick = (sectionId: string, collapsible: boolean, path: string) => {
+    return collapsible ? handleListSectionClick(sectionId, path) : handleListItemClick(sectionId);
   };
 
   //if (!sections) return null;
@@ -33,48 +33,32 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
           <DrawerSectionList key={`list_section_${s}`} header={header}>
             {items.map((item, i) => {
               const { items: subitems } = item;
-              const collapsible = !!subitems && subitems.length > 0;
-              const panelId = `panel_${s}_${i}`;
-              const visible = open === panelId;
+              const hasAccordion = !!subitems && subitems.length > 0;
+              const itemId = `panel_${s}_${i}`;
+              const visible = open === itemId;
 
-              const selectedItemId = drawerCurrentItem === panelId;
+              const selected = drawerCurrentItem === itemId;
 
               return (
-                <React.Fragment key={`drawer_section_${s}_${i}`}>
+                <Fragment key={`drawer_section_${s}_${i}`}>
                   <DrawerSectionListItem
                     item={item}
-                    itemId={panelId}
+                    itemId={itemId}
                     //  onListItemClick={() => onListItemOrCollapsibleClick(panelId, collapsible)}
-                    onListItemClick={onListItemOrCollapsibleClick}
-                    selected={selectedItemId}
-                    showAccordion={collapsible}
+                    onListItemClick={handleListItemOrSectionClick}
+                    selected={selected}
+                    showAccordion={hasAccordion}
                     accordionExpanded={visible}
                   />
-
-                  {collapsible && (
-                    <Collapse in={visible} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {subitems
-                          .filter((subitem) => !subitem.hidden)
-                          .map((subitem, b) => {
-                            const subitemId = `panel_${s}_${i}_${b}`;
-                            const selectedItemId = drawerCurrentItem === subitemId;
-
-                            return (
-                              <DrawerSectionListItem
-                                sx={{ pl: 4 }}
-                                key={subitemId}
-                                item={subitem}
-                                itemId={subitemId}
-                                onListItemClick={onListItemClick}
-                                selected={selectedItemId}
-                              />
-                            );
-                          })}
-                      </List>
-                    </Collapse>
-                  )}
-                </React.Fragment>
+                  <DrawerSectionSubList
+                    //collapsible={collapsible}
+                    visible={visible}
+                    selectedItemId={drawerCurrentItem}
+                    items={subitems}
+                    sectionId={itemId}
+                    onListItemClick={handleListItemClick}
+                  />
+                </Fragment>
               );
             })}
           </DrawerSectionList>

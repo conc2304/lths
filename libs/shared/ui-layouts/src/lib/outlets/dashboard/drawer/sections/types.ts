@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
+import { SxProps } from '@mui/material';
 import { AppBarProps } from '@mui/material/AppBar';
+import { Theme } from '@emotion/react';
 
 import { BreadcrumbPathProps } from '../../content/breadcrumbs/types';
 
@@ -40,3 +42,20 @@ export type LayoutDrawerProps = LayoutCommonProps & {
 };
 
 export type LayoutExtendedProps = LayoutHeaderContentProps & LayoutDrawerProps;
+
+export type DrawerSectionSubListProps = {
+  visible: boolean;
+  onListItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
+  items: DrawerSectionItemProps[];
+  sectionId: string;
+  selectedItemId: string;
+};
+export type DrawerSectionListItemProps = {
+  item: DrawerSectionItemProps;
+  selected: boolean;
+  onListItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
+  itemId: string;
+  showAccordion?: boolean;
+  accordionExpanded?: boolean;
+  sx?: SxProps<Theme>;
+};
