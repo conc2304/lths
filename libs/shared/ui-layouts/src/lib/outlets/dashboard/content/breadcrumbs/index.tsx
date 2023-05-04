@@ -14,7 +14,7 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
       paths
         .slice(0, -1)
         .filter((o) => o.title) //ignore blank or null titles
-        .map((props) => <BreadcrumbLink {...props} />)
+        .map((props, index) => <BreadcrumbLink key={`breadcrumb_link_${index}`} {...props} />)
     );
   }, []);
   const renderActivePath = useCallback((paths: BreadcrumbPathProps[], activePageTitle?: string) => {
