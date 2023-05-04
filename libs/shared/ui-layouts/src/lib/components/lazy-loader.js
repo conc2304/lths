@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
 
+import { ErrorBoundary } from './error-boundary';
 const LoaderWrapper = styled('div')(({ theme }) => ({
   position: 'fixed',
   top: 0,
@@ -18,10 +19,15 @@ const ProgressBar = () => (
     <LinearProgress color="primary" />
   </LoaderWrapper>
 );
+const Error = () => {
+  return <div>An error has occurred while loading the module. </div>;
+};
 
 export const LazyLoader = (Component) => (props) =>
   (
-    <Suspense fallback={<ProgressBar />}>
-      <Component {...props} />
-    </Suspense>
+    <ErrorBoundary fallback={<Error />}>
+      <Suspense fallback={<ProgressBar />}>
+        <Component {...props} />
+      </Suspense>
+    </ErrorBoundary>
   );

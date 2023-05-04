@@ -2,8 +2,8 @@ import { Typography, Box } from '@mui/material';
 import { UiFilters } from '@lths/shared/ui-filters';
 import { FilterFormStateProvider } from '@lths/shared/ui-filters';
 
-import { ButtonGroupConf } from '../fixtures/date-button-group-schema';
-import { Schema } from '../fixtures/filter-schema';
+import { ButtonGroupConf } from '../../fixtures/date-button-group-schema';
+import { Schema } from '../../fixtures/filter-schema';
 
 const DesignSystem = (): JSX.Element => {
   return (
