@@ -1,5 +1,3 @@
-// PageLoader.js
-
 import { lazy } from 'react';
 import { DrawerSectionProps, LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -11,17 +9,17 @@ export type RouteConfig = {
   path: string;
   element: JSX.Element;
 };
+
 //for react rounter, item.path should be unique
 export const generateRouteConfig = (pages: DrawerSectionProps[]): RouteConfig[] => {
   const routeConfigs: RouteConfig[] = [];
   //home page
-  const HomePage = LazyLoader(lazy(() => import('../pages/sample-page')));
+  const HomePage = LazyLoader(lazy(() => import('../pages/demo/sample-page')));
   routeConfigs.push({ path: '/', element: <HomePage /> });
 
   //dynamic partial imports
   pages.forEach((item) => {
     if (item.items != null) flattenRouteConfig(item.items, false, routeConfigs);
-    console.log(routeConfigs);
   });
 
   //all the hard-coded or fall back routes goes here
@@ -29,6 +27,7 @@ export const generateRouteConfig = (pages: DrawerSectionProps[]): RouteConfig[] 
 
   return routeConfigs;
 };
+
 const flattenRouteConfig = (
   pages: SectionItemProps[],
   substituteFileIfMissing: boolean,

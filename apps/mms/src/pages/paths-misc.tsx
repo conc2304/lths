@@ -7,7 +7,7 @@ const Home = {
       title: 'Home',
       icon: <HomeIcon />,
       path: '/emails/sent',
-      file: '/sample-page',
+      file: '/demo/sample-page',
     },
   ],
 };
@@ -18,7 +18,7 @@ const Themes = {
       title: 'Themes',
       icon: <PaletteIcon />,
       path: '/themes/list',
-      file: '/sample-page',
+      file: '/demo/sample-page',
     },
   ],
 };

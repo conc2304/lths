@@ -8,7 +8,6 @@ import pages from '../pages/paths';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/login')));
-//const NotFound = LazyLoader(lazy(() => import('../pages/404')));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const AuthenticationRoutes = (authenticated: boolean) => {
@@ -30,7 +29,6 @@ export const DashRoutes = (authenticated: boolean) => {
   return {
     path: '/',
     element: authenticated ? PrivateLayout : <Navigate to="/login" />,
-    //element: DashboardLayout,
     children,
   };
 };

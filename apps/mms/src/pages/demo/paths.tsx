@@ -12,19 +12,19 @@ const section = {
           title: 'Charts Page',
           icon: <DraftsIcon />,
           path: '/demo/charts',
-          file: '/chart-page',
+          file: '/demo/chart-page',
         },
         {
           title: 'Filter Page',
           icon: <DraftsIcon />,
           path: '/demo/filters',
-          file: '/design-system',
+          file: '/demo/design-system',
         },
         {
           title: 'Sample Page',
           icon: <PagesIcon />,
           path: '/demo/sample',
-          file: '/sample-page',
+          file: '/demo/sample-page',
         },
         {
           title: 'Login',

@@ -9,7 +9,7 @@ import FlowIcon from '@mui/icons-material/Schema';
 import { SectionItemProps } from '../../routes/types';
 
 const sections: SectionItemProps = {
-  // header: "Header 2",
+  //You can pass header property if you like to see a header above the accordion, Example: header: "Analytics",
   items: [
     {
       title: 'Insights',
