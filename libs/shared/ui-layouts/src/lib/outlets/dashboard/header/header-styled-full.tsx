@@ -8,8 +8,6 @@ import { LayoutCommonProps, LayoutDrawerStateProps } from '../drawer/sections/ty
 type Props = LayoutDrawerStateProps & LayoutCommonProps;
 //shouldForwardProp - Configure which props should be forwarded on DOM, prop is not array, it just represent single property
 const HeaderFullScreenStyled = styled(AppBar, {
-  // shouldForwardProp: (prop) => prop !== "open",
-
   shouldForwardProp: (prop) => shouldForwardProp<Props>(['open', 'fixedHeader'], prop),
 })<Props>(({ theme, open, fixedHeader }) => {
   //by default drawer has the higher index

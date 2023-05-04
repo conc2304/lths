@@ -2,7 +2,7 @@
 //source:https://react.dev/reference/react/Component#alternatives
 
 //TODO There is no direct equivalent for componentDidCatch in function components yet. If you’d like to avoid creating class components, write a single ErrorBoundary component like above and use it throughout your app. Alternatively, you can use the react-error-boundary package which does that for you.
-
+// This will be replace with react-error-boundary
 import { Component } from 'react';
 export class ErrorBoundary extends Component {
   constructor(props) {

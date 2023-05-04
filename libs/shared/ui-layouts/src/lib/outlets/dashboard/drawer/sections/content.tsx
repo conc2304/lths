@@ -23,7 +23,6 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
     return collapsible ? handleListSectionClick(sectionId, path) : handleListItemClick(sectionId);
   };
 
-  //if (!sections) return null;
   return (
     <>
       {sections.map((section, s) => {
@@ -44,14 +43,12 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
                   <DrawerSectionListItem
                     item={item}
                     itemId={itemId}
-                    //  onListItemClick={() => onListItemOrCollapsibleClick(panelId, collapsible)}
                     onListItemClick={handleListItemOrSectionClick}
                     selected={selected}
                     showAccordion={hasAccordion}
                     accordionExpanded={visible}
                   />
                   <DrawerSectionSubList
-                    //collapsible={collapsible}
                     visible={visible}
                     selectedItemId={drawerCurrentItem}
                     items={subitems}

@@ -21,9 +21,6 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
 
   const anchorStyles = {
     color: 'text.contrastText',
-    //bgcolor: drawerVisible ? "grey.100" : "grey.200",
-    //ml: { xs: 0, lg: -2 },
-    // ml:-1.5,
     transform: `rotate(${!drawerVisible ? '0deg' : '180deg'})`,
     transition: '.3s all',
   };
@@ -31,7 +28,6 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
   const mainHeader = (
     <Toolbar variant="dense" id="test" disableGutters={false}>
       <IconButton
-        //disableRipple
         aria-label="open drawer"
         onClick={onToggleDrawer}
         edge="start"

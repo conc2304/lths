@@ -12,7 +12,6 @@ import { findPath } from '../utils/data-utils';
 
 export const DashboardLayout = ({
   sections,
-  //drawerIcon,
   drawerHeader,
   headerLeft,
   headerRight,
@@ -34,11 +33,7 @@ export const DashboardLayout = ({
   };
 
   const [paths, setPaths] = useState<BreadcrumbPathProps[]>([]);
-  /*const paths = useMemo(
-    () => checkManualPaths(breadcrumbs, location.pathname, sections),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sections, breadcrumbs, location.pathname]
-  );*/
+
   useEffect(() => {
     setDrawerVisibility(!isMiniScreen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +41,6 @@ export const DashboardLayout = ({
 
   // set media wise responsive drawer
   useEffect(() => {
-    //setBreacrumbsHook(checkManualPaths(breadcrumbs, location.pathname, sections));
     const paths = checkManualPaths(breadcrumbs, location.pathname, sections);
     setPaths(paths);
     if (paths.length > 0) {

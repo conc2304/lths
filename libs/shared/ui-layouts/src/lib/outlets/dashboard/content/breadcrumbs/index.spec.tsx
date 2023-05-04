@@ -14,11 +14,6 @@ describe('BreadcrumbTrail component', () => {
     const activePageTitle = 'Page Title';
     const props: BreadcrumbTrailProps = { paths, activePageTitle };
     render(<BreadcrumbTrail {...props} />);
-
-    //paths.forEach((path) => {
-    // const titleElement = screen.getByText(path.title);
-
-    // expect(titleElement).toBeInTheDocument();
-    // });
+    //TODO: work in progress
   });
 });

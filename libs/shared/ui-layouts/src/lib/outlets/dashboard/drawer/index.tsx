@@ -16,7 +16,7 @@ const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) 
   const { setDrawerVisibility, drawerVisible } = useLayoutActions();
   const open = drawerVisible || false;
 
-  const onToggleDrawer = () => {
+  const handleToggleDrawer = () => {
     setDrawerVisibility(!drawerVisible);
   };
 
@@ -33,10 +33,9 @@ const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) 
         </DrawerFullScreenStyled>
       ) : (
         <DrawerMiniScreenStyled
-          //container={container}
           variant="temporary"
           open={open}
-          onClose={onToggleDrawer}
+          onClose={handleToggleDrawer}
           ModalProps={{ keepMounted: true }}
         >
           {open && header}

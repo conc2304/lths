@@ -13,7 +13,7 @@ describe('BreadcrumbLink component2', () => {
     render(<BreadcrumbLink {...props} />);
 
     const linkElement = screen.getByRole('link', { name: `Navigate to ${title}` });
-    //expect(linkElement).toBeInTheDocument();
+
     expect(linkElement.getAttribute('href')).toBe(path);
   });
 });
