@@ -18,22 +18,47 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@lths-mui/shared/themes": ["libs/shared/themes/src/index.ts"],
-      "@lths/shared/ui-charts": ["libs/shared/ui-charts/src/index.ts"],
-      "@lths/features/mms/data-access": ["libs/features/mms/data-access/src/index.ts"],
-      "@lths/shared/data-access": ["libs/shared/data-access/src/index.ts"],
-      "@lths/shared/mocks": ["libs/shared/mocks/src/index.ts"],
-      "@lths/shared/ui-elements": ["libs/shared/ui-elements/src/index.ts"],
-      "@lths/shared/ui-filters": ["libs/shared/ui-filters/src/index.ts"],
-      "@lths/shared/ui-layouts": ["libs/shared/ui-layouts/src/index.ts"],
-      "@lths/shared/ui-login": ["libs/shared/ui-login/src/index.ts"],
-      "@lths/shared/ui-login/login": ["libs/shared/ui-login/src/lib/login.tsx"],
-      "@lths/shared/utils": ["libs/shared/utils/src/index.ts"]
+      "@lths-mui/shared/themes": [
+        "libs/shared/themes/src/index.ts"
+      ],
+      "@lths/features/mms/data-access": [
+        "libs/features/mms/data-access/src/index.ts"
+      ],
+      "@lths/shared/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ],
+      "@lths/shared/mocks": [
+        "libs/shared/mocks/src/index.ts"
+      ],
+      "@lths/shared/ui-elements": [
+        "libs/shared/ui-elements/src/index.ts"
+      ],
+      "@lths/shared/ui-filters": [
+        "libs/shared/ui-filters/src/index.ts"
+      ],
+      "@lths/shared/ui-layouts": [
+        "libs/shared/ui-layouts/src/index.ts"
+      ],
+      "@lths/shared/ui-login": [
+        "libs/shared/ui-login/src/index.ts"
+      ],
+      "@lths/shared/ui-login/login": [
+        "libs/shared/ui-login/src/lib/login.tsx"
+      ],
+      "@lths/shared/utils": [
+        "libs/shared/utils/src/index.ts"
+      ],
+      "@lths/types/ui-filters": [
+        "libs/shared/ui-filters-types/src/index.ts"
+      ],
+      "@lths/shared/ui-charts": [
+        "libs/shared/ui-charts/src/index.ts"
+      ],
     }
   },
   "files": [
     "./libs/shared/themes/src/createPalette.d.ts",
-    "./libs/shared/themes/src/Button.d.ts",
+    "./libs/shared/themes/src/Button.d.ts"
   ],
   "exclude": [
     "node_modules",

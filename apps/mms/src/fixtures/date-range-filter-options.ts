@@ -7,9 +7,9 @@ import {
   getPrevFullWeekRange,
   getPrevFullYearRange,
 } from '@lths/shared/utils';
-import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
+import { DateFilterOptions } from '@lths/types/ui-filters';
 
-export const ButtonGroupConf: DateFilterOption = [
+export const DateRangeFilterOptions: DateFilterOptions = [
   {
     label: '1 Hour',
     dateRange: getPrevFullHourRange,
@@ -21,6 +21,7 @@ export const ButtonGroupConf: DateFilterOption = [
   {
     label: '7 Days',
     dateRange: getPrevFullWeekRange,
+    isDefaultValue: true,
   },
   {
     // Previous full Month

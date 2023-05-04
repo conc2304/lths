@@ -1,15 +1,21 @@
 import { Grid } from '@mui/material';
-import { FormSchema } from '@lths/shared/ui-filters';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
 
 import { formatWithSeq, groupItemsBySeq, sortBySeq } from '../filter-form/utils';
 import { VerticalFormGroup } from '../vertical-form-group';
 
 type FormProps = {
   formSchema: FormSchema[];
+  formState: FormState;
+  onAddItem: AddItem;
+  onRemoveItem: RemoveItem;
+  onClearGroup: ClearGroup;
+  onAddGroupItems: AddGroupItems;
 };
 
 export const Form = (props: FormProps) => {
-  const { formSchema = [] } = props;
+  const { formSchema = [], formState = {}, onAddItem, onRemoveItem, onClearGroup, onAddGroupItems } = props;
 
   const formattedData = formatWithSeq([...formSchema]);
   const sortedData = sortBySeq([...formattedData]);
@@ -44,7 +50,14 @@ export const Form = (props: FormProps) => {
                   // rows
                   return (
                     <Grid item key={`${formGroupSchema.id}--rowItem`} className="FormRow--root">
-                      <VerticalFormGroup formSchema={formGroupSchema} />
+                      <VerticalFormGroup
+                        formSchema={formGroupSchema}
+                        formState={formState}
+                        onAddItem={onAddItem}
+                        onRemoveItem={onRemoveItem}
+                        onClearGroup={onClearGroup}
+                        onAddGroupItems={onAddGroupItems}
+                      />
                     </Grid>
                   );
                 })}

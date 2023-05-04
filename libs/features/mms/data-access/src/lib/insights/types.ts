@@ -1,9 +1,6 @@
-export type DateFilter = {
-  start_date: string;
-  end_date: string;
-};
-export type InsightRequest = DateFilter;
+import { FilterSettingsPayload } from '@lths/types/ui-filters';
 
+export type InsightRequest = FilterSettingsPayload;
 export type InsightItem = {
   kpi: Array<KPI>;
   histogram: Array<Histogram>;

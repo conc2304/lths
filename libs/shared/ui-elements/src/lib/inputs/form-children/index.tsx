@@ -1,22 +1,35 @@
+import {
+  AddGroupItems,
+  AddItem,
+  ClearGroup,
+  FormSchema,
+  FormState,
+  FormStateValue,
+  RemoveItem,
+} from '@lths/types/ui-filters';
 import { Checkbox, Divider, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { FilterFormStateContextType, FormSchema, FormStateValue } from '@lths/shared/ui-filters';
 import { getPluralizeLastWord, sortBySeq } from 'libs/shared/ui-elements/src/lib/inputs/filter-form/utils';
-import { ChangeEvent, memo } from 'react';
+import { ChangeEvent } from 'react';
 
 type FormElementsProps = {
   formSchema: FormSchema;
   groupTitle: string;
   groupID: string;
+  formState: FormState;
+  onAddItem: AddItem;
+  onRemoveItem: RemoveItem;
+  onClearGroup: ClearGroup;
+  onAddGroupItems: AddGroupItems;
 };
-export const FormChildren = (props: FormElementsProps & FilterFormStateContextType): JSX.Element => {
+export const FormChildren = (props: FormElementsProps): JSX.Element => {
   const {
     groupTitle,
     groupID,
     formState,
-    addItem,
-    removeItem,
-    clearGroup,
-    addGroupItems,
+    onAddItem: addItem,
+    onRemoveItem: removeItem,
+    onClearGroup: clearGroup,
+    onAddGroupItems: addGroupItems,
     formSchema: { default_value, data },
   } = props;
   const elementType = props.formSchema.type;
@@ -30,9 +43,9 @@ export const FormChildren = (props: FormElementsProps & FilterFormStateContextTy
         const item = { [id]: { id, title } };
 
         if (checked) {
-          addItem && addItem(groupID, id, item);
+          addItem && addItem({ parentID: groupID, itemID: id, item });
         } else {
-          removeItem && removeItem(groupID, id);
+          removeItem && removeItem({ parentID: groupID, itemID: id });
         }
       };
 
@@ -40,14 +53,14 @@ export const FormChildren = (props: FormElementsProps & FilterFormStateContextTy
         const { checked } = event.target;
 
         if (!checked) {
-          clearGroup && clearGroup(groupID);
+          clearGroup && clearGroup({ parentID: groupID });
         } else {
           const grouIDValues: FormStateValue = {};
           sortedFields.forEach((elem) => {
             const { id, title } = elem;
             grouIDValues[elem.id as string] = { id, title };
           });
-          addGroupItems && addGroupItems(groupID, grouIDValues);
+          addGroupItems && addGroupItems({ parentID: groupID, items: grouIDValues });
         }
       };
 

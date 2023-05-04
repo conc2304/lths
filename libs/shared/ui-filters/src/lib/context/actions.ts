@@ -1,37 +1,66 @@
 import { Dispatch } from 'react';
-import { DateRange } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
-import { FilterFormStateActionType, FormState, FormStateValue } from './types';
 
-export const setModalIsOpen = (dispatch: Dispatch<FilterFormStateActionType>) => (isOpen: boolean) => {
-  dispatch({ type: 'SET_MODAL_OPEN', isOpen });
-};
+import {
+  DateRange,
+  FilterFormContextActionType,
+  FilterFormContextType,
+  FormState,
+  FormStateValue,
+} from '@lths/types/ui-filters';
 
-export const clearForm = (dispatch: Dispatch<FilterFormStateActionType>) => () => {
-  dispatch({ type: 'CLEAR_ALL_ITEMS' });
+import { formFilterContextReducer } from './reducer';
+
+export const setModalIsOpen =
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ isOpen }: { isOpen: boolean }) => {
+    dispatch({ type: 'SET_MODAL_OPEN', payload: { isOpen } });
+  };
+
+export const clearForm = (dispatch: Dispatch<FilterFormContextActionType>, state: FilterFormContextType) => () => {
+  const action: FilterFormContextActionType = {
+    type: 'CLEAR_ALL_ITEMS',
+    payload: {},
+  };
+  dispatch(action);
+  const nextState = formFilterContextReducer(state, action);
+  return Promise.resolve(nextState);
 };
 
 export const addFormItem =
-  (dispatch: Dispatch<FilterFormStateActionType>) => (parentID: string, itemID: string, item: FormStateValue) => {
-    dispatch({ type: 'ADD_ITEM', parentID, itemID, item });
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ parentID, itemID, item }: { parentID: string; itemID: string; item: FormStateValue }) => {
+    dispatch({ type: 'ADD_ITEM', payload: { parentID, itemID, item } });
   };
 
-export const removeFormItem = (dispatch: Dispatch<FilterFormStateActionType>) => (parentID: string, itemID: string) => {
-  dispatch({ type: 'REMOVE_ITEM', parentID, itemID });
-};
+export const removeFormItem =
+  (dispatch: Dispatch<FilterFormContextActionType>, state: FilterFormContextType) =>
+  ({ parentID, itemID }: { parentID: string; itemID: string }) => {
+    const action: FilterFormContextActionType = { type: 'REMOVE_ITEM', payload: { parentID, itemID } };
+    dispatch(action);
+    const nextState = formFilterContextReducer(state, action);
+    return Promise.resolve(nextState);
+  };
 
 export const addItems =
-  (dispatch: Dispatch<FilterFormStateActionType>) => (parentID: string, items: FormStateValue) => {
-    dispatch({ type: 'ADD_GROUP_ITEMS', parentID, items });
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ parentID, items }: { parentID: string; items: FormStateValue }) => {
+    dispatch({ type: 'ADD_GROUP_ITEMS', payload: { parentID, items } });
   };
 
-export const clearFormGroup = (dispatch: Dispatch<FilterFormStateActionType>) => (parentID: string) => {
-  dispatch({ type: 'REMOVE_GROUP', parentID });
-};
+export const clearFormGroup =
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ parentID }: { parentID: string }) => {
+    dispatch({ type: 'REMOVE_GROUP', payload: { parentID } });
+  };
 
-export const setFormState = (dispatch: Dispatch<FilterFormStateActionType>) => (formState: FormState) => {
-  dispatch({ type: 'SET_FORM_STATE', formState });
-};
+export const setFormState =
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ formState }: { formState: FormState }) => {
+    dispatch({ type: 'SET_FORM_STATE', payload: { formState } });
+  };
 
-export const setDateRange = (dispatch: Dispatch<FilterFormStateActionType>) => (dateRange: DateRange) => {
-  dispatch({ type: 'SET_DATE_RANGE', dateRange });
-};
+export const setDateRange =
+  (dispatch: Dispatch<FilterFormContextActionType>) =>
+  ({ dateRange }: { dateRange: DateRange }) => {
+    dispatch({ type: 'SET_DATE_RANGE', payload: { dateRange } });
+  };

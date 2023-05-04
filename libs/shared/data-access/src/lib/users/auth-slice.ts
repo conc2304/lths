@@ -20,18 +20,14 @@ const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addMatcher(
-      authApi.endpoints.login.matchFulfilled,
-      // api.endpoints.login.matchFulfilled,
-      (state, { payload }) => {
-        console.log('extraReducers', payload);
-        localStorage.setItem(AUTH_TOKEN, payload.token);
-        localStorage.setItem(AUTH_USER_ID, payload.user_id);
-        state.token = payload.token;
-        state.userId = payload.user_id;
-        state.authenticated = true;
-      }
-    );
+    builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
+      console.log('extraReducers', payload);
+      localStorage.setItem(AUTH_TOKEN, payload.token);
+      localStorage.setItem(AUTH_USER_ID, payload.user_id);
+      state.token = payload.token;
+      state.userId = payload.user_id;
+      state.authenticated = true;
+    });
     builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state, _) => {
       state.token = null;
       state.userId = null;

@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Badge, Box, Button, Chip, Typography, styled } from '@mui/material';
-import { FormState } from '@lths/shared/ui-filters';
+
+import { FormState } from '@lths/types/ui-filters';
 
 type ChipContainerProps = {
   title?: string;
-  onDelete: (parentID: string, itemID: string) => void;
+  onDelete: ({ parentID, itemID }: { parentID: string; itemID: string }) => void;
   selectedFilters: FormState;
   variant?: 'modal' | 'inline';
   onClearAll?: () => void;
@@ -120,7 +121,7 @@ export const ChipContainer = ({
               return (
                 <Chip
                   label={item.title}
-                  onDelete={() => onDelete(groupID, item.id as string)}
+                  onDelete={() => onDelete({ parentID: groupID, itemID: item.id as string })}
                   key={`${groupID}--${item.id}`}
                 />
               );
@@ -161,7 +162,7 @@ export const ChipContainer = ({
                   return (
                     <Chip
                       label={item.title}
-                      onDelete={() => onDelete(groupID, item.id as string)}
+                      onDelete={() => onDelete({ parentID: groupID, itemID: item.id as string })}
                       key={`${groupID}--${item.id}`}
                     />
                   );

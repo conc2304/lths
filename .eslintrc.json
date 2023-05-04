@@ -60,6 +60,11 @@
                 "position": "before"
               },
               {
+                "pattern": "@lths/**",
+                "group": "internal",
+                "position": "before"
+              },
+              {
                 "pattern": "**/*.+(css|sass|less|scss|pcss|styl)",
                 "patternOptions": {
                   "dot": true,
@@ -89,7 +94,9 @@
             "groups": [
               [
                 "builtin",
-                "external",
+                "external"
+              ],
+              [
                 "internal"
               ],
               // space between

@@ -1,46 +1,66 @@
-import { useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { Box, Button, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { DatePicker } from '@mui/x-date-pickers';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-import { DateFilterOption } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
 import { endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
-import { slugify } from '@lths/shared/utils';
 
-type DateRange = {
-  start: Date;
-  end: Date;
-};
+import { slugify } from '@lths/shared/utils';
+import { DateFilterOptions, DateRange } from '@lths/types/ui-filters';
 
 type Props = {
-  dateOptions: DateFilterOption;
-  onChange: ({ start, end }: DateRange) => void;
-  onUpdateRange: ({ start, end }: DateRange) => void;
+  dateOptions: DateFilterOptions;
+  onUpdateTimePeriod: (dateRange: DateRange) => void;
+  onChange: (dateRange: DateRange) => void;
+  value: DateRange;
+  minDate?: Date;
+  maxEndDate?: Date;
+  datePickerStartProps?: DatePickerProps<any>;
+  datePickerEndProps?: DatePickerProps<any>;
 };
 
-export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Props): JSX.Element => {
+export const DateRangeSelector = ({
+  dateOptions,
+  onUpdateTimePeriod: handleUpdateTimePeriod,
+  value,
+  minDate,
+  maxEndDate,
+  onChange: handleOnChange,
+  datePickerStartProps,
+  datePickerEndProps,
+}: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [tempStartDate, setTempStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [tempEndDate, setTempEndDate] = useState<Date | null>(null);
+
+  const end_date = typeof value.end_date === 'string' ? new Date(value.end_date) : value.end_date;
+  const start_date = typeof value.start_date === 'string' ? new Date(value.start_date) : value.start_date;
+
   const [dateOptionGroupValue, setDateOptionGroupValue] = useState<string | null>(null);
   const [isDateRangeValid, setIsDateRangeValid] = useState(true);
+  // Temp Dates + Picker Key are a fix/hack for a bug in the mobile version of the Mui DatePicker
+  // Temp Dates reset dates to what they were before if a user cancels their selection
+  // PickerKey forces a refresh of that datepicker component's state
+  const [tempStartDate, setTempStartDate] = useState<Date | null>(start_date);
+  const [tempEndDate, setTempEndDate] = useState<Date | null>(end_date);
   const randomeSeed = Math.floor(Math.random() * 20);
   const [pickerKey, setPickerKey] = useState<number>(randomeSeed);
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
-  const minDate = new Date('1/1/2020'); // as per design requirements
-  const maxEndDate = new Date();
+
+  useEffect(() => {
+    if (start_date && end_date) {
+      const match = getMatchingPresetValue({ start_date, end_date });
+      const dateValueOption = match ? slugify(match.label) : null;
+      setDateOptionGroupValue(dateValueOption);
+    }
+  }, [value]);
 
   const setNewPickerKey = () => {
     // set a new key value to force the cancel to not change the date selected
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  const onOptionSelected = (event: React.MouseEvent<HTMLElement>, selectedValue: string) => {
+  const onOptionSelected = (event: MouseEvent<HTMLElement>, selectedValue: string) => {
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
     setDateOptionGroupValue(selectedValue);
@@ -50,41 +70,39 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
     setNewPickerKey();
   };
 
-  const onDatePickerAccepted = (value: Date | null, range: 'start' | 'end') => {
+  const onDatePickerAccepted = (inputVal: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
-    let _startDate = startDate;
-    let _endDate = endDate;
-    if (range === 'start' && value) {
-      _startDate = startOfDay(value);
-      setStartDate(_startDate);
-    } else if (range === 'end' && value) {
-      _endDate = endOfDay(value);
-      setEndDate(_endDate);
+    let start = start_date;
+    let end = end_date;
+    // TODO will need to change when date-time picker is in use
+    if (range === 'start' && inputVal) {
+      start = startOfDay(inputVal);
+    } else if (range === 'end' && inputVal) {
+      end = endOfDay(inputVal);
     }
 
-    if (_startDate && _endDate) {
-      const match = getMatchingPresetValue({ start: _startDate, end: _endDate });
-      const dateValueOption = !!match ? slugify(match?.label as string) : null;
-      setDateOptionGroupValue(dateValueOption);
-    }
-
-    const isDateRangeValid = !!_startDate && !!_endDate && isBefore(_startDate, _endDate);
+    const isDateRangeValid = !!start && !!end && isBefore(start, end);
     setIsDateRangeValid(isDateRangeValid);
+
+    if (isDateRangeValid && !!start && !!end) {
+      handleOnChange({ start_date: start, end_date: end });
+    }
   };
 
   const getMatchingPresetValue = (dateRange: DateRange) => {
-    const { start, end } = dateRange;
+    const { start_date, end_date } = dateRange;
     return dateOptions.find(({ dateRange }) => {
-      const { start: optionStartDate, end: optionEndDate } = typeof dateRange === 'function' ? dateRange() : dateRange;
+      const { start_date: optionStartDate, end_date: optionEndDate } =
+        typeof dateRange === 'function' ? dateRange() : dateRange;
 
-      return isSameDay(start, optionStartDate) && isSameDay(end, optionEndDate);
+      if (!start_date || !end_date || !optionStartDate || !optionEndDate) return false;
+      return isSameDay(start_date, optionStartDate) && isSameDay(end_date, optionEndDate);
     });
   };
 
   const handleOnToggleClick = (dateRange: (() => DateRange) | DateRange) => {
-    const { start, end } = typeof dateRange === 'function' ? dateRange() : dateRange;
-    setStartDate(start);
-    setEndDate(end);
+    const { start_date, end_date } = typeof dateRange === 'function' ? dateRange() : dateRange;
+    handleOnChange({ start_date, end_date });
   };
 
   const onDatePickerClose = () => {
@@ -93,7 +111,8 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
   };
 
   const handleUpdateRange = () => {
-    if (startDate && endDate) onUpdateRange({ start: startDate, end: endDate });
+    const { start_date, end_date } = value;
+    if (start_date && end_date) handleUpdateTimePeriod({ start_date, end_date });
   };
 
   return (
@@ -125,7 +144,6 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
                       handleOnToggleClick(dateRange);
                     }}
                     aria-label={label}
-                    aria-selected={value === dateOptionGroupValue}
                     aria-pressed={value === dateOptionGroupValue}
                   >
                     {label}
@@ -167,13 +185,14 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
                   disableFuture
                   key={pickerKey + 1}
                   label="START"
-                  maxDate={endDate || currentDateTime || undefined}
+                  maxDate={end_date || currentDateTime || undefined}
                   minDate={minDate}
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
                   sx={{ ml: 0 }}
-                  value={tempStartDate || startDate || null}
+                  value={tempStartDate || start_date || null}
+                  {...datePickerStartProps}
                 />
               </Grid>
               {/* Date Pickers Grid Item - End */}
@@ -186,10 +205,11 @@ export const DateRangeSelector = ({ dateOptions, onChange, onUpdateRange }: Prop
                   maxDate={maxEndDate}
                   minDate={minDate}
                   onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
-                  // onChange={setTempEndDate}
+                  onChange={setTempEndDate}
                   onClose={onDatePickerClose}
                   sx={{ mb: 0.75 }}
-                  value={tempEndDate || endDate || null}
+                  value={tempEndDate || end_date || null}
+                  {...datePickerEndProps}
                 />
               </Grid>
             </Grid>

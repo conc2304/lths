@@ -1,5 +1,6 @@
-import { FormSchema } from '@lths/shared/ui-filters';
 import _ from 'lodash';
+
+import { FormSchema, Seq } from '@lths/types/ui-filters';
 
 export const sortBySeq = (formSchema: FormSchema[], dir: 'asc' | 'desc' = 'asc'): FormSchema[] => {
   return formSchema.sort((a, b) => {
@@ -27,21 +28,34 @@ export const sortBySeq = (formSchema: FormSchema[], dir: 'asc' | 'desc' = 'asc')
   });
 };
 
-export const formatWithSeq = (data: FormSchema[]): FormSchema[] => {
-  for (let i = 0; i < data.length; i++) {
-    const dataItem = data[i];
+export const formatWithSeq = (_data: FormSchema[]): FormSchema[] => {
+  const data = _data.map((dataItem) => {
+    let seq: Seq;
+
     if (dataItem.seq === null || dataItem.seq === undefined) {
-      dataItem.seq = [Infinity, Infinity];
+      seq = [Infinity, Infinity];
     } else if (typeof dataItem.seq === 'number') {
-      dataItem.seq = [dataItem.seq, Infinity];
+      seq = [dataItem.seq, Infinity];
     } else if (Array.isArray(dataItem.seq) && !dataItem.seq[1]) {
-      dataItem.seq = [dataItem.seq[0], Infinity];
+      seq = [dataItem.seq[0], Infinity];
+    } else {
+      seq = dataItem.seq;
     }
 
+    let formattedDataItem: FormSchema = {
+      ...dataItem,
+      seq,
+    };
+
     if (dataItem.data) {
-      formatWithSeq(dataItem.data);
+      formattedDataItem = {
+        ...formattedDataItem,
+        data: formatWithSeq(dataItem.data),
+      };
     }
-  }
+
+    return formattedDataItem;
+  });
 
   return data;
 };

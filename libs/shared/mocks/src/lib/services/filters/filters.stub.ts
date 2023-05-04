@@ -1,4 +1,4 @@
-import { FormSchema } from '@lths/shared/ui-filters';
+import { FormSchema } from '@lths/types/ui-filters';
 
 const data: FormSchema[] = [
   {
@@ -108,8 +108,6 @@ const data: FormSchema[] = [
   },
 ];
 
-export const Schema = {
-  payload: {
-    data: data,
-  },
-};
+const payload = { data };
+
+export default payload;

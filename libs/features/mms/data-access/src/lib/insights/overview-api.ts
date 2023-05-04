@@ -59,8 +59,6 @@ export const {
   useLazyGetInsightOverviewQuery,
   useLazyGetInsightOverviewKpiQuery,
   useLazyGetInsightOverviewHistogramQuery,
-
   useLazyGetInsightOverviewSegmentationQuery,
-
   useLazyGetInsightOverviewTabularQuery,
 } = insightOverviewApi;

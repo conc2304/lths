@@ -1,5 +1,8 @@
 export * from './lib/store';
+export * from './lib/connect/withReduxandContext';
 export * from './lib/selectors/user-selectors';
+
+export * from './lib/filters';
 
 export * from './lib/notifications/notification-api';
 export * from './lib/notifications/types';
