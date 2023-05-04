@@ -2,8 +2,8 @@ import { Typography, Box } from '@mui/material';
 
 import { useAppSelector } from '@lths/features/mms/data-access';
 
-import { Profile } from '../components/layouts';
-import PositionedPopper from '../components/layouts/popper-test';
+import { Profile } from '../../components/layouts';
+import PositionedPopper from '../../components/layouts/popper-test';
 
 const SamplePage = (): JSX.Element => {
   const user = useAppSelector((state) => state.users.user);

@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
-import { PageHeader } from '@lths/shared/ui-layouts';
+import { useLayoutActions, PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
   {
@@ -41,7 +41,8 @@ const headers = [
 
 const NotificationPage = (): JSX.Element => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationItemsQuery();
-
+  console.log('🚀 ~ file: notification-page.tsx:44 ~ NotificationPage ~ result:', isFetching, isLoading, data);
+  const { setPageTitle } = useLayoutActions();
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: NotificationRequest = {};
     if (pagination != null) {
@@ -58,6 +59,8 @@ const NotificationPage = (): JSX.Element => {
 
   useEffect(() => {
     fetchData(null, undefined);
+    setPageTitle('Detail Page');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPageChange = (
@@ -71,6 +74,7 @@ const NotificationPage = (): JSX.Element => {
   const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
     console.log('onRowsPerPageChange', event);
   };
+
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };

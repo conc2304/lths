@@ -1,3 +1,3 @@
-export {default as SamplePage} from "./sample-page";
-export {default as NotFound} from "./404";
-export {default as ChartPage} from "./chart-page";
+export { default as SamplePage } from './demo/sample-page';
+export { default as NotFound } from './demo/404';
+export { default as ChartPage } from './demo/chart-page';

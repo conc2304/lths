@@ -20,61 +20,58 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-import PropTypes from 'prop-types';
-
-import { alpha, styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-
-import SimpleBar from 'simplebar-react';
+import { alpha, styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import { BrowserView, MobileView } from 'react-device-detect';
+import SimpleBar from 'simplebar-react';
 
 const RootStyle = styled(BrowserView)({
-    flexGrow: 1,
-    height: '100%',
-    overflow: 'hidden'
+  flexGrow: 1,
+  height: '100%',
+  overflow: 'hidden',
 });
 
 // scroll bar wrapper
 const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
-    maxHeight: '100%',
-    '& .simplebar-scrollbar': {
-        '&:before': {
-            backgroundColor: alpha(theme.palette.grey[500], 0.48)
-        },
-        '&.simplebar-visible:before': {
-            opacity: 1
-        }
+  maxHeight: '100%',
+  '& .simplebar-scrollbar': {
+    '&:before': {
+      backgroundColor: alpha(theme.palette.grey[500], 0.48),
     },
-    '& .simplebar-track.simplebar-vertical': {
-        width: 10
+    '&.simplebar-visible:before': {
+      opacity: 1,
     },
-    '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
-        height: 6
-    },
-    '& .simplebar-mask': {
-        zIndex: 'inherit'
-    }
+  },
+  '& .simplebar-track.simplebar-vertical': {
+    width: 10,
+  },
+  '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
+    height: 6,
+  },
+  '& .simplebar-mask': {
+    zIndex: 'inherit',
+  },
 }));
 
-
 export default function SimpleBarScroll({ children, sx, ...other }) {
-    return (
-        <>
-            <RootStyle>
-                <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
-                    {children}
-                </SimpleBarStyle>
-            </RootStyle>
-            <MobileView>
-                <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
-                    {children}
-                </Box>
-            </MobileView>
-        </>
-    );
+  return (
+    <>
+      <RootStyle>
+        <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
+          {children}
+        </SimpleBarStyle>
+      </RootStyle>
+      <MobileView>
+        <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
+          {children}
+        </Box>
+      </MobileView>
+    </>
+  );
 }
 
 SimpleBarScroll.propTypes = {
-    children: PropTypes.node,
-    sx: PropTypes.object
+  children: PropTypes.node,
+  sx: PropTypes.object,
 };

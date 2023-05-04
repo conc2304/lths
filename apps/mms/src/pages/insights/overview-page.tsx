@@ -12,13 +12,16 @@ import { FilterSettingsPayload } from '@lths/types/ui-filters';
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { DonutContainer, TabularContainer, KpiContainer, HistogramContainer } from '../../components/insights/overview';
 
+//TODO: the unused variables are for future implemenattion of skeletons, so don't remove them from here
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 const OverviewPage = (): JSX.Element => {
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
     useLazyGetInsightOverviewKpiQuery();
 
   const [getTabularData, { isFetching: isTabularFetching, isLoading: isTabularLoading, data: tabularData }] =
     useLazyGetInsightOverviewTabularQuery();
-  console.log('🚀 ~ file: overview-page.tsx:40 ~ tabularData:', tabularData, tabularData?.data?.metrics);
+
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOverviewHistogramQuery();
 
