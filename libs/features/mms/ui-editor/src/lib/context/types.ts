@@ -4,6 +4,7 @@ export type ComponentProps = {
   __ui_id__: string;
   id: string;
   type: string;
+  name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 

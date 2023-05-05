@@ -6,7 +6,7 @@ import { EditorContextProps, initialState } from './types';
 
 const EditorContext = createContext<EditorContextProps | null>(null);
 
-const EditorContextProvider = ({ children }: { children: ReactNode }) => {
+const EditorProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const actions = {
     initEditor: initEditor(dispatch),
@@ -32,4 +32,4 @@ const useEditor = () => {
   return context;
 };
 
-export { EditorContextProvider, EditorContext, useEditor };
+export { EditorProvider, EditorContext, useEditor };
