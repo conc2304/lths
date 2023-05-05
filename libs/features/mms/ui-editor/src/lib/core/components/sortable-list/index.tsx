@@ -1,11 +1,12 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { Container } from './container';
-export default function SortableList() {
+import { Container, SortableListProps } from './container';
+
+export default function SortableList({ onAddComponentClick }: SortableListProps) {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Container />
+      <Container onAddComponentClick={onAddComponentClick} />
     </DndProvider>
   );
 }

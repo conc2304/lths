@@ -2,8 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
+import { Button } from '@mui/material';
 
-import { Card } from './card';
+import { Card } from './dragable-list-item';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
 
@@ -15,8 +16,10 @@ export interface Item {
 export interface ContainerState {
   cards: Item[];
 }
-
-export const Container: FC = () => {
+export type SortableListProps = {
+  onAddComponentClick: () => void;
+};
+export const Container = ({ onAddComponentClick }: SortableListProps) => {
   {
     const { components, orderComponent } = useEditorActions();
     const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
@@ -31,6 +34,11 @@ export const Container: FC = () => {
       );
     }, []);
 
-    return <div>{components.map((component, i) => renderCard(component, i))}</div>;
+    return (
+      <div>
+        {components.map((component, i) => renderCard(component, i))}
+        <Button onClick={onAddComponentClick}>Add Component</Button>
+      </div>
+    );
   }
 };
