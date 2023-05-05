@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import SortableList from './sortable-list';
 import { SortableListProps } from './sortable-list/container';
-import { EditorProvider } from '../../context';
 import { useEditorActions } from '../../context/hooks';
 const colors = {
   sidebar: '#D9D9D9',
   editor: '#f5f5f5',
 };
 export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
-  const { initEditor, addComponent } = useEditorActions();
-  useEffect(() => {
+  /*uconst { initEditor, addComponent, components } = useEditorActions();
+  console.log('🚀 ~ file: layout.tsx:16 ~ GridContainer ~ components:', components);
+  seEffect(() => {
     initEditor([
       { id: '1', name: 'Hero Card', __ui_id__: '1', type: 'qCardView' },
       { id: '1', name: 'Quick Links', __ui_id__: '2', type: 'cQuickLinkView' },
@@ -25,7 +25,7 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
     const id = uuidv4();
     addComponent({ id, name: 'Card View', __ui_id__: id, type: 'qCardView' });
     console.log('handleTabChange');
-  };
+  };*/
   return (
     <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ height: '90vh' }}>
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}>

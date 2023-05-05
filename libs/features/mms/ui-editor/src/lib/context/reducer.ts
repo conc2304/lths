@@ -1,10 +1,14 @@
-import { initialState, EditorActionType, EditorActionProps, EditorProps } from './types';
+import { v4 as uuid } from 'uuid';
+
+import { initialState, EditorActionType, EditorActionProps, EditorProps, ComponentProps } from './types';
+
+const fillUuid = (component: ComponentProps) => ({ ...component, __ui_id__: uuid() });
 
 const reducer = (state: EditorProps, action: EditorActionProps) => {
   switch (action.type) {
     case EditorActionType.INIT_COMPONENTS: {
       const { components } = action;
-      return { ...state, components };
+      return { ...state, components: components.map((component) => fillUuid(component)) };
     }
     case EditorActionType.SET_CURRENT_COMPONENT: {
       const { component: selectedComponent } = action;
@@ -12,11 +16,11 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
     }
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
-      return { ...state, components: [...state.components, component] };
+      return { ...state, components: [...state.components, fillUuid(component)] };
     }
     case EditorActionType.REMOVE_COMPONENT: {
       const { id } = action;
-      return { ...state, components: state.components.filter((o) => o.id !== id) };
+      return { ...state, components: state.components.filter((o) => o.__ui_id__ !== id) };
     }
     case EditorActionType.UPDATE_COMPONENT: {
       const {
@@ -24,7 +28,7 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
         component: { id },
       } = action;
       //preserve the order of the components
-      return { ...state, components: state.components.map((o) => (o.id === id ? component : o)) };
+      return { ...state, components: state.components.map((o) => (o.__ui_id__ === id ? component : o)) };
     }
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;

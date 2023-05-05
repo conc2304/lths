@@ -3,10 +3,10 @@ import { DefaultBodyType, PathParams, ResponseComposition, rest, RestContext, Re
 import { getApiFullPath } from './services/api';
 import InsightServices from './services/insights/index';
 import { CustomServices } from './services/insights/index';
-
+import MobilePageServices from './services/pages';
 // Handlers that need custom logic in the response transformer
 export const customHandlers = [...CustomServices];
-export const defaultHandlers = [...InsightServices];
+export const defaultHandlers = [...InsightServices, ...MobilePageServices];
 // Handlers that are generated from the config object
 const generatedHandlers = defaultHandlers.map(
   ({ api, path, method, fail, passThrough, delay, successResponse, failResponse, responseTransformer }) => {

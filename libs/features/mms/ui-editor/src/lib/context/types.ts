@@ -2,13 +2,14 @@ import { Dispatch, ReactNode } from 'react';
 
 export type ComponentProps = {
   __ui_id__: string;
-  id: string;
-  type: string;
-  name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  component_id: string;
+  component_name: string;
+  component_type: string;
+  component_image_url: string;
 
   // Other properties for the component can be added here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 };
 
 export type EditorProviderProps = {

@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { ListItemText } from '@mui/material';
 
 export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
+
   const handleDoubleClick = () => {
     setEditing(true);
   };
@@ -21,26 +22,7 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
     setEditing(false);
     onSave(editedText);
     // onSave(value);
-  }; /*
-  useEffect(() => {
-    if (editing && inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.select();
-    }
-  }, [editing]);*/
-  /*
-  return editing ? (
-    <input
-      ref={inputRef}
-      type="text"
-      value={editedText}
-      onChange={(event) => setEditedText(event.target.value)}
-      onKeyDown={handleKeyDown}
-      onBlur={handleSave}
-    />
-  ) : (
-    <ListItemText primary={text} onDoubleClick={handleDoubleClick} onClick={handleClick} />
-  );*/
+  };
 
   return editing ? (
     <input

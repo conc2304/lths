@@ -4,6 +4,7 @@ import { ListItemText } from '@mui/material';
 export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleDoubleClick = () => {
     setEditing(true);
   };
@@ -42,15 +43,24 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
     <ListItemText primary={text} onDoubleClick={handleDoubleClick} onClick={handleClick} />
   );*/
 
-  return editing ? (
-    <input
-      type="text"
-      value={editedText}
-      onChange={(event) => setEditedText(event.target.value)}
-      onKeyDown={handleKeyDown}
-      onBlur={handleSave}
+  return (
+    <ListItemText
+      onDoubleClick={handleDoubleClick}
+      //onClick={handleClick}
+      primary={
+        editing ? (
+          <input
+            ref={inputRef}
+            type="text"
+            value={editedText}
+            onChange={(event) => setEditedText(event.target.value)}
+            //onKeyDown={handleKeyDown}
+            //onBlur={handleSave}
+          />
+        ) : (
+          <span>{editedText}</span>
+        )
+      }
     />
-  ) : (
-    <ListItemText primary={text} onDoubleClick={handleDoubleClick} onClick={handleClick} />
   );
 };
