@@ -13,12 +13,13 @@ const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
   backgroundColor: theme.palette.grey[700], // tooltipBackgroundColor = "#6c7279";
 }));
 
-const GreyCardArrowBox = styled(Box)<BoxProps>(({ theme }) => ({
+const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ beforeBackgroundColor }) => ({
   position: 'relative',
   marginBottom: '18px',
+  backgroundColor: beforeBackgroundColor, // this line is just for jest testing
   '&::before': {
     boxShadow: '2.5 px 2.5px 3.5px 0px rgba(0,0,0,0.15)',
-    backgroundColor: theme.palette.grey[700], // tooltipBackgroundColor = "#6c7279";
+    backgroundColor: beforeBackgroundColor, // tooltipBackgroundColor = "#6c7279";
     content: "''",
     position: 'absolute',
     width: 24,
@@ -90,7 +91,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
           },
         }}
       >
-        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }}>
+        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }} data-testid="GreyCard">
           <CardContent
             sx={{
               paddingTop: theme.spacing(2.25),
@@ -106,13 +107,13 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
               {description}
             </Typography>
             {action?.url && (
-              <GreyCardLink href={action.url} underline="none" variant="body2" data-testid="Link is here">
+              <GreyCardLink href={action.url} underline="none" variant="body2">
                 {action.title ? action.title : 'LEARN MORE'}
               </GreyCardLink>
             )}
           </CardContent>
         </GreyCard>
-        <GreyCardArrowBox />
+        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]}/>
       </Popover>
     </div>
   );

@@ -3,11 +3,43 @@ import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 
 
-import { KpiSparklineCard, KpiSparklineCardProps } from './index';
+import { KpiRolloverCard, KpiRolloverCardProps } from './index';
 
+const roloverDataList = [	
+    {	
+      duration: 7,	
+      span: {	
+        title: "Prev 7 days",	
+        unit: "%",	
+        value: 31,	
+        direction: "up"	
+      },	
+      median: {	
+        title: "Median",	
+        unit: "%",	
+        value: 1,	
+        direction: "down"
+      }	    
+    },
+    {	
+      duration: 30,	
+      span: {	
+        title: "Prev 30 days",	
+        unit: "%",	
+        value: 27,	
+        direction: "up"	
+      },	
+      median: {	
+        title: "Median",	
+        unit: "%",	
+        value: 3,	
+        direction: "down"	
+      }	
+    },	
+  ]
 
-describe("KpiSparklineCard Component", () => {
-  let props: KpiSparklineCardProps;
+describe("KpiRolloverCard Component", () => {
+  let props: KpiRolloverCardProps;
   beforeEach(() => {
     props = {
       title: "Revenue",
@@ -36,10 +68,9 @@ describe("KpiSparklineCard Component", () => {
         }, 
         title: "Retention"
       },
-      detail: { 
-        url: "https://en.wikipedia.org/wiki/Retention",
-      },
       sparkLine: <div data-testid="SparkLine">react Spark1 line</div>,
+      rolloverData: roloverDataList,
+      rolloverTitle: "Retention Average",
     };
   });
 
@@ -47,8 +78,8 @@ describe("KpiSparklineCard Component", () => {
     jest.clearAllMocks();
   });
 
-  test("should render KpiSparklineCard component with sparkline", () => {
-    render(<KpiSparklineCard {...props} />);
+  test("should render KpiRolloverCard component with sparkline", () => {
+    render(<KpiRolloverCard {...props} />);
 
     const sparkLineContainer = screen.getByTestId("SparkLineContainer");
     expect(sparkLineContainer).toBeInTheDocument();
@@ -56,9 +87,9 @@ describe("KpiSparklineCard Component", () => {
     expect(sparkLine).toBeInTheDocument();
   });
 
-  test("should render KpiSparklineCard component without sparkline when not given one", () => {
+  test("should render KpiRolloverCard component without sparkline when not given one", () => {
     props.sparkLine = undefined;
-    render(<KpiSparklineCard {...props} />);
+    render(<KpiRolloverCard {...props} />);
 
     const sparkLineContainer = screen.getByTestId("SparkLineContainer");
     expect(sparkLineContainer).toBeInTheDocument();
@@ -66,24 +97,9 @@ describe("KpiSparklineCard Component", () => {
     expect(sparkLine).not.toBeInTheDocument();
   });
 
-  test('renders the detail link in the KpiSparklineCard', () => {
-    render(<KpiSparklineCard {...props} />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveTextContent('VIEW DETAILS');
-    expect(link).toHaveAttribute('href', props.detail.url);
-  });
-
-  test('does not render the detail link in the KpiSparklineCard', () => {
-    props.action = undefined;
-    render(<KpiSparklineCard {...props} />);
-    const link = screen.getByRole('link');
-    expect(link).toBeInTheDocument();
-  });
-
-
   describe("KpiCard Render", () => {
     test("should render KpiCard component with correct data", () => {
-        render(<KpiSparklineCard {...props} />);
+        render(<KpiRolloverCard {...props} />);
 
         expect(screen.getByText(props.title.toUpperCase())).toBeInTheDocument();
         expect(screen.getByText(props.hero.toLocaleString("en-US"))).toBeInTheDocument();
@@ -95,17 +111,17 @@ describe("KpiSparklineCard Component", () => {
 
     });
 
-    test("should render KpiSparklineCard component with tooltip icon", () => {
-        render(<KpiSparklineCard {...props} />);
+    test("should render KpiRolloverCard component with tooltip icon", () => {
+        render(<KpiRolloverCard {...props} />);
 
         const tooltipIcon = screen.getByTestId("InfoOutlinedIcon");
 
         expect(tooltipIcon).toBeInTheDocument();
     });
 
-    test("should render KpiSparklineCard component without tooltip icon when tooltipDesc is not provided", () => {
+    test("should render KpiRolloverCard component without tooltip icon when tooltipDesc is not provided", () => {
         props.tooltip = undefined;
-        render(<KpiSparklineCard {...props} />);
+        render(<KpiRolloverCard {...props} />);
         
         expect(screen.queryByTestId("InfoOutlinedIcon")).not.toBeInTheDocument();
     });

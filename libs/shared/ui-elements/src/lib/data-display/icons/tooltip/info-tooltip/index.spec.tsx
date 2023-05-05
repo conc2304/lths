@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import InfoTooltip, { InfoTooltipProps, ActionProps } from './index';
+import {InfoTooltip, InfoTooltipProps, ActionProps } from './index';
 
 describe('InfoTooltip', () => {
   const action: ActionProps = { url: 'https://example.com', title: 'TestTitle' };
@@ -43,6 +43,21 @@ describe('InfoTooltip', () => {
     render(<InfoTooltip {...props} />);
 
     expect(screen.queryByTestId('InfoTooltipOnHover')).not.toBeInTheDocument();
+  });
+
+  test('renders the component when description is not provided but title is', () => {
+    props.description = undefined;
+    render(<InfoTooltip {...props} />);
+
+    expect(screen.queryByTestId('InfoTooltipOnHover')).toBeInTheDocument();
+    
+  });
+
+  test('renders the component when title is not provided but description is', () => {
+    props.title = undefined;
+    render(<InfoTooltip {...props} />);
+
+    expect(screen.queryByTestId('InfoTooltipOnHover')).toBeInTheDocument();
   });
   
   test('renders title and description in the popover', async () => {
@@ -95,6 +110,33 @@ describe('InfoTooltip', () => {
             const link = screen.queryByRole('link');
             expect(link).not.toBeInTheDocument();
         });
+    });
+  });
+
+  describe('Visual is correct', () => {
+    // Function to get the computed color style of an element
+    const getBackgroundColor = (element: HTMLElement) => {
+      const { backgroundColor } = window.getComputedStyle(element);
+      return backgroundColor;
+    };
+    
+    test('color comparison test popover', async () => {
+      RenderAndHover(props);
+
+      let backgroundColor;
+
+      await waitFor(() => {
+        // Get first color
+        const greyCard = screen.getByTestId('GreyCard') as HTMLElement;
+        expect(greyCard).toBeInTheDocument();
+        backgroundColor = getBackgroundColor(greyCard);
+        
+        // Get second color
+        const greyArrow = screen.getByTestId('GreyArrow');
+
+        // Assert that the colors are the same
+        expect(greyArrow).toHaveStyle(`background-color: ${backgroundColor}`);
+      });
     });
   });
 

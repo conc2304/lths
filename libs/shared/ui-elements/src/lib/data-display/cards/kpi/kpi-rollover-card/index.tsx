@@ -62,7 +62,7 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
           id="panel-header"
           sx={{ transform: 'rotate(180deg)', height: theme.spacing(6), paddingRight: theme.spacing(1) }}
         >
-          {sparkLine}
+          <div style={{ paddingTop: theme.spacing(1), textAlign: 'center' }} data-testid="SparkLineContainer">{sparkLine}</div>
         </AccordionSummary>
         <AccordionDetails
           sx={{ transform: 'rotate(180deg)', padding: theme.spacing(2.5), paddingTop: theme.spacing(2) }}
