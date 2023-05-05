@@ -13,5 +13,6 @@ export const ANALYTICS_HOST = {
 export const AUTH_USER_ID = '__lths_user_id';
 export const AUTH_TOKEN = '__lths_auth_token';
 
+export const _TESTING_API = `${HOST.protocol}://mok-dev.briteliteimmersive.io${HOST.apiPath}`;
 export const HOST_API = `${HOST.protocol}://${HOST.domainName}${HOST.apiPath}`;
 export const ANALYTICS_API = `${HOST.protocol}://${HOST.domainName}${HOST.apiPath}`;
