@@ -26,7 +26,7 @@ export const formatObject = (obj: Record<string, unknown>): string => {
   else return JSON.stringify(obj);
 };
 export const formatCell = (data: any, type?: TableCellType, unit?: string) => {
-  console.log(`formatCell`, data, type, unit);
+  // console.log(`formatCell`, data, type, unit);
   switch (type) {
     case 'string':
       return data + (unit ? `${unit}` : '');

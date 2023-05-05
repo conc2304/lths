@@ -1,9 +1,22 @@
 import { FormGroup, Typography, styled } from '@mui/material';
-import { FormSchema } from '@lths/shared/ui-filters';
-import { ConnectedFormChildren } from 'libs/shared/ui-elements/src/lib/inputs/vertical-form-group/form-children-connected';
+import {
+  AddGroupItems,
+  AddItem,
+  ClearGroup,
+  FormSchema,
+  FormState,
+  FormStateValue,
+  RemoveItem,
+} from '@lths/types/ui-filters';
+import { FormChildren } from 'libs/shared/ui-elements/src/lib/inputs/form-children';
 
 type VerticalFormGroupProps = {
   formSchema: FormSchema;
+  formState: FormState;
+  onAddItem: AddItem;
+  onRemoveItem: RemoveItem;
+  onClearGroup: ClearGroup;
+  onAddGroupItems: AddGroupItems;
 };
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -24,7 +37,7 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
-  const { formSchema } = props;
+  const { formSchema, onAddItem, onRemoveItem, onClearGroup, onAddGroupItems, formState } = props;
   const { title, subtitle, info, data, id: groupID } = formSchema;
 
   const isNewFormGroup = null && data && data.length > 1;
@@ -42,7 +55,16 @@ export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
       </div>
       {formGroupData && (
         <FormGroup sx={{ my: 2 }}>
-          <ConnectedFormChildren formSchema={formGroupData} groupTitle={title as string} groupID={groupID as string} />
+          <FormChildren
+            formState={formState}
+            formSchema={formGroupData}
+            groupTitle={title as string}
+            groupID={groupID as string}
+            onAddItem={onAddItem}
+            onRemoveItem={onRemoveItem}
+            onClearGroup={onClearGroup}
+            onAddGroupItems={onAddGroupItems}
+          />
         </FormGroup>
       )}
     </div>

@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react';
 
+import { FilterFormContextType, FilterFormDataContextType } from '@lths/types/ui-filters';
+
 import {
   addFormItem,
   addItems,
@@ -10,33 +12,37 @@ import {
   setFormState,
   setModalIsOpen,
 } from './actions';
-import { FilterFormStateReducer } from './reducer';
-import { FilterFormStateContextType } from './types';
+import { FilterFormContextReducer } from './reducer';
 
-const INITIAL_STATE: FilterFormStateContextType = {
+const INITIAL_STATE: FilterFormContextType = {
+  formSchema: [],
   modalIsOpen: false,
   formState: {},
   dateRange: {
-    start: null,
-    end: null,
+    start_date: null,
+    end_date: null,
   },
 };
 
-const FilterFormStateContext = createContext<FilterFormStateContextType | null>(null);
+const FilterFormContext = createContext<FilterFormContextType | null>(null);
 
-const FilterFormStateProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(FilterFormStateReducer, INITIAL_STATE);
-  const { modalIsOpen, formState } = state;
+type FilterFormContextProviderProps = { children: ReactNode; externalState?: FilterFormDataContextType };
+
+const FilterFormContextProvider = ({ children }: FilterFormContextProviderProps) => {
+  const [state, dispatch] = useReducer(FilterFormContextReducer, INITIAL_STATE);
+  const { modalIsOpen, formState, formSchema, dateRange } = state;
 
   return (
-    <FilterFormStateContext.Provider
+    <FilterFormContext.Provider
       value={{
         modalIsOpen,
         formState,
+        formSchema,
+        dateRange,
         setModalIsOpen: setModalIsOpen(dispatch),
-        clearForm: clearForm(dispatch),
+        clearForm: clearForm(dispatch, state),
         addItem: addFormItem(dispatch),
-        removeItem: removeFormItem(dispatch),
+        removeItem: removeFormItem(dispatch, state),
         addGroupItems: addItems(dispatch),
         clearGroup: clearFormGroup(dispatch),
         setFormState: setFormState(dispatch),
@@ -44,18 +50,18 @@ const FilterFormStateProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </FilterFormStateContext.Provider>
+    </FilterFormContext.Provider>
   );
 };
 
-const useFilterFormState = () => {
-  const filterFormStateContext = useContext(FilterFormStateContext);
+const useFilterFormContext = () => {
+  const filterFormStateContext = useContext(FilterFormContext);
 
   if (!filterFormStateContext) {
-    throw new Error('useFilterFormState has to be used within FilterFormStateContext.Provider>');
+    throw new Error('useFilterFormState has to be used within FilterFormContext.Provider>');
   }
 
   return filterFormStateContext;
 };
 
-export { FilterFormStateProvider, useFilterFormState };
+export { FilterFormContextProvider, useFilterFormContext };

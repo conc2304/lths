@@ -1,13 +1,14 @@
 import { ComponentType } from 'react';
 
-import { useFilterFormState } from './context';
-import { FilterFormStateContextType } from './types';
+import { FilterFormContextType } from '@lths/types/ui-filters';
 
-export const withFilterFormStateContext = <P extends object>(
-  Component: ComponentType<P & FilterFormStateContextType>
+import { useFilterFormContext } from './context';
+
+export const withFilterFormContext = <P extends object>(
+  Component: ComponentType<P & Partial<FilterFormContextType>>
 ) => {
   return function WithFilterFormStateContext(props: P) {
-    const contextValues = useFilterFormState();
+    const contextValues = useFilterFormContext();
 
     return <Component {...props} {...contextValues} />;
   };

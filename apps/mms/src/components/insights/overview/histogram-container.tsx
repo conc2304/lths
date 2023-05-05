@@ -1,6 +1,6 @@
 import { InsightHistogramResponse, Histogram } from '@lths/features/mms/data-access';
+import { LineChart } from '@lths/shared/ui-charts';
 import { BasicCard, HStack, InfoTooltip, KpiSparklineCard } from '@lths/shared/ui-elements';
-import LineChart from 'libs/shared/ui-charts/line-chart';
 
 type Props = {
   data: InsightHistogramResponse;
@@ -9,7 +9,8 @@ const CardItem = ({ data }: { data: Histogram }) => {
   const { title, subtitle, info, data: metrics } = data;
   const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
   return (
-    <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1 }}>
+    <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1, paddingBottom: '20px' }}>
+      {/* <LineChart data={metrics} eventOptions={eventsOption.events} /> */}
       <LineChart data={metrics} />
     </BasicCard>
   );
