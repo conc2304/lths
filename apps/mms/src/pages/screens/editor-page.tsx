@@ -34,13 +34,13 @@ export function PageEditorTabs() {
     console.log('handleTabChange', components);
   };*/
   const fetchData = async () => {
-    // await getData();
+    await getData();
   };
   useEffect(() => {
     fetchData();
   }, []);
   useEffect(() => {
-    //initEditor(data?.data ? data.data : []);
+    initEditor(data?.data ? data.data : []);
   }, [data]);
   const handleAddComponentClick = () => {
     const id = uuidv4();

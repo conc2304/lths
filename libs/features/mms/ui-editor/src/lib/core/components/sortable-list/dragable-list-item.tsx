@@ -5,7 +5,6 @@ import DragHandle from '@mui/icons-material/DragIndicator';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { EditableListItemText } from './editable-list-item';
-import { ComponentProps } from '../../../context';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 

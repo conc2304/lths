@@ -27,7 +27,15 @@ export const Container = ({ onAddComponentClick }: SortableListProps) => {
     }, []);
 
     const renderCard = useCallback((component: ComponentProps, index: number) => {
-      return <Card id={component.__ui_id__} index={index} moveCard={moveCard} text={component.component_name}></Card>;
+      return (
+        <Card
+          key={component.__ui_id__}
+          id={component.__ui_id__}
+          index={index}
+          moveCard={moveCard}
+          text={component.component_name}
+        ></Card>
+      );
     }, []);
 
     return (
