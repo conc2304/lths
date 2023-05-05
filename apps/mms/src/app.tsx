@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
+import { ANALYTICS_HOST, HOST } from '@lths/shared/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
 import Routes from './routes';
@@ -37,7 +38,7 @@ function App() {
             {!document.location.host.includes('localhost') && (
               <meta
                 http-equiv="Content-Security-Policy"
-                content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self';"
+                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ${HOST} ${ANALYTICS_HOST} 'self'; media-src 'self';`}
               />
             )}
           </Helmet>
