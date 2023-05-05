@@ -20,27 +20,27 @@ export function PageEditorTabs() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetComponentListQuery();
 
   const { components, initEditor, addComponent } = useEditorActions();
-  /* useEffect(() => {
+  /*useEffect(() => {
     initEditor([
-      { id: '1', name: 'Hero Card', __ui_id__: '1', type: 'qCardView' },
-      { id: '1', name: 'Quick Links', __ui_id__: '2', type: 'cQuickLinkView' },
-      { id: '1', name: 'Button', __ui_id__: '3', type: 'cButton' },
-      { id: '1', name: 'Card View', __ui_id__: '4', type: 'qCardView' },
+      { component_name: 'Hero Card', __ui_id__: '1', component_id: 'qCardView' },
+      { component_name: 'Quick Links', __ui_id__: '2', component_id: 'cQuickLinkView' },
+      { component_name: 'Button', __ui_id__: '3', component_id: 'cButton' },
+      { component_name: 'Card View', __ui_id__: '4', component_id: 'qCardView' },
     ]);
   }, []);
-  const handleAddComponentClick = () => {
+ const handleAddComponentClick = () => {
     const id = uuidv4();
     addComponent({ id, name: 'Card View', __ui_id__: id, type: 'qCardView' });
     console.log('handleTabChange', components);
   };*/
   const fetchData = async () => {
-    await getData();
+    // await getData();
   };
   useEffect(() => {
     fetchData();
   }, []);
   useEffect(() => {
-    initEditor(data?.data ? data.data : []);
+    //initEditor(data?.data ? data.data : []);
   }, [data]);
   const handleAddComponentClick = () => {
     const id = uuidv4();

@@ -4,8 +4,8 @@ export type ComponentProps = {
   __ui_id__: string;
   component_id: string;
   component_name: string;
-  component_type: string;
-  component_image_url: string;
+  component_type?: string;
+  image_url?: string;
 
   // Other properties for the component can be added here
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
