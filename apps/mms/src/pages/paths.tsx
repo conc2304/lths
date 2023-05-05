@@ -1,7 +1,8 @@
 import Demo from './demo/paths';
 import Insights from './insights/paths';
 import { Home, Themes } from './paths-misc';
+import Pages from './screens/paths';
 
-const sections = [Home, Demo, Themes, Insights];
+const sections = [Home, Demo, Themes, Pages, Insights];
 
 export default sections;

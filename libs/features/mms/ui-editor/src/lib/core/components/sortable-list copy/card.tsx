@@ -4,8 +4,6 @@ import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import DragHandle from '@mui/icons-material/DragIndicator';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { EditableListItemText } from './editable-list-item';
-
 import type { Identifier, XYCoord } from 'dnd-core';
 
 export const ItemTypes = {
@@ -15,7 +13,7 @@ export const ItemTypes = {
 const style = {
   border: '1px dashed gray',
   backgroundColor: '#D9D9D9',
-  //cursor: 'move',
+  cursor: 'move',
 };
 
 export interface CardProps {
@@ -88,9 +86,6 @@ export const Card: FC<CardProps> = ({ id, children, index, moveCard }) => {
       item.index = hoverIndex;
     },
   });
-  const onSave = (index: number, newText: string) => {
-    console.log(index, newText);
-  };
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
@@ -104,12 +99,10 @@ export const Card: FC<CardProps> = ({ id, children, index, moveCard }) => {
 
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
-
   return (
     <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
       <ListItem>
-        <ListItemText primary={children} onDoubleClick={() => console.log('test')} />
-        <EditableListItemText text={children.toString()} onSave={(newText) => onSave(index, newText)} />
+        <ListItemText primary={children} />
         <ListItemIcon>
           <DragHandle />
         </ListItemIcon>

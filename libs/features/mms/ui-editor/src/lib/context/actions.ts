@@ -22,3 +22,6 @@ export const updateComponent = (dispatch: Dispatch<EditorActionProps>) => (compo
 export const removeComponent = (dispatch: Dispatch<EditorActionProps>) => (id: string) => {
   dispatch({ type: EditorActionType.REMOVE_COMPONENT, id });
 };
+export const orderComponent = (dispatch: Dispatch<EditorActionProps>) => (dragIndex: number, hoverIndex: number) => {
+  dispatch({ type: EditorActionType.ORDER_COMPONENT, dragIndex, hoverIndex });
+};

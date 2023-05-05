@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect, useId } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import SortableList from './sortable-list';
 import { EditorProvider } from '../../context';
+import { useEditorActions } from '../../context/hooks';
 const colors = {
   sidebar: '#D9D9D9',
   editor: '#f5f5f5',
 };
 export const GridContainer = () => {
+  const { initEditor } = useEditorActions();
+  useEffect(() => {
+    initEditor([
+      { id: '1', name: 'Hero Card', __ui_id__: '1', type: 'qCardView' },
+      { id: '1', name: 'Quick Links', __ui_id__: '2', type: 'cQuickLinkView' },
+      { id: '1', name: 'Button', __ui_id__: '3', type: 'cButton' },
+      { id: '1', name: 'Card View', __ui_id__: '4', type: 'qCardView' },
+    ]);
+  }, []);
   return (
-    <Grid container direction="row" justifyContent="space-between" alignItems="stretch">
+    <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ height: '90vh' }}>
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}>
         <SortableList />
       </Grid>

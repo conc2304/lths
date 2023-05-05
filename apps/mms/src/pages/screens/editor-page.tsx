@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
-import { BlockEditor, SortableList } from '@lths-mui/features/mms/ui-editor';
+
+import { BlockEditor } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
 /* eslint-disable-next-line */
@@ -23,7 +24,7 @@ export function PageEditorTabs() {
           <Tab label="SETTINGS" value="settings" />
         </Tabs>
       </Box>
-      <Box p={2}>
+      <Box p={2} sx={{ height: '100vh' }}>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor />
         </TabPanel>

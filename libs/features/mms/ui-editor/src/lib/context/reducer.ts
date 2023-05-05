@@ -26,6 +26,16 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       //preserve the order of the components
       return { ...state, components: state.components.map((o) => (o.id === id ? component : o)) };
     }
+    case EditorActionType.ORDER_COMPONENT: {
+      const { dragIndex, hoverIndex } = action;
+      const dragged = state.components[dragIndex];
+      const components = [...state.components];
+      components.splice(dragIndex, 1);
+      components.splice(hoverIndex, 0, dragged);
+
+      //preserve the order of the components
+      return { ...state, components };
+    }
 
     default: {
       return initialState;

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode } from 'react';
 
 export type ComponentProps = {
   __ui_id__: string;
@@ -28,7 +28,7 @@ export type EditorDispathProps = {
   removeComponent: (id: string) => void;
 };
 
-export type EditorContextProps = { state: EditorProps; actions: EditorDispathProps };
+export type EditorContextProps = { state: EditorProps; dispatch: Dispatch<EditorActionProps> };
 
 export enum EditorActionType {
   SET_CURRENT_COMPONENT = 'SET_CURRENT_COMPONENT',
@@ -37,6 +37,7 @@ export enum EditorActionType {
   CLEAR_COMPONENTS = 'CLEAR_COMPONENTS',
   REMOVE_COMPONENT = 'REMOVE_COMPONENT',
   UPDATE_COMPONENT = 'UPDATE_COMPONENT',
+  ORDER_COMPONENT = 'ORDER_COMPONENT',
 }
 
 export const initialState: EditorProps = {
@@ -50,4 +51,5 @@ export type EditorActionProps =
   | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps[] }
   | { type: EditorActionType.CLEAR_COMPONENTS }
-  | { type: EditorActionType.REMOVE_COMPONENT; id: string };
+  | { type: EditorActionType.REMOVE_COMPONENT; id: string }
+  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };
