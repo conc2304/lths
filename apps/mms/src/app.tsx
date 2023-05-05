@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
-import { ANALYTICS_HOST, HOST, HOST_API } from '@lths/shared/data-access';
+import { HOST } from '@lths/shared/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
 import Routes from './routes';
