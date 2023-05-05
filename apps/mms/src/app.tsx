@@ -38,7 +38,7 @@ function App() {
             {!document.location.host.includes('localhost') && (
               <meta
                 http-equiv="Content-Security-Policy"
-                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ${HOST_API}/* 'self'; media-src 'self';`}
+                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ${HOST.domainName} 'self'; media-src 'self';`}
               />
             )}
           </Helmet>
