@@ -38,7 +38,7 @@ function App() {
             {!document.location.host.includes('localhost') && (
               <meta
                 http-equiv="Content-Security-Policy"
-                content={`default-src 'self'; connect-src *.briteliteimmersive.io;`}
+                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' ; font-src 'self'; connect-src *.briteliteimmersive.io; media-src 'self';`}
               />
             )}
           </Helmet>
