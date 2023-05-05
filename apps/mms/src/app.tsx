@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -32,6 +33,14 @@ function App() {
         <LayoutThemeProvider>
           <Routes />
           <LayoutToaster />
+          <Helmet>
+            {!document.location.host.includes('localhost') && (
+              <meta
+                http-equiv="Content-Security-Policy"
+                content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self';"
+              />
+            )}
+          </Helmet>
         </LayoutThemeProvider>
       </BrowserRouter>
     </Provider>
