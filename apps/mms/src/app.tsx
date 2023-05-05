@@ -34,14 +34,14 @@ function App() {
         <LayoutThemeProvider>
           <Routes />
           <LayoutToaster />
-          {/* <Helmet>
+          <Helmet>
             {!document.location.host.includes('localhost') && (
               <meta
                 http-equiv="Content-Security-Policy"
-                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' ; font-src 'self'; connect-src *.briteliteimmersive.io; media-src 'self';`}
+                content={`default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' ; font-src 'self'; connect-src 'mok-dev.briteliteimmersive.io' 'self'; media-src 'self';`}
               />
             )}
-          </Helmet> */}
+          </Helmet>
         </LayoutThemeProvider>
       </BrowserRouter>
     </Provider>
