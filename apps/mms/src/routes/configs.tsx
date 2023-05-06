@@ -33,7 +33,7 @@ export const DashRoutes = (authenticated: boolean) => {
 
   return {
     path: '/',
-    element: authenticated ? PrivateLayout : <Navigate to="/public-api-test" />,
+    element: authenticated ? PrivateLayout : <Navigate to="/login" />,
     children,
   };
 };
