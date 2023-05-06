@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HeroComponentProps } from '../../types';
 
-const HeroComponent: React.FC<HeroComponentProps> = ({ id, imageUrl, title }) => {
+const CardComponent: React.FC<HeroComponentProps> = ({ id, imageUrl, title }) => {
   //const mobileWidth = 375;
   const mobileHeight = 812;
 
@@ -23,4 +23,4 @@ const HeroComponent: React.FC<HeroComponentProps> = ({ id, imageUrl, title }) =>
     </div>
   );
 };
-export default HeroComponent;
+export default CardComponent;

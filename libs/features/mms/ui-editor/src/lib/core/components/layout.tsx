@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SortableList from './sortable-list';
 import { SortableListProps } from './sortable-list/container';
 import { useEditorActions } from '../../context/hooks';
+import { Wysiwig } from './wysiwig';
 const colors = {
   sidebar: '#D9D9D9',
   editor: '#f5f5f5',
@@ -31,7 +32,9 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}>
         <SortableList onAddComponentClick={onAddComponentClick} />
       </Grid>
-      <Grid item xs={6} sx={{ backgroundColor: colors.editor }}></Grid>
+      <Grid item xs={6} sx={{ backgroundColor: colors.editor }}>
+        <Wysiwig/>
+      </Grid>
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}></Grid>
     </Grid>
   );

@@ -16,6 +16,7 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
     }
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
+      console.log('ADD_COMPONENT', [...state.components, fillUuid(component)]);
       return { ...state, components: [...state.components, fillUuid(component)] };
     }
     case EditorActionType.REMOVE_COMPONENT: {

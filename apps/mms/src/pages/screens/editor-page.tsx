@@ -6,6 +6,7 @@ import { useLazyGetComponentListQuery } from '@lths/features/mms/data-access';
 import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
+import { ComponentModal, ConnectedComponentModal } from './component-modal2';
 import TabPanel from './tab-panel';
 
 /* eslint-disable-next-line */
@@ -40,14 +41,19 @@ export function PageEditorTabs() {
     fetchData();
   }, []);
   useEffect(() => {
-    initEditor(data?.data ? data.data : []);
+    // initEditor(data?.data ? data.data : []);
   }, [data]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
   const handleAddComponentClick = () => {
     const id = uuidv4();
     //addComponent({ id, name: 'Card View', __ui_id__: id, type: 'qCardView' });
     console.log('handleTabChange', components);
+    setModalOpen(true);
   };
-
+  console.log('handleTabChange', components);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -61,6 +67,7 @@ export function PageEditorTabs() {
       <Box p={2}>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor onAddComponentClick={handleAddComponentClick} />
+          <ConnectedComponentModal open={modalOpen} onClose={handleCloseModal} />
         </TabPanel>
         <TabPanel value="segments" currentTab={currentTab}>
           Segments Component goes here...

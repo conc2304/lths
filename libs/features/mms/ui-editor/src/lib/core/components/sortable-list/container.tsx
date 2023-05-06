@@ -33,7 +33,7 @@ export const Container = ({ onAddComponentClick }: SortableListProps) => {
           id={component.__ui_id__}
           index={index}
           moveCard={moveCard}
-          text={component.component_name}
+          text={component.component_name || component.component_id}
         ></Card>
       );
     }, []);
