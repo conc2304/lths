@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
+import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { v4 as uuidv4 } from 'uuid';
 
 import SortableList from './sortable-list';
 import { SortableListProps } from './sortable-list/container';
-import { useEditorActions } from '../../context/hooks';
 import { Wysiwig } from './wysiwig';
+import { useEditorActions } from '../../context/hooks';
 const colors = {
   sidebar: '#D9D9D9',
   editor: '#f5f5f5',
@@ -32,8 +33,11 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}>
         <SortableList onAddComponentClick={onAddComponentClick} />
       </Grid>
+
       <Grid item xs={6} sx={{ backgroundColor: colors.editor }}>
-        <Wysiwig/>
+        <Stack justifyContent={'center'} flexDirection={'row'} flex={1}>
+          <Wysiwig />
+        </Stack>
       </Grid>
       <Grid item xs sx={{ backgroundColor: colors.sidebar }}></Grid>
     </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 import placeholder from '../../../../assets/card-view.svg';
 import { CardComponentProps } from '../../types';
@@ -11,18 +11,19 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
   } = props;
   const mobileWidth = 375;
   const mobileHeight = 812;
-
+  const perc = (252 / 375) * 100;
   return (
     <Box
       sx={{
-        backgroundImage: `url('https://via.placeholder.com/1280x853.jpg')`,
+        //backgroundImage: `url('https://via.placeholder.com/1280x853.jpg')`,
+        backgroundImage: `url(${require('../../../../assets/card-view.png')})`,
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         width: '100%',
         height: 0,
         position: 'relative',
-        paddingTop: '66.64%', ///* (img-height / img-width * width) */
-        /* (853 / 1280 * 100) */
+        paddingTop: `${perc}%`,
+        //paddingTop: '66.64%', ///* (img-height / img-width * width) *//* (853 / 1280 * 100) */
       }}
     >
       <Box
@@ -36,33 +37,22 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
           // display: 'flex',
         }}
       >
-        <Stack flexDirection={'row'} justifyContent={'space-between'} flex="1">
-          <h1>{title}</h1>
-          <h1>ssssss</h1>
-        </Stack>
+        <Box
+          sx={{
+            flexDirection: 'row',
+            height: '100%',
+            display: 'flex',
+          }}
+        >
+          <Box sx={{ alignSelf: ' flex-end', margin: 2 }}>
+            <Typography sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff' }}>
+              {title}
+            </Typography>
+            <Typography sx={{ fontSize: 10, color: '#ffffff' }}>{desc}</Typography>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
-  /* return (
-   ition: 'relative', width: mobileWidth }}>
-      <img src={placeholder} alt="background" />
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          //height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Stack flexDirection={'row-reverse'}>
-          <h1>{title}</h1>
-        </Stack>
-      </Box>
-    </Box>
-  );*/
 };
 export default CardComponent;
