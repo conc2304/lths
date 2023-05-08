@@ -17,6 +17,12 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
         components: state.components.map((o) => (o.__ui_id__ === __ui_id__ ? component : o)),
       };
     }
+    case EditorActionType.CLEAR_CURRENT_COMPONENT: {
+      return {
+        ...state,
+        selectedComponent: null,
+      };
+    }
     case EditorActionType.UPDATE_COMPONENT: {
       const {
         component,

@@ -8,6 +8,7 @@ import {
   updateComponent,
   removeComponent,
   orderComponent,
+  clearSelectedComponent,
 } from './actions';
 import { useEditor } from './context';
 /*
@@ -29,6 +30,7 @@ export const useEditorActions = () => {
     initEditor: useMemo(() => initEditor(dispatch), [dispatch]),
     clearEditor: useMemo(() => clearEditor(dispatch), [dispatch]),
     selectComponent: useMemo(() => selectComponent(dispatch), [dispatch]),
+    clearSelectedComponent: useMemo(() => clearSelectedComponent(dispatch), [dispatch]),
     addComponent: useMemo(() => addComponent(dispatch), [dispatch]),
     updateComponent: useMemo(() => updateComponent(dispatch), [dispatch]),
     removeComponent: useMemo(() => removeComponent(dispatch), [dispatch]),

@@ -12,6 +12,9 @@ export const clearEditor = (dispatch: Dispatch<EditorActionProps>) => () => {
 export const selectComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
   dispatch({ type: EditorActionType.SET_CURRENT_COMPONENT, component });
 };
+export const clearSelectedComponent = (dispatch: Dispatch<EditorActionProps>) => () => {
+  dispatch({ type: EditorActionType.CLEAR_CURRENT_COMPONENT });
+};
 export const addComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
   dispatch({ type: EditorActionType.ADD_COMPONENT, component });
 };

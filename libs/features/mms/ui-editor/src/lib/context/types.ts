@@ -24,6 +24,7 @@ export type EditorDispathProps = {
   initEditor: (components: ComponentProps[]) => void;
   clearEditor: () => void;
   selectComponent: (component: ComponentProps) => void;
+  clearSelectedComponent: () => void;
   addComponent: (component: ComponentProps) => void;
   updateComponent: (component: ComponentProps) => void;
   removeComponent: (id: string) => void;
@@ -33,6 +34,7 @@ export type EditorContextProps = { state: EditorProps; dispatch: Dispatch<Editor
 
 export enum EditorActionType {
   SET_CURRENT_COMPONENT = 'SET_CURRENT_COMPONENT',
+  CLEAR_CURRENT_COMPONENT = 'CLEAR_CURRENT_COMPONENT',
   ADD_COMPONENT = 'ADD_COMPONENT',
   INIT_COMPONENTS = 'INIT_COMPONENTS',
   CLEAR_COMPONENTS = 'CLEAR_COMPONENTS',
@@ -48,6 +50,7 @@ export const initialState: EditorProps = {
 
 export type EditorActionProps =
   | { type: EditorActionType.SET_CURRENT_COMPONENT; component: ComponentProps }
+  | { type: EditorActionType.CLEAR_CURRENT_COMPONENT }
   | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps[] }

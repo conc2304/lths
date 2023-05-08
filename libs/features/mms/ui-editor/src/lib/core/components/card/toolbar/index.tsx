@@ -1,6 +1,9 @@
 import React from 'react';
+import { Box, TextField, Typography } from '@mui/material';
+import FormLabel from '@mui/material/FormLabel';
 
 import { useEditorActions } from '../../../../context';
+import { StandardTextField } from '../../../../elements';
 import { CardComponentProps } from '../../types';
 
 const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
@@ -28,16 +31,22 @@ const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
   };
 
   return (
-    <div id={`${componentId}_toolbar`}>
-      <label>Image URL:</label>
-      <input type="text" value={image} onChange={handleImageChange} />
-      <br />
-      <label>Text</label>
-      <textarea value={title} onChange={handleTitleChange}></textarea>
-      <br />
-      <label>Description</label>
-      <textarea value={desc} onChange={handleDescChange}></textarea>
-    </div>
+    <Box
+      id={`${componentId}_toolbar`}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        margin: 2,
+        borderRadius: 1,
+        background: '#ffffff',
+        padding: 2,
+      }}
+    >
+      <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+      <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <StandardTextField label={'Description'} value={desc} onChange={handleDescChange} />
+    </Box>
   );
 };
 export default ToolbarComponent;

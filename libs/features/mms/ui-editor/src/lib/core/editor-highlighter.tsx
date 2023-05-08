@@ -4,17 +4,20 @@ import { ComponentProps, useEditorActions } from '../context';
 
 export default function Editor(props: { components: ComponentProps[] }) {
   const { components } = props;
-  const { selectComponent } = useEditorActions();
+  const { selectComponent, selectedComponent, clearSelectedComponent } = useEditorActions();
   const handleComponentClick = (item: ComponentProps) => {
     console.log('handleComponentClick', item);
-    selectComponent(item);
+    if (item === selectedComponent) clearSelectedComponent();
+    else selectComponent(item);
   };
   return (
     <div className="editor">
       {components.map((item) => {
         const component = factory(item);
+        const { __ui_id__ } = item;
+        const selected = selectedComponent && __ui_id__ === selectedComponent.__ui_id__;
         return (
-          <HighlightableComponent onClick={() => handleComponentClick(item)}>
+          <HighlightableComponent onClick={() => handleComponentClick(item)} selected={selected}>
             <div key={item.id} className="component-wrapper">
               {component}
             </div>

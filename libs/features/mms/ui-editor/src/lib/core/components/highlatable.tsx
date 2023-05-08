@@ -1,20 +1,24 @@
-import { useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
 interface HighlightableComponentProps {
-  children: React.ReactNode;
+  children: ReactNode;
+  selected: boolean;
   onClick?: () => void;
 }
 
-const HighlightableComponent = ({ children, onClick }: HighlightableComponentProps) => {
-  const [isHighlighted, setIsHighlighted] = useState(false);
+const HighlightableComponent: FC<HighlightableComponentProps> = ({ children, selected = false, onClick }) => {
+  const [isHighlighted, setIsHighlighted] = useState(selected);
   //console.log('HighlightableComponent', children);
+  useEffect(() => {
+    setIsHighlighted(selected);
+  }, [selected]);
   const handleMouseEnter = () => {
-    setIsHighlighted(true);
+    if (!selected) setIsHighlighted(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHighlighted(false);
+    if (!selected) setIsHighlighted(false);
   };
 
   const handleOnClick = () => {

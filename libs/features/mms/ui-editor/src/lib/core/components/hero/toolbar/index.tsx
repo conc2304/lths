@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { HeroToolbarProps } from '../../../../types';
 import { HeroComponentProps } from '../../types';
 
 const ToolbarComponent: React.FC<HeroComponentProps> = ({ componentId, imageUrl, title, onChange }) => {
