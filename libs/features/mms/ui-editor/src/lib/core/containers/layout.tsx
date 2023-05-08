@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { v4 as uuidv4 } from 'uuid';
 
 import SortableList from './sortable-list';
 import { SortableListProps } from './sortable-list/container';
+import { Toolbar } from './toolbar';
 import { Wysiwig } from './wysiwig';
 import { useEditorActions } from '../../context/hooks';
 const colors = {
-  sidebar: '#D9D9D9',
-  editor: '#f5f5f5',
+  sidebar: '#f5f5f5',
+  editor: '#D9D9D9',
 };
+
 export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
   /*uconst { initEditor, addComponent, components } = useEditorActions();
   console.log('🚀 ~ file: layout.tsx:16 ~ GridContainer ~ components:', components);
@@ -39,7 +41,9 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
           <Wysiwig />
         </Stack>
       </Grid>
-      <Grid item xs sx={{ backgroundColor: colors.sidebar }}></Grid>
+      <Grid item xs sx={{ backgroundColor: colors.sidebar }}>
+        <Toolbar />
+      </Grid>
     </Grid>
   );
 };

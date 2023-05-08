@@ -11,7 +11,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
   } = props;
   const mobileWidth = 375;
   const mobileHeight = 812;
-  const perc = (252 / 375) * 100;
+  const perc = (245 / 335) * 100;
   return (
     <Box
       sx={{
@@ -19,7 +19,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
         backgroundImage: `url(${require('../../../../assets/card-view.png')})`,
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
-        width: '100%',
+        // width: '100%',
         height: 0,
         position: 'relative',
         paddingTop: `${perc}%`,
@@ -37,19 +37,13 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
           // display: 'flex',
         }}
       >
-        <Box
-          sx={{
-            flexDirection: 'row',
-            height: '100%',
-            display: 'flex',
-          }}
-        >
-          <Box sx={{ alignSelf: ' flex-end', margin: 2 }}>
-            <Typography sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff' }}>
-              {title}
-            </Typography>
-            <Typography sx={{ fontSize: 10, color: '#ffffff' }}>{desc}</Typography>
-          </Box>
+        <Box sx={{ alignSelf: ' flex-end', margin: 2 }}>
+          <Typography
+            sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff', wordWrap: 'break-word' }}
+          >
+            {title}
+          </Typography>
+          <Typography sx={{ fontSize: 10, color: '#ffffff', wordWrap: 'break-word' }}>{desc}</Typography>
         </Box>
       </Box>
     </Box>

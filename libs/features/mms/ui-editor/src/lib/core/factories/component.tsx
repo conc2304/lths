@@ -1,7 +1,7 @@
 import { ComponentProps } from '../../context/types';
 import { HeroComponentProps } from '../../types/hero';
-import { CardComponent, HeroComponent } from '../elements';
-import { CardComponentProps } from '../elements/types';
+import { CardComponent, HeroComponent } from '../components';
+import { CardComponentProps } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
   switch (props.component_id) {

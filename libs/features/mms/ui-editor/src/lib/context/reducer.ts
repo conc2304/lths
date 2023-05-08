@@ -6,14 +6,31 @@ const fillUuid = (component: ComponentProps) => ({ ...component, __ui_id__: uuid
 
 const reducer = (state: EditorProps, action: EditorActionProps) => {
   switch (action.type) {
+    case EditorActionType.SET_CURRENT_COMPONENT: {
+      const {
+        component,
+        component: { __ui_id__ },
+      } = action;
+      return {
+        ...state,
+        selectedComponent: component,
+        components: state.components.map((o) => (o.__ui_id__ === __ui_id__ ? component : o)),
+      };
+    }
+    case EditorActionType.UPDATE_COMPONENT: {
+      const {
+        component,
+        component: { __ui_id__ },
+      } = action;
+      //preserve the order of the components
+      return { ...state, components: state.components.map((o) => (o.__ui_id__ === __ui_id__ ? component : o)) };
+    }
+
     case EditorActionType.INIT_COMPONENTS: {
       const { components } = action;
       return { ...state, components: components.map((component) => fillUuid(component)) };
     }
-    case EditorActionType.SET_CURRENT_COMPONENT: {
-      const { component: selectedComponent } = action;
-      return { ...state, selectedComponent };
-    }
+
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
       console.log('ADD_COMPONENT', [...state.components, fillUuid(component)]);
@@ -23,14 +40,7 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       const { id } = action;
       return { ...state, components: state.components.filter((o) => o.__ui_id__ !== id) };
     }
-    case EditorActionType.UPDATE_COMPONENT: {
-      const {
-        component,
-        component: { id },
-      } = action;
-      //preserve the order of the components
-      return { ...state, components: state.components.map((o) => (o.__ui_id__ === id ? component : o)) };
-    }
+
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;
       const dragged = state.components[dragIndex];

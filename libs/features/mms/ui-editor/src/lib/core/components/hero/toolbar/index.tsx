@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { HeroToolbarProps } from '../../../../types';
+import { HeroComponentProps } from '../../types';
 
-const ToolbarComponent: React.FC<HeroToolbarProps> = ({ componentId, imageUrl, title, onChange }) => {
+const ToolbarComponent: React.FC<HeroComponentProps> = ({ componentId, imageUrl, title, onChange }) => {
   const handleTextChange = (event) => {
     onChange({ text: event.target.value });
   };

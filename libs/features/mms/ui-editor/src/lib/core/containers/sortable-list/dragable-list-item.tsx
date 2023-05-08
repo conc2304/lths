@@ -14,7 +14,7 @@ export const ItemTypes = {
 //TODO: use themes, define palette may be??
 const style = {
   border: '1px dashed gray',
-  backgroundColor: '#D9D9D9',
+  backgroundColor: '#f5f5f5',
   //cursor: 'move',
 };
 
