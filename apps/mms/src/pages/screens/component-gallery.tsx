@@ -18,7 +18,7 @@ export function ComponentGallery({
 }) {
   return (
     <ImageList>
-      <ImageListItem key="Subheader" cols={2}>
+      <ImageListItem key="Subheader" cols={3}>
         <ListSubheader component="div">Component Gallery</ListSubheader>
       </ImageListItem>
       {components.map((item) => (

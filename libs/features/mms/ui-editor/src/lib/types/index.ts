@@ -1,2 +1,2 @@
 export * from './core';
-export * from './hero';
+//export * from './hero.x';

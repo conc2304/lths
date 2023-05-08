@@ -5,7 +5,7 @@ export const toolbarFactory = (props: ComponentProps) => {
   console.log('🚀 ~ file: toolbar.tsx:5 ~ toolbarFactory ~ props:', props);
 
   switch (props.component_id) {
-    case 'Hero':
+    case 'cQuickLinkView':
       return <HeroToolbar {...(props as HeroComponentProps)} />;
     case 'cCardView':
       return <CardToolbar {...(props as CardComponentProps)} />;

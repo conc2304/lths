@@ -30,7 +30,7 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
       </Grid>
 
       <Grid item xs={6} sx={{ backgroundColor: colors.editor }}>
-        <Stack justifyContent={'center'} flexDirection={'row'} flex={1}>
+        <Stack justifyContent={'center'} flexDirection={'row'} flex={1} marginTop={5}>
           <Wysiwig />
         </Stack>
       </Grid>

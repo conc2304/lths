@@ -34,7 +34,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
           left: 0,
           right: 0,
 
-          // display: 'flex',
+          display: 'flex',
         }}
       >
         <Box sx={{ alignSelf: ' flex-end', margin: 2 }}>

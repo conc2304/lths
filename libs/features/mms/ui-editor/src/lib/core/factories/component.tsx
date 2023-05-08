@@ -1,11 +1,10 @@
 import { ComponentProps } from '../../context/types';
-import { HeroComponentProps } from '../../types/hero';
 import { CardComponent, HeroComponent } from '../components';
-import { CardComponentProps } from '../components/types';
+import { CardComponentProps, HeroComponentProps } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
   switch (props.component_id) {
-    case 'Hero':
+    case 'cQuickLinkView':
       return <HeroComponent {...(props as HeroComponentProps)} />;
     case 'cCardView':
       return <CardComponent {...(props as CardComponentProps)} />;

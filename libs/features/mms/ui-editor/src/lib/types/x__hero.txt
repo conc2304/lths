@@ -1,6 +1,7 @@
 import { ToolbarProps } from './core';
 
 import type { ComponentProps } from '../context';
+
 export type HeroComponentProps = ComponentProps & {
   imageUrl: string | null;
   title: string | null;
