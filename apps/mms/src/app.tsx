@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
-import { HOST } from '@lths/shared/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
 import Routes from './routes';
