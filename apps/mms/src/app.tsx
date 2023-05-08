@@ -34,14 +34,6 @@ function App() {
         <LayoutThemeProvider>
           <Routes />
           <LayoutToaster />
-          <Helmet>
-            {!document.location.host.includes('localhost') && (
-              <meta
-                http-equiv="Content-Security-Policy"
-                content={`default-src 'self' localhost:3333 localhost:4200 mms-dev.briteliteimmersive.io  ; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' ; font-src 'self'; connect-src mok-dev.briteliteimmersive.io 'self'; media-src 'self';`}
-              />
-            )}
-          </Helmet>
         </LayoutThemeProvider>
       </BrowserRouter>
     </Provider>
