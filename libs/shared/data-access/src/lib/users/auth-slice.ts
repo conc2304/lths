@@ -3,10 +3,6 @@ import { authApi } from './auth-api';
 import { AuthenticatedSession } from './types';
 import { AUTH_TOKEN, AUTH_USER_ID } from '../core/constants';
 
-const addToken = (state, action) => {
-  state.users = action.payload;
-};
-
 const initialState: AuthenticatedSession = {
   token: localStorage.getItem(AUTH_TOKEN),
   userId: localStorage.getItem(AUTH_USER_ID),
@@ -15,17 +11,19 @@ const initialState: AuthenticatedSession = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    setToken: addToken,
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
       console.log('extraReducers', payload);
-      localStorage.setItem(AUTH_TOKEN, payload.token);
-      localStorage.setItem(AUTH_USER_ID, payload.user_id);
-      state.token = payload.token;
-      state.userId = payload.user_id;
+      const {
+        accessToken,
+        user: { _id },
+      } = payload;
+      localStorage.setItem(AUTH_TOKEN, accessToken);
+      localStorage.setItem(AUTH_USER_ID, _id);
+      state.token = accessToken;
+      state.userId = _id;
       state.authenticated = true;
     });
     builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state, _) => {
@@ -38,6 +36,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken } = authSlice.actions;
+export const {} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

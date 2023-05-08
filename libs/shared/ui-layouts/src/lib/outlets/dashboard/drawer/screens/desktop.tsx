@@ -1,10 +1,10 @@
-import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
 
-import { DRAWER_WIDTH } from '../config';
-import { LayoutDrawerStateProps } from './types';
+import { DRAWER_WIDTH } from '../../config';
+import { LayoutDrawerStateProps } from '../sections/types';
 
-const DrawerFullScreenStyled = styled(Drawer, {
+const DesktopDrawer = styled(Drawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<LayoutDrawerStateProps>(({ theme, open }) => {
   if (open) {
@@ -46,4 +46,4 @@ const DrawerFullScreenStyled = styled(Drawer, {
     };
   }
 });
-export default DrawerFullScreenStyled;
+export default DesktopDrawer;

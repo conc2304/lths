@@ -15,15 +15,15 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { LoginRequest } from '@lths/shared/data-access';
-import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Formik } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+import { LoginRequest } from '@lths/shared/data-access';
+import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
 
 import CenterCard from './center-card';
 
 const LoginForm: React.FC = (): JSX.Element => {
-  //const defaultErrorMsg = 'Something went wrong. Please try logging in again.';
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const onShowPasswordClick = () => {
@@ -41,11 +41,11 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   const [getUser] = useLazyGetUserQuery();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: LoginRequest) => {
     try {
       const data = await login(values).unwrap();
-      //const user = getUser(data.user_id);
-      const user2 = await getUser(data.user_id);
+      const uid = data.user._id;
+      const user2 = await getUser(uid);
       console.log(data, user2?.data);
       console.log('routing to next screen');
       navigate('/');
