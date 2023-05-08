@@ -88,7 +88,7 @@ const CustomizedTooltip = ({ active, payload }: TooltipProps<ValueType, NameType
 
   return null;
 };
-export const BarGraph = () => {
+export const HorizontalBarChart = () => {
   const theme = useTheme();
   return (
     <Box component={'div'} sx={{ width: '100%', marginBottom: `${theme.spacing(4)}` }}>

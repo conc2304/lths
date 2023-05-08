@@ -14,7 +14,7 @@ const ChartTooltip = styled(Box)(() => ({
   borderRadius: '8px',
 }));
 
-export const BarColumnChart = () => {
+export const VerticalBarChart = () => {
   const data = [
     {
       name: 'Step 1',
