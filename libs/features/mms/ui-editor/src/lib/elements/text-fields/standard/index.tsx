@@ -7,7 +7,6 @@ const StandardTextField: FC<TextFieldProps> = ({ label, ...rest }) => (
       {label}
     </Typography>
     <TextField size="small" fullWidth {...rest} />
-    <input type="text" />
   </Box>
 );
 export default StandardTextField;

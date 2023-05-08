@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useRef, useState } from 'react';
 import { ListItemText } from '@mui/material';
 
 export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
@@ -9,7 +9,7 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
     setEditing(true);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       onSave(editedText);
       setEditing(false);

@@ -5,6 +5,7 @@ import DragHandle from '@mui/icons-material/DragIndicator';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { EditableListItemText } from './editable-list-item';
+import colors from '../../../colors';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 
@@ -14,7 +15,7 @@ export const ItemTypes = {
 //TODO: use themes, define palette may be??
 const style = {
   border: '1px dashed gray',
-  backgroundColor: '#f5f5f5',
+  backgroundColor: colors.sidebar,
   //cursor: 'move',
 };
 

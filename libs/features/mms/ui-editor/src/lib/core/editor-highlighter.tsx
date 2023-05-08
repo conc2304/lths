@@ -1,4 +1,5 @@
-import HighlightableComponent from './components/highlatable';
+import HighlightableComponent from './components/high-lighter';
+import HighlightableComponent2 from './components/high-lighter2';
 import { componentFactory as factory } from './factories';
 import { ComponentProps, useEditorActions } from '../context';
 
