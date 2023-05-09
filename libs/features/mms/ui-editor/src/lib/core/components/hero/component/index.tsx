@@ -7,11 +7,13 @@ import { HeroComponentProps } from '../../types';
 
 const HeroComponent: React.FC<HeroComponentProps> = (props) => {
   const {
+    __ui_id__: id,
     default_data: { image, title, desc, link_title, component_data },
   } = props;
   const perc = (MOBILE_SCREEN_HEIGHT / MOBILE_SCREEN_WIDTH) * 100;
   return (
     <Box
+      id={`${id}_component`}
       sx={{
         backgroundImage: `url(${image})`,
         backgroundSize: 'contain',

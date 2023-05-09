@@ -7,7 +7,7 @@ import { HeroComponentProps } from '../../types';
 
 const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
   const {
-    componentId,
+    __ui_id__: id,
     default_data: { image, title, link_title, component_data = [] },
   } = props;
 
@@ -43,7 +43,7 @@ const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
   };
   return (
     <Box
-      id={`${componentId}_toolbar`}
+      id={`${id}_toolbar`}
       sx={{
         display: 'flex',
         flexDirection: 'column',

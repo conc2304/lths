@@ -28,3 +28,16 @@ export type CardComponentProps = ComponentProps & {
     type: ComponentType;
   };
 };
+
+export type HeaderComponentProps = ComponentProps & {
+  default_data: { title: string; color: string; desc: string; action: ActionProps };
+};
+//TODO: verify with mok team
+export enum ButtonStyle {
+  Blank = '',
+  Bold = 'bold',
+  Fill = 'fill',
+}
+export type ButtonComponentProps = ComponentProps & {
+  default_data: { title: string; style: ButtonStyle; action: ActionProps };
+};

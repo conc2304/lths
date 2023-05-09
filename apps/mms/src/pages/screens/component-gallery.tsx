@@ -21,8 +21,8 @@ export function ComponentGallery({
       <ImageListItem key="Subheader" cols={3}>
         <ListSubheader component="div">Component Gallery</ListSubheader>
       </ImageListItem>
-      {components.map((item) => (
-        <ImageListItem key={item.image_url}>
+      {components.map((item, index) => (
+        <ImageListItem key={`component_${index}`}>
           <img
             src={`${item.image_url}?w=248&fit=crop&auto=format`}
             srcSet={`${item.image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}

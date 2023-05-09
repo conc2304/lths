@@ -1,19 +1,18 @@
 import React from 'react';
-import { Box, TextField, Typography } from '@mui/material';
-import FormLabel from '@mui/material/FormLabel';
+import { Box } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import { StandardTextField } from '../../../../elements';
-import { CardComponentProps } from '../../types';
+import ColorPicker from '../../../../elements/color-picker';
+import { HeaderComponentProps } from '../../types';
 
-const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
+const ToolbarComponent: React.FC<HeaderComponentProps> = (props) => {
   const {
     __ui_id__: id,
-    default_data: { image, title, desc },
-    onChange,
+    default_data: { color = '#000000', title },
   } = props;
 
-  const { updateComponent, selectComponent } = useEditorActions();
+  const { selectComponent } = useEditorActions();
   const updateComponenetProp = (key, value) => {
     const data = { ...props, default_data: { ...props.default_data, [key]: value } };
     selectComponent(data);
@@ -23,11 +22,8 @@ const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
   const handleTitleChange = (event) => {
     updateComponenetProp('title', event.target.value);
   };
-  const handleDescChange = (event) => {
-    updateComponenetProp('desc', event.target.value);
-  };
-  const handleImageChange = (event) => {
-    // onChange({ teimageUrlxt: event.target.value });
+  const handleColorChange = (color: string) => {
+    updateComponenetProp('color', color);
   };
 
   return (
@@ -43,9 +39,8 @@ const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
         padding: 2,
       }}
     >
-      <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
       <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <StandardTextField label={'Description'} value={desc} onChange={handleDescChange} />
+      <ColorPicker initialColor={color} onChange={handleColorChange} />
     </Box>
   );
 };

@@ -1,10 +1,7 @@
-export async function getDefaultData(id) {
-  if (id === 'cCardView') {
+export async function getDefaultData(id: string) {
+  if (['cCardView', 'cQuickLinkView', 'cHeader', 'cButton'].includes(id)) {
     const payload = await import(`./stubs/components/${id}`);
     return { ...payload.default };
-  } else if (id === 'cQuickLinkView') {
-    const payload = await import(`./stubs/components/${id}`);
-    return payload.default;
   }
   return { component_id: id, component_name: 'Generic View - ' + id, component_type: 'Native' };
 }

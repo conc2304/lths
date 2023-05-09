@@ -7,7 +7,7 @@ import { CardComponentProps } from '../../types';
 const CardComponent: React.FC<CardComponentProps> = (props) => {
   const {
     default_data: { image, title, desc, type },
-    id,
+    __ui_id__: id,
   } = props;
   const mobileWidth = 375;
   const mobileHeight = 812;
@@ -27,6 +27,7 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
       }}
     >
       <Box
+        id={`${id}_component`}
         sx={{
           position: 'absolute',
           top: 0,
