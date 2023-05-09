@@ -1,54 +1,36 @@
 
+## 
 ## How to configure routes?
 
-1. Add the following to layout-router-configs.tsx file
-
-```
-const MyNewComponent = LazyLoader(lazy(() => import('../pages/my-new-page')));
+1. Add the paths.tsx to you 'section' folder under src/pages
 
 ```
 
-```
-export const DashRoutes=(authenticated:boolean) => {
- 
-  return ({
-    path: '/',
-    element: authenticated ? DashboardLayout : <Navigate to="/login" />,
-   
-    children: [
-       ....
-        {
-          path: '/pages/my-new-comp',
-          element: <MyNewComponent />
-       },
-       ....
-       ]
-
-    })
-```
-### How to add links to the drawer/side-bar?
-
-2. Add the following to layout-drawer-links.tsx file
-
-
-
-```
-{
-
-    items: [
-      {
-        title: "My Section", //or choose a existing section
-        icon: <HomeIcon />,
-      },]
-    },
+const sections: SectionItemProps = {
+  // header: "Header 2",
+  items: [
     {
-   
+      title: 'Insights',
+      icon: <InsightsIcon />,
+      path: '/insights/overview',
+      file: '/insights/overview-page',
       items: [
         {
-          title: "New Component",
-          icon: <PaletteIcon />,
-          path:'/pages/my-new-comp'
-        },
-    }
-}
+          title: 'Flows',
+          icon: <FlowIcon />,
+          path: '/insights/flows',
+        },]
+        }]}
+
+```
+
+
+### How to add links to the drawer/side-bar?
+
+2. Add your section folder's path.tsx to a src/pages/paths.tsx file
+
+
+
+```
+
 ```

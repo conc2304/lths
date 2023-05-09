@@ -1,13 +1,13 @@
 import { ComponentType } from 'react';
 
-import { FilterFormStateProvider } from './context';
+import { FilterFormContextProvider } from './context';
 
 export const withFilterFormStateProvider = <P extends object>(Component: ComponentType<P>) => {
   return function WithFilterFormStateProvider(props: P) {
     return (
-      <FilterFormStateProvider>
+      <FilterFormContextProvider>
         <Component {...props} />
-      </FilterFormStateProvider>
+      </FilterFormContextProvider>
     );
   };
 };

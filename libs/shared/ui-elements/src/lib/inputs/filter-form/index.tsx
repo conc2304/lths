@@ -1,46 +1,84 @@
 import { Dialog, DialogContent, DialogActions, Divider, useTheme, useMediaQuery, Box } from '@mui/material';
 import Button from '@mui/material/Button';
-import { FormSchema, FormState } from '@lths/shared/ui-filters';
+
+import {
+  AddGroupItems,
+  AddItem,
+  ClearGroup,
+  FilterFormState,
+  FormSchema,
+  FormState,
+  RemoveItem,
+} from '@lths/types/ui-filters';
 
 import { FormTitle } from './form-title';
 import { ChipContainer } from '../chip-container';
 import { Form } from '../form-builder';
 
-export type FilterFormProps = {
+export interface FilterFormProps {
   title: string;
   chipTitle?: string;
   open: boolean;
   filterSchema: FormSchema[];
-  handleApplyFilters: (formData: FormState) => void;
-  handleClose: () => void;
-  handleClearFilters: () => void;
-  handleCancel: () => void;
+  onApplyFilters: (formData: FormState) => void;
+  onChange: (formData: FormState) => void;
+  onClose: () => void;
+  onClearFilters: () => void;
+  onCancel: () => void;
   formState: FormState;
-  removeItem: (parentID: string, itemID: string) => void;
-};
+  removeItem: RemoveItem;
+  addItem: AddItem;
+  addGroupItems: AddGroupItems;
+  clearGroup: ClearGroup;
+}
 
 export const FilterForm = ({
   title = 'Apply Filters',
   chipTitle = 'Selected Filters',
   filterSchema,
-  handleClose,
-  handleApplyFilters,
-  handleClearFilters,
-  handleCancel,
+  onClose,
+  onApplyFilters,
+  onChange,
+  onClearFilters,
+  onCancel,
   formState,
   removeItem,
+  addItem,
+  addGroupItems,
+  clearGroup,
   open,
 }: FilterFormProps) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOnApplyFilters = () => {
-    handleApplyFilters(formState);
-    handleClose();
+    onApplyFilters(formState);
+    onClose();
   };
 
-  const handleChipDelete: typeof removeItem = (parentID, itemID) => {
-    removeItem && removeItem(parentID, itemID);
+  const handleChipDelete: RemoveItem = async ({ parentID, itemID }) => {
+    const nextState = (await removeItem({ parentID, itemID })) as FilterFormState;
+    if (nextState) onChange(nextState?.formState || formState);
+  };
+
+  const handleAddFormItem: AddItem = (value) => {
+    const nextState = addItem(value);
+    if (nextState) onChange(nextState?.formState || formState);
+  };
+
+  const handleAddGroupItems: AddGroupItems = (value) => {
+    const nextState = addGroupItems(value);
+    if (nextState) onChange(nextState?.formState || formState);
+  };
+
+  const handleRemoveItem: RemoveItem = async (value) => {
+    const nextState = (await removeItem(value)) as FilterFormState;
+    if (nextState) onChange(nextState?.formState || formState);
+  };
+
+  const handleClearGroup: ClearGroup = (value) => {
+    const nextState = clearGroup(value);
+    if (nextState) onChange(nextState?.formState || formState);
   };
 
   return (
@@ -54,12 +92,19 @@ export const FilterForm = ({
     >
       <Box px="2.675rem" pt="2.125rem">
         <Box>
-          <FormTitle id="filter-dialog-title" onClose={handleCancel}>
+          <FormTitle id="filter-dialog-title" onClose={onCancel}>
             {title}
           </FormTitle>
         </Box>
         <DialogContent>
-          <Form formSchema={filterSchema} />
+          <Form
+            formSchema={filterSchema}
+            formState={formState}
+            onAddItem={handleAddFormItem}
+            onAddGroupItems={handleAddGroupItems}
+            onRemoveItem={handleRemoveItem}
+            onClearGroup={handleClearGroup}
+          />
           <Box mt={7}>
             <ChipContainer title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
           </Box>
@@ -69,12 +114,18 @@ export const FilterForm = ({
           <Button
             variant="text"
             color="secondaryButton"
-            onClick={handleClearFilters}
+            onClick={onClearFilters}
             sx={{ fontSize: '0.75rem', mr: 1.75 }}
           >
             CLEAR ALL FILTERS
           </Button>
-          <Button variant="outlined" color="primary" onClick={handleCancel} sx={{ mr: 0.75 }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={onCancel}
+            // onClick={onCancel}
+            sx={{ mr: 0.75 }}
+          >
             CANCEL
           </Button>
           <Button variant="contained" color="primary" onClick={handleOnApplyFilters}>

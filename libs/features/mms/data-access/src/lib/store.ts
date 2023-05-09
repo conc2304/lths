@@ -1,6 +1,7 @@
-import { api } from '@lths/shared/data-access';
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+
+import { api } from '@lths/shared/data-access';
 
 import { errorToasterMiddleware } from './middlewares/error-toaster-middleware';
 import rootReducer from './root-reducer';
