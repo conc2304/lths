@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import { StandardTextField } from '../../../../elements';
@@ -25,9 +25,22 @@ const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
     updateComponenetProp('link_title', event.target.value);
   };
   const handleImageChange = (event) => {
-    // onChange({ teimageUrlxt: event.target.value });
+    updateComponenetProp('image', event.target.value);
   };
-
+  const handleActionChange = (event, index, key) => {
+    console.log(
+      '🚀 ~ file: index.tsx:31 ~ handleActionChange ~ event:',
+      component_data.map((o, i) => (i === index ? { ...o, [key]: event.target.value } : o))
+    );
+    const data = {
+      ...props,
+      default_data: {
+        ...props.default_data,
+        component_data: component_data.map((o, i) => (i === index ? { ...o, [key]: event.target.value } : o)),
+      },
+    };
+    selectComponent(data);
+  };
   return (
     <Box
       id={`${componentId}_toolbar`}
@@ -43,13 +56,15 @@ const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
     >
       <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
       <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
+
+      <Divider />
       <StandardTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
       {component_data.map((link, index) => {
         const { icon, title } = link;
         return (
-          <Box>
-            <StandardTextField label={'Icon URL'} value={icon} onChange={handleImageChange} />
-            <StandardTextField label={'Link Title'} value={title} onChange={handleLinkTitleChange} />
+          <Box sx={{ gap: 2 }}>
+            <StandardTextField label={'Icon URL'} value={icon} onChange={(e) => handleActionChange(e, index, 'icon')} />
+            <StandardTextField label={'Title'} value={title} onChange={(e) => handleActionChange(e, index, 'title')} />
           </Box>
         );
       })}

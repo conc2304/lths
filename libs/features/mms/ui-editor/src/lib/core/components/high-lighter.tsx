@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { Box, Button, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import Box from '@mui/material/Box';
 
 import colors from '../../colors';
 

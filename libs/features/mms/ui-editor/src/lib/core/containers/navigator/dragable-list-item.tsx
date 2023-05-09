@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 import { useRef } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItem, ListItemIcon } from '@mui/material';
 import DragHandle from '@mui/icons-material/DragIndicator';
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -20,11 +20,12 @@ const style = {
 };
 
 export interface CardProps {
-  id: string | number;
+  id: string;
   children?: ReactNode;
   text: string;
   index: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  onDrag: (dragIndex: number, hoverIndex: number) => void;
+  onClick?: (index: number, id: string) => void;
 }
 
 interface DragItem {
@@ -33,7 +34,7 @@ interface DragItem {
   type: string;
 }
 
-export const Card: FC<CardProps> = ({ id, text, children, index, moveCard }) => {
+export const Card: FC<CardProps> = ({ id, text, index, onDrag, onClick }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -81,7 +82,7 @@ export const Card: FC<CardProps> = ({ id, text, children, index, moveCard }) => 
       }
 
       // Time to actually perform the action
-      moveCard(dragIndex, hoverIndex);
+      onDrag(dragIndex, hoverIndex);
 
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
@@ -107,9 +108,12 @@ export const Card: FC<CardProps> = ({ id, text, children, index, moveCard }) => 
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
+  const handleClick = () => {
+    onClick && onClick(index, id);
+  };
   return (
     <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-      <ListItem>
+      <ListItem onClick={handleClick}>
         <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
         <ListItemIcon>
           <DragHandle />

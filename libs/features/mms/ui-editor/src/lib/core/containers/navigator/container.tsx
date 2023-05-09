@@ -21,18 +21,29 @@ export type SortableListProps = {
 };
 export const Container = ({ onAddComponentClick }: SortableListProps) => {
   {
-    const { components, orderComponent } = useEditorActions();
-    const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    const { components, orderComponent, selectComponent } = useEditorActions();
+    const handleDrag = useCallback((dragIndex: number, hoverIndex: number) => {
       orderComponent(dragIndex, hoverIndex);
     }, []);
-
+    const handleClick = (index: number, id: string) => {
+      // scroll to the corresponding component in the editor
+      document.getElementById(`editor-component-${index}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+      const component = components.find((o) => o.__ui_id__ === id);
+      if (component) selectComponent(component);
+    };
     const renderCard = useCallback((component: ComponentProps, index: number) => {
       return (
         <Card
           key={component.__ui_id__}
           id={component.__ui_id__}
           index={index}
-          moveCard={moveCard}
+          onDrag={handleDrag}
+          //there is a bug, scroll needs to appear for the editor only
+          // onClick={handleClick}
           text={component.component_name || component.component_id}
         ></Card>
       );

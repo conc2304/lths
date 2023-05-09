@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-import SortableList from './sortable-list';
-import { SortableListProps } from './sortable-list/container';
+import SortableList from './navigator';
+import { SortableListProps } from './navigator/container';
 import { Toolbar } from './toolbar';
 import { Wysiwig } from './wysiwig';
 import colors from '../../colors';
@@ -29,7 +29,7 @@ export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
         <SortableList onAddComponentClick={onAddComponentClick} />
       </Grid>
 
-      <Grid item xs={6} sx={{ backgroundColor: colors.editor }}>
+      <Grid item xs={6} sx={{ backgroundColor: colors.editor, overflowY: 'scroll' }}>
         <Stack justifyContent={'center'} flexDirection={'row'} flex={1} marginTop={5}>
           <Wysiwig />
         </Stack>

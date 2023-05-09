@@ -1,5 +1,5 @@
 import { ComponentProps } from '../../context/types';
-import { CardComponent, HeroComponent } from '../components';
+import { CardComponent, HeroComponent, UnsupportedComponent } from '../components';
 import { CardComponentProps, HeroComponentProps } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -14,7 +14,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <ImageComponent />;*/
     // Add other component types here
     default:
-      return <div>Unsupported component type: ${props.component_id}</div>;
+      return <UnsupportedComponent {...props} />;
+    //return <div>Unsupported component type: ${props.component_id}</div>;
     //throw new Error(`Unsupported component type: ${props.type}`);
   }
 };
