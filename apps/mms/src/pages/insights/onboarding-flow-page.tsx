@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Stack } from '@mui/material';
 import {
   // ToDo(onboarding): Replace with coloumn and flow graph
@@ -6,14 +5,15 @@ import {
   useLazyGetInsightOnboardingHistogramQuery,
   useLazyGetInsightOnboardingKpiQuery,
 } from '@lths/features/mms/data-access';
-import { DateFilter } from '@lths/features/mms/data-access';
 import { VStack } from '@lths/shared/ui-elements';
-import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
+import { FilterSettingsPayload } from '@lths/types/ui-filters';
 
+import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { KpiAndColumnContainer } from '../../components/insights/flows/onboarding-flow';
 import { HistogramContainer } from '../../components/insights/overview';
-import { ButtonGroupConf } from '../../fixtures/date-button-group-schema';
-import { Schema } from '../../fixtures/filter-schema';
+
+//TODO: the unused variables are for future implemenattion of skeletons, so don't remove them from here
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 const OnboardingFlowPage = (): JSX.Element => {
   const [getKpiColumnCardData, { isFetching: isKpiColumnCardFetching, isLoading: isKpiColumnCardLoading, data: kpiColumnCardData }] =
@@ -25,31 +25,30 @@ const OnboardingFlowPage = (): JSX.Element => {
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOnboardingHistogramQuery();
 
-  async function fetchData() {
-    const filter: DateFilter = { start_date: null, end_date: null };
+    async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+      const {
+        date_range: { start_date, end_date },
+        metrics,
+      } = filterSettings;
+      if (!filterSettings || !start_date || !end_date || !metrics) return;
 
-    await Promise.all([
-      getKpiColumnCardData(filter),
-      getKpiData(filter),
-      getHistogramData(filter),
-    ]);
+      await Promise.all([
+        getKpiColumnCardData(filterSettings),
+        getKpiData(filterSettings),
+        getHistogramData(filterSettings),
+      ]);
   }
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
-        <FilterFormStateProvider>
-          <UiFilters
-            dateOptions={ButtonGroupConf}
-            formSchema={Schema.payload.data}
-            handleApplyFilter={() => console.log(' MAKE FETCH REQUEST THAT WILL RELOAD ANALYTICS DATA')}
-          />
-        </FilterFormStateProvider>
+        <ConnectedUiFilter
+          onFiltersUpdate={(filters: FilterSettingsPayload) => {
+            console.log('---- onFiltersUpdate');
+            console.log(filters);
+            handleFilterUpdate(filters);
+          }}
+        />
       </Stack>
       <VStack spacing={6.375}>
         <KpiAndColumnContainer data={kpiColumnCardData}/>
