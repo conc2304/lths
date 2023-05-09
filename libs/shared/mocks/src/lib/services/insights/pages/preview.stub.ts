@@ -1,7 +1,7 @@
 const payload = {
   data: {
-    title: 'Entry and Exit Pages',
-    subtitle: 'How do users get to this page',
+    title: 'How do users get to this page ... and where do they go from there?',
+    subtitle: 'Entry and Exit Pages',
     info: {
       description: 'Information on entry and exit pages',
       url: 'www.pagepreview.com/info',
@@ -10,10 +10,124 @@ const payload = {
     entryData: [
       {
         title: 'Tickets',
-        value: '800',
+        value: '834',
         span: {
           unit: '%',
-          value: 23,
+          value: 24,
+          direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 19,
+          direction: null,
+        },
+      },
+      {
+        title: 'Home',
+        value: '654',
+        span: {
+          unit: '%',
+          value: 32,
+          direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 14,
+          direction: null,
+        },
+      },
+      {
+        title: 'Arena',
+        value: '543',
+        span: {
+          unit: '%',
+          value: 16,
+          direction: 'down',
+        },
+        median: {
+          unit: '%',
+          value: 12,
+          direction: null,
+        },
+      },
+      {
+        title: 'More',
+        value: '532',
+        span: {
+          unit: '%',
+          value: 7,
+          direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 12,
+          direction: null,
+        },
+      },
+      {
+        title: 'Mobile wallet',
+        value: '489',
+        span: {
+          unit: '%',
+          value: 16,
+          direction: 'down',
+        },
+        median: {
+          unit: '%',
+          value: 10,
+          direction: null,
+        },
+      },
+      {
+        title: 'Loyalty',
+        value: '465',
+        span: {
+          unit: '%',
+          value: 41,
+          direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 12,
+          direction: null,
+        },
+      },
+      {
+        title: 'Ticket promo',
+        value: '234',
+        span: {
+          unit: '%',
+          value: 16,
+          direction: 'down',
+        },
+        median: {
+          unit: '%',
+          value: 6,
+          direction: null,
+        },
+      },
+    ],
+    exitData: [
+      {
+        title: 'Exit',
+        value: '2100',
+        span: {
+          unit: '%',
+          value: 24,
+          direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 49,
+          direction: null,
+        },
+      },
+      {
+        title: 'Parking',
+        value: '654',
+        span: {
+          unit: '%',
+          value: 32,
           direction: 'up',
         },
         median: {
@@ -24,7 +138,7 @@ const payload = {
       },
       {
         title: 'Home',
-        value: '800',
+        value: '543',
         span: {
           unit: '%',
           value: 16,
@@ -32,93 +146,63 @@ const payload = {
         },
         median: {
           unit: '%',
-          value: 19,
+          value: 12,
           direction: null,
         },
       },
       {
-        title: 'Arena',
-        value: '800',
+        title: 'Mobile wallet',
+        value: '532',
         span: {
           unit: '%',
-          value: 23,
+          value: 7,
           direction: 'up',
+        },
+        median: {
+          unit: '%',
+          value: 12,
+          direction: null,
+        },
+      },
+      {
+        title: 'Admission rules',
+        value: '489',
+        span: {
+          unit: '%',
+          value: 16,
+          direction: 'down',
         },
         median: {
           unit: '%',
           value: 10,
-          direction: null,
-        },
-      },
-      {
-        title: 'Ticket promo',
-        value: '800',
-        span: {
-          unit: '%',
-          value: 12,
-          direction: 'down',
-        },
-        median: {
-          unit: '%',
-          value: 12,
-          direction: null,
-        },
-      },
-    ],
-    exitData: [
-      {
-        title: 'Exit',
-        value: '800',
-        span: {
-          unit: '%',
-          value: 23,
-          direction: 'up',
-        },
-        median: {
-          unit: '%',
-          value: 14,
-          direction: null,
-        },
-      },
-      {
-        title: 'Parking',
-        value: '800',
-        span: {
-          unit: '%',
-          value: 16,
-          direction: 'down',
-        },
-        median: {
-          unit: '%',
-          value: 19,
           direction: null,
         },
       },
       {
         title: 'Mobile ordering',
-        value: '800',
+        value: '465',
         span: {
           unit: '%',
-          value: 23,
+          value: 41,
           direction: 'up',
         },
         median: {
           unit: '%',
-          value: 14,
+          value: 8,
           direction: null,
         },
       },
       {
         title: 'Ticket promo',
-        value: '800',
+        value: '234',
         span: {
           unit: '%',
-          value: 12,
+          value: 16,
           direction: 'down',
         },
         median: {
           unit: '%',
-          value: 10,
+          value: 6,
           direction: null,
         },
       },
