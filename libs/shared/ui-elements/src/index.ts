@@ -1,3 +1,5 @@
+export * from './lib/data-display';
+export * from './lib/feedback';
 export * from './lib/inputs';
 export * from './lib/feedback/toasters';
 export * from './lib/inputs/date-range-selector';
@@ -6,8 +8,12 @@ export * from './lib/data-display/tables';
 
 export * from './lib/layouts/stacks';
 
-export { default as InfoTooltip } from './lib/data-display/icons/tooltip/info-tooltip';
+export { InfoTooltip } from './lib/data-display/icons/tooltip/info-tooltip';
 
 export * from './lib/data-display/icons/tooltip/info-tooltip';
 export * from './lib/data-display/cards/kpi/kpi-sparkline-card';
 export * from './lib/data-display/cards/kpi/kpi-card';
+
+export * from './lib/layouts';
+
+export * from './lib/data-display/cards/preview/preview-card';

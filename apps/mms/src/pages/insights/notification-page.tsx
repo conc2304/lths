@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
-import { PageHeader } from 'libs/shared/ui-layouts/src/lib/components';
+import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
   {
@@ -40,8 +40,7 @@ const headers = [
 ];
 
 const NotificationPage = (): JSX.Element => {
-  const [getData, { isFetching, isLoading, isSuccess, data }] = useLazyGetNotificationItemsQuery();
-  console.log('🚀 ~ file: notification-page.tsx:44 ~ NotificationPage ~ result:', isFetching, isLoading, data);
+  const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationItemsQuery();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: NotificationRequest = {};
@@ -59,7 +58,6 @@ const NotificationPage = (): JSX.Element => {
 
   useEffect(() => {
     fetchData(null, undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPageChange = (
@@ -70,8 +68,9 @@ const NotificationPage = (): JSX.Element => {
     fetchData(pagination, sorting);
   };
 
-  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {};
-
+  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
+    console.log('onRowsPerPageChange', event);
+  };
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };

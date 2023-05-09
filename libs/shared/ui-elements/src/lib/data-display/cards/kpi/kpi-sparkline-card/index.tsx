@@ -37,5 +37,3 @@ export const KpiSparklineCard: React.FC<KpiSparklineCardProps> = (props) => {
     </FullWidthPaper>
   );
 };
-
-export default KpiSparklineCard;

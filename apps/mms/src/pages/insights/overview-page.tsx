@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
 import { Stack } from '@mui/material';
+
 import {
   useLazyGetInsightOverviewHistogramQuery,
   useLazyGetInsightOverviewKpiQuery,
   useLazyGetInsightOverviewSegmentationQuery,
   useLazyGetInsightOverviewTabularQuery,
 } from '@lths/features/mms/data-access';
-import { DateFilter } from '@lths/features/mms/data-access';
 import { HStack, VStack } from '@lths/shared/ui-elements';
-import { FilterFormStateProvider, UiFilters } from '@lths/shared/ui-filters';
+import { FilterSettingsPayload } from '@lths/types/ui-filters';
 
+import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { DonutContainer, TabularContainer, KpiContainer, HistogramContainer } from '../../components/insights/overview';
-import { ButtonGroupConf } from '../../fixtures/date-button-group-schema';
-import { Schema } from '../../fixtures/filter-schema';
+
+//TODO: the unused variables are for future implemenattion of skeletons, so don't remove them from here
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 const OverviewPage = (): JSX.Element => {
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
@@ -20,7 +21,7 @@ const OverviewPage = (): JSX.Element => {
 
   const [getTabularData, { isFetching: isTabularFetching, isLoading: isTabularLoading, data: tabularData }] =
     useLazyGetInsightOverviewTabularQuery();
-  console.log('🚀 ~ file: overview-page.tsx:40 ~ tabularData:', tabularData, tabularData?.data?.metrics);
+
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOverviewHistogramQuery();
 
@@ -29,32 +30,31 @@ const OverviewPage = (): JSX.Element => {
     { isFetching: isSegmentationFetching, isLoading: isSegmentationLoading, data: segmentationData },
   ] = useLazyGetInsightOverviewSegmentationQuery();
 
-  async function fetchData() {
-    const filter: DateFilter = { start_date: null, end_date: null };
-    //getKpiData(filter);
+  async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+    const {
+      date_range: { start_date, end_date },
+      metrics,
+    } = filterSettings;
+    if (!filterSettings || !start_date || !end_date || !metrics) return;
+
     await Promise.all([
-      getKpiData(filter),
-      getHistogramData(filter),
-      getSegmentationData(filter),
-      getTabularData(filter),
+      getKpiData(filterSettings),
+      getHistogramData(filterSettings),
+      getSegmentationData(filterSettings),
+      getTabularData(filterSettings),
     ]);
   }
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
-        <FilterFormStateProvider>
-          <UiFilters
-            dateOptions={ButtonGroupConf}
-            formSchema={Schema.payload.data}
-            handleApplyFilter={() => console.log(' MAKE FETCH REQUEST THAT WILL RELOAD ANALYTICS DATA')}
-          />
-        </FilterFormStateProvider>
+        <ConnectedUiFilter
+          onFiltersUpdate={(filters: FilterSettingsPayload) => {
+            console.log('---- onFiltersUpdate');
+            console.log(filters);
+            handleFilterUpdate(filters);
+          }}
+        />
       </Stack>
 
       <KpiContainer data={kpiData} />

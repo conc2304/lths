@@ -1,8 +1,7 @@
 import { InsightSegmentationResponse } from '@lths/features/mms/data-access';
 import { DonutChart } from '@lths/shared/ui-charts';
-import { BasicCard } from '@lths/shared/ui-elements';
+import { BasicCard, InfoTooltip } from '@lths/shared/ui-elements';
 //TODO: create nx lib for charts
-import InfoTooltip from 'libs/shared/ui-elements/src/lib/data-display/icons/tooltip/info-tooltip';
 
 type Props = {
   data: InsightSegmentationResponse;

@@ -1,10 +1,10 @@
 export type LoginResponse = {
-  token: string;
-  user_id: string;
+  accessToken: string;
+  user: User;
 };
 
 export type LoginRequest = {
-  login: string;
+  email: string;
   password: string;
 };
 
@@ -15,11 +15,11 @@ export type AuthenticatedSession = {
 };
 
 export type LogoutResponse = {
-    status: string;
-    message: string;
-  } 
+  status: string;
+  message: string;
+};
 
-export type UserResponse = {
+export type UserResponse_LEGACY = {
   //accounts: LTHS_Account[];
   biography: string;
   current_sign_in_at: string;
@@ -35,4 +35,24 @@ export type UserResponse = {
   username: string;
   website_url: string;
   userFetched: boolean;
+};
+
+export type User = {
+  email: string;
+  first_name: string;
+  is_active: boolean;
+  is_deleted: boolean;
+  last_name: string;
+  password_hash: string;
+  roles: unknown[];
+  user_type: unknown;
+  username: string;
+  __v: number;
+  _id: string;
+};
+
+export type UserResponse = {
+  data: User;
+  status: string;
+  message: string;
 };
