@@ -1,18 +1,20 @@
-import React from 'react';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { styled } from '@mui/system';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 import { barColors } from '../colors';
 
-const ChartTooltip = styled(Box)(() => ({
-  padding: '1rem',
-  background: '#fff',
-  outline: 'none !important',
-  border: '1px solid blue !important',
-  borderRadius: '8px',
-}));
+const ChartTooltip = styled(Box)(() => {
+  const theme = useTheme();
+  return {
+    padding: theme.spacing(2),
+    background: theme.palette.background.paper,
+    outline: 'none !important',
+    border: `1px solid ${theme.palette.primary.main} !important`,
+    borderRadius: theme.shape.borderRadius,
+  };
+});
 
 export const VerticalBarChart = () => {
   const data = [
@@ -55,8 +57,8 @@ export const VerticalBarChart = () => {
   };
 
   return (
-    <Box component={'div'} sx={{ width: '100%', height: '500px' }}>
-      <ResponsiveContainer width="100%" height="100%">
+    <Box component={'div'} sx={{ width: '98%' }}>
+      <ResponsiveContainer width="100%" height={600}>
         <BarChart
           width={500}
           height={300}

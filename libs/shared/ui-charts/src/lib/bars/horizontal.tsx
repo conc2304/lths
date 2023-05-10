@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { styled } from '@mui/system';
 import { SxProps } from '@mui/system';
@@ -7,34 +6,37 @@ import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipCont
 
 import { barColors, barLightColors } from '../colors';
 
-const ChartTooltip2 = styled(Box)<SxProps>(() => ({
-  padding: '1.2rem',
-  background: '#fff',
-  outline: 'none !important',
-  border: '1px solid #fff !important',
-  borderRadius: '8px',
-  boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-  '.number': {
-    color: '#000',
-    fontFamily: 'sans-serif',
-    fontSize: '14px',
-    fontWeight: 600,
-    textAlign: 'left',
-  },
-  '.text': {
-    fontSize: '12px',
-    fontWeight: 600,
-    color: '#9e9e9e',
-  },
-  '.container': {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  '.container div': {
-    marginBottom: '0.5rem',
-  },
-}));
+const ChartTooltip2 = styled(Box)<SxProps>(() => {
+  const theme = useTheme();
+  return {
+    padding: theme.spacing(1.2),
+    background: theme.palette.background.paper,
+    outline: 'none !important',
+    border: `1px solid ${theme.palette.divider} !important`,
+    borderRadius: theme.shape.borderRadius,
+    boxShadow: theme.shadows[1],
+    '.number': {
+      color: theme.palette.text.primary,
+      fontFamily: 'sans-serif',
+      fontSize: '0.875rem',
+      fontWeight: 600,
+      textAlign: 'left',
+    },
+    '.text': {
+      fontSize: '0.75rem',
+      fontWeight: 600,
+      color: theme.palette.text.secondary,
+    },
+    '.container': {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    },
+    '.container div': {
+      marginBottom: theme.spacing(0.5),
+    },
+  };
+});
 
 const data = [
   {
@@ -55,7 +57,6 @@ const data = [
 ];
 
 const CustomizedTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
-  console.log(payload, 'payload here');
   if (active) {
     return (
       <ChartTooltip2>
@@ -91,7 +92,7 @@ const CustomizedTooltip = ({ active, payload }: TooltipProps<ValueType, NameType
 export const HorizontalBarChart = () => {
   const theme = useTheme();
   return (
-    <Box component={'div'} sx={{ width: '100%', marginBottom: `${theme.spacing(4)}` }}>
+    <Box component={'div'} sx={{ width: '95%', marginBottom: `${theme.spacing(4)}` }}>
       <Box component={'div'} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <Box
           component="div"
