@@ -1,9 +1,6 @@
-import { FC } from 'react';
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
-import { BasicContainerProps } from '../types';
-
-const CardContainer: FC<BasicContainerProps> = ({ id, children }) => {
+const CardContainer = ({ id, children, ...rest }: BoxProps) => {
   return (
     <Box
       id={id}
@@ -16,6 +13,7 @@ const CardContainer: FC<BasicContainerProps> = ({ id, children }) => {
         background: '#ffffff',
         padding: 2,
       }}
+      {...rest}
     >
       {children}
     </Box>

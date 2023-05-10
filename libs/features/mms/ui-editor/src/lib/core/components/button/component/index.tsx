@@ -1,10 +1,9 @@
-import React from 'react';
 import { Button } from '@mui/material';
 
 import { BasicContainer } from '../../../../elements/containers';
 import { ButtonComponentProps, ButtonStyle } from '../../types';
 
-const ButtonComponent: React.FC<ButtonComponentProps> = (props) => {
+const ButtonComponent = (props: ButtonComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { title, style },

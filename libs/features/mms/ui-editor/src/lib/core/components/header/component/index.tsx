@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { BasicContainer } from '../../../../elements';
 import { HeaderComponentProps } from '../../types';
 
-const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
+const HeaderComponent = (props: HeaderComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { color = '#000000', title },

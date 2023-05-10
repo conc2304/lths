@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
 import Editor from './editor';
-import colors from '../../../colors';
+import colors from '../../../common/colors';
 import { ComponentProps, useEditorActions } from '../../../context';
 export type Props = {
   components: ComponentProps[];

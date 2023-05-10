@@ -1,20 +1,21 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
+import { ButtonStyleLoopkups } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { CardContainer, SegmentedButton, BasicTextField } from '../../../../elements';
 import { ButtonComponentProps } from '../../types';
 
-const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
+const ButtonToolbar = (props: ButtonComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { style, title },
   } = props;
 
   const { selectComponent } = useEditorActions();
+
   const updateComponenetProp = (key: string, value: string | number | null) => {
     const data = { ...props, default_data: { ...props.default_data, [key]: value } };
     selectComponent(data);
-    //onChange({ text: event.target.value });
   };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +25,10 @@ const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
     updateComponenetProp('style', style);
   };
 
-  const lookups = [
-    { key: 'Blank', value: '' },
-    { key: 'Fill', value: 'fill' },
-  ];
   return (
     <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={lookups} value={style} />
+      <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={ButtonStyleLoopkups} value={style} />
     </CardContainer>
   );
 };

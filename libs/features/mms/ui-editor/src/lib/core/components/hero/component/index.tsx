@@ -1,14 +1,13 @@
-import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 
-import colors from '../../../../colors';
-import { MOBILE_SCREEN_HEIGHT, MOBILE_SCREEN_WIDTH } from '../../../../constants';
+import { MOBILE_SCREEN_HEIGHT, MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import { HeroComponentProps } from '../../types';
 
-const HeroComponent: React.FC<HeroComponentProps> = (props) => {
+const HeroComponent = (props: HeroComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, title, desc, link_title, component_data },
+    default_data: { image, title, link_title, component_data },
   } = props;
   const perc = (MOBILE_SCREEN_HEIGHT / MOBILE_SCREEN_WIDTH) * 100;
   return (

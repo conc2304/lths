@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { ComponentProps } from '../../../../context';
 import { CardContainer } from '../../../../elements';

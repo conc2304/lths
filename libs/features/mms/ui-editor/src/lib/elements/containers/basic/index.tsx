@@ -1,12 +1,18 @@
-import { FC } from 'react';
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
-import { MOBILE_GUTTER } from '../../../constants';
-import { BasicContainerProps } from '../types';
+import { MOBILE_GUTTER } from '../../../common';
 
-const BasicContainer: FC<BasicContainerProps> = ({ id, children }) => {
+const BasicContainer = ({ id, children, ...rest }: BoxProps) => {
   return (
-    <Box id={id} sx={{ padding: MOBILE_GUTTER }}>
+    <Box
+      id={id}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: MOBILE_GUTTER,
+      }}
+      {...rest}
+    >
       {children}
     </Box>
   );

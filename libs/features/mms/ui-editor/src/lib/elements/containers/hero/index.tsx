@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
-import { MOBILE_GUTTER } from '../../../constants';
+import { MOBILE_GUTTER } from '../../../common';
 
 type HeroContainerProps = {
   width?: number;
@@ -9,7 +9,7 @@ type HeroContainerProps = {
   image: string;
   children: ReactNode;
 };
-const HeroContainer: React.FC<HeroContainerProps> = ({ width, height, image, children }) => {
+const HeroContainer = ({ width, height, image, children }: HeroContainerProps) => {
   const perc = (height / width) * 100;
   return (
     <Box

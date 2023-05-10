@@ -5,7 +5,7 @@ import SortableList from './navigator';
 import { SortableListProps } from './navigator/container';
 import { Toolbar } from './toolbar';
 import { Wysiwig } from './wysiwig';
-import colors from '../../colors';
+import colors from '../../common/colors';
 
 export const GridContainer = ({ onAddComponentClick }: SortableListProps) => {
   /*uconst { initEditor, addComponent, components } = useEditorActions();

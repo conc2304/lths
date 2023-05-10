@@ -1,26 +1,24 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import { CardComponentProps } from '../../types';
 
-const CardComponent: React.FC<CardComponentProps> = (props) => {
+const CardComponent = (props: CardComponentProps) => {
   const {
-    default_data: { image, title, desc, type },
+    default_data: { image, title, desc },
     __ui_id__: id,
   } = props;
   const perc = (245 / 335) * 100;
   return (
     <Box
       sx={{
-        //backgroundImage: `url('https://via.placeholder.com/1280x853.jpg')`,
-        backgroundImage: `url(${require('../../../../assets/card-view.png')})`,
+        backgroundImage: `url(${require(image ? image : '../../../../assets/card-view.png')})`,
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
-        // width: '100%',
         height: 0,
         position: 'relative',
+        /* (image-height / image-width * width) */
+        /*  (245 / 335) * 100 */
         paddingTop: `${perc}%`,
-        //paddingTop: '66.64%', ///* (img-height / img-width * width) *//* (853 / 1280 * 100) */
       }}
     >
       <Box

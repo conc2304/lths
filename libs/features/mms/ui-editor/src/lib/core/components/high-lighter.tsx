@@ -2,7 +2,7 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 
-import colors from '../../colors';
+import colors from '../../common/colors';
 
 interface HighlightableComponentProps {
   children: ReactNode;

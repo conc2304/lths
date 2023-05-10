@@ -1,74 +1,55 @@
-import React from 'react';
-import { Box, Divider } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { BasicTextField } from '../../../../elements';
-import { HeroComponentProps } from '../../types';
+import { BasicTextField, CardContainer } from '../../../../elements';
+import { QuickLinkListComponent } from '../../common';
+import { HeroComponentProps, QuickLinkProps } from '../../types';
 
-const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
+const ToolbarComponent = (props: HeroComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, title, link_title, component_data = [] },
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const updateComponenetProp = (key, value) => {
+
+  const updateComponenetProp = (key: string, value: string) => {
     const data = { ...props, default_data: { ...props.default_data, [key]: value } };
     selectComponent(data);
-    //onChange({ text: event.target.value });
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponenetProp('title', event.target.value);
   };
-  const handleLinkTitleChange = (event) => {
+  const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponenetProp('link_title', event.target.value);
   };
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponenetProp('image', event.target.value);
   };
-  const handleActionChange = (event, index, key) => {
-    console.log(
-      '🚀 ~ file: index.tsx:31 ~ handleActionChange ~ event:',
-      component_data.map((o, i) => (i === index ? { ...o, [key]: event.target.value } : o))
-    );
+  const handleActionChange = (event: ChangeEvent<HTMLInputElement>, index: number, key: string) => {
     const data = {
       ...props,
       default_data: {
         ...props.default_data,
-        component_data: component_data.map((o, i) => (i === index ? { ...o, [key]: event.target.value } : o)),
+        component_data: component_data.map((o: QuickLinkProps, i: number) =>
+          i === index ? { ...o, [key]: event.target.value } : o
+        ),
       },
     };
     selectComponent(data);
   };
+
   return (
-    <Box
-      id={`${id}_toolbar`}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        margin: 2,
-        borderRadius: 1,
-        background: '#ffffff',
-        padding: 2,
-      }}
-    >
+    <CardContainer id={`${id}_toolbar`}>
       <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
 
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
-      {component_data.map((link, index) => {
-        const { icon, title } = link;
-        return (
-          <Box sx={{ gap: 2 }}>
-            <BasicTextField label={'Icon URL'} value={icon} onChange={(e) => handleActionChange(e, index, 'icon')} />
-            <BasicTextField label={'Title'} value={title} onChange={(e) => handleActionChange(e, index, 'title')} />
-          </Box>
-        );
-      })}
-    </Box>
+      <QuickLinkListComponent data={component_data} onChange={handleActionChange} />
+    </CardContainer>
   );
 };
 export default ToolbarComponent;
