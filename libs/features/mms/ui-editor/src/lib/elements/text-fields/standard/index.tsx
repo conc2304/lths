@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { Box, TextField, TextFieldProps, Typography } from '@mui/material';
+import { Box, TextField, TextFieldProps } from '@mui/material';
+
+import { StandardLabel } from '../../labels';
 
 const StandardTextField: FC<TextFieldProps> = ({ label, ...rest }) => (
   <Box>
-    <Typography sx={{ fontSize: 12, marginBottom: 1 }} textTransform={'uppercase'}>
-      {label}
-    </Typography>
+    <StandardLabel label={label} />
     <TextField size="small" fullWidth {...rest} />
   </Box>
 );

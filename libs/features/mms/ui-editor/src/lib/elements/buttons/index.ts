@@ -1,1 +1,1 @@
-export { default as SegmentedButton } from './segmented-button';
+export { default as SegmentedButton } from './segmented';

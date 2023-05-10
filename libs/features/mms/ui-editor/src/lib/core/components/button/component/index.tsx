@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
+import { BasicContainer } from '../../../../elements/containers';
 import { ButtonComponentProps, ButtonStyle } from '../../types';
 
 const ButtonComponent: React.FC<ButtonComponentProps> = (props) => {
@@ -8,11 +9,12 @@ const ButtonComponent: React.FC<ButtonComponentProps> = (props) => {
     __ui_id__: id,
     default_data: { title, style },
   } = props;
+  //TODO:make this generic??
   const variant = style === ButtonStyle.Fill ? 'contained' : 'outlined';
   return (
-    <Box id={`${id}_component`}>
+    <BasicContainer id={`${id}_component`}>
       <Button variant={variant}>{title}</Button>
-    </Box>
+    </BasicContainer>
   );
 };
 export default ButtonComponent;

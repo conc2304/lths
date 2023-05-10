@@ -18,7 +18,7 @@ export function PageEditorTabs() {
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
-  const [getData, { isFetching, isLoading, data }] = useLazyGetComponentListQuery();
+  const [getData, { isFetching, isSuccess, data }] = useLazyGetComponentListQuery();
 
   const { components, initEditor, addComponent } = useEditorActions();
   /*useEffect(() => {

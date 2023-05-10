@@ -6,6 +6,7 @@ export type SegmentedButtonProps = ToggleButtonGroupProps & {
   data: Record<string, string | number>[];
   onValueChange: (value: string) => void;
   value: string;
+  label: string;
   keyProp?: string;
   valueProp?: string;
 };
@@ -14,7 +15,15 @@ const defaultProps: Partial<SegmentedButtonProps> = {
   valueProp: 'value',
 };
 
-const SegmentedButton: FC<SegmentedButtonProps> = ({ data, onValueChange, value, keyProp, valueProp, ...rest }) => {
+const SegmentedButton: FC<SegmentedButtonProps> = ({
+  data,
+  onValueChange,
+  value,
+  label,
+  keyProp,
+  valueProp,
+  ...rest
+}) => {
   // const [value, setValue] = useState(null);
 
   const handleChange = (event: MouseEvent<HTMLElement>, value: string) => {

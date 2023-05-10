@@ -12,7 +12,7 @@ export default function Editor(props: { components: ComponentProps[] }) {
   };
 
   return (
-    <div className="editor">
+    <div>
       {components.map((item, index) => {
         const component = factory(item);
         const { __ui_id__ } = item;

@@ -10,11 +10,11 @@ const Component: React.FC<ComponentProps> = (props) => {
     <Box
       sx={{
         padding: 5,
-        backgroundColor: 'red',
+        backgroundColor: '#ff6c70',
       }}
     >
-      <Typography sx={{ color: '#ffffff' }}>
-        Unsupported componenet type: {component_name}({component_id})
+      <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
+        `{component_id || component_name}` component has not been implemented yet.
       </Typography>
     </Box>
   );

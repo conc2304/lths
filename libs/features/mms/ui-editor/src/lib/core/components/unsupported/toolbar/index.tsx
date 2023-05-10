@@ -2,20 +2,17 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import { ComponentProps } from '../../../../context';
+import { CardContainer } from '../../../../elements';
 
 const Toolbar: React.FC<ComponentProps> = (props) => {
-  const { component_id, component_name } = props;
+  const { __ui_id__: id, component_id, component_name } = props;
 
   return (
-    <Box
-      sx={{
-        padding: 5,
-      }}
-    >
-      <Typography>
-        Unsupported componenet type: {component_name}({component_id})
+    <CardContainer id={`${id}_toolbar`}>
+      <Typography sx={{ fontWeight: 600 }}>
+        `{component_id || component_name}` component has not been implemented yet.
       </Typography>
-    </Box>
+    </CardContainer>
   );
 };
 export default Toolbar;

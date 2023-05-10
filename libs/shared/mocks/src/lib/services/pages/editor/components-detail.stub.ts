@@ -3,7 +3,7 @@ export async function getDefaultData(id: string) {
     const payload = await import(`./stubs/components/${id}`);
     return { ...payload.default };
   }
-  return { component_id: id, component_name: 'Generic View - ' + id, component_type: 'Native' };
+  return { component_id: id, component_name: id + '*', component_type: 'Native' };
 }
 
 const getComponentsDetail = async (id) => {

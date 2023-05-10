@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
+import { MOBILE_GUTTER } from '../../../constants';
+
 type HeroContainerProps = {
   width?: number;
   height?: number;
@@ -29,7 +31,7 @@ const HeroContainer: React.FC<HeroContainerProps> = ({ width, height, image, chi
           right: 0,
 
           display: 'flex',
-          padding: 2,
+          padding: MOBILE_GUTTER,
         }}
       >
         {children}

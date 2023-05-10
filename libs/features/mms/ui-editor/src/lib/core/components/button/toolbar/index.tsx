@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { Box } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { SegmentedButton, StandardTextField } from '../../../../elements';
+import { CardContainer, SegmentedButton, StandardTextField } from '../../../../elements';
 import { ButtonComponentProps } from '../../types';
 
 const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
@@ -30,21 +30,10 @@ const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
     { key: 'Fill', value: 'fill' },
   ];
   return (
-    <Box
-      id={`${id}_toolbar`}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        margin: 2,
-        borderRadius: 1,
-        background: '#ffffff',
-        padding: 2,
-      }}
-    >
+    <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
       <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <SegmentedButton onValueChange={handleStyleChange} data={lookups} value={style} />
-    </Box>
+      <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={lookups} value={style} />
+    </CardContainer>
   );
 };
 export default ButtonToolbar;

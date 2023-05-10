@@ -40,7 +40,7 @@ const HighlightableComponent: FC<HighlightableComponentProps> = ({ children, sel
           width: '100%',
           height: '100%',
           borderRadius: 0,
-          border: `${isHighlighted ? `4px solid ${colors.editor.highlight}` : 'none'}`,
+          border: `${isHighlighted ? `3px dashed ${colors.editor.highlight}` : 'none'}`,
           zIndex: 1,
         },
       }}

@@ -15,7 +15,7 @@ export type ConnectedComponentModalProps = ComponentModalProps & {
 };
 export const ConnectedComponentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetComponentListQuery();
-  const [getDetail, { data: detail }] = useLazyGetComponentDetailQuery();
+  const [getDetail, { data: detail, isSuccess: isDetailSuccess }] = useLazyGetComponentDetailQuery();
 
   const { components, initEditor, addComponent } = useEditorActions();
 
@@ -37,8 +37,10 @@ export const ConnectedComponentModal = ({ open, onClose }: { open: boolean; onCl
     const id = uuidv4();
     const detail = await getDetail(componentId);
     console.log('handleSelectComponent', detail);
-    addComponent(detail.data.data);
-    onClose();
+    if (isDetailSuccess) {
+      addComponent(detail.data.data);
+      onClose();
+    }
     //addComponent({ __ui_id__: id, component_id: componentId, component_name: 'Card', component_type: 'Component' });
     //console.log('handleTabChange', components);
   };

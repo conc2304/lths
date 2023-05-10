@@ -6,7 +6,7 @@ import { StandardTextField } from '../../../../elements';
 import ColorPicker from '../../../../elements/color-picker';
 import { HeaderComponentProps } from '../../types';
 
-const ToolbarComponent: React.FC<HeaderComponentProps> = (props) => {
+const HeaderToolbar: React.FC<HeaderComponentProps> = (props) => {
   const {
     __ui_id__: id,
     default_data: { color = '#000000', title },
@@ -44,4 +44,4 @@ const ToolbarComponent: React.FC<HeaderComponentProps> = (props) => {
     </Box>
   );
 };
-export default ToolbarComponent;
+export default HeaderToolbar;

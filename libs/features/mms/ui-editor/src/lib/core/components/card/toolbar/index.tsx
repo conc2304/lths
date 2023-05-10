@@ -1,52 +1,39 @@
-import React from 'react';
-import { Box, TextField, Typography } from '@mui/material';
-import FormLabel from '@mui/material/FormLabel';
+import React, { ChangeEvent } from 'react';
 
 import { useEditorActions } from '../../../../context';
 import { StandardTextField } from '../../../../elements';
+import { CardContainer } from '../../../../elements/containers';
 import { CardComponentProps } from '../../types';
 
 const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
   const {
     __ui_id__: id,
     default_data: { image, title, desc },
-    onChange,
   } = props;
 
-  const { updateComponent, selectComponent } = useEditorActions();
+  const { selectComponent } = useEditorActions();
   const updateComponenetProp = (key, value) => {
     const data = { ...props, default_data: { ...props.default_data, [key]: value } };
     selectComponent(data);
     //onChange({ text: event.target.value });
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponenetProp('title', event.target.value);
   };
-  const handleDescChange = (event) => {
+  const handleDescChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponenetProp('desc', event.target.value);
   };
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     // onChange({ teimageUrlxt: event.target.value });
   };
 
   return (
-    <Box
-      id={`${id}_toolbar`}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        margin: 2,
-        borderRadius: 1,
-        background: '#ffffff',
-        padding: 2,
-      }}
-    >
+    <CardContainer id={`${id}_toolbar`}>
       <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
       <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <StandardTextField label={'Description'} value={desc} onChange={handleDescChange} />
-    </Box>
+    </CardContainer>
   );
 };
 export default ToolbarComponent;
