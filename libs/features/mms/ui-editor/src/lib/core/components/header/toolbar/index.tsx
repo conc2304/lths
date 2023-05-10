@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { StandardTextField } from '../../../../elements';
+import { BasicTextField } from '../../../../elements';
 import ColorPicker from '../../../../elements/color-picker';
 import { HeaderComponentProps } from '../../types';
 
@@ -39,7 +39,7 @@ const HeaderToolbar: React.FC<HeaderComponentProps> = (props) => {
         padding: 2,
       }}
     >
-      <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <ColorPicker initialColor={color} onChange={handleColorChange} />
     </Box>
   );

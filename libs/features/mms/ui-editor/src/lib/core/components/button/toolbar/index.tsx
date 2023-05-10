@@ -1,8 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import { Box } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { CardContainer, SegmentedButton, StandardTextField } from '../../../../elements';
+import { CardContainer, SegmentedButton, BasicTextField } from '../../../../elements';
 import { ButtonComponentProps } from '../../types';
 
 const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
@@ -31,7 +30,7 @@ const ButtonToolbar: React.FC<ButtonComponentProps> = (props) => {
   ];
   return (
     <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
-      <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={lookups} value={style} />
     </CardContainer>
   );

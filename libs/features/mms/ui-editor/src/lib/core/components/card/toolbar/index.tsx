@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 
 import { useEditorActions } from '../../../../context';
-import { StandardTextField } from '../../../../elements';
+import { BasicTextField } from '../../../../elements';
 import { CardContainer } from '../../../../elements/containers';
 import { CardComponentProps } from '../../types';
 
@@ -30,9 +30,9 @@ const ToolbarComponent: React.FC<CardComponentProps> = (props) => {
 
   return (
     <CardContainer id={`${id}_toolbar`}>
-      <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
-      <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <StandardTextField label={'Description'} value={desc} onChange={handleDescChange} />
+      <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
     </CardContainer>
   );
 };

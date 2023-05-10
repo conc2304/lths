@@ -1,1 +1,1 @@
-export { default as StandardLabel } from './standard';
+export { default as BasicLabel } from './basic';

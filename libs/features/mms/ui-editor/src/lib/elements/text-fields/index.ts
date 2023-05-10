@@ -1,1 +1,1 @@
-export { default as StandardTextField } from './standard';
+export { default as BasicTextField } from './basic';

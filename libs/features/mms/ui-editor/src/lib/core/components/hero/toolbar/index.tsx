@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { StandardTextField } from '../../../../elements';
+import { BasicTextField } from '../../../../elements';
 import { HeroComponentProps } from '../../types';
 
 const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
@@ -54,17 +54,17 @@ const ToolbarComponent: React.FC<HeroComponentProps> = (props) => {
         padding: 2,
       }}
     >
-      <StandardTextField label={'Image URL'} value={image} onChange={handleImageChange} />
-      <StandardTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
 
       <Divider />
-      <StandardTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
+      <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
       {component_data.map((link, index) => {
         const { icon, title } = link;
         return (
           <Box sx={{ gap: 2 }}>
-            <StandardTextField label={'Icon URL'} value={icon} onChange={(e) => handleActionChange(e, index, 'icon')} />
-            <StandardTextField label={'Title'} value={title} onChange={(e) => handleActionChange(e, index, 'title')} />
+            <BasicTextField label={'Icon URL'} value={icon} onChange={(e) => handleActionChange(e, index, 'icon')} />
+            <BasicTextField label={'Title'} value={title} onChange={(e) => handleActionChange(e, index, 'title')} />
           </Box>
         );
       })}

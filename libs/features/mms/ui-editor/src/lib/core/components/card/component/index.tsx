@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-import placeholder from '../../../../assets/card-view.svg';
 import { CardComponentProps } from '../../types';
 
 const CardComponent: React.FC<CardComponentProps> = (props) => {
@@ -9,8 +8,6 @@ const CardComponent: React.FC<CardComponentProps> = (props) => {
     default_data: { image, title, desc, type },
     __ui_id__: id,
   } = props;
-  const mobileWidth = 375;
-  const mobileHeight = 812;
   const perc = (245 / 335) * 100;
   return (
     <Box
