@@ -1,7 +1,6 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import { MOBILE_SCREEN_HEIGHT, MOBILE_SCREEN_WIDTH } from '../../../../common';
-import colors from '../../../../common/colors';
 import { HeroContainer } from '../../../../elements';
 import { QuickLinkListComponent } from '../../common';
 import { HeroComponentProps } from '../../types';
