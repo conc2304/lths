@@ -5,12 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLazyGetComponentDetailQuery, useLazyGetComponentListQuery } from '@lths/features/mms/data-access';
 import { ComponentProps, useEditorActions } from '@lths/features/mms/ui-editor';
 
-import { ComponentGallery } from './component-gallery';
+import { ComponentGallery } from '../../components/pages/editor/component-gallery';
 export type ComponentModalProps = {
   open: boolean;
 };
 export type ConnectedComponentModalProps = ComponentModalProps & {
   components: ComponentProps[];
+  onClose: () => void;
   onSelectComponent: (componentId: string) => void;
 };
 export const ConnectedComponentModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
@@ -44,11 +45,13 @@ export const ConnectedComponentModal = ({ open, onClose }: { open: boolean; onCl
     //addComponent({ __ui_id__: id, component_id: componentId, component_name: 'Card', component_type: 'Component' });
     //console.log('handleTabChange', components);
   };
-  return <ComponentModal open={open} components={data?.data} onSelectComponent={handleSelectComponent} />;
-};
-export const ComponentModal = ({ open, components = [], onSelectComponent }: ConnectedComponentModalProps) => {
   return (
-    <Dialog open={open} maxWidth="md" fullWidth>
+    <ComponentModal open={open} onClose={onClose} components={data?.data} onSelectComponent={handleSelectComponent} />
+  );
+};
+export const ComponentModal = ({ open, onClose, components = [], onSelectComponent }: ConnectedComponentModalProps) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent>
         <ComponentGallery components={components} onSelectComponent={onSelectComponent} />
       </DialogContent>

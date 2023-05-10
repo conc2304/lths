@@ -6,9 +6,9 @@ import { useLazyGetComponentListQuery } from '@lths/features/mms/data-access';
 import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
-import { ComponentModal, ConnectedComponentModal } from './component-modal2';
 import TabPanel from './tab-panel';
-
+import { ConnectedComponentModal } from '../../components/pages/editor/component-modal';
+import { ConnectedComponentModalFull } from '../../components/pages/editor/component-modal-full2';
 /* eslint-disable-next-line */
 export interface PageEditorTabsProps {}
 
@@ -67,7 +67,8 @@ export function PageEditorTabs() {
       <Box p={2}>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor onAddComponentClick={handleAddComponentClick} />
-          <ConnectedComponentModal open={modalOpen} onClose={handleCloseModal} />
+          <ConnectedComponentModalFull open={modalOpen} onClose={handleCloseModal} />
+          {/*<ConnectedComponentModal open={modalOpen} onClose={handleCloseModal} />*/}
         </TabPanel>
         <TabPanel value="segments" currentTab={currentTab}>
           Segments Component goes here...

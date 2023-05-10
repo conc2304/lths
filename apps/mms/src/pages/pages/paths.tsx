@@ -14,7 +14,7 @@ const sections: SectionItemProps = {
           title: 'Editor',
           icon: <FlowIcon />,
           path: '/pages/editor',
-          file: '/screens/editor-page',
+          file: '/pages/editor-page',
         },
       ],
     },

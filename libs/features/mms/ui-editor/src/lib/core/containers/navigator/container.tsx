@@ -52,7 +52,9 @@ export const Container = ({ onAddComponentClick }: SortableListProps) => {
     return (
       <div>
         {components.map((component, i) => renderCard(component, i))}
-        <Button onClick={onAddComponentClick}>Add Component</Button>
+        <Button variant="outlined" onClick={onAddComponentClick}>
+          Add Component
+        </Button>
       </div>
     );
   }
