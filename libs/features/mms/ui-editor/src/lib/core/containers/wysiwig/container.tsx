@@ -20,17 +20,18 @@ export default function Container() {
         flexDirection: 'column',
       }}
     >
-      <Box sx={{ backgroundColor: colors.editor.header, height: 55, width: '100%' }} />
+      <Box sx={{ backgroundColor: colors.editor.phone.header, height: 55, width: '100%' }} />
       <Box
         sx={{
           width: mobileWidth,
-          border: `solid 1px ${colors.editor.background}`,
+          //border: `solid 1px ${colors.editor.phone.background}`,
+          backgroundColor: colors.editor.phone.background,
           borderTopWidth: 0,
         }}
       >
         <Editor components={components} />
       </Box>
-      <Box sx={{ backgroundColor: colors.editor.header, height: 55, width: '100%', marginTop: 'auto' }}></Box>
+      <Box sx={{ backgroundColor: colors.editor.phone.header, height: 55, width: '100%', marginTop: 'auto' }}></Box>
     </Box>
   );
 }

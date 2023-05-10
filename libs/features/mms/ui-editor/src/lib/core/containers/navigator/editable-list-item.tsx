@@ -1,5 +1,8 @@
-import { KeyboardEvent, useRef, useState } from 'react';
-import { ListItemText } from '@mui/material';
+import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
+import { ListItemText, TextField } from '@mui/material';
+
+import { Colors } from '../../../common';
+import { useClickOutside } from '../../../elements';
 
 export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
   const [editing, setEditing] = useState(false);
@@ -8,30 +11,42 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
   const handleDoubleClick = () => {
     setEditing(true);
   };
-
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEditedText(event.target.value);
+  };
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      onSave(editedText);
-      setEditing(false);
+      handleClickOutside();
     }
   };
-  const handleSave = () => {
+  const handleClickOutside = () => {
     setEditing(false);
     onSave(editedText);
   };
+
+  useClickOutside(inputRef, handleClickOutside);
 
   return (
     <ListItemText
       onDoubleClick={handleDoubleClick}
       primary={
         editing ? (
-          <input
+          <TextField
+            size="small"
+            sx={{
+              '& .MuiInputBase-input': {
+                p: 1,
+                pt: 0.5,
+                pb: 0.5,
+                m: 0,
+                lineHeight: 1,
+                backgroundColor: Colors.sidebar.textInput.background,
+              },
+            }}
             ref={inputRef}
-            type="text"
             value={editedText}
-            onChange={(event) => setEditedText(event.target.value)}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
-            onBlur={handleSave}
           />
         ) : (
           <span>{editedText}</span>

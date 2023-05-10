@@ -1,49 +1,31 @@
-import type { FC, ReactNode } from 'react';
 import { useRef } from 'react';
-import { ListItem, ListItemIcon } from '@mui/material';
-import DragHandle from '@mui/icons-material/DragIndicator';
+import { ListItem, ListItemIcon, Box } from '@mui/material';
+import MoreIcon from '@mui/icons-material/MoreVert';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { EditableListItemText } from './editable-list-item';
-import colors from '../../../common/colors';
+import { DragCardProps, DragItemProps, ItemTypes } from './types';
+import { Colors } from '../../../common';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 
-export const ItemTypes = {
-  CARD: 'card',
-};
 //TODO: use themes, define palette may be??
 const style = {
-  border: '1px dashed gray',
-  backgroundColor: colors.sidebar,
+  borderBottom: `1px solid ${Colors.sidebar.divider}`,
+  backgroundColor: Colors.sidebar.background,
   //cursor: 'move',
 };
 
-export interface CardProps {
-  id: string;
-  children?: ReactNode;
-  text: string;
-  index: number;
-  onDrag: (dragIndex: number, hoverIndex: number) => void;
-  onClick?: (index: number, id: string) => void;
-}
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
-export const Card: FC<CardProps> = ({ id, text, index, onDrag, onClick }) => {
+export const Card = ({ id, text, index, onDrag, onClick }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
+  const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: DragItemProps, monitor) {
       if (!ref.current) {
         return;
       }
@@ -100,6 +82,7 @@ export const Card: FC<CardProps> = ({ id, text, index, onDrag, onClick }) => {
     item: () => {
       return { id, index };
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -112,13 +95,13 @@ export const Card: FC<CardProps> = ({ id, text, index, onDrag, onClick }) => {
     onClick && onClick(index, id);
   };
   return (
-    <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
+    <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
       <ListItem onClick={handleClick}>
         <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
-        <ListItemIcon>
-          <DragHandle />
+        <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
+          <MoreIcon />
         </ListItemIcon>
       </ListItem>
-    </div>
+    </Box>
   );
 };

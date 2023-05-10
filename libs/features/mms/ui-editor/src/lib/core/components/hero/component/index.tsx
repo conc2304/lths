@@ -11,7 +11,13 @@ const HeroComponent = (props: HeroComponentProps) => {
     default_data: { image, title, link_title, component_data },
   } = props;
   return (
-    <HeroContainer id={`${id}_component`} width={MOBILE_SCREEN_WIDTH} height={MOBILE_SCREEN_HEIGHT} image={image}>
+    <HeroContainer
+      id={`${id}_component`}
+      width={MOBILE_SCREEN_WIDTH}
+      height={MOBILE_SCREEN_HEIGHT}
+      image={image}
+      disableGutter
+    >
       <Stack flexDirection={'column'} justifyContent={'space-between'}>
         <Typography
           sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff', wordWrap: 'break-word' }}
