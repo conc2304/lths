@@ -1,13 +1,13 @@
 import { ChangeEvent } from 'react';
 
-import { BasicContainer, BasicTextField } from '../../../../elements';
-import { QuickLinkProps } from '../../types';
+import { BasicContainer, BasicTextField } from '../../../../../elements';
+import { QuickLinkProps } from '../../../types';
 
 type Props = QuickLinkProps & {
   onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, key: string) => void;
 };
 
-const QuickLinkComponent = ({ icon, title, onChange }: Props) => {
+const QuickLinkToolbar = ({ icon, title, onChange }: Props) => {
   return (
     <BasicContainer marginBottom={2}>
       <BasicTextField label={'Title'} value={title} onChange={(e) => onChange(e, 'title')} />
@@ -15,4 +15,4 @@ const QuickLinkComponent = ({ icon, title, onChange }: Props) => {
     </BasicContainer>
   );
 };
-export default QuickLinkComponent;
+export default QuickLinkToolbar;

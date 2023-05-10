@@ -2,6 +2,8 @@ import { Box, Stack, Typography } from '@mui/material';
 
 import { MOBILE_SCREEN_HEIGHT, MOBILE_SCREEN_WIDTH } from '../../../../common';
 import colors from '../../../../common/colors';
+import { HeroContainer } from '../../../../elements';
+import { QuickLinkListComponent } from '../../common';
 import { HeroComponentProps } from '../../types';
 
 const HeroComponent = (props: HeroComponentProps) => {
@@ -9,69 +11,18 @@ const HeroComponent = (props: HeroComponentProps) => {
     __ui_id__: id,
     default_data: { image, title, link_title, component_data },
   } = props;
-  const perc = (MOBILE_SCREEN_HEIGHT / MOBILE_SCREEN_WIDTH) * 100;
   return (
-    <Box
-      id={`${id}_component`}
-      sx={{
-        backgroundImage: `url(${image})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        // width: '100%',
-        height: 0,
-        position: 'relative',
-        paddingTop: `${perc}%`,
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
+    <HeroContainer id={`${id}_component`} width={MOBILE_SCREEN_WIDTH} height={MOBILE_SCREEN_HEIGHT} image={image}>
+      <Stack flexDirection={'column'} justifyContent={'space-between'}>
+        <Typography
+          sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff', wordWrap: 'break-word' }}
+        >
+          {title}
+        </Typography>
 
-          display: 'flex',
-          padding: 2,
-        }}
-      >
-        <Stack flexDirection={'column'} justifyContent={'space-between'}>
-          <Typography
-            sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color: '#ffffff', wordWrap: 'break-word' }}
-          >
-            {title}
-          </Typography>
-          <Box>
-            <Box sx={{ marginTop: 'auto', padding: 2 }}>
-              <Typography
-                sx={{ paddingBottom: 0.5, fontSize: 14, fontWeight: 600, color: '#ffffff', wordWrap: 'break-word' }}
-              >
-                {link_title}
-              </Typography>
-            </Box>
-            <Stack flexDirection={'row'} gap={1} sx={{ marginRight: 2, marginLeft: 2 }}>
-              {component_data?.map((o, i) => {
-                return (
-                  <Box
-                    key={`quick_link_${i}`}
-                    sx={{
-                      background: colors.quicklink.background,
-                      flex: 1,
-                      borderRadius: 2,
-                      padding: 1,
-                      flexDirection: 'column',
-                    }}
-                  >
-                    <img src={o.icon} alt={o.title} style={{ width: 20, height: 20 }} />
-                    <Typography sx={{ fontSize: 11 }}>{o.title}</Typography>
-                  </Box>
-                );
-              })}
-            </Stack>
-          </Box>
-        </Stack>
-      </Box>
-    </Box>
+        <QuickLinkListComponent data={component_data} title={link_title} />
+      </Stack>
+    </HeroContainer>
   );
 };
 export default HeroComponent;

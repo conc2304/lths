@@ -3,7 +3,7 @@ import { Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import { BasicTextField, CardContainer } from '../../../../elements';
-import { QuickLinkListComponent } from '../../common';
+import { QuickLinkListToolbar } from '../../common';
 import { HeroComponentProps, QuickLinkProps } from '../../types';
 
 const ToolbarComponent = (props: HeroComponentProps) => {
@@ -48,7 +48,7 @@ const ToolbarComponent = (props: HeroComponentProps) => {
 
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
-      <QuickLinkListComponent data={component_data} onChange={handleActionChange} />
+      <QuickLinkListToolbar data={component_data} onChange={handleActionChange} />
     </CardContainer>
   );
 };
