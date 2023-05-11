@@ -17,10 +17,7 @@ export function ComponentGallery({
   onSelectComponent: (componentId: string) => void;
 }) {
   return (
-    <ImageList>
-      <ImageListItem key="Subheader" cols={3}>
-        <ListSubheader component="div">Component Gallery</ListSubheader>
-      </ImageListItem>
+    <ImageList variant="masonry" cols={5} gap={8}>
       {components.map((item, index) => (
         <ImageListItem key={`component_${index}`}>
           <img

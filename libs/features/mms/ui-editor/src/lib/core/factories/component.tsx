@@ -1,8 +1,16 @@
 import { ComponentProps } from '../../context/types';
-import { CardComponent, HeroComponent, HeaderComponent, UnsupportedComponent, ButtonComponent } from '../components';
+import {
+  CardComponent,
+  HeroComponent,
+  HeaderComponent,
+  UnsupportedComponent,
+  ButtonComponent,
+  CarouselNewsComponent,
+} from '../components';
 import {
   ButtonComponentProps,
   CardComponentProps,
+  CarouselNewsComponentProps,
   HeaderComponentProps,
   HeroComponentProps,
 } from '../components/types';
@@ -17,6 +25,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeaderComponent {...(props as HeaderComponentProps)} />;
     case 'cButton':
       return <ButtonComponent {...(props as ButtonComponentProps)} />;
+    case 'cNewsCarousel':
+      return <CarouselNewsComponent {...(props as CarouselNewsComponentProps)} />;
 
     default:
       return <UnsupportedComponent {...props} />;

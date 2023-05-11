@@ -13,4 +13,7 @@ export { default as HeaderComponent } from './header/component';
 export { default as ButtonToolbar } from './button/toolbar';
 export { default as ButtonComponent } from './button/component';
 
+//export { default as ButtonToolbar } from './button/toolbar';
+export { default as CarouselNewsComponent } from './news/component';
+
 export * from './types';

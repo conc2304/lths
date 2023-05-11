@@ -9,7 +9,7 @@ const BasicContainer = ({ id, children, ...rest }: BoxProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: MOBILE_GUTTER,
+        margin: MOBILE_GUTTER,
       }}
       {...rest}
     >

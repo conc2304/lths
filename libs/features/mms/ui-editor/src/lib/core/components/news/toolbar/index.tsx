@@ -1,0 +1,35 @@
+import { ChangeEvent } from 'react';
+
+import { ButtonStyleLoopkups } from '../../../../common';
+import { useEditorActions } from '../../../../context';
+import { CardContainer, SegmentedButton, BasicTextField } from '../../../../elements';
+import { ButtonComponentProps } from '../../types';
+
+const ButtonToolbar = (props: ButtonComponentProps) => {
+  const {
+    __ui_id__: id,
+    default_data: { style, title },
+  } = props;
+
+  const { selectComponent } = useEditorActions();
+
+  const updateComponenetProp = (key: string, value: string | number | null) => {
+    const data = { ...props, default_data: { ...props.default_data, [key]: value } };
+    selectComponent(data);
+  };
+
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    updateComponenetProp('title', event.target.value);
+  };
+  const handleStyleChange = (style: string) => {
+    updateComponenetProp('style', style);
+  };
+
+  return (
+    <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
+      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={ButtonStyleLoopkups} value={style} />
+    </CardContainer>
+  );
+};
+export default ButtonToolbar;

@@ -6,3 +6,5 @@ export * from './buttons';
 export * from './labels';
 
 export * from './hooks';
+
+export * from './carousels';

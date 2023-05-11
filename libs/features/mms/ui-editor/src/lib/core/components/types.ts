@@ -41,3 +41,18 @@ export enum ButtonStyle {
 export type ButtonComponentProps = ComponentProps & {
   default_data: { title: string; style: ButtonStyle; action: ActionProps };
 };
+
+export type CardNewsProps = {
+  image: string;
+  tag: string;
+  title: string;
+  desc: string;
+  date: string;
+  action: ActionProps;
+};
+
+export type CarouselNewsComponentProps = ComponentProps & {
+  default_data: {
+    component_data: CardNewsProps[];
+  };
+};

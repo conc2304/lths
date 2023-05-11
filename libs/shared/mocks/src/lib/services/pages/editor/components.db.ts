@@ -20,37 +20,37 @@ const components: Component[] = [
   {
     component_id: 'cQuickLinkView',
     component_name: 'Quick Link View',
-    image_url: 'https://picsum.photos/seed/quicklinkview/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cQuickLinkView.png',
   },
   {
     component_id: 'cCardView',
     component_name: 'Card View',
-    image_url: 'https://picsum.photos/seed/cardview/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cCardView.png',
   },
   {
     component_id: 'cHeader',
     component_name: 'Header',
-    image_url: 'https://picsum.photos/seed/header/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cHeader.png',
   },
   {
     component_id: 'cEventVCarousel',
     component_name: 'Event Vertical Carousel',
-    image_url: 'https://picsum.photos/seed/eventvcarousel/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cEventVCarousel.png',
   },
   {
     component_id: 'cButton',
     component_name: 'Button',
-    image_url: 'https://picsum.photos/seed/button/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cButton.png',
   },
   {
     component_id: 'cNewsCarousel',
     component_name: 'News Carousel',
-    image_url: 'https://picsum.photos/seed/newscarousel/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cNewsCarousel.png',
   },
   {
     component_id: 'cPromotion',
     component_name: 'Promotion',
-    image_url: 'https://picsum.photos/seed/promotion/300/200',
+    image_url: 'https://files-dev-westus-lths-mms-2.azureedge.net/images/cPromotion.png',
   },
   {
     component_id: 'cScoreBoard',
@@ -251,7 +251,10 @@ const components: Component[] = [
 ];
 //generate notifications data
 for (let i = 0; i < components.length; i++) {
-  db.components.create(components[i]);
+  const component = components[i];
+  //if (!component.image_url?.startsWith('https://files-dev-westus-lths-mms-2.azureedge.net'))
+  //component.image_url = `https://files-dev-westus-lths-mms-2.azureedge.net/images/${component.component_id}.png`;
+  db.components.create(component);
 }
 
 export default db;

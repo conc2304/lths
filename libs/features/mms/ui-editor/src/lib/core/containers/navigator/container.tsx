@@ -50,10 +50,12 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
   const handleChange = () => setExpanded(!expanded);
 
   return (
-    <div>
+    <Box>
       <Accordion expanded={expanded} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography>Component Navigator</Typography>
+          <Typography fontSize={13} fontWeight={500} textTransform={'uppercase'}>
+            Component Navigator
+          </Typography>
         </AccordionSummary>
         {components && (
           <AccordionDetails>{components.map((component, i) => renderCard(component, i))}</AccordionDetails>
@@ -64,6 +66,6 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
           Add Component
         </Button>
       </Box>
-    </div>
+    </Box>
   );
 };
