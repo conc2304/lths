@@ -1,33 +1,46 @@
-import { subDays, subHours, subMonths } from 'date-fns';
+import {
+  getPrevFullDayRange,
+  getPrevFullHalfYearRange,
+  getPrevFullHourRange,
+  getPrevFullMonthRange,
+  getPrevFullQuarterRange,
+  getPrevFullWeekRange,
+  getPrevFullYearRange,
+} from '@lths/shared/utils';
+import { DateFilterOptions } from '@lths/types/ui-filters';
 
-export const now = new Date('December 17, 1995 03:24:00');
-export const ButtonGroupConf = [
+export const DateRangeFilterOptions: DateFilterOptions = [
   {
-    label: 'BANAN Hour',
-    value: subHours(now, 1),
+    label: '1 Hour',
+    dateRange: getPrevFullHourRange,
   },
   {
     label: '1 Day',
-    value: subDays(now, 1),
+    dateRange: getPrevFullDayRange,
   },
   {
     label: '7 Days',
-    value: subDays(now, 7),
+    dateRange: getPrevFullWeekRange,
+    isDefaultValue: true,
   },
   {
+    // Previous full Month
     label: '30 Days',
-    value: subDays(now, 30),
+    dateRange: getPrevFullMonthRange,
   },
   {
+    // Previous Quarter
     label: '3 Months',
-    value: subMonths(now, 3),
+    dateRange: getPrevFullQuarterRange,
   },
   {
+    // Previous full half year
     label: '6 Months',
-    value: subMonths(now, 6),
+    dateRange: getPrevFullHalfYearRange,
   },
   {
+    // Previous full year
     label: '12 Months',
-    value: subMonths(now, 12),
+    dateRange: getPrevFullYearRange,
   },
 ];
