@@ -26,10 +26,10 @@ export interface FilterFormProps {
   onClearFilters: () => void;
   onCancel: () => void;
   formState: FormState;
-  removeItem: RemoveItem;
-  addItem: AddItem;
-  addGroupItems: AddGroupItems;
-  clearGroup: ClearGroup;
+  onRemoveItem: RemoveItem;
+  onAddItem: AddItem;
+  onAddGroupItems: AddGroupItems;
+  onClearGroup: ClearGroup;
 }
 
 export const FilterForm = ({
@@ -42,10 +42,10 @@ export const FilterForm = ({
   onClearFilters,
   onCancel,
   formState,
-  removeItem,
-  addItem,
-  addGroupItems,
-  clearGroup,
+  onRemoveItem,
+  onAddItem,
+  onAddGroupItems,
+  onClearGroup,
   open,
 }: FilterFormProps) => {
   const theme = useTheme();
@@ -57,27 +57,27 @@ export const FilterForm = ({
   };
 
   const handleChipDelete: RemoveItem = async ({ parentID, itemID }) => {
-    const nextState = (await removeItem({ parentID, itemID })) as FilterFormState;
+    const nextState = (await onRemoveItem({ parentID, itemID })) as FilterFormState;
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleAddFormItem: AddItem = (value) => {
-    const nextState = addItem(value);
+    const nextState = onAddItem(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleAddGroupItems: AddGroupItems = (value) => {
-    const nextState = addGroupItems(value);
+    const nextState = onAddGroupItems(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleRemoveItem: RemoveItem = async (value) => {
-    const nextState = (await removeItem(value)) as FilterFormState;
+    const nextState = (await onRemoveItem(value)) as FilterFormState;
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleClearGroup: ClearGroup = (value) => {
-    const nextState = clearGroup(value);
+    const nextState = onClearGroup(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
@@ -106,7 +106,7 @@ export const FilterForm = ({
             onClearGroup={handleClearGroup}
           />
           <Box mt={7}>
-            <ChipContainer title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
+            <ChipContainer variant="modal" title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
           </Box>
         </DialogContent>
         <Divider variant="middle" sx={{ mt: 3 }} />

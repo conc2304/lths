@@ -1,4 +1,5 @@
 import Typography from '@mui/material/Typography';
+
 import { DashboardLayout } from '@lths/shared/ui-layouts';
 
 import { Profile } from '../../components/layouts';
