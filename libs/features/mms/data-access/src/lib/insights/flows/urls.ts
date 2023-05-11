@@ -17,6 +17,6 @@ export const getInsightOnboardingHistogramUrl = () => {
 export const getInsightOnboardingColoumnUrl = () => {
   return `/insights/flows/onboarding/coloumn`;
 };
-export const getInsightOnboardingFlowsUrl = () => {
+export const getInsightOnboardingPreviewUrl = () => {
   return `/insights/flows/onboarding/flows`;
 };

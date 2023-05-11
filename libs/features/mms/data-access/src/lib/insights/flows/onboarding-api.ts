@@ -7,7 +7,7 @@ import {
   getInsightOnboardingHistogramUrl,
   // ToDo(onboarding): Replace with coloumn and flow graph
   // getInsightOnboardingColoumnUrl,
-  // getInsightOnboardingFlowsUrl,
+  getInsightOnboardingPreviewUrl,
 } from './urls';
 import {
   InsightHistogramResponse,
@@ -15,6 +15,8 @@ import {
   InsightKpiResponse,
   InsightRequest,
   InsightResponse,
+  PagesPreviewResponse,
+  PagesRequest,
 } from '../types';
 
 export const insightOnboardingApi = api.enhanceEndpoints({ addTagTypes: ['insight-Onboarding'] }).injectEndpoints({
@@ -31,6 +33,12 @@ export const insightOnboardingApi = api.enhanceEndpoints({ addTagTypes: ['insigh
     getInsightOnboardingKpiColumnCard: builder.query<InsightKpiColumnCardResponse, InsightRequest>({
       query: () => ({
         url: getInsightOnboardingKpiColumnCardUrl(),
+        method: 'GET',
+      }),
+    }),
+    getInsightOnboardingPreview: builder.query<PagesPreviewResponse, PagesRequest>({
+      query: () => ({
+        url: getInsightOnboardingPreviewUrl(),
         method: 'GET',
       }),
     }),
@@ -55,5 +63,6 @@ export const {
   useLazyGetInsightOnboardingQuery,
   useLazyGetInsightOnboardingKpiQuery,
   useLazyGetInsightOnboardingKpiColumnCardQuery,
+  useLazyGetInsightOnboardingPreviewQuery,
   useLazyGetInsightOnboardingHistogramQuery,
 } = insightOnboardingApi;
