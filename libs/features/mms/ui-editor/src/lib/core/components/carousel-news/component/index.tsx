@@ -2,7 +2,7 @@ import { CardCarousel } from '../../../../elements';
 import { BasicContainer } from '../../../../elements/containers';
 import { CarouselNewsComponentProps } from '../../types';
 
-const NewsComponent = (props: CarouselNewsComponentProps) => {
+const CarouselNewsComponent = (props: CarouselNewsComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { component_data },
@@ -14,4 +14,4 @@ const NewsComponent = (props: CarouselNewsComponentProps) => {
   );
 };
 
-export default NewsComponent;
+export default CarouselNewsComponent;
