@@ -1,10 +1,7 @@
 import React from 'react';
 import {
-  Checkbox,
-  FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -16,7 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { LoginRequest } from '@lths/shared/data-access';
 import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
@@ -57,7 +54,7 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
   return (
     <CenterCard>
       <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
-        Mobile Management System Reset Password
+        Reset Password
       </Typography>
 
       <Formik
@@ -71,34 +68,13 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
-                  <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Enter username address"
-                    fullWidth
-                    error={Boolean(touched.email && errors.email)}
-                  />
-                  {touched.email && errors.email && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errors.email}
-                    </FormHelperText>
-                  )}
-                </Stack>
-              </Grid>
-              <Grid item xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor="password-login">Password</InputLabel>
+                  <InputLabel htmlFor="password-confirm-reset-password">New Password</InputLabel>
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="-password-reset-password"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"
@@ -120,30 +96,45 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
                     }
                   />
                   {touched.password && errors.password && (
-                    <FormHelperText error id="standard-weight-helper-text-password-login">
+                    <FormHelperText error id="standard-weight-helper-text-password-reset-password">
                       {errors.password}
                     </FormHelperText>
                   )}
                 </Stack>
               </Grid>
 
-              <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        // checked={checked}
-                        // onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                      />
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="password-confirm-reset-password">New Password Confirmation</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    error={Boolean(touched.password && errors.password)}
+                    id="-password-confirm-reset-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    name="password"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="Enter password"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={onShowPasswordClick}
+                          onMouseDown={onMouseDownPassword}
+                          edge="end"
+                          size="large"
+                        >
+                          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        </IconButton>
+                      </InputAdornment>
                     }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
                   />
-                  <Link variant="h6" component={RouterLink} to="" color="text.primary">
-                    Forgot Password?
-                  </Link>
+                  {touched.password && errors.password && (
+                    <FormHelperText error id="standard-weight-helper-text-password-confirm-reset-password">
+                      {errors.password}
+                    </FormHelperText>
+                  )}
                 </Stack>
               </Grid>
 
@@ -157,7 +148,7 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
                   variant="contained"
                   color="primary"
                 >
-                  Login
+                  Change Password
                 </LoadingButton>
               </Grid>
               <Grid item xs={12}></Grid>
