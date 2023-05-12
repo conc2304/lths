@@ -56,3 +56,22 @@ export type CarouselNewsComponentProps = ComponentProps & {
     component_data: CardNewsProps[];
   };
 };
+
+export type ScoreBoardComponentProps = ComponentProps & {
+  default_data: {
+    date_info: string;
+    match_name: string;
+    hint: string;
+    left: ScoreBoardTeamProps;
+    right: ScoreBoardTeamProps;
+  };
+};
+
+export type ScoreBoardTeamProps = ComponentProps & {
+  logo: string;
+  name: string;
+  info: string;
+  point: string;
+  btn_title: string;
+  action: ActionProps;
+};

@@ -6,6 +6,7 @@ import {
   UnsupportedComponent,
   ButtonComponent,
   CarouselNewsComponent,
+  ScoreBoardComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -13,6 +14,7 @@ import {
   CarouselNewsComponentProps,
   HeaderComponentProps,
   HeroComponentProps,
+  ScoreBoardComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -27,6 +29,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <ButtonComponent {...(props as ButtonComponentProps)} />;
     case 'cNewsCarousel':
       return <CarouselNewsComponent {...(props as CarouselNewsComponentProps)} />;
+    case 'cScoreBoard':
+      return <ScoreBoardComponent {...(props as ScoreBoardComponentProps)} />;
 
     default:
       return <UnsupportedComponent {...props} />;

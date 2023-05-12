@@ -1,5 +1,5 @@
 export async function getDefaultData(id: string) {
-  if (['cCardView', 'cQuickLinkView', 'cHeader', 'cButton', 'cNewsCarousel'].includes(id)) {
+  if (['cCardView', 'cQuickLinkView', 'cHeader', 'cButton', 'cNewsCarousel', 'cScoreBoard'].includes(id)) {
     const payload = await import(`./stubs/components/${id}`);
     return { ...payload.default };
   }

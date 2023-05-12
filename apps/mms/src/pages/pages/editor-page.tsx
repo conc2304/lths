@@ -7,7 +7,6 @@ import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
-import { ConnectedComponentModal } from '../../components/pages/editor/component-modal';
 import { ConnectedComponentModalFull } from '../../components/pages/editor/component-modal-full2';
 /* eslint-disable-next-line */
 export interface PageEditorTabsProps {}

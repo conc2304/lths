@@ -11,6 +11,8 @@ import {
   ButtonComponentProps,
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
+  ScoreBoardComponentProps,
+  ScoreBoardToolbar,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -27,6 +29,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ButtonToolbar {...(props as ButtonComponentProps)} />;
     case 'cNewsCarousel':
       return <CarouselNewsToolbar {...(props as CarouselNewsComponentProps)} />;
+    case 'cScoreBoard':
+      return <ScoreBoardToolbar {...(props as ScoreBoardComponentProps)} />;
     default:
       return <UnsupportedToolbar {...props} />;
     // return <div>Unsupported component type: ${props.component_id}</div>;
