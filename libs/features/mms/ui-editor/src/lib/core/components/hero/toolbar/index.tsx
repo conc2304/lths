@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import { BasicTextField, CardContainer } from '../../../../elements';
@@ -48,7 +48,9 @@ const ToolbarComponent = (props: HeroComponentProps) => {
 
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
-      <QuickLinkListToolbar data={component_data} onChange={handleActionChange} />
+      <Box sx={{ gap: 0 }}>
+        <QuickLinkListToolbar data={component_data} onChange={handleActionChange} />
+      </Box>
     </CardContainer>
   );
 };

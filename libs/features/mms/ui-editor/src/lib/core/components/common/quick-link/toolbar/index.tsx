@@ -9,7 +9,7 @@ type Props = QuickLinkProps & {
 
 const QuickLinkToolbar = ({ icon, title, onChange }: Props) => {
   return (
-    <BasicContainer marginBottom={2}>
+    <BasicContainer marginBottom={2} sx={{ margin: 0 }}>
       <BasicTextField label={'Title'} value={title} onChange={(e) => onChange(e, 'title')} />
       <BasicTextField label={'Icon URL'} value={icon} onChange={(e) => onChange(e, 'icon')} />
     </BasicContainer>

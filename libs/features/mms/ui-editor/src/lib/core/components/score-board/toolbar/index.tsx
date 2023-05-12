@@ -91,23 +91,24 @@ const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
       <BasicTextField label={'Header'} value={date_info} onChange={handleHeaderChange} />
       <BasicTextField label={'Game State'} value={match_name} onChange={handleGameStateChange} />
       <BasicTextField label={'Game Info'} value={hint} onChange={handleGameInfoChange} />
-
-      <Accordion>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Team Left</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ScoreBoardTeam {...left} onChange={handleLeftChange} />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Team Right</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ScoreBoardTeam {...right} onChange={handleRightChange} />
-        </AccordionDetails>
-      </Accordion>
+      <Box sx={{ gap: 0 }}>
+        <Accordion>
+          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+            <Typography>Team Left</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ScoreBoardTeam {...left} onChange={handleLeftChange} />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+            <Typography>Team Right</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <ScoreBoardTeam {...right} onChange={handleRightChange} />
+          </AccordionDetails>
+        </Accordion>
+      </Box>
       <Accordion>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography>Footer Buttons</Typography>
