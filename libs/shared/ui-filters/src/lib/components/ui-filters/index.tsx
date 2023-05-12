@@ -1,98 +1,179 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { FilterAltOutlined } from '@mui/icons-material';
-import { ChipContainer, ConnectedFilterForm, DateRangeSelector } from '@lths/shared/ui-elements';
 
-import { FormSchema, FormState, useFilterFormState } from '../../context';
-import { getInitialFormState } from '../utils';
-import { DateFilterOption, DateRange } from 'libs/shared/ui-elements/src/lib/inputs/date-range-selector/types';
+import { ChipContainer, DateRangeSelector, FilterForm } from '@lths/shared/ui-elements';
+import {
+  AddGroupItems,
+  AddItem,
+  ClearForm,
+  ClearGroup,
+  DateFilterOptions,
+  DateRange,
+  FilterFormState,
+  FormSchema,
+  FormState,
+  RemoveItem,
+  SelectedUiFilters,
+  SetDateRange,
+  SetFormState,
+} from '@lths/types/ui-filters';
 
-interface UiFiltersProps {
+import { getInitialDateRange, getInitialFormState } from '../../utils/index';
+
+export interface UiFilterProps {
+  onApplyFilters: (appliedFilters: SelectedUiFilters) => void;
+  onChange?: (appliedFilters: SelectedUiFilters) => void;
+  // Dates
+  dateOptions: DateFilterOptions;
+  dateRangeValue: DateRange;
+  setDateRange: SetDateRange;
+  // Filters
   formSchema: FormSchema[];
-  handleApplyFilter: (appliedFilters: FormState) => void;
-  dateOptions: DateFilterOption;
+  formState: FormState;
+  setFormState: SetFormState;
+  removeItem: RemoveItem;
+  addItem: AddItem;
+  addGroupItems: AddGroupItems;
+  clearGroup: ClearGroup;
+  clearForm: ClearForm;
 }
 
-export const UiFilters = (props: UiFiltersProps): JSX.Element => {
-  const { formSchema, handleApplyFilter, dateOptions } = props;
-  const { setModalIsOpen, modalIsOpen, setFormState, clearForm, formState, removeItem } = useFilterFormState();
+export const UiFilters = (props: UiFilterProps): JSX.Element => {
+  const {
+    onApplyFilters,
+    onChange,
+    // Dates
+    dateOptions,
+    setDateRange,
+    dateRangeValue: dateRangeState,
+    // Filters
+    formSchema,
+    formState,
+    setFormState,
+    removeItem,
+    addItem,
+    addGroupItems,
+    clearGroup,
+    clearForm,
+  } = props;
+
   const initialFormState = useRef(getInitialFormState(formSchema));
+  const initialDateRange = useRef(getInitialDateRange(dateOptions));
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    setFormState && setFormState(initialFormState.current);
+    if (formState) setFormState({ formState: initialFormState.current });
   }, [formSchema]);
 
-  const handleClearFilters = () => {
-    clearForm && clearForm();
-  };
+  useEffect(() => {
+    if (initialDateRange.current) {
+      const { dateRange } = initialDateRange.current;
+      const dateTimeRange = typeof dateRange === 'function' ? dateRange() : dateRange;
+      if (setDateRange) setDateRange({ dateRange: dateTimeRange });
+    }
+  }, [dateOptions]);
 
-  const handleRemoveItem = (parentID: string, itemID: string) => {
-    !!removeItem && removeItem(parentID, itemID);
-  };
-
-  const handleFilterApply = () => {
+  //
+  const handleUpdateFilters = (formState: FormState) => {
+    const { start_date, end_date } = dateRangeState;
+    if (!start_date || !end_date) return;
     initialFormState.current = formState;
-    handleApplyFilter(formState);
+    onApplyFilters({ filters: formState, dateRange: { start_date, end_date } });
   };
 
-  const handleSetModal = (isOpen: boolean) => {
-    setModalIsOpen && setModalIsOpen(isOpen);
+  const handleFilterApply = (nextState?: FilterFormState) => {
+    const _formState = nextState ? nextState.formState : formState;
+    const _dateRange = nextState ? nextState.dateRange : dateRangeState;
+
+    const { start_date, end_date } = _dateRange;
+    if (!start_date || !end_date) return;
+    initialFormState.current = _formState;
+    onApplyFilters({
+      dateRange: { start_date: new Date(start_date?.toString()), end_date: new Date(end_date) },
+      filters: _formState,
+    });
   };
 
+  // Modal Methods
+  const handleClearFilters = async () => {
+    clearForm();
+  };
   const handleCancel = () => {
-    setFormState && setFormState(initialFormState.current);
-    setModalIsOpen && setModalIsOpen(false);
+    setFormState({ formState: initialFormState.current });
+    setModalIsOpen(false);
   };
 
-  const handleRemoveInlineFilter = (parentID: string, itemID: string) => {
-    !!removeItem && removeItem(parentID, itemID);
-    handleFilterApply();
+  // Chip Container Methods
+  const handleRemoveFilterChip = async ({ parentID, itemID }: { parentID: string; itemID: string }) => {
+    const nextState = (await removeItem({ parentID, itemID })) as FilterFormState;
+    handleFilterApply(nextState);
+  };
+  const handleClearFilterChips = async () => {
+    const nextState = (await clearForm()) as FilterFormState;
+    handleFilterApply(nextState);
   };
 
-  const handleClearInLineFilters = () => {
-    handleClearFilters();
-    handleApplyFilter(formState);
+  // Date Range Methods
+  const handleOnDateChange = (dateRange: DateRange) => {
+    setDateRange({ dateRange });
   };
 
-  const handleUpdateDateRange = ({ start, end }: DateRange) => {};
+  const handleUpdateTimePeriod = ({ start_date, end_date }: DateRange) => {
+    onApplyFilters({
+      dateRange: { start_date, end_date },
+      filters: formState,
+    });
+  };
 
   return (
     <Box sx={{ flex: 1 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <DateRangeSelector
           dateOptions={dateOptions}
-          onUpdateRange={handleUpdateDateRange}
-          onChange={({ start, end }) => {
-            handleFilterApply();
-          }}
+          onUpdateTimePeriod={handleUpdateTimePeriod}
+          onChange={handleOnDateChange}
+          value={dateRangeState}
+          minDate={new Date('1/1/2020')} // as per design requirements
+          maxEndDate={new Date()}
         />
         <Button
           variant="outlined"
-          onClick={() => handleSetModal(true)}
+          onClick={() => setModalIsOpen(true)}
           endIcon={<FilterAltOutlined />}
           sx={{ fontSize: '0.688rem', letterSpacing: '0.15px', minWidth: '3.125rem', height: '2.188rem' }}
         >
           FILTER
         </Button>
       </Box>
-      <ConnectedFilterForm
+      <FilterForm
         title="Apply Filters"
         open={modalIsOpen}
         filterSchema={formSchema}
-        handleClose={() => handleSetModal(false)}
-        handleApplyFilters={handleFilterApply}
-        handleClearFilters={handleClearFilters}
-        handleCancel={handleCancel}
         formState={formState}
-        removeItem={handleRemoveItem}
+        onClose={() => {
+          setModalIsOpen(false);
+        }}
+        onApplyFilters={handleUpdateFilters}
+        onClearFilters={handleClearFilters}
+        onCancel={handleCancel}
+        onChange={(formState: FormState) => {
+          onChange && onChange({ filters: formState, dateRange: dateRangeState });
+        }}
+        onAddItem={addItem}
+        onRemoveItem={removeItem}
+        onAddGroupItems={addGroupItems}
+        onClearGroup={clearGroup}
       />
+
       <ChipContainer
         title="Filters Applied"
         selectedFilters={formState}
-        onDelete={handleRemoveInlineFilter}
+        onDelete={handleRemoveFilterChip}
         variant="inline"
-        onClearAll={handleClearInLineFilters}
-        openModal={() => handleSetModal(true)}
+        onClearAll={handleClearFilterChips}
+        openModal={() => setModalIsOpen(true)}
       />
     </Box>
   );

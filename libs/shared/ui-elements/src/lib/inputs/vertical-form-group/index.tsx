@@ -1,9 +1,17 @@
-import { FormGroup, Typography, styled } from '@mui/material';
-import { FormSchema } from '@lths/shared/ui-filters';
-import { ConnectedFormChildren } from 'libs/shared/ui-elements/src/lib/inputs/vertical-form-group/form-children-connected';
+import { Box, FormGroup, Typography, styled } from '@mui/material';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
+
+import { InfoTooltip } from '../../data-display';
+import { FormChildren } from '../form-children';
 
 type VerticalFormGroupProps = {
   formSchema: FormSchema;
+  formState: FormState;
+  onAddItem: AddItem;
+  onRemoveItem: RemoveItem;
+  onClearGroup: ClearGroup;
+  onAddGroupItems: AddGroupItems;
 };
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -24,7 +32,7 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
-  const { formSchema } = props;
+  const { formSchema, onAddItem, onRemoveItem, onClearGroup, onAddGroupItems, formState } = props;
   const { title, subtitle, info, data, id: groupID } = formSchema;
 
   const isNewFormGroup = null && data && data.length > 1;
@@ -33,16 +41,33 @@ export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
   return (
     <div className="VerticalFormGroup-root">
       <div className="VerticalFormGroup--title">
-        <Title variant="h4">{title || ''}</Title>
-
-        {/* TODO - INFO popover to go here once its available */}
-        {/*  {info?.description && <InfoPopUp description={info.description} url={info.url} />} */}
+        <Box display="flex" alignItems={'center'} justifyContent={'start'}>
+          <Title variant="h4">{title || ''}</Title>
+          {info?.description && (
+            <Box display={'flex'} alignItems={'start'}>
+              <InfoTooltip
+                description={info.description}
+                title={title || ''}
+                action={{ url: info.url, title: 'Learn More' }}
+              />
+            </Box>
+          )}
+        </Box>
 
         {subtitle && <Subtitle>{subtitle}</Subtitle>}
       </div>
       {formGroupData && (
         <FormGroup sx={{ my: 2 }}>
-          <ConnectedFormChildren formSchema={formGroupData} groupTitle={title as string} groupID={groupID as string} />
+          <FormChildren
+            formState={formState}
+            formSchema={formGroupData}
+            groupTitle={title as string}
+            groupID={groupID as string}
+            onAddItem={onAddItem}
+            onRemoveItem={onRemoveItem}
+            onClearGroup={onClearGroup}
+            onAddGroupItems={onAddGroupItems}
+          />
         </FormGroup>
       )}
     </div>

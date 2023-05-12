@@ -1,20 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { userApi } from './user-api';
-import { UserResponse } from './types';
+import { User } from './types';
 
-const initialState = { user: <UserResponse>{} };
+const initialState = { user: <User>{} };
 const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addMatcher(
-      userApi.endpoints.getUser.matchFulfilled,
-      (state, { payload }) => {
-        state.user = payload;
-      }
-    );
+    builder.addMatcher(userApi.endpoints.getUser.matchFulfilled, (state, { payload }) => {
+      state.user = payload.data;
+    });
   },
 });
 

@@ -6,12 +6,11 @@ type Props = {
   data: InsightHistogramResponse;
 };
 const CardItem = ({ data }: { data: Histogram }) => {
-  const { title, subtitle, info, data: metrics } = data;
+  const { title, subtitle, info, data: metrics, options } = data;
   const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
   return (
-    <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1, paddingBottom: '20px' }}>
-      {/* <LineChart data={metrics} eventOptions={eventsOption.events} /> */}
-      <LineChart data={metrics} />
+    <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1 }}>
+      <LineChart data={metrics} options={options} />
     </BasicCard>
   );
 };

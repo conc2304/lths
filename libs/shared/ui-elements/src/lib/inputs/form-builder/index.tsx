@@ -1,15 +1,21 @@
 import { Grid } from '@mui/material';
-import { FormSchema } from '@lths/shared/ui-filters';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
 
 import { formatWithSeq, groupItemsBySeq, sortBySeq } from '../filter-form/utils';
 import { VerticalFormGroup } from '../vertical-form-group';
 
 type FormProps = {
   formSchema: FormSchema[];
+  formState: FormState;
+  onAddItem: AddItem;
+  onRemoveItem: RemoveItem;
+  onClearGroup: ClearGroup;
+  onAddGroupItems: AddGroupItems;
 };
 
 export const Form = (props: FormProps) => {
-  const { formSchema = [] } = props;
+  const { formSchema = [], formState = {}, onAddItem, onRemoveItem, onClearGroup, onAddGroupItems } = props;
 
   const formattedData = formatWithSeq([...formSchema]);
   const sortedData = sortBySeq([...formattedData]);
@@ -32,7 +38,7 @@ export const Form = (props: FormProps) => {
 
           return (
             // columns
-            <Grid item key={`${colPos}--colItem`} className="FormColumn--root">
+            <Grid item key={`${colPos}--colItem`} className="FormColumn--root" data-testid="form-column">
               <Grid
                 container
                 direction="column"
@@ -43,8 +49,20 @@ export const Form = (props: FormProps) => {
                 {columnData.map((formGroupSchema) => {
                   // rows
                   return (
-                    <Grid item key={`${formGroupSchema.id}--rowItem`} className="FormRow--root">
-                      <VerticalFormGroup formSchema={formGroupSchema} />
+                    <Grid
+                      item
+                      key={`${formGroupSchema.id}--rowItem`}
+                      className="FormRow--root"
+                      data-testid="vertical-form-group"
+                    >
+                      <VerticalFormGroup
+                        formSchema={formGroupSchema}
+                        formState={formState}
+                        onAddItem={onAddItem}
+                        onRemoveItem={onRemoveItem}
+                        onClearGroup={onClearGroup}
+                        onAddGroupItems={onAddGroupItems}
+                      />
                     </Grid>
                   );
                 })}

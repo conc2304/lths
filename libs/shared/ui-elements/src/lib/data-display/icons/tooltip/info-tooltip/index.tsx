@@ -62,15 +62,10 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
   const infoIconColor = theme.palette.grey[500];
 
   return (
-    <div
-      style={{ float: 'right', margin: theme.spacing(0.8) }}
-      onMouseEnter={onPopoverOpen}
-      onMouseLeave={onPopperClose}
-      data-testid="InfoTooltipOnHover"
-    >
-      <Typography aria-owns={open ? 'mouse-over-popover' : undefined} aria-haspopup="true">
+    <div onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose} data-testid="InfoTooltipOnHover">
+      <Box aria-owns={open ? 'mouse-over-popover' : undefined} aria-haspopup="true" height={theme.spacing(2.55)}>
         <InfoOutlined sx={{ color: infoIconColor, fontSize: theme.spacing(2.55) }} />
-      </Typography>
+      </Box>
       <Popover
         id={'mouse-over-popover'}
         data-testid="TooltipPopover"
