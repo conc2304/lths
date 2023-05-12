@@ -14,7 +14,7 @@ export const GridContainer = ({ onAddComponentClick }: NavigatorProps) => {
         <Navigator onAddComponentClick={onAddComponentClick} />
       </Grid>
 
-      <Grid item xs={6} sx={{ backgroundColor: colors.editor.background, overflowY: 'scroll' }}>
+      <Grid item xs={6} sx={{ backgroundColor: colors.editor.background }}>
         <Stack justifyContent={'center'} flexDirection={'row'} flex={1} marginTop={5}>
           <Wysiwig />
         </Stack>

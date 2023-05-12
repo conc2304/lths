@@ -19,7 +19,7 @@ const HeroContainer = ({ id, width, height, image, children, disableGutter = fal
         id={id}
         sx={{
           backgroundImage: `url(${image})`,
-          backgroundSize: 'contain',
+          backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           height: 0,
           position: 'relative',
