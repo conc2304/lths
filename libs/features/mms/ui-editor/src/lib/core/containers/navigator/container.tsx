@@ -9,12 +9,13 @@ import AccordionDetails from './accordion/details';
 import { Card } from './dragable-list-item';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
+import { areEqual } from '../../utils';
 
 export type NavigatorProps = {
   onAddComponentClick: () => void;
 };
 export const Container = ({ onAddComponentClick }: NavigatorProps) => {
-  const { components, orderComponent, selectComponent } = useEditorActions();
+  const { components, orderComponent, selectComponent, duplicateComponent, removeComponent } = useEditorActions();
 
   const handleDrag = useCallback((dragIndex: number, hoverIndex: number) => {
     orderComponent(dragIndex, hoverIndex);
@@ -32,6 +33,17 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
     const component = components.find((o) => o.__ui_id__ === id);
     if (component) selectComponent(component);
   };
+  const handleMenuClick = (index: number, id: string, action: string) => {
+    console.log(
+      '🚀 ~ file: container.tsx:43 ~ handleMenuClick ~ handleMenuClick:',
+      index,
+      new Date().getMilliseconds()
+    );
+    if (areEqual(action, 'delete')) removeComponent(id);
+    else if (areEqual(action, 'duplicate')) {
+      duplicateComponent(id);
+    }
+  };
   const renderCard = useCallback((component: ComponentProps, index: number) => {
     return (
       <Card
@@ -39,8 +51,9 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
         id={component.__ui_id__}
         index={index}
         onDrag={handleDrag}
-        //there is a bug, scroll needs to appear for the editor only
+        //TODO: there is a bug, scroll needs to appear for the editor only
         // onClick={handleClick}
+        onMenuClick={handleMenuClick}
         text={component.component_name || component.component_id}
       ></Card>
     );

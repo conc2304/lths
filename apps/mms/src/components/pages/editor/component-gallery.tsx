@@ -17,23 +17,26 @@ export function ComponentGallery({
   onSelectComponent: (componentId: string) => void;
 }) {
   return (
-    <ImageList variant="masonry" cols={5} gap={8}>
-      {components.map((item, index) => (
-        <ImageListItem key={`component_${index}`}>
+    <ImageList variant="masonry" cols={5} gap={35}>
+      {components.map(({ image_url, title, component_name, component_id }, index) => (
+        <ImageListItem key={`component_${index}`} onClick={() => onSelectComponent(component_id)}>
           <img
-            src={`${item.image_url}?w=248&fit=crop&auto=format`}
-            srcSet={`${item.image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={item.title}
+            src={`${image_url}?w=248&fit=crop&auto=format`}
+            srcSet={`${image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt={title}
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.component_name}
-            subtitle={item.component_id}
+            title={component_name}
+            subtitle={component_id}
+            sx={{
+              fontWeight: 600,
+            }}
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${item.component_name}`}
-                onClick={() => onSelectComponent(item.component_id)}
+                aria-label={`info about ${component_name}`}
+                onClick={() => onSelectComponent(component_id)}
               >
                 <AddCircle />
               </IconButton>

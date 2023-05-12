@@ -57,6 +57,21 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       //preserve the order of the components
       return { ...state, components };
     }
+    case EditorActionType.DUPLICATE_COMPONENT: {
+      const { id } = action;
+      const index = state.components.findIndex((o) => o.__ui_id__ === id);
+      console.log('🚀 ~ file: reducer.ts:63 ~ reducer ~ index:', index, id);
+
+      if (index !== -1) {
+        const duplicate = { ...fillUuid(state.components[index]) };
+        return {
+          ...state,
+          components: [...state.components.slice(0, index), duplicate, ...state.components.slice(index)],
+        };
+      }
+
+      return state;
+    }
 
     default: {
       return initialState;

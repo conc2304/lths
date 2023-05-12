@@ -6,6 +6,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { EditableListItemText } from './editable-list-item';
 import { DragCardProps, DragItemProps, ItemTypes } from './types';
 import { Colors } from '../../../common';
+import { OverflowMenu } from '../../../elements';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 
@@ -16,7 +17,7 @@ const style = {
   //cursor: 'move',
 };
 
-export const Card = ({ id, text, index, onDrag, onClick }: DragCardProps) => {
+export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -94,12 +95,13 @@ export const Card = ({ id, text, index, onDrag, onClick }: DragCardProps) => {
   const handleClick = () => {
     onClick && onClick(index, id);
   };
+  const menuOptions = ['delete', 'duplicate'];
   return (
     <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
       <ListItem onClick={handleClick}>
         <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
         <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
-          <MoreIcon />
+          <OverflowMenu items={menuOptions} onClick={(action) => onMenuClick(index, id, action)} />
         </ListItemIcon>
       </ListItem>
     </Box>

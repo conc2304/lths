@@ -11,6 +11,7 @@ export type DragCardProps = {
   index: number;
   onDrag: (dragIndex: number, hoverIndex: number) => void;
   onClick?: (index: number, id: string) => void;
+  onMenuClick?: (index: number, id: string, action: string) => void;
 };
 
 export type DragItemProps = {

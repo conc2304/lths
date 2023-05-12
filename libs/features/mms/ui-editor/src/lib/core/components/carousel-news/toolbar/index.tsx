@@ -1,47 +1,12 @@
 import { useState } from 'react';
 import { ChangeEvent, SyntheticEvent } from 'react';
 import { Button } from '@mui/material';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { useEditorActions } from '../../../../context';
-import { CardContainer, BasicTextField } from '../../../../elements';
+import { CardContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
 import { CarouselNewsComponentProps } from '../../types';
-
-const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
-  ({ theme }) => ({
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 0,
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-    },
-  })
-);
-
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />} {...props} />
-))(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, .05)' : 'rgba(0, 0, 0, .03)',
-  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(90deg)',
-  },
-  '& .MuiAccordionSummary-content': {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  //padding: theme.spacing(2),
-  borderTop: '1px solid rgba(0, 0, 0, .125)',
-}));
 
 const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
   const {
@@ -51,22 +16,25 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
 
   const { selectComponent } = useEditorActions();
 
-  const updateComponenetProp = (key: string, value: string | number | null) => {
-    const data = { ...props, default_data: { ...props.default_data, [key]: value } };
+  const updateComponenetProp = (index: number, key: string, value: string | number | null) => {
+    const data = {
+      ...props,
+      default_data: { component_data: component_data.map((o, i) => (i === index ? { ...o, [key]: value } : o)) },
+    };
     selectComponent(data);
   };
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('title', event.target.value);
+  const handleTitleChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponenetProp(index, 'title', event.target.value);
   };
-  const handleTagChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('tag', event.target.value);
+  const handleTagChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponenetProp(index, 'tag', event.target.value);
   };
-  const handleDescChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('desc', event.target.value);
+  const handleDescChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponenetProp(index, 'desc', event.target.value);
   };
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('image', event.target.value);
+  const handleImageChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponenetProp(index, 'image', event.target.value);
   };
   const [expanded, setExpanded] = useState<string | false>('panel1');
 
@@ -91,12 +59,18 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
                 <BasicTextField
                   label={'Tag'}
                   value={tag}
-                  onChange={handleTagChange}
+                  onChange={(e) => handleTagChange(index, e)}
                   sx={{ textTransform: 'uppercase' }}
                 />
-                <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-                <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} multiline rows={3} />
-                <BasicTextField label={'Image'} value={image} onChange={handleImageChange} />
+                <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(index, e)} />
+                <BasicTextField
+                  label={'Description'}
+                  value={desc}
+                  onChange={(e) => handleDescChange(index, e)}
+                  multiline
+                  rows={3}
+                />
+                <BasicTextField label={'Image'} value={image} onChange={(e) => handleImageChange(index, e)} />
               </Box>
             </AccordionDetails>
           </Accordion>

@@ -41,6 +41,7 @@ export enum EditorActionType {
   REMOVE_COMPONENT = 'REMOVE_COMPONENT',
   UPDATE_COMPONENT = 'UPDATE_COMPONENT',
   ORDER_COMPONENT = 'ORDER_COMPONENT',
+  DUPLICATE_COMPONENT = 'DUPLICATE_COMPONENT',
 }
 
 export const initialState: EditorProps = {
@@ -56,4 +57,5 @@ export type EditorActionProps =
   | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps[] }
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
+  | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }
   | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };

@@ -18,6 +18,10 @@ getImageDimensions(imageUrl)
   .catch((error) => {
     console.error(error);
   });
+
+export const areEqual = (str1: string, str2: string) =>
+  str1 && str2 ? str1.toLowerCase() === str2.toLowerCase() : str1 === str2;
+
 /*
    img.src = 'path/to/image.jpg';
   const img = new Image();

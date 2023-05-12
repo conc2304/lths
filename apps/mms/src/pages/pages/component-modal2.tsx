@@ -51,7 +51,7 @@ export const ConnectedComponentModal = ({ open, onClose }: { open: boolean; onCl
 };
 export const ComponentModal = ({ open, onClose, components = [], onSelectComponent }: ConnectedComponentModalProps) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="md">
       <DialogContent>
         <ComponentGallery components={components} onSelectComponent={onSelectComponent} />
       </DialogContent>

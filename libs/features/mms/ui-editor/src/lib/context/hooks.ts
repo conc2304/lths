@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Dispatch, useMemo } from 'react';
 
 import {
   initEditor,
@@ -9,8 +9,10 @@ import {
   removeComponent,
   orderComponent,
   clearSelectedComponent,
+  duplicateComponent,
 } from './actions';
 import { useEditor } from './context';
+import { EditorActionProps } from './types';
 /*
 * useLayoutActions is a custom React Hook that returns an object containing functions to update the layout state. 
 * These functions use the useLayoutContext hook internally to access the layout context and dispatch actions to 
@@ -34,6 +36,7 @@ export const useEditorActions = () => {
     addComponent: useMemo(() => addComponent(dispatch), [dispatch]),
     updateComponent: useMemo(() => updateComponent(dispatch), [dispatch]),
     removeComponent: useMemo(() => removeComponent(dispatch), [dispatch]),
+    duplicateComponent: useMemo(() => duplicateComponent(dispatch), [dispatch]),
     orderComponent: useMemo(() => orderComponent(dispatch), [dispatch]),
     ...state,
   };
