@@ -28,9 +28,7 @@ const ScoreBoardTeam = ({ logo, name, info, point, btn_title, action, onChange }
   const handleScoreChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange('point', event.target.value);
   };
-  const handleButtonTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange('btn_title', event.target.value);
-  };
+
   return (
     <Box
       sx={{
@@ -44,7 +42,6 @@ const ScoreBoardTeam = ({ logo, name, info, point, btn_title, action, onChange }
 
       <BasicTextField label={'Points'} value={point} onChange={handleScoreChange} />
       <BasicTextField label={'Info'} value={info} onChange={handleInfoChange} />
-      <BasicTextField label={'Button Title'} value={btn_title} onChange={handleButtonTitleChange} />
     </Box>
   );
 };
