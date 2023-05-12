@@ -31,6 +31,16 @@ const section = {
           icon: <DraftsIcon />,
           path: '/login',
         },
+        {
+          title: 'Forgot Password',
+          icon: <DraftsIcon />,
+          path: '/forgot-password',
+        },
+        {
+          title: 'Reset Password',
+          icon: <DraftsIcon />,
+          path: '/reset-password',
+        },
       ],
     },
   ],
