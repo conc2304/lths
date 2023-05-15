@@ -23,7 +23,7 @@ type Props = {
 
 export const DateRangeSelector = ({
   dateOptions,
-  onUpdateTimePeriod: handleUpdateTimePeriod,
+  onUpdateTimePeriod,
   value,
   minDate,
   maxEndDate,
@@ -60,7 +60,7 @@ export const DateRangeSelector = ({
     setPickerKey(Math.floor(Math.random() * 20));
   };
 
-  const onOptionSelected = (event: MouseEvent<HTMLElement>, selectedValue: string) => {
+  const handleOptionSelected = (event: MouseEvent<HTMLElement>, selectedValue: string) => {
     const updatedDateTime = new Date();
     setCurrentDateTime(updatedDateTime);
     setDateOptionGroupValue(selectedValue);
@@ -70,7 +70,7 @@ export const DateRangeSelector = ({
     setNewPickerKey();
   };
 
-  const onDatePickerAccepted = (inputVal: Date | null, range: 'start' | 'end') => {
+  const handleDatePickerAccepted = (inputVal: Date | null, range: 'start' | 'end') => {
     setDateOptionGroupValue(null);
     let start = start_date;
     let end = end_date;
@@ -112,7 +112,7 @@ export const DateRangeSelector = ({
 
   const handleUpdateRange = () => {
     const { start_date, end_date } = value;
-    if (start_date && end_date) handleUpdateTimePeriod({ start_date, end_date });
+    if (start_date && end_date) onUpdateTimePeriod({ start_date, end_date });
   };
 
   return (
@@ -124,7 +124,7 @@ export const DateRangeSelector = ({
           <Grid md="auto" xs={12} sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}>
             <ToggleButtonGroup
               value={dateOptionGroupValue}
-              onChange={onOptionSelected}
+              onChange={handleOptionSelected}
               exclusive
               aria-label="Predifinded Date Range Fiter"
               sx={{
@@ -187,7 +187,7 @@ export const DateRangeSelector = ({
                   label="START"
                   maxDate={end_date || currentDateTime || undefined}
                   minDate={minDate}
-                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'start')}
+                  onAccept={(value: Date | null) => handleDatePickerAccepted(value, 'start')}
                   onChange={setTempStartDate}
                   onClose={onDatePickerClose}
                   sx={{ ml: 0 }}
@@ -204,7 +204,7 @@ export const DateRangeSelector = ({
                   label="END"
                   maxDate={maxEndDate}
                   minDate={minDate}
-                  onAccept={(value: Date | null) => onDatePickerAccepted(value, 'end')}
+                  onAccept={(value: Date | null) => handleDatePickerAccepted(value, 'end')}
                   onChange={setTempEndDate}
                   onClose={onDatePickerClose}
                   sx={{ mb: 0.75 }}

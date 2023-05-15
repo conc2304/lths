@@ -26,6 +26,13 @@ const sections: SectionItemProps = {
           title: 'Pages',
           icon: <PagesIcon />,
           path: '/insights/pages',
+          file: '/insights/pages-page',
+          items: [
+            {
+              icon: <PagesIcon />,
+              path: '/insights/pages',
+            },
+          ],
         },
         {
           title: 'Components',
@@ -35,7 +42,8 @@ const sections: SectionItemProps = {
         {
           title: 'Users',
           icon: <ManageAccountsIcon />,
-          path: '/Insights/Users',
+          path: '/insights/users',
+          file: '/insights/users-page',
         },
         {
           title: 'Notifications',

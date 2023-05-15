@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChipContainer component should match the snapshot (inline variant) 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="ChipContainer--content MuiBox-root css-egykz0"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-1hnqzd2-MuiTypography-root"
+        >
+          3
+           
+          Filters Applied
+        </h5>
+        <div
+          class="ChipContainer--chips-wrapper MuiBox-root css-1k6yql2"
+        >
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+            >
+              Item 1
+            </span>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+            >
+              Item 2
+            </span>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+            >
+              Item 3
+            </span>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondaryButton MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-root MuiButton-text MuiButton-textSecondaryButton MuiButton-sizeLarge MuiButton-textSizeLarge css-yxjgq5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            Clear All
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ChipContainer component should match the snapshot (modal variant) 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="MuiBox-root css-1dufe52"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-jg55ep-MuiTypography-root"
+        >
+          Filters
+        </h5>
+        <span
+          class="MuiBadge-root css-mel7su-MuiBadge-root"
+        >
+          <span
+            class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRight MuiBadge-anchorOriginTopRightRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary css-13dsch8-MuiBadge-badge"
+          >
+            3
+          </span>
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1o99rnv"
+      >
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 1
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 2
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 3
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div>
+      <div
+        class="MuiBox-root css-1dufe52"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 css-jg55ep-MuiTypography-root"
+        >
+          Filters
+        </h5>
+        <span
+          class="MuiBadge-root css-mel7su-MuiBadge-root"
+        >
+          <span
+            class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRight MuiBadge-anchorOriginTopRightRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary css-13dsch8-MuiBadge-badge"
+          >
+            3
+          </span>
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1o99rnv"
+      >
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 1
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 2
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault css-13bh5z-MuiButtonBase-root-MuiChip-root"
+          role="button"
+          tabindex="0"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+          >
+            Item 3
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CloseIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

@@ -21,7 +21,7 @@ import {
 
 import { getInitialDateRange, getInitialFormState } from '../../utils/index';
 
-export interface UiFilteredProps {
+export interface UiFilterProps {
   onApplyFilters: (appliedFilters: SelectedUiFilters) => void;
   onChange?: (appliedFilters: SelectedUiFilters) => void;
   // Dates
@@ -39,7 +39,7 @@ export interface UiFilteredProps {
   clearForm: ClearForm;
 }
 
-export const UiFilters = (props: UiFilteredProps): JSX.Element => {
+export const UiFilters = (props: UiFilterProps): JSX.Element => {
   const {
     onApplyFilters,
     onChange,
@@ -161,10 +161,10 @@ export const UiFilters = (props: UiFilteredProps): JSX.Element => {
         onChange={(formState: FormState) => {
           onChange && onChange({ filters: formState, dateRange: dateRangeState });
         }}
-        addItem={addItem}
-        removeItem={removeItem}
-        addGroupItems={addGroupItems}
-        clearGroup={clearGroup}
+        onAddItem={addItem}
+        onRemoveItem={removeItem}
+        onAddGroupItems={addGroupItems}
+        onClearGroup={clearGroup}
       />
 
       <ChipContainer

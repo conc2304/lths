@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
-import { HOST } from '@lths/shared/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
 import Routes from './routes';
@@ -34,14 +32,6 @@ function App() {
         <LayoutThemeProvider>
           <Routes />
           <LayoutToaster />
-          <Helmet>
-            {!document.location.host.includes('localhost') && (
-              <meta
-                http-equiv="Content-Security-Policy"
-                content={`default-src 'self' localhost:3333 localhost:4200 mms-dev.briteliteimmersive.io  ; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' ; font-src 'self'; connect-src mok-dev.briteliteimmersive.io 'self'; media-src 'self';`}
-              />
-            )}
-          </Helmet>
         </LayoutThemeProvider>
       </BrowserRouter>
     </Provider>

@@ -7,6 +7,13 @@ export type InsightItem = {
   segmentations: DonutChartData;
   overview: TableData;
 };
+
+export type PagesRequest = FilterSettingsPayload;
+export type PagesItem = {
+  kpi: Array<KPI>;
+  histogram: Array<Histogram>;
+  preview: Preview;
+};
 export type InsightResponse = {
   data: InsightItem;
 };
@@ -14,6 +21,14 @@ export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };
 export type InsightTabularResponse = { data: TableData };
+
+export type PagesResponse = {
+  data: PagesItem;
+};
+
+export type PagesKpiResponse = { data: Array<KPI> };
+export type PagesHistogramResponse = { data: Array<Histogram> };
+export type PagesPreviewResponse = { data: Preview };
 
 export type KPI = {
   title: string | null; // metric title
@@ -80,6 +95,30 @@ export type Histogram = {
   }>;
   options: {
     events: Array<Event>;
+  };
+};
+
+export type Preview = {
+  title: string | null;
+  subtitle: string | null;
+  info: Info;
+  unit: string | null;
+  entryData: Array<EntryExitData>;
+  exitData: Array<EntryExitData>;
+};
+
+type EntryExitData = {
+  title: string;
+  value: number | string;
+  span: {
+    unit: string | null;
+    value: string | number;
+    direction: 'up' | 'down';
+  };
+  median: {
+    unit: string | null;
+    value: string | number;
+    direction: 'up' | 'down';
   };
 };
 

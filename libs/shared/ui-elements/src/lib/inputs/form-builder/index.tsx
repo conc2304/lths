@@ -38,7 +38,7 @@ export const Form = (props: FormProps) => {
 
           return (
             // columns
-            <Grid item key={`${colPos}--colItem`} className="FormColumn--root">
+            <Grid item key={`${colPos}--colItem`} className="FormColumn--root" data-testid="form-column">
               <Grid
                 container
                 direction="column"
@@ -49,7 +49,12 @@ export const Form = (props: FormProps) => {
                 {columnData.map((formGroupSchema) => {
                   // rows
                   return (
-                    <Grid item key={`${formGroupSchema.id}--rowItem`} className="FormRow--root">
+                    <Grid
+                      item
+                      key={`${formGroupSchema.id}--rowItem`}
+                      className="FormRow--root"
+                      data-testid="vertical-form-group"
+                    >
                       <VerticalFormGroup
                         formSchema={formGroupSchema}
                         formState={formState}

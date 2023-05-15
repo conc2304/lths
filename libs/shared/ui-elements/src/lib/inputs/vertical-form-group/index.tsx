@@ -1,14 +1,9 @@
-import { FormGroup, Typography, styled } from '@mui/material';
-import {
-  AddGroupItems,
-  AddItem,
-  ClearGroup,
-  FormSchema,
-  FormState,
-  FormStateValue,
-  RemoveItem,
-} from '@lths/types/ui-filters';
-import { FormChildren } from 'libs/shared/ui-elements/src/lib/inputs/form-children';
+import { Box, FormGroup, Typography, styled } from '@mui/material';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
+
+import { InfoTooltip } from '../../data-display';
+import { FormChildren } from '../form-children';
 
 type VerticalFormGroupProps = {
   formSchema: FormSchema;
@@ -46,10 +41,18 @@ export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
   return (
     <div className="VerticalFormGroup-root">
       <div className="VerticalFormGroup--title">
-        <Title variant="h4">{title || ''}</Title>
-
-        {/* TODO - INFO popover to go here once its available */}
-        {/*  {info?.description && <InfoPopUp description={info.description} url={info.url} />} */}
+        <Box display="flex" alignItems={'center'} justifyContent={'start'}>
+          <Title variant="h4">{title || ''}</Title>
+          {info?.description && (
+            <Box display={'flex'} alignItems={'start'}>
+              <InfoTooltip
+                description={info.description}
+                title={title || ''}
+                action={{ url: info.url, title: 'Learn More' }}
+              />
+            </Box>
+          )}
+        </Box>
 
         {subtitle && <Subtitle>{subtitle}</Subtitle>}
       </div>

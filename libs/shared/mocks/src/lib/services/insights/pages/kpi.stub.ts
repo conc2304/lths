@@ -1,42 +1,21 @@
 const payload = {
   data: [
     {
-      title: 'Active Users',
-      subtitle: 'The number of new users in the past 7 days',
+      title: 'Total Page Views',
+      subtitle: 'The total number of page views in the past 7 days',
       info: {
-        description: 'The number of new users who signed up in the past 7 days',
-        url: 'www.newusers.com/info',
+        description: 'The total number of page views in the past 7 days',
+        url: 'www.pageviews.com/info',
       },
-      value: 5890,
+      value: 8234,
       unit: null,
       data: [
         {
           duration: 7,
           span: {
-            title: 'Prev 7 days',
+            title: 'Previous 7 days',
             unit: '%',
             value: 24,
-            direction: 'up',
-          },
-          median: {
-            title: 'Median',
-            unit: '%',
-            value: 7,
-            direction: 'up',
-          },
-        },
-        {
-          duration: 30,
-          span: {
-            title: 'Past 30 days',
-            unit: null,
-            value: 500,
-            direction: 'up',
-          },
-          median: {
-            title: 'Past 30 days',
-            unit: null,
-            value: 450,
             direction: 'up',
           },
         },
@@ -55,43 +34,22 @@ const payload = {
       ],
     },
     {
-      title: 'Retention',
-      subtitle: 'Engagement metric',
+      title: 'Total Unique Page Views',
+      subtitle: 'The total number of unique page views in the past 7 days',
       info: {
-        description: 'The average amount of time users spend on a given page',
-        url: 'https://www.example.com/metrics/avg-time-on-page',
+        description: 'The total number of uniques pages visited in the past 7 days',
+        url: 'https://www.example.com/metrics/unique-pages',
       },
-      value: 78,
-      unit: '%',
+      value: 4875,
+      unit: null,
       data: [
         {
           duration: 7,
           span: {
-            title: 'Prev 7 days',
+            title: 'Previous 7 days',
             unit: '%',
-            value: 19,
+            value: 24,
             direction: 'up',
-          },
-          median: {
-            title: 'Median',
-            unit: '%',
-            value: 12,
-            direction: 'up',
-          },
-        },
-        {
-          duration: 30,
-          span: {
-            title: 'Prev 30 days',
-            unit: 'sec',
-            value: 58,
-            direction: 'up',
-          },
-          median: {
-            title: 'Prev 30 days',
-            unit: 'sec',
-            value: 60,
-            direction: 'down',
           },
         },
       ],
@@ -109,28 +67,21 @@ const payload = {
       ],
     },
     {
-      title: 'App Downloads',
-      subtitle: 'How long users are staying on the website?',
+      title: 'Average Dwell time',
+      subtitle: 'Average dwell time',
       info: {
-        description:
-          'Session duration metric measures the amount of time a user spends on a website during a single session.',
-        url: 'https://www.example.com/metrics/session-duration',
+        description: 'Average dwell time.',
+        url: 'https://www.example.com/metrics/average-dwell-time',
       },
-      value: 264,
-      unit: null,
+      value: 189,
+      unit: 'sec',
       data: [
         {
           duration: 7,
           span: {
-            title: 'Prev 7 days',
+            title: 'Previous 7 days',
             unit: '%',
-            value: 16,
-            direction: 'down',
-          },
-          median: {
-            title: 'Median',
-            unit: '%',
-            value: 23,
+            value: 6,
             direction: 'up',
           },
         },
@@ -149,28 +100,22 @@ const payload = {
       ],
     },
     {
-      title: 'Average Session Length',
-      subtitle: 'Measure of the number of times a page has been viewed.',
+      title: 'Average Exit Rate',
+      subtitle: 'The average exit rate',
       info: {
-        description: 'The total number of times a specific page or set of pages has been viewed.',
-        url: 'https://example.com/metrics/pageviews',
+        description: 'The average exit rate.',
+        url: 'https://example.com/metrics/average-exit-rate',
       },
-      value: 189,
-      unit: 'secs',
+      value: 49,
+      unit: '%',
       data: [
         {
           duration: 7,
           span: {
-            title: 'Past 30 days',
+            title: 'Previous 7 days',
             unit: '%',
-            value: 6,
-            direction: 'up',
-          },
-          median: {
-            title: 'Median',
-            unit: '%',
-            value: -9,
-            direction: 'up',
+            value: 16,
+            direction: 'down',
           },
         },
       ],
