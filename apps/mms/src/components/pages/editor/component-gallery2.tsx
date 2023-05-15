@@ -19,7 +19,7 @@ export function ComponentGallery({
 }) {
   return (
     <ImageList variant="masonry" cols={5} gap={35}>
-      {components.map(({ image_url, title, component_name, component_id }, index) => (
+      {components.map(({ image_url, component_name, component_id }, index) => (
         <ImageListItem key={`component_${index}`} onClick={() => onSelectComponent(component_id)}>
           <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
@@ -28,7 +28,7 @@ export function ComponentGallery({
                 //height="140"
                 src={`${image_url}?w=248&fit=crop&auto=format`}
                 srcSet={`${image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt={title}
+                alt={component_id}
                 loading="lazy"
                 sx={{ padding: 2 }}
               />

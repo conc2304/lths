@@ -7,7 +7,7 @@ import { Toolbar } from './toolbar';
 import { Wysiwig } from './wysiwig';
 import colors from '../../common/colors';
 
-export const GridContainer = ({ onAddComponentClick }: NavigatorProps) => {
+export const BlockEditor = ({ onAddComponentClick }: NavigatorProps) => {
   return (
     <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ height: '90vh' }}>
       <Grid item xs sx={{ backgroundColor: colors.sidebar.background }}>

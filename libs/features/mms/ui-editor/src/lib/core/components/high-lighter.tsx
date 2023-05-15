@@ -1,16 +1,15 @@
-import { FC, ReactNode, useEffect, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import { ReactNode, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 
 import colors from '../../common/colors';
 
-interface HighlightableComponentProps {
+type HighlightableComponentProps = {
   children: ReactNode;
   selected: boolean;
   onClick?: () => void;
-}
+};
 
-const HighlightableComponent: FC<HighlightableComponentProps> = ({ children, selected = false, onClick }) => {
+const HighlightableComponent = ({ children, selected = false, onClick }: HighlightableComponentProps) => {
   const [isHighlighted, setIsHighlighted] = useState(selected);
   //console.log('HighlightableComponent', children);
   useEffect(() => {

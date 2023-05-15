@@ -19,7 +19,7 @@ export default function Editor(props: { components: ComponentProps[] }) {
         const selected = selectedComponent && __ui_id__ === selectedComponent.__ui_id__;
         return (
           <HighlightableComponent onClick={() => handleComponentClick(item)} selected={selected}>
-            <div key={item.id} id={`editor-component-${index}`}>
+            <div key={item.__ui_id__} id={`editor-component-${index}`}>
               {component}
             </div>
           </HighlightableComponent>

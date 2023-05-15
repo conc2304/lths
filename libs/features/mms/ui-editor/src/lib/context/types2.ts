@@ -1,15 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, ReactNode } from 'react';
 
-export type ComponentProps = {
+export type ComponentProps<T> = {
   __ui_id__: string;
   component_id: string;
   component_name: string;
   component_type?: string;
   image_url?: string;
-  default_data?: { [key: string]: any }; //| { component_data: Array<{ [key: string]: any }>; [key: string]: any } | null;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //[key: string]: any;
+  default_data?: T | { component_data: T[] };
 };
 
 export type EditorProviderProps = {
@@ -17,16 +15,16 @@ export type EditorProviderProps = {
 };
 
 export type EditorProps = {
-  components: ComponentProps[];
-  selectedComponent: ComponentProps | null;
+  components: ComponentProps<any>[];
+  selectedComponent: ComponentProps<any> | null;
 };
 export type EditorDispathProps = {
-  initEditor: (components: ComponentProps[]) => void;
+  initEditor: (components: ComponentProps<any>[]) => void;
   clearEditor: () => void;
-  selectComponent: (component: ComponentProps) => void;
+  selectComponent: (component: ComponentProps<any>) => void;
   clearSelectedComponent: () => void;
-  addComponent: (component: ComponentProps) => void;
-  updateComponent: (component: ComponentProps) => void;
+  addComponent: (component: ComponentProps<any>) => void;
+  updateComponent: (component: ComponentProps<any>) => void;
   removeComponent: (id: string) => void;
 };
 
@@ -50,11 +48,11 @@ export const initialState: EditorProps = {
 };
 
 export type EditorActionProps =
-  | { type: EditorActionType.SET_CURRENT_COMPONENT; component: ComponentProps }
+  | { type: EditorActionType.SET_CURRENT_COMPONENT; component: ComponentProps<any> }
   | { type: EditorActionType.CLEAR_CURRENT_COMPONENT }
-  | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps }
-  | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps }
-  | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps[] }
+  | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps<any> }
+  | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps<any> }
+  | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps<any>[] }
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
   | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }

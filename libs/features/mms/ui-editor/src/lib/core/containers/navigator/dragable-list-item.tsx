@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { ListItem, ListItemIcon, Box } from '@mui/material';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { EditableListItemText } from './editable-list-item';
