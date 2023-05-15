@@ -14,7 +14,6 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     transform: 'rotate(180deg)',
   },
   '& .MuiAccordionSummary-content': {
-    //marginLeft: theme.spacing(1),
     boxShadow: 'none',
   },
 }));

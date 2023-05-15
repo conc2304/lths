@@ -6,10 +6,8 @@ export type ComponentProps = {
   component_name: string;
   component_type?: string;
   image_url?: string;
-  default_data?: { [key: string]: any }; //| { component_data: Array<{ [key: string]: any }>; [key: string]: any } | null;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //[key: string]: any;
+  default_data?: { [key: string]: any };
 };
 
 export type EditorProviderProps = {
@@ -20,6 +18,7 @@ export type EditorProps = {
   components: ComponentProps[];
   selectedComponent: ComponentProps | null;
 };
+
 export type EditorDispathProps = {
   initEditor: (components: ComponentProps[]) => void;
   clearEditor: () => void;

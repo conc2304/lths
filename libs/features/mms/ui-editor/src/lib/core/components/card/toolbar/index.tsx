@@ -1,32 +1,15 @@
-import { ChangeEvent } from 'react';
-
-import { useEditorActions } from '../../../../context';
 import { BasicTextField } from '../../../../elements';
 import { CardContainer } from '../../../../elements/containers';
+import { useToolbarChange } from '../../hooks';
 import { CardComponentProps } from '../../types';
 
-const ToolbarComponent = (props: CardComponentProps) => {
+const CardToolbar = (props: CardComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, title, desc },
   } = props;
 
-  const { selectComponent } = useEditorActions();
-
-  const updateComponenetProp = (key: string, value: string) => {
-    const data = { ...props, default_data: { ...props.default_data, [key]: value } };
-    selectComponent(data);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('title', event.target.value);
-  };
-  const handleDescChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('desc', event.target.value);
-  };
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('image', event.target.value);
-  };
+  const { handleTitleChange, handleDescChange, handleImageChange } = useToolbarChange();
 
   return (
     <CardContainer id={`${id}_toolbar`}>
@@ -36,4 +19,4 @@ const ToolbarComponent = (props: CardComponentProps) => {
     </CardContainer>
   );
 };
-export default ToolbarComponent;
+export default CardToolbar;

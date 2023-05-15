@@ -1,8 +1,6 @@
-import { ChangeEvent } from 'react';
-
 import { ButtonStyleLoopkups } from '../../../../common';
-import { useEditorActions } from '../../../../context';
 import { CardContainer, SegmentedButton, BasicTextField } from '../../../../elements';
+import { useToolbarChange } from '../../hooks';
 import { ButtonComponentProps } from '../../types';
 
 const ButtonToolbar = (props: ButtonComponentProps) => {
@@ -11,18 +9,10 @@ const ButtonToolbar = (props: ButtonComponentProps) => {
     default_data: { style, title },
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { handleTitleChange, updateComponentProp } = useToolbarChange();
 
-  const updateComponenetProp = (key: string, value: string | number | null) => {
-    const data = { ...props, default_data: { ...props.default_data, [key]: value } };
-    selectComponent(data);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('title', event.target.value);
-  };
   const handleStyleChange = (style: string) => {
-    updateComponenetProp('style', style);
+    updateComponentProp('style', style);
   };
 
   return (

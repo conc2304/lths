@@ -34,7 +34,5 @@ export const componentFactory = (props: ComponentProps) => {
 
     default:
       return <UnsupportedComponent {...props} />;
-    //return <div>Unsupported component type: ${props.component_id}</div>;
-    //throw new Error(`Unsupported component type: ${props.type}`);
   }
 };

@@ -3,9 +3,11 @@ import { createContext, ReactNode, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { EditorContextProps, initialState } from './types';
 
+type EditorProviderProps = { children: ReactNode };
+
 const EditorContext = createContext<EditorContextProps | null>(null);
 
-const EditorProvider = ({ children }: { children: ReactNode }) => {
+const EditorProvider = ({ children }: EditorProviderProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const value = { state, dispatch };

@@ -5,8 +5,8 @@ import { componentFactory as factory } from '../../factories';
 export default function Editor(props: { components: ComponentProps[] }) {
   const { components } = props;
   const { selectComponent, selectedComponent, clearSelectedComponent } = useEditorActions();
+
   const handleComponentClick = (item: ComponentProps) => {
-    console.log('handleComponentClick', item);
     if (item === selectedComponent) clearSelectedComponent();
     else selectComponent(item);
   };

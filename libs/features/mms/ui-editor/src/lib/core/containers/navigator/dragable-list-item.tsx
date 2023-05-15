@@ -15,6 +15,8 @@ const style = {
   backgroundColor: Colors.sidebar.background,
   //cursor: 'move',
 };
+//move this to constants??
+const menuOptions = ['delete', 'duplicate'];
 
 export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -94,7 +96,7 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCard
   const handleClick = () => {
     onClick && onClick(index, id);
   };
-  const menuOptions = ['delete', 'duplicate'];
+
   return (
     <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
       <ListItem onClick={handleClick}>

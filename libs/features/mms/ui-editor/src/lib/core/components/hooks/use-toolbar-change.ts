@@ -25,6 +25,10 @@ export const useToolbarChange = () => {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponentProp('title', event.target.value);
   };
+  const handleDescChange = (event: ChangeEvent<HTMLInputElement>) => {
+    updateComponentProp('desc', event.target.value);
+  };
+
   const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateComponentProp('link_title', event.target.value);
   };
@@ -38,6 +42,7 @@ export const useToolbarChange = () => {
   return {
     selectedComponent,
     handleTitleChange,
+    handleDescChange,
     handleLinkTitleChange,
     handleImageChange,
     handleComponentData,

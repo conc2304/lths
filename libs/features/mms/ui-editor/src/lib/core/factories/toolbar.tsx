@@ -16,8 +16,6 @@ import {
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
-  console.log('🚀 ~ file: toolbar.tsx:5 ~ toolbarFactory ~ props:', props);
-
   switch (props.component_id) {
     case 'cQuickLinkView':
       return <HeroToolbar {...(props as HeroComponentProps)} />;
@@ -33,7 +31,5 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ScoreBoardToolbar {...(props as ScoreBoardComponentProps)} />;
     default:
       return <UnsupportedToolbar {...props} />;
-    // return <div>Unsupported component type: ${props.component_id}</div>;
-    // throw new Error(`Unsupported component type: ${props.type}`);
   }
 };

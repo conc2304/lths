@@ -1,2 +1,1 @@
-export { default as ComponentNavigator } from './containers/navigator';
-export { BlockEditor } from './containers';
+export * from './containers';

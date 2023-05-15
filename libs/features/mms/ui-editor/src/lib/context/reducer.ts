@@ -17,12 +17,14 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
         components: state.components.map((o) => (o.__ui_id__ === __ui_id__ ? component : o)),
       };
     }
+
     case EditorActionType.CLEAR_CURRENT_COMPONENT: {
       return {
         ...state,
         selectedComponent: null,
       };
     }
+
     case EditorActionType.UPDATE_COMPONENT: {
       const {
         component,
@@ -42,6 +44,7 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       console.log('ADD_COMPONENT', [...state.components, fillUuid(component)]);
       return { ...state, components: [...state.components, fillUuid(component)] };
     }
+
     case EditorActionType.REMOVE_COMPONENT: {
       const { id } = action;
       return { ...state, components: state.components.filter((o) => o.__ui_id__ !== id) };
@@ -57,11 +60,10 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       //preserve the order of the components
       return { ...state, components };
     }
+
     case EditorActionType.DUPLICATE_COMPONENT: {
       const { id } = action;
       const index = state.components.findIndex((o) => o.__ui_id__ === id);
-      console.log('🚀 ~ file: reducer.ts:63 ~ reducer ~ index:', index, id);
-
       if (index !== -1) {
         const duplicate = { ...fillUuid(state.components[index]) };
         return {
@@ -78,4 +80,5 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
     }
   }
 };
+
 export default reducer;

@@ -33,17 +33,14 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
     const component = components.find((o) => o.__ui_id__ === id);
     if (component) selectComponent(component);
   };
+
   const handleMenuClick = (index: number, id: string, action: string) => {
-    console.log(
-      '🚀 ~ file: container.tsx:43 ~ handleMenuClick ~ handleMenuClick:',
-      index,
-      new Date().getMilliseconds()
-    );
     if (areEqual(action, 'delete')) removeComponent(id);
     else if (areEqual(action, 'duplicate')) {
       duplicateComponent(id);
     }
   };
+
   const renderCard = useCallback((component: ComponentProps, index: number) => {
     return (
       <Card
