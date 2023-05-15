@@ -150,8 +150,8 @@ export const HorizontalBarChart = () => {
           </Box>
         </Box>
       </Box>
-      <Box component={'div'} sx={{ width: '100%', height: '500px' }}>
-        <ResponsiveContainer width="100%" height="100%">
+      <Box component={'div'} sx={{ width: '100%' }}>
+        <ResponsiveContainer width="100%" height={600}>
           <BarChart
             data={data}
             margin={{
