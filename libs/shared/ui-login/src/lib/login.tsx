@@ -118,6 +118,11 @@ const LoginForm: React.FC = (): JSX.Element => {
                         </IconButton>
                       </InputAdornment>
                     }
+                    sx={{
+                      '& input::-ms-reveal, & input::-ms-clear': {
+                        display: 'none', // remove default edge visibility icon
+                      },
+                    }}
                   />
                   {touched.password && errors.password && (
                     <FormHelperText error id="standard-weight-helper-text-password-login">

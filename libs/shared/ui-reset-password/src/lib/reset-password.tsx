@@ -15,8 +15,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
-import { LoginRequest } from '@lths/shared/data-access';
-import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
+import { ResetPasswordRequest } from '@lths/shared/data-access';
+import { useResetPasswordMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
 
 import CenterCard from './center-card';
 
@@ -26,26 +26,35 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
   };
-  const LoginDefaultValues: LoginRequest = {
-    email: '',
-    password: '',
+
+  type ResetPasswordFormRequest = ResetPasswordRequest & {confirm_password: string}
+
+  const ResetPasswordDefaultValues: ResetPasswordFormRequest = {
+    password_reset_token: '',
+    new_password: '',
+    confirm_password: '',
   };
   const onMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const [getUser] = useLazyGetUserQuery();
 
-  const onSubmit = async (values: LoginRequest) => {
+  const onSubmit = async (formValues: ResetPasswordFormRequest) => {
     try {
-      const data = await login(values).unwrap();
-      const uid = data.user._id;
-      const user2 = await getUser(uid);
-      console.log(data, user2?.data);
-      console.log('routing to next screen');
-      navigate('/');
+      if (formValues.confirm_password !== formValues.new_password) {
+        console.log("password doesnt match");
+        return;
+      }
+      const values: ResetPasswordRequest = {
+        password_reset_token: formValues.password_reset_token,
+        new_password: formValues.new_password,
+      }
+      const data = await resetPassword(values).unwrap();
+      console.log(data);
+      navigate('/login');
     } catch (e) {
       console.log(e);
     }
@@ -58,14 +67,14 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
       </Typography>
 
       <Formik
-        initialValues={LoginDefaultValues}
+        initialValues={ResetPasswordDefaultValues}
         //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);
         }}
       >
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, isSubmitting }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -73,13 +82,16 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
                   <InputLabel htmlFor="password-confirm-reset-password">New Password</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    error={Boolean(touched.password && errors.password)}
+                    error={Boolean(touched.new_password && errors.new_password)}
                     id="-password-reset-password"
                     type={showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    name="password"
+                    value={values.new_password}
+                    name="new_password"
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      handleChange(e);
+                      setFieldValue('confirm_password', '');
+                    }}
                     placeholder="Enter password"
                     endAdornment={
                       <InputAdornment position="end">
@@ -94,10 +106,15 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
                         </IconButton>
                       </InputAdornment>
                     }
+                    sx={{
+                      '& input::-ms-reveal, & input::-ms-clear': {
+                        display: 'none', // remove default edge visibility icon
+                      },
+                    }}
                   />
-                  {touched.password && errors.password && (
+                  {touched.new_password && errors.new_password && (
                     <FormHelperText error id="standard-weight-helper-text-password-reset-password">
-                      {errors.password}
+                      {errors.new_password}
                     </FormHelperText>
                   )}
                 </Stack>
@@ -105,34 +122,27 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
 
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="password-confirm-reset-password">New Password Confirmation</InputLabel>
+                  <InputLabel htmlFor="password-confirm-reset-password">Confirm Password</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    error={Boolean(touched.password && errors.password)}
+                    error={Boolean(touched.confirm_password && errors.confirm_password)}
                     id="-password-confirm-reset-password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    name="password"
+                    type={'password'}
+                    value={values.confirm_password}
+                    name="confirm_password"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter password"
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={onShowPasswordClick}
-                          onMouseDown={onMouseDownPassword}
-                          edge="end"
-                          size="large"
-                        >
-                          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    placeholder="Re-enter password"
+                    endAdornment={null}
+                    sx={{
+                      '& input::-ms-reveal, & input::-ms-clear': {
+                        display: 'none', // remove default edge visibility icon
+                      },
+                    }}
                   />
-                  {touched.password && errors.password && (
+                  {touched.confirm_password && errors.confirm_password && (
                     <FormHelperText error id="standard-weight-helper-text-password-confirm-reset-password">
-                      {errors.password}
+                      {errors.confirm_password}
                     </FormHelperText>
                   )}
                 </Stack>
