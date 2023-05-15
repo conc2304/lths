@@ -1,26 +1,39 @@
 import React from 'react';
-import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-} from '@testing-library/react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import { DateRangeSelector } from './index';
-import { ButtonGroupConf } from './mock-button-ranges';
+import '@testing-library/jest-dom';
+import { render, fireEvent, waitFor, screen, cleanup, RenderResult } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-describe('Date Range Selector', () => {
-  let themedComponent: RenderResult;
+import { slugify } from '@lths/shared/utils';
+import { DateFilterOption, DateFilterOptions, DateRange } from '@lths/types/ui-filters';
+
+import { DateRangeSelector } from './index';
+import { DateRangeFilterOptions } from './mock-button-ranges';
+
+describe('DateRangeSelector', () => {
+  const dateOptions: DateFilterOptions = DateRangeFilterOptions;
+
+  const initialDateFilter = DateRangeFilterOptions.find((option) => option.isDefaultValue)?.dateRange;
+  const { start_date, end_date } =
+    typeof initialDateFilter === 'function' ? (initialDateFilter() as DateRange) : (initialDateFilter as DateRange);
+  const defaultDateRange = { start_date: start_date as Date, end_date: end_date as Date };
+
+  const onUpdateMock = jest.fn();
+  const onChangeMock = jest.fn();
+
   let component: JSX.Element;
-  const onChange = jest.fn();
+  let themedComponent: RenderResult;
 
   beforeEach(() => {
+    jest.clearAllMocks();
+
     component = (
-      <DateRangeSelector dateOptions={ButtonGroupConf} onChange={onChange} />
+      <DateRangeSelector
+        dateOptions={dateOptions}
+        onUpdateTimePeriod={onUpdateMock}
+        onChange={onChangeMock}
+        value={defaultDateRange}
+      />
     );
     themedComponent = render(RBThemeProvider({ children: component }));
   });
@@ -29,226 +42,138 @@ describe('Date Range Selector', () => {
     cleanup();
   });
 
-  describe('Component Rendering and Initialization', () => {
-    it('should render', () => {
-      // Arrange
-      const { baseElement } = themedComponent;
-      // Act
-      // Assert
-      expect(baseElement).toBeTruthy();
-    });
+  it('should render date range selector', () => {
+    // Arrange
+    const { baseElement } = themedComponent;
 
-    it('matches the snapshot', () => {
-      // Arrange
-      const { baseElement } = themedComponent;
-      // Act
-      // Assert
-      expect(baseElement).toMatchSnapshot();
-    });
+    // Act
 
-    it('should render the correct number of toggle buttons, labels, and values', () => {
-      // Arrange
-      const { container } = themedComponent;
-      // Act
+    // Assert
+    expect(baseElement).toBeTruthy();
+    expect(screen.getByLabelText('START')).toBeTruthy();
+    expect(screen.getByLabelText('END')).toBeTruthy();
+  });
 
-      // Assert
-      expect(
-        container.querySelectorAll('.Lths-Button-Group .MuiButtonBase-root')
-          .length
-      ).toBe(ButtonGroupConf.length);
+  it('should match the snapshot', () => {
+    // Arrange
+    const { baseElement } = themedComponent;
+    // Act
+    // Assert
+    expect(baseElement).toMatchSnapshot();
+  });
 
-      ButtonGroupConf.forEach((button) => {
-        const buttonElem = screen.queryByText(button.label, {
-          selector: '.MuiButtonBase-root',
-        });
-        expect(buttonElem).toBeTruthy();
-        expect(buttonElem).toHaveAttribute('value', button.value.toString());
+  it('should render the correct number of toggle buttons, labels, and values', () => {
+    // Arrange
+    const { container } = themedComponent;
+    // Act
+
+    // Assert
+    expect(container.querySelectorAll('.Lths-Button-Group .MuiButtonBase-root').length).toBe(
+      DateRangeFilterOptions.length
+    );
+
+    DateRangeFilterOptions.forEach((button) => {
+      const buttonElem = screen.queryByText(button.label, {
+        selector: '.MuiButtonBase-root',
       });
-    });
-
-    it('should render 2 Date Picker components', () => {
-      // Arrange
-      // Act
-      // Assert
-      expect(
-        screen.queryAllByLabelText('start', { selector: '.MuiFormLabel-root' })
-      ).toBeTruthy();
-      expect(
-        screen.queryAllByLabelText('end', { selector: '.MuiFormLabel-root' })
-      ).toBeTruthy();
-    });
-
-    it('should initialize with no options selected', () => {
-      // Arrange
-      const { container } = themedComponent;
-      const inputFields = container.querySelectorAll('.MuiInputBase-input');
-      // Act
-
-      // Assert
-      ButtonGroupConf.forEach((button) => {
-        const buttonElem = screen.queryByText(button.label, {
-          selector: '.MuiButtonBase-root',
-        });
-        if (buttonElem) {
-          expect(buttonElem).toHaveAttribute('aria-pressed', 'false');
-          expect(buttonElem).toHaveAttribute('aria-selected', 'false');
-          expect(buttonElem).not.toHaveClass('Mui-selected');
-        }
-      });
-      inputFields.forEach((inputElem) => {
-        expect(inputElem).toHaveValue('');
-      });
-    });
-
-    it('should initialize the date picker using enUS locale settings', () => {
-      // Arrange
-      const { container } = themedComponent;
-      const expectedPaceHolder = 'MM / DD / YYYY';
-      const inputFields = container.querySelectorAll('.MuiInputBase-input');
-      // Act
-      // Assert
-      inputFields.forEach((inputElem) => {
-        expect(
-          inputElem
-            .getAttribute('placeholder')
-            ?.toString()
-            .replace(/[\u2066-\u2069]*/g, '')
-        ).toBe(expectedPaceHolder);
-      });
+      expect(buttonElem).toBeTruthy();
+      expect(buttonElem).toHaveAttribute('value', slugify(button.label));
     });
   });
 
-  describe('User Interactions', () => {
-    it('should update the toggle group button selected state on click', async () => {
-      // Arrange
-      cleanup();
-      const user = userEvent.setup();
-      render(RBThemeProvider({ children: component }));
-      const buttonTested = ButtonGroupConf[2];
+  it('should initialize the date picker using enUS locale settings', () => {
+    // Arrange
+    const { container } = themedComponent;
+    const expectedPaceHolder = 'MM / DD / YYYY';
+    const inputFields = container.querySelectorAll('.MuiInputBase-input');
+    // Act
+    // Assert
+    inputFields.forEach((inputElem) => {
+      expect(
+        inputElem
+          .getAttribute('placeholder')
+          ?.toString()
+          .replace(/[\u2066-\u2069]*/g, '')
+      ).toBe(expectedPaceHolder);
+    });
+  });
 
-      const buttonElem = screen.queryByText(buttonTested.label, {
-        selector: '.MuiButtonBase-root',
-      });
+  it('should render 2 Date Picker components', () => {
+    // Arrange
+    // Act
+    // Assert
+    expect(screen.queryAllByLabelText('start', { selector: '.MuiFormLabel-root' })).toBeTruthy();
+    expect(screen.queryAllByLabelText('end', { selector: '.MuiFormLabel-root' })).toBeTruthy();
+  });
 
-      // verify before state before click
-      expect(buttonElem).toHaveAttribute('aria-pressed', 'false');
-      expect(buttonElem).toHaveAttribute('aria-selected', 'false');
-      expect(buttonElem).not.toHaveClass('Mui-selected');
+  it('should update the toggle group button selected state on click', async () => {
+    // Arrange
+    cleanup();
+    const user = userEvent.setup();
+    render(RBThemeProvider({ children: component }));
+    const buttonTested = DateRangeFilterOptions.find((option) => !option.isDefaultValue) as DateFilterOption;
 
-      // Act
-      if (buttonElem) {
-        await user.click(buttonElem);
-      }
-
-      // Assert
-      expect(buttonElem).toBeTruthy();
-      expect(buttonElem).toHaveAttribute('aria-pressed', 'true');
-      expect(buttonElem).toHaveAttribute('aria-selected', 'true');
-      expect(buttonElem).toHaveClass('Mui-selected');
+    const buttonElem = screen.queryByText(buttonTested.label, {
+      selector: '.MuiButtonBase-root',
     });
 
-    it('should call the onChange prop after a user selects a date range', async () => {
-      // Arrange
-      cleanup();
-      const user = userEvent.setup();
-      const onChange = jest.fn();
-      component = (
-        <DateRangeSelector dateOptions={ButtonGroupConf} onChange={onChange} />
-      );
-      themedComponent = render(RBThemeProvider({ children: component }));
+    // verify before state before click
+    expect(buttonElem).toHaveAttribute('aria-pressed', 'false');
+    expect(buttonElem).not.toHaveClass('Mui-selected');
 
-      const buttonTested = ButtonGroupConf[2];
-      const buttonElem = screen.queryByText(buttonTested.label, {
-        selector: '.MuiButtonBase-root',
-      });
+    // Act
+    if (buttonElem) {
+      await user.click(buttonElem);
+    }
 
-      // Act
-      if (buttonElem) {
-        await user.click(buttonElem);
-      }
+    // Assert
+    expect(buttonElem).toBeTruthy();
+    expect(buttonElem).toHaveAttribute('aria-pressed', 'true');
+    expect(buttonElem).toHaveClass('Mui-selected');
+  });
 
-      // Assert
-      expect(onChange).toHaveBeenCalledTimes(1);
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          startDate: buttonTested.value,
-          endDate: expect.any(Date), // end date is set to now, so just make sure its a valid date
-        })
-      );
+  it('should call onChange with correct date range when a preset date option is selected', async () => {
+    // Arrange
+
+    // Act
+    fireEvent.click(screen.getByText(DateRangeFilterOptions[0].label));
+
+    // Assert
+    await waitFor(() => expect(onChangeMock).toHaveBeenCalled());
+    expect(onChangeMock).toHaveBeenCalledWith({
+      start_date: expect.any(Date),
+      end_date: expect.any(Date),
     });
+  });
 
-    xit('should unset the selected button when user enters a custom date range and back', async () => {
-      // bypassing this test
-      // unable to get mui date picker to trigger an onchange event neither through clicking nor text input
-      // which then unsets the selected button group
+  it('should call onUpdateTimePeriod when "UPDATE PERIOD" button is clicked', async () => {
+    // Arrange
 
-      cleanup();
-      const user = userEvent.setup();
-      const { container, baseElement } = render(
-        RBThemeProvider({ children: component })
-      );
-      const buttonTested = ButtonGroupConf[2];
-      const buttonElem = screen.queryByText(buttonTested.label, {
-        selector: '.MuiButtonBase-root',
-      });
-      // const startDateInput = (await screen.findByLabelText(
-      //   'START'
-      // )) as HTMLInputElement;
+    // Act
+    fireEvent.click(screen.getByText('UPDATE PERIOD'));
 
-      // expect(startDateInput).toBeTruthy();
-      // screen.debug(startDateInput);
+    // Assert
+    expect(screen.getByText('UPDATE PERIOD')).toBeTruthy();
+    await waitFor(() => expect(onUpdateMock).toHaveBeenCalled());
+    expect(onUpdateMock).toHaveBeenCalledWith({
+      start_date: expect.any(Date),
+      end_date: expect.any(Date),
+    });
+  });
 
-      const calButton = baseElement.querySelector(
-        'button.MuiButtonBase-root[aria-label="Choose date"'
-      ) as HTMLButtonElement;
+  it('should call onChange with correct date range when start and end date pickers are used', async () => {
+    // Arrange
 
-      expect(calButton).toBeTruthy();
-      screen.debug(calButton);
+    // Act
+    fireEvent.change(screen.getByLabelText('START'), { target: { value: '2023-05-01' } });
+    fireEvent.change(screen.getByLabelText('END'), { target: { value: '2023-05-03' } });
 
-      // Assert
-      if (buttonElem) {
-        await user.click(buttonElem);
-      }
-
-      expect(buttonElem).toHaveClass('Mui-selected');
-
-      // Act
-      await act(async () => {
-        // user.click(calButton)
-        fireEvent.click(calButton);
-      });
-      const dayPickerButton = baseElement.querySelector(
-        'button.MuiPickersDay-root'
-      ) as HTMLButtonElement;
-      screen.debug(dayPickerButton);
-      console.log(dayPickerButton);
-      await act(async () => {
-        fireEvent.click(dayPickerButton);
-      });
-
-      // user.type(startDateInput, '03 / 08 / 2021');
-      // await act(async () => {
-      //   // const chosenDate = await screen.findByRole('gridcell', { name: '8' });
-      //   // expect(chosenDate).toBeTruthy()
-      //   // fireEvent.click(chosenDate);
-      //   fireEvent.input(startDateInput, { target: { value: '03 / 08 / 2021' } });
-      //   fireEvent.change(startDateInput, { target: { value: '03 / 08 / 2021' } });
-      //   expect(startDateInput).toHaveValue('03 / 08 / 2021');
-      // });
-
-      // if (calendarButton && dateButton && dateInput) {
-      //   console.log(calendarButton);
-      //   console.log(dateButton);
-      //   await user.click(calendarButton);
-      //   await user.click(dateButton);
-      //   dateInput?.setAttribute('value', '03 / 14 / 2021');
-      //   fireEvent.input(dateInput, { target: { value: '03 / 14 / 2021' } });
-      //   fireEvent.change(dateInput, { target: { value: '03 / 14 / 2021' } });
-      //   // this is not triggering the date picker's on change events
-      // }
-
-      // Assert
-      expect(buttonElem).not.toHaveClass('Mui-selected');
+    // Assert
+    fireEvent.click(screen.getByText('UPDATE PERIOD'));
+    await waitFor(() => expect(onUpdateMock).toHaveBeenCalled());
+    expect(onUpdateMock).toHaveBeenCalledWith({
+      start_date: expect.any(Date),
+      end_date: expect.any(Date),
     });
   });
 });

@@ -50,8 +50,6 @@ const OverviewPage = (): JSX.Element => {
       <Stack direction="row" justifyContent="space-between" spacing={2}>
         <ConnectedUiFilter
           onFiltersUpdate={(filters: FilterSettingsPayload) => {
-            console.log('---- onFiltersUpdate');
-            console.log(filters);
             handleFilterUpdate(filters);
           }}
         />

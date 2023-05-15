@@ -1,5 +1,34 @@
 export const colors = ['#4A7FB0', '#5B9BD5', '#ADC6E5', '#03045E', '#00B4D8', '#20CBC2'];
 
+export const barColors = [
+  {
+    endColor: '#005CA2',
+    startColor: '#015ca27d',
+  },
+  {
+    endColor: '#20CBC2',
+    startColor: '#20cbc2c2',
+  },
+  {
+    endColor: '#EB8D00',
+    startColor: '#eb8d009d',
+  },
+];
+export const barLightColors = [
+  {
+    endColor: '#005ca2e7',
+    startColor: '#015ca234',
+  },
+  {
+    endColor: '#20CBC2',
+    startColor: '#20cbc24e',
+  },
+  {
+    endColor: '#EB8D00',
+    startColor: '#eb8d0057',
+  },
+];
+
 const usedColors = new Set();
 
 export const randomlyGeneratedColors = () => {

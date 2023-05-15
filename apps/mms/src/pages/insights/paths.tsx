@@ -43,7 +43,8 @@ const sections: SectionItemProps = {
         {
           title: 'Users',
           icon: <ManageAccountsIcon />,
-          path: '/Insights/Users',
+          path: '/insights/users',
+          file: '/insights/users-page',
         },
         {
           title: 'Notifications',

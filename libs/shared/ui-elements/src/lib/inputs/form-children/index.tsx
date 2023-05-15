@@ -1,15 +1,9 @@
-import {
-  AddGroupItems,
-  AddItem,
-  ClearGroup,
-  FormSchema,
-  FormState,
-  FormStateValue,
-  RemoveItem,
-} from '@lths/types/ui-filters';
-import { Checkbox, Divider, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { getPluralizeLastWord, sortBySeq } from 'libs/shared/ui-elements/src/lib/inputs/filter-form/utils';
-import { ChangeEvent } from 'react';
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
+
+import { CheckBoxItem } from './checkbox-item';
+import { sortBySeq } from '../filter-form/utils';
 
 type FormElementsProps = {
   formSchema: FormSchema;
@@ -32,85 +26,25 @@ export const FormChildren = (props: FormElementsProps): JSX.Element => {
     onAddGroupItems: addGroupItems,
     formSchema: { default_value, data },
   } = props;
+
   const elementType = props.formSchema.type;
   const sortedFields = sortBySeq(data as FormSchema[], 'asc');
 
   switch (elementType) {
     case 'checkbox':
-      type handleCheckProps = { checked: boolean; id: string; title: string };
-
-      const handleCheckBoxChange = ({ checked, id, title }: handleCheckProps) => {
-        const item = { [id]: { id, title } };
-
-        if (checked) {
-          addItem && addItem({ parentID: groupID, itemID: id, item });
-        } else {
-          removeItem && removeItem({ parentID: groupID, itemID: id });
-        }
-      };
-
-      const handleToggleAll = (event: ChangeEvent<HTMLInputElement>) => {
-        const { checked } = event.target;
-
-        if (!checked) {
-          clearGroup && clearGroup({ parentID: groupID });
-        } else {
-          const grouIDValues: FormStateValue = {};
-          sortedFields.forEach((elem) => {
-            const { id, title } = elem;
-            grouIDValues[elem.id as string] = { id, title };
-          });
-          addGroupItems && addGroupItems({ parentID: groupID, items: grouIDValues });
-        }
-      };
-
-      const pluralizedLastWord = getPluralizeLastWord(groupTitle);
-      const allTitle = `All ${pluralizedLastWord}`;
-      const formStateLength = formState?.[groupID] ? Object.keys(formState[groupID]).length : 0;
-      const isParentIndeterminate = formStateLength > 0 && formStateLength !== sortedFields.length;
-
       return (
-        <>
-          <FormControlLabel
-            label={allTitle}
-            value={`${pluralizedLastWord}--togle`}
-            control={
-              <Checkbox
-                checked={formStateLength === sortedFields.length}
-                indeterminate={isParentIndeterminate}
-                //color="secondary"
-                onChange={handleToggleAll}
-              />
-            }
-          />
-          <Divider variant="middle" sx={{ mt: 1, mb: 1 }} />
-          {/* Individual Parts of form */}
-          {sortedFields?.map((item) => {
-            const { title, id } = item;
-            const itemID = id as string;
-            const isChecked = !!formState?.[groupID]?.[itemID];
-
-            return (
-              <FormControlLabel
-                label={title}
-                value={id}
-                key={id}
-                control={
-                  <Checkbox
-                    //color="secondary"
-                    checked={isChecked}
-                    onChange={({ target: { checked } }) =>
-                      handleCheckBoxChange({ checked, id: itemID, title: title as string })
-                    }
-                    name={id}
-                    value={id}
-                  />
-                }
-              />
-            );
-          })}
-        </>
+        <CheckBoxItem
+          groupTitle={groupTitle}
+          groupID={groupID}
+          formState={formState}
+          onAddItem={addItem}
+          onRemoveItem={removeItem}
+          onClearGroup={clearGroup}
+          formFields={sortedFields}
+          onAddGroupItems={addGroupItems}
+        />
       );
+
     case 'radio':
       // TODO - NOT FULLY IMPLEMENTED
       return (
@@ -118,14 +52,12 @@ export const FormChildren = (props: FormElementsProps): JSX.Element => {
           {sortedFields.map((item) => {
             const { title, id } = item;
             return (
-              <>
-                <FormControlLabel
-                  value={id}
-                  control={<Radio color="secondary" name={id} value={id} />}
-                  label={title}
-                  key={id}
-                />
-              </>
+              <FormControlLabel
+                value={id}
+                control={<Radio color="secondary" name={id} value={id} />}
+                label={title}
+                key={id}
+              />
             );
           })}
         </RadioGroup>

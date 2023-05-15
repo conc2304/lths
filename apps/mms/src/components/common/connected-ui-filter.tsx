@@ -35,7 +35,7 @@ type ConnectedUiFilterProps = {
 };
 export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
   const { onFiltersUpdate: updateFilters } = props;
-  const [getFilterFormData, { isUninitialized }] = useLazyGetAppFiltersQuery();
+  const [getFilterFormData] = useLazyGetAppFiltersQuery();
   const formSchema = useAppSelector(selectFilterFormSchema);
   const formState = useAppSelector(selectFilterFormState);
   const dateRange = useAppSelector(selectFilterDateRange);
@@ -77,7 +77,7 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
     dispatch(setFormState({ formState: filters }));
   };
 
-  if (!isUninitialized && formSchema && dateRange.start_date && dateRange.end_date) {
+  if (formSchema && dateRange.start_date && dateRange.end_date) {
     return (
       <UiFilters
         formSchema={formSchema}
