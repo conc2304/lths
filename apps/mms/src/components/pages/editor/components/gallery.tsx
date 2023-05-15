@@ -1,22 +1,10 @@
-import * as React from 'react';
-import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
-import { AddCircle } from '@mui/icons-material';
-import InfoIcon from '@mui/icons-material/Info';
-import IconButton from '@mui/material/IconButton';
+import { Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
 
-import { ComponentProps } from '@lths/features/mms/ui-editor';
+import { ComponentGalleryProps } from './types';
 
-export function ComponentGallery({
-  components = [],
-  onSelectComponent,
-}: {
-  components: ComponentProps[];
-  onSelectComponent: (componentId: string) => void;
-}) {
+const ComponentGallery = ({ components = [], onSelectComponent }: ComponentGalleryProps) => {
   return (
     <ImageList variant="masonry" cols={5} gap={35}>
       {components.map(({ image_url, component_name, component_id }, index) => (
@@ -25,7 +13,6 @@ export function ComponentGallery({
             <CardActionArea>
               <CardMedia
                 component="img"
-                //height="140"
                 src={`${image_url}?w=248&fit=crop&auto=format`}
                 srcSet={`${image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt={component_id}
@@ -46,4 +33,5 @@ export function ComponentGallery({
       ))}
     </ImageList>
   );
-}
+};
+export default ComponentGallery;
