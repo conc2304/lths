@@ -1,9 +1,9 @@
+import { Pagination } from 'swiper';
 import 'swiper/css';
+import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { NewsCard, NewsCardProps } from '../../cards';
-import { Navigation, Pagination } from 'swiper';
-import 'swiper/css/pagination';
 
 import './index.css';
 // core version + navigation, pagination modules:

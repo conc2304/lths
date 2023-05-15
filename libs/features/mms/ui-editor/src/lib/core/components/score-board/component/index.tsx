@@ -8,6 +8,7 @@ const ScoreDisplay = ({ mine, theirs }) => {
   const style = { fontWeight: 500, fontSize: 32, color: highlight && '#797979', lineHeight: 1 };
   return <Typography sx={style}>{mine}</Typography>;
 };
+
 const TeamLogoDisplay = ({ url, team, info }) => {
   return (
     <Stack flexDirection={'column'} justifyContent={'flex-end'} alignItems={'center'}>
@@ -18,6 +19,7 @@ const TeamLogoDisplay = ({ url, team, info }) => {
     </Stack>
   );
 };
+
 const ScoreBoardComponent = (props: ScoreBoardComponentProps) => {
   const {
     __ui_id__: id,
@@ -73,10 +75,14 @@ const ScoreBoardComponent = (props: ScoreBoardComponentProps) => {
           <Box sx={{ height: 22 }}></Box>
           <Stack sx={{ flexDirection: 'row', textAlign: 'center', borderTop: 'solid 1px #EDEDED' }}>
             <Box sx={{ flex: 1, padding: 1.5, borderRight: 'solid 1px #EDEDED' }}>
-              <Typography sx={{ fontWeight: 700, fontSize: 14 }}>LISTEN</Typography>
+              <Typography sx={{ fontWeight: 700, fontSize: 14, textTransform: 'uppercase' }}>
+                {left.btn_title}
+              </Typography>
             </Box>
             <Box sx={{ flex: 1, padding: 1 }}>
-              <Typography sx={{ fontWeight: 700, fontSize: 14 }}>WATCH</Typography>
+              <Typography sx={{ fontWeight: 700, fontSize: 14, textTransform: 'uppercase' }}>
+                {right.btn_title}
+              </Typography>
             </Box>
           </Stack>
         </Box>

@@ -24,8 +24,6 @@ const SegmentedButton: FC<SegmentedButtonProps> = ({
   valueProp,
   ...rest
 }) => {
-  // const [value, setValue] = useState(null);
-
   const handleChange = (event: MouseEvent<HTMLElement>, value: string) => {
     // setValue(value);
     onValueChange(value);

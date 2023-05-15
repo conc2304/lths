@@ -1,13 +1,15 @@
 import { Box } from '@mui/material';
 
 import { useEditorActions } from '../../../context';
+import { StickyContainer } from '../../../elements';
 import { toolbarFactory as factory } from '../../factories';
 
 export default function Container() {
   const { selectedComponent } = useEditorActions();
+
   const renderComponent = () => {
     const component = factory(selectedComponent);
-    return <Box>{component}</Box>;
+    return <StickyContainer>{component}</StickyContainer>;
   };
 
   if (selectedComponent) return renderComponent();

@@ -1,5 +1,5 @@
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { ListItemText, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 
 import { Colors } from '../../../common';
 

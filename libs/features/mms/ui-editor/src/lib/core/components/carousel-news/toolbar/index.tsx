@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import { useEditorActions } from '../../../../context';
 import { CardContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { useToolbarChange } from '../../hooks';
 import { CarouselNewsComponentProps } from '../../types';
 
 const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
@@ -15,32 +16,18 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
   } = props;
 
   const { selectComponent } = useEditorActions();
+  const { handleTitleChange, handleDescChange, handleImageChange, updateComponentProp } = useToolbarChange();
 
-  const updateComponenetProp = (index: number, key: string, value: string | number | null) => {
-    const data = {
-      ...props,
-      default_data: { component_data: component_data.map((o, i) => (i === index ? { ...o, [key]: value } : o)) },
-    };
-    selectComponent(data);
-  };
+  const [expanded, setExpanded] = useState<string | false>('panel0');
 
-  const handleTitleChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponenetProp(index, 'title', event.target.value);
-  };
-  const handleTagChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponenetProp(index, 'tag', event.target.value);
-  };
-  const handleDescChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponenetProp(index, 'desc', event.target.value);
-  };
-  const handleImageChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponenetProp(index, 'image', event.target.value);
-  };
-  const [expanded, setExpanded] = useState<string | false>('panel1');
-
-  const handleChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
+  const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
+
+  const handleTagChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    updateComponentProp('tag', event.target.value, index);
+  };
+
   const handleAdd = () => {
     const data = { ...props, default_data: { component_data: [...component_data, { title: 'New Card' }] } };
     selectComponent(data);
@@ -50,7 +37,7 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
       {component_data.map(({ tag, title, desc, image }, index) => {
         const panelId = `panel${index}`;
         return (
-          <Accordion expanded={expanded === panelId} onChange={handleChange(panelId)} key={`card_${index}`}>
+          <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>
             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
               <Typography>Slide #{index + 1}</Typography>
             </AccordionSummary>
@@ -59,18 +46,18 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
                 <BasicTextField
                   label={'Tag'}
                   value={tag}
-                  onChange={(e) => handleTagChange(index, e)}
+                  onChange={(e) => handleTagChange(e, index)}
                   sx={{ textTransform: 'uppercase' }}
                 />
-                <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(index, e)} />
+                <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e, index)} />
                 <BasicTextField
                   label={'Description'}
                   value={desc}
-                  onChange={(e) => handleDescChange(index, e)}
+                  onChange={(e) => handleDescChange(e, index)}
                   multiline
                   rows={3}
                 />
-                <BasicTextField label={'Image'} value={image} onChange={(e) => handleImageChange(index, e)} />
+                <BasicTextField label={'Image'} value={image} onChange={(e) => handleImageChange(e, index)} />
               </Box>
             </AccordionDetails>
           </Accordion>

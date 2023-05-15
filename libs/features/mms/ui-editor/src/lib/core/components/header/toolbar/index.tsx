@@ -1,8 +1,6 @@
-import { ChangeEvent } from 'react';
-
-import { useEditorActions } from '../../../../context';
 import { BasicContainer, BasicTextField } from '../../../../elements';
 import ColorPicker from '../../../../elements/color-picker';
+import { useToolbarChange } from '../../hooks';
 import { HeaderComponentProps } from '../../types';
 
 const HeaderToolbar = (props: HeaderComponentProps) => {
@@ -11,18 +9,10 @@ const HeaderToolbar = (props: HeaderComponentProps) => {
     default_data: { color = '#000000', title },
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { handleTitleChange, updateComponentProp } = useToolbarChange();
 
-  const updateComponenetProp = (key: string, value: string) => {
-    const data = { ...props, default_data: { ...props.default_data, [key]: value } };
-    selectComponent(data);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponenetProp('title', event.target.value);
-  };
   const handleColorChange = (color: string) => {
-    updateComponenetProp('color', color);
+    updateComponentProp('color', color);
   };
 
   return (

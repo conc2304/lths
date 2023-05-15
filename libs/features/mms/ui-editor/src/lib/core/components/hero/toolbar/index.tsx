@@ -21,7 +21,6 @@ const ToolbarComponent = (props: HeroComponentProps) => {
     <CardContainer id={`${id}_toolbar`}>
       <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
       <Box sx={{ gap: 0 }}>

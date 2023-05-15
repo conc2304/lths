@@ -13,7 +13,9 @@ export type NewsCardProps = {
   date: string;
   action: { page_link: string };
 };
+
 const colors = { brand: { primary: '#111921', secondary: '#BA9765' }, text: '#ffffff' };
+
 export default function NewsCard({ image, title, desc, tag, date, action }: NewsCardProps) {
   const handleClick = () => {
     window.open(action.page_link, '_blank');
