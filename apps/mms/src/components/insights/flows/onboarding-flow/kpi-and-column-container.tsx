@@ -1,8 +1,11 @@
 import { InsightKpiColumnCardResponse } from '@lths/features/mms/data-access';
 // import { LineChart } from '@lths/shared/ui-charts'; // ToDO: replace with columns chart
+import { VerticalBarChart, HorizontalBarChart } from '@lths/shared/ui-charts';
 import { BasicCard, VStack, InfoTooltip } from '@lths/shared/ui-elements';
 
+
 import { KpiList } from './kpi-list';
+
 
 type Props = {
   data: InsightKpiColumnCardResponse;
@@ -28,6 +31,7 @@ export const KpiAndColumnContainer = ({ data } : Props) => {
       <VStack>
         <KpiList data={{data: data.data.kpiData}} />
         <div>{data.data.columnData}</div>
+        <VerticalBarChart/>
         {/* todo replace histogram with barchart */}
         {/* { (histogramData && histogramData.data) && histogramData.data.map((o, i) => {
           return <HistogramItem key={`histogram_${i}`} data={o}/>;
