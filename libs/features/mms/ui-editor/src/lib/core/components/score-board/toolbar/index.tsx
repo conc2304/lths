@@ -33,8 +33,8 @@ const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
       <BasicTextField label={'Game State'} value={match_name} onChange={handleGameStateChange} />
       <BasicTextField label={'Game Info'} value={hint} onChange={handleGameInfoChange} />
       <Box sx={{ gap: 0 }}>
-        <TeamAccordion objectId="left" label="Team Left" onChange={handleTeamChange} {...left} />
-        <TeamAccordion objectId="right" label="Team Right" onChange={handleTeamChange} {...right} />
+        <TeamAccordion objectId="left" label="Away Team" onChange={handleTeamChange} {...left} />
+        <TeamAccordion objectId="right" label="Home Team" onChange={handleTeamChange} {...right} />
       </Box>
       <FooterAccordion left={left.btn_title} right={right.btn_title} onChange={handleTeamChange} />
     </CardContainer>

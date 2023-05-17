@@ -1,10 +1,9 @@
-import Editor from '././editor';
-import ComponentDetailPayload from './editor/component-detail';
+import Generic, { Custom } from '././editor';
 import Images from './images';
 import { MSWPathConf } from '../types';
 
-const generics: MSWPathConf[] = [...Editor];
+const generics: MSWPathConf[] = [...Generic];
 
-export const CustomServices = [ComponentDetailPayload, Images];
+export const CustomServices = [...Custom, Images];
 
 export default generics;

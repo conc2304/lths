@@ -9,6 +9,7 @@ import AccordionDetails from './accordion/details';
 import { Card } from './dragable-list-item';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
+import { StickyContainer } from '../../../elements';
 import { areEqual } from '../../utils';
 
 export type NavigatorProps = {
@@ -17,12 +18,15 @@ export type NavigatorProps = {
 export const Container = ({ onAddComponentClick }: NavigatorProps) => {
   const { components, orderComponent, selectComponent, duplicateComponent, removeComponent } = useEditorActions();
 
+  const [expanded, setExpanded] = useState(true);
+
+  const handleChange = () => setExpanded(!expanded);
+
   const handleDrag = useCallback((dragIndex: number, hoverIndex: number) => {
     orderComponent(dragIndex, hoverIndex);
   }, []);
 
   //TODO: work in progress
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleClick = (index: number, id: string) => {
     // scroll to the corresponding component in the editor
     document.getElementById(`editor-component-${index}`)?.scrollIntoView({
@@ -31,7 +35,10 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
       inline: 'center',
     });
     const component = components.find((o) => o.__ui_id__ === id);
-    if (component) selectComponent(component);
+
+    if (component) {
+      selectComponent(component);
+    }
   };
 
   const handleMenuClick = (index: number, id: string, action: string) => {
@@ -41,29 +48,25 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
     }
   };
 
-  const renderCard = useCallback((component: ComponentProps, index: number) => {
+  const renderCard = (component: ComponentProps, index: number) => {
     return (
       <Card
         key={component.__ui_id__}
         id={component.__ui_id__}
         index={index}
         onDrag={handleDrag}
-        //TODO: there is a bug, scroll needs to appear for the editor only
-        // onClick={handleClick}
+        onClick={handleClick}
         onMenuClick={handleMenuClick}
         text={component.component_name || component.component_id}
       ></Card>
     );
-  }, []);
-  const [expanded, setExpanded] = useState(true);
-
-  const handleChange = () => setExpanded(!expanded);
+  };
 
   return (
-    <Box>
+    <StickyContainer>
       <Accordion expanded={expanded} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography fontSize={13} fontWeight={500} textTransform={'uppercase'}>
+          <Typography fontSize={'.85rem'} fontWeight={500} textTransform={'uppercase'}>
             Component Navigator
           </Typography>
         </AccordionSummary>
@@ -76,6 +79,6 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
           Add Component
         </Button>
       </Box>
-    </Box>
+    </StickyContainer>
   );
 };

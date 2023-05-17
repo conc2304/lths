@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
-import { ListItemText, TextField } from '@mui/material';
+import { ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
 import { useClickOutside } from '../../../elements';
@@ -49,7 +49,7 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
             onKeyDown={handleKeyDown}
           />
         ) : (
-          <span>{editedText}</span>
+          <Typography fontSize={'1rem'}>{editedText}</Typography>
         )
       }
     />
