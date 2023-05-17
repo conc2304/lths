@@ -1,36 +1,35 @@
 import React, { useEffect } from 'react';
-import { Box, Button, IconButton, TableCell, TableRow } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
+import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
   {
-    id: 'page',
-    label: 'PAGE',
-    sortable: true,
-  },
-  {
-    id: 'impressions',
-    label: 'IMPRESSIONS',
-    sortable: true,
-  },
-  {
-    id: 'dateTime',
-    label: 'DATE | TIME',
-    sortable: true,
-  },
-  {
-    id: 'clickThrough',
-    label: 'CLICK-THROUGH',
+    id: 'name',
+    label: 'PAGE NAME',
     sortable: true,
   },
   {
     id: 'type',
     label: 'TYPE',
+    sortable: true,
+  },
+  {
+    id: 'constraints',
+    label: 'CONSTRAINTS',
+    sortable: true,
+  },
+  {
+    id: 'lastEditor',
+    label: 'LAST EDITOR',
+    sortable: true,
+  },
+  {
+    id: 'status',
+    label: 'STATUS',
     sortable: true,
   },
   {
@@ -40,11 +39,11 @@ const headers = [
   },
 ];
 
-const NotificationPage = (): JSX.Element => {
-  const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationItemsQuery();
+const Pages = (): JSX.Element => {
+  const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const req: NotificationRequest = {};
+    const req: PagesDataRequest = {};
     if (pagination != null) {
       req.page = pagination.page;
       req.page_size = pagination.pageSize;
@@ -61,6 +60,8 @@ const NotificationPage = (): JSX.Element => {
     fetchData(null, undefined);
   }, []);
 
+  console.log('pages data', data);
+
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     pagination: TablePaginationProps,
@@ -69,20 +70,29 @@ const NotificationPage = (): JSX.Element => {
     fetchData(pagination, sorting);
   };
 
-  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
-    console.log('onRowsPerPageChange', event);
+  const onRowsPerPageChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps
+  ) => {
+    fetchData(pagination, sorting);
   };
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
-  const tableRows = data?.data.map((row) => (
+  const tableRows = data?.data?.map((row) => (
     <TableRow key={row.id}>
-      <TableCell>{row.page}</TableCell>
-      <TableCell>{row.impressions}</TableCell>
-      <TableCell>{row.dateTime}</TableCell>
-      <TableCell>{row.clickThrough}</TableCell>
+      <TableCell>
+        <Stack>
+          <Typography variant="h3">{row.name}</Typography>
+          <Typography variant="subtitle1">{row.pageId}</Typography>
+        </Stack>
+      </TableCell>
       <TableCell>{row.type}</TableCell>
+      <TableCell>{row.constraints}</TableCell>
+      <TableCell>{row.lastEditor}</TableCell>
+      <TableCell>{row.status}</TableCell>
       <TableCell>
         <IconButton>
           <MoreHorizIcon />
@@ -90,14 +100,16 @@ const NotificationPage = (): JSX.Element => {
       </TableCell>
     </TableRow>
   ));
+
   const total = data?.meta.total;
+
   return (
     <Box>
       <PageHeader
-        title="Notifications"
+        title="Pages"
         rightContent={
-          <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log(`handling create report`)}>
-            CREATE REPORT
+          <Button variant="contained" onClick={() => console.log(`handling create page`)}>
+            CREATE PAGE
           </Button>
         }
         sx={{ mt: 2 }}
@@ -106,13 +118,12 @@ const NotificationPage = (): JSX.Element => {
         loading={isLoading}
         fetching={isFetching}
         total={total}
-        title="{0} notifications"
+        title="{0} total pages"
         headerCells={headers}
         tableRows={tableRows}
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
         onSortClick={onSortClick}
-        onExportClick={() => console.log('handling export csv')}
         sx={{
           mt: 4,
         }}
@@ -121,4 +132,4 @@ const NotificationPage = (): JSX.Element => {
   );
 };
 
-export default NotificationPage;
+export default Pages;

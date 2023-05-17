@@ -61,7 +61,9 @@ export const Table = (props: TableProps) => {
   };
 
   const _onRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    onRowsPerPageChange && onRowsPerPageChange(event);
+    const newPagination = { ...pagination, page: 0, pageSize: parseInt(event.target.value, 10) };
+    setPagination(newPagination);
+    onRowsPerPageChange && onRowsPerPageChange(event, newPagination, sorting);
   };
 
   return (

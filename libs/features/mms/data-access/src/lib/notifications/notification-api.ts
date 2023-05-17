@@ -1,4 +1,5 @@
 import { api } from '@lths/shared/data-access';
+
 import { NotificationResponse, NotificationRequest } from './types';
 import { getNotificationUrl } from './urls';
 

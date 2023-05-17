@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { SxProps } from '@mui/material/styles';
 
 import { ProgressLoadingProps, ProgressProps } from '../../types';
@@ -31,7 +31,11 @@ export type TableProps = ProgressProps &
       pagination: TablePaginationProps,
       sorting: TableSortingProps
     ) => void;
-    onRowsPerPageChange?: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+    onRowsPerPageChange?: (
+      event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+      pagination: TablePaginationProps,
+      sorting: TableSortingProps
+    ) => void;
     sx?: SxProps;
   };
 
