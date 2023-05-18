@@ -1,4 +1,5 @@
-import configureStore from 'redux-mock-store';
+import { configureStore } from '@reduxjs/toolkit';
+import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 
 import { FormStateValue } from '@lths/types/ui-filters';
 
@@ -14,7 +15,7 @@ import {
 } from './slice';
 
 describe('Filters Slice', () => {
-  let store;
+  let store: ToolkitStore;
   beforeEach(() => {
     store = configureStore({
       reducer: { filters: filtersReducer },
