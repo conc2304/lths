@@ -22,6 +22,7 @@ import {
 import { getInitialDateRange, getInitialFormState } from '../../utils/index';
 
 export interface UiFilterProps {
+  isLoading?: boolean;
   onApplyFilters: (appliedFilters: SelectedUiFilters) => void;
   onChange?: (appliedFilters: SelectedUiFilters) => void;
   // Dates
@@ -41,6 +42,7 @@ export interface UiFilterProps {
 
 export const UiFilters = (props: UiFilterProps): JSX.Element => {
   const {
+    isLoading = false,
     onApplyFilters,
     onChange,
     // Dates
@@ -58,13 +60,13 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
     clearForm,
   } = props;
 
-  const initialFormState = useRef(getInitialFormState(formSchema));
-  const initialDateRange = useRef(getInitialDateRange(dateOptions));
+  const initialFormState = useRef(formSchema ? getInitialFormState(formSchema) : null);
+  const initialDateRange = useRef(dateOptions ? getInitialDateRange(dateOptions) : null);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    if (formState) setFormState({ formState: initialFormState.current });
+    if (formState && !!initialFormState.current) setFormState({ formState: initialFormState.current });
   }, [formSchema]);
 
   useEffect(() => {
@@ -101,7 +103,7 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
     clearForm();
   };
   const handleCancel = () => {
-    setFormState({ formState: initialFormState.current });
+    setFormState({ formState: initialFormState.current || {} });
     setModalIsOpen(false);
   };
 
@@ -131,6 +133,7 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
     <Box sx={{ flex: 1 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <DateRangeSelector
+          isLoading={isLoading}
           dateOptions={dateOptions}
           onUpdateTimePeriod={handleUpdateTimePeriod}
           onChange={handleOnDateChange}
@@ -148,6 +151,7 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
         </Button>
       </Box>
       <FilterForm
+        isLoading={isLoading}
         title="Apply Filters"
         open={modalIsOpen}
         filterSchema={formSchema}
@@ -169,7 +173,7 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
 
       <ChipContainer
         title="Filters Applied"
-        selectedFilters={formState}
+        selectedFilters={formState || {}}
         onDelete={handleRemoveFilterChip}
         variant="inline"
         onClearAll={handleClearFilterChips}

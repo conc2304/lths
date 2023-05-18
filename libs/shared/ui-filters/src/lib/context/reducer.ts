@@ -2,6 +2,8 @@ import produce from 'immer';
 
 import { FilterFormContextActionType, FilterFormContextType } from '@lths/types/ui-filters';
 
+// TODO - Refactor with ui-filters-actions
+
 export const formFilterContextReducer = (state: FilterFormContextType, action: FilterFormContextActionType) => {
   try {
     switch (action.type) {
