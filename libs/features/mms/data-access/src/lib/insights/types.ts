@@ -23,7 +23,7 @@ export type InsightKpiColumnCardResponse = {
     subtitle?: string | null;
     info: Info;
     kpiData: Array<KPI>, 
-    columnData: string // ToDO: add columns data type
+    columnData: Array<BarData>
   } };
 
 export type InsightKpiResponse = { data: Array<KPI> };
@@ -38,6 +38,13 @@ export type PagesResponse = {
 export type PagesKpiResponse = { data: Array<KPI> };
 export type PagesHistogramResponse = { data: Array<Histogram> };
 export type PagesPreviewResponse = { data: Preview };
+
+export type BarData = {
+  title: string;
+  uv: number;
+  in?: number;
+  drop?: number;
+}
 
 export type KPI = {
   title: string | null; // metric title

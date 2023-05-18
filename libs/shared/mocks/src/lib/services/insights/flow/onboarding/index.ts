@@ -1,7 +1,7 @@
 import OnboardingHistogramPayload from './histogram.stub';
 import OnboardingKpiColumnCardPayload from './kpi-column-card.stub';
-import OnboardingPreviewPayload from './preview.stub';
 import OnboardingKpiPayload from './kpi.stub';
+import OnboardingPreviewPayload from './preview.stub';
 import { getSuccessfulResponse } from '../../../api';
 
 const responses = [

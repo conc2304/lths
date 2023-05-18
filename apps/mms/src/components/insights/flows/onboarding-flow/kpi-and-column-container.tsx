@@ -1,6 +1,5 @@
 import { InsightKpiColumnCardResponse } from '@lths/features/mms/data-access';
-// import { LineChart } from '@lths/shared/ui-charts'; // ToDO: replace with columns chart
-import { VerticalBarChart, HorizontalBarChart } from '@lths/shared/ui-charts';
+import { VerticalBarChart } from '@lths/shared/ui-charts';
 import { BasicCard, VStack, InfoTooltip } from '@lths/shared/ui-elements';
 
 
@@ -11,14 +10,6 @@ type Props = {
   data: InsightKpiColumnCardResponse;
 };
 
-// const HistogramItem = ({ data }: { data: Histogram }) => {
-//   const { title, subtitle, info, data: metrics } = data;
-//   const action = info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />;
-//   return (
-//     <LineChart data={metrics} />
-//   );
-// };
-
 export const KpiAndColumnContainer = ({ data } : Props) => {
   if (!data || !data.data) return null;
   
@@ -27,16 +18,12 @@ export const KpiAndColumnContainer = ({ data } : Props) => {
   return (
     <BasicCard title={data.data.title} 
       subheader={data.data.subtitle} 
-      action={ action} sx={{ flex: 1, paddingBottom: '20px' }} alignItems="stretch">
-      <VStack>
+      action={ action} sx={{ flex: 1 }} alignItems="stretch">
+      <VStack spacing={8}>
         <KpiList data={{data: data.data.kpiData}} />
-        <div>{data.data.columnData}</div>
-        <VerticalBarChart/>
-        {/* todo replace histogram with barchart */}
-        {/* { (histogramData && histogramData.data) && histogramData.data.map((o, i) => {
-          return <HistogramItem key={`histogram_${i}`} data={o}/>;
-        })} */}
+        <VerticalBarChart includeSteps={true} data={ data.data.columnData}/>
       </VStack>
     </BasicCard>
   );
 };
+

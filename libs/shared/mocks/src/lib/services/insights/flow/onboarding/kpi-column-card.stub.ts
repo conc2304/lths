@@ -195,8 +195,33 @@ const payload = {
         ],
       },
     ],
-    columnData: "Repalce with column data"
-  }
+    columnData: [
+      {
+        title: 'Plan your visit',
+        in: 1234,
+        drop: 10,
+        uv: 100,
+      },
+      {
+        title: 'Stay connected',
+        in: 987,
+        drop: 267,
+        uv: 82,
+      },
+      {
+        title: 'Sign up',
+        in: 765,
+        drop: 435,
+        uv: 64,
+      },
+      {
+        title: 'App home',
+        in: 532,
+        drop: 145,
+        uv: 43,
+      },
+    ],
+  },
 };
 
 export default payload;

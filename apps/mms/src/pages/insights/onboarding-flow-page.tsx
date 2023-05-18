@@ -1,4 +1,5 @@
 import { Stack } from '@mui/material';
+
 import {
   // ToDo(onboarding): Replace with coloumn and flow graph
   useLazyGetInsightOnboardingKpiColumnCardQuery,
