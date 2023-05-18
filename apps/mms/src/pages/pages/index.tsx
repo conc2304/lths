@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { Box, Button, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import TimerOffIcon from '@mui/icons-material/TimerOff';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
@@ -39,6 +46,16 @@ const headers = [
   },
 ];
 
+const statusIcon = {
+  Draft: <BorderColorIcon htmlColor="#F9A61A" />,
+  Published: <CheckCircleIcon htmlColor="#00BA00" />,
+  Archived: <InventoryIcon htmlColor="gray" />,
+  Scheduled: <WatchLaterIcon htmlColor="#05B5E4" />,
+  'Pending approval': <PendingActionsIcon htmlColor="gold" />,
+  'Changes requested': <FeedbackIcon htmlColor="orange" />,
+  Expired: <TimerOffIcon htmlColor="red" />,
+};
+
 const Pages = (): JSX.Element => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
@@ -59,8 +76,6 @@ const Pages = (): JSX.Element => {
   useEffect(() => {
     fetchData(null, undefined);
   }, []);
-
-  console.log('pages data', data);
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -85,14 +100,26 @@ const Pages = (): JSX.Element => {
     <TableRow key={row.id}>
       <TableCell>
         <Stack>
-          <Typography variant="h3">{row.name}</Typography>
+          <Typography variant="h5">{row.name}</Typography>
           <Typography variant="subtitle1">{row.pageId}</Typography>
         </Stack>
       </TableCell>
       <TableCell>{row.type}</TableCell>
       <TableCell>{row.constraints}</TableCell>
-      <TableCell>{row.lastEditor}</TableCell>
-      <TableCell>{row.status}</TableCell>
+      <TableCell>
+        <Typography variant="body1" color="#0091FF">
+          {row.lastEditor}
+        </Typography>
+      </TableCell>
+      <TableCell>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Box>
+            <Typography variant="body1">{row.status}</Typography>
+            <Typography variant="body1">{row.lastModified}</Typography>
+          </Box>
+          {statusIcon[row.status]}
+        </Stack>
+      </TableCell>
       <TableCell>
         <IconButton>
           <MoreHorizIcon />

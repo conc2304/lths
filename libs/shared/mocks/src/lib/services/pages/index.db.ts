@@ -11,9 +11,7 @@ const db = factory({
     constraints: String,
     lastEditor: String,
     status: String,
-    publishedOn: String,
-    scheduledOn: String,
-    draftedOn: String,
+    lastModified: String,
   },
 });
 
@@ -32,10 +30,7 @@ const createPagesData = () => {
     'Expired',
     'Archived',
   ]);
-
-  const dateFields: Record<string, string> = {};
-
-  dateFields[status.toLowerCase().split(' ').join('') + 'On'] = faker.date.recent().toUTCString();
+  const lastModified = faker.date.recent().toUTCString();
 
   return {
     name,
@@ -44,7 +39,7 @@ const createPagesData = () => {
     constraints,
     lastEditor,
     status,
-    ...dateFields,
+    lastModified,
   };
 };
 
