@@ -7,7 +7,7 @@ type ColorPickerProps = {
   onChange: (color: string) => void;
 };
 
-const ColorPicker: React.FC<ColorPickerProps> = ({ initialColor, onChange }) => {
+const ColorPicker = ({ initialColor, onChange }: ColorPickerProps) => {
   const [color, setColor] = useState(initialColor);
 
   const handleChange = (colorResult: ColorResult) => {

@@ -1,6 +1,8 @@
 export { default as UnsupportedComponent } from './unsupported/component';
 export { default as UnsupportedToolbar } from './unsupported/toolbar';
 
+export { default as GenericToolbar } from './generic/toolbar';
+
 export { default as HeroComponent } from './hero/component';
 export { default as HeroToolbar } from './hero/toolbar';
 
@@ -18,5 +20,8 @@ export { default as CarouselNewsToolbar } from './carousel-news/toolbar';
 
 export { default as ScoreBoardComponent } from './score-board/component';
 export { default as ScoreBoardToolbar } from './score-board/toolbar';
+
+export { default as VideoComponent } from './video-view/component';
+export { default as VideoToolbar } from './video-view/toolbar';
 
 export * from './types';

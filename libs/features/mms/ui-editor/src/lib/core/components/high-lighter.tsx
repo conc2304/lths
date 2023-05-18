@@ -25,7 +25,7 @@ const HighlightableComponent = ({ children, selected = false, onClick }: Highlig
 
   const handleOnClick = () => {
     //setIsHighlighted(true);
-    onClick();
+    onClick && onClick();
   };
   return (
     <Box

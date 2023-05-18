@@ -7,30 +7,35 @@ import {
   ButtonComponent,
   CarouselNewsComponent,
   ScoreBoardComponent,
+  VideoComponent,
 } from '../components';
 import {
   ButtonComponentProps,
   CardComponentProps,
   CarouselNewsComponentProps,
+  Component,
   HeaderComponentProps,
   HeroComponentProps,
   ScoreBoardComponentProps,
+  VideoComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
   switch (props.component_id) {
-    case 'cQuickLinkView':
+    case Component.QuickLinkView:
       return <HeroComponent {...(props as HeroComponentProps)} />;
-    case 'cCardView':
+    case Component.CardView:
       return <CardComponent {...(props as CardComponentProps)} />;
-    case 'cHeader':
+    case Component.Header:
       return <HeaderComponent {...(props as HeaderComponentProps)} />;
-    case 'cButton':
+    case Component.Button:
       return <ButtonComponent {...(props as ButtonComponentProps)} />;
-    case 'cNewsCarousel':
+    case Component.NewsCarousel:
       return <CarouselNewsComponent {...(props as CarouselNewsComponentProps)} />;
-    case 'cScoreBoard':
+    case Component.ScoreBoard:
       return <ScoreBoardComponent {...(props as ScoreBoardComponentProps)} />;
+    case Component.VideoView:
+      return <VideoComponent {...(props as VideoComponentProps)} />;
 
     default:
       return <UnsupportedComponent {...props} />;

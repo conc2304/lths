@@ -1,4 +1,5 @@
 import { ComponentProps } from '../../context';
+export * from './enum';
 /**NOTE: WE MAY HAVE TO RELAX ON THE NAMING CONVENTION HERE, SO THAT WE CAN FOLLOW EXACT JSON NAMES
 
 */
@@ -74,4 +75,8 @@ export type ScoreBoardTeamProps = ComponentProps & {
   point: string;
   btn_title: string;
   action: ActionProps;
+};
+
+export type VideoComponentProps = ComponentProps & {
+  default_data: { video_link: string; image: string; action: ActionProps };
 };

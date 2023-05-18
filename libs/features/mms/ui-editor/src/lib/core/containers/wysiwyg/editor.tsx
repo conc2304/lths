@@ -13,15 +13,13 @@ export default function Editor(props: { components: ComponentProps[] }) {
 
   return (
     <div>
-      {components.map((item, index) => {
+      {components.map((item) => {
         const component = factory(item);
         const { __ui_id__ } = item;
         const selected = selectedComponent && __ui_id__ === selectedComponent.__ui_id__;
         return (
-          <HighlightableComponent onClick={() => handleComponentClick(item)} selected={selected}>
-            <div key={item.__ui_id__} id={`editor-component-${index}`}>
-              {component}
-            </div>
+          <HighlightableComponent onClick={() => handleComponentClick(item)} selected={selected} key={item.__ui_id__}>
+            {component}
           </HighlightableComponent>
         );
       })}
