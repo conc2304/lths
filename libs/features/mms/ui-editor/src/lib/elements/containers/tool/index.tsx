@@ -1,9 +1,9 @@
 import { Box, BoxProps } from '@mui/material';
 
-const CardContainer = ({ id, children, ...rest }: BoxProps) => {
+const ToolContainer = ({ id, children, ...rest }: BoxProps) => {
   return (
     <Box
-      id={`${id}-component`}
+      id={`${id}-toolbar`}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -20,4 +20,4 @@ const CardContainer = ({ id, children, ...rest }: BoxProps) => {
   );
 };
 
-export default CardContainer;
+export default ToolContainer;

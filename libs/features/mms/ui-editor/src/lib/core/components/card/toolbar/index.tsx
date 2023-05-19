@@ -1,5 +1,5 @@
-import { BasicTextField } from '../../../../elements';
-import { CardContainer } from '../../../../elements/containers';
+import { BasicTextField, ImagePicker } from '../../../../elements';
+import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
 import { CardComponentProps } from '../../types';
 
@@ -12,11 +12,11 @@ const CardToolbar = (props: CardComponentProps) => {
   const { handleTitleChange, handleDescChange, handleImageChange } = useToolbarChange();
 
   return (
-    <CardContainer id={`${id}_toolbar`}>
-      <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+    <ToolContainer id={id}>
+      <ImagePicker value={image} onChange={handleImageChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default CardToolbar;

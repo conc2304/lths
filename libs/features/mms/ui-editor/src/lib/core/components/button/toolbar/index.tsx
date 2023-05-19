@@ -1,5 +1,5 @@
 import { ButtonStyleLoopkups } from '../../../../common';
-import { CardContainer, SegmentedButton, BasicTextField } from '../../../../elements';
+import { ToolContainer, SegmentedButton, BasicTextField } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { ButtonComponentProps } from '../../types';
 
@@ -16,10 +16,10 @@ const ButtonToolbar = (props: ButtonComponentProps) => {
   };
 
   return (
-    <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
+    <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <SegmentedButton label={'Style'} onValueChange={handleStyleChange} data={ButtonStyleLoopkups} value={style} />
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default ButtonToolbar;

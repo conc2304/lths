@@ -5,7 +5,7 @@ import { MOBILE_GUTTER } from '../../../common';
 const BasicContainer = ({ id, children, ...rest }: BoxProps) => {
   return (
     <Box
-      id={id}
+      id={`${id}-component`}
       sx={{
         display: 'flex',
         flexDirection: 'column',

@@ -4,12 +4,13 @@ import Box from '@mui/material/Box';
 import colors from '../../common/colors';
 
 type HighlightableComponentProps = {
+  id?: string;
   children: ReactNode;
   selected: boolean;
   onClick?: () => void;
 };
 
-const HighlightableComponent = ({ children, selected = false, onClick }: HighlightableComponentProps) => {
+const HighlightableComponent = ({ id, children, selected = false, onClick }: HighlightableComponentProps) => {
   const [isHighlighted, setIsHighlighted] = useState(selected);
   //console.log('HighlightableComponent', children);
   useEffect(() => {
@@ -29,6 +30,7 @@ const HighlightableComponent = ({ children, selected = false, onClick }: Highlig
   };
   return (
     <Box
+      id={id}
       sx={{
         position: 'relative',
         '&::before': {

@@ -11,7 +11,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
   } = props;
 
   return (
-    <BasicContainer id={`${id}_component`}>
+    <BasicContainer id={id}>
       <Typography sx={{ paddingBottom: 0.5, fontSize: 24, fontWeight: 600, color, wordWrap: 'break-word' }}>
         {title}
       </Typography>

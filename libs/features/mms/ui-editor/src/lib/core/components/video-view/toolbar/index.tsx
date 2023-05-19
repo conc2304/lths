@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { BasicTextField, CardContainer } from '../../../../elements';
+import { BasicTextField, ToolContainer, ImagePicker } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { VideoComponentProps } from '../../types';
 
@@ -16,10 +16,10 @@ const VideoToolbar = (props: VideoComponentProps) => {
   };
 
   return (
-    <CardContainer id={`${id}_toolbar`}>
-      <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+    <ToolContainer id={id}>
+      <ImagePicker value={image} onChange={handleImageChange} />
       <BasicTextField label={'Video URL'} value={video_link} onChange={handleVideoChange} />
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default VideoToolbar;

@@ -3,21 +3,21 @@ import { Box } from '@mui/system';
 import { SketchPicker, ColorResult } from 'react-color';
 
 type ColorPickerProps = {
-  initialColor: string;
+  value: string;
   onChange: (color: string) => void;
 };
 
-const ColorPicker = ({ initialColor, onChange }: ColorPickerProps) => {
-  const [color, setColor] = useState(initialColor);
+const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
+  const [data, setData] = useState(value);
 
   const handleChange = (colorResult: ColorResult) => {
-    setColor(colorResult.hex);
+    setData(colorResult.hex);
     onChange(colorResult.hex);
   };
 
   return (
     <Box sx={{ '.sketch-picker': { boxShadow: 'none', border: 'none' } }}>
-      <SketchPicker color={color} onChange={handleChange} />
+      <SketchPicker color={data} onChange={handleChange} />
     </Box>
   );
 };

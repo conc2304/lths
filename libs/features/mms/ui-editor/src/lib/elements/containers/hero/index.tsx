@@ -16,7 +16,7 @@ const HeroContainer = ({ id, width, height, image, children, disableGutter = fal
   return (
     <Box sx={{ margin: disableGutter ? 0 : MOBILE_GUTTER }}>
       <Box
-        id={id}
+        id={`${id}-component`}
         sx={{
           backgroundImage: `url(${image})`,
           backgroundSize: 'cover',

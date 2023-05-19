@@ -29,7 +29,7 @@ const ScoreBoardComponent = (props: ScoreBoardComponentProps) => {
   //TODO: cleanup style , split into components
 
   return (
-    <BasicContainer id={`${id}_component`}>
+    <BasicContainer id={id}>
       <Box>
         <Box
           sx={{

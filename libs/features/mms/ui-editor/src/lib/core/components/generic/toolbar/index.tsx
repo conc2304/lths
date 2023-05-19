@@ -1,6 +1,6 @@
 import { UnsupportedToolbar } from '../..';
 import { ComponentProps } from '../../../../context';
-import { BasicTextField, CardContainer, ImagePicker } from '../../../../elements';
+import { BasicTextField, ToolContainer, ImagePicker } from '../../../../elements';
 import { ColorPicker } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 
@@ -16,18 +16,18 @@ const GenericToolbar = (props: ComponentProps) => {
 
   const { __ui_id__: id, default_data } = props;
 
-  const { handleImageChange2, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
+  const { handleImageChange, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
 
   const formFactory = (key: string) => {
     switch (key) {
       case FormControl.Image:
-        return <ImagePicker initialValue={default_data.image} onChange={handleImageChange2} />;
+        return <ImagePicker value={default_data.image} onChange={handleImageChange} />;
       case FormControl.Title:
         return <BasicTextField label={'Title'} value={default_data.title} onChange={handleTitleChange} />;
       case FormControl.Description:
-        return <BasicTextField label={'Title'} value={default_data.desc} onChange={handleDescChange} />;
+        return <BasicTextField label={'Description'} value={default_data.desc} onChange={handleDescChange} />;
       case FormControl.Color:
-        return <ColorPicker initialColor={default_data.color} onChange={handleColorChange} />;
+        return <ColorPicker value={default_data.color} onChange={handleColorChange} />;
 
       default:
         return null;
@@ -44,6 +44,6 @@ const GenericToolbar = (props: ComponentProps) => {
     else return controls;
   };
 
-  return <CardContainer id={`${id}_toolbar`}>{renderComponent()}</CardContainer>;
+  return <ToolContainer id={id}>{renderComponent()}</ToolContainer>;
 };
 export default GenericToolbar;

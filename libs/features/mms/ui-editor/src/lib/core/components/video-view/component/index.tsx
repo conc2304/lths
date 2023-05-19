@@ -16,7 +16,7 @@ const VideoComponent = (props: VideoComponentProps) => {
     alert(1);
   };
   return (
-    <CardContainer id={`${id}_component`}>
+    <CardContainer id={id}>
       <CardMedia
         component={isVideoShown ? 'video' : 'img'}
         src={isVideoShown ? video_link : image}

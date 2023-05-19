@@ -31,11 +31,8 @@ export const useToolbarChange = () => {
   const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('link_title', event.target.value, index);
   };
-  //todo remove this
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('image', event.target.value, index);
-  };
-  const handleImageChange2 = (value: string, index?: number) => {
+
+  const handleImageChange = (value: string, index?: number) => {
     updateComponentProp('image', value, index);
   };
   const handleColorChange = (color: string, index?: number) => {
@@ -57,7 +54,6 @@ export const useToolbarChange = () => {
     handleDescChange,
     handleLinkTitleChange,
     handleImageChange,
-    handleImageChange2,
     handleComponentDataChange,
     handleColorChange,
   };

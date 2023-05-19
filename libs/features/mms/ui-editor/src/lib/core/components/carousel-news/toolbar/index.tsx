@@ -5,7 +5,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { useEditorActions } from '../../../../context';
-import { CardContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import {
+  ToolContainer,
+  BasicTextField,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ImagePicker,
+} from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { CarouselNewsComponentProps } from '../../types';
 
@@ -33,7 +40,7 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
     selectComponent(data);
   };
   return (
-    <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
+    <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
       {component_data.map(({ tag, title, desc, image }, index) => {
         const panelId = `panel${index}`;
         return (
@@ -57,7 +64,7 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
                   multiline
                   rows={3}
                 />
-                <BasicTextField label={'Image'} value={image} onChange={(e) => handleImageChange(e, index)} />
+                <ImagePicker value={image} onChange={(value) => handleImageChange(value, index)} />
               </Box>
             </AccordionDetails>
           </Accordion>
@@ -66,7 +73,7 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
       <Button variant="outlined" onClick={handleAdd} sx={{ marginTop: 3 }} fullWidth>
         Add
       </Button>
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default CarouselNewsToolbar;

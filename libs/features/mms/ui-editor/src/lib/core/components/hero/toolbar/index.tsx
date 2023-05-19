@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Box, Divider } from '@mui/material';
 
-import { BasicTextField, CardContainer } from '../../../../elements';
+import { BasicTextField, ToolContainer, ImagePicker } from '../../../../elements';
 import { QuickLinkListToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HeroComponentProps } from '../../types';
@@ -18,15 +18,15 @@ const ToolbarComponent = (props: HeroComponentProps) => {
   };
 
   return (
-    <CardContainer id={`${id}_toolbar`}>
-      <BasicTextField label={'Image URL'} value={image} onChange={handleImageChange} />
+    <ToolContainer id={id}>
+      <ImagePicker value={image} onChange={handleImageChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
       <Box sx={{ gap: 0 }}>
         <QuickLinkListToolbar data={component_data} onChange={handleActionChange} />
       </Box>
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default ToolbarComponent;

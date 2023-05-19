@@ -11,7 +11,7 @@ const ButtonComponent = (props: ButtonComponentProps) => {
   //TODO:make this generic??
   const variant = style === ButtonStyle.Fill ? 'contained' : 'outlined';
   return (
-    <BasicContainer id={`${id}_component`}>
+    <BasicContainer id={id}>
       <Button variant={variant}>{title}</Button>
     </BasicContainer>
   );

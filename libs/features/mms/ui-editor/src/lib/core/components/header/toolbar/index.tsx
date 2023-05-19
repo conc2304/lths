@@ -1,4 +1,4 @@
-import { BasicContainer, BasicTextField } from '../../../../elements';
+import { ToolContainer, BasicTextField } from '../../../../elements';
 import ColorPicker from '../../../../elements/color-picker';
 import { useToolbarChange } from '../../hooks';
 import { HeaderComponentProps } from '../../types';
@@ -16,10 +16,10 @@ const HeaderToolbar = (props: HeaderComponentProps) => {
   };
 
   return (
-    <BasicContainer id={`${id}_toolbar`}>
+    <ToolContainer id={id}>
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <ColorPicker initialColor={color} onChange={handleColorChange} />
-    </BasicContainer>
+      <ColorPicker value={color} onChange={handleColorChange} />
+    </ToolContainer>
   );
 };
 export default HeaderToolbar;

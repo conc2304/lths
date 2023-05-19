@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 
 import FooterAccordion from './footer';
 import TeamAccordion from './team-accordion';
-import { CardContainer, BasicTextField } from '../../../../elements';
+import { ToolContainer, BasicTextField } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { ScoreBoardComponentProps } from '../../types';
 
@@ -28,7 +28,7 @@ const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
     updateComponentProp(group, { ...props.default_data.left, [key]: value });
   };
   return (
-    <CardContainer id={`${id}_toolbar`} aria-label="Button Toolbar">
+    <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Header'} value={date_info} onChange={handleHeaderChange} />
       <BasicTextField label={'Game State'} value={match_name} onChange={handleGameStateChange} />
       <BasicTextField label={'Game Info'} value={hint} onChange={handleGameInfoChange} />
@@ -37,7 +37,7 @@ const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
         <TeamAccordion objectId="right" label="Home Team" onChange={handleTeamChange} {...right} />
       </Box>
       <FooterAccordion left={left.btn_title} right={right.btn_title} onChange={handleTeamChange} />
-    </CardContainer>
+    </ToolContainer>
   );
 };
 export default ScoreBoardToolbar;
