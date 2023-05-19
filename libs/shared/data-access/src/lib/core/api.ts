@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { AUTH_TOKEN, HOST_API } from './constants';
-//import { RootState } from './types';
 import rootReducer from './root-reducer';
 
 type RootState = ReturnType<typeof rootReducer>;

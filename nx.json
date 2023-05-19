@@ -30,6 +30,7 @@
         "^production",
         "!{projectRoot}/.storybook/**/*",
         "!{projectRoot}/.storybook/**/*",
+        "!{projectRoot}/.storybook/**/*",
         "!{projectRoot}/.storybook/**/*"
       ]
     }
@@ -47,12 +48,14 @@
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)"
     ],
     "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
   },
   "generators": {
-    "@nrwl/react": {
+    "@nx/react": {
       "application": {
         "style": "css",
         "linter": "eslint",

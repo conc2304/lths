@@ -14,3 +14,19 @@ export const getInsightOverviewSegmentationUrl = () => {
 export const getInsightOverviewTabularUrl = () => {
   return `/insights/overview/tabular`;
 };
+
+export const getInsightPagesUrl = () => {
+  return `/insights/pages`;
+};
+export const getInsightPagesKpiUrl = () => {
+  return `/insights/pages/kpi`;
+};
+export const getInsightPagesHistogramUrl = () => {
+  return `/insights/pages/histogram`;
+};
+export const getInsightPagesHistogram2Url = () => {
+  return `/insights/pages/histogram2`;
+};
+export const getInsightPagesPagePreviewUrl = () => {
+  return `/insights/pages/preview`;
+};

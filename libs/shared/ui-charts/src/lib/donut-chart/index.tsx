@@ -32,7 +32,6 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value }
 
 const legendFormatter = (value, entry) => {
   const item = entry.payload;
-  console.log(item.title);
   return <Box component="span" sx={{ color: 'black' }}>{`${item.title} (${item.value.toLocaleString('en-US')})`}</Box>;
 };
 

@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogActions, Divider, useTheme, useMediaQuery, Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import Button from '@mui/material/Button';
 
 import {
@@ -19,17 +20,18 @@ export interface FilterFormProps {
   title: string;
   chipTitle?: string;
   open: boolean;
-  filterSchema: FormSchema[];
+  filterSchema?: FormSchema[];
   onApplyFilters: (formData: FormState) => void;
   onChange: (formData: FormState) => void;
   onClose: () => void;
   onClearFilters: () => void;
   onCancel: () => void;
-  formState: FormState;
-  removeItem: RemoveItem;
-  addItem: AddItem;
-  addGroupItems: AddGroupItems;
-  clearGroup: ClearGroup;
+  formState?: FormState;
+  onRemoveItem: RemoveItem;
+  onAddItem: AddItem;
+  onAddGroupItems: AddGroupItems;
+  onClearGroup: ClearGroup;
+  isLoading?: boolean;
 }
 
 export const FilterForm = ({
@@ -41,43 +43,45 @@ export const FilterForm = ({
   onChange,
   onClearFilters,
   onCancel,
-  formState,
-  removeItem,
-  addItem,
-  addGroupItems,
-  clearGroup,
-  open,
+  formState = {},
+  onRemoveItem,
+  onAddItem,
+  onAddGroupItems,
+  onClearGroup,
+  open = false,
+  isLoading = false,
 }: FilterFormProps) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOnApplyFilters = () => {
+    console.log('APPLY FILTERS');
     onApplyFilters(formState);
     onClose();
   };
 
   const handleChipDelete: RemoveItem = async ({ parentID, itemID }) => {
-    const nextState = (await removeItem({ parentID, itemID })) as FilterFormState;
+    const nextState = (await onRemoveItem({ parentID, itemID })) as FilterFormState;
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleAddFormItem: AddItem = (value) => {
-    const nextState = addItem(value);
+    const nextState = onAddItem(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleAddGroupItems: AddGroupItems = (value) => {
-    const nextState = addGroupItems(value);
+    const nextState = onAddGroupItems(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleRemoveItem: RemoveItem = async (value) => {
-    const nextState = (await removeItem(value)) as FilterFormState;
+    const nextState = (await onRemoveItem(value)) as FilterFormState;
     if (nextState) onChange(nextState?.formState || formState);
   };
 
   const handleClearGroup: ClearGroup = (value) => {
-    const nextState = clearGroup(value);
+    const nextState = onClearGroup(value);
     if (nextState) onChange(nextState?.formState || formState);
   };
 
@@ -90,7 +94,7 @@ export const FilterForm = ({
       fullWidth={true}
       fullScreen={fullScreen}
     >
-      <Box px="2.675rem" pt="2.125rem">
+      <Box px="2.675rem" pt="2.125rem" data-testid={'filter-form-modal'}>
         <Box>
           <FormTitle id="filter-dialog-title" onClose={onCancel}>
             {title}
@@ -98,6 +102,7 @@ export const FilterForm = ({
         </Box>
         <DialogContent>
           <Form
+            isLoading={isLoading}
             formSchema={filterSchema}
             formState={formState}
             onAddItem={handleAddFormItem}
@@ -105,32 +110,34 @@ export const FilterForm = ({
             onRemoveItem={handleRemoveItem}
             onClearGroup={handleClearGroup}
           />
-          <Box mt={7}>
-            <ChipContainer title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
+          <Box mt={7} display={isLoading ? 'none' : 'initial'}>
+            <ChipContainer variant="modal" title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
           </Box>
         </DialogContent>
         <Divider variant="middle" sx={{ mt: 3 }} />
         <DialogActions sx={{ m: 3 }}>
-          <Button
-            variant="text"
-            color="secondaryButton"
-            onClick={onClearFilters}
-            sx={{ fontSize: '0.75rem', mr: 1.75 }}
-          >
-            CLEAR ALL FILTERS
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={onCancel}
-            // onClick={onCancel}
-            sx={{ mr: 0.75 }}
-          >
+          {!isLoading && (
+            <Button
+              variant="text"
+              color="secondaryButton"
+              onClick={onClearFilters}
+              sx={{ fontSize: '0.75rem', mr: 1.75 }}
+            >
+              CLEAR ALL FILTERS
+            </Button>
+          )}
+          <Button variant="outlined" color="primary" onClick={onCancel} sx={{ mr: 0.75 }}>
             CANCEL
           </Button>
-          <Button variant="contained" color="primary" onClick={handleOnApplyFilters}>
-            APPLY FILTERS
-          </Button>
+          {isLoading ? (
+            <LoadingButton loading variant="outlined">
+              APPLY FILTERS
+            </LoadingButton>
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleOnApplyFilters}>
+              APPLY FILTERS
+            </Button>
+          )}
         </DialogActions>
       </Box>
     </Dialog>

@@ -18,20 +18,26 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lths-mui/shared/storybook": [
+        "libs/shared/storybook/src/index.ts"
+      ],
       "@lths-mui/shared/themes": [
         "libs/shared/themes/src/index.ts"
       ],
-      "@lths/features/mms/data-access": [
-        "libs/features/mms/data-access/src/index.ts"
-      ],
       "@lths/features/mms/ui-editor": [
         "libs/features/mms/ui-editor/src/index.ts"
+      ],
+      "@lths/features/mms/data-access": [
+        "libs/features/mms/data-access/src/index.ts"
       ],
       "@lths/shared/data-access": [
         "libs/shared/data-access/src/index.ts"
       ],
       "@lths/shared/mocks": [
         "libs/shared/mocks/src/index.ts"
+      ],
+      "@lths/shared/ui-charts": [
+        "libs/shared/ui-charts/src/index.ts"
       ],
       "@lths/shared/ui-elements": [
         "libs/shared/ui-elements/src/index.ts"
@@ -53,10 +59,7 @@
       ],
       "@lths/types/ui-filters": [
         "libs/shared/ui-filters-types/src/index.ts"
-      ],
-      "@lths/shared/ui-charts": [
-        "libs/shared/ui-charts/src/index.ts"
-      ],
+      ]
     }
   },
   "files": [

@@ -1,136 +1,83 @@
-import {
-  AddGroupItems,
-  AddItem,
-  ClearGroup,
-  FormSchema,
-  FormState,
-  FormStateValue,
-  RemoveItem,
-} from '@lths/types/ui-filters';
-import { Checkbox, Divider, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { getPluralizeLastWord, sortBySeq } from 'libs/shared/ui-elements/src/lib/inputs/filter-form/utils';
-import { ChangeEvent } from 'react';
+import { FormControlLabel, Radio, RadioGroup, Skeleton, Stack } from '@mui/material';
+
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
+
+import { CheckBoxItems } from './checkbox-items';
+import { sortBySeq } from '../filter-form/utils';
 
 type FormElementsProps = {
-  formSchema: FormSchema;
-  groupTitle: string;
-  groupID: string;
-  formState: FormState;
+  isLoading?: boolean;
+  formSchema?: FormSchema;
+  groupTitle?: string;
+  groupID?: string;
+  formState?: FormState;
   onAddItem: AddItem;
   onRemoveItem: RemoveItem;
   onClearGroup: ClearGroup;
   onAddGroupItems: AddGroupItems;
+  orientation?: 'vertical' | 'horizontal';
 };
 export const FormChildren = (props: FormElementsProps): JSX.Element => {
   const {
-    groupTitle,
-    groupID,
-    formState,
+    isLoading = false,
+    orientation = 'vertical',
+    groupTitle = '',
+    groupID = '',
+    formState = {},
+    formSchema = {},
     onAddItem: addItem,
     onRemoveItem: removeItem,
     onClearGroup: clearGroup,
     onAddGroupItems: addGroupItems,
-    formSchema: { default_value, data },
   } = props;
-  const elementType = props.formSchema.type;
-  const sortedFields = sortBySeq(data as FormSchema[], 'asc');
 
-  switch (elementType) {
-    case 'checkbox':
-      type handleCheckProps = { checked: boolean; id: string; title: string };
+  if (isLoading || !formSchema || !Object.keys(formSchema).length) {
+    return (
+      <Stack justifyContent={'flex-start'} direction={orientation === 'vertical' ? 'column' : 'row'} spacing={2} mr={1}>
+        {new Array(Math.floor(Math.random() * (6 - 3) + 3)).fill('').map((_, i) => (
+          <Skeleton key={i} width={100} height={30} />
+        ))}
+      </Stack>
+    );
+  } else {
+    const { default_value, data, type: elementType } = formSchema;
+    const sortedFields = sortBySeq(data as FormSchema[], 'asc');
 
-      const handleCheckBoxChange = ({ checked, id, title }: handleCheckProps) => {
-        const item = { [id]: { id, title } };
-
-        if (checked) {
-          addItem && addItem({ parentID: groupID, itemID: id, item });
-        } else {
-          removeItem && removeItem({ parentID: groupID, itemID: id });
-        }
-      };
-
-      const handleToggleAll = (event: ChangeEvent<HTMLInputElement>) => {
-        const { checked } = event.target;
-
-        if (!checked) {
-          clearGroup && clearGroup({ parentID: groupID });
-        } else {
-          const grouIDValues: FormStateValue = {};
-          sortedFields.forEach((elem) => {
-            const { id, title } = elem;
-            grouIDValues[elem.id as string] = { id, title };
-          });
-          addGroupItems && addGroupItems({ parentID: groupID, items: grouIDValues });
-        }
-      };
-
-      const pluralizedLastWord = getPluralizeLastWord(groupTitle);
-      const allTitle = `All ${pluralizedLastWord}`;
-      const formStateLength = formState?.[groupID] ? Object.keys(formState[groupID]).length : 0;
-      const isParentIndeterminate = formStateLength > 0 && formStateLength !== sortedFields.length;
-
-      return (
-        <>
-          <FormControlLabel
-            label={allTitle}
-            value={`${pluralizedLastWord}--togle`}
-            control={
-              <Checkbox
-                checked={formStateLength === sortedFields.length}
-                indeterminate={isParentIndeterminate}
-                //color="secondary"
-                onChange={handleToggleAll}
-              />
-            }
+    switch (elementType) {
+      case 'checkbox':
+        return (
+          <CheckBoxItems
+            orientation={orientation}
+            groupTitle={groupTitle}
+            groupID={groupID}
+            formState={formState}
+            formFields={sortedFields}
+            onAddItem={addItem}
+            onRemoveItem={removeItem}
+            onClearGroup={clearGroup}
+            onAddGroupItems={addGroupItems}
           />
-          <Divider variant="middle" sx={{ mt: 1, mb: 1 }} />
-          {/* Individual Parts of form */}
-          {sortedFields?.map((item) => {
-            const { title, id } = item;
-            const itemID = id as string;
-            const isChecked = !!formState?.[groupID]?.[itemID];
+        );
 
-            return (
-              <FormControlLabel
-                label={title}
-                value={id}
-                key={id}
-                control={
-                  <Checkbox
-                    //color="secondary"
-                    checked={isChecked}
-                    onChange={({ target: { checked } }) =>
-                      handleCheckBoxChange({ checked, id: itemID, title: title as string })
-                    }
-                    name={id}
-                    value={id}
-                  />
-                }
-              />
-            );
-          })}
-        </>
-      );
-    case 'radio':
-      // TODO - NOT FULLY IMPLEMENTED
-      return (
-        <RadioGroup defaultValue={default_value?.[0]} name={groupID}>
-          {sortedFields.map((item) => {
-            const { title, id } = item;
-            return (
-              <>
+      case 'radio':
+        // TODO - NOT FULLY IMPLEMENTED
+        return (
+          <RadioGroup defaultValue={default_value?.[0]} name={groupID}>
+            {sortedFields.map((item) => {
+              const { title, id } = item;
+              return (
                 <FormControlLabel
                   value={id}
                   control={<Radio color="secondary" name={id} value={id} />}
                   label={title}
                   key={id}
                 />
-              </>
-            );
-          })}
-        </RadioGroup>
-      );
-    default:
-      return <></>;
+              );
+            })}
+          </RadioGroup>
+        );
+      default:
+        return <></>;
+    }
   }
 };
