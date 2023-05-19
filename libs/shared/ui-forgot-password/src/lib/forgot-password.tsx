@@ -10,35 +10,28 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
-// ToDO: Switch login api call to forgot password api call
-import { LoginRequest } from '@lths/shared/data-access';
-import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
+import { ForgotPasswordRequest } from '@lths/shared/data-access';
+import { useForgotPasswordMutation } from '@lths/shared/data-access';
 
 import CenterCard from './center-card';
 
 const ForgotPasswordForm: React.FC = (): JSX.Element => {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState<boolean>(false);
+  const [success, setSuccess] = React.useState<boolean>(false); 
 
-  const LoginDefaultValues: LoginRequest = {
+  const LoginDefaultValues: ForgotPasswordRequest = {
     email: '',
-    password: '',
   };
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
-  const [getUser] = useLazyGetUserQuery();
-
-  const onSubmit = async (values: LoginRequest) => {
+  const onSubmit = async (values: ForgotPasswordRequest) => {
     try {
-      const data = await login(values).unwrap();
-      const uid = data.user._id;
-      const user2 = await getUser(uid);
-      console.log(data, user2?.data);
-      console.log('routing to next screen');
-      navigate('/');
+      const data = await forgotPassword(values).unwrap();
+      // ToDo: remove this when email is added
+      console.log("Remove when email on api call is added : password_reset_token : " + data.password_reset_token);
+      setSuccess(true);
     } catch (e) {
       console.log(e);
     }
@@ -49,10 +42,13 @@ const ForgotPasswordForm: React.FC = (): JSX.Element => {
       <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
         Forgot Password?
       </Typography>
-
+      {success ? (
+        <Typography variant="body1" color="success.main" textAlign={'center'} mb={2}>
+          Password reset email sent successfully! Please check your inbox.
+        </Typography>
+      ) : null}
       <Formik
         initialValues={LoginDefaultValues}
-        //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);

@@ -10,6 +10,7 @@ export type LoginRequest = {
 
 export type ForgotPasswordResponse = {
   // ToDo: add forgotPassword response type
+  password_reset_token?: string;
   success: boolean;
   message?: string;
   error?: string;

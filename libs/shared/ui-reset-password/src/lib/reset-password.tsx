@@ -13,15 +13,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ResetPasswordRequest } from '@lths/shared/data-access';
-import { useResetPasswordMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
+import { useResetPasswordMutation } from '@lths/shared/data-access';
 
 import CenterCard from './center-card';
 
 const ResetPasswordForm: React.FC = (): JSX.Element => {
+  const { resetToken } = useParams();
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
@@ -34,26 +36,26 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
     new_password: '',
     confirm_password: '',
   };
+
   const onMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
-
-  const [getUser] = useLazyGetUserQuery();
+  const [passwordsMatch, setPasswordsMatch] = React.useState<boolean>(true);
 
   const onSubmit = async (formValues: ResetPasswordFormRequest) => {
     try {
       if (formValues.confirm_password !== formValues.new_password) {
-        console.log("password doesnt match");
+        setPasswordsMatch(false)
         return;
       }
+      const passwordResetToken = resetToken ? resetToken : formValues.password_reset_token;
       const values: ResetPasswordRequest = {
-        password_reset_token: formValues.password_reset_token,
+        password_reset_token: passwordResetToken,
         new_password: formValues.new_password,
       }
-      const data = await resetPassword(values).unwrap();
-      console.log(data);
+      await resetPassword(values).unwrap();
       navigate('/login');
     } catch (e) {
       console.log(e);
@@ -66,6 +68,12 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
         Reset Password
       </Typography>
 
+      {!passwordsMatch ? (
+        <Typography variant="body1" color="error" textAlign={'center'} mb={2}>
+          Passwords don't match. Please try again.
+        </Typography>
+      ) : null}
+
       <Formik
         initialValues={ResetPasswordDefaultValues}
         //validationSchema={validationSchema}
@@ -77,7 +85,31 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, isSubmitting }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-            <Grid item xs={12}>
+              { !resetToken && 
+                <Grid item xs={12}>
+                  <Stack spacing={1}>
+                    <InputLabel htmlFor="password-reset-token">Password Reset Token</InputLabel>
+                    <OutlinedInput
+                      id="password-reset-token"
+                      type="text"
+                      value={values.password_reset_token}
+                      name="password_reset_token"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Enter password reset token"
+                      fullWidth
+                      error={Boolean(touched.password_reset_token && errors.password_reset_token)}
+                    />
+                    {touched.password_reset_token && errors.password_reset_token && (
+                      <FormHelperText error id="standard-weight-helper-text-password-reset-token">
+                        {errors.password_reset_token}
+                      </FormHelperText>
+                    )}
+                  </Stack>
+                </Grid>
+              }
+
+              <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="password-confirm-reset-password">New Password</InputLabel>
                   <OutlinedInput
@@ -136,7 +168,7 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
                     endAdornment={null}
                     sx={{
                       '& input::-ms-reveal, & input::-ms-clear': {
-                        display: 'none', // remove default edge visibility icon
+                        display: 'none', // removes default microsoft edge visibility icon
                       },
                     }}
                   />

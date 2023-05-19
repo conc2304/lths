@@ -30,7 +30,7 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
         element: <ForgotPasswordPage />,
       },
       {
-        path: '/reset-password',
+        path: '/reset-password/:resetToken?',
         element: <ResetPasswordPage />,
       },
       {
