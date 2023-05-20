@@ -1,14 +1,15 @@
-import InsightsIcon from '@mui/icons-material/Insights';
+import PagesIcon from '@mui/icons-material/DocumentScanner';
 import FlowIcon from '@mui/icons-material/Schema';
 
 import { SectionItemProps } from '../../routes/types';
 
-const sections: SectionItemProps = {
-  //You can pass header property if you like to see a header above the accordion, Example: header: "Analytics",
+const section: SectionItemProps = {
   items: [
     {
       title: 'Pages',
-      icon: <InsightsIcon />,
+      icon: <PagesIcon />,
+      path: '/pages',
+      file: '/pages',
       items: [
         {
           title: 'Editor',
@@ -21,4 +22,4 @@ const sections: SectionItemProps = {
   ],
 };
 
-export default sections;
+export default section;
