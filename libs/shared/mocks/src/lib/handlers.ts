@@ -1,8 +1,8 @@
 import { DefaultBodyType, PathParams, ResponseComposition, rest, RestContext, RestRequest } from 'msw';
 
 import { getApiFullPath } from './services/api';
-import InsightServices from './services/insights/index';
-import { CustomServices } from './services/insights/index';
+import InsightServices from './services/insights';
+import { CustomServices } from './services/insights';
 import MobilePageServices, { CustomServices as PagesCustomServices } from './services/pages';
 // Handlers that need custom logic in the response transformer
 export const customHandlers = [...CustomServices, ...PagesCustomServices];
