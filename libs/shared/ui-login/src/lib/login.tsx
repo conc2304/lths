@@ -62,7 +62,6 @@ const LoginForm: React.FC = (): JSX.Element => {
 
       <Formik
         initialValues={LoginDefaultValues}
-        //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);

@@ -76,7 +76,6 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
 
       <Formik
         initialValues={ResetPasswordDefaultValues}
-        //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);

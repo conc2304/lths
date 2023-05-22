@@ -1,1 +1,0 @@
-export {default as ResetPasswordForm} from './lib/reset-password';
