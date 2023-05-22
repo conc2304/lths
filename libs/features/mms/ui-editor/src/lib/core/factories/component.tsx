@@ -8,6 +8,9 @@ import {
   CarouselNewsComponent,
   ScoreBoardComponent,
   VideoComponent,
+  NewsComponent,
+  CarouselEventsComponent,
+  CarouselVendorComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -18,6 +21,9 @@ import {
   HeroComponentProps,
   ScoreBoardComponentProps,
   VideoComponentProps,
+  NewsViewComponentProps,
+  CarouselEventsComponentProps,
+  CarouselVendorComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -36,7 +42,12 @@ export const componentFactory = (props: ComponentProps) => {
       return <ScoreBoardComponent {...(props as ScoreBoardComponentProps)} />;
     case Component.VideoView:
       return <VideoComponent {...(props as VideoComponentProps)} />;
-
+    case Component.NewsView:
+      return <NewsComponent {...(props as NewsViewComponentProps)} />;
+    case Component.EventsCarousel:
+      return <CarouselEventsComponent {...(props as CarouselEventsComponentProps)} />;
+    case Component.VendorVCarousel:
+      return <CarouselVendorComponent {...(props as CarouselVendorComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
