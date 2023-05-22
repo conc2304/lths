@@ -18,20 +18,18 @@ import { useForgotPasswordMutation } from '@lths/shared/data-access';
 import CenterCard from './center-card';
 
 const ForgotPasswordForm: React.FC = (): JSX.Element => {
-  const [success, setSuccess] = React.useState<boolean>(false); 
 
   const LoginDefaultValues: ForgotPasswordRequest = {
     email: '',
   };
 
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading, isSuccess }] = useForgotPasswordMutation();
 
   const onSubmit = async (values: ForgotPasswordRequest) => {
     try {
       const data = await forgotPassword(values).unwrap();
       // ToDo: remove this when email is added
       console.log("Remove when email on api call is added : password_reset_token : " + data.password_reset_token);
-      setSuccess(true);
     } catch (e) {
       console.log(e);
     }
@@ -42,7 +40,7 @@ const ForgotPasswordForm: React.FC = (): JSX.Element => {
       <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
         Forgot Password?
       </Typography>
-      {success ? (
+      {isSuccess ? (
         <Typography variant="body1" color="success.main" textAlign={'center'} mb={2}>
           Password reset email sent successfully! Please check your inbox.
         </Typography>

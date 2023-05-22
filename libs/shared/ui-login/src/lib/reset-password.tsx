@@ -41,7 +41,7 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
     event.preventDefault();
   };
 
-  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const [resetPassword, { isLoading, isSuccess }] = useResetPasswordMutation();
   const [passwordsMatch, setPasswordsMatch] = React.useState<boolean>(true);
 
   const onSubmit = async (formValues: ResetPasswordFormRequest) => {
@@ -56,11 +56,16 @@ const ResetPasswordForm: React.FC = (): JSX.Element => {
         new_password: formValues.new_password,
       }
       await resetPassword(values).unwrap();
-      navigate('/login');
     } catch (e) {
       console.log(e);
     }
   };
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      navigate('/login');
+    }
+  }, [isSuccess]);
 
   return (
     <CenterCard>
