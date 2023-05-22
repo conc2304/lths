@@ -8,7 +8,7 @@ export type TrendDataPointProps = {
   };
   
 export type TrendProps = {
-    duration: number | string; // 7
+    duration: number | string;
     span: TrendDataPointProps;
     median?: TrendDataPointProps;
 };

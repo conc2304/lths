@@ -6,7 +6,7 @@
   "tags": ["shared", "themes"],
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["libs/shared/themes/**/*.{ts,tsx,js,jsx}"]

@@ -97,7 +97,7 @@ export const ChipContainer = ({
 
   if (variant === 'modal') {
     return (
-      <div>
+      <div data-testid={'chip-container-modal'}>
         <Box display="flex" justifyContent="flex-start" alignItems="baseline" mb={2}>
           <StyledTitle variant="h5">{title}</StyledTitle>
           <Badge

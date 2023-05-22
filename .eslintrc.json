@@ -8,12 +8,9 @@
   },
   "parser": "",
   "plugins": [
-    "@nrwl/nx",
+    "@nx",
     "import"
   ],
-  "globals": {
-    "JSX": true
-  },
   "overrides": [
     {
       "files": [
@@ -24,7 +21,7 @@
       ],
       "rules": {
         "react-hooks/exhaustive-deps": "off",
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
@@ -123,7 +120,7 @@
         "*.tsx"
       ],
       "extends": [
-        "plugin:@nrwl/nx/typescript"
+        "plugin:@nx/typescript"
       ],
       "rules": {
         "no-unused-vars": "off",
@@ -176,7 +173,7 @@
         "*.jsx"
       ],
       "extends": [
-        "plugin:@nrwl/nx/javascript"
+        "plugin:@nx/javascript"
       ],
       "rules": {
         "no-unused-vars": "error",

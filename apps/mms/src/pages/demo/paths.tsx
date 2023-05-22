@@ -1,11 +1,14 @@
 import PagesIcon from '@mui/icons-material/DocumentScanner';
 import DraftsIcon from '@mui/icons-material/Drafts';
-const section = {
+
+import { SectionItemProps } from '../../routes/types';
+
+const section: SectionItemProps = {
   items: [
     {
       title: 'Demo',
       icon: <PagesIcon />,
-      path: '/pages',
+      path: '/demo/pages',
       file: '/insights/notification-page',
       items: [
         {

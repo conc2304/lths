@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import produce from 'immer';
 
+import { handleRemoveFormStateItem } from '@lths/shared/ui-filters';
 import { FormState } from '@lths/types/ui-filters';
 
 import { ChipContainer } from './index';
@@ -27,12 +27,7 @@ const Template: ComponentStory<typeof ChipContainer> = (args) => {
   const [selectedFilters, setSelectedFilters] = useState<FormState>(initialFilters);
 
   const handleDelete = ({ parentID, itemID }: { parentID: string; itemID: string }) => {
-    const newState = produce(selectedFilters, (draft: FormState) => {
-      if (!draft[parentID]) return selectedFilters;
-      delete draft[parentID][itemID];
-      if (!Object.keys(draft[parentID]).length) delete draft[parentID];
-    });
-
+    const newState = handleRemoveFormStateItem(selectedFilters, { parentID, itemID });
     setSelectedFilters(newState);
   };
 

@@ -9,8 +9,9 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // ToDo: switch to using theme for color
 const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
-  color: '#FFFFFF', // const textColor = "#FFFFFF";
-  backgroundColor: theme.palette.grey[700], // tooltipBackgroundColor = "#6c7279";
+
+  color: '#FFFFFF',
+  backgroundColor: theme.palette.grey[700],
 }));
 
 const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ beforeBackgroundColor }) => ({
@@ -19,7 +20,7 @@ const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ before
   backgroundColor: beforeBackgroundColor, // this line is just for jest testing
   '&::before': {
     boxShadow: '2.5 px 2.5px 3.5px 0px rgba(0,0,0,0.15)',
-    backgroundColor: beforeBackgroundColor, // tooltipBackgroundColor = "#6c7279";
+    backgroundColor: beforeBackgroundColor,
     content: "''",
     position: 'absolute',
     width: 24,
@@ -31,7 +32,7 @@ const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ before
 }));
 
 const GreyCardLink = styled(Link)<LinkProps>(() => ({
-  color: blue[200], // const linkColor = "#A0D6FF";
+  color: blue[200],
 }));
 // ToDo: switch to using theme for color
 export type ActionProps = {

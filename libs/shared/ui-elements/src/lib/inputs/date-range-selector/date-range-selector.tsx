@@ -1,5 +1,5 @@
 import { useEffect, useState, MouseEvent } from 'react';
-import { Box, Button, Divider, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Button, Divider, Skeleton, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
@@ -19,6 +19,7 @@ type Props = {
   maxEndDate?: Date;
   datePickerStartProps?: DatePickerProps<any>;
   datePickerEndProps?: DatePickerProps<any>;
+  isLoading?: boolean;
 };
 
 export const DateRangeSelector = ({
@@ -30,11 +31,16 @@ export const DateRangeSelector = ({
   onChange: handleOnChange,
   datePickerStartProps,
   datePickerEndProps,
+  isLoading = false,
 }: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  const end_date = typeof value.end_date === 'string' ? new Date(value.end_date) : value.end_date;
-  const start_date = typeof value.start_date === 'string' ? new Date(value.start_date) : value.start_date;
+  const end_date = !value ? null : typeof value.end_date === 'string' ? new Date(value.end_date) : value.end_date;
+  const start_date = !value
+    ? null
+    : typeof value.start_date === 'string'
+    ? new Date(value.start_date)
+    : value.start_date;
 
   const [dateOptionGroupValue, setDateOptionGroupValue] = useState<string | null>(null);
   const [isDateRangeValid, setIsDateRangeValid] = useState(true);
@@ -122,35 +128,40 @@ export const DateRangeSelector = ({
         <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
           {/* Main Grid Item -- Toggle Buttons */}
           <Grid md="auto" xs={12} sx={{ m: (theme: Theme) => theme.spacing(0.5, 0) }}>
-            <ToggleButtonGroup
-              value={dateOptionGroupValue}
-              onChange={handleOptionSelected}
-              exclusive
-              aria-label="Predifinded Date Range Fiter"
-              sx={{
-                flexWrap: 'wrap',
-              }}
-              className="Lths-Button-Group"
-            >
-              {dateOptions.map((option) => {
-                const { label, dateRange } = option;
-                const value = slugify(label);
-                return (
-                  <ToggleButton
-                    role="button"
-                    value={value}
-                    key={value}
-                    onClick={() => {
-                      handleOnToggleClick(dateRange);
-                    }}
-                    aria-label={label}
-                    aria-pressed={value === dateOptionGroupValue}
-                  >
-                    {label}
-                  </ToggleButton>
-                );
-              })}
-            </ToggleButtonGroup>
+            {isLoading ? (
+              <Skeleton variant="rounded" width={300} height={35} />
+            ) : (
+              <ToggleButtonGroup
+                value={dateOptionGroupValue}
+                onChange={handleOptionSelected}
+                exclusive
+                aria-label="Predifinded Date Range Fiter"
+                sx={{
+                  flexWrap: 'wrap',
+                }}
+                className="Lths-Button-Group"
+              >
+                {dateOptions &&
+                  dateOptions.map((option) => {
+                    const { label, dateRange } = option;
+                    const value = slugify(label);
+                    return (
+                      <ToggleButton
+                        role="button"
+                        value={value}
+                        key={value}
+                        onClick={() => {
+                          handleOnToggleClick(dateRange);
+                        }}
+                        aria-label={label}
+                        aria-pressed={value === dateOptionGroupValue}
+                      >
+                        {label}
+                      </ToggleButton>
+                    );
+                  })}
+              </ToggleButtonGroup>
+            )}
           </Grid>
           {!isSmallScreen && (
             <Divider
@@ -182,6 +193,7 @@ export const DateRangeSelector = ({
               <Grid md={6} xs={6}>
                 <DatePicker
                   className="Lths-Date-Picker"
+                  disabled={isLoading}
                   disableFuture
                   key={pickerKey + 1}
                   label="START"
@@ -199,6 +211,7 @@ export const DateRangeSelector = ({
               <Grid md={4} xs={4} sx={{ height: '34px' }}>
                 <DatePicker
                   className="Lths-Date-Picker"
+                  disabled={isLoading}
                   disableFuture
                   key={pickerKey}
                   label="END"
@@ -218,7 +231,7 @@ export const DateRangeSelector = ({
             <Button
               variant="outlined"
               color="secondaryButton"
-              disabled={!isDateRangeValid}
+              disabled={!isDateRangeValid || isLoading}
               onClick={handleUpdateRange}
               sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}
             >

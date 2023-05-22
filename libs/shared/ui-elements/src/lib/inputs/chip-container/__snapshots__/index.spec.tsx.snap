@@ -105,7 +105,9 @@ exports[`ChipContainer component should match the snapshot (inline variant) 1`] 
 exports[`ChipContainer component should match the snapshot (modal variant) 1`] = `
 <body>
   <div>
-    <div>
+    <div
+      data-testid="chip-container-modal"
+    >
       <div
         class="MuiBox-root css-1dufe52"
       >
@@ -197,7 +199,9 @@ exports[`ChipContainer component should match the snapshot (modal variant) 1`] =
     </div>
   </div>
   <div>
-    <div>
+    <div
+      data-testid="chip-container-modal"
+    >
       <div
         class="MuiBox-root css-1dufe52"
       >

@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof DateRangeSelector> = (args) => {
       value={dateRangeState as DateRange}
       onChange={({ start_date, end_date }) => {
         setDateRangeState({ start_date, end_date });
-        alert(`On Change Fired: \n Start: \t ${start_date} \n End: \t ${end_date}`);
+        console.log(`On Change Fired: \n Start: \t ${start_date} \n End: \t ${end_date}`);
       }}
     />
   );
@@ -38,7 +38,17 @@ Primary.args = {
   dateOptions: DateRangeFilterOptions,
   value: initializedDateRange,
   onUpdateTimePeriod: ({ start_date, end_date }) =>
-    alert(`Updating Time Period  \n Start: \t ${start_date} \n End: \t ${end_date}`),
+    console.log(`Updating Time Period  \n Start: \t ${start_date} \n End: \t ${end_date}`),
+  minDate: new Date('1/1/2020'),
+  maxEndDate: new Date(),
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  isLoading: true,
+  dateOptions: [],
+  onUpdateTimePeriod: ({ start_date, end_date }) =>
+    console.log(`Updating Time Period  \n Start: \t ${start_date} \n End: \t ${end_date}`),
   minDate: new Date('1/1/2020'),
   maxEndDate: new Date(),
 };

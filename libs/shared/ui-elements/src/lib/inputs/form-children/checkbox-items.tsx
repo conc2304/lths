@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Checkbox, Divider, FormControlLabel } from '@mui/material';
+import { Checkbox, Divider, FormControlLabel, Stack } from '@mui/material';
 
 import {
   AddGroupItems,
@@ -24,9 +24,10 @@ type CheckBoxItemProps = {
   onRemoveItem: RemoveItem;
   onClearGroup: ClearGroup;
   onAddGroupItems: AddGroupItems;
+  orientation?: 'vertical' | 'horizontal';
 };
 
-export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
+export const CheckBoxItems = (props: CheckBoxItemProps): JSX.Element => {
   const {
     groupTitle,
     groupID,
@@ -36,6 +37,7 @@ export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
     onClearGroup: clearGroup,
     onAddGroupItems: addGroupItems,
     formFields,
+    orientation = 'vertical',
   } = props;
 
   const handleCheckBoxChange = ({ checked, id, title }: handleCheckProps) => {
@@ -67,9 +69,10 @@ export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
   const allTitle = `All ${pluralizedLastWord}`;
   const formStateLength = formState?.[groupID] ? Object.keys(formState[groupID]).length : 0;
   const isParentIndeterminate = formStateLength > 0 && formStateLength !== formFields.length;
+  const isVertical = orientation === 'vertical';
 
   return (
-    <>
+    <Stack direction={isVertical ? 'column' : 'row'} flexWrap="wrap">
       <FormControlLabel
         label={allTitle}
         value={`${pluralizedLastWord}--togle`}
@@ -77,12 +80,20 @@ export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
           <Checkbox
             checked={formStateLength === formFields.length}
             indeterminate={isParentIndeterminate}
-            //color="secondary"
             onChange={handleToggleAll}
           />
         }
       />
-      <Divider variant="middle" sx={{ mt: 1, mb: 1 }} />
+      <Divider
+        variant="middle"
+        sx={{
+          mt: 1,
+          mb: 1,
+          height: !isVertical ? '2.2rem' : null,
+          mx: (theme) => (isVertical ? null : theme.spacing(2)),
+        }}
+        orientation={isVertical ? 'horizontal' : 'vertical'}
+      />
       {/* Individual Parts of form */}
       {formFields?.map((item) => {
         const { title, id } = item;
@@ -96,7 +107,6 @@ export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
             key={id}
             control={
               <Checkbox
-                //color="secondary"
                 checked={isChecked}
                 onChange={({ target: { checked } }) =>
                   handleCheckBoxChange({ checked, id: itemID, title: title as string })
@@ -108,6 +118,6 @@ export const CheckBoxItem = (props: CheckBoxItemProps): JSX.Element => {
           />
         );
       })}
-    </>
+    </Stack>
   );
 };

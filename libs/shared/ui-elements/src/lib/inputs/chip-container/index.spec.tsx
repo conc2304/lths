@@ -137,7 +137,6 @@ describe('ChipContainer component', () => {
     const testChipLabel = testChip[testItemID].title;
     const testChipElem = screen.getByText(testChipLabel).parentElement as HTMLElement;
 
-    // !! Not sure why it is Cancel Icon here but Close Icon in the app
     const deleteButton = within(testChipElem).getByTestId('CloseIcon');
 
     // Act

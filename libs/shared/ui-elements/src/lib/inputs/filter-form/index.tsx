@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogActions, Divider, useTheme, useMediaQuery, Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import Button from '@mui/material/Button';
 
 import {
@@ -19,17 +20,18 @@ export interface FilterFormProps {
   title: string;
   chipTitle?: string;
   open: boolean;
-  filterSchema: FormSchema[];
+  filterSchema?: FormSchema[];
   onApplyFilters: (formData: FormState) => void;
   onChange: (formData: FormState) => void;
   onClose: () => void;
   onClearFilters: () => void;
   onCancel: () => void;
-  formState: FormState;
+  formState?: FormState;
   onRemoveItem: RemoveItem;
   onAddItem: AddItem;
   onAddGroupItems: AddGroupItems;
   onClearGroup: ClearGroup;
+  isLoading?: boolean;
 }
 
 export const FilterForm = ({
@@ -41,17 +43,19 @@ export const FilterForm = ({
   onChange,
   onClearFilters,
   onCancel,
-  formState,
+  formState = {},
   onRemoveItem,
   onAddItem,
   onAddGroupItems,
   onClearGroup,
-  open,
+  open = false,
+  isLoading = false,
 }: FilterFormProps) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOnApplyFilters = () => {
+    console.log('APPLY FILTERS');
     onApplyFilters(formState);
     onClose();
   };
@@ -90,7 +94,7 @@ export const FilterForm = ({
       fullWidth={true}
       fullScreen={fullScreen}
     >
-      <Box px="2.675rem" pt="2.125rem">
+      <Box px="2.675rem" pt="2.125rem" data-testid={'filter-form-modal'}>
         <Box>
           <FormTitle id="filter-dialog-title" onClose={onCancel}>
             {title}
@@ -98,6 +102,7 @@ export const FilterForm = ({
         </Box>
         <DialogContent>
           <Form
+            isLoading={isLoading}
             formSchema={filterSchema}
             formState={formState}
             onAddItem={handleAddFormItem}
@@ -105,32 +110,34 @@ export const FilterForm = ({
             onRemoveItem={handleRemoveItem}
             onClearGroup={handleClearGroup}
           />
-          <Box mt={7}>
+          <Box mt={7} display={isLoading ? 'none' : 'initial'}>
             <ChipContainer variant="modal" title={chipTitle} onDelete={handleChipDelete} selectedFilters={formState} />
           </Box>
         </DialogContent>
         <Divider variant="middle" sx={{ mt: 3 }} />
         <DialogActions sx={{ m: 3 }}>
-          <Button
-            variant="text"
-            color="secondaryButton"
-            onClick={onClearFilters}
-            sx={{ fontSize: '0.75rem', mr: 1.75 }}
-          >
-            CLEAR ALL FILTERS
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={onCancel}
-            // onClick={onCancel}
-            sx={{ mr: 0.75 }}
-          >
+          {!isLoading && (
+            <Button
+              variant="text"
+              color="secondaryButton"
+              onClick={onClearFilters}
+              sx={{ fontSize: '0.75rem', mr: 1.75 }}
+            >
+              CLEAR ALL FILTERS
+            </Button>
+          )}
+          <Button variant="outlined" color="primary" onClick={onCancel} sx={{ mr: 0.75 }}>
             CANCEL
           </Button>
-          <Button variant="contained" color="primary" onClick={handleOnApplyFilters}>
-            APPLY FILTERS
-          </Button>
+          {isLoading ? (
+            <LoadingButton loading variant="outlined">
+              APPLY FILTERS
+            </LoadingButton>
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleOnApplyFilters}>
+              APPLY FILTERS
+            </Button>
+          )}
         </DialogActions>
       </Box>
     </Dialog>
