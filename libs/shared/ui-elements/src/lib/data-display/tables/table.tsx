@@ -47,21 +47,23 @@ export const Table = (props: TableProps) => {
     order: (sort != null && sort.order) || 'asc',
   });
 
-  const _onSortClick = (column: string) => {
+  const handleSortClick = (column: string) => {
     const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'asc';
     const newSorting = { ...sorting, column, order };
     setSorting(newSorting);
     onSortClick && onSortClick(pagination, newSorting);
   };
 
-  const _onPageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
+  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
     const newPagination = { ...pagination, page };
     setPagination(newPagination);
     onPageChange && onPageChange(event, newPagination, sorting);
   };
 
-  const _onRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    onRowsPerPageChange && onRowsPerPageChange(event);
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const newPagination = { ...pagination, page: 0, pageSize: parseInt(event.target.value, 10) };
+    setPagination(newPagination);
+    onRowsPerPageChange && onRowsPerPageChange(event, newPagination, sorting);
   };
 
   return (
@@ -82,7 +84,7 @@ export const Table = (props: TableProps) => {
           <MuiTable>
             <TableHead>
               <TableRowSkeleton id="head" loading={loading} cells={headerCells?.length} />
-              <TableHeaderRow cells={headerCells} sorting={sorting} onSortClick={_onSortClick} />
+              <TableHeaderRow cells={headerCells} sorting={sorting} onSortClick={handleSortClick} />
             </TableHead>
             {!loading && fetching && (
               <TableCell
@@ -112,9 +114,9 @@ export const Table = (props: TableProps) => {
             rowsPerPageOptions={DEFAULT_TABLE_PAGE_SIZE_OPTIONS}
             count={total}
             page={pagination.page}
-            onPageChange={_onPageChange}
+            onPageChange={handlePageChange}
             rowsPerPage={pagination.pageSize}
-            onRowsPerPageChange={_onRowsPerPageChange}
+            onRowsPerPageChange={handleRowsPerPageChange}
             sx={{
               width: '100%',
             }}
