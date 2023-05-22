@@ -21,6 +21,9 @@ export { default as CarouselNewsToolbar } from './carousel-news/toolbar';
 export { default as ScoreBoardComponent } from './score-board/component';
 export { default as ScoreBoardToolbar } from './score-board/toolbar';
 
+export { default as KeyValueComponent } from './key-value/component';
+export { default as KeyValueToolbar } from './key-value/toolbar';
+
 export { default as VideoComponent } from './video-view/component';
 export { default as VideoToolbar } from './video-view/toolbar';
 

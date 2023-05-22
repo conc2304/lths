@@ -12,7 +12,9 @@ import {
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
   ScoreBoardComponentProps,
+  KeyValueComponentProps,
   ScoreBoardToolbar,
+  KeyValueToolbar,
   VideoToolbar,
   VideoComponentProps,
   GenericToolbar,
@@ -33,6 +35,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselNewsToolbar {...(props as CarouselNewsComponentProps)} />;
     case Component.ScoreBoard:
       return <ScoreBoardToolbar {...(props as ScoreBoardComponentProps)} />;
+    case Component.KeyValue:
+      return <KeyValueToolbar {...(props as KeyValueComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
 
