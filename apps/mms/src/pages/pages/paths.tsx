@@ -9,7 +9,7 @@ const section: SectionItemProps = {
       title: 'Pages',
       icon: <PagesIcon />,
       path: '/pages',
-
+      file: '/pages/pages-page',
       items: [
         {
           title: 'Editor',
