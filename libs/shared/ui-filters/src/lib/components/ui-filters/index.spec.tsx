@@ -1,6 +1,6 @@
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 
 import { DateFilterOptions, DateRange, FormSchema, FormState } from '@lths/types/ui-filters';
 
@@ -40,9 +40,9 @@ describe('UiFilters', () => {
   });
 
   it('should open and close the modal when clicking the Filter button', async () => {
-    // Initialization
-    const init_modal = screen.queryByRole('dialog');
-    expect(init_modal).toBeNull();
+    // Arrange
+    const initModal = screen.queryByRole('dialog');
+    expect(initModal).toBeNull();
 
     // Open Modal
     const filterButton = screen.getByText('FILTER');
@@ -55,48 +55,55 @@ describe('UiFilters', () => {
     expect(cancelButton).toBeInTheDocument();
     fireEvent.click(cancelButton);
 
-    //  Wait for page to rerender
+    // Assert
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(), {
       timeout: 2000,
     });
   });
 
-  xit('should call onApplyFilters when filters are applied', async () => {
+  it('should call onApplyFilters when filters are applied', async () => {
+    // Arrange
     const filterButton = screen.getByText('FILTER');
     fireEvent.click(filterButton);
-
     const applyFiltersButton = screen.getByText('APPLY FILTERS');
     expect(applyFiltersButton).toBeInTheDocument();
+
+    // Act
     fireEvent.click(applyFiltersButton);
-
-    await waitFor(() => expect(mockProps.onApplyFilters).toHaveBeenCalled(), {
-      timeout: 2000,
-    });
+    // Assert
+    waitFor(() => expect(mockProps.onApplyFilters).toHaveBeenCalled(), { timeout: 1000 });
   });
 
-  xit('should call onApplyFilters when date range is updated', () => {
+  it('should call onApplyFilters when date range is updated', async () => {
+    // Arrange
     const applyButton = screen.getByText('UPDATE PERIOD');
+    // Act
     fireEvent.click(applyButton);
-
-    expect(mockProps.onApplyFilters).toHaveBeenCalled();
+    // Assert
+    waitFor(() => expect(mockProps.onApplyFilters).toHaveBeenCalled(), { timeout: 1000 });
   });
 
-  xit('should call removeItem when a chip is removed in ChipContainer', async () => {
-    // Add a chip to the ChipContainer
+  it('should call removeItem when a chip is removed in ChipContainer', async () => {
+    // Arrange
     const filterButton = screen.getByText('FILTER');
     fireEvent.click(filterButton);
 
-    const addItemInput = screen.getByPlaceholderText('Add an item');
-    fireEvent.change(addItemInput, { target: { value: 'Test Item' } });
-    fireEvent.keyDown(addItemInput, { key: 'Enter', code: 'Enter' });
+    const chipContainer = screen.getByTestId('chip-container-modal');
+    const testElem = within(chipContainer).getAllByRole('button')[0];
+    const chipLabel = testElem.textContent;
+    const deleteButton = within(testElem).getByTestId('CloseIcon');
+    expect(within(chipContainer).getByText(chipLabel as string)).toBeInTheDocument();
 
-    const applyFiltersButton = screen.getByText('APPLY FILTERS');
-    fireEvent.click(applyFiltersButton);
+    // Act
+    fireEvent.click(deleteButton);
 
-    // Remove the chip
-    const chipDeleteButton = screen.getByTestId('chip-delete-button');
-    fireEvent.click(chipDeleteButton);
-
-    expect(mockProps.removeItem).toHaveBeenCalled();
+    // Assert
+    waitFor(
+      () => {
+        expect(mockProps.removeItem).toHaveBeenCalled();
+        expect(within(chipContainer).getByText(chipLabel as string)).not.toBeInTheDocument();
+      },
+      { timeout: 1000 }
+    );
   });
 });

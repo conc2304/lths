@@ -53,19 +53,17 @@ export type KPI = {
   info: Info;
   unit: string | null; // the unit type like "%", "sec", "hours" or null if just a plain number
   data: Array<{
-    // data array should have multiple array items
-    //duration: string | number; // 7,
     duration: number;
     span: {
-      title: string; // "Prev 7 days",
-      unit: string | null; // "%",
-      value: string | number; // 31,
+      title: string;
+      unit: string | null;
+      value: string | number;
       direction: 'up' | 'down';
     };
     median: {
-      title: string; // "Prev 7 days",
-      unit: string | null; // "%",
-      value: string | number; // 31,
+      title: string;
+      unit: string | null;
+      value: string | number;
       direction: 'up' | 'down';
     };
   }>;

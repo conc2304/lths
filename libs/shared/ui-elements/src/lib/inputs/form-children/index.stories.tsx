@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import produce from 'immer';
 
+import {
+  handleAddFormStateItem,
+  handleAddFormStateItems,
+  handleRemoveFormStateGroup,
+  handleRemoveFormStateItem,
+} from '@lths/shared/ui-filters';
 import { FilterFormState, FormSchema, FormState, FormStateValue } from '@lths/types/ui-filters';
 
 import { FormChildren } from './index';
@@ -15,46 +20,35 @@ const Story: ComponentMeta<typeof FormChildren> = {
 export default Story;
 
 const Template: ComponentStory<typeof FormChildren> = (args) => {
-  const [formState, setFormState] = useState<FormState>(args.formState);
+  const [formState, setFormState] = useState<FormState | undefined>(args.formState);
 
-  const handleonAddItem = ({ parentID, item }: { parentID: string; item: FormStateValue }) => {
-    const newState = produce(formState, (draft) => {
-      if (!draft[parentID]) {
-        draft[parentID] = item;
-      } else {
-        draft[parentID] = {
-          ...formState[parentID],
-          ...item,
-        };
-      }
-    });
+  const handleAddItem = ({ parentID, item }: { parentID: string; item: FormStateValue }) => {
+    if (!formState) return;
+    const newState = handleAddFormStateItem(formState, { parentID, item });
     setFormState(newState);
   };
 
   const handleAddGroupItems = ({ parentID, items }: { parentID: string; items: FormStateValue }) => {
-    const newState = produce(formState, (draft) => {
-      draft[parentID] = {
-        ...formState[parentID],
-        ...items,
-      };
-    });
+    if (!formState) return;
+    const newState = handleAddFormStateItems(formState, { parentID, items });
+    setFormState(newState);
+  };
 
+  const handleClearGroup = ({ parentID }: { parentID: string }) => {
+    if (!formState) return;
+
+    const newState = handleRemoveFormStateGroup(formState, { parentID });
     setFormState(newState);
   };
-  const handleonClearGroup = ({ parentID }: { parentID: string }) => {
-    const newState = produce(formState, (draft) => {
-      delete draft[parentID];
-    });
-    setFormState(newState);
-  };
-  const handleonRemoveItem = ({ parentID, itemID }: { parentID: string; itemID: string }) => {
-    const nextState = produce(formState, (draft) => {
-      if (!draft[parentID]) return formState;
-      delete draft[parentID][itemID];
-      if (!Object.keys(draft[parentID]).length) delete draft[parentID];
-    });
+
+  const handleRemoveItem = ({ parentID, itemID }: { parentID: string; itemID: string }) => {
+    if (!formState) return Promise.resolve({} as FilterFormState);
+
+    const nextState = handleRemoveFormStateItem(formState, { parentID, itemID });
     setFormState(nextState);
-    return Promise.resolve({} as FilterFormState);
+    return Promise.resolve({
+      formState: nextState,
+    } as FilterFormState);
   };
 
   return (
@@ -62,9 +56,9 @@ const Template: ComponentStory<typeof FormChildren> = (args) => {
       {...args}
       formState={formState}
       onAddGroupItems={handleAddGroupItems}
-      onAddItem={handleonAddItem}
-      onClearGroup={handleonClearGroup}
-      onRemoveItem={handleonRemoveItem}
+      onAddItem={handleAddItem}
+      onClearGroup={handleClearGroup}
+      onRemoveItem={handleRemoveItem}
     />
   );
 };
@@ -117,4 +111,16 @@ Primary.args = {
   formSchema,
   groupTitle: 'Event States',
   groupID: 'event_state',
+  isLoading: false,
+  orientation: 'vertical',
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  formState,
+  formSchema,
+  groupTitle: 'Event States',
+  groupID: 'event_state',
+  isLoading: true,
+  orientation: 'vertical',
 };

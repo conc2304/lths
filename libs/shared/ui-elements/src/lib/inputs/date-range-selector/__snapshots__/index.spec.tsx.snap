@@ -124,10 +124,10 @@ exports[`DateRangeSelector should match the snapshot 1`] = `
           class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-md-auto MuiGrid2-grid-xs-12 css-1ktj8a9-MuiGrid2-root"
         >
           <div
-            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1fike0n-MuiGrid2-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1pxy8fg-MuiGrid2-root"
           >
             <div
-              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-md-6 MuiGrid2-grid-xs-6 css-1hu6rx9-MuiGrid2-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-md-6 MuiGrid2-grid-xs-6 css-wsndb2-MuiGrid2-root"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-marginDense MuiTextField-root Lths-Date-Picker css-d4fgww-MuiFormControl-root-MuiTextField-root"
@@ -151,13 +151,13 @@ exports[`DateRangeSelector should match the snapshot 1`] = `
                     inputmode="text"
                     placeholder="⁦⁨MM⁩ / ⁨DD⁩ / ⁨YYYY⁩⁩"
                     type="text"
-                    value="⁦⁨04⁩ / ⁨30⁩ / ⁨2023⁩⁩"
+                    value="⁦⁨05⁩ / ⁨07⁩ / ⁨2023⁩⁩"
                   />
                   <div
                     class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                   >
                     <button
-                      aria-label="Choose date, selected date is Apr 30, 2023"
+                      aria-label="Choose date, selected date is May 7, 2023"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                       tabindex="0"
                       type="button"
@@ -194,7 +194,7 @@ exports[`DateRangeSelector should match the snapshot 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-md-4 MuiGrid2-grid-xs-4 css-1w8p8vq-MuiGrid2-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-md-4 MuiGrid2-grid-xs-4 css-1uoi70d-MuiGrid2-root"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-marginDense MuiTextField-root Lths-Date-Picker css-d4fgww-MuiFormControl-root-MuiTextField-root"
@@ -218,13 +218,13 @@ exports[`DateRangeSelector should match the snapshot 1`] = `
                     inputmode="text"
                     placeholder="⁦⁨MM⁩ / ⁨DD⁩ / ⁨YYYY⁩⁩"
                     type="text"
-                    value="⁦⁨05⁩ / ⁨06⁩ / ⁨2023⁩⁩"
+                    value="⁦⁨05⁩ / ⁨13⁩ / ⁨2023⁩⁩"
                   />
                   <div
                     class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                   >
                     <button
-                      aria-label="Choose date, selected date is May 6, 2023"
+                      aria-label="Choose date, selected date is May 13, 2023"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
                       tabindex="0"
                       type="button"

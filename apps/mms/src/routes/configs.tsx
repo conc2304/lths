@@ -7,7 +7,7 @@ import { PrivateLayout, PublicLayout } from './layouts';
 import { generateRouteConfig } from './transformer';
 import pages from '../pages/paths';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/login')));
 const PubliApiTestPage = LazyLoader(lazy(() => import('../pages/demo/public-page')));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

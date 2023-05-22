@@ -1,4 +1,4 @@
-import { Box, FormGroup, Typography, styled } from '@mui/material';
+import { Box, FormGroup, Skeleton, Typography, styled } from '@mui/material';
 
 import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
 
@@ -6,8 +6,9 @@ import { InfoTooltip } from '../../data-display';
 import { FormChildren } from '../form-children';
 
 type VerticalFormGroupProps = {
-  formSchema: FormSchema;
-  formState: FormState;
+  isLoading?: boolean;
+  formSchema?: FormSchema;
+  formState?: FormState;
   onAddItem: AddItem;
   onRemoveItem: RemoveItem;
   onClearGroup: ClearGroup;
@@ -32,12 +33,35 @@ const Subtitle = styled(Typography)(({ theme }) => ({
 }));
 
 export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
-  const { formSchema, onAddItem, onRemoveItem, onClearGroup, onAddGroupItems, formState } = props;
+  const { isLoading, formSchema, formState } = props;
+  const { onAddItem, onRemoveItem, onClearGroup, onAddGroupItems } = props;
+
+  if (isLoading || !formSchema || Object.keys(formSchema).length == 0 || !formState) {
+    return (
+      <div className="VerticalFormGroup-root">
+        <div className="VerticalFormGroup--title">
+          <Box>
+            <Title variant="h4">{<Skeleton variant="text" width={150} />}</Title>
+          </Box>
+        </div>
+        <FormGroup sx={{ my: 2 }}>
+          <FormChildren
+            orientation="vertical"
+            isLoading={isLoading}
+            onAddItem={onAddItem}
+            onRemoveItem={onRemoveItem}
+            onClearGroup={onClearGroup}
+            onAddGroupItems={onAddGroupItems}
+          />
+        </FormGroup>
+      </div>
+    );
+  }
+
   const { title, subtitle, info, data, id: groupID } = formSchema;
 
   const isNewFormGroup = null && data && data.length > 1;
   const formGroupData = isNewFormGroup ? formSchema : data ? data[0] : null;
-
   return (
     <div className="VerticalFormGroup-root">
       <div className="VerticalFormGroup--title">
@@ -59,6 +83,8 @@ export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
       {formGroupData && (
         <FormGroup sx={{ my: 2 }}>
           <FormChildren
+            orientation="vertical"
+            isLoading={isLoading}
             formState={formState}
             formSchema={formGroupData}
             groupTitle={title as string}

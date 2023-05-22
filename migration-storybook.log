@@ -1,0 +1,143 @@
+🔎 checking possible migrations..
+
+🔎 found a 'eslintPlugin' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                        │
+│   We've detected you are not using our eslint-plugin.                                                  │
+│                                                                                                        │
+│   In order to have the best experience with Storybook and follow best practices, we advise you to      │
+│   install eslint-plugin-storybook.                                                                     │
+│                                                                                                        │
+│   More info: https://github.com/storybookjs/eslint-plugin-storybook#readme                             │
+│                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✅ Adding dependencies: eslint-plugin-storybook
+    Configuring Storybook ESLint plugin at .eslintrc.json
+❌ error when running eslintPlugin migration
+SyntaxError: .eslintrc.json: Unexpected token / in JSON at position 2529
+    at JSON.parse (<anonymous>)
+    at _readFile (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/jsonfile/index.js:25:16)
+    at async configureEslintPlugin (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/@storybook/cli/dist/generate.js:42:8272)
+    at async Object.run (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/@storybook/cli/dist/generate.js:150:25)
+    at async runFixes (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/@storybook/cli/dist/generate.js:354:1144)
+    at async automigrate (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/@storybook/cli/dist/generate.js:349:676)
+    at async Command.<anonymous> (/Users/joseconchello/.npm/_npx/bc7e1e37fcb46ffc/node_modules/@storybook/cli/dist/generate.js:422:2814)
+
+
+🔎 found a 'storybook-binary' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                        │
+│   We've detected you are using Storybook 7.0.12 without Storybook's storybook binary. Starting in      │
+│   Storybook 7.0, it has to be installed.                                                               │
+│                                                                                                        │
+│                                                                                                        │
+│   More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-   │
+│   storybook-binaries-removed                                                                           │
+│                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+✅ Adding 'storybook' as dev dependency
+
+✅ ran storybook-binary migration
+
+🔎 found a 'new-frameworks' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                        │
+│   We've detected your project is not fully setup with Storybook's 7 new framework format.              │
+│                                                                                                        │
+│   Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers        │
+│   (e.g. React, Vue), builders (e.g. Webpack, Vite) and defaults to make integrations easier.           │
+│                                                                                                        │
+│   Your project should be updated to use Storybook's framework: @storybook/react-webpack5. We can       │
+│   attempt to do this for you automatically.                                                            │
+│                                                                                                        │
+│   Here are the steps this migration will do to migrate your project:                                   │
+│   - Remove the following dependencies:                                                                 │
+│   - * @storybook/builder-webpack5                                                                      │
+│   - * @storybook/manager-webpack5                                                                      │
+│   - Add the following dependencies:                                                                    │
+│   - * @storybook/react-webpack5                                                                        │
+│   - Update or specify the framework field in libs/shared/storybook/.storybook/main.ts with the value   │
+│   of "@storybook/react-webpack5".                                                                      │
+│   - Remove the core.builder field in libs/shared/storybook/.storybook/main.ts.                         │
+│                                                                                                        │
+│                                                                                                        │
+│   To learn more about the new framework format, see:                                                   │
+│   https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api                    │
+│                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✅ Removing dependencies: @storybook/builder-webpack5, @storybook/manager-webpack5
+✅ Installing new dependencies: @storybook/react-webpack5
+✅ Updating main.js
+✅ Updating "framework" field
+✅ Removing "core.builder" field
+✅ Removing "core" field
+✅ ran new-frameworks migration
+
+🔎 found a 'github-flavored-markdown-mdx' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                        │
+│   In MDX1 you had the option of using GitHub flavored markdown.                                        │
+│                                                                                                        │
+│   Storybook 7.0 uses MDX2 for compiling MDX, and thus no longer supports GFM out of the box.           │
+│   Because of this you need to explicitly add the GFM plugin in the addon-docs options:                 │
+│   https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm            │
+│                                                                                                        │
+│   We recommend you follow the guide on the link above, however we can add a temporary storybook        │
+│   addon that helps make this migration easier.                                                         │
+│   We'll install the addon and add it to your storybook config.                                         │
+│                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✅ Adding "@storybook/addon-mdx-gfm" addon
+✅ ran github-flavored-markdown-mdx migration
+
+🔎 found a 'autodocsTrue' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                    │
+│   We've changed the configuration of autodocs (previous docsPage), so now the value:               │
+│     - docs.autodocs: true -- means automatically create docs for every CSF file                    │
+│     - docs.autodocs: 'tag' -- means only create autodocs for CSF files with the 'autodocs' tag     │
+│     - docs.autodocs: false -- means never create autodocs                                          │
+│                                                                                                    │
+│   Based on your prior configuration,  we can set the `docs.autodocs` to keep your old behaviour:   │
+│                                                                                                    │
+│   docs: { autodocs: true }                                                                         │
+│                                                                                                    │
+│   More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes      │
+│                                                                                                    │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✅ Setting 'docs.autodocs' to true in main.js
+✅ ran autodocsTrue migration
+
+╭ Migration check ran with failures ─────────────────────────────────────────────────────────────────────╮
+│                                                                                                        │
+│   Successful migrations:                                                                               │
+│                                                                                                        │
+│   storybook-binary, new-frameworks, github-flavored-markdown-mdx, autodocsTrue                         │
+│                                                                                                        │
+│   Failed migrations:                                                                                   │
+│                                                                                                        │
+│   eslintPlugin:                                                                                        │
+│   .eslintrc.json: Unexpected token / in JSON at position 2529                                          │
+│                                                                                                        │
+│   You can find the full logs in                                                                        │
+│   /Users/joseconchello/Desktop/My_Documents/Code/BLI/lths-mui/migration-storybook.log                  │
+│                                                                                                        │
+│   ─────────────────────────────────────────────────                                                    │
+│                                                                                                        │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook@next              │
+│   automigrate'                                                                                         │
+│                                                                                                        │
+│   The automigrations try to migrate common patterns in your project, but might not contain             │
+│   everything needed to migrate to the latest version of Storybook.                                     │
+│                                                                                                        │
+│   Please check the changelog and migration guide for manual migrations and more information:           │
+│   https://storybook.js.org/migration-guides/7.0                                                        │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                              │
+│                                                                                                        │
+│   ─────────────────────────────────────────────────                                                    │
+│                                                                                                        │
+│   You can find more information for a given dependency by running yarn why <package-name>              │
+│                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

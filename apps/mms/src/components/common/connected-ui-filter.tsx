@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { LinearProgress } from '@mui/material';
 
 import {
   addFilterGroupItems,
@@ -41,6 +40,8 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
   const dateRange = useAppSelector(selectFilterDateRange);
   const dispatch = useAppDispatch();
 
+  const isLoading = !formSchema || !formState || !dateRange || !dateRange.end_date || !dateRange.start_date;
+
   const init = async () => {
     let initializedFormState = formState;
     let initializedDateRange = dateRange;
@@ -77,45 +78,47 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
     dispatch(setFormState({ formState: filters }));
   };
 
-  if (formSchema && dateRange.start_date && dateRange.end_date) {
-    return (
-      <UiFilters
-        formSchema={formSchema}
-        formState={formState}
-        dateOptions={DateRangeFilterOptions}
-        dateRangeValue={{ start_date: new Date(dateRange.start_date), end_date: new Date(dateRange.end_date) }}
-        onApplyFilters={(selectedFilters: SelectedUiFilters) => {
-          const { filters, dateRange } = selectedFilters;
-          handleUpdateRedux({ filters, dateRange });
-          // transform the filters for the request payload
-          const formattedFilters = transformFilterOptions({ formState: filters, dateRange: dateRange });
-          updateFilters(formattedFilters);
-        }}
-        setDateRange={(dateRangeOption) => {
-          const { start_date, end_date } = dateRangeOption.dateRange;
-          dispatch(setDateRange({ start_date: dateToString(start_date), end_date: dateToString(end_date) }));
-        }}
-        setFormState={(formState) => {
-          dispatch(setFormState(formState));
-        }}
-        removeItem={async ({ parentID, itemID }) => {
-          const nextState = await dispatch(removeFilterItemAndGetUpdatedState({ parentID, itemID }));
-          return nextState.payload as FilterFormState;
-        }}
-        addItem={({ parentID, itemID, item }) => {
-          dispatch(addFilterItem({ parentID, itemID, item }));
-        }}
-        addGroupItems={({ parentID, items }) => {
-          dispatch(addFilterGroupItems({ parentID, items }));
-        }}
-        clearGroup={({ parentID }) => {
-          dispatch(removeFilterGroup({ parentID }));
-        }}
-        clearForm={async () => {
-          const nextState = await dispatch(clearFiltersAndGetUpdatedState());
-          return nextState.payload as FilterFormState;
-        }}
-      />
-    );
-  } else return <LinearProgress />;
+  return (
+    <UiFilters
+      isLoading={isLoading}
+      formSchema={formSchema}
+      formState={formState}
+      dateOptions={DateRangeFilterOptions}
+      dateRangeValue={{
+        start_date: dateRange.start_date ? new Date(dateRange.start_date) : null,
+        end_date: dateRange.end_date ? new Date(dateRange.end_date) : null,
+      }}
+      onApplyFilters={(selectedFilters: SelectedUiFilters) => {
+        const { filters, dateRange } = selectedFilters;
+        handleUpdateRedux({ filters, dateRange });
+        // transform the filters for the request payload
+        const formattedFilters = transformFilterOptions({ formState: filters, dateRange: dateRange });
+        updateFilters(formattedFilters);
+      }}
+      setDateRange={(dateRangeOption) => {
+        const { start_date, end_date } = dateRangeOption.dateRange;
+        dispatch(setDateRange({ start_date: dateToString(start_date), end_date: dateToString(end_date) }));
+      }}
+      setFormState={(formState) => {
+        dispatch(setFormState(formState));
+      }}
+      removeItem={async ({ parentID, itemID }) => {
+        const nextState = await dispatch(removeFilterItemAndGetUpdatedState({ parentID, itemID }));
+        if (nextState?.payload) return nextState.payload as FilterFormState;
+      }}
+      addItem={({ parentID, itemID, item }) => {
+        dispatch(addFilterItem({ parentID, itemID, item }));
+      }}
+      addGroupItems={({ parentID, items }) => {
+        dispatch(addFilterGroupItems({ parentID, items }));
+      }}
+      clearGroup={({ parentID }) => {
+        dispatch(removeFilterGroup({ parentID }));
+      }}
+      clearForm={async () => {
+        const nextState = await dispatch(clearFiltersAndGetUpdatedState());
+        if (nextState?.payload) nextState.payload as FilterFormState;
+      }}
+    />
+  );
 };

@@ -4,33 +4,13 @@ import { Add, Remove, ArrowOutward } from '@mui/icons-material';
 import { green, red } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import { InfoTooltip, ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
+import { InfoTooltip } from '../../../icons/tooltip/info-tooltip/index';
+import { TrendDataPointProps, KpiCardProps } from '../types';
 
-export type TrendDataPointProps = {
-  title: string;
-  unit: string;
-  value: number | string;
-  direction: string;
-};
-
-export type TrendProps = {
-  duration: number | string; // 7
-  span: TrendDataPointProps;
-  median?: TrendDataPointProps;
-};
-export type KpiCardProps = {
-  title: string;
-  hero: number;
-  heroUnit?: string;
-  trends: TrendProps;
-  tooltip?: InfoTooltipProps;
-  detail?: ActionProps;
-};
 
 export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
   const { title, hero, heroUnit, trends, tooltip } = props;
-  console.log('🚀 ~ file: index.tsx:33 ~ tooltip:', tooltip);
 
   const heroFormated = hero.toLocaleString();
   const heroUnitStyle =
@@ -41,8 +21,8 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const DisplayTrendDataPoint = (trendDataPointProps: TrendDataPointProps, useArrow?: boolean) => {
     const { title, unit, value, direction } = trendDataPointProps;
     // TODO: add custum palete theme for increase  and decrease stats
-    const increaseColor = green[500]; // "#01A611";
-    const decreaseColor = red[500]; //"#FF0000";
+    const increaseColor = green[500];
+    const decreaseColor = red[500];
     const displayColor = direction === 'up' ? increaseColor : decreaseColor;
     // Todo: end
     const iconStyle = {
