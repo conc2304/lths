@@ -1,4 +1,4 @@
-import InfoTooltip from './index'
+import { InfoTooltip } from './index'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 

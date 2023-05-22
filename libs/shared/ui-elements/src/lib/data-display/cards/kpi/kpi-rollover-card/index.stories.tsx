@@ -13,7 +13,6 @@ const Template: ComponentStory<typeof KpiRolloverCard> = (args) => (
 );
 
 const trendProp = {
-    //types of trens: Time duration, Median
     duration: 7,
     span: {
       title: "Prev 7 days",
@@ -65,7 +64,7 @@ const roloverDataList = [
 export const Primary = Template.bind({});
 Primary.args = {
   title: "Retention", 
-  hero: 799, // comp format to add commas
+  hero: 799,
   heroUnit: "SECS",
   trends: trendProp,
   tooltip: { 

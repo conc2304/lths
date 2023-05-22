@@ -16,8 +16,8 @@ export const KpiVerticalCard: React.FC<KpiCardProps> = (props) => {
   const DisplayTrendDataPointRow = (trendDataPointProps: TrendDataPointProps) => {
     const { title, unit, value, direction } = trendDataPointProps;
     // TODO: add custum palete theme for increase  and decrease stats
-    const increaseColor = green[500]; // "#01A611";
-    const decreaseColor = red[500]; //"#FF0000";
+    const increaseColor = green[500];
+    const decreaseColor = red[500];
     const displayColor = (direction === "up") ? increaseColor : decreaseColor;
     // Todo: end
     const iconStyle = { marginLeft: theme.spacing(-0.375), marginBottom: theme.spacing(0.25), width: theme.spacing(2.25), height: theme.spacing(2.25), color: displayColor };

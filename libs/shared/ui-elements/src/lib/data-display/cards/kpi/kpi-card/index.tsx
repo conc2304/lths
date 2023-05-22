@@ -11,7 +11,6 @@ import { TrendDataPointProps, KpiCardProps } from '../types';
 export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
   const { title, hero, heroUnit, trends, tooltip } = props;
-  console.log('🚀 ~ file: index.tsx:33 ~ tooltip:', tooltip);
 
   const heroFormated = hero.toLocaleString();
   const heroUnitStyle =
@@ -22,8 +21,8 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const DisplayTrendDataPoint = (trendDataPointProps: TrendDataPointProps, useArrow?: boolean) => {
     const { title, unit, value, direction } = trendDataPointProps;
     // TODO: add custum palete theme for increase  and decrease stats
-    const increaseColor = green[500]; // "#01A611";
-    const decreaseColor = red[500]; //"#FF0000";
+    const increaseColor = green[500];
+    const decreaseColor = red[500];
     const displayColor = direction === 'up' ? increaseColor : decreaseColor;
     // Todo: end
     const iconStyle = {

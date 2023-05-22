@@ -13,7 +13,6 @@ export default Story;
 const Template: ComponentStory<typeof KpiSparklineCard> = (args) => (
   <Stack
     direction="row"
-    //justifyContent="space-between"
     spacing={2}
   >
     <KpiSparklineCard {...args} hero={77} heroUnit="%" />
@@ -24,7 +23,6 @@ const Template: ComponentStory<typeof KpiSparklineCard> = (args) => (
 );
 
 const trendProp = {
-  //types of trens: Time duration, Median
   duration: 7,
   span: {
     title: 'Prev 7 days',
@@ -43,7 +41,7 @@ const trendProp = {
 export const Primary = Template.bind({});
 Primary.args = {
   title: 'Retention',
-  hero: 799, // comp format to add commas
+  hero: 799,
   heroUnit: 'SECS',
   trends: trendProp,
   tooltip: { 

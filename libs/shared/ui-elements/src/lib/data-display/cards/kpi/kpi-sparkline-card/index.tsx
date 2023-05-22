@@ -14,7 +14,7 @@ const FullWidthPaper = styled(Paper)<PaperProps>(() => ({
   position: 'relative',
   flex: 1,
 }));
-//todo: move tooltip props to info/tootip object
+
 export const KpiSparklineCard: React.FC<KpiSparklineCardProps> = (props) => {
   const theme = useTheme();
   const { title, hero, heroUnit, trends, tooltip, sparkLine, detail } = props;
