@@ -30,6 +30,17 @@ export type CardComponentProps = ComponentProps & {
   };
 };
 
+export type NewsViewComponentProps = ComponentProps & {
+  default_data: {
+    image: string;
+    title: string;
+    desc: string;
+    hint: string;
+    author: string;
+    date_info: string;
+  };
+};
+
 export type HeaderComponentProps = ComponentProps & {
   default_data: { title: string; color: string; desc: string; action: ActionProps };
 };
@@ -50,6 +61,36 @@ export type CardNewsProps = {
   desc: string;
   date: string;
   action: ActionProps;
+};
+
+export type EventCardProps = {
+  image: string;
+  title: string;
+  sub_title: string;
+  desc: string;
+  action: { page_link: string };
+  btn_title: string;
+};
+
+export type CarouselEventsComponentProps = ComponentProps & {
+  default_data: {
+    component_data: EventCardProps[];
+  };
+};
+
+export type VendorVCardProps = {
+  image: string;
+  title: string;
+  sub_title: string;
+  desc: string;
+  action: { page_link: string };
+  btn_title: string;
+};
+
+export type CarouselVendorComponentProps = ComponentProps & {
+  default_data: {
+    component_data: VendorVCardProps[];
+  };
 };
 
 export type CarouselNewsComponentProps = ComponentProps & {

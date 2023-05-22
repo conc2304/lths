@@ -25,6 +25,15 @@ export const useToolbarChange = () => {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('title', event.target.value, index);
   };
+  const handleAuthorChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('author', event.target.value, index);
+  };
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('date_info', event.target.value, index);
+  };
+  const handleHintChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('hint', event.target.value, index);
+  };
   const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('desc', event.target.value, index);
   };
@@ -56,5 +65,8 @@ export const useToolbarChange = () => {
     handleImageChange,
     handleComponentDataChange,
     handleColorChange,
+    handleAuthorChange,
+    handleDateChange,
+    handleHintChange,
   };
 };

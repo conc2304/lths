@@ -24,4 +24,13 @@ export { default as ScoreBoardToolbar } from './score-board/toolbar';
 export { default as VideoComponent } from './video-view/component';
 export { default as VideoToolbar } from './video-view/toolbar';
 
+export { default as NewsComponent } from './news-view/component';
+export { default as NewsViewToolbar } from './news-view/toolbar';
+
+export { default as CarouselEventsComponent } from './carousel-events/component';
+export { default as CarouselEventsToolbar } from './carousel-events/toolbar';
+
+export { default as CarouselVendorComponent } from './carousel-vendor/component';
+export { default as CarouselVendorToolbar } from './carousel-vendor/toolbar';
+
 export * from './types';
