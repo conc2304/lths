@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { pagesApi } from './pages-api';
+import api from './api';
 import { PagesDataResponse } from './types';
 
 const initialState = { pages: {} as PagesDataResponse };
@@ -10,7 +10,7 @@ const pagesSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addMatcher(pagesApi.endpoints.getPagesItems.matchFulfilled, (state, { payload }) => {
+    builder.addMatcher(api.endpoints.getPagesItems.matchFulfilled, (state, { payload }) => {
       state.pages = payload;
     });
   },

@@ -1,11 +1,11 @@
-import { identity } from 'cypress/types/lodash';
-
 import { api } from '@lths/shared/data-access';
 
 import { ComponentDetailResponse, ComponentListResponse } from './types';
+import { PagesDataRequest } from './types';
 import { getComponentDetailUrl, getComponentsListUrl } from './urls';
+import { getPagesUrl } from './urls';
 
-export const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
+const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
   endpoints: (builder) => ({
     getComponentList: builder.query<ComponentListResponse, void>({
       query: () => ({
@@ -22,7 +22,16 @@ export const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] 
         method: 'GET',
       }),
     }),
+    getPagesItems: builder.query({
+      query: (request: PagesDataRequest) => ({
+        url: getPagesUrl(request),
+        method: 'GET',
+      }),
+      //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
+      invalidatesTags: ['Pages'],
+    }),
   }),
 });
 
-export const { useLazyGetComponentListQuery, useLazyGetComponentDetailQuery } = pageApi;
+export const { useLazyGetComponentListQuery, useLazyGetComponentDetailQuery, useLazyGetPagesItemsQuery } = pageApi;
+export default pageApi;
