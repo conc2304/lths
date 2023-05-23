@@ -6,6 +6,7 @@ import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
 import ConnectedComponentModal from '../../components/pages/editor/components/connected-modal';
+import ConnectedImageModalWrapper from '../../components/pages/editor/images/connected-image-modal';
 
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
@@ -15,12 +16,19 @@ export function PageEditorTabs() {
   };
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
+  const handleImageCloseModal = () => {
+    setImageModalOpen(false);
+  };
   const handleAddComponentClick = () => {
     setModalOpen(true);
+  };
+  const handleAddImageClick = () => {
+    setImageModalOpen(true);
   };
 
   return (
@@ -35,8 +43,9 @@ export function PageEditorTabs() {
       </Box>
       <Box>
         <TabPanel value="page_design" currentTab={currentTab}>
-          <BlockEditor onAddComponentClick={handleAddComponentClick} />
+          <BlockEditor onAddComponentClick={handleAddComponentClick} onAddImageClick={handleAddImageClick} />
           <ConnectedComponentModal open={modalOpen} onClose={handleCloseModal} variant="full" />
+          <ConnectedImageModalWrapper open={imageModalOpen} onClose={handleImageCloseModal} />
         </TabPanel>
         <TabPanel value="segments" currentTab={currentTab}>
           Segments Component goes here...

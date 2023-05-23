@@ -14,8 +14,9 @@ import { areEqual } from '../../utils';
 
 export type NavigatorProps = {
   onAddComponentClick: () => void;
+  onAddImageClick: () => void;
 };
-export const Container = ({ onAddComponentClick }: NavigatorProps) => {
+export const Container = ({ onAddComponentClick, onAddImageClick }: NavigatorProps) => {
   const { components, orderComponent, selectComponent, duplicateComponent, removeComponent } = useEditorActions();
 
   const [expanded, setExpanded] = useState(true);
@@ -77,6 +78,11 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
       <Box sx={{ margin: 5 }}>
         <Button variant="outlined" onClick={onAddComponentClick} fullWidth>
           Add Component
+        </Button>
+      </Box>
+      <Box sx={{ margin: 5 }}>
+        <Button variant="outlined" onClick={onAddImageClick} fullWidth>
+          Add Image
         </Button>
       </Box>
     </StickyContainer>
