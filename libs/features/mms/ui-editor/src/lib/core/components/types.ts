@@ -118,6 +118,34 @@ export type ScoreBoardTeamProps = ComponentProps & {
   action: ActionProps;
 };
 
+export type KeyValueProps = {
+  key: string;
+  value: string;
+};
+
+export type KeyValueComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    component_data: KeyValueProps[];
+  };
+};
+
+export type NavListViewProps = {
+  title: string;
+  action: {
+    type: string;
+    page_id: string;
+    page_link: string;
+  }
+};
+
+export type NavListViewComponentProps = ComponentProps & {
+  default_data: {
+    component_data: NavListViewProps[];
+  };
+};
+
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
 };
