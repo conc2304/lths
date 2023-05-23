@@ -37,7 +37,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { component_data: [...component_data, { title: 'New Card' }] } };
+    const data = { ...props, default_data: { component_data: [...component_data, { key: 'New Key', value: 'New Value' }] } };
     selectComponent(data);
   };
 
@@ -55,7 +55,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
         {component_data.map(({ key, value}, index) => {
           const panelId = `panel${index}`;
           return (
-            <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>
+            <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`key_value_${index}`}>
               <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                 <Typography>Key Value #{index + 1}</Typography>
               </AccordionSummary>

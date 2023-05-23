@@ -8,6 +8,7 @@ import {
   CarouselNewsComponent,
   ScoreBoardComponent,
   KeyValueComponent,
+  NavListViewComponent,
   VideoComponent,
 } from '../components';
 import {
@@ -19,6 +20,7 @@ import {
   HeroComponentProps,
   ScoreBoardComponentProps,
   KeyValueComponentProps,
+  NavListViewComponentProps,
   VideoComponentProps,
 } from '../components/types';
 
@@ -38,6 +40,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <ScoreBoardComponent {...(props as ScoreBoardComponentProps)} />;
     case Component.KeyValue:
       return <KeyValueComponent {...(props as KeyValueComponentProps)} />;
+    case Component.NavListView:
+      return <NavListViewComponent {...(props as NavListViewComponentProps)} />;
     case Component.VideoView:
       return <VideoComponent {...(props as VideoComponentProps)} />;
 

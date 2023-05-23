@@ -21,7 +21,7 @@ const KeyValueComponent = (props: KeyValueComponentProps) => {
       </Typography>
       {component_data.map(({ key, value}, index) => {
         return (
-          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} key={`card_${index}`}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} key={`key_value_${index}`}>
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{key}</Typography>
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{value}</Typography>
           </Stack>

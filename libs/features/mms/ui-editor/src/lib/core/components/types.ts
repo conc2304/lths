@@ -90,6 +90,21 @@ export type KeyValueComponentProps = ComponentProps & {
   };
 };
 
+export type NavListViewProps = {
+  title: string;
+  action: {
+    type: string;
+    page_id: string;
+    page_link: string;
+  }
+};
+
+export type NavListViewComponentProps = ComponentProps & {
+  default_data: {
+    component_data: NavListViewProps[];
+  };
+};
+
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
 };
