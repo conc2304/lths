@@ -62,7 +62,6 @@ const LoginForm: React.FC = (): JSX.Element => {
 
       <Formik
         initialValues={LoginDefaultValues}
-        //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           onSubmit(values);
           setSubmitting(false);
@@ -118,6 +117,11 @@ const LoginForm: React.FC = (): JSX.Element => {
                         </IconButton>
                       </InputAdornment>
                     }
+                    sx={{
+                      '& input::-ms-reveal, & input::-ms-clear': {
+                        display: 'none', // remove default edge visibility icon
+                      },
+                    }}
                   />
                   {touched.password && errors.password && (
                     <FormHelperText error id="standard-weight-helper-text-password-login">
@@ -141,7 +145,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                     }
                     label={<Typography variant="h6">Keep me sign in</Typography>}
                   />
-                  <Link variant="h6" component={RouterLink} to="" color="text.primary">
+                  <Link variant="h6" component={RouterLink} to="/forgot-password" color="text.primary">
                     Forgot Password?
                   </Link>
                 </Stack>
