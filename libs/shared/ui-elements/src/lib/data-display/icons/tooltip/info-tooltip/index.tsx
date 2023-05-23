@@ -14,12 +14,13 @@ const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
   backgroundColor: theme.palette.grey[700],
 }));
 
-const GreyCardArrowBox = styled(Box)<BoxProps>(({ theme }) => ({
+const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ beforeBackgroundColor }) => ({
   position: 'relative',
   marginBottom: '18px',
+  backgroundColor: beforeBackgroundColor, // this line is just for jest testing
   '&::before': {
     boxShadow: '2.5 px 2.5px 3.5px 0px rgba(0,0,0,0.15)',
-    backgroundColor: theme.palette.grey[700],
+    backgroundColor: beforeBackgroundColor,
     content: "''",
     position: 'absolute',
     width: 24,
@@ -62,12 +63,13 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
   const infoIconColor = theme.palette.grey[500];
 
   return (
-    <div onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose}>
+    <div onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose} data-testid="InfoTooltipOnHover">
       <Box aria-owns={open ? 'mouse-over-popover' : undefined} aria-haspopup="true" height={theme.spacing(2.55)}>
         <InfoOutlined sx={{ color: infoIconColor, fontSize: theme.spacing(2.55) }} />
       </Box>
       <Popover
         id={'mouse-over-popover'}
+        data-testid="TooltipPopover"
         sx={{
           pointerEvents: 'none',
         }}
@@ -85,7 +87,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
           },
         }}
       >
-        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }}>
+        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }} data-testid="GreyCard">
           <CardContent
             sx={{
               paddingTop: theme.spacing(2.25),
@@ -107,7 +109,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             )}
           </CardContent>
         </GreyCard>
-        <GreyCardArrowBox />
+        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]}/>
       </Popover>
     </div>
   );

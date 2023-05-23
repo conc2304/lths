@@ -23,7 +23,7 @@ export const KpiSparklineCard: React.FC<KpiSparklineCardProps> = (props) => {
     <FullWidthPaper>
       <KpiCard title={title} hero={hero} heroUnit={heroUnit} trends={trends} tooltip={tooltip} />
       <Stack sx={{ paddingLeft: theme.spacing(2.5), paddingBottom: theme.spacing(2.5) }} spacing={1.5}>
-        <div style={{ paddingTop: theme.spacing(1), textAlign: 'center' }}>{sparkLine}</div>
+        <div style={{ paddingTop: theme.spacing(1), textAlign: 'center' }} data-testid="SparkLineContainer">{sparkLine}</div>
         {detail && (
           <Link sx={{ fontSize: theme.spacing(1.5) }} href={detail.url} underline="none">
             <Stack direction="row" alignItems="center">

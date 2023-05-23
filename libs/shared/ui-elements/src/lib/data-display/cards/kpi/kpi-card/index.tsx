@@ -35,14 +35,14 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
 
     const displayIcon = useArrow ? (
       direction === 'up' ? (
-        <ArrowOutward sx={iconStyle} />
+        <ArrowOutward sx={iconStyle} aria-label="UpArrowOutwardIcon"/>
       ) : (
-        <ArrowOutward sx={{ ...iconStyle, transform: 'rotate(90deg)' }} />
+        <ArrowOutward sx={{ ...iconStyle, transform: 'rotate(90deg)' }} aria-label="DownArrowOutwardIcon"/>
       )
     ) : direction === 'up' ? (
-      <Add sx={iconStyle} />
+      <Add sx={iconStyle} aria-label="AddIcon"/>
     ) : (
-      <Remove sx={iconStyle} />
+      <Remove sx={iconStyle} aria-label="RemoveIcon"/>
     );
 
     return (
@@ -67,7 +67,7 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   };
 
   return (
-    <Card sx={{ boxShadow: 'none' }}>
+    <Card sx={{ boxShadow: 'none' }} data-testid="KpiCard">
       <CardContent sx={{ paddingRight: theme.spacing(1.25), '&:last-child': { paddingBottom: theme.spacing(2) } }}>
         <Stack direction={'row'} justifyContent={'space-between'}>
           <Typography
@@ -99,11 +99,12 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
                 fontStyle: 'Medium',
                 letterSpacing: theme.spacing(0.01875),
               }}
+              aria-label="HeroValue"
             >
               {heroFormated}
             </Typography>
             {heroUnit && (
-              <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }}>
+              <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }} aria-label="HeroUnit">
                 {heroUnit.toUpperCase()}
               </Typography>
             )}
