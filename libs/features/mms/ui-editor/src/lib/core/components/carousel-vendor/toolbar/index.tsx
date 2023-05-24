@@ -20,6 +20,7 @@ const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -54,7 +55,11 @@ const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
             </AccordionSummary>
             <AccordionDetails>
               <Box sx={{ gap: 2 }}>
-                <ImagePicker value={image} onChange={(value) => handleImageChange(value, index)} />
+                <ImagePicker
+                  value={image}
+                  onChange={(value) => handleImageChange(value, index)}
+                  onReplace={onPropChange}
+                />
                 <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e, index)} />
                 <BasicTextField
                   label={'Sub Title'}

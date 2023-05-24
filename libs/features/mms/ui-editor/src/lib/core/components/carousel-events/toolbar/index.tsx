@@ -20,6 +20,7 @@ const CarouselEventsToolbar = (props: CarouselEventsComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -50,7 +51,11 @@ const CarouselEventsToolbar = (props: CarouselEventsComponentProps) => {
             </AccordionSummary>
             <AccordionDetails>
               <Box sx={{ gap: 2 }}>
-                <ImagePicker value={image} onChange={(value) => handleImageChange(value, index)} />
+                <ImagePicker
+                  value={image}
+                  onChange={(value) => handleImageChange(value, index)}
+                  onReplace={onPropChange}
+                />
                 <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e, index)} />
                 <BasicTextField
                   label={'Sub Title'}

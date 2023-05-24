@@ -1,8 +1,11 @@
-import { ComponentProps } from '../../context';
+import { ComponentProps as BaseProps } from '../../context';
 export * from './enum';
 /**NOTE: WE MAY HAVE TO RELAX ON THE NAMING CONVENTION HERE, SO THAT WE CAN FOLLOW EXACT JSON NAMES
 
 */
+export type ComponentProps = BaseProps & {
+  onPropChange?: (callback: (value: any) => void) => void;
+};
 export type ComponentType = 'native' | 'webview';
 export type ActionProps = {
   type: ComponentType;

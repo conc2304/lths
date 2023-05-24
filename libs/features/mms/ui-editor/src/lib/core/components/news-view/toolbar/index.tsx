@@ -7,6 +7,7 @@ const NewsViewToolbar = (props: NewsViewComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, title, desc, author, date_info, hint },
+    onPropChange,
   } = props;
 
   const {
@@ -19,7 +20,7 @@ const NewsViewToolbar = (props: NewsViewComponentProps) => {
   } = useToolbarChange();
   return (
     <ToolContainer id={id}>
-      <ImagePicker value={image} onChange={handleImageChange} />
+      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Hint'} value={hint} onChange={handleHintChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />

@@ -1,4 +1,3 @@
-import { ComponentProps } from '../../context';
 import {
   CardToolbar,
   HeroToolbar,
@@ -29,6 +28,7 @@ import {
   CarouselEventsComponentProps,
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
+  ComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
