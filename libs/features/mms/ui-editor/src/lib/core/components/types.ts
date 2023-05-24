@@ -131,18 +131,21 @@ export type KeyValueComponentProps = ComponentProps & {
   };
 };
 
-export type NavListViewProps = {
+export type TitleActionProps = {
   title: string;
-  action: {
-    type: string;
-    page_id: string;
-    page_link: string;
-  }
+  action: ActionProps;
 };
 
 export type NavListViewComponentProps = ComponentProps & {
   default_data: {
-    component_data: NavListViewProps[];
+    component_data: TitleActionProps[];
+  };
+};
+
+export type ChipSetViewComponentProps = ComponentProps & {
+  title: string;
+  default_data: {
+    component_data: TitleActionProps[];
   };
 };
 

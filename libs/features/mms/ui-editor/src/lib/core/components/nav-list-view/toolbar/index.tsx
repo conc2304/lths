@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { SyntheticEvent } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Typography, TextField, MenuItem} from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
@@ -20,16 +19,12 @@ const NavListViewToolbar = (props: NavListViewComponentProps) => {
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, handleActionChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
   const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
-  };
-
-  const handleActionChange = (key: string, value: string, index: number) => {
-    updateComponentProp('action', { ...props.default_data.component_data[index].action, [key]: value }, index);
   };
 
   const handleAdd = () => {
@@ -48,7 +43,7 @@ const NavListViewToolbar = (props: NavListViewComponentProps) => {
             </AccordionSummary>
             <AccordionDetails>
               <Stack spacing={2}>
-                <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
+                <BasicTextField label={'Title'} value={title} onChange={(e) => {handleTitleChange(e, index)}} />
                 <Accordion>
                   <AccordionSummary>
                     <Typography>action</Typography>
@@ -56,15 +51,15 @@ const NavListViewToolbar = (props: NavListViewComponentProps) => {
                   <AccordionDetails>
                     <TextField
                       value={action?.type}
-                      onChange={(event) => {handleActionChange("type", event.target.value, index)}}
+                      onChange={(e) => {handleActionChange("type", e, index)}}
                       label="type"
                       select
                     >
                       <MenuItem value={"native"}>native</MenuItem>
                       <MenuItem value={"weblink"}>weblink</MenuItem>
                     </TextField>
-                    <BasicTextField label={'Page_ID'} value={action?.page_id} onChange={(event) => {handleActionChange("page_id", event.target.value, index)}} />
-                    <BasicTextField label={'Page_Link'} value={action?.page_link} onChange={(event) => {handleActionChange("page_link", event.target.value, index)}} />
+                    <BasicTextField label={'Page_ID'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e, index)}} />
+                    <BasicTextField label={'Page_Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e, index)}} />
                   </AccordionDetails>
                 </Accordion>
               </Stack>
