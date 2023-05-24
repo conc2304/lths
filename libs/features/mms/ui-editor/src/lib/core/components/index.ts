@@ -27,6 +27,9 @@ export { default as KeyValueToolbar } from './key-value/toolbar';
 export { default as NavListViewComponent } from './nav-list-view/component';
 export { default as NavListViewToolbar } from './nav-list-view/toolbar';
 
+export { default as ChipSetViewComponent } from './chip-set-view/component';
+export { default as ChipSetViewToolbar } from './chip-set-view/toolbar';
+
 export { default as VideoComponent } from './video-view/component';
 export { default as VideoToolbar } from './video-view/toolbar';
 
