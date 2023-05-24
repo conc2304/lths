@@ -20,7 +20,8 @@ const sections: SectionItemProps = {
         {
           title: 'Flows',
           icon: <FlowIcon />,
-          path: '/insights/flows',
+          path: '/insights/flows/onboarding',
+          file: '/insights/onboarding-flow-page.tsx',
         },
         {
           title: 'Pages',

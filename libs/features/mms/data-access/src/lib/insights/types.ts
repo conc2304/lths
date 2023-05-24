@@ -17,6 +17,15 @@ export type PagesItem = {
 export type InsightResponse = {
   data: InsightItem;
 };
+export type InsightKpiColumnCardResponse = { 
+  data: {
+    title: string | null; 
+    subtitle?: string | null;
+    info: Info;
+    kpiData: Array<KPI>, 
+    columnData: Array<BarData>
+  } };
+
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };
@@ -29,6 +38,13 @@ export type PagesResponse = {
 export type PagesKpiResponse = { data: Array<KPI> };
 export type PagesHistogramResponse = { data: Array<Histogram> };
 export type PagesPreviewResponse = { data: Preview };
+
+export type BarData = {
+  title: string;
+  uv: number;
+  in?: number;
+  drop?: number;
+}
 
 export type KPI = {
   title: string | null; // metric title

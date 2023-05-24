@@ -15,5 +15,8 @@ export * from './lib/insights/overview-api';
 export * from './lib/insights/overview-slice';
 export * from './lib/insights/types';
 
+export * from './lib/insights/flows/onboarding-api';
+export * from './lib/insights/flows/onboarding-slice';
+
 export * from './lib/insights/pages/pages-api';
 export * from './lib/insights/pages/pages-slice';
