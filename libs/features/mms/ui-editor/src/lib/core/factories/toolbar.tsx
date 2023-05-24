@@ -14,9 +14,11 @@ import {
   ScoreBoardComponentProps,
   KeyValueComponentProps,
   NavListViewComponentProps,
+  ChipSetViewComponentProps,
   ScoreBoardToolbar,
   KeyValueToolbar,
   NavListViewToolbar,
+  ChipSetViewToolbar,
   VideoToolbar,
   VideoComponentProps,
   GenericToolbar,
@@ -45,8 +47,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ScoreBoardToolbar {...(props as ScoreBoardComponentProps)} />;
     case Component.KeyValue:
       return <KeyValueToolbar {...(props as KeyValueComponentProps)} />;
-      case Component.NavListView:
-        return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
+    case Component.NavListView:
+      return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
+    case Component.ChipSetView:
+      return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
     case Component.NewsView:

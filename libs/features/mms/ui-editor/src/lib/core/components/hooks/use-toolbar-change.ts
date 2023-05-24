@@ -48,6 +48,10 @@ export const useToolbarChange = () => {
     updateComponentProp('color', color, index);
   };
 
+  const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+  };
+
   const handleComponentDataChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string,
@@ -63,6 +67,7 @@ export const useToolbarChange = () => {
     handleDescChange,
     handleLinkTitleChange,
     handleImageChange,
+    handleActionChange,
     handleComponentDataChange,
     handleColorChange,
     handleAuthorChange,
