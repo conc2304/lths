@@ -5,8 +5,8 @@ import { BlockEditor } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
-import ConnectedComponentModal from '../../components/pages/editor/components/connected-modal';
-import ConnectedImageModalWrapper from '../../components/pages/editor/images/connected-image-modal';
+import ComponentModal from '../../components/pages/editor/components/connected-modal';
+import ImageModal from '../../components/pages/editor/images/connected-modal';
 
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
@@ -15,20 +15,25 @@ export function PageEditorTabs() {
     setCurrentTab(newValue);
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const [imageCallback, setImageCallback] = useState(null);
+  const handleCloseCompModal = () => {
+    setCompModalOpen(false);
   };
-  const handleImageCloseModal = () => {
+  const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
   const handleAddComponentClick = () => {
-    setModalOpen(true);
+    setCompModalOpen(true);
   };
-  const handleAddImageClick = () => {
+  const handleAddImageClick = (callback: (url: string) => void) => {
+    setImageCallback(() => callback);
     setImageModalOpen(true);
+  };
+  const handleSelectImage = (url: string) => {
+    imageCallback && imageCallback(url);
+    setImageModalOpen(false);
   };
 
   return (
@@ -44,8 +49,8 @@ export function PageEditorTabs() {
       <Box>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor onAddComponentClick={handleAddComponentClick} onAddImageClick={handleAddImageClick} />
-          <ConnectedComponentModal open={modalOpen} onClose={handleCloseModal} variant="full" />
-          <ConnectedImageModalWrapper open={imageModalOpen} onClose={handleImageCloseModal} />
+          <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="full" />
+          <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value="segments" currentTab={currentTab}>
           Segments Component goes here...

@@ -8,6 +8,7 @@ const VideoToolbar = (props: VideoComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, video_link },
+    onPropChange,
   } = props;
 
   const { handleImageChange, updateComponentProp } = useToolbarChange();
@@ -17,7 +18,7 @@ const VideoToolbar = (props: VideoComponentProps) => {
 
   return (
     <ToolContainer id={id}>
-      <ImagePicker value={image} onChange={handleImageChange} />
+      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Video URL'} value={video_link} onChange={handleVideoChange} />
     </ToolContainer>
   );

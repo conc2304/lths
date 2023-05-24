@@ -1,4 +1,3 @@
-import { ComponentProps } from '../../context';
 import {
   CardToolbar,
   HeroToolbar,
@@ -27,6 +26,7 @@ import {
   CarouselEventsComponentProps,
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
+  ComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -45,8 +45,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ScoreBoardToolbar {...(props as ScoreBoardComponentProps)} />;
     case Component.KeyValue:
       return <KeyValueToolbar {...(props as KeyValueComponentProps)} />;
-      case Component.NavListView:
-        return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
+    case Component.NavListView:
+      return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
     case Component.NewsView:

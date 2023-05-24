@@ -1,14 +1,7 @@
 import { ImagesProps } from '@lths/features/mms/data-access';
 
-export type ImageModalProps = {
-  open: boolean;
-  images: ImagesProps[];
-  onClose: () => void;
-};
-
-export type ConnectedImageProps = { open: boolean; onClose: () => void };
-export type ConnectedImageWrapperProps = { open: boolean; onClose: () => void };
-
-export type ImageGalleryProps = {
-  images: ImagesProps[];
-};
+type onSelectProp = { onSelect: (url: string) => void };
+type imagesProp = { images: ImagesProps[] };
+export type ConnectedImageModalProps = onSelectProp & { open: boolean; onClose: () => void };
+export type ImageModalProps = ConnectedImageModalProps & imagesProp;
+export type ImageGalleryProps = imagesProp & onSelectProp;

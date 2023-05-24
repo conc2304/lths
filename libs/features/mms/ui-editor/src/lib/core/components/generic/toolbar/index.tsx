@@ -1,8 +1,8 @@
 import { UnsupportedToolbar } from '../..';
-import { ComponentProps } from '../../../../context';
 import { BasicTextField, ToolContainer, ImagePicker } from '../../../../elements';
 import { ColorPicker } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
+import { ComponentProps } from '../../types';
 
 enum FormControl {
   Image = 'image',
@@ -14,14 +14,14 @@ enum FormControl {
 const GenericToolbar = (props: ComponentProps) => {
   console.log('props', props.component_id, Object.getOwnPropertyNames(props.default_data));
 
-  const { __ui_id__: id, default_data } = props;
+  const { __ui_id__: id, default_data, onPropChange } = props;
 
   const { handleImageChange, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
 
   const formFactory = (key: string) => {
     switch (key) {
       case FormControl.Image:
-        return <ImagePicker value={default_data.image} onChange={handleImageChange} />;
+        return <ImagePicker value={default_data.image} onChange={handleImageChange} onReplace={onPropChange} />;
       case FormControl.Title:
         return <BasicTextField label={'Title'} value={default_data.title} onChange={handleTitleChange} />;
       case FormControl.Description:

@@ -10,6 +10,7 @@ const ToolbarComponent = (props: HeroComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, title, link_title, component_data = [] },
+    onPropChange,
   } = props;
 
   const { handleTitleChange, handleLinkTitleChange, handleImageChange, updateComponentProp } = useToolbarChange();
@@ -19,7 +20,7 @@ const ToolbarComponent = (props: HeroComponentProps) => {
 
   return (
     <ToolContainer id={id}>
-      <ImagePicker value={image} onChange={handleImageChange} />
+      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />

@@ -4,11 +4,11 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 import { ComponentGalleryProps } from './types';
 
-const ComponentGallery = ({ components = [], onSelectComponent }: ComponentGalleryProps) => {
+const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) => {
   return (
     <ImageList variant="masonry" cols={5} gap={35}>
       {components.map(({ image_url, component_name, component_id }, index) => (
-        <ImageListItem key={`component_${index}`} onClick={() => onSelectComponent(component_id)}>
+        <ImageListItem key={`component_${index}`} onClick={() => onSelect(component_id)}>
           <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
               <CardMedia

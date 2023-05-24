@@ -20,6 +20,7 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -64,7 +65,11 @@ const CarouselNewsToolbar = (props: CarouselNewsComponentProps) => {
                   multiline
                   rows={3}
                 />
-                <ImagePicker value={image} onChange={(value) => handleImageChange(value, index)} />
+                <ImagePicker
+                  value={image}
+                  onChange={(value) => handleImageChange(value, index)}
+                  onReplace={onPropChange}
+                />
               </Box>
             </AccordionDetails>
           </Accordion>

@@ -14,11 +14,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import { Stack } from '@mui/system';
 
-import ImageGallery from './image-gallery';
+import ImageGallery from './gallery';
 import { ImageModalProps } from './types';
 
-const ImageModal = ({ open, onClose, images = [] }: ImageModalProps) => {
+const ImageModal = ({ open, onClose, onSelect, images = [] }: ImageModalProps) => {
   const theme = useTheme();
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>
@@ -58,7 +59,7 @@ const ImageModal = ({ open, onClose, images = [] }: ImageModalProps) => {
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ height: '40rem', padding: 0 }} />
           <Grid item xs={9} sx={{ padding: 1 }}>
-            {images && <ImageGallery images={images} />}
+            {images && <ImageGallery images={images} onSelect={onSelect} />}
           </Grid>
         </Grid>
       </DialogContent>
