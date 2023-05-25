@@ -15,10 +15,14 @@ import {
   KeyValueComponentProps,
   NavListViewComponentProps,
   ChipSetViewComponentProps,
+  ExpandCollapseViewComponentProps,
+  ButtonHCarouselComponentProps,
   ScoreBoardToolbar,
   KeyValueToolbar,
   NavListViewToolbar,
   ChipSetViewToolbar,
+  ExpandCollapseViewToolbar,
+  ButtonHCarouselToolbar,
   VideoToolbar,
   VideoComponentProps,
   GenericToolbar,
@@ -51,6 +55,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
+    case Component.ExpandCollapseView:
+      return <ExpandCollapseViewToolbar {...(props as ExpandCollapseViewComponentProps)} />;
+    case Component.ButtonHCarousel:
+      return <ButtonHCarouselToolbar {...(props as ButtonHCarouselComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
     case Component.NewsView:
