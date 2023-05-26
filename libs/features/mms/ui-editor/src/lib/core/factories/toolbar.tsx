@@ -29,6 +29,12 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  SegmentControlComponentProps,
+  SegmentControlToolbar,
+  QuickLinksProps,
+  QuickLinksToolbar,
+  PhoneInquiryToolbar,
+  PhoneInquiryComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -59,6 +65,12 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.SegmentControl:
+      return <SegmentControlToolbar {...(props as SegmentControlComponentProps)} />;
+    case Component.QuickLinks:
+      return <QuickLinksToolbar {...(props as QuickLinksProps)} />;
+    case Component.PhoneInquiry:
+      return <PhoneInquiryToolbar {...(props as PhoneInquiryComponentProps)} />;
     default:
       //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;

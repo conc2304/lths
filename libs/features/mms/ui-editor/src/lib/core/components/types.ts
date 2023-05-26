@@ -24,6 +24,36 @@ export type QuickLinkProps = ComponentProps & {
   title: string;
   action: ActionProps;
 };
+
+export type QuickLinksProps = ComponentProps & {
+  default_data: {
+    component_data: QuickLinkProps[];
+  };
+};
+export type PhoneInquiryComponentProps = ComponentProps & {
+  title: string;
+  style: string;
+  desc: string;
+  linkcolor: string;
+  linktitle: string;
+  action: ActionProps;
+};
+
+export type EventInfoComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    date_lbl_txt: string;
+    date_lbl_txt_color: string;
+    date_data_txt: string;
+    date_data_txt_color: string;
+    location_lbl_txt: string;
+    location_lbl_txt_color: string;
+    location_data_txt: string;
+    location_data_txt_color: string;
+  };
+};
+
 export type CardComponentProps = ComponentProps & {
   default_data: {
     image: string;
@@ -147,6 +177,12 @@ export type NavListViewComponentProps = ComponentProps & {
 
 export type ChipSetViewComponentProps = ComponentProps & {
   title: string;
+  default_data: {
+    component_data: TitleActionProps[];
+  };
+};
+
+export type SegmentControlComponentProps = ComponentProps & {
   default_data: {
     component_data: TitleActionProps[];
   };

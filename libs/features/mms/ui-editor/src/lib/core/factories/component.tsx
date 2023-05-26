@@ -14,6 +14,9 @@ import {
   NewsComponent,
   CarouselEventsComponent,
   CarouselVendorComponent,
+  SegmentControlComponent,
+  QuickLinksComponent,
+  PhoneInquiryComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -30,6 +33,9 @@ import {
   NewsViewComponentProps,
   CarouselEventsComponentProps,
   CarouselVendorComponentProps,
+  SegmentControlComponentProps,
+  QuickLinksProps,
+  PhoneInquiryComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -60,6 +66,12 @@ export const componentFactory = (props: ComponentProps) => {
       return <CarouselEventsComponent {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorComponent {...(props as CarouselVendorComponentProps)} />;
+    case Component.SegmentControl:
+      return <SegmentControlComponent {...(props as SegmentControlComponentProps)} />;
+    case Component.QuickLinks:
+      return <QuickLinksComponent {...(props as QuickLinksProps)} />;
+    case Component.PhoneInquiry:
+      return <PhoneInquiryComponent {...(props as PhoneInquiryComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

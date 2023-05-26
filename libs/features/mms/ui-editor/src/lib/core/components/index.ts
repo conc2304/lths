@@ -42,4 +42,13 @@ export { default as CarouselEventsToolbar } from './carousel-events/toolbar';
 export { default as CarouselVendorComponent } from './carousel-vendor/component';
 export { default as CarouselVendorToolbar } from './carousel-vendor/toolbar';
 
+export { default as SegmentControlComponent } from './segment-control/component';
+export { default as SegmentControlToolbar } from './segment-control/toolbar';
+
+export { default as QuickLinksComponent } from './quick-links/component';
+export { default as QuickLinksToolbar } from './quick-links/toolbar';
+
+export { default as PhoneInquiryComponent } from './phone-inquiry/component';
+export { default as PhoneInquiryToolbar } from './phone-inquiry/toolbar';
+
 export * from './types';
