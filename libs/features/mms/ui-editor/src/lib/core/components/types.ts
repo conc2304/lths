@@ -176,8 +176,8 @@ export type NavListViewComponentProps = ComponentProps & {
 };
 
 export type ChipSetViewComponentProps = ComponentProps & {
-  title: string;
   default_data: {
+    title: string;
     component_data: TitleActionProps[];
   };
 };
@@ -187,6 +187,30 @@ export type SegmentControlComponentProps = ComponentProps & {
     component_data: TitleActionProps[];
   };
 };
+
+export type EventInfoComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    date_lbl_txt: string;
+    date_lbl_txt_color: string;
+    date_data_txt: string;
+    date_data_txt_color: string;
+    location_lbl_txt: string;
+    location_lbl_txt_color: string;
+    location_data_txt: string;
+    location_data_txt_color: string;
+  };
+};
+
+export type ButtonsViewComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    image: string;
+    component_data: TitleActionProps[];
+  };
+}
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
