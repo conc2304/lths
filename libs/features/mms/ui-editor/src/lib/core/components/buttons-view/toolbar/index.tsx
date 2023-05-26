@@ -1,5 +1,5 @@
 import { useState, SyntheticEvent } from 'react';
-import { Button, Stack, Box, Typography, TextField, MenuItem} from '@mui/material';
+import { Button, Stack, Box, Typography, TextField, MenuItem } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import {
@@ -8,18 +8,20 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  ImagePicker,
 } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
-import { ChipSetViewComponentProps } from '../../types';
+import { ButtonsViewComponentProps } from '../../types';
 
-const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
+const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, component_data },
+    default_data: { title, desc, image, component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange, handleDescChange, handleImageChange, handleActionChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -28,20 +30,32 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { ...props.default_data, component_data: [...component_data, { title: 'New Chip', action: { type: "native", page_id: "new chip" }}] } };
+    const data = { ...props, default_data: { ...props.default_data, component_data: [...component_data, { title: 'New Button', action: { type: "native", page_id: "new button" }}] } };
     selectComponent(data);
   };
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <BasicTextField
+        label={'Description'}
+        value={desc}
+        onChange={handleDescChange}
+        multiline
+        rows={3}
+      />
+      <ImagePicker
+        value={image}
+        onChange={handleImageChange}
+        onReplace={onPropChange}
+      />
       <Box sx={{ gap: 0 }}>
         {component_data.map(({ title, action}, index) => {
           const panelId = `panel${index}`;
           return (
-            <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Chip${index}`}>
+            <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Button${index}`}>
               <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                <Typography>Chip #{index + 1}</Typography>
+                <Typography>Button #{index + 1}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Stack spacing={2}>
@@ -76,5 +90,4 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
     </ToolContainer>
   );
 };
-
-export default ChipSetViewToolbar;
+export default ButtonsViewToolbar;

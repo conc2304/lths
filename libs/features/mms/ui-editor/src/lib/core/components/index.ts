@@ -30,6 +30,12 @@ export { default as NavListViewToolbar } from './nav-list-view/toolbar';
 export { default as ChipSetViewComponent } from './chip-set-view/component';
 export { default as ChipSetViewToolbar } from './chip-set-view/toolbar';
 
+export { default as EventInfoComponent } from './event-info/component';
+export { default as EventInfoToolbar } from './event-info/toolbar';
+
+export { default as ButtonsViewComponent } from './buttons-view/component';
+export { default as ButtonsViewToolbar } from './buttons-view/toolbar';
+
 export { default as VideoComponent } from './video-view/component';
 export { default as VideoToolbar } from './video-view/toolbar';
 
