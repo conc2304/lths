@@ -1,6 +1,7 @@
 export * from './text-fields';
 export * from './containers';
 export { default as ColorPicker } from './color-picker';
+export { default as ColorPickerPopup } from './color-picker-popup';
 export { default as ImagePicker } from './image-picker';
 export * from './buttons';
 export * from './labels';
