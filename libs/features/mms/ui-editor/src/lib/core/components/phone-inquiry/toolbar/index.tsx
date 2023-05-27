@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { MenuItem, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 
-import { BasicTextField } from '../../../../elements';
+import { BasicTextField, ColorPicker } from '../../../../elements';
 import { BasicContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
 import { PhoneInquiryComponentProps } from '../../types';
@@ -18,9 +18,10 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
     updateComponentProp('linktitle', event.target.value, index);
   };
 
-  const handleLinkColorChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('linkcolor', event.target.value, index);
+  const handleColorChange = (color: string) => {
+    updateComponentProp('linkcolor', color);
   };
+
   const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('action', { ...props.default_data.action, [key]: event.target.value });
   };
@@ -29,7 +30,7 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
     <BasicContainer id={id}>
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-      <BasicTextField label={'Link Color'} value={linkcolor} onChange={handleLinkColorChange} />
+      <ColorPicker value={linkcolor} onChange={handleColorChange} />
       <BasicTextField label={'Link Title'} value={linktitle} onChange={handleLinkTitleChange} />
       <Stack spacing={2}>
         <Typography>action</Typography>
