@@ -16,6 +16,10 @@ import {
   NewsComponent,
   CarouselEventsComponent,
   CarouselVendorComponent,
+  TitleDescComponent,
+  MapPathComponent,
+  NavCellViewComponent,
+  DescriptionComponent
 } from '../components';
 import {
   ButtonComponentProps,
@@ -34,6 +38,10 @@ import {
   NewsViewComponentProps,
   CarouselEventsComponentProps,
   CarouselVendorComponentProps,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  NavCellViewComponentProps,
+  DescriptionComponentProps
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -68,6 +76,14 @@ export const componentFactory = (props: ComponentProps) => {
       return <CarouselEventsComponent {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorComponent {...(props as CarouselVendorComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathComponent {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescComponent {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

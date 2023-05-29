@@ -33,6 +33,14 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  TitleDescToolbar,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  MapPathToolbar,
+  NavCellViewToolbar,
+  NavCellViewComponentProps,
+  DescriptionToolbar,
+  DescriptionComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -67,6 +75,14 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathToolbar {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescToolbar {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
     default:
       //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
