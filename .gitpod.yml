@@ -1,0 +1,43 @@
+---
+github:
+  prebuilds:
+    # enable for the master/default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: true
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # add a check to pull requests (defaults to true)
+    addCheck: true
+    # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: true
+
+tasks:
+  - name: install tools
+    command: |
+      sudo apt install net-tools -y
+      sudo curl -L -o /usr/local/bin/serve https://github.com/philippgille/serve/releases/download/v0.3.2/serve_v0.3.2_Linux_x64
+      sudo chmod 755 /usr/local/bin/serve
+      gp sync-done serveServer
+
+  - name: lths-mui
+    command: |
+      gp sync-await serveServer
+      cd /workspace/lths-mui
+      export PORT=4200
+      yarn install
+      yarn nx build mms --configuration=development
+      gp sync-done mmsServer
+      serve -p 4200 dist/apps/mms
+
+  - name: browser
+    command: |
+      gp sync-await mmsServer
+      sleep 15
+      gp preview $(gp url 4200)
+
+ports:
+  - port: 4200
+    description: mms app
+    visibility: public
+    onOpen: ignore
