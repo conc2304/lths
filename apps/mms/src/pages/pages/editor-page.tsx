@@ -1,5 +1,6 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 import { BlockEditor } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
@@ -10,14 +11,21 @@ import ImageModal from '../../components/pages/editor/images/connected-modal';
 
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
-
+  const [compModalOpen, setCompModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageCallback, setImageCallback] = useState(null);
+  const { pageId } = useParams();
+  const fetchData = async (pageId: string) => {
+    console.log(pageId);
+  };
+  useEffect(() => {
+    console.log(pageId);
+    if (pageId) fetchData(pageId);
+  }, [pageId]);
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
 
-  const [compModalOpen, setCompModalOpen] = useState(false);
-  const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [imageCallback, setImageCallback] = useState(null);
   const handleCloseCompModal = () => {
     setCompModalOpen(false);
   };
