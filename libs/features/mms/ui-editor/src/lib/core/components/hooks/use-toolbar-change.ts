@@ -48,8 +48,12 @@ export const useToolbarChange = () => {
     updateComponentProp('color', color, index);
   };
 
-  const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-    updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+  const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    if (index === undefined) {
+      updateComponentProp('action', { ...selectedComponent.default_data.action, [key]: event.target.value }, index);
+    } else {
+      updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+    }
   };
 
   const handleComponentDataChange = (

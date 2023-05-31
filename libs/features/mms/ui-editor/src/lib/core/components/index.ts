@@ -36,8 +36,8 @@ export { default as EventInfoToolbar } from './event-info/toolbar';
 export { default as ButtonsViewComponent } from './buttons-view/component';
 export { default as ButtonsViewToolbar } from './buttons-view/toolbar';
 
-export { default as VideoComponent } from './video-view/component';
-export { default as VideoToolbar } from './video-view/toolbar';
+export { default as VideoViewComponent } from './video-view/component';
+export { default as VideoViewToolbar } from './video-view/toolbar';
 
 export { default as NewsComponent } from './news-view/component';
 export { default as NewsViewToolbar } from './news-view/toolbar';

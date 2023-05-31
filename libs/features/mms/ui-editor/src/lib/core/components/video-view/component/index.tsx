@@ -1,30 +1,43 @@
-import { useState } from 'react';
-import CardMedia from '@mui/material/CardMedia';
+import {CardMedia, IconButton} from '@mui/material';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import { CardContainer } from '../../../../elements';
-import { VideoComponentProps } from '../../types';
+import { VideoViewComponentProps } from '../../types';
 
-const VideoComponent = (props: VideoComponentProps) => {
+const VideoViewComponent = (props: VideoViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, video_link },
+    default_data: { image },
   } = props;
-  const [isVideoShown, setIsVideoShown] = useState(false);
 
-  const handleCardClick = () => {
-    setIsVideoShown(true);
-    alert(1);
-  };
   return (
     <CardContainer id={id}>
-      <CardMedia
-        component={isVideoShown ? 'video' : 'img'}
-        src={isVideoShown ? video_link : image}
-        onClick={handleCardClick}
-        controls={isVideoShown}
-        autoPlay={isVideoShown}
-      />
+      <div style={{position: 'relative'}}>
+        <CardMedia
+          component="img"
+          alt="Image"
+          height="auto"
+          image={image}
+          sx={{ position: 'relative', width: '100%', height: 'auto' }}
+        />
+        <IconButton
+          size='medium'
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: "rgba(30, 30, 30, 0.5)",
+            boxShadow: '0 0 0 1px white',
+            '&:hover': {
+              backgroundColor: "rgba(30, 30, 30, 0.5)",
+            },
+          }}
+        >
+          <PlayArrowIcon sx={{ color: "white", fontSize: "14px" }}/>
+        </IconButton>
+      </div>
     </CardContainer>
   );
 };
-export default VideoComponent;
+export default VideoViewComponent;

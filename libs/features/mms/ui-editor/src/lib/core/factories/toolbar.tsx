@@ -22,8 +22,8 @@ import {
   EventInfoComponentProps,
   ButtonsViewToolbar,
   ButtonsViewComponentProps,
-  VideoToolbar,
-  VideoComponentProps,
+  VideoViewToolbar,
+  VideoViewComponentProps,
   GenericToolbar,
   Component,
   NewsViewToolbar,
@@ -60,7 +60,7 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.ButtonsView:
       return <ButtonsViewToolbar {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
-      return <VideoToolbar {...(props as VideoComponentProps)} />;
+      return <VideoViewToolbar {...(props as VideoViewComponentProps)} />;
     case Component.NewsView:
       return <NewsViewToolbar {...(props as NewsViewComponentProps)} />;
     case Component.EventsCarousel:
