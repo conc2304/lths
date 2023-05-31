@@ -25,6 +25,17 @@ const VideoViewToolbar = (props: VideoViewComponentProps) => {
     updateComponentProp('video_link', event.target.value);
   };
 
+  const handleActionTypeChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    handleActionChange(event, "type");
+  }
+
+  const handleActionPageIdChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    handleActionChange(event, "page_id");
+  }
+  const handleActionPageLinkChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    handleActionChange(event, "page_link");
+  }
+
   return (
     <ToolContainer id={id}>
       <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
@@ -36,15 +47,15 @@ const VideoViewToolbar = (props: VideoViewComponentProps) => {
         <AccordionDetails>
           <TextField
             value={action?.type}
-            onChange={(e) => {handleActionChange("type", e)}}
+            onChange={handleActionTypeChange}
             label="type"
             select
           >
             <MenuItem value={"native"}>native</MenuItem>
             <MenuItem value={"weblink"}>weblink</MenuItem>
           </TextField>
-          <BasicTextField label={'Page_ID'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e)}} />
-          <BasicTextField label={'Page_Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e)}} />
+          <BasicTextField label={'Page Id'} value={action?.page_id} onChange={handleActionPageIdChange} />
+          <BasicTextField label={'Page Link'} value={action?.page_link} onChange={handleActionPageLinkChange} />
         </AccordionDetails>
       </Accordion>
     </ToolContainer>
