@@ -29,7 +29,7 @@ const ExpandCollapseViewComponent = (props: ExpandCollapseViewComponentProps) =>
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`ExpandCollapseItem${index}`} 
-            disableGutters={true} sx={{ '&::before': { opacity: '1 !important' } }}
+            disableGutters={true} sx={{ boxShadow: 0, '&::before': { opacity: '1 !important' } }}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

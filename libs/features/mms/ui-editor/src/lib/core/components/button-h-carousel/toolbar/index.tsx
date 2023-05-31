@@ -58,8 +58,8 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
                       <MenuItem value={"native"}>native</MenuItem>
                       <MenuItem value={"weblink"}>weblink</MenuItem>
                     </TextField>
-                    <BasicTextField label={'Page_ID'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e, index)}} />
-                    <BasicTextField label={'Page_Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e, index)}} />
+                    <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e, index)}} />
+                    <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e, index)}} />
                   </AccordionDetails>
                 </Accordion>
               </Stack>
