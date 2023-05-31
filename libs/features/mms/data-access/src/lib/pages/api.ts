@@ -1,8 +1,8 @@
 import { api } from '@lths/shared/data-access';
 
-import { ComponentDetailResponse, ComponentListResponse } from './types';
+import { ComponentDetailResponse, ComponentListResponse, ImagesListResponse } from './types';
 import { PagesDataRequest } from './types';
-import { getComponentDetailUrl, getComponentsListUrl } from './urls';
+import { getComponentDetailUrl, getComponentsListUrl, getImagesListUrl } from './urls';
 import { getPagesUrl } from './urls';
 
 const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
@@ -22,6 +22,13 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'GET',
       }),
     }),
+    getImagesList: builder.query<ImagesListResponse, void>({
+      query: () => ({
+        url: getImagesListUrl(),
+        method: 'GET',
+      }),
+    }),
+
     getPagesItems: builder.query({
       query: (request: PagesDataRequest) => ({
         url: getPagesUrl(request),
@@ -33,5 +40,10 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
   }),
 });
 
-export const { useLazyGetComponentListQuery, useLazyGetComponentDetailQuery, useLazyGetPagesItemsQuery } = pageApi;
+export const {
+  useLazyGetComponentListQuery,
+  useLazyGetComponentDetailQuery,
+  useLazyGetPagesItemsQuery,
+  useLazyGetImagesListQuery,
+} = pageApi;
 export default pageApi;

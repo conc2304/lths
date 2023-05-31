@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+
 import { DrawerSectionProps, LazyLoader } from '@lths/shared/ui-layouts';
 
 import { PageLoader } from './loader';

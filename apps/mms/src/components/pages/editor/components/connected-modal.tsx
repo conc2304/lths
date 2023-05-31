@@ -8,6 +8,7 @@ import FullModal from './modal-full';
 import { ConnectedComponentProps, ConnectedComponentWrapperProps } from './types';
 
 const ConnectedModal = ({ open, onClose, Modal }: ConnectedComponentProps) => {
+  console.log('Render...ConnectedModal');
   const [getData, { data }] = useLazyGetComponentListQuery();
   const [getDetail, { isSuccess: isDetailSuccess }] = useLazyGetComponentDetailQuery();
 
@@ -18,6 +19,7 @@ const ConnectedModal = ({ open, onClose, Modal }: ConnectedComponentProps) => {
   };
 
   useEffect(() => {
+    console.log('Fetching component data...');
     fetchData();
   }, []);
 
@@ -30,8 +32,8 @@ const ConnectedModal = ({ open, onClose, Modal }: ConnectedComponentProps) => {
       console.log('Failed to find component');
     }
   };
-
-  return <Modal open={open} onClose={onClose} components={data?.data} onSelectComponent={handleSelectComponent} />;
+  console.log('Fetching component data...', data?.data);
+  return <Modal open={open} onClose={onClose} components={data?.data} onSelect={handleSelectComponent} />;
 };
 
 const ConnectedModalWrapper = ({ open, onClose, variant }: ConnectedComponentWrapperProps) => {

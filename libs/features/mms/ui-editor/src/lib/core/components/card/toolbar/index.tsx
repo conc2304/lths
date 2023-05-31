@@ -7,13 +7,14 @@ const CardToolbar = (props: CardComponentProps) => {
   const {
     __ui_id__: id,
     default_data: { image, title, desc },
+    onPropChange,
   } = props;
 
   const { handleTitleChange, handleDescChange, handleImageChange } = useToolbarChange();
 
   return (
     <ToolContainer id={id}>
-      <ImagePicker value={image} onChange={handleImageChange} />
+      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
     </ToolContainer>

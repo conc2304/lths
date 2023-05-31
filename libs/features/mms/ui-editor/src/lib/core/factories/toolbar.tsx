@@ -1,10 +1,8 @@
-import { ComponentProps } from '../../context';
 import {
   CardToolbar,
   HeroToolbar,
   CardComponentProps,
   HeroComponentProps,
-  //UnsupportedToolbar,
   HeaderToolbar,
   HeaderComponentProps,
   ButtonToolbar,
@@ -18,11 +16,19 @@ import {
   ExpandCollapseViewComponentProps,
   ButtonHCarouselComponentProps,
   ScoreBoardToolbar,
+  ScoreBoardComponentProps,
   KeyValueToolbar,
+  KeyValueComponentProps,
   NavListViewToolbar,
+  NavListViewComponentProps,
   ChipSetViewToolbar,
   ExpandCollapseViewToolbar,
   ButtonHCarouselToolbar,
+  ChipSetViewComponentProps,
+  EventInfoToolbar,
+  EventInfoComponentProps,
+  ButtonsViewToolbar,
+  ButtonsViewComponentProps,
   VideoToolbar,
   VideoComponentProps,
   GenericToolbar,
@@ -33,6 +39,7 @@ import {
   CarouselEventsComponentProps,
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
+  ComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -59,6 +66,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ExpandCollapseViewToolbar {...(props as ExpandCollapseViewComponentProps)} />;
     case Component.ButtonHCarousel:
       return <ButtonHCarouselToolbar {...(props as ButtonHCarouselComponentProps)} />;
+    case Component.EventInfo:
+      return <EventInfoToolbar {...(props as EventInfoComponentProps)} />;
+    case Component.ButtonsView:
+      return <ButtonsViewToolbar {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
     case Component.NewsView:
@@ -68,7 +79,6 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
     default:
-      //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
   }
 };

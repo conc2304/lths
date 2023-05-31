@@ -12,6 +12,8 @@ import {
   ChipSetViewComponent,
   ExpandCollapseViewComponent,
   ButtonHCarouselComponent,
+  EventInfoComponent,
+  ButtonsViewComponent,
   VideoComponent,
   NewsComponent,
   CarouselEventsComponent,
@@ -30,6 +32,8 @@ import {
   ChipSetViewComponentProps,
   ExpandCollapseViewComponentProps,
   ButtonHCarouselComponentProps,
+  EventInfoComponentProps,
+  ButtonsViewComponentProps,
   VideoComponentProps,
   NewsViewComponentProps,
   CarouselEventsComponentProps,
@@ -60,6 +64,10 @@ export const componentFactory = (props: ComponentProps) => {
       return <ExpandCollapseViewComponent {...(props as ExpandCollapseViewComponentProps)} />;
     case Component.ButtonHCarousel:
       return <ButtonHCarouselComponent {...(props as ButtonHCarouselComponentProps)} />;
+    case Component.EventInfo:
+      return <EventInfoComponent {...(props as EventInfoComponentProps)} />;
+    case Component.ButtonsView:
+      return <ButtonsViewComponent {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
       return <VideoComponent {...(props as VideoComponentProps)} />;
     case Component.NewsView:

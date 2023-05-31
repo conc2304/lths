@@ -22,12 +22,13 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const ComponentModal = ({ open, onClose, components = [], onSelectComponent }: ComponentModalProps) => {
+export const ComponentModal = ({ open, onClose, components, onSelect }: ComponentModalProps) => {
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const searchProps = ['component_id', 'component_name', 'component_type'];
 
   useEffect(() => {
+    if (!components) setFiltered([]);
     if (search?.length > 0) {
       setFiltered(filter(components, searchProps, search));
     } else setFiltered(components);
@@ -58,7 +59,7 @@ export const ComponentModal = ({ open, onClose, components = [], onSelectCompone
         </Toolbar>
       </AppBar>
       <Box sx={{ padding: 4, background: '#f2f2f2' }}>
-        <ComponentGallery components={filtered} onSelectComponent={onSelectComponent} />
+        <ComponentGallery components={filtered} onSelect={onSelect} />
       </Box>
     </Dialog>
   );

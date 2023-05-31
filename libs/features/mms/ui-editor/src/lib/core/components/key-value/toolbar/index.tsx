@@ -37,7 +37,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { component_data: [...component_data, { key: 'New Key', value: 'New Value' }] } };
+    const data = { ...props, default_data: { ...props.default_data, component_data: [...component_data, { key: 'New Key', value: 'New Value' }] } };
     selectComponent(data);
   };
 

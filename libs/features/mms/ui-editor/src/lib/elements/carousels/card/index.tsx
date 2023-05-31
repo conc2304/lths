@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { NewsCard, NewsCardProps } from '../../cards';
 
 import './index.css';
-// core version + navigation, pagination modules:
 
 type CarouselProps = {
   items: NewsCardProps[];

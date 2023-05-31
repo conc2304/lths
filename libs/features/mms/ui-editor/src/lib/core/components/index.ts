@@ -36,6 +36,12 @@ export { default as ExpandCollapseViewToolbar } from './expand-collapse-view/too
 export { default as ButtonHCarouselComponent } from './button-h-carousel/component';
 export { default as ButtonHCarouselToolbar } from './button-h-carousel/toolbar';
 
+export { default as EventInfoComponent } from './event-info/component';
+export { default as EventInfoToolbar } from './event-info/toolbar';
+
+export { default as ButtonsViewComponent } from './buttons-view/component';
+export { default as ButtonsViewToolbar } from './buttons-view/toolbar';
+
 export { default as VideoComponent } from './video-view/component';
 export { default as VideoToolbar } from './video-view/toolbar';
 

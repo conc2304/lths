@@ -1,8 +1,11 @@
-import { ComponentProps } from '../../context';
+import { ComponentProps as BaseProps } from '../../context';
 export * from './enum';
 /**NOTE: WE MAY HAVE TO RELAX ON THE NAMING CONVENTION HERE, SO THAT WE CAN FOLLOW EXACT JSON NAMES
 
 */
+export type ComponentProps = BaseProps & {
+  onPropChange?: (callback: (value: any) => void) => void;
+};
 export type ComponentType = 'native' | 'webview';
 export type ActionProps = {
   type: ComponentType;
@@ -143,8 +146,8 @@ export type NavListViewComponentProps = ComponentProps & {
 };
 
 export type ChipSetViewComponentProps = ComponentProps & {
-  title: string;
   default_data: {
+    title: string;
     component_data: TitleActionProps[];
   };
 };
@@ -166,6 +169,30 @@ export type ButtonHCarouselComponentProps = ComponentProps & {
     component_data: TitleActionProps[];
   };
 };
+
+export type EventInfoComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    date_lbl_txt: string;
+    date_lbl_txt_color: string;
+    date_data_txt: string;
+    date_data_txt_color: string;
+    location_lbl_txt: string;
+    location_lbl_txt_color: string;
+    location_data_txt: string;
+    location_data_txt_color: string;
+  };
+};
+
+export type ButtonsViewComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    image: string;
+    component_data: TitleActionProps[];
+  };
+}
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
