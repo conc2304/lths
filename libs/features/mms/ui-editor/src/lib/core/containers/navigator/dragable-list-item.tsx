@@ -13,9 +13,8 @@ import type { Identifier, XYCoord } from 'dnd-core';
 const style = {
   borderBottom: `1px solid ${Colors.sidebar.divider}`,
   backgroundColor: Colors.sidebar.background,
-  //cursor: 'move',
 };
-//move this to constants??
+//TODO: move this to constants??
 const menuOptions = ['delete', 'duplicate'];
 
 export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCardProps) => {

@@ -3,7 +3,6 @@ import {
   HeroToolbar,
   CardComponentProps,
   HeroComponentProps,
-  //UnsupportedToolbar,
   HeaderToolbar,
   HeaderComponentProps,
   ButtonToolbar,
@@ -68,7 +67,6 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
     default:
-      //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
   }
 };

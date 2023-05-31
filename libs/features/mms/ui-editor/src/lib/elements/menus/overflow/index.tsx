@@ -5,11 +5,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 const ITEM_HEIGHT = 48;
+
 type Props = {
   items: string[];
-  //selected: string;
   onClick: (selected: string) => void;
 };
+
 export default function OverflowMenu({ items, onClick }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
