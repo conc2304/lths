@@ -1,4 +1,13 @@
 import { PagesDataRequest } from './types';
+export const getComponentsListUrl = () => {
+  return `/pages/components`;
+};
+export const getImagesListUrl = () => {
+  return `/pages/images`;
+};
+export const getComponentDetailUrl = (id) => {
+  return `/pages/component-details?id=${id}`;
+};
 
 export const getPagesUrl = (req: PagesDataRequest) => {
   const params = [];

@@ -5,7 +5,7 @@ import { api, authReducer, userReducer } from '@lths/shared/data-access';
 
 import { insightOverviewReducer } from './insights/overview-slice';
 import { insightPagesReducer } from './insights/pages/pages-slice';
-import { pagesDataReducer } from './pages/pages-slice';
+import { pagesDataReducer } from './pages/slice';
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,

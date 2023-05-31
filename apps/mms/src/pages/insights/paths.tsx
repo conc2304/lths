@@ -56,7 +56,7 @@ const sections: SectionItemProps = {
             {
               icon: <NotificationsActiveIcon />,
               path: '/insights/notifications/detail',
-              file: '/detail-page',
+              file: '/demo/detail-page',
               hidden: true,
             },
           ],
