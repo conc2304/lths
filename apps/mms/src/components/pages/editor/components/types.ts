@@ -11,3 +11,9 @@ export type ConnectedComponentProps = ModalProps & { Modal: FC<ComponentModalPro
 export type ConnectedComponentWrapperProps = ModalProps & { variant: 'full' | 'basic' };
 
 export type ComponentGalleryProps = EventProp & ItemsProp;
+
+export type CreatePageModalProps = {
+  open: boolean;
+  handleCloseModal: () => void;
+  onCreatePage: (page_id: string) => void;
+};

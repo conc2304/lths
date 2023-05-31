@@ -1,7 +1,9 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
-import { BlockEditor } from '@lths/features/mms/ui-editor';
+import { useLazyGetPageDetailsQuery } from '@lths/features/mms/data-access';
+import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
@@ -10,6 +12,21 @@ import ImageModal from '../../components/pages/editor/images/connected-modal';
 
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
+
+  const { page_id } = useParams();
+
+  const { initEditor } = useEditorActions();
+
+  const [getPageDetail] = useLazyGetPageDetailsQuery();
+
+  const fetchPageDetail = async (page_id: string) => {
+    const response = await getPageDetail({ page_id });
+    initEditor(response?.data?.data?.default_data);
+  };
+
+  useEffect(() => {
+    fetchPageDetail(page_id);
+  }, [page_id]);
 
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);

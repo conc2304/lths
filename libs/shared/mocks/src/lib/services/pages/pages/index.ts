@@ -5,14 +5,14 @@ import { RESPONSE_DELAY_MS, ITEMS_PER_PAGE } from '../../constants';
 
 const response = rest.get(/\/api\/pages[?|/]?$/, function (req, res, ctx) {
   console.log('search params', req.url.searchParams.get('page'));
-  const page = Number(req.url.searchParams.get('page')) || 1;
+  const page = Number(req.url.searchParams.get('page')) || 0;
   const itemsPerPage = Number(req.url.searchParams.get('page_size')) || ITEMS_PER_PAGE;
   const order = req.url.searchParams.get('sort_order') || 'asc';
   const orderBy = req.url.searchParams.get('sort_key') || 'name';
   const pages = db.pages.getAll();
   const totalCount = pages.length;
 
-  const startIndex = (page - 1) * itemsPerPage;
+  const startIndex = page * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
   const data = pages.slice(startIndex, endIndex);
