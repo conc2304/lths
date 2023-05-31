@@ -28,7 +28,7 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { component_data: [...component_data, { title: 'New Chip', action: { type: "native", page_id: "new chip" }}] } };
+    const data = { ...props, default_data: { ...props.default_data, component_data: [...component_data, { title: 'New Chip', action: { type: "native", page_id: "new chip" }}] } };
     selectComponent(data);
   };
 

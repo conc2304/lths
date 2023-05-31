@@ -1,6 +1,15 @@
 import { api } from '../core/api';
-import { AUTH_LOGIN_URL, AUTH_LOGOUT_URL } from './urls';
-import { LoginRequest, LoginResponse, LogoutResponse } from './types';
+import { 
+  AUTH_LOGIN_URL, AUTH_LOGOUT_URL, 
+  AUTH_FORGOT_PASSWORD_URL, AUTH_RESET_PASSWORD_URL ,
+} from './urls';
+import { 
+  LoginRequest, LoginResponse, 
+  LogoutResponse,
+  ResetPasswordRequest, ResetPasswordResponse,
+  ForgotPasswordRequest, ForgotPasswordResponse,
+
+} from './types';
 
 export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,7 +29,30 @@ export const authApi = api.injectEndpoints({
         body: { id: userId },
       }),
     }),
+    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+      query: (credentials) => {
+        return {
+          url: AUTH_FORGOT_PASSWORD_URL,
+          method: 'POST',
+          body: credentials,
+        };
+      },
+    }),
+    resetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+      query: (credentials) => {
+        return {
+          url: AUTH_RESET_PASSWORD_URL,
+          method: 'POST',
+          body: credentials,
+        };
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation,useLogoutMutation } = authApi;
+export const { 
+  useLoginMutation,
+  useLogoutMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = authApi;

@@ -10,6 +10,8 @@ import {
   KeyValueComponent,
   NavListViewComponent,
   ChipSetViewComponent,
+  EventInfoComponent,
+  ButtonsViewComponent,
   VideoComponent,
   NewsComponent,
   CarouselEventsComponent,
@@ -26,6 +28,8 @@ import {
   KeyValueComponentProps,
   NavListViewComponentProps,
   ChipSetViewComponentProps,
+  EventInfoComponentProps,
+  ButtonsViewComponentProps,
   VideoComponentProps,
   NewsViewComponentProps,
   CarouselEventsComponentProps,
@@ -52,6 +56,10 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavListViewComponent {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewComponent {...(props as ChipSetViewComponentProps)} />;
+    case Component.EventInfo:
+      return <EventInfoComponent {...(props as EventInfoComponentProps)} />;
+    case Component.ButtonsView:
+      return <ButtonsViewComponent {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
       return <VideoComponent {...(props as VideoComponentProps)} />;
     case Component.NewsView:

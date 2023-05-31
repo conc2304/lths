@@ -3,21 +3,24 @@ import {
   HeroToolbar,
   CardComponentProps,
   HeroComponentProps,
-  //UnsupportedToolbar,
   HeaderToolbar,
   HeaderComponentProps,
   ButtonToolbar,
   ButtonComponentProps,
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
-  ScoreBoardComponentProps,
-  KeyValueComponentProps,
-  NavListViewComponentProps,
-  ChipSetViewComponentProps,
   ScoreBoardToolbar,
+  ScoreBoardComponentProps,
   KeyValueToolbar,
+  KeyValueComponentProps,
   NavListViewToolbar,
+  NavListViewComponentProps,
   ChipSetViewToolbar,
+  ChipSetViewComponentProps,
+  EventInfoToolbar,
+  EventInfoComponentProps,
+  ButtonsViewToolbar,
+  ButtonsViewComponentProps,
   VideoToolbar,
   VideoComponentProps,
   GenericToolbar,
@@ -51,6 +54,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
+    case Component.EventInfo:
+      return <EventInfoToolbar {...(props as EventInfoComponentProps)} />;
+    case Component.ButtonsView:
+      return <ButtonsViewToolbar {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
       return <VideoToolbar {...(props as VideoComponentProps)} />;
     case Component.NewsView:
@@ -60,7 +67,6 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
     default:
-      //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
   }
 };

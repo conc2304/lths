@@ -8,6 +8,30 @@ export type LoginRequest = {
   password: string;
 };
 
+export type ForgotPasswordResponse = {
+  // ToDo: add forgotPassword response type
+  password_reset_token?: string;
+  success: boolean;
+  message?: string;
+  error?: string;
+};
+
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type ResetPasswordResponse = {
+  // ToDo: add resetPassword response type
+  success: boolean;
+  message?: string;
+  error?: string;
+};
+
+export type ResetPasswordRequest = {
+  password_reset_token: string;
+  new_password: string;
+};
+
 export type AuthenticatedSession = {
   token: string;
   userId: string;

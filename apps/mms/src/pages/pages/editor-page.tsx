@@ -13,28 +13,29 @@ import ImageModal from '../../components/pages/editor/images/connected-modal';
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
 
-  const { page_id } = useParams();
+  const { pageId } = useParams();
 
   const { initEditor } = useEditorActions();
 
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
-  const fetchPageDetail = async (page_id: string) => {
-    const response = await getPageDetail({ page_id });
+  const fetchPageDetail = async (pageId: string) => {
+    const response = await getPageDetail({ page_id: pageId });
     initEditor(response?.data?.data?.default_data);
   };
 
   useEffect(() => {
-    fetchPageDetail(page_id);
-  }, [page_id]);
+    if (pageId) fetchPageDetail(pageId);
+  }, [pageId]);
+
+  const [compModalOpen, setCompModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageCallback, setImageCallback] = useState(null);
 
   const handleTabChange = (event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
 
-  const [compModalOpen, setCompModalOpen] = useState(false);
-  const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [imageCallback, setImageCallback] = useState(null);
   const handleCloseCompModal = () => {
     setCompModalOpen(false);
   };

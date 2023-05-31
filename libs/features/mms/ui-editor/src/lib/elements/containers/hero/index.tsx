@@ -11,6 +11,7 @@ type HeroContainerProps = {
   children: ReactNode;
   disableGutter?: boolean;
 };
+
 const HeroContainer = ({ id, width, height, image, children, disableGutter = false }: HeroContainerProps) => {
   const perc = (height / width) * 100;
   return (

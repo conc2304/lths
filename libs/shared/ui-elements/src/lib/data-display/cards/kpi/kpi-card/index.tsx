@@ -4,33 +4,13 @@ import { Add, Remove, ArrowOutward } from '@mui/icons-material';
 import { green, red } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import { InfoTooltip, ActionProps, InfoTooltipProps } from '../../../icons/tooltip/info-tooltip/index';
+import { InfoTooltip } from '../../../icons/tooltip/info-tooltip/index';
+import { TrendDataPointProps, KpiCardProps } from '../types';
 
-export type TrendDataPointProps = {
-  title: string;
-  unit: string;
-  value: number | string;
-  direction: string;
-};
-
-export type TrendProps = {
-  duration: number | string; // 7
-  span: TrendDataPointProps;
-  median?: TrendDataPointProps;
-};
-export type KpiCardProps = {
-  title: string;
-  hero: number;
-  heroUnit?: string;
-  trends: TrendProps;
-  tooltip?: InfoTooltipProps;
-  detail?: ActionProps;
-};
 
 export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const theme = useTheme();
   const { title, hero, heroUnit, trends, tooltip } = props;
-  console.log('🚀 ~ file: index.tsx:33 ~ tooltip:', tooltip);
 
   const heroFormated = hero.toLocaleString();
   const heroUnitStyle =
@@ -41,8 +21,8 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   const DisplayTrendDataPoint = (trendDataPointProps: TrendDataPointProps, useArrow?: boolean) => {
     const { title, unit, value, direction } = trendDataPointProps;
     // TODO: add custum palete theme for increase  and decrease stats
-    const increaseColor = green[500]; // "#01A611";
-    const decreaseColor = red[500]; //"#FF0000";
+    const increaseColor = green[500];
+    const decreaseColor = red[500];
     const displayColor = direction === 'up' ? increaseColor : decreaseColor;
     // Todo: end
     const iconStyle = {
@@ -55,14 +35,14 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
 
     const displayIcon = useArrow ? (
       direction === 'up' ? (
-        <ArrowOutward sx={iconStyle} />
+        <ArrowOutward sx={iconStyle} aria-label="UpArrowOutwardIcon"/>
       ) : (
-        <ArrowOutward sx={{ ...iconStyle, transform: 'rotate(90deg)' }} />
+        <ArrowOutward sx={{ ...iconStyle, transform: 'rotate(90deg)' }} aria-label="DownArrowOutwardIcon"/>
       )
     ) : direction === 'up' ? (
-      <Add sx={iconStyle} />
+      <Add sx={iconStyle} aria-label="AddIcon"/>
     ) : (
-      <Remove sx={iconStyle} />
+      <Remove sx={iconStyle} aria-label="RemoveIcon"/>
     );
 
     return (
@@ -87,7 +67,7 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
   };
 
   return (
-    <Card sx={{ boxShadow: 'none' }}>
+    <Card sx={{ boxShadow: 'none' }} data-testid="KpiCard">
       <CardContent sx={{ paddingRight: theme.spacing(1.25), '&:last-child': { paddingBottom: theme.spacing(2) } }}>
         <Stack direction={'row'} justifyContent={'space-between'}>
           <Typography
@@ -119,11 +99,12 @@ export const KpiCard: React.FC<KpiCardProps> = (props) => {
                 fontStyle: 'Medium',
                 letterSpacing: theme.spacing(0.01875),
               }}
+              aria-label="HeroValue"
             >
               {heroFormated}
             </Typography>
             {heroUnit && (
-              <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }}>
+              <Typography sx={{ ...heroUnitStyle, fontWeight: 500, letterSpacing: theme.spacing(0.01875) }} aria-label="HeroUnit">
                 {heroUnit.toUpperCase()}
               </Typography>
             )}

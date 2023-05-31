@@ -1,6 +1,7 @@
+import { useRoutes } from 'react-router-dom';
+
 import { useAppSelector } from '@lths/features/mms/data-access';
 import { LayoutProvider } from '@lths/shared/ui-layouts';
-import { useRoutes } from 'react-router-dom';
 
 import { DashRoutes, AuthenticationRoutes } from './configs';
 
