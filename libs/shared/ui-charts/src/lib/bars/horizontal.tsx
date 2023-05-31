@@ -185,12 +185,12 @@ export const HorizontalBarChart = () => {
             <Tooltip cursor={false} content={<CustomizedTooltip />} />
             <Bar dataKey="impression" fill="#8884d8">
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={`url(#colorUv${index})`} />
+                <Cell key={`cell-${index}`} fill={`url(#colorUv${index % barColors.length})`} />
               ))}
             </Bar>
             <Bar dataKey="clickthrough" fill="#8884d8">
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={`url(#colorUvLight${index})`} />
+                <Cell key={`cell-${index}`} fill={`url(#colorUvLight${index % barLightColors.length})`} />
               ))}
             </Bar>
           </BarChart>

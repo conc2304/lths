@@ -17,6 +17,15 @@ export type PagesItem = {
 export type InsightResponse = {
   data: InsightItem;
 };
+export type InsightKpiColumnCardResponse = { 
+  data: {
+    title: string | null; 
+    subtitle?: string | null;
+    info: Info;
+    kpiData: Array<KPI>, 
+    columnData: Array<BarData>
+  } };
+
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
 export type InsightSegmentationResponse = { data: DonutChartData };
@@ -30,6 +39,13 @@ export type PagesKpiResponse = { data: Array<KPI> };
 export type PagesHistogramResponse = { data: Array<Histogram> };
 export type PagesPreviewResponse = { data: Preview };
 
+export type BarData = {
+  title: string;
+  uv: number;
+  in?: number;
+  drop?: number;
+}
+
 export type KPI = {
   title: string | null; // metric title
   subtitle?: string | null; // a prompt about what insight this metrics give
@@ -37,19 +53,17 @@ export type KPI = {
   info: Info;
   unit: string | null; // the unit type like "%", "sec", "hours" or null if just a plain number
   data: Array<{
-    // data array should have multiple array items
-    //duration: string | number; // 7,
     duration: number;
     span: {
-      title: string; // "Prev 7 days",
-      unit: string | null; // "%",
-      value: string | number; // 31,
+      title: string;
+      unit: string | null;
+      value: string | number;
       direction: 'up' | 'down';
     };
     median: {
-      title: string; // "Prev 7 days",
-      unit: string | null; // "%",
-      value: string | number; // 31,
+      title: string;
+      unit: string | null;
+      value: string | number;
       direction: 'up' | 'down';
     };
   }>;

@@ -1,1 +1,3 @@
-export {default as LoginForm} from './lib/login';
+export * from './lib/login';
+export * from './lib/reset-password';
+export * from './lib/forgot-password';

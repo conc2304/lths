@@ -20,6 +20,8 @@
 
 [![Open a branch Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/projects/lths-mui)
 
+
+
 ### Dependencies
 
 * Create an .env file with the following for endpoint configuration.
