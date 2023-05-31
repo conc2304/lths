@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import { setupServer } from 'msw/node';
+import 'whatwg-fetch';
 
+import { api } from '@lths/shared/data-access';
+import { Handlers } from '@lths/shared/mocks';
 import { FormStateValue } from '@lths/types/ui-filters';
 
 import {
@@ -12,30 +16,33 @@ import {
   clearFilters,
   filtersReducer,
   setFormState,
+  extractActionName,
 } from './slice';
 
 describe('Filters Slice', () => {
   let store: ToolkitStore;
+  const server = setupServer(...Handlers.default);
+
   beforeEach(() => {
+    server.listen();
     store = configureStore({
-      reducer: { filters: filtersReducer },
+      reducer: { filters: filtersReducer, [api.reducerPath]: api.reducer },
     });
     store.dispatch(setFormState({ formState: {} }));
   });
+
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
   it('should handle setDateRange action', () => {
     // Arrange
     // Act
     store.dispatch(
-      setDateRange({ start_date: new Date(2023, 5, 15).toString(), end_date: new Date(2023, 6, 15).toString() })
+      setDateRange({ start_date: new Date(2023, 5, 15).toUTCString(), end_date: new Date(2023, 6, 15).toUTCString() })
     );
     // Assert
-    expect(store.getState().filters.dateRange.start_date).toEqual(
-      'Thu Jun 15 2023 00:00:00 GMT-0700 (Pacific Daylight Time)'
-    );
-    expect(store.getState().filters.dateRange.end_date).toEqual(
-      'Sat Jul 15 2023 00:00:00 GMT-0700 (Pacific Daylight Time)'
-    );
+    expect(store.getState().filters.dateRange.start_date).toEqual('Thu, 15 Jun 2023 04:00:00 GMT');
+    expect(store.getState().filters.dateRange.end_date).toEqual('Sat, 15 Jul 2023 04:00:00 GMT');
   });
 
   it('should handle addFilterItem action', () => {
@@ -114,5 +121,19 @@ describe('Filters Slice', () => {
     store.dispatch(clearFilters());
     // Assert
     expect(store.getState().filters.formState).toEqual({});
+  });
+});
+
+describe('extractActionName', () => {
+  it('should return the string after the "/" when input contains "/"', () => {
+    const input = '/test';
+    const output = extractActionName(input);
+    expect(output).toEqual('test');
+  });
+
+  it('should return the input string as it is when it does not contain "/"', () => {
+    const input = 'test';
+    const output = extractActionName(input);
+    expect(output).toEqual('test');
   });
 });

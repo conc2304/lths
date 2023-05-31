@@ -8,7 +8,12 @@ export const isRelativePath = (url: URL) => {
   const { host, pathname } = url;
   return pathname.startsWith(HOST.apiPath) || host !== HOST.domainName;
 };
-export const getApiFullPath = (api: string, path: string) => `${api || HOST_API}${path}`;
+export const getApiFullPath = (api: string, path: string | RegExp) => {
+  if (path instanceof RegExp) return path;
+  if (api.includes('undefined')) return `*${path}`;
+  if (api || HOST_API) return `${api || HOST_API}${path}`;
+  else return path;
+};
 export const PathDefaults = {
   api: ANALYTICS_API,
   failureResponse: {
@@ -19,7 +24,7 @@ export const PathDefaults = {
   },
 };
 export const getSuccessfulResponse = (
-  path: string,
+  path: string | RegExp,
   data: Record<string, unknown> | Record<string, unknown>[]
 ): MSWPathConf => {
   return {

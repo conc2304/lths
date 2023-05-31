@@ -26,10 +26,6 @@ import {
 
 import { DateRange } from '@lths/types/ui-filters';
 
-export const myPlaceholderUtil = (date: Date) => {
-  return date.toISOString();
-};
-
 /**
  * Date Range/Interval Getters
  */
@@ -157,6 +153,6 @@ export const getPrevFullYearRange = (date: Date = new Date()): DateRange => {
  * Date Formatting
  */
 
-export const dateToString = (date: Date | string): string => {
-  return date instanceof Date && typeof date !== 'string' ? date.toISOString() : date.toString();
+export const dateToUTCString = (date: Date | string): string => {
+  return date instanceof Date && typeof date !== 'string' ? date.toUTCString() : new Date(date).toUTCString();
 };
