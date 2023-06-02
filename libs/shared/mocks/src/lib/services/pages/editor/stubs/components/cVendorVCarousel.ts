@@ -9,7 +9,8 @@ const payload = {
         title: 'Anaheim Pizza Co.',
         sub_title: 'Fast Food',
         desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
-        image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
+        image:
+          'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
         btn_title: 'SELECT',
         action: {
           type: 'native',
@@ -21,7 +22,8 @@ const payload = {
         title: 'Anaheim Pizza Co.',
         sub_title: 'Fast Food',
         desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
-        image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
+        image:
+          'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
         btn_title: 'SELECT',
         action: {
           type: 'native',
@@ -33,7 +35,8 @@ const payload = {
         title: 'Anaheim Pizza Co.',
         sub_title: 'Fast Food',
         desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
-        image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
+        image:
+          'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
         btn_title: 'SELECT',
         action: {
           type: 'native',
@@ -45,7 +48,8 @@ const payload = {
         title: 'Anaheim Pizza Co.',
         sub_title: 'Fast Food',
         desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
-        image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
+        image:
+          'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cVendorVCarousel.png',
         btn_title: 'SELECT',
         action: {
           type: 'native',
