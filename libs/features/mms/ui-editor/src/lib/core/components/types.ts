@@ -188,20 +188,6 @@ export type SegmentControlComponentProps = ComponentProps & {
   };
 };
 
-export type EventInfoComponentProps = ComponentProps & {
-  default_data: {
-    title: string;
-    desc: string;
-    date_lbl_txt: string;
-    date_lbl_txt_color: string;
-    date_data_txt: string;
-    date_data_txt_color: string;
-    location_lbl_txt: string;
-    location_lbl_txt_color: string;
-    location_data_txt: string;
-    location_data_txt_color: string;
-  };
-};
 
 export type ButtonsViewComponentProps = ComponentProps & {
   default_data: {
