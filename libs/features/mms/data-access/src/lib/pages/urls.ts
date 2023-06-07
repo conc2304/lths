@@ -1,4 +1,4 @@
-import { PagesDataRequest } from './types';
+import { PageDetailRequest, PagesDataRequest } from './types';
 export const getComponentsListUrl = () => {
   return `/pages/components`;
 };
@@ -18,4 +18,13 @@ export const getPagesUrl = (req: PagesDataRequest) => {
   if (sort_order != null) params.push(`page=${sort_order}`);
 
   return `/pages?${params.join('&')}`;
+};
+
+export const getDefaultPagesUrl = () => `/pages/default`;
+
+export const getCreatePageUrl = () => `/models/page`;
+
+export const getPageDetailUrl = (req: PageDetailRequest) => {
+  const { page_id } = req;
+  return `/models/page/${page_id}`;
 };

@@ -16,6 +16,7 @@ const section: SectionItemProps = {
           icon: <FlowIcon />,
           path: '/pages/editor/:pageId',
           file: '/pages/editor-page',
+          hidden: true,
         },
       ],
     },
