@@ -62,7 +62,9 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
           id="panel-header"
           sx={{ transform: 'rotate(180deg)', height: theme.spacing(6), paddingRight: theme.spacing(1) }}
         >
-          <div style={{ paddingTop: theme.spacing(1), textAlign: 'center' }} data-testid="SparkLineContainer">{sparkLine}</div>
+          <div style={{ paddingTop: theme.spacing(1), textAlign: 'center' }} data-testid="SparkLineContainer">
+            {sparkLine}
+          </div>
         </AccordionSummary>
         <AccordionDetails
           sx={{ transform: 'rotate(180deg)', padding: theme.spacing(2.5), paddingTop: theme.spacing(2) }}
@@ -78,7 +80,7 @@ export const KpiRolloverCard: React.FC<KpiRolloverCardProps> = (props) => {
           </Typography>
           <Stack spacing={0.5}>
             {rolloverData.map((trendProp) => (
-              <Stack direction="row" justifyContent="space-between">
+              <Stack key={trendProp.duration} direction="row" justifyContent="space-between">
                 <Typography sx={{ fontSize: theme.spacing(1.375), letterSpacing: theme.spacing(0.01875) }}>
                   {trendProp.span.title}
                 </Typography>

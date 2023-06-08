@@ -1,6 +1,6 @@
 name: 'Jest coverage report'
 on:
-    pull_request_target:
+    pull_request:
         branches:
             - develop
             - main
@@ -10,10 +10,11 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v3
-              
+
             - name: Upload Coverage Report
               uses: ArtiomTr/jest-coverage-report-action@v2
               with:
-                github-token: ${{ secrets.GITHUB_TOKEN }}
+                github-token: ${{ secrets.GH_TOKEN }}
                 package-manager: yarn
+                annotations: none
 

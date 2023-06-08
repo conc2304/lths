@@ -1410,6 +1410,11 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@date-fns/utc@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@date-fns/utc/-/utc-1.0.0.tgz#c17c693a2a89ddc44acf951ceb2153881c0f78ce"
+  integrity sha512-NjV/AIlmOEhuuFJpQHOEeFl0mxVZIm77/JDSQqu/B43yL7gYDNUfH58I4sRkOCZty2gHoKQfmThtEY/DtTDhhQ==
+
 "@date-io/core@^2.16.0":
   version "2.16.0"
   resolved "https://registry.npmjs.org/@date-io/core/-/core-2.16.0.tgz"

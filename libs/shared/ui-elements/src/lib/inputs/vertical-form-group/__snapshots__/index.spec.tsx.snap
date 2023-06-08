@@ -20,7 +20,9 @@ exports[`VerticalFormGroup component should match the snapshot (inline variant) 
           <div
             class="MuiBox-root css-h38yef"
           >
-            <div>
+            <div
+              data-testid="InfoTooltipOnHover"
+            >
               <div
                 aria-haspopup="true"
                 class="MuiBox-root css-tzwgne"

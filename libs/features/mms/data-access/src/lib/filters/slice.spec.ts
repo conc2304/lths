@@ -1,3 +1,4 @@
+import { UTCDate } from '@date-fns/utc';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import { setupServer } from 'msw/node';
@@ -38,11 +39,14 @@ describe('Filters Slice', () => {
     // Arrange
     // Act
     store.dispatch(
-      setDateRange({ start_date: new Date(2023, 5, 15).toUTCString(), end_date: new Date(2023, 6, 15).toUTCString() })
+      setDateRange({
+        start_date: new UTCDate(2023, 5, 15, 0).toUTCString(),
+        end_date: new UTCDate(2023, 6, 15, 0).toUTCString(),
+      })
     );
     // Assert
-    expect(store.getState().filters.dateRange.start_date).toEqual('Thu, 15 Jun 2023 04:00:00 GMT');
-    expect(store.getState().filters.dateRange.end_date).toEqual('Sat, 15 Jul 2023 04:00:00 GMT');
+    expect(store.getState().filters.dateRange.start_date).toEqual('Thu, 15 Jun 2023 00:00:00 GMT');
+    expect(store.getState().filters.dateRange.end_date).toEqual('Sat, 15 Jul 2023 00:00:00 GMT');
   });
 
   it('should handle addFilterItem action', () => {
