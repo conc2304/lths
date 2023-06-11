@@ -36,6 +36,20 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  SegmentControlComponentProps,
+  SegmentControlToolbar,
+  QuickLinksProps,
+  QuickLinksToolbar,
+  PhoneInquiryToolbar,
+  PhoneInquiryComponentProps,
+  TitleDescToolbar,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  MapPathToolbar,
+  NavCellViewToolbar,
+  NavCellViewComponentProps,
+  DescriptionToolbar,
+  DescriptionComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -74,6 +88,20 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.SegmentControl:
+      return <SegmentControlToolbar {...(props as SegmentControlComponentProps)} />;
+    case Component.QuickLinks:
+      return <QuickLinksToolbar {...(props as QuickLinksProps)} />;
+    case Component.PhoneInquiry:
+      return <PhoneInquiryToolbar {...(props as PhoneInquiryComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathToolbar {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescToolbar {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }
