@@ -56,5 +56,16 @@ export { default as QuickLinksToolbar } from './quick-links/toolbar';
 
 export { default as PhoneInquiryComponent } from './phone-inquiry/component';
 export { default as PhoneInquiryToolbar } from './phone-inquiry/toolbar';
+export { default as TitleDescComponent } from './title-desc/component';
+export { default as TitleDescToolbar } from './title-desc/toolbar';
+
+export { default as MapPathComponent } from './map-path/component';
+export { default as MapPathToolbar } from './map-path/toolbar';
+
+export { default as NavCellViewComponent } from './nav-cell-view/component';
+export { default as NavCellViewToolbar } from './nav-cell-view/toolbar';
+
+export { default as DescriptionComponent } from './description/component';
+export { default as DescriptionToolbar } from './description/toolbar';
 
 export * from './types';

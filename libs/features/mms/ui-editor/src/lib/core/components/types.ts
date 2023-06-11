@@ -196,8 +196,45 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-}
+};
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
+};
+
+export type TitleDescComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    color: string;
+    action: ActionProps;
+  };
+};
+
+export type MapPathComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    style: string;
+  };
+};
+
+export type NavCellViewItem = {
+  title: string;
+  icon: string;
+  action: ActionProps;
+};
+
+export type NavCellViewComponentProps = ComponentProps & {
+  default_data: {
+    component_data: NavCellViewItem[];
+  };
+};
+
+export type DescriptionComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    color: string;
+    style: 'bold' | 'light' | 'medium';
+  };
 };

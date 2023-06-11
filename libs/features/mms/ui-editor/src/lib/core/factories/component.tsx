@@ -19,6 +19,10 @@ import {
   SegmentControlComponent,
   QuickLinksComponent,
   PhoneInquiryComponent,
+  TitleDescComponent,
+  MapPathComponent,
+  NavCellViewComponent,
+  DescriptionComponent
 } from '../components';
 import {
   ButtonComponentProps,
@@ -40,6 +44,10 @@ import {
   SegmentControlComponentProps,
   QuickLinksProps,
   PhoneInquiryComponentProps,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  NavCellViewComponentProps,
+  DescriptionComponentProps
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -80,6 +88,14 @@ export const componentFactory = (props: ComponentProps) => {
       return <QuickLinksComponent {...(props as QuickLinksProps)} />;
     case Component.PhoneInquiry:
       return <PhoneInquiryComponent {...(props as PhoneInquiryComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathComponent {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescComponent {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
