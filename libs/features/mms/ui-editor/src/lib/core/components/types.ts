@@ -200,8 +200,6 @@ export type ButtonHCarouselComponentProps = ComponentProps & {
   };
 };
 
-
-
 export type ButtonsViewComponentProps = ComponentProps & {
   default_data: {
     title: string;
@@ -209,7 +207,7 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-}
+};
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
@@ -241,6 +239,12 @@ export type NavCellViewItem = {
 export type NavCellViewComponentProps = ComponentProps & {
   default_data: {
     component_data: NavCellViewItem[];
+  };
+};
+
+export type SegmentControlComponentProps = ComponentProps & {
+  default_data: {
+    component_data: TitleActionProps[];
   };
 };
 
