@@ -25,7 +25,6 @@ const SegmentedButton: FC<SegmentedButtonProps> = ({
   ...rest
 }) => {
   const handleChange = (event: MouseEvent<HTMLElement>, value: string) => {
-    // setValue(value);
     onValueChange(value);
   };
 
@@ -37,7 +36,6 @@ const SegmentedButton: FC<SegmentedButtonProps> = ({
       exclusive
       onChange={handleChange}
       aria-label="Toggle Group Button"
-      //sx={sx}
       {...rest}
     >
       {Object.entries(data).map((item) => {

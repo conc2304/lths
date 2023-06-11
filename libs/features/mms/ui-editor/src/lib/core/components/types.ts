@@ -182,11 +182,24 @@ export type ChipSetViewComponentProps = ComponentProps & {
   };
 };
 
-export type SegmentControlComponentProps = ComponentProps & {
+export type ExpandCollapseViewProps = {
+  action: ActionProps;
+  desc: string;
+  title: string;
+};
+
+export type ExpandCollapseViewComponentProps = ComponentProps & {
+  default_data: {
+    component_data: ExpandCollapseViewProps[];
+  };
+};
+
+export type ButtonHCarouselComponentProps = ComponentProps & {
   default_data: {
     component_data: TitleActionProps[];
   };
 };
+
 
 
 export type ButtonsViewComponentProps = ComponentProps & {
@@ -196,7 +209,7 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-};
+}
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };

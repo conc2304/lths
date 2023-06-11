@@ -30,6 +30,12 @@ export { default as NavListViewToolbar } from './nav-list-view/toolbar';
 export { default as ChipSetViewComponent } from './chip-set-view/component';
 export { default as ChipSetViewToolbar } from './chip-set-view/toolbar';
 
+export { default as ExpandCollapseViewComponent } from './expand-collapse-view/component';
+export { default as ExpandCollapseViewToolbar } from './expand-collapse-view/toolbar';
+
+export { default as ButtonHCarouselComponent } from './button-h-carousel/component';
+export { default as ButtonHCarouselToolbar } from './button-h-carousel/toolbar';
+
 export { default as EventInfoComponent } from './event-info/component';
 export { default as EventInfoToolbar } from './event-info/toolbar';
 

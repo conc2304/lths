@@ -3,13 +3,14 @@ import {
   HeroToolbar,
   CardComponentProps,
   HeroComponentProps,
-  //UnsupportedToolbar,
   HeaderToolbar,
   HeaderComponentProps,
   ButtonToolbar,
   ButtonComponentProps,
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
+  ExpandCollapseViewComponentProps,
+  ButtonHCarouselComponentProps,
   ScoreBoardToolbar,
   ScoreBoardComponentProps,
   KeyValueToolbar,
@@ -17,6 +18,8 @@ import {
   NavListViewToolbar,
   NavListViewComponentProps,
   ChipSetViewToolbar,
+  ExpandCollapseViewToolbar,
+  ButtonHCarouselToolbar,
   ChipSetViewComponentProps,
   EventInfoToolbar,
   EventInfoComponentProps,
@@ -69,6 +72,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
+    case Component.ExpandCollapseView:
+      return <ExpandCollapseViewToolbar {...(props as ExpandCollapseViewComponentProps)} />;
+    case Component.ButtonHCarousel:
+      return <ButtonHCarouselToolbar {...(props as ButtonHCarouselComponentProps)} />;
     case Component.EventInfo:
       return <EventInfoToolbar {...(props as EventInfoComponentProps)} />;
     case Component.ButtonsView:
@@ -96,7 +103,6 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.Desc:
       return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
     default:
-      //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
   }
 };

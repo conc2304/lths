@@ -10,6 +10,7 @@ import colors from '../../common/colors';
 type EditorProps = NavigatorProps & {
   onAddImageClick: ToolbarProps['onPropChange'];
 };
+
 const BlockEditor = ({ onAddComponentClick, onAddImageClick }: EditorProps) => {
   return (
     <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ height: '90vh' }}>
