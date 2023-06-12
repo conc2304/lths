@@ -12,7 +12,7 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
     __ui_id__: id,
     default_data: { title, desc, linkcolor, linktitle, action },
   } = props;
-  const { handleTitleChange, handleDescChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, handleDescChange, updateComponentProp, handleActionChange } = useToolbarChange();
 
   const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('linktitle', event.target.value, index);
@@ -20,10 +20,6 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
 
   const handleColorChange = (color: string) => {
     updateComponentProp('linkcolor', color);
-  };
-
-  const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponentProp('action', { ...props.default_data.action, [key]: event.target.value });
   };
 
   return (
@@ -37,7 +33,7 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
         <TextField
           value={action?.type}
           onChange={(e) => {
-            handleActionChange('type', e);
+            handleActionChange(e, 'type');
           }}
           label="type"
           select
@@ -49,14 +45,14 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
           label={'Page_ID'}
           value={action?.page_id}
           onChange={(e) => {
-            handleActionChange('page_id', e);
+            handleActionChange(e, 'page_id');
           }}
         />
         <BasicTextField
           label={'Page_Link'}
           value={action?.page_link}
           onChange={(e) => {
-            handleActionChange('page_link', e);
+            handleActionChange(e, 'page_link');
           }}
         />
       </Stack>

@@ -51,15 +51,15 @@ const NavListViewToolbar = (props: NavListViewComponentProps) => {
                   <AccordionDetails>
                     <TextField
                       value={action?.type}
-                      onChange={(e) => {handleActionChange("type", e, index)}}
+                      onChange={(e) => {handleActionChange(e, "type", index)}}
                       label="type"
                       select
                     >
                       <MenuItem value={"native"}>native</MenuItem>
                       <MenuItem value={"weblink"}>weblink</MenuItem>
                     </TextField>
-                    <BasicTextField label={'Page_ID'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e, index)}} />
-                    <BasicTextField label={'Page_Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e, index)}} />
+                    <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange(e, "page_id", index)}} />
+                    <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange(e, "page_link",  index)}} />
                   </AccordionDetails>
                 </Accordion>
               </Stack>

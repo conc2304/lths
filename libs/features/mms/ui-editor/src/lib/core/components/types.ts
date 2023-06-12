@@ -207,9 +207,9 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-};
+}
 
-export type VideoComponentProps = ComponentProps & {
+export type VideoViewComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
 };
 
