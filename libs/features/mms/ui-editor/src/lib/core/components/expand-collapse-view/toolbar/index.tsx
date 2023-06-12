@@ -58,14 +58,14 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
                   <AccordionDetails>
                     <TextField
                       value={action?.type}
-                      onChange={(e) => {handleActionChange("type", e, index)}}
+                      onChange={(e) => {handleActionChange( e, "type", index)}}
                       label="type"
                       select
                     >
                       <MenuItem value={"expand/collapse"}>expand/collapse</MenuItem>
                     </TextField>
-                    <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange("page_id", e, index)}} />
-                    <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange("page_link", e, index)}} />
+                    <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange(e, "page_id", index)}} />
+                    <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange( e, "page_link", index)}} />
                   </AccordionDetails>
                 </Accordion>
               </Stack>

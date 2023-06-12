@@ -49,7 +49,7 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
                     <TextField
                       value={action?.type}
                       onChange={(e) => {
-                        handleActionChange('type', e, index);
+                        handleActionChange(e, 'type', index);
                       }}
                       label="type"
                       select
@@ -61,14 +61,14 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
                       label={'Page_ID'}
                       value={action?.page_id}
                       onChange={(e) => {
-                        handleActionChange('page_id', e, index);
+                        handleActionChange(e, 'page_id', index);
                       }}
                     />
                     <BasicTextField
                       label={'Page_Link'}
                       value={action?.page_link}
                       onChange={(e) => {
-                        handleActionChange('page_link', e, index);
+                        handleActionChange(e, 'page_link', index);
                       }}
                     />
                   </AccordionDetails>

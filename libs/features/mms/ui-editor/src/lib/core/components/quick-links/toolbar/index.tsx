@@ -52,7 +52,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
                     <TextField
                       value={props.action?.type}
                       onChange={(e) => {
-                        handleActionChange('type', e, i);
+                        handleActionChange( e, 'type', i);
                       }}
                       label="type"
                       select
@@ -64,14 +64,14 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
                       label={'Page_ID'}
                       value={props.action?.page_id}
                       onChange={(e) => {
-                        handleActionChange('page_id', e, i);
+                        handleActionChange(e, 'page_id', i);
                       }}
                     />
                     <BasicTextField
                       label={'Page_Link'}
                       value={props.action?.page_link}
                       onChange={(e) => {
-                        handleActionChange('page_link', e, i);
+                        handleActionChange(e, 'page_link', i);
                       }}
                     />
                   </AccordionDetails>
