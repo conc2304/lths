@@ -24,6 +24,36 @@ export type QuickLinkProps = ComponentProps & {
   title: string;
   action: ActionProps;
 };
+
+export type QuickLinksProps = ComponentProps & {
+  default_data: {
+    component_data: QuickLinkProps[];
+  };
+};
+export type PhoneInquiryComponentProps = ComponentProps & {
+  title: string;
+  style: string;
+  desc: string;
+  linkcolor: string;
+  linktitle: string;
+  action: ActionProps;
+};
+
+export type EventInfoComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    date_lbl_txt: string;
+    date_lbl_txt_color: string;
+    date_data_txt: string;
+    date_data_txt_color: string;
+    location_lbl_txt: string;
+    location_lbl_txt_color: string;
+    location_data_txt: string;
+    location_data_txt_color: string;
+  };
+};
+
 export type CardComponentProps = ComponentProps & {
   default_data: {
     image: string;
@@ -152,18 +182,21 @@ export type ChipSetViewComponentProps = ComponentProps & {
   };
 };
 
-export type EventInfoComponentProps = ComponentProps & {
+export type ExpandCollapseViewProps = {
+  action: ActionProps;
+  desc: string;
+  title: string;
+};
+
+export type ExpandCollapseViewComponentProps = ComponentProps & {
   default_data: {
-    title: string;
-    desc: string;
-    date_lbl_txt: string;
-    date_lbl_txt_color: string;
-    date_data_txt: string;
-    date_data_txt_color: string;
-    location_lbl_txt: string;
-    location_lbl_txt_color: string;
-    location_data_txt: string;
-    location_data_txt_color: string;
+    component_data: ExpandCollapseViewProps[];
+  };
+};
+
+export type ButtonHCarouselComponentProps = ComponentProps & {
+  default_data: {
+    component_data: TitleActionProps[];
   };
 };
 
@@ -174,9 +207,51 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-}
-
+};
 
 export type VideoComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
+};
+
+export type TitleDescComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    color: string;
+    action: ActionProps;
+  };
+};
+
+export type MapPathComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    desc: string;
+    style: string;
+  };
+};
+
+export type NavCellViewItem = {
+  title: string;
+  icon: string;
+  action: ActionProps;
+};
+
+export type NavCellViewComponentProps = ComponentProps & {
+  default_data: {
+    component_data: NavCellViewItem[];
+  };
+};
+
+export type SegmentControlComponentProps = ComponentProps & {
+  default_data: {
+    component_data: TitleActionProps[];
+  };
+};
+
+export type DescriptionComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    color: string;
+    style: 'bold' | 'light' | 'medium';
+  };
 };
