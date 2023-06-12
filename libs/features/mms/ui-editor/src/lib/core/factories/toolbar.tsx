@@ -36,6 +36,8 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  ImageToolbar,
+  ImageComponentProps,
   SegmentControlComponentProps,
   SegmentControlToolbar,
   QuickLinksProps,
@@ -88,6 +90,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.Image:
+      return <ImageToolbar {...(props as ImageComponentProps)} />;
     case Component.SegmentControl:
       return <SegmentControlToolbar {...(props as SegmentControlComponentProps)} />;
     case Component.QuickLinks:

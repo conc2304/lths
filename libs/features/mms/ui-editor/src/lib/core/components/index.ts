@@ -54,6 +54,8 @@ export { default as CarouselEventsToolbar } from './carousel-events/toolbar';
 export { default as CarouselVendorComponent } from './carousel-vendor/component';
 export { default as CarouselVendorToolbar } from './carousel-vendor/toolbar';
 
+export { default as ImageComponent } from './image/component';
+export { default as ImageToolbar } from './image/toolbar';
 export { default as SegmentControlComponent } from './segment-control/component';
 export { default as SegmentControlToolbar } from './segment-control/toolbar';
 

@@ -18,13 +18,14 @@ import {
   NewsComponent,
   CarouselEventsComponent,
   CarouselVendorComponent,
+  ImageComponent,
   SegmentControlComponent,
   QuickLinksComponent,
   PhoneInquiryComponent,
   TitleDescComponent,
   MapPathComponent,
   NavCellViewComponent,
-  DescriptionComponent
+  DescriptionComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -45,13 +46,14 @@ import {
   NewsViewComponentProps,
   CarouselEventsComponentProps,
   CarouselVendorComponentProps,
+  ImageComponentProps,
   SegmentControlComponentProps,
   QuickLinksProps,
   PhoneInquiryComponentProps,
   TitleDescComponentProps,
   MapPathComponentProps,
   NavCellViewComponentProps,
-  DescriptionComponentProps
+  DescriptionComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -90,6 +92,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CarouselEventsComponent {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorComponent {...(props as CarouselVendorComponentProps)} />;
+    case Component.Image:
+      return <ImageComponent {...(props as ImageComponentProps)} />;
     case Component.SegmentControl:
       return <SegmentControlComponent {...(props as SegmentControlComponentProps)} />;
     case Component.QuickLinks:

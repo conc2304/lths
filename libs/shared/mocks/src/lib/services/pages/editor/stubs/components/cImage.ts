@@ -7,7 +7,7 @@ const payload = {
       title: "",
       color: "",
       desc: "",
-      image: "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/ cImage.png",
+      image: "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cImage.png",
       action: {
         type: "native",
         page_id: "",
