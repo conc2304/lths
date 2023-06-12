@@ -1,6 +1,7 @@
 import { KpiCard } from './index'
 
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import { SampleKpiCardProps } from './mocks' // todo update mocks
 
 const Story: ComponentMeta<typeof KpiCard> = {
   component: KpiCard,
@@ -13,7 +14,6 @@ const Template: ComponentStory<typeof KpiCard> = (args) => (
 );
 
 const trendProp = {
-    //types of trens: Time duration, Median
     duration: 7,
     span: {
       title: "Prev 7 days",
@@ -32,9 +32,15 @@ const trendProp = {
 export const Primary = Template.bind({});
 Primary.args = {
   title: "Retention", 
-  hero: 799, // comp format to add commas
+  hero: 799,
   heroUnit: "SECS",
   trends: trendProp,
-  tooltipDesc: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
-  tooltipActionUrl : "https://en.wikipedia.org/wiki/Retention",
+  tooltip: { 
+    description: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
+    action: { 
+      url: "https://en.wikipedia.org/wiki/Retention",
+      title: "Learn More",
+    }, 
+    title: "Retention"
+  }
 };

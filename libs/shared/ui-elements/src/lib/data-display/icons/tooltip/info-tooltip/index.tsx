@@ -9,16 +9,18 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // ToDo: switch to using theme for color
 const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
-  color: '#FFFFFF', // const textColor = "#FFFFFF";
-  backgroundColor: theme.palette.grey[700], // tooltipBackgroundColor = "#6c7279";
+
+  color: '#FFFFFF',
+  backgroundColor: theme.palette.grey[700],
 }));
 
-const GreyCardArrowBox = styled(Box)<BoxProps>(({ theme }) => ({
+const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ beforeBackgroundColor }) => ({
   position: 'relative',
   marginBottom: '18px',
+  backgroundColor: beforeBackgroundColor, // this line is just for jest testing
   '&::before': {
     boxShadow: '2.5 px 2.5px 3.5px 0px rgba(0,0,0,0.15)',
-    backgroundColor: theme.palette.grey[700], // tooltipBackgroundColor = "#6c7279";
+    backgroundColor: beforeBackgroundColor,
     content: "''",
     position: 'absolute',
     width: 24,
@@ -30,7 +32,7 @@ const GreyCardArrowBox = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 const GreyCardLink = styled(Link)<LinkProps>(() => ({
-  color: blue[200], // const linkColor = "#A0D6FF";
+  color: blue[200],
 }));
 // ToDo: switch to using theme for color
 export type ActionProps = {
@@ -61,12 +63,13 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
   const infoIconColor = theme.palette.grey[500];
 
   return (
-    <div onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose}>
+    <div onMouseEnter={onPopoverOpen} onMouseLeave={onPopperClose} data-testid="InfoTooltipOnHover">
       <Box aria-owns={open ? 'mouse-over-popover' : undefined} aria-haspopup="true" height={theme.spacing(2.55)}>
         <InfoOutlined sx={{ color: infoIconColor, fontSize: theme.spacing(2.55) }} />
       </Box>
       <Popover
         id={'mouse-over-popover'}
+        data-testid="TooltipPopover"
         sx={{
           pointerEvents: 'none',
         }}
@@ -84,7 +87,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
           },
         }}
       >
-        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }}>
+        <GreyCard sx={{ width: 264, pointerEvents: 'visible', border: theme.spacing(1) }} data-testid="GreyCard">
           <CardContent
             sx={{
               paddingTop: theme.spacing(2.25),
@@ -101,12 +104,12 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             </Typography>
             {action?.url && (
               <GreyCardLink href={action.url} underline="none" variant="body2">
-                {action.title}
+                {action.title ? action.title : 'LEARN MORE'}
               </GreyCardLink>
             )}
           </CardContent>
         </GreyCard>
-        <GreyCardArrowBox />
+        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]}/>
       </Popover>
     </div>
   );

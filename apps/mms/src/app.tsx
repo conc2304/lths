@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
@@ -28,12 +28,12 @@ function App() {
 
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <LayoutThemeProvider>
           <Routes />
           <LayoutToaster />
         </LayoutThemeProvider>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   );
 }

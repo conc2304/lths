@@ -3,13 +3,14 @@ import {
   HeroToolbar,
   CardComponentProps,
   HeroComponentProps,
-  //UnsupportedToolbar,
   HeaderToolbar,
   HeaderComponentProps,
   ButtonToolbar,
   ButtonComponentProps,
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
+  ExpandCollapseViewComponentProps,
+  ButtonHCarouselComponentProps,
   ScoreBoardToolbar,
   ScoreBoardComponentProps,
   KeyValueToolbar,
@@ -17,6 +18,8 @@ import {
   NavListViewToolbar,
   NavListViewComponentProps,
   ChipSetViewToolbar,
+  ExpandCollapseViewToolbar,
+  ButtonHCarouselToolbar,
   ChipSetViewComponentProps,
   EventInfoToolbar,
   EventInfoComponentProps,
@@ -33,6 +36,20 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  SegmentControlComponentProps,
+  SegmentControlToolbar,
+  QuickLinksProps,
+  QuickLinksToolbar,
+  PhoneInquiryToolbar,
+  PhoneInquiryComponentProps,
+  TitleDescToolbar,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  MapPathToolbar,
+  NavCellViewToolbar,
+  NavCellViewComponentProps,
+  DescriptionToolbar,
+  DescriptionComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -55,6 +72,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
+    case Component.ExpandCollapseView:
+      return <ExpandCollapseViewToolbar {...(props as ExpandCollapseViewComponentProps)} />;
+    case Component.ButtonHCarousel:
+      return <ButtonHCarouselToolbar {...(props as ButtonHCarouselComponentProps)} />;
     case Component.EventInfo:
       return <EventInfoToolbar {...(props as EventInfoComponentProps)} />;
     case Component.ButtonsView:
@@ -67,8 +88,21 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.SegmentControl:
+      return <SegmentControlToolbar {...(props as SegmentControlComponentProps)} />;
+    case Component.QuickLinks:
+      return <QuickLinksToolbar {...(props as QuickLinksProps)} />;
+    case Component.PhoneInquiry:
+      return <PhoneInquiryToolbar {...(props as PhoneInquiryComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathToolbar {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescToolbar {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
     default:
-      //return <UnsupportedToolbar {...props} />;
       return <GenericToolbar {...props} />;
   }
 };

@@ -25,6 +25,9 @@ export const useToolbarChange = () => {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('title', event.target.value, index);
   };
+  const handleIconChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('icon', event.target.value, index);
+  };
   const handleAuthorChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('author', event.target.value, index);
   };
@@ -77,5 +80,6 @@ export const useToolbarChange = () => {
     handleAuthorChange,
     handleDateChange,
     handleHintChange,
+    handleIconChange,
   };
 };

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Box, Button, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, IconButton, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FeedbackIcon from '@mui/icons-material/Feedback';
@@ -8,10 +8,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TimerOffIcon from '@mui/icons-material/TimerOff';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
+
+import CreatePageModal from '../../components/pages/editor/components/create-page-modal';
 
 const headers = [
   {
@@ -57,6 +60,12 @@ const statusIcon = {
 };
 
 const Pages = (): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => setIsModalOpen(false);
+
+  const navigate = useNavigate();
+
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
@@ -100,7 +109,15 @@ const Pages = (): JSX.Element => {
     <TableRow key={row.id}>
       <TableCell>
         <Stack>
-          <Typography variant="h5">{row.name}</Typography>
+          <Link
+            component={RouterLink}
+            to={`/pages/editor/${row.pageId}`}
+            color="inherit"
+            underline="hover"
+            variant="h5"
+          >
+            {row.name}
+          </Link>
           <Typography variant="subtitle1">{row.pageId}</Typography>
         </Stack>
       </TableCell>
@@ -135,7 +152,7 @@ const Pages = (): JSX.Element => {
       <PageHeader
         title="Pages"
         rightContent={
-          <Button variant="contained" onClick={() => console.log(`handling create page`)}>
+          <Button variant="contained" onClick={() => setIsModalOpen(true)}>
             CREATE PAGE
           </Button>
         }
@@ -154,6 +171,11 @@ const Pages = (): JSX.Element => {
         sx={{
           mt: 4,
         }}
+      />
+      <CreatePageModal
+        open={isModalOpen}
+        handleCloseModal={closeModal}
+        onCreatePage={(page_id) => navigate(`/pages/editor/${page_id}`)}
       />
     </Box>
   );

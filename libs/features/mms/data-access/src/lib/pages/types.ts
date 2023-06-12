@@ -83,3 +83,24 @@ export type PageData = {
 };
 
 export type PagesDataResponse = { data: PageData[]; meta: Pagination };
+
+export type CreatePageRequest = {
+  page_id?: string;
+  name: string;
+  is_variant: string;
+  variant_default: string;
+  description?: string;
+  constraint_data?: Record<string, string>[];
+  default_data?: Record<string, string>[];
+};
+
+export type CreatePageResponse = {
+  data: {
+    page_id: string;
+    name: string;
+  };
+};
+
+export type PageDetailRequest = {
+  page_id: string;
+};

@@ -1,7 +1,9 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
-import { BlockEditor } from '@lths/features/mms/ui-editor';
+import { useLazyGetPageDetailsQuery } from '@lths/features/mms/data-access';
+import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
@@ -11,13 +13,29 @@ import ImageModal from '../../components/pages/editor/images/connected-modal';
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
 
-  const handleTabChange = (event: SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
+  const { pageId } = useParams();
+
+  const { initEditor } = useEditorActions();
+
+  const [getPageDetail] = useLazyGetPageDetailsQuery();
+
+  const fetchPageDetail = async (pageId: string) => {
+    const response = await getPageDetail({ page_id: pageId });
+    initEditor(response?.data?.data?.default_data);
   };
+
+  useEffect(() => {
+    if (pageId) fetchPageDetail(pageId);
+  }, [pageId]);
 
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
+
+  const handleTabChange = (event: SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
+  };
+
   const handleCloseCompModal = () => {
     setCompModalOpen(false);
   };
