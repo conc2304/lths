@@ -3,7 +3,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useLazyGetPageDetailsQuery } from '@lths/features/mms/data-access';
-import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
+import { BlockEditor, Settings, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
@@ -21,6 +21,7 @@ export function PageEditorTabs() {
 
   const fetchPageDetail = async (pageId: string) => {
     const response = await getPageDetail({ page_id: pageId });
+    console.log('page detail response', response);
     initEditor(response?.data?.data?.default_data);
   };
 
@@ -59,9 +60,9 @@ export function PageEditorTabs() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label="PAGE DESIGN" value="page_design" />
-          <Tab label="SEGEMENTS" value="segments" />
-          <Tab label="SCHEDULE" value="schedule" />
+          <Tab label="CONSTRAINTS" value="constraints" />
           <Tab label="SETTINGS" value="settings" />
+          <Tab label="VERSIONS" value="versions" />
         </Tabs>
       </Box>
       <Box>
@@ -70,14 +71,14 @@ export function PageEditorTabs() {
           <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="full" />
           <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
-        <TabPanel value="segments" currentTab={currentTab}>
-          Segments Component goes here...
-        </TabPanel>
-        <TabPanel value="schedule" currentTab={currentTab}>
-          Schedule Component goes here...
+        <TabPanel value="constraints" currentTab={currentTab}>
+          Constraints Component goes here...
         </TabPanel>
         <TabPanel value="settings" currentTab={currentTab}>
-          Settings Component goes here...
+          <Settings />
+        </TabPanel>
+        <TabPanel value="versions" currentTab={currentTab}>
+          Versions Component goes here...
         </TabPanel>
       </Box>
     </Box>
