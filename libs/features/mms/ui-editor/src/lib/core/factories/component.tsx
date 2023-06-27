@@ -18,6 +18,7 @@ import {
   NewsComponent,
   CarouselEventsComponent,
   CarouselVendorComponent,
+  CardImageComponent,
   ImageComponent,
   SegmentControlComponent,
   QuickLinksComponent,
@@ -54,6 +55,7 @@ import {
   MapPathComponentProps,
   NavCellViewComponentProps,
   DescriptionComponentProps,
+  CardImageComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -62,6 +64,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeroComponent {...(props as HeroComponentProps)} />;
     case Component.CardView:
       return <CardComponent {...(props as CardComponentProps)} />;
+    case Component.CardImage:
+      return <CardImageComponent {...(props as CardImageComponentProps)} />;
     case Component.Header:
       return <HeaderComponent {...(props as HeaderComponentProps)} />;
     case Component.Button:

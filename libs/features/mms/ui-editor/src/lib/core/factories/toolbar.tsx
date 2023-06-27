@@ -2,6 +2,7 @@ import {
   CardToolbar,
   HeroToolbar,
   CardComponentProps,
+  CardImageComponentProps,
   HeroComponentProps,
   HeaderToolbar,
   HeaderComponentProps,
@@ -36,6 +37,7 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  CardImageToolbar,
   ImageToolbar,
   ImageComponentProps,
   SegmentControlComponentProps,
@@ -60,6 +62,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeroToolbar {...(props as HeroComponentProps)} />;
     case Component.CardView:
       return <CardToolbar {...(props as CardComponentProps)} />;
+    case Component.CardImage:
+      return <CardImageToolbar {...(props as CardImageComponentProps)} />;
     case Component.Header:
       return <HeaderToolbar {...(props as HeaderComponentProps)} />;
     case Component.Button:

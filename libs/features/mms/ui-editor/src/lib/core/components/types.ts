@@ -213,6 +213,13 @@ export type VideoViewComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
 };
 
+export type CardImageComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    image: string;
+  };
+};
+
 export type ImageComponentProps = ComponentProps & {
   default_data: {
     title: string;
