@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 
 import Title from './Title';
+import { useEditorActions } from '../../../context';
 
 const labelStyles = {
   color: 'black',
@@ -8,10 +9,10 @@ const labelStyles = {
   fontSize: '0.825rem',
 };
 
-const Settings = (props) => {
-  const { status } = props;
+const Settings = () => {
+  const { settings } = useEditorActions();
 
-  const isPublished = status === 'published';
+  const isPublished = settings.status === 'published';
 
   return (
     <Box style={{ backgroundColor: '#F3F3F3', padding: 16 }}>
@@ -25,18 +26,14 @@ const Settings = (props) => {
           <Stack marginTop={4}>
             <InputLabel sx={labelStyles}>PAGE NAME</InputLabel>
             {isPublished ? (
-              <Typography sx={{ marginTop: 2, height: '1.75rem' }}>Home Pre-Game</Typography>
+              <Typography sx={{ marginTop: 2, height: '1.75rem' }}>{settings?.name}</Typography>
             ) : (
-              <OutlinedInput value="Home Pre-Game" sx={{ background: 'white', marginTop: 2 }} />
+              <OutlinedInput value={settings?.name} sx={{ background: 'white', marginTop: 2 }} />
             )}
           </Stack>
           <Stack marginTop={5}>
             <InputLabel sx={labelStyles}>DESCRIPTION (optional)</InputLabel>
-            <OutlinedInput
-              value="Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis"
-              multiline={true}
-              sx={{ background: 'white', marginTop: 2 }}
-            />
+            <OutlinedInput value={settings?.description} multiline={true} sx={{ background: 'white', marginTop: 2 }} />
           </Stack>
         </Grid>
         <Grid item xs={3}>
@@ -47,11 +44,11 @@ const Settings = (props) => {
           />
           <Stack marginTop={4}>
             <InputLabel sx={labelStyles}>DEFAULT PAGE</InputLabel>
-            <Typography sx={{ marginTop: 2, height: '1.75rem' }}>Home</Typography>
+            <Typography sx={{ marginTop: 2, height: '1.75rem' }}>{settings?.default_page || 'N/A'}</Typography>
           </Stack>
           <Stack marginTop={isPublished ? 5 : 8}>
             <InputLabel sx={labelStyles}>PAGE ID</InputLabel>
-            <Typography sx={{ marginTop: 2 }}>/HOME_PREGAME</Typography>
+            <Typography sx={{ marginTop: 2 }}>/{settings?.page_id}</Typography>
           </Stack>
         </Grid>
       </Grid>

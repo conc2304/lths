@@ -75,6 +75,14 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       return state;
     }
 
+    case EditorActionType.INIT_PAGE_SETTINGS: {
+      const { settings } = action;
+      return {
+        ...state,
+        settings,
+      };
+    }
+
     default: {
       return initialState;
     }

@@ -15,14 +15,22 @@ export function PageEditorTabs() {
 
   const { pageId } = useParams();
 
-  const { initEditor } = useEditorActions();
+  const { initEditor, initPageSettings } = useEditorActions();
 
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
   const fetchPageDetail = async (pageId: string) => {
     const response = await getPageDetail({ page_id: pageId });
     console.log('page detail response', response);
-    initEditor(response?.data?.data?.default_data);
+    const { name, page_id, default_page, description, default_data, status } = response.data?.data || {};
+    initEditor(default_data);
+    initPageSettings({
+      default_page,
+      description,
+      name,
+      page_id,
+      status,
+    });
   };
 
   useEffect(() => {
