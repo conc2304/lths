@@ -104,3 +104,9 @@ export type CreatePageResponse = {
 export type PageDetailRequest = {
   page_id: string;
 };
+
+export type UpdatePageSettingsRequest = {
+  page_id: string;
+  name?: string;
+  description?: string;
+};
