@@ -1,10 +1,11 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs, Button, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useLazyGetPageDetailsQuery } from '@lths/features/mms/data-access';
 import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
+import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TabPanel from './tab-panel';
 import ComponentModal from '../../components/pages/editor/components/connected-modal';
@@ -56,6 +57,27 @@ export function PageEditorTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <PageHeader
+        title="Ad Requirements"
+        rightContent={
+          <Button variant="contained" onClick={() => console.log(`handling publish`)}>
+            Publish
+          </Button>
+        }
+        leftContent={<Typography sx={{ fontSize: '20px', color: '#FF9900', mt: 1.7, ml: 3 }}>Draft</Typography>}
+        sx={{ mt: 2, mb: 1 }}
+      />
+      <Box sx={{ mb: 1 }}>
+        <Button size="small" color="secondaryButton">
+          DUPLICATE
+        </Button>
+        <Button size="small" color="secondaryButton">
+          SHARE
+        </Button>
+        <Button size="small" color="secondaryButton">
+          PREVIEW
+        </Button>
+      </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label="PAGE DESIGN" value="page_design" />
