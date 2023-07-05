@@ -25,6 +25,9 @@ export const useToolbarChange = () => {
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('title', event.target.value, index);
   };
+  const handleIconChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('icon', event.target.value, index);
+  };
   const handleAuthorChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('author', event.target.value, index);
   };
@@ -48,8 +51,12 @@ export const useToolbarChange = () => {
     updateComponentProp('color', color, index);
   };
 
-  const handleActionChange = (key: string, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-    updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+  const handleActionChange = ( event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, key: string, index?: number) => {
+    if (index === undefined) {
+      updateComponentProp('action', { ...selectedComponent.default_data.action, [key]: event.target.value }, index);
+    } else {
+      updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+    }
   };
 
   const handleComponentDataChange = (
@@ -73,5 +80,6 @@ export const useToolbarChange = () => {
     handleAuthorChange,
     handleDateChange,
     handleHintChange,
+    handleIconChange,
   };
 };

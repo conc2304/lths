@@ -7,7 +7,7 @@ import { HeaderComponentProps } from '../../types';
 const HeaderComponent = (props: HeaderComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { color = '#000000', title },
+    default_data: { color = '#000000', title, desc },
   } = props;
 
   return (
@@ -15,6 +15,7 @@ const HeaderComponent = (props: HeaderComponentProps) => {
       <Typography sx={{ paddingBottom: 0.5, fontSize: 24, fontWeight: 600, color, wordWrap: 'break-word' }}>
         {title}
       </Typography>
+      <Typography sx={{ fontSize: 14, wordWrap: 'break-word' }}>{desc}</Typography>
     </BasicContainer>
   );
 };

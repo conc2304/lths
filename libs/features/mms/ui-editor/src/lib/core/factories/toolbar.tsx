@@ -2,6 +2,7 @@ import {
   CardToolbar,
   HeroToolbar,
   CardComponentProps,
+  CardImageComponentProps,
   HeroComponentProps,
   HeaderToolbar,
   HeaderComponentProps,
@@ -9,6 +10,8 @@ import {
   ButtonComponentProps,
   CarouselNewsToolbar,
   CarouselNewsComponentProps,
+  ExpandCollapseViewComponentProps,
+  ButtonHCarouselComponentProps,
   ScoreBoardToolbar,
   ScoreBoardComponentProps,
   KeyValueToolbar,
@@ -16,13 +19,15 @@ import {
   NavListViewToolbar,
   NavListViewComponentProps,
   ChipSetViewToolbar,
+  ExpandCollapseViewToolbar,
+  ButtonHCarouselToolbar,
   ChipSetViewComponentProps,
   EventInfoToolbar,
   EventInfoComponentProps,
   ButtonsViewToolbar,
   ButtonsViewComponentProps,
-  VideoToolbar,
-  VideoComponentProps,
+  VideoViewToolbar,
+  VideoViewComponentProps,
   GenericToolbar,
   Component,
   NewsViewToolbar,
@@ -32,6 +37,23 @@ import {
   CarouselVendorToolbar,
   CarouselVendorComponentProps,
   ComponentProps,
+  CardImageToolbar,
+  ImageToolbar,
+  ImageComponentProps,
+  SegmentControlComponentProps,
+  SegmentControlToolbar,
+  QuickLinksProps,
+  QuickLinksToolbar,
+  PhoneInquiryToolbar,
+  PhoneInquiryComponentProps,
+  TitleDescToolbar,
+  TitleDescComponentProps,
+  MapPathComponentProps,
+  MapPathToolbar,
+  NavCellViewToolbar,
+  NavCellViewComponentProps,
+  DescriptionToolbar,
+  DescriptionComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -40,6 +62,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeroToolbar {...(props as HeroComponentProps)} />;
     case Component.CardView:
       return <CardToolbar {...(props as CardComponentProps)} />;
+    case Component.CardImage:
+      return <CardImageToolbar {...(props as CardImageComponentProps)} />;
     case Component.Header:
       return <HeaderToolbar {...(props as HeaderComponentProps)} />;
     case Component.Button:
@@ -54,18 +78,38 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavListViewToolbar {...(props as NavListViewComponentProps)} />;
     case Component.ChipSetView:
       return <ChipSetViewToolbar {...(props as ChipSetViewComponentProps)} />;
+    case Component.ExpandCollapseView:
+      return <ExpandCollapseViewToolbar {...(props as ExpandCollapseViewComponentProps)} />;
+    case Component.ButtonHCarousel:
+      return <ButtonHCarouselToolbar {...(props as ButtonHCarouselComponentProps)} />;
     case Component.EventInfo:
       return <EventInfoToolbar {...(props as EventInfoComponentProps)} />;
     case Component.ButtonsView:
       return <ButtonsViewToolbar {...(props as ButtonsViewComponentProps)} />;
     case Component.VideoView:
-      return <VideoToolbar {...(props as VideoComponentProps)} />;
+      return <VideoViewToolbar {...(props as VideoViewComponentProps)} />;
     case Component.NewsView:
       return <NewsViewToolbar {...(props as NewsViewComponentProps)} />;
     case Component.EventsCarousel:
       return <CarouselEventsToolbar {...(props as CarouselEventsComponentProps)} />;
     case Component.VendorVCarousel:
       return <CarouselVendorToolbar {...(props as CarouselVendorComponentProps)} />;
+    case Component.Image:
+      return <ImageToolbar {...(props as ImageComponentProps)} />;
+    case Component.SegmentControl:
+      return <SegmentControlToolbar {...(props as SegmentControlComponentProps)} />;
+    case Component.QuickLinks:
+      return <QuickLinksToolbar {...(props as QuickLinksProps)} />;
+    case Component.PhoneInquiry:
+      return <PhoneInquiryToolbar {...(props as PhoneInquiryComponentProps)} />;
+    case Component.MapPath:
+      return <MapPathToolbar {...(props as MapPathComponentProps)} />;
+    case Component.TitleDesc:
+      return <TitleDescToolbar {...(props as TitleDescComponentProps)} />;
+    case Component.NavCellView:
+      return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
+    case Component.Desc:
+      return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

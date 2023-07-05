@@ -15,7 +15,7 @@ const QuickLinkComponent = ({ icon, title }: QuickLinkProps) => {
       }}
     >
       <img src={icon} alt={title} style={{ width: 20, height: 20 }} />
-      <Typography sx={{ fontSize: 11 }}>{title}</Typography>
+      <Typography sx={{ fontSize: 11, color: 'white', marginTop: '0.6rem' }}>{title}</Typography>
     </Box>
   );
 };
