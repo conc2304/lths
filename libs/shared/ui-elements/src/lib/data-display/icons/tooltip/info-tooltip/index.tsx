@@ -9,12 +9,11 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // ToDo: switch to using theme for color
 const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
-
   color: '#FFFFFF',
   backgroundColor: theme.palette.grey[700],
 }));
 
-const GreyCardArrowBox = styled(Box)<{beforeBackgroundColor : string}>(({ beforeBackgroundColor }) => ({
+const GreyCardArrowBox = styled(Box)<{ beforeBackgroundColor: string }>(({ beforeBackgroundColor }) => ({
   position: 'relative',
   marginBottom: '18px',
   backgroundColor: beforeBackgroundColor, // this line is just for jest testing
@@ -109,7 +108,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             )}
           </CardContent>
         </GreyCard>
-        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]}/>
+        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]} />
       </Popover>
     </div>
   );

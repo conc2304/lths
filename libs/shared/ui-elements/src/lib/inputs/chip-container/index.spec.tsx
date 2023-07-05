@@ -1,7 +1,7 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, within } from '@testing-library/react';
+import { render, fireEvent, screen, within, waitFor } from '@testing-library/react';
 
 import { ChipContainer } from './index';
 
@@ -94,6 +94,47 @@ describe('ChipContainer component', () => {
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.getByText('Item 2')).toBeInTheDocument();
     expect(screen.getByText('Item 3')).toBeInTheDocument();
+  });
+
+  it('should render the ChipContainer no variant is selected or no filter is selected', () => {
+    // Arrange
+    const component = (
+      <ChipContainer title="Filters" onDelete={onDeleteMock} onClearAll={onClearAllMock} openModal={openModalMock} />
+    );
+    const { baseElement } = render(RBThemeProvider({ children: component }));
+
+    // Act
+
+    // Assert
+    expect(baseElement).toBeInTheDocument();
+  });
+
+  it('should render the the "More" button when the filters do not fit', async () => {
+    // Arrange
+    const mockTitleLong = 'This is a longer test name that should force an overflow';
+    const longFilter = {
+      group3: {
+        longTest: { id: 'longTest', title: mockTitleLong },
+      },
+    };
+    const mockFilters = { ...selectedFilters, ...longFilter };
+    const component = (
+      <ChipContainer
+        title="Filters"
+        selectedFilters={mockFilters}
+        onDelete={onDeleteMock}
+        onClearAll={onClearAllMock}
+        openModal={openModalMock}
+      />
+    );
+    const { baseElement } = render(RBThemeProvider({ children: component }));
+
+    // Act
+
+    // Assert
+    waitFor(() => expect(screen.getByTestId('ChipContainer--see-more-chip-btn')).toBeInTheDocument());
+    waitFor(() => expect(screen.getByText(mockTitleLong)).not.toBeInTheDocument());
+    expect(baseElement).toBeInTheDocument();
   });
 
   it('should render the ChipContainer with inline variant correctly', () => {

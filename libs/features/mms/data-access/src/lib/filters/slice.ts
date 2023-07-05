@@ -8,7 +8,7 @@ import {
   handleRemoveFormStateGroup,
   handleRemoveFormStateItem,
 } from '@lths/shared/ui-filters';
-import { dateToString } from '@lths/shared/utils';
+import { dateToUTCString } from '@lths/shared/utils';
 import { DateFilter, FilterFormState, FormSchema, FormState, FormStateValue } from '@lths/types/ui-filters';
 
 import { filterApi } from './api';
@@ -20,7 +20,7 @@ const initialState: FilterFormState = {
   dateRange: { start_date: null, end_date: null },
 };
 
-const extractActionName = (input: string): string => {
+export const extractActionName = (input: string): string => {
   const regex = /\/(.*)/;
   const match = input.match(regex);
   return match ? match[1] : input;
@@ -34,8 +34,8 @@ const filtersSlice = createSlice({
       const {
         payload: { start_date, end_date },
       } = action;
-      const newStartDate = dateToString(start_date);
-      const newEndDate = dateToString(end_date);
+      const newStartDate = dateToUTCString(start_date);
+      const newEndDate = dateToUTCString(end_date);
       state.dateRange.start_date = newStartDate;
       state.dateRange.end_date = newEndDate;
     },

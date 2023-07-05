@@ -7,7 +7,7 @@ import { Form } from './index';
 import { groupItemsBySeq } from '../../inputs/filter-form/utils';
 import { formSchemaMock, formStateMock } from '../filter-form/mockData';
 
-describe('Form', () => {
+describe('Form component', () => {
   const formSchema: FormSchema[] = formSchemaMock;
   const formState: FormState = formStateMock;
   const columnGroups = groupItemsBySeq([...formSchema]);

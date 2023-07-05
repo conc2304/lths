@@ -93,7 +93,7 @@ export const UiFilters = (props: UiFilterProps): JSX.Element => {
     if (!start_date || !end_date) return;
     initialFormState.current = _formState;
     onApplyFilters({
-      dateRange: { start_date: new Date(start_date?.toString()), end_date: new Date(end_date) },
+      dateRange: { start_date: new Date(start_date.toString()), end_date: new Date(end_date) },
       filters: _formState,
     });
   };
