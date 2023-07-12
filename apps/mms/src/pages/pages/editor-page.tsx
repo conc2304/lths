@@ -16,7 +16,9 @@ export function PageEditorTabs() {
 
   const { pageId } = useParams();
 
-  const { initEditor, initPageSettings } = useEditorActions();
+  const { initEditor, initPageSettings, settings } = useEditorActions();
+
+  console.log('settings', settings);
 
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
@@ -67,7 +69,7 @@ export function PageEditorTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <PageHeader
-        title="Ad Requirements"
+        title={settings?.name}
         rightContent={
           <Button variant="contained" onClick={() => console.log(`handling publish`)}>
             Publish
@@ -77,13 +79,13 @@ export function PageEditorTabs() {
         sx={{ mt: 2, mb: 1 }}
       />
       <Box sx={{ mb: 1 }}>
-        <Button size="small" color="secondaryButton">
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling duplicate')}>
           DUPLICATE
         </Button>
-        <Button size="small" color="secondaryButton">
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling share')}>
           SHARE
         </Button>
-        <Button size="small" color="secondaryButton">
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling preview')}>
           PREVIEW
         </Button>
       </Box>
