@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { factory, primaryKey } from '@mswjs/data';
 import { nanoid } from '@reduxjs/toolkit';
+import { format } from 'date-fns';
 
 type Page = {
   page_id: string;
@@ -87,7 +88,7 @@ const createPageData = (page: Page) => {
     'Expired',
     'Archived',
   ]);
-  const lastModified = faker.date.recent().toUTCString();
+  const lastModified = format(faker.date.recent(), 'MM.dd.yyyy KK:mm a');
 
   return {
     name: page.name,
