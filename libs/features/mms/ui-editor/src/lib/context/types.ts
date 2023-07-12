@@ -10,6 +10,14 @@ export type ComponentProps = {
   default_data?: { [key: string]: any };
 };
 
+export type PageSettings = {
+  name: string;
+  default_page: string;
+  page_id: string;
+  description?: string;
+  status: string;
+};
+
 export type EditorProviderProps = {
   children: ReactNode;
 };
@@ -17,6 +25,7 @@ export type EditorProviderProps = {
 export type EditorProps = {
   components: ComponentProps[];
   selectedComponent: ComponentProps | null;
+  settings: PageSettings;
 };
 
 export type EditorDispathProps = {
@@ -41,11 +50,13 @@ export enum EditorActionType {
   UPDATE_COMPONENT = 'UPDATE_COMPONENT',
   ORDER_COMPONENT = 'ORDER_COMPONENT',
   DUPLICATE_COMPONENT = 'DUPLICATE_COMPONENT',
+  INIT_PAGE_SETTINGS = 'INIT_PAGE_SETTINGS',
 }
 
 export const initialState: EditorProps = {
   components: [],
   selectedComponent: null,
+  settings: null,
 };
 
 export type EditorActionProps =
@@ -57,4 +68,5 @@ export type EditorActionProps =
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
   | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }
-  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };
+  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number }
+  | { type: EditorActionType.INIT_PAGE_SETTINGS; settings: PageSettings };

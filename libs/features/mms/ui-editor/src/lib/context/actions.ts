@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 
-import { EditorActionProps, EditorActionType, ComponentProps } from './types';
+import { EditorActionProps, EditorActionType, ComponentProps, PageSettings } from './types';
 
 export const initEditor = (dispatch: Dispatch<EditorActionProps>) => (components: ComponentProps[]) => {
   dispatch({ type: EditorActionType.INIT_COMPONENTS, components });
@@ -28,4 +28,7 @@ export const orderComponent = (dispatch: Dispatch<EditorActionProps>) => (dragIn
 };
 export const clearEditor = (dispatch: Dispatch<EditorActionProps>) => () => {
   dispatch({ type: EditorActionType.CLEAR_COMPONENTS });
+};
+export const initPageSettings = (dispatch: Dispatch<EditorActionProps>) => (settings: PageSettings) => {
+  dispatch({ type: EditorActionType.INIT_PAGE_SETTINGS, settings });
 };

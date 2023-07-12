@@ -7,6 +7,7 @@ import {
   CreatePageResponse,
   ImagesListResponse,
   PageDetailRequest,
+  UpdatePageSettingsRequest,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
@@ -16,6 +17,7 @@ import {
   getDefaultPagesUrl,
   getImagesListUrl,
   getPageDetailUrl,
+  getUpatePageSettingsUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
 
@@ -70,6 +72,14 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'GET',
       }),
     }),
+
+    updatePageSettings: builder.mutation({
+      query: (req: UpdatePageSettingsRequest) => ({
+        url: getUpatePageSettingsUrl(req),
+        method: 'PATCH',
+        body: req,
+      }),
+    }),
   }),
 });
 
@@ -81,5 +91,6 @@ export const {
   useLazyGetPagesItemsQuery,
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
+  useUpdatePageSettingsMutation,
 } = pageApi;
 export default pageApi;

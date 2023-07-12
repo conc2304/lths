@@ -10,6 +10,7 @@ import {
   orderComponent,
   clearSelectedComponent,
   duplicateComponent,
+  initPageSettings,
 } from './actions';
 import { useEditor } from './context';
 
@@ -31,6 +32,7 @@ export const useEditorActions = () => {
     removeComponent: useMemo(() => removeComponent(dispatch), [dispatch]),
     duplicateComponent: useMemo(() => duplicateComponent(dispatch), [dispatch]),
     orderComponent: useMemo(() => orderComponent(dispatch), [dispatch]),
+    initPageSettings: useMemo(() => initPageSettings(dispatch), [dispatch]),
     ...state,
   };
 };
