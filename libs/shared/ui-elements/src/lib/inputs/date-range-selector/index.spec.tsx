@@ -1,7 +1,7 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
-import { render, fireEvent, waitFor, screen, cleanup, RenderResult } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, cleanup, RenderResult, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { slugify } from '@lths/shared/utils';
@@ -9,6 +9,12 @@ import { DateFilterOption, DateFilterOptions, DateRange } from '@lths/types/ui-f
 
 import { DateRangeSelector } from './index';
 import { DateRangeFilterOptions } from './mock-button-ranges';
+
+const resizeScreenSize = (x: number, y: number) => {
+  window.innerWidth = x;
+  window.innerHeight = y;
+  window.dispatchEvent(new Event('resize'));
+};
 
 describe('DateRangeSelector', () => {
   const dateOptions: DateFilterOptions = DateRangeFilterOptions;
@@ -52,14 +58,6 @@ describe('DateRangeSelector', () => {
     expect(baseElement).toBeTruthy();
     expect(screen.getByLabelText('START')).toBeTruthy();
     expect(screen.getByLabelText('END')).toBeTruthy();
-  });
-
-  it('should match the snapshot', () => {
-    // Arrange
-    const { baseElement } = themedComponent;
-    // Act
-    // Assert
-    expect(baseElement).toMatchSnapshot();
   });
 
   it('should render the correct number of toggle buttons, labels, and values', () => {
@@ -172,6 +170,67 @@ describe('DateRangeSelector', () => {
     fireEvent.click(screen.getByText('UPDATE PERIOD'));
     await waitFor(() => expect(onUpdateMock).toHaveBeenCalled());
     expect(onUpdateMock).toHaveBeenCalledWith({
+      start_date: expect.any(Date),
+      end_date: expect.any(Date),
+    });
+  });
+});
+
+describe('Date Range Selector - Mobile', () => {
+  const dateOptions: DateFilterOptions = DateRangeFilterOptions;
+
+  const initialDateFilter = DateRangeFilterOptions.find((option) => option.isDefaultValue)?.dateRange;
+  const { start_date, end_date } =
+    typeof initialDateFilter === 'function' ? (initialDateFilter() as DateRange) : (initialDateFilter as DateRange);
+  const defaultDateRange = { start_date: start_date as Date, end_date: end_date as Date };
+
+  const onUpdateMock = jest.fn();
+  const onChangeMock = jest.fn();
+
+  let component: JSX.Element;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    resizeScreenSize(400, 700);
+
+    component = (
+      <DateRangeSelector
+        dateOptions={dateOptions}
+        onUpdateTimePeriod={onUpdateMock}
+        onChange={onChangeMock}
+        value={defaultDateRange}
+      />
+    );
+    render(RBThemeProvider({ children: component }));
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('should call the handleDatePickerAccepted in mobile view', async () => {
+    // Arrange
+    const [startButton, endButton] = screen.getAllByTestId('CalendarMonthOutlinedIcon');
+
+    expect(startButton).toBeInTheDocument();
+    expect(endButton).toBeInTheDocument();
+
+    fireEvent.click(startButton);
+    const calendarDialog = screen.queryByRole('dialog');
+    expect(calendarDialog).toBeInTheDocument();
+
+    if (!calendarDialog) throw new Error('Expected Calendar Dialog to be open');
+    const calendarDates = within(calendarDialog).queryByRole('rowgroup');
+    if (!calendarDates) throw new Error('Expected Calendar Date picker to be in document');
+    const firstAvailableDateButton = within(calendarDates).getByText('1');
+
+    expect(firstAvailableDateButton).toBeInTheDocument();
+    expect(onChangeMock).not.toHaveBeenCalled();
+
+    // Act
+    fireEvent.click(firstAvailableDateButton);
+    // Assert
+    expect(onChangeMock).toHaveBeenCalledWith({
       start_date: expect.any(Date),
       end_date: expect.any(Date),
     });

@@ -4,7 +4,7 @@ const payload = {
   component_type: 'Native',
   constraint_data: [],
   default_data: {
-    image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cVideoView.png',
+    image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cVideoView.png',
     video_link: 'https://i.im.ge/2022/10/13/2qp9up.Image.mp4',
     action: {
       type: 'native',

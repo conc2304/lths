@@ -6,7 +6,7 @@ import { FormState } from '@lths/types/ui-filters';
 type ChipContainerProps = {
   title?: string;
   onDelete: ({ parentID, itemID }: { parentID: string; itemID: string }) => void;
-  selectedFilters: FormState;
+  selectedFilters?: FormState;
   variant?: 'modal' | 'inline';
   onClearAll?: () => void;
   openModal?: () => void;
@@ -170,7 +170,12 @@ export const ChipContainer = ({
               });
             })}
             {overflowMode.current && maxChipIndex.current !== Infinity && extraChipCount > 0 && (
-              <Chip className={seeMoreBtnClassName} label={`MORE (${extraChipCount})`} onClick={openModal} />
+              <Chip
+                className={seeMoreBtnClassName}
+                label={`MORE (${extraChipCount})`}
+                onClick={openModal}
+                data-testid={seeMoreBtnClassName}
+              />
             )}
           </Box>
 

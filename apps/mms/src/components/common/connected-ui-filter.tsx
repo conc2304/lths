@@ -23,7 +23,7 @@ import {
   transformFilterOptions,
   transformFormState,
 } from '@lths/shared/ui-filters';
-import { dateToString } from '@lths/shared/utils';
+import { dateToUTCString } from '@lths/shared/utils';
 import { FilterFormState, FilterSettingsPayload, SelectedUiFilters } from '@lths/types/ui-filters';
 
 import { DateRangeFilterOptions } from '../../fixtures/date-range-filter-options';
@@ -55,7 +55,7 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
       const initialDateFilter = getInitialDateRange(DateRangeFilterOptions).dateRange;
       const { start_date, end_date } =
         typeof initialDateFilter === 'function' ? initialDateFilter() : initialDateFilter;
-      initializedDateRange = { start_date: dateToString(start_date), end_date: dateToString(end_date) };
+      initializedDateRange = { start_date: dateToUTCString(start_date), end_date: dateToUTCString(end_date) };
       if (!start_date || !end_date) return;
     }
 
@@ -97,7 +97,7 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
       }}
       setDateRange={(dateRangeOption) => {
         const { start_date, end_date } = dateRangeOption.dateRange;
-        dispatch(setDateRange({ start_date: dateToString(start_date), end_date: dateToString(end_date) }));
+        dispatch(setDateRange({ start_date: dateToUTCString(start_date), end_date: dateToUTCString(end_date) }));
       }}
       setFormState={(formState) => {
         dispatch(setFormState(formState));

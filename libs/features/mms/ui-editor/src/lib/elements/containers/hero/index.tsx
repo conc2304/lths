@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
+import previewImage from '../../../../assets/placeholder-image.png';
 import { MOBILE_GUTTER } from '../../../common';
 
 type HeroContainerProps = {
@@ -16,32 +17,59 @@ const HeroContainer = ({ id, width, height, image, children, disableGutter = fal
   const perc = (height / width) * 100;
   return (
     <Box sx={{ margin: disableGutter ? 0 : MOBILE_GUTTER }}>
-      <Box
-        id={`${id}-component`}
-        sx={{
-          backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          height: 0,
-          position: 'relative',
-          paddingTop: `${perc}%`,
-          borderRadius: disableGutter ? 0 : MOBILE_GUTTER,
-        }}
-      >
+      {image ? (
         <Box
+          id={`${id}-component`}
           sx={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            display: 'flex',
-            padding: MOBILE_GUTTER,
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            height: 0,
+            position: 'relative',
+            paddingTop: `${perc}%`,
+            borderRadius: disableGutter ? 0 : MOBILE_GUTTER,
           }}
         >
-          {children}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              padding: MOBILE_GUTTER,
+            }}
+          >
+            {children}
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Box
+          id={`${id}-component`}
+          sx={{
+            backgroundImage: `url(${previewImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            height: 0,
+            position: 'relative',
+            paddingTop: `${perc}%`,
+            borderRadius: disableGutter ? 0 : MOBILE_GUTTER,
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              padding: MOBILE_GUTTER,
+            }}
+          ></Box>
+        </Box>
+      )}
     </Box>
   );
 };
