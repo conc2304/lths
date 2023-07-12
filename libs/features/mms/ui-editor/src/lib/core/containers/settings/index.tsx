@@ -49,26 +49,24 @@ const Settings = () => {
     description,
   };
 
-  const validationSchema = yup.object({
+  let validationSchema = yup.object({
     description: yup.string(),
   });
 
   if (!isPublished) {
     initialValues.name = name;
-    validationSchema.concat(
+    validationSchema = validationSchema.concat(
       yup.object({
         name: yup.string().required(),
       })
     );
   }
 
-  const { values, handleChange, handleSubmit, errors, isSubmitting, touched } = useFormik({
+  const { values, handleChange, handleSubmit, errors, isSubmitting, touched, handleReset } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: onSubmit,
   });
-
-  console.log('touched', touched, 'errors', errors);
 
   return (
     <Box style={{ backgroundColor: '#F3F3F3', padding: 16 }}>
@@ -130,7 +128,7 @@ const Settings = () => {
         </Grid>
         <Divider sx={{ borderBottomWidth: 2, marginY: 6 }} />
         <Stack direction="row" justifyContent={'flex-end'} paddingX={2}>
-          <Button variant="outlined" sx={{ marginRight: 2 }}>
+          <Button variant="outlined" sx={{ marginRight: 2 }} onClick={handleReset}>
             CANCEL
           </Button>
           <LoadingButton loading={isLoading} disabled={isSubmitting} variant="contained" onClick={() => handleSubmit()}>
