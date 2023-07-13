@@ -1,10 +1,11 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab, Tabs, Button, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import { useLazyGetPageDetailsQuery } from '@lths/features/mms/data-access';
-import { BlockEditor, useEditorActions } from '@lths/features/mms/ui-editor';
+import { BlockEditor, Settings, useEditorActions } from '@lths/features/mms/ui-editor';
 import { EditorProvider } from '@lths/features/mms/ui-editor';
+import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TabPanel from './tab-panel';
 import ComponentModal from '../../components/pages/editor/components/connected-modal';
@@ -15,13 +16,24 @@ export function PageEditorTabs() {
 
   const { pageId } = useParams();
 
-  const { initEditor } = useEditorActions();
+  const { initEditor, initPageSettings, settings } = useEditorActions();
+
+  console.log('settings', settings);
 
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
   const fetchPageDetail = async (pageId: string) => {
     const response = await getPageDetail({ page_id: pageId });
-    initEditor(response?.data?.data?.default_data);
+    console.log('page detail response', response);
+    const { name, page_id, default_page, description, default_data, status } = response.data?.data || {};
+    initEditor(default_data);
+    initPageSettings({
+      default_page,
+      description,
+      name,
+      page_id,
+      status,
+    });
   };
 
   useEffect(() => {
@@ -56,12 +68,33 @@ export function PageEditorTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <PageHeader
+        title={settings?.name}
+        rightContent={
+          <Button variant="contained" onClick={() => console.log(`handling publish`)}>
+            Publish
+          </Button>
+        }
+        leftContent={<Typography sx={{ fontSize: '20px', color: '#FF9900', mt: 1.7, ml: 3 }}>Draft</Typography>}
+        sx={{ mt: 2, mb: 1 }}
+      />
+      <Box sx={{ mb: 1 }}>
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling duplicate')}>
+          DUPLICATE
+        </Button>
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling share')}>
+          SHARE
+        </Button>
+        <Button size="small" color="secondaryButton" onClick={() => console.log('handling preview')}>
+          PREVIEW
+        </Button>
+      </Box>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label="PAGE DESIGN" value="page_design" />
-          <Tab label="SEGEMENTS" value="segments" />
-          <Tab label="SCHEDULE" value="schedule" />
+          <Tab label="CONSTRAINTS" value="constraints" />
           <Tab label="SETTINGS" value="settings" />
+          <Tab label="VERSIONS" value="versions" />
         </Tabs>
       </Box>
       <Box>
@@ -70,14 +103,14 @@ export function PageEditorTabs() {
           <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="full" />
           <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
-        <TabPanel value="segments" currentTab={currentTab}>
-          Segments Component goes here...
-        </TabPanel>
-        <TabPanel value="schedule" currentTab={currentTab}>
-          Schedule Component goes here...
+        <TabPanel value="constraints" currentTab={currentTab}>
+          Constraints Component goes here...
         </TabPanel>
         <TabPanel value="settings" currentTab={currentTab}>
-          Settings Component goes here...
+          <Settings />
+        </TabPanel>
+        <TabPanel value="versions" currentTab={currentTab}>
+          Versions Component goes here...
         </TabPanel>
       </Box>
     </Box>

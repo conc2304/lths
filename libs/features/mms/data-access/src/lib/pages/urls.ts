@@ -1,4 +1,4 @@
-import { PageDetailRequest, PagesDataRequest } from './types';
+import { PageDetailRequest, PagesDataRequest, UpdatePageSettingsRequest } from './types';
 export const getComponentsListUrl = () => {
   return `/pages/components`;
 };
@@ -28,3 +28,5 @@ export const getPageDetailUrl = (req: PageDetailRequest) => {
   const { page_id } = req;
   return `/models/page/${page_id}`;
 };
+
+export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/models/page/settings/${req.page_id}`;
