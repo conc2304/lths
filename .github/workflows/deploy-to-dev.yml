@@ -97,3 +97,14 @@ jobs:
       - name: Redeploy the App to AKS
         run: kubectl rollout restart deployment mms-app -n ${{ steps.set-env-vars-step.outputs.k8s_namespace }}
 
+      - name: Post a message to Slack - lths-devops
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"The DEV environment is being updated with the latest version of the MMS develop branch."}' \
+            ${{ secrets.SLACK_WEBHOOK_URL_DEVOPS_CH }}
+
+      - name: Post a message to Slack - lths-product-team
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"The DEV environment is being updated with the latest version of the MMS develop branch."}' \
+            ${{ secrets.SLACK_WEBHOOK_URL_PRODUCT_CH}}
