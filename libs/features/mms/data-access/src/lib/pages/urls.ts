@@ -20,7 +20,7 @@ export const getPagesUrl = (req: PagesDataRequest) => {
   return `/pages?${params.join('&')}`;
 };
 
-export const getDefaultPagesUrl = () => `/pages/default`;
+export const getDefaultPagesUrl = () => `/mms/pages?is_variant=false&status=published&sort_field=name&sort_by=asc`;
 
 export const getCreatePageUrl = () => `/models/page`;
 
