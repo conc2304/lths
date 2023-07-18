@@ -61,7 +61,7 @@ const db = factory({
   pages: {
     id: primaryKey(nanoid),
     name: String,
-    pageId: String,
+    page_id: String,
     type: String,
     constraints: String,
     lastEditor: String,
@@ -92,7 +92,7 @@ const createPageData = (page: Page) => {
 
   return {
     name: page.name,
-    pageId: page.page_id,
+    page_id: page.page_id,
     type,
     constraints,
     lastEditor,
