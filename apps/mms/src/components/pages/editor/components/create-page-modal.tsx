@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
-import { nanoid } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -46,8 +45,8 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   const onSubmit = async (values: CreatePageRequest) => {
     const requestData = {
       ...values,
-      default_page_id: values.is_variant === 'true' ? values.default_page_id : null,
-      is_variant: values.is_variant === 'true',
+      default_page_id: values.is_variant === 'yes' ? values.default_page_id : null,
+      is_variant: values.is_variant === 'yes',
     };
     const response = await createPage(requestData).unwrap();
     onCreatePage(response?.data?.page_id);
@@ -56,7 +55,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
     initialValues: {
       name: '',
-      is_variant: 'true',
+      is_variant: 'yes',
       default_page_id: '',
       description: '',
     },
@@ -114,16 +113,16 @@ const CreatePageModal = (props: CreatePageModalProps) => {
                 <InputLabel htmlFor="is_variant">IS THIS A VARIANT?</InputLabel>
                 <RadioGroup name="is_variant" id="is_variant" row value={values.is_variant} onChange={handleChange}>
                   <FormControlLabel
-                    value="true"
+                    value="yes"
                     control={<Radio color="primary" />}
-                    label="TRUE"
+                    label="YES"
                     sx={{ marginRight: 12 }}
                   />
-                  <FormControlLabel value="false" control={<Radio color="primary" />} label="FALSE" />
+                  <FormControlLabel value="no" control={<Radio color="primary" />} label="NO" />
                 </RadioGroup>
               </Stack>
             </Grid>
-            {values.is_variant === 'true' && (
+            {values.is_variant === 'yes' && (
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="default_page_id">VARIANT DEFAULT</InputLabel>
