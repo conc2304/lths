@@ -1,3 +1,3 @@
 export const getAnalyticFiltersUrl = () => {
-  return `/models/filters`;
+  return `/mms/filters`;
 };

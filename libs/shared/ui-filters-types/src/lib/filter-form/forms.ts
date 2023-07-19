@@ -22,3 +22,26 @@ export type FormStateValue = { [id: string]: { id?: string; title?: string | nul
 export type FormState = {
   [id: string]: FormStateValue;
 };
+
+export type FilterItemResponse = {
+  _id: string;
+  filter_group_id: string;
+  name: string;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+  __v?: number;
+};
+
+export type FilterGroupResponse = {
+  _id: string;
+  name: string;
+  description: string;
+  filter_items: FilterItemResponse[];
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  __v: number;
+};
+
+export type FilterAPIResponse = { data: FilterGroupResponse[] };

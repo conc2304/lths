@@ -75,7 +75,7 @@ export const CheckBoxItems = (props: CheckBoxItemProps): JSX.Element => {
     <Stack direction={isVertical ? 'column' : 'row'} flexWrap="wrap">
       <FormControlLabel
         label={allTitle}
-        value={`${pluralizedLastWord}--togle`}
+        value={`${pluralizedLastWord}--toggle`}
         control={
           <Checkbox
             checked={formStateLength === formFields.length}

@@ -43,6 +43,7 @@ export const FormChildren = (props: FormElementsProps): JSX.Element => {
     const { default_value, data, type: elementType } = formSchema;
     const sortedFields = sortBySeq(data as FormSchema[], 'asc');
 
+    console.log('HERE 1');
     switch (elementType) {
       case 'checkbox':
         return (

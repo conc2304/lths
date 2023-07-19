@@ -29,7 +29,7 @@ export const getInitialFormState = (formData: FormSchema[], result: FormState = 
             if (typeof elemData === undefined) return;
             delete elemData.seq; // don't need it where we are going
 
-            result[parentID] = { [elemID]: elemData };
+            result[parentID] = { ...result[parentID], [elemID]: elemData };
           });
         }
         if (dataItem.data) {
