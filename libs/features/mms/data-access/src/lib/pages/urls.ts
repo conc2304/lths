@@ -11,13 +11,13 @@ export const getComponentDetailUrl = (id) => {
 
 export const getPagesUrl = (req: PagesDataRequest) => {
   const params = [];
-  const { page, page_size, sort_key, sort_order } = req;
-  if (page != null) params.push(`page=${page}`);
-  if (page_size != null) params.push(`page_size=${page_size}`);
-  if (sort_key != null) params.push(`sort_key=${sort_key}`);
-  if (sort_order != null) params.push(`page=${sort_order}`);
+  const { page, page_size = 5, sort_key, sort_order } = req;
+  if (page != null) params.push(`offset=${page* page_size}`);
+  if (page_size != null) params.push(`limit=${page_size}`);
+  if (sort_key != null) params.push(`sort_field=${sort_key}`);
+  if (sort_order != null) params.push(`'sort_by'=${sort_order}`);
 
-  return `/pages?${params.join('&')}`;
+  return `/mms/pages?${params.join('&')}`;
 };
 
 export const getDefaultPagesUrl = () => `/mms/pages?is_variant=false&status=published&sort_field=name&sort_by=asc`;
