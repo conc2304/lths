@@ -57,7 +57,7 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
         onDrag={handleDrag}
         onClick={handleClick}
         onMenuClick={handleMenuClick}
-        text={component.component_name || component.component_id}
+        text={component.name || component.component_id}
       ></Card>
     );
   };

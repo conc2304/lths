@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { ComponentProps } from '../../../../context';
 
 const Component: React.FC<ComponentProps> = (props) => {
-  const { component_id, component_name } = props;
+  const { component_id, name } = props;
 
   return (
     <Box
@@ -14,7 +14,7 @@ const Component: React.FC<ComponentProps> = (props) => {
       }}
     >
       <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
-        `{component_id || component_name}` component has not been implemented yet.
+        `{component_id || name}` component has not been implemented yet.
       </Typography>
     </Box>
   );

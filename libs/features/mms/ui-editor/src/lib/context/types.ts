@@ -3,7 +3,7 @@ import { Dispatch, ReactNode } from 'react';
 export type ComponentProps = {
   __ui_id__: string;
   component_id: string;
-  component_name: string;
+  name: string;
   component_type?: string;
   image_url?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
