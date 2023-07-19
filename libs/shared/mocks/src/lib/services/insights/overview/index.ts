@@ -5,10 +5,10 @@ import OverviewTabularPayload from './tabular.sub';
 import { getSuccessfulResponse } from '../../api';
 
 const responses = [
-  getSuccessfulResponse('/insights/overview/kpi', OverviewKpiPayload),
-  getSuccessfulResponse('/insights/overview/histogram', OverviewHistogramPayload),
-  getSuccessfulResponse('/insights/overview/segmentation', OverviewSegmentationPayload),
-  getSuccessfulResponse('/insights/overview/tabular', OverviewTabularPayload),
+  getSuccessfulResponse('/mms/kpi', OverviewKpiPayload),
+  getSuccessfulResponse('/mms/histogram', OverviewHistogramPayload),
+  getSuccessfulResponse('/mms/donut', OverviewSegmentationPayload),
+  getSuccessfulResponse('/mms/usage-metric-table', OverviewTabularPayload),
 ];
 
 export default responses;

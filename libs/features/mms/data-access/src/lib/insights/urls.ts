@@ -3,16 +3,16 @@ export const getInsightUrl = () => {
 };
 
 export const getInsightKpiUrl = () => {
-  return `/insights/overview/kpi`;
+  return `/mms/kpi`;
 };
 export const getInsightOverviewHistogramUrl = () => {
-  return `/insights/overview/histogram`;
+  return `/mms/histogram`;
 };
 export const getInsightOverviewSegmentationUrl = () => {
-  return `/insights/overview/segmentation`;
+  return `/mms/donut`;
 };
 export const getInsightOverviewTabularUrl = () => {
-  return `/insights/overview/tabular`;
+  return `/mms/usage-metric-table`;
 };
 
 export const getInsightPagesUrl = () => {

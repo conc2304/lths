@@ -11,7 +11,6 @@ export const convertFilterResponse = (data: FilterGroupResponse[]): FormSchema[]
 
   const convertFilterGroup = (filterGroup: FilterGroupResponse): FormSchema => {
     const { _id, description, filter_items } = filterGroup;
-    const defaultValues = filter_items.filter(({ is_active }) => !!is_active).map(({ _id }) => _id);
     return {
       title: description,
       id: _id,
@@ -20,7 +19,7 @@ export const convertFilterResponse = (data: FilterGroupResponse[]): FormSchema[]
         // !! this will fail when we need to use different data types
         {
           type: 'checkbox',
-          default_value: defaultValues,
+          default_value: [],
           data: filter_items.map(convertFilterItem),
         },
       ],
