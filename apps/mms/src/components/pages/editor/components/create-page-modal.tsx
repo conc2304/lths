@@ -31,7 +31,7 @@ import { CreatePageModalProps } from './types';
 const validationSchema = yup.object({
   name: yup.string().required('Page name is required'),
   is_variant: yup.string().required('Variant is required'),
-  variant_default: yup.string().when('is_variant', (is_variant, schema) => {
+  default_page_id: yup.string().when('is_variant', (is_variant, schema) => {
     if (is_variant.includes('yes')) {
       return schema.required('Variant default is required');
     }
@@ -46,19 +46,18 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   const onSubmit = async (values: CreatePageRequest) => {
     const requestData = {
       ...values,
-      page_id: nanoid(),
-      constraint_data: [],
-      default_data: [],
+      default_page_id: values.is_variant === 'true' ? values.default_page_id : null,
+      is_variant: values.is_variant === 'true',
     };
     const response = await createPage(requestData).unwrap();
-    onCreatePage(response?.data?.page_id);
+    // onCreatePage(response?.data?.page_id);
   };
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
     initialValues: {
       name: '',
-      is_variant: 'yes',
-      variant_default: '',
+      is_variant: 'true',
+      default_page_id: '',
       description: '',
     },
     validationSchema: validationSchema,
@@ -115,25 +114,25 @@ const CreatePageModal = (props: CreatePageModalProps) => {
                 <InputLabel htmlFor="is_variant">IS THIS A VARIANT?</InputLabel>
                 <RadioGroup name="is_variant" id="is_variant" row value={values.is_variant} onChange={handleChange}>
                   <FormControlLabel
-                    value="yes"
+                    value="true"
                     control={<Radio color="primary" />}
-                    label="YES"
+                    label="TRUE"
                     sx={{ marginRight: 12 }}
                   />
-                  <FormControlLabel value="no" control={<Radio color="primary" />} label="NO" />
+                  <FormControlLabel value="false" control={<Radio color="primary" />} label="FALSE" />
                 </RadioGroup>
               </Stack>
             </Grid>
-            {values.is_variant === 'yes' && (
+            {values.is_variant === 'true' && (
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="variant_default">VARIANT DEFAULT</InputLabel>
+                  <InputLabel htmlFor="default_page_id">VARIANT DEFAULT</InputLabel>
                   <Select
-                    error={touched.variant_default && Boolean(errors.variant_default)}
-                    id="variant_default"
-                    name="variant_default"
+                    error={touched.default_page_id && Boolean(errors.default_page_id)}
+                    id="default_page_id"
+                    name="default_page_id"
                     onChange={handleChange}
-                    value={values.variant_default}
+                    value={values.default_page_id}
                     displayEmpty
                   >
                     <MenuItem value="">Page selector dropdown</MenuItem>
@@ -143,9 +142,9 @@ const CreatePageModal = (props: CreatePageModalProps) => {
                       </MenuItem>
                     ))}
                   </Select>
-                  {touched.variant_default && errors.variant_default && (
+                  {touched.default_page_id && errors.default_page_id && (
                     <FormHelperText error id="is_variant_helper_text">
-                      {errors.variant_default}
+                      {errors.default_page_id}
                     </FormHelperText>
                   )}
                 </Stack>

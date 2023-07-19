@@ -22,7 +22,7 @@ export const getPagesUrl = (req: PagesDataRequest) => {
 
 export const getDefaultPagesUrl = () => `/mms/pages?is_variant=false&status=published&sort_field=name&sort_by=asc`;
 
-export const getCreatePageUrl = () => `/models/page`;
+export const getCreatePageUrl = () => `/mms/pages`;
 
 export const getPageDetailUrl = (req: PageDetailRequest) => {
   const { page_id } = req;
