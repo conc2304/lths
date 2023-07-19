@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
-import { nanoid } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -31,7 +30,7 @@ import { CreatePageModalProps } from './types';
 const validationSchema = yup.object({
   name: yup.string().required('Page name is required'),
   is_variant: yup.string().required('Variant is required'),
-  variant_default: yup.string().when('is_variant', (is_variant, schema) => {
+  default_page_id: yup.string().when('is_variant', (is_variant, schema) => {
     if (is_variant.includes('yes')) {
       return schema.required('Variant default is required');
     }
@@ -46,9 +45,8 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   const onSubmit = async (values: CreatePageRequest) => {
     const requestData = {
       ...values,
-      page_id: nanoid(),
-      constraint_data: [],
-      default_data: [],
+      default_page_id: values.is_variant === 'yes' ? values.default_page_id : null,
+      is_variant: values.is_variant === 'yes',
     };
     const response = await createPage(requestData).unwrap();
     onCreatePage(response?.data?.page_id);
@@ -58,7 +56,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
     initialValues: {
       name: '',
       is_variant: 'yes',
-      variant_default: '',
+      default_page_id: '',
       description: '',
     },
     validationSchema: validationSchema,
@@ -127,13 +125,13 @@ const CreatePageModal = (props: CreatePageModalProps) => {
             {values.is_variant === 'yes' && (
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="variant_default">VARIANT DEFAULT</InputLabel>
+                  <InputLabel htmlFor="default_page_id">VARIANT DEFAULT</InputLabel>
                   <Select
-                    error={touched.variant_default && Boolean(errors.variant_default)}
-                    id="variant_default"
-                    name="variant_default"
+                    error={touched.default_page_id && Boolean(errors.default_page_id)}
+                    id="default_page_id"
+                    name="default_page_id"
                     onChange={handleChange}
-                    value={values.variant_default}
+                    value={values.default_page_id}
                     displayEmpty
                   >
                     <MenuItem value="">Page selector dropdown</MenuItem>
@@ -143,9 +141,9 @@ const CreatePageModal = (props: CreatePageModalProps) => {
                       </MenuItem>
                     ))}
                   </Select>
-                  {touched.variant_default && errors.variant_default && (
+                  {touched.default_page_id && errors.default_page_id && (
                     <FormHelperText error id="is_variant_helper_text">
-                      {errors.variant_default}
+                      {errors.default_page_id}
                     </FormHelperText>
                   )}
                 </Stack>
