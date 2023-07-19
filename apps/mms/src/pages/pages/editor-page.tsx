@@ -26,7 +26,7 @@ export function PageEditorTabs() {
     const response = await getPageDetail({ page_id: pageId });
     console.log('page detail response', response);
     const { name, page_id, default_page, description, default_data, status } = response.data?.data || {};
-    initEditor(default_data);
+    if(default_data) initEditor(default_data);
     initPageSettings({
       default_page,
       description,

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, IconButton, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ApprovalIcon from '@mui/icons-material/Approval';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TimerOffIcon from '@mui/icons-material/TimerOff';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
@@ -50,13 +53,16 @@ const headers = [
 ];
 
 const statusIcon = {
-  Draft: <BorderColorIcon htmlColor="#F9A61A" />,
-  Published: <CheckCircleIcon htmlColor="#00BA00" />,
-  Archived: <InventoryIcon htmlColor="gray" />,
-  Scheduled: <WatchLaterIcon htmlColor="#05B5E4" />,
+  DRAFT: <BorderColorIcon htmlColor="#F9A61A" />,
+  PUBLISHED: <CheckCircleIcon htmlColor="#00BA00" />,
+  ARCHIVED: <InventoryIcon htmlColor="gray" />,
+  SCHEDULED: <WatchLaterIcon htmlColor="#05B5E4" />,
   'Pending approval': <PendingActionsIcon htmlColor="gold" />,
   'Changes requested': <FeedbackIcon htmlColor="orange" />,
-  Expired: <TimerOffIcon htmlColor="red" />,
+  EXPIRED: <TimerOffIcon htmlColor="red" />,
+  REJECTED : <CloseIcon htmlColor='yellow'/> ,
+  APPROVED : <ApprovalIcon htmlColor='yellow'/>,
+  UNPUBLISHED : <UnpublishedIcon htmlColor='yellow'/>,
 };
 
 const Pages = (): JSX.Element => {
@@ -105,27 +111,29 @@ const Pages = (): JSX.Element => {
     fetchData(pagination, sorting);
   };
 
+  console.log()
+
   const tableRows = data?.data?.map((row) => (
     <TableRow key={row.id}>
       <TableCell>
         <Stack>
           <Link
             component={RouterLink}
-            to={`/pages/editor/${row.pageId}`}
+            to={`/pages/editor/${row.page_id}`}
             color="inherit"
             underline="hover"
             variant="h5"
           >
             {row.name}
           </Link>
-          <Typography variant="subtitle1">{row.pageId}</Typography>
+          <Typography variant="subtitle1">{row.page_id}</Typography>
         </Stack>
       </TableCell>
       <TableCell>{row.type}</TableCell>
       <TableCell>{row.constraints}</TableCell>
       <TableCell>
         <Typography variant="body1" color="#0091FF">
-          {row.lastEditor}
+          {row?.updated_by || row?.created_by}
         </Typography>
       </TableCell>
       <TableCell>
@@ -145,7 +153,7 @@ const Pages = (): JSX.Element => {
     </TableRow>
   ));
 
-  const total = data?.meta.total;
+  const total = data?.totalCount;
 
   return (
     <Box>
