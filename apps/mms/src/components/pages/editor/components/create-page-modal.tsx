@@ -50,7 +50,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
       is_variant: values.is_variant === 'true',
     };
     const response = await createPage(requestData).unwrap();
-    // onCreatePage(response?.data?.page_id);
+    onCreatePage(response?.data?.page_id);
   };
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
