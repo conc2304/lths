@@ -58,53 +58,12 @@ const defaultPages: Page[] = [
 ];
 
 const db = factory({
-  pages: {
-    id: primaryKey(nanoid),
-    name: String,
-    pageId: String,
-    type: String,
-    constraints: String,
-    lastEditor: String,
-    status: String,
-    lastModified: String,
-  },
   default: {
     id: primaryKey(nanoid),
     page_id: String,
     name: String,
   },
 });
-
-const createPageData = (page: Page) => {
-  const type = faker.helpers.arrayElement(['Pre-Defined', 'Static']);
-  const constraints = faker.random.words().split(' ').join(',');
-  const lastEditor = faker.name.fullName();
-  const status = faker.helpers.arrayElement([
-    'Draft',
-    'Published',
-    'Pending approval',
-    'Changes requested',
-    'Scheduled',
-    'Expired',
-    'Archived',
-  ]);
-  const lastModified = format(faker.date.recent(), 'MM.dd.yyyy KK:mm a');
-
-  return {
-    name: page.name,
-    pageId: page.page_id,
-    type,
-    constraints,
-    lastEditor,
-    status,
-    lastModified,
-  };
-};
-
-//generate pages data
-for (let i = 0; i < defaultPages.length; i++) {
-  db.pages.create(createPageData(defaultPages[i]));
-}
 
 for (let i = 0; i < defaultPages.length; i++) {
   db.default.create(defaultPages[i]);

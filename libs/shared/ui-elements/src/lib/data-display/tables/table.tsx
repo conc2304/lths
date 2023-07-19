@@ -37,6 +37,7 @@ export const Table = (props: TableProps) => {
     sx = {},
   } = props;
 
+
   const [pagination, setPagination] = useState<TablePaginationProps>({
     page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
     pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
