@@ -7,7 +7,7 @@ import { ComponentGalleryProps } from './types';
 const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) => {
   return (
     <ImageList variant="masonry" cols={5} gap={35}>
-      {components.map(({ image_url, component_name, component_id }, index) => (
+      {components.map(({ image_url, name, component_id }, index) => (
         <ImageListItem key={`component_${index}`} onClick={() => onSelect(component_id)}>
           <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
@@ -21,7 +21,7 @@ const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) 
               />
               <CardContent sx={{ background: '#f6f6f6' }}>
                 <Typography gutterBottom variant="h5" component="div">
-                  {component_name}
+                  {name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {component_id}

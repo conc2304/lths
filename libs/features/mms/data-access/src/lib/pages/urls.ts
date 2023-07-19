@@ -1,6 +1,6 @@
 import { PageDetailRequest, PagesDataRequest, UpdatePageSettingsRequest } from './types';
 export const getComponentsListUrl = () => {
-  return `/pages/components`;
+  return `/mms/components`;
 };
 export const getImagesListUrl = () => {
   return `/pages/images`;
