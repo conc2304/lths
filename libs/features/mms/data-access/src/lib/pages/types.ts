@@ -108,6 +108,41 @@ export type UpdatePageSettingsRequest = {
   description?: string;
 };
 
+export type FilterItem = {
+  created_at: string;
+  filter_group_id: string;
+  is_active: boolean;
+  name: string;
+  updated_at: string;
+  __v: string;
+  _id: string;
+};
+
+export type FilterGroup = {
+  created_at: string;
+  description: string;
+  filter_items: FilterItem[];
+  is_active: boolean;
+  name: string;
+  updated_at: string;
+  __v: string;
+  _id: string;
+};
+
+export type FiltersListResponse = {
+  data: FilterGroup[];
+};
+
+export type EventItem = {
+  id: string;
+  title: string;
+  start_date: Date;
+};
+
+export type EventListResponse = {
+  data: EventItem[];
+};
+
 export type UpdatePageStatusRequest = {
   page_id: string;
   status: string;

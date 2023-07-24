@@ -5,8 +5,7 @@ import { LoadingButton } from '@mui/lab';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { useLazyGetPageDetailsQuery, useUpdatePageStatusMutation } from '@lths/features/mms/data-access';
-import { BlockEditor, Settings, useEditorActions } from '@lths/features/mms/ui-editor';
-import { EditorProvider } from '@lths/features/mms/ui-editor';
+import { BlockEditor, useEditorActions, EditorProvider, Constraints, Settings } from '@lths/features/mms/ui-editor';
 import { DropdownButton } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -152,7 +151,7 @@ export function PageEditorTabs() {
           <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value="constraints" currentTab={currentTab}>
-          Constraints Component goes here...
+          <Constraints />
         </TabPanel>
         <TabPanel value="settings" currentTab={currentTab}>
           <Settings />

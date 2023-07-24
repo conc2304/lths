@@ -29,6 +29,14 @@ export const getPageDetailUrl = (req: PageDetailRequest) => {
   return `/models/page/${page_id}`;
 };
 
+export const getSavePageConstraintsUrl = (req) => {
+  const { page_id } = req;
+  return `/models/pages/constraints/${page_id}`;
+};
 export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/models/page/settings/${req.page_id}`;
+
+export const getAllFilters = () => `/mms/filters`;
+
+export const getUpcomingEvents = () => `/events/upcoming`;
 
 export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pages/update-page-status/${req.page_id}`;

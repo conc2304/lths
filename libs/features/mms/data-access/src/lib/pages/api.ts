@@ -5,6 +5,8 @@ import {
   ComponentListResponse,
   CreatePageRequest,
   CreatePageResponse,
+  EventListResponse,
+  FiltersListResponse,
   ImagesListResponse,
   PageDetailRequest,
   UpdatePageSettingsRequest,
@@ -12,13 +14,16 @@ import {
 } from './types';
 import { PagesDataRequest } from './types';
 import {
+  getAllFilters,
   getComponentDetailUrl,
   getComponentsListUrl,
   getCreatePageUrl,
   getDefaultPagesUrl,
   getImagesListUrl,
   getPageDetailUrl,
+  getSavePageConstraintsUrl,
   getUpatePageSettingsUrl,
+  getUpcomingEvents,
   getUpatePageStatusUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
@@ -74,7 +79,12 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'GET',
       }),
     }),
-
+    savePageConstraints: builder.mutation({
+      query: (req) => ({
+        url: getSavePageConstraintsUrl(req),
+        method: 'POST',
+      }),
+    }),
     updatePageSettings: builder.mutation({
       query: (req: UpdatePageSettingsRequest) => ({
         url: getUpatePageSettingsUrl(req),
@@ -82,7 +92,18 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: req,
       }),
     }),
-
+    getAllFilters: builder.query<FiltersListResponse, void>({
+      query: () => ({
+        url: getAllFilters(),
+        method: 'GET',
+      }),
+    }),
+    getUpcomingEvents: builder.query<EventListResponse, void>({
+      query: () => ({
+        url: getUpcomingEvents(),
+        method: 'GET',
+      }),
+    }),
     updatePageStatus: builder.mutation({
       query: (req: UpdatePageStatusRequest) => ({
         url: getUpatePageStatusUrl(req),
@@ -103,7 +124,10 @@ export const {
   useLazyGetPagesItemsQuery,
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
+  useSavePageConstraintsMutation,
   useUpdatePageSettingsMutation,
+  useLazyGetAllFiltersQuery,
+  useLazyGetUpcomingEventsQuery,
   useUpdatePageStatusMutation,
 } = pageApi;
 export default pageApi;
