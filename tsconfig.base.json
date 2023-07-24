@@ -59,6 +59,9 @@
       ],
       "@lths/types/ui-filters": [
         "libs/shared/ui-filters-types/src/index.ts"
+      ],
+      "@lths/assets": [
+        "apps/mms/src/assets/index.ts"
       ]
     }
   },

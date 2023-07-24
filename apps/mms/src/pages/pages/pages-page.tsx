@@ -16,7 +16,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
-
+import { archiveLogo, DraftLogo, PublishLogo, ScheduleLogo, ReviewLogo } from '@lths/assets';
 import CreatePageModal from '../../components/pages/editor/components/create-page-modal';
 
 const headers = [
@@ -53,10 +53,11 @@ const headers = [
 ];
 
 const statusIcon = {
-  DRAFT: <BorderColorIcon htmlColor="#F9A61A" />,
-  PUBLISHED: <CheckCircleIcon htmlColor="#00BA00" />,
-  ARCHIVED: <InventoryIcon htmlColor="gray" />,
-  SCHEDULED: <WatchLaterIcon htmlColor="#05B5E4" />,
+  DRAFT: <img src={DraftLogo} alt="Draft-logo" />,
+  PUBLISHED: <img src={PublishLogo} alt="Published-logo" />,
+  ARCHIVED: <img src={archiveLogo} alt="Archived-logo" />,
+  SCHEDULED: <img src={ScheduleLogo} alt="Schedule-logo" />,
+  REVIEW: <img src={ReviewLogo} alt="Review-logo" />,
   'Pending approval': <PendingActionsIcon htmlColor="gold" />,
   'Changes requested': <FeedbackIcon htmlColor="orange" />,
   EXPIRED: <TimerOffIcon htmlColor="red" />,
