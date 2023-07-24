@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, IconButton, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import ApprovalIcon from '@mui/icons-material/Approval';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ApprovalIcon from '@mui/icons-material/Approval';
+import CloseIcon from '@mui/icons-material/Close';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TimerOffIcon from '@mui/icons-material/TimerOff';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
@@ -60,9 +60,9 @@ const statusIcon = {
   'Pending approval': <PendingActionsIcon htmlColor="gold" />,
   'Changes requested': <FeedbackIcon htmlColor="orange" />,
   EXPIRED: <TimerOffIcon htmlColor="red" />,
-  REJECTED : <CloseIcon htmlColor='yellow'/> ,
-  APPROVED : <ApprovalIcon htmlColor='yellow'/>,
-  UNPUBLISHED : <UnpublishedIcon htmlColor='yellow'/>,
+  REJECTED: <CloseIcon htmlColor="yellow" />,
+  APPROVED: <ApprovalIcon htmlColor="yellow" />,
+  UNPUBLISHED: <UnpublishedIcon htmlColor="coral" />,
 };
 
 const Pages = (): JSX.Element => {
@@ -111,7 +111,7 @@ const Pages = (): JSX.Element => {
     fetchData(pagination, sorting);
   };
 
-  console.log()
+  console.log();
 
   const tableRows = data?.data?.map((row) => (
     <TableRow key={row.id}>

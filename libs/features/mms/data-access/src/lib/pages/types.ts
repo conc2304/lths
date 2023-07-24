@@ -107,3 +107,8 @@ export type UpdatePageSettingsRequest = {
   name?: string;
   description?: string;
 };
+
+export type UpdatePageStatusRequest = {
+  page_id: string;
+  status: string;
+};

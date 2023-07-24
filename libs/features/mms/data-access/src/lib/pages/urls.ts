@@ -1,4 +1,4 @@
-import { PageDetailRequest, PagesDataRequest, UpdatePageSettingsRequest } from './types';
+import { PageDetailRequest, PagesDataRequest, UpdatePageSettingsRequest, UpdatePageStatusRequest } from './types';
 export const getComponentsListUrl = () => {
   return `/mms/components`;
 };
@@ -12,7 +12,7 @@ export const getComponentDetailUrl = (id) => {
 export const getPagesUrl = (req: PagesDataRequest) => {
   const params = [];
   const { page, page_size = 5, sort_key, sort_order } = req;
-  if (page != null) params.push(`offset=${page* page_size}`);
+  if (page != null) params.push(`offset=${page * page_size}`);
   if (page_size != null) params.push(`limit=${page_size}`);
   if (sort_key != null) params.push(`sort_field=${sort_key}`);
   if (sort_order != null) params.push(`'sort_by'=${sort_order}`);
@@ -30,3 +30,5 @@ export const getPageDetailUrl = (req: PageDetailRequest) => {
 };
 
 export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/models/page/settings/${req.page_id}`;
+
+export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pages/update-page-status/${req.page_id}`;

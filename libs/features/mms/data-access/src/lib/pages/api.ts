@@ -8,6 +8,7 @@ import {
   ImagesListResponse,
   PageDetailRequest,
   UpdatePageSettingsRequest,
+  UpdatePageStatusRequest,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
@@ -18,6 +19,7 @@ import {
   getImagesListUrl,
   getPageDetailUrl,
   getUpatePageSettingsUrl,
+  getUpatePageStatusUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
 
@@ -80,6 +82,16 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: req,
       }),
     }),
+
+    updatePageStatus: builder.mutation({
+      query: (req: UpdatePageStatusRequest) => ({
+        url: getUpatePageStatusUrl(req),
+        method: 'PATCH',
+        body: {
+          status: req.status,
+        },
+      }),
+    }),
   }),
 });
 
@@ -92,5 +104,6 @@ export const {
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageSettingsMutation,
+  useUpdatePageStatusMutation,
 } = pageApi;
 export default pageApi;

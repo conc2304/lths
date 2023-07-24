@@ -17,3 +17,5 @@ export * from './lib/data-display/cards/kpi/kpi-card';
 export * from './lib/layouts';
 
 export * from './lib/data-display/cards/preview/preview-card';
+
+export * from './lib/dropdown-button';
