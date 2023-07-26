@@ -10,6 +10,7 @@ const db = factory({
     dateTime: String,
     clickThrough: String,
     type: String,
+    options: String,
   },
 });
 
@@ -43,5 +44,4 @@ const createNotificationsData = () => {
 for (let i = 0; i < 100; i++) {
   db.notifications.create(createNotificationsData());
 }
-
 export default db;

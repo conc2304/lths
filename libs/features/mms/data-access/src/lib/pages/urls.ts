@@ -1,4 +1,10 @@
-import { PageDetailRequest, PagesDataRequest, UpdatePageSettingsRequest, UpdatePageStatusRequest } from './types';
+import {
+  PageDetailRequest,
+  PagesDataRequest,
+  UpdatePageSettingsRequest,
+  UpdatePageStatusRequest,
+  DeletePageRequest,
+} from './types';
 export const getComponentsListUrl = () => {
   return `/mms/components`;
 };
@@ -40,3 +46,5 @@ export const getAllFilters = () => `/mms/filters`;
 export const getUpcomingEvents = () => `/events/upcoming`;
 
 export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pages/update-page-status/${req.page_id}`;
+
+export const getDeletePageUrl = (req: DeletePageRequest) => `/mms/pages/${req.page_id}`;

@@ -19,4 +19,5 @@ export type Notification = {
   clickThrough: number;
   type: number;
 };
+
 export type NotificationResponse = { data: Notification[]; meta: Pagination };

@@ -147,3 +147,7 @@ export type UpdatePageStatusRequest = {
   page_id: string;
   status: string;
 };
+
+export type DeletePageRequest = {
+  page_id: string;
+};

@@ -11,6 +11,7 @@ import {
   PageDetailRequest,
   UpdatePageSettingsRequest,
   UpdatePageStatusRequest,
+  DeletePageRequest,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
@@ -25,6 +26,7 @@ import {
   getUpatePageSettingsUrl,
   getUpcomingEvents,
   getUpatePageStatusUrl,
+  getDeletePageUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
 
@@ -113,6 +115,12 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         },
       }),
     }),
+    deletePage: builder.mutation({
+      query: (req: DeletePageRequest) => ({
+        url: getDeletePageUrl(req),
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -129,5 +137,6 @@ export const {
   useLazyGetAllFiltersQuery,
   useLazyGetUpcomingEventsQuery,
   useUpdatePageStatusMutation,
+  useDeletePageMutation,
 } = pageApi;
 export default pageApi;

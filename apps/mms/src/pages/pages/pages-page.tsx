@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, IconButton, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, Button, Link, Stack, TableCell, TableRow, Typography, Modal } from '@mui/material';
 import ApprovalIcon from '@mui/icons-material/Approval';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import FeedbackIcon from '@mui/icons-material/Feedback';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import TimerOffIcon from '@mui/icons-material/TimerOff';
 import UnpublishedIcon from '@mui/icons-material/Unpublished';
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import { LoadingButton } from '@mui/lab';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
-import { PagesDataRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
-import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { PagesDataRequest, useDeletePageMutation, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
+import { Table, TablePaginationProps, TableSortingProps, OverflowMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
-import { archiveLogo, DraftLogo, PublishLogo, ScheduleLogo, ReviewLogo } from '@lths/assets';
+
+import { archiveLogo, DraftLogo, PublishLogo, ScheduleLogo, ReviewLogo } from '../../assets/index';
 import CreatePageModal from '../../components/pages/editor/components/create-page-modal';
 
 const headers = [
@@ -74,6 +71,7 @@ const Pages = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
+  const [deletePage, { isLoading: isDeleteLoading }] = useDeletePageMutation();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: PagesDataRequest = {};
@@ -108,11 +106,73 @@ const Pages = (): JSX.Element => {
   ) => {
     fetchData(pagination, sorting);
   };
+
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
-  console.log();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deletePageId, setDeletePageId] = useState(null);
+
+  const menuOptions = (page_id) => [
+    {
+      id: 'edit page',
+      label: 'EDIT PAGE',
+      action: () => {
+        navigate(`/pages/editor/${page_id}`);
+      },
+    },
+    {
+      id: 'preview',
+      label: 'PREVIEW',
+      action: () => {
+        console.log('handling preview ...');
+      },
+    },
+    {
+      id: 'share',
+      label: 'SHARE',
+      action: () => {
+        console.log('handling share...');
+      },
+    },
+    {
+      id: 'duplicate',
+      label: 'DUPLICATE',
+      action: () => {
+        console.log('handling duplicate...');
+      },
+    },
+    {
+      id: 'view insights',
+      label: 'VIEW INSIGHTS',
+      action: () => {
+        console.log('handling view insights...');
+      },
+    },
+    {
+      id: 'delete',
+      label: 'DELETE',
+      action: () => {
+        handleDeleteModal(page_id);
+      },
+    },
+  ];
+
+  const handleDeleteModal = (page_id: string) => {
+    setDeletePageId(page_id);
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleDeletePage = async () => {
+    await deletePage({ page_id: deletePageId });
+    setOpenDeleteModal(false);
+    fetchData(null, undefined);
+  };
 
   const tableRows = data?.data?.map((row) => (
     <TableRow key={row.id}>
@@ -147,9 +207,7 @@ const Pages = (): JSX.Element => {
         </Stack>
       </TableCell>
       <TableCell>
-        <IconButton>
-          <MoreHorizIcon />
-        </IconButton>
+        <OverflowMenu items={menuOptions(row.page_id)} />
       </TableCell>
     </TableRow>
   ));
@@ -186,6 +244,35 @@ const Pages = (): JSX.Element => {
         handleCloseModal={closeModal}
         onCreatePage={(page_id) => navigate(`/pages/editor/${page_id}`)}
       />
+      <Modal open={openDeleteModal} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: 3,
+            boxShadow: 24,
+            p: 3,
+          }}
+        >
+          <h2 style={{ marginTop: -1.5 }}>Delete Page?</h2>
+          <p>Are you sure that you want to delete this page?</p>
+          <LoadingButton
+            sx={{ float: 'right', ml: 1, mt: 2 }}
+            variant="contained"
+            onClick={handleDeletePage}
+            loading={isDeleteLoading}
+          >
+            DELETE
+          </LoadingButton>
+          <Button sx={{ float: 'right', mt: 2 }} variant="outlined" onClick={handleCloseModal}>
+            CANCEL
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 };

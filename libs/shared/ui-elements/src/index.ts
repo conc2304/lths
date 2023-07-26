@@ -19,3 +19,5 @@ export * from './lib/layouts';
 export * from './lib/data-display/cards/preview/preview-card';
 
 export * from './lib/dropdown-button';
+
+export * from './lib/overflow-menu';

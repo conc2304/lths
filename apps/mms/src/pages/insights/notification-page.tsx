@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Button, IconButton, TableCell, TableRow } from '@mui/material';
+import { Box, Button, TableCell, TableRow, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
@@ -42,7 +42,6 @@ const headers = [
 
 const NotificationPage = (): JSX.Element => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationItemsQuery();
-
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: NotificationRequest = {};
     if (pagination != null) {
