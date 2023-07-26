@@ -28,11 +28,6 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'constraints',
-    label: 'CONSTRAINTS',
-    sortable: true,
-  },
-  {
     id: 'lastEditor',
     label: 'LAST EDITOR',
     sortable: true,
@@ -191,7 +186,6 @@ const Pages = (): JSX.Element => {
         </Stack>
       </TableCell>
       <TableCell>{row.type}</TableCell>
-      <TableCell>{row.constraints}</TableCell>
       <TableCell>
         <Typography variant="body1" color="#0091FF">
           {row?.updated_by || row?.created_by}

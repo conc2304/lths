@@ -134,9 +134,22 @@ export type FiltersListResponse = {
 };
 
 export type EventItem = {
-  id: string;
-  title: string;
-  start_date: Date;
+  actual_end_date_time: string;
+  actual_start_date_time: string;
+  created_on: Date;
+  deleted_on: Date;
+  description: Date;
+  duration_in_seconds: Date;
+  end_date_time: Date;
+  event_id: Date;
+  is_deleted: Date;
+  is_subject_to_change: Date;
+  name: Date;
+  source: Date;
+  start_date_time: Date;
+  type: Date;
+  updated_on: Date;
+  visibility: Date;
 };
 
 export type EventListResponse = {

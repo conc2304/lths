@@ -141,7 +141,6 @@ export function PageEditorTabs() {
           <Tab label="PAGE DESIGN" value="page_design" />
           <Tab label="CONSTRAINTS" value="constraints" />
           <Tab label="SETTINGS" value="settings" />
-          <Tab label="VERSIONS" value="versions" />
         </Tabs>
       </Box>
       <Box>
@@ -155,9 +154,6 @@ export function PageEditorTabs() {
         </TabPanel>
         <TabPanel value="settings" currentTab={currentTab}>
           <Settings />
-        </TabPanel>
-        <TabPanel value="versions" currentTab={currentTab}>
-          Versions Component goes here...
         </TabPanel>
       </Box>
       <Modal open={openModal} onClose={handleCloseModal}>

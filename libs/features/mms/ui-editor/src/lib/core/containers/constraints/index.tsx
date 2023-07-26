@@ -179,13 +179,13 @@ const Constraints = () => {
                     multiple
                     id="multiple-events"
                     options={upcomingEvents?.data}
-                    getOptionLabel={(option) => `${option.title} | ${formatDate(option.start_date)}`}
+                    getOptionLabel={(option) => `${option.name} | ${formatDate(option.start_date_time)}`}
                     renderInput={(params) => <TextField {...params} />}
                     renderTags={(value, getTagProps) =>
                       value.map((option, index) => (
                         <Chip
-                          key={option.id}
-                          label={`${option.title} | ${formatDate(option.start_date)}`}
+                          key={option.event_id}
+                          label={`${option.name} | ${formatDate(option.start_date_time)}`}
                           {...getTagProps({ index })}
                           sx={{ borderRadius: '4px', backgroundColor: '#D8D8D8' }}
                         />

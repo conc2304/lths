@@ -43,7 +43,10 @@ export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/mod
 
 export const getAllFilters = () => `/mms/filters`;
 
-export const getUpcomingEvents = () => `/events/upcoming`;
+export const getUpcomingEvents = () => {
+  const now = new Date().toISOString();
+  return `/mms/events?start_date_time={"$gt":"${now}"}`;
+};
 
 export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pages/update-page-status/${req.page_id}`;
 
