@@ -17,7 +17,7 @@ export const getComponentDetailUrl = (id) => {
 
 export const getPagesUrl = (req: PagesDataRequest) => {
   const params = [];
-  const { page, page_size = 5, sort_key, sort_order } = req;
+  const { page, page_size = 25, sort_key, sort_order } = req;
   if (page != null) params.push(`offset=${page * page_size}`);
   if (page_size != null) params.push(`limit=${page_size}`);
   if (sort_key != null) params.push(`sort_field=${sort_key}`);

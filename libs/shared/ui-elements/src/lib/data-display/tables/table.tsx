@@ -16,9 +16,9 @@ import { TableTitleRow } from './table-title-row';
 import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
 import { TablePaginationSkeleton, TableRowSkeleton } from '../../feedback/skeletons';
 
-const DEFAULT_TABLE_PAGE_SIZE = 5;
+const DEFAULT_TABLE_PAGE_SIZE = 25;
 const DEFAULT_TABLE_PAGE = 1;
-const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [5, 10, 25];
+const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [25, 50, 100];
 
 export const Table = (props: TableProps) => {
   const {
@@ -36,7 +36,6 @@ export const Table = (props: TableProps) => {
     onRowsPerPageChange,
     sx = {},
   } = props;
-
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
     page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
