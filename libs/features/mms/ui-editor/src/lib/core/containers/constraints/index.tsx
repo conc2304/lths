@@ -144,7 +144,7 @@ const Constraints = () => {
           <Title
             title="When do you want this page to display?"
             description="This page will only display during these times."
-            infoText="This page will only display during these times."
+            infoText="These are derived from the dynamic schedule. If you want to add more dates or event states to be available go to the schedule to add them."
           />
           <FormControl sx={{ marginTop: 6 }}>
             <RadioGroup defaultValue={'always'} onChange={handleTimeConstraintChange}>
@@ -220,7 +220,7 @@ const Constraints = () => {
           <Title
             title="Where do you want this page to display?"
             description="This page will only display only for users at this location."
-            infoText="This page will only display only for users at this location."
+            infoText="These are based off of tickets scanned in. "
           />
           <FormControl sx={{ marginTop: 6 }}>
             <RadioGroup defaultValue={'everywhere'} onChange={handlePlaceConstraintChange}>
@@ -247,7 +247,7 @@ const Constraints = () => {
           <Title
             title="Who do you want see this page?"
             description="This page will only display for the selected users."
-            infoText="This page will only display for the selected users."
+            infoText="These are based off our loyalty buckets and other subgroups, if you would like to have a custom group made please reach out to our Support Team."
           />
           <FormControl sx={{ marginTop: 6 }}>
             <RadioGroup defaultValue={'everyone'} onChange={handleUserConstraintChange}>
