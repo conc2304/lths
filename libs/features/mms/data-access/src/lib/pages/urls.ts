@@ -41,7 +41,7 @@ export const getSavePageConstraintsUrl = (req) => {
 };
 export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/models/page/settings/${req.page_id}`;
 
-export const getAllFilters = () => `/mms/filters`;
+export const getEnumListUrl = (enum_id: string) => `/enums/${enum_id}`;
 
 export const getUpcomingEvents = () => {
   const now = new Date().toISOString();

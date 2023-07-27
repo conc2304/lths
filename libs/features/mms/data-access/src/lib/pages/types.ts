@@ -108,29 +108,18 @@ export type UpdatePageSettingsRequest = {
   description?: string;
 };
 
-export type FilterItem = {
-  created_at: string;
-  filter_group_id: string;
-  is_active: boolean;
+export type EnumValue = {
+  display_order: string;
   name: string;
-  updated_at: string;
-  __v: string;
-  _id: string;
+  value: string;
 };
 
-export type FilterGroup = {
-  created_at: string;
-  description: string;
-  filter_items: FilterItem[];
-  is_active: boolean;
-  name: string;
-  updated_at: string;
-  __v: string;
-  _id: string;
-};
-
-export type FiltersListResponse = {
-  data: FilterGroup[];
+export type EnumListResponse = {
+  data: {
+    _id: string;
+    enum_group: string;
+    enum_values: EnumValue[];
+  };
 };
 
 export type EventItem = {

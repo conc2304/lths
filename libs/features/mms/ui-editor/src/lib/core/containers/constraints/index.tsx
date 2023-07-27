@@ -21,7 +21,8 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  useLazyGetAllFiltersQuery,
+  EnumValue,
+  useLazyGetEnumListQuery,
   useLazyGetUpcomingEventsQuery,
   useSavePageConstraintsMutation,
 } from '@lths/features/mms/data-access';
@@ -31,13 +32,17 @@ import DateTimeRangePicker from './DateTimeRangePicker';
 import Title from './Title';
 
 const Constraints = () => {
-  const [getAllFilters, { data: filters }] = useLazyGetAllFiltersQuery();
+  const [getEnumList] = useLazyGetEnumListQuery();
 
   const navigate = useNavigate();
 
   const [showWhen, setShowWhen] = useState('always');
   const [showWhere, setShowWhere] = useState('everywhere');
   const [showWhom, setShowWhom] = useState('everyone');
+
+  const [eventStates, setEventStates] = useState<EnumValue[]>(null);
+  const [locations, setLocations] = useState<EnumValue[]>(null);
+  const [userSegments, setUserSegments] = useState<EnumValue[]>(null);
 
   const [alertTitle, setAlertTitle] = useState('');
   const [alertDescription, setAlertDescription] = useState('');
@@ -49,12 +54,22 @@ const Constraints = () => {
 
   const [getUpcomingEvents, { data: upcomingEvents }] = useLazyGetUpcomingEventsQuery();
 
-  const eventStates = filters?.data?.find((f) => f?.name === 'event_states')?.filter_items;
-  const locations = filters?.data?.find((f) => f?.name === 'location')?.filter_items;
-  const userSegments = filters?.data?.find((f) => f?.name === 'user_segments')?.filter_items;
+  const fetchAndSetEnumListById = async (
+    enum_id: string,
+    setState: React.Dispatch<React.SetStateAction<EnumValue[]>>
+  ) => {
+    try {
+      const response = await getEnumList(enum_id);
+      setState(response?.data?.data?.enum_values);
+    } catch (error) {
+      console.error(`Error in fetching enum list for ${enum_id}`);
+    }
+  };
 
   useEffect(() => {
-    getAllFilters();
+    fetchAndSetEnumListById('EventState', setEventStates);
+    fetchAndSetEnumListById('Location', setLocations);
+    fetchAndSetEnumListById('UserSegments', setUserSegments);
     getUpcomingEvents();
   }, []);
 
@@ -160,7 +175,7 @@ const Constraints = () => {
               {showWhen === 'all-events' && (
                 <FormGroup sx={{ marginLeft: 4, marginY: 2 }}>
                   {eventStates?.map((es) => (
-                    <FormControlLabel label={es?.name} key={es?._id} value={es?._id} control={<Checkbox />} />
+                    <FormControlLabel label={es?.name} key={es?.value} value={es?.value} control={<Checkbox />} />
                   ))}
                 </FormGroup>
               )}
@@ -194,7 +209,7 @@ const Constraints = () => {
                   />
                   <FormGroup>
                     {eventStates?.map((es) => (
-                      <FormControlLabel label={es?.name} key={es?._id} value={es?._id} control={<Checkbox />} />
+                      <FormControlLabel label={es?.name} key={es?.value} value={es?.value} control={<Checkbox />} />
                     ))}
                   </FormGroup>
                 </Box>
@@ -236,7 +251,7 @@ const Constraints = () => {
               {showWhere === 'specific-spaces' && (
                 <FormGroup sx={{ marginLeft: 4 }}>
                   {locations?.map((loc) => (
-                    <FormControlLabel key={loc?._id} label={loc?.name} value={loc?._id} control={<Checkbox />} />
+                    <FormControlLabel key={loc?.value} label={loc?.name} value={loc?.value} control={<Checkbox />} />
                   ))}
                 </FormGroup>
               )}
@@ -263,7 +278,7 @@ const Constraints = () => {
               {showWhom === 'select-users' && (
                 <FormGroup sx={{ marginLeft: 4 }}>
                   {userSegments?.map((us) => (
-                    <FormControlLabel value={us?._id} label={us?.name} control={<Checkbox />} />
+                    <FormControlLabel value={us?.value} label={us?.name} control={<Checkbox />} />
                   ))}
                 </FormGroup>
               )}

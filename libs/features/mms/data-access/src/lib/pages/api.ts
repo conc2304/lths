@@ -6,16 +6,16 @@ import {
   CreatePageRequest,
   CreatePageResponse,
   EventListResponse,
-  FiltersListResponse,
   ImagesListResponse,
   PageDetailRequest,
   UpdatePageSettingsRequest,
   UpdatePageStatusRequest,
   DeletePageRequest,
+  EnumListResponse,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
-  getAllFilters,
+  getEnumListUrl,
   getComponentDetailUrl,
   getComponentsListUrl,
   getCreatePageUrl,
@@ -94,9 +94,9 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: req,
       }),
     }),
-    getAllFilters: builder.query<FiltersListResponse, void>({
-      query: () => ({
-        url: getAllFilters(),
+    getEnumList: builder.query<EnumListResponse, string>({
+      query: (enum_id) => ({
+        url: getEnumListUrl(enum_id),
         method: 'GET',
       }),
     }),
@@ -134,7 +134,7 @@ export const {
   useLazyGetPageDetailsQuery,
   useSavePageConstraintsMutation,
   useUpdatePageSettingsMutation,
-  useLazyGetAllFiltersQuery,
+  useLazyGetEnumListQuery,
   useLazyGetUpcomingEventsQuery,
   useUpdatePageStatusMutation,
   useDeletePageMutation,
