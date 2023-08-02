@@ -142,7 +142,7 @@ const Pages = (): JSX.Element => {
       id: 'view insights',
       label: 'VIEW INSIGHTS',
       action: () => {
-        console.log('handling view insights...');
+        navigate(`/insights/pages`);
       },
     },
     {
