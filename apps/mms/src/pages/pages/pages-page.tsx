@@ -206,7 +206,7 @@ const Pages = (): JSX.Element => {
     </TableRow>
   ));
 
-  const total = data?.totalCount;
+  const total = data?.pagination?.totalItems;
 
   return (
     <Box>
