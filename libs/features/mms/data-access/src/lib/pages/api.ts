@@ -12,6 +12,7 @@ import {
   UpdatePageStatusRequest,
   DeletePageRequest,
   EnumListResponse,
+  ComponentsListRequest,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
@@ -32,9 +33,9 @@ import { getPagesUrl } from './urls';
 
 const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
   endpoints: (builder) => ({
-    getComponentList: builder.query<ComponentListResponse, void>({
-      query: () => ({
-        url: getComponentsListUrl(),
+    getComponentList: builder.query<ComponentListResponse, ComponentsListRequest>({
+      query: (req) => ({
+        url: getComponentsListUrl(req),
         method: 'GET',
       }),
 

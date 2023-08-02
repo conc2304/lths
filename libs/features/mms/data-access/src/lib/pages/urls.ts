@@ -4,9 +4,13 @@ import {
   UpdatePageSettingsRequest,
   UpdatePageStatusRequest,
   DeletePageRequest,
+  ComponentsListRequest,
 } from './types';
-export const getComponentsListUrl = () => {
-  return `/mms/components`;
+export const getComponentsListUrl = (req: ComponentsListRequest) => {
+  const params = [];
+  const { category } = req;
+  if (category != null) params.push(`category=${category}`);
+  return `/mms/components?${params.join('&')}`;
 };
 export const getImagesListUrl = () => {
   return `/pages/images`;

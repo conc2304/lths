@@ -146,7 +146,7 @@ export function PageEditorTabs() {
       <Box>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor onAddComponentClick={handleAddComponentClick} onAddImageClick={handleAddImageClick} />
-          <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="full" />
+          <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="basic" />
           <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value="constraints" currentTab={currentTab}>

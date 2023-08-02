@@ -109,7 +109,7 @@ export type UpdatePageSettingsRequest = {
 };
 
 export type EnumValue = {
-  display_order: string;
+  display_order: number;
   name: string;
   value: string;
 };
@@ -152,4 +152,8 @@ export type UpdatePageStatusRequest = {
 
 export type DeletePageRequest = {
   page_id: string;
+};
+
+export type ComponentsListRequest = {
+  category?: string;
 };
