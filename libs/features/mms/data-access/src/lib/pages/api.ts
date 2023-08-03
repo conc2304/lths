@@ -1,5 +1,6 @@
 import { api } from '@lths/shared/data-access';
 
+import { convertComponentDetailResponse } from './response-tranform';
 import {
   ComponentDetailResponse,
   ComponentListResponse,
@@ -47,6 +48,10 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         url: getComponentDetailUrl(id),
         method: 'GET',
       }),
+      transformResponse: (response: ComponentDetailResponse): ComponentDetailResponse => {
+        const convertedResponse = convertComponentDetailResponse(response.data);
+        return { data: convertedResponse };
+      },
     }),
     getImagesList: builder.query<ImagesListResponse, void>({
       query: () => ({

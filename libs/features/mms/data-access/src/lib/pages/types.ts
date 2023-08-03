@@ -156,4 +156,5 @@ export type DeletePageRequest = {
 
 export type ComponentsListRequest = {
   category?: string;
+  limit?: number;
 };

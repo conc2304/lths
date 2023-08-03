@@ -8,15 +8,16 @@ import {
 } from './types';
 export const getComponentsListUrl = (req: ComponentsListRequest) => {
   const params = [];
-  const { category } = req;
+  const { category, limit = 1000 } = req;
   if (category != null) params.push(`category=${category}`);
+  if (limit != null) params.push(`limit=${category}`);
   return `/mms/components?${params.join('&')}`;
 };
 export const getImagesListUrl = () => {
   return `/pages/images`;
 };
 export const getComponentDetailUrl = (id) => {
-  return `/pages/component-details?id=${id}`;
+  return `/mms/components/${id}`;
 };
 
 export const getPagesUrl = (req: PagesDataRequest) => {

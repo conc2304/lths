@@ -1,11 +1,24 @@
 import { Dispatch, ReactNode } from 'react';
 
 export type ComponentProps = {
-  __ui_id__: string;
+  __ui_id__: string; // need to be replaced with _id or component_id in all the places
+  _id: string;
   component_id: string;
+  type: string;
+  target_platform: string;
   name: string;
-  component_type?: string;
-  image_url?: string;
+  description: string;
+  category: string;
+  image_url: string;
+  created_by: string;
+  created_on: string;
+  updated_by: string;
+  updated_on: string;
+  deleted_by: string;
+  deleted_on: string;
+  is_deleted: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema: { [key: string]: any };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default_data?: { [key: string]: any };
 };
