@@ -207,7 +207,7 @@ export type ButtonsViewComponentProps = ComponentProps & {
     image: string;
     component_data: TitleActionProps[];
   };
-}
+};
 
 export type VideoViewComponentProps = ComponentProps & {
   default_data: { video_link: string; image: string; action: ActionProps };
@@ -270,4 +270,21 @@ export type DescriptionComponentProps = ComponentProps & {
     color: string;
     style: 'bold' | 'light' | 'medium';
   };
+};
+
+export type BodyTextComponentProps = ComponentProps & {
+  default_data: {
+    title: string;
+    card_background_color: string;
+    text_color: string;
+    text_size: '12px' | '16px' | '32px';
+    linked_text: BodyTextComponentsProps[];
+  };
+};
+
+export type BodyTextComponentsProps = ComponentProps & {
+  link_key: string;
+  link_value: string;
+  link_color: string;
+  link_id: string;
 };

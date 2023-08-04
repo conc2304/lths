@@ -5,18 +5,18 @@ import { useEditorActions } from '../../../context';
 export const useToolbarChange = () => {
   const { selectComponent, selectedComponent } = useEditorActions();
 
-  const updateComponentProp = (key: string, value: string | object, index?: number) => {
+  const updateComponentProp = (key: string, value: string | object, index?: number, parent_key = 'component_data') => {
     if (index === undefined) {
       const data = { ...selectedComponent, default_data: { ...selectedComponent.default_data, [key]: value } };
       selectComponent(data);
     } else {
-      const updatedComponentData = selectedComponent.default_data.component_data.map((component, i) =>
+      const updatedComponentData = selectedComponent.default_data[parent_key].map((component, i) =>
         i === index ? { ...component, [key]: value } : component
       );
 
       const data = {
         ...selectedComponent,
-        default_data: { ...selectedComponent.default_data, component_data: updatedComponentData },
+        default_data: { ...selectedComponent.default_data, [parent_key]: updatedComponentData },
       };
       selectComponent(data);
     }
@@ -51,11 +51,19 @@ export const useToolbarChange = () => {
     updateComponentProp('color', color, index);
   };
 
-  const handleActionChange = ( event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, key: string, index?: number) => {
+  const handleActionChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    key: string,
+    index?: number
+  ) => {
     if (index === undefined) {
       updateComponentProp('action', { ...selectedComponent.default_data.action, [key]: event.target.value }, index);
     } else {
-      updateComponentProp('action', { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value }, index);
+      updateComponentProp(
+        'action',
+        { ...selectedComponent.default_data.component_data[index].action, [key]: event.target.value },
+        index
+      );
     }
   };
 

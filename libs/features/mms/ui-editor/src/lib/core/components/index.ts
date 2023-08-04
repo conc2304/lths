@@ -59,6 +59,7 @@ export { default as CarouselVendorToolbar } from './carousel-vendor/toolbar';
 
 export { default as ImageComponent } from './image/component';
 export { default as ImageToolbar } from './image/toolbar';
+
 export { default as SegmentControlComponent } from './segment-control/component';
 export { default as SegmentControlToolbar } from './segment-control/toolbar';
 
@@ -67,6 +68,7 @@ export { default as QuickLinksToolbar } from './quick-links/toolbar';
 
 export { default as PhoneInquiryComponent } from './phone-inquiry/component';
 export { default as PhoneInquiryToolbar } from './phone-inquiry/toolbar';
+
 export { default as TitleDescComponent } from './title-desc/component';
 export { default as TitleDescToolbar } from './title-desc/toolbar';
 
@@ -78,5 +80,8 @@ export { default as NavCellViewToolbar } from './nav-cell-view/toolbar';
 
 export { default as DescriptionComponent } from './description/component';
 export { default as DescriptionToolbar } from './description/toolbar';
+
+export { default as BodyTextComponent } from './body-text-block/component';
+export { default as BodyTextToolbar } from './body-text-block/toolbar';
 
 export * from './types';

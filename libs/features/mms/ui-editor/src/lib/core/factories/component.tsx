@@ -27,6 +27,7 @@ import {
   MapPathComponent,
   NavCellViewComponent,
   DescriptionComponent,
+  BodyTextComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -56,6 +57,7 @@ import {
   NavCellViewComponentProps,
   DescriptionComponentProps,
   CardImageComponentProps,
+  BodyTextComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -112,6 +114,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
+    case Component.BodyTextBlock:
+      return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

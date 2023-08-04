@@ -45,4 +45,5 @@ export enum Component {
   ChipSetView = 'cChipSetView',
   EventsCarousel = 'cEventsCarousel',
   SegmentControl = 'cSegmentControl',
+  BodyTextBlock = 'cBodyTextBlock',
 }

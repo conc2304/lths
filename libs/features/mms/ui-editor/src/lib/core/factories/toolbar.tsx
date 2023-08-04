@@ -54,6 +54,8 @@ import {
   NavCellViewComponentProps,
   DescriptionToolbar,
   DescriptionComponentProps,
+  BodyTextToolbar,
+  BodyTextComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -110,6 +112,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
+    case Component.BodyTextBlock:
+      return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }
