@@ -1,15 +1,11 @@
-import { useState } from 'react';
 import { List, ListItemText } from '@mui/material';
 
 import SectionItemButton from './ListItemButtonStyled';
 import { CatergorySectionProps } from './types';
 
-const CategorySection = ({ categories, onSelectCategory }: CatergorySectionProps) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-
+const CategorySection = ({ categories, onSelectCategory, selectedCategory }: CatergorySectionProps) => {
   const handleListItemClick = (category: string) => {
-    setSelectedCategory(category);
-    onSelectCategory(category === 'all' ? null : category);
+    onSelectCategory(category);
   };
 
   return (

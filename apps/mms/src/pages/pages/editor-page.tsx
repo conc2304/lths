@@ -1,10 +1,14 @@
 import React from 'react';
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { Box, Tab, Tabs, Button, Typography, Modal } from '@mui/material';
+import { Box, Tab, Tabs, Button, Typography, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { useLazyGetPageDetailsQuery, useUpdatePageStatusMutation } from '@lths/features/mms/data-access';
+import {
+  useLazyGetComponentDetailQuery,
+  useLazyGetPageDetailsQuery,
+  useUpdatePageStatusMutation,
+} from '@lths/features/mms/data-access';
 import { BlockEditor, useEditorActions, EditorProvider, Constraints, Settings } from '@lths/features/mms/ui-editor';
 import { DropdownButton } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -19,7 +23,7 @@ export function PageEditorTabs() {
 
   const { pageId } = useParams();
 
-  const { initEditor, initPageSettings, settings } = useEditorActions();
+  const { initEditor, initPageSettings, settings, addComponent } = useEditorActions();
 
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
@@ -48,6 +52,18 @@ export function PageEditorTabs() {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
   const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+
+  const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+
+  const handleSelectComponent = async (componentId: string) => {
+    setCompModalOpen(false);
+    const detail = await getDetail(componentId);
+    if (detail?.isSuccess && detail?.data?.data) {
+      addComponent(detail.data.data);
+    } else {
+      console.log('Failed to find component');
+    }
+  };
 
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -146,7 +162,12 @@ export function PageEditorTabs() {
       <Box>
         <TabPanel value="page_design" currentTab={currentTab}>
           <BlockEditor onAddComponentClick={handleAddComponentClick} onAddImageClick={handleAddImageClick} />
-          <ComponentModal open={compModalOpen} onClose={handleCloseCompModal} variant="basic" />
+          <ComponentModal
+            open={compModalOpen}
+            onClose={handleCloseCompModal}
+            variant="basic"
+            onSelect={handleSelectComponent}
+          />
           <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value="constraints" currentTab={currentTab}>
@@ -185,6 +206,9 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
+      <Backdrop open={isFetchingComponentDetail}>
+        <CircularProgress />
+      </Backdrop>
     </Box>
   );
 }

@@ -10,7 +10,7 @@ export const getComponentsListUrl = (req: ComponentsListRequest) => {
   const params = [];
   const { category, limit = 1000 } = req;
   if (category != null) params.push(`category=${category}`);
-  if (limit != null) params.push(`limit=${category}`);
+  if (limit != null) params.push(`limit=${limit}`);
   return `/mms/components?${params.join('&')}`;
 };
 export const getImagesListUrl = () => {

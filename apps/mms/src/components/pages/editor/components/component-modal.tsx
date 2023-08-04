@@ -8,6 +8,7 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  LinearProgress,
   TextField,
   Typography,
   useTheme,
@@ -33,12 +34,21 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ComponentModal = ({ open, onClose, components, onSelect, onSelectCategory }: ComponentModalProps) => {
+const ComponentModal = ({
+  open,
+  onClose,
+  components,
+  onSelect,
+  onSelectCategory,
+  isComponentListLoading,
+}: ComponentModalProps) => {
   const theme = useTheme();
 
   const [filtered, setFiltered] = useState([]);
 
   const [search, setSearch] = useState('');
+
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const [categories, setCategories] = useState<EnumValue[]>([]);
 
@@ -62,6 +72,10 @@ const ComponentModal = ({ open, onClose, components, onSelect, onSelectCategory 
     } else setFiltered(components);
   }, [components, search]);
 
+  useEffect(() => {
+    onSelectCategory(selectedCategory !== 'all' ? selectedCategory : '');
+  }, [selectedCategory]);
+
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearch(event.target.value);
   };
@@ -72,6 +86,7 @@ const ComponentModal = ({ open, onClose, components, onSelect, onSelectCategory 
 
   return (
     <Dialog fullScreen open={open} onClose={onClose} TransitionComponent={Transition}>
+      {isComponentListLoading && <LinearProgress color="primary" />}
       <DialogTitle>
         <Typography sx={{ fontSize: '1.5rem' }}>Components</Typography>
         <IconButton
@@ -108,12 +123,20 @@ const ComponentModal = ({ open, onClose, components, onSelect, onSelectCategory 
                   onChange={handleChange}
                 ></TextField>
               </Box>
-              <CategorySection categories={categories} onSelectCategory={onSelectCategory} />
+              <CategorySection
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+              />
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ height: '40rem', padding: 0 }} />
-          <Grid item xs={10} sx={{ padding: 1 }}>
-            <ComponentGallery components={filtered} onSelect={onSelect} />
+          <Grid item xs={10}>
+            <ComponentGallery
+              components={filtered}
+              onSelect={onSelect}
+              isComponentListLoading={isComponentListLoading}
+            />
           </Grid>
         </Grid>
       </DialogContent>
