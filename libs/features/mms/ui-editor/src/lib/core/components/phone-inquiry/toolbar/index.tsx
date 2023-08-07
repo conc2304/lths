@@ -26,7 +26,7 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
     <BasicContainer id={id}>
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-      <ColorPicker value={linkcolor} onChange={handleColorChange} />
+      <ColorPicker label="Link Color" value={linkcolor} onChange={handleColorChange} />
       <BasicTextField label={'Link Title'} value={linktitle} onChange={handleLinkTitleChange} />
       <Stack spacing={2}>
         <Typography>action</Typography>
@@ -42,14 +42,14 @@ const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
           <MenuItem value={'weblink'}>weblink</MenuItem>
         </TextField>
         <BasicTextField
-          label={'Page_ID'}
+          label={'Page ID'}
           value={action?.page_id}
           onChange={(e) => {
             handleActionChange(e, 'page_id');
           }}
         />
         <BasicTextField
-          label={'Page_Link'}
+          label={'Page Link'}
           value={action?.page_link}
           onChange={(e) => {
             handleActionChange(e, 'page_link');

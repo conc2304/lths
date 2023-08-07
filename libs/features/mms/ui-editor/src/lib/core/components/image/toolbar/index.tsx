@@ -20,7 +20,7 @@ const ImageToolbar = (props: ImageComponentProps) => {
     <ToolContainer id={id}>
       <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <ColorPicker value={color} onChange={handleColorChange} />
+      <ColorPicker label="Color" value={color} onChange={handleColorChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
     </ToolContainer>
   );

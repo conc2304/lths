@@ -14,7 +14,7 @@ const TitleDescToolbar = (props: TitleDescComponentProps) => {
     <BasicContainer id={id}>
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-      <ColorPicker value={linkcolor} onChange={handleColorChange} />
+      <ColorPicker label="Link Color" value={linkcolor} onChange={handleColorChange} />
     </BasicContainer>
   );
 };

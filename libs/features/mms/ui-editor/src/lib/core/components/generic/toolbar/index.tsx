@@ -27,7 +27,7 @@ const GenericToolbar = (props: ComponentProps) => {
       case FormControl.Description:
         return <BasicTextField label={'Description'} value={default_data.desc} onChange={handleDescChange} />;
       case FormControl.Color:
-        return <ColorPicker value={default_data.color} onChange={handleColorChange} />;
+        return <ColorPicker label="Color" value={default_data.color} onChange={handleColorChange} />;
 
       default:
         return null;

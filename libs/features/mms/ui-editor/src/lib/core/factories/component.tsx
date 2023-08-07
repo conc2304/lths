@@ -27,6 +27,7 @@ import {
   MapPathComponent,
   NavCellViewComponent,
   DescriptionComponent,
+  HeadlineTextBlockComponent,
   BodyTextComponent,
 } from '../components';
 import {
@@ -57,6 +58,7 @@ import {
   NavCellViewComponentProps,
   DescriptionComponentProps,
   CardImageComponentProps,
+  HeadlineTextBlockComponentProps,
   BodyTextComponentProps,
 } from '../components/types';
 
@@ -114,6 +116,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
+    case Component.HeadlineTextBlock:
+      return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
     default:

@@ -23,7 +23,6 @@ const ConnectedModal = ({ open, onClose, Modal, onSelect }: ConnectedComponentPr
   const handleSelectedCategory = (category: string) => {
     setCategory(category);
   };
-
   console.log('Fetching component data...', data?.data);
   return (
     <Modal

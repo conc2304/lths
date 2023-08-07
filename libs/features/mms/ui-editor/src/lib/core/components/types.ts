@@ -77,6 +77,23 @@ export type NewsViewComponentProps = ComponentProps & {
 export type HeaderComponentProps = ComponentProps & {
   default_data: { title: string; color: string; desc: string; action: ActionProps };
 };
+export type LinkedTextProps = {
+  link_key: string;
+  link_value: string;
+  link_color: string;
+  link_id: string;
+};
+export type HeadlineTextBlockComponentProps = ComponentProps & {
+  default_data: {
+    card_background_color: string;
+    title: string;
+    text_size: string;
+    text_size_unit: string;
+    text_color: string;
+    text_font_family: string;
+    linked_text: LinkedTextProps[];
+  };
+};
 //TODO: verify with mok team
 export enum ButtonStyle {
   Blank = '',

@@ -29,7 +29,7 @@ const DescriptionToolbar = (props: DescriptionComponentProps) => {
         </TextField>
         <Box>
           <Typography>Color</Typography>
-          <ColorPicker value={color} onChange={handleColorChange} />
+          <ColorPicker label="Color" value={color} onChange={handleColorChange} />
         </Box>
       </Stack>
     </BasicContainer>
