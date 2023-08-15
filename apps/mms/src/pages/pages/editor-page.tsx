@@ -14,8 +14,8 @@ import { DropdownButton } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TabPanel from './tab-panel';
+import AssetsModal from '../../components/pages/editor/assets/connected-modal';
 import ComponentModal from '../../components/pages/editor/components/connected-modal';
-import ImageModal from '../../components/pages/editor/images/connected-modal';
 
 export function PageEditorTabs() {
   const [currentTab, setCurrentTab] = useState('page_design');
@@ -168,7 +168,7 @@ export function PageEditorTabs() {
             variant="basic"
             onSelect={handleSelectComponent}
           />
-          <ImageModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
+          <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value="constraints" currentTab={currentTab}>
           <Constraints />

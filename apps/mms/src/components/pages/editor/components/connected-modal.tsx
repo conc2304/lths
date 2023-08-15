@@ -7,7 +7,6 @@ import FullModal from './modal-full';
 import { ConnectedComponentProps, ConnectedComponentWrapperProps } from './types';
 
 const ConnectedModal = ({ open, onClose, Modal, onSelect }: ConnectedComponentProps) => {
-  console.log('Render...ConnectedModal');
   const [category, setCategory] = useState<string>(null);
   const [getData, { data, isFetching: isComponentListLoading }] = useLazyGetComponentListQuery();
 
@@ -16,14 +15,13 @@ const ConnectedModal = ({ open, onClose, Modal, onSelect }: ConnectedComponentPr
   };
 
   useEffect(() => {
-    console.log('Fetching component data...');
     fetchData(category);
   }, [category]);
 
   const handleSelectedCategory = (category: string) => {
     setCategory(category);
   };
-  console.log('Fetching component data...', data?.data);
+
   return (
     <Modal
       open={open}

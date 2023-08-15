@@ -13,13 +13,13 @@ const GreyCard = styled(Card)<CardProps>(({ theme }) => ({
   backgroundColor: theme.palette.grey[700],
 }));
 
-const GreyCardArrowBox = styled(Box)<{ beforeBackgroundColor: string }>(({ beforeBackgroundColor }) => ({
+const GreyCardArrowBox = styled(Box)<{ beforebackgroundcolor: string }>(({ beforebackgroundcolor }) => ({
   position: 'relative',
   marginBottom: '18px',
-  backgroundColor: beforeBackgroundColor, // this line is just for jest testing
+  backgroundColor: beforebackgroundcolor, // this line is just for jest testing
   '&::before': {
     boxShadow: '2.5 px 2.5px 3.5px 0px rgba(0,0,0,0.15)',
-    backgroundColor: beforeBackgroundColor,
+    backgroundColor: beforebackgroundcolor,
     content: "''",
     position: 'absolute',
     width: 24,
@@ -108,7 +108,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = (props) => {
             )}
           </CardContent>
         </GreyCard>
-        <GreyCardArrowBox data-testid="GreyArrow" beforeBackgroundColor={theme.palette.grey[700]} />
+        <GreyCardArrowBox data-testid="GreyArrow" beforebackgroundcolor={theme.palette.grey[700]} />
       </Popover>
     </div>
   );

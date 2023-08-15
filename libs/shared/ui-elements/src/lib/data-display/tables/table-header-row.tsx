@@ -18,8 +18,7 @@ export const TableHeaderRow = ({
         <TableCell
           key={head.id}
           sx={{
-            color: 'text.secondary',
-            fontWeight: 500,
+            fontWeight: 600,
           }}
         >
           {head.sortable ? (

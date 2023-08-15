@@ -35,6 +35,7 @@ export const Table = (props: TableProps) => {
     onPageChange,
     onRowsPerPageChange,
     sx = {},
+    fixPagination = false,
   } = props;
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
@@ -66,6 +67,21 @@ export const Table = (props: TableProps) => {
     onRowsPerPageChange && onRowsPerPageChange(event, newPagination, sorting);
   };
 
+  const paginationStyles =
+    !loading && fixPagination
+      ? {
+          width: '100%',
+          position: 'absolute', // Fix the position
+          bottom: 0, // Stick to the bottom
+          left: 0,
+          right: 0,
+          backgroundColor: '#fff', // Optional: To ensure the pagination is visible above any content
+          zIndex: 1000, // Optional: To ensure the pagination is above other content
+        }
+      : {
+          width: '100%',
+        };
+
   return (
     <Box sx={sx}>
       <Paper
@@ -79,6 +95,7 @@ export const Table = (props: TableProps) => {
         <TableContainer
           sx={{
             mt: 1,
+            marginBottom: !loading && fixPagination ? '2rem' : '0px',
           }}
         >
           <MuiTable>
@@ -96,7 +113,9 @@ export const Table = (props: TableProps) => {
                 <LinearProgress />
               </TableCell>
             )}
-            <TableBody>
+            <TableBody
+              sx={{ '& tr': { borderBottom: '1px solid rgba(224, 224, 224, 1)' }, '& td': { border: 'none' } }}
+            >
               <TableRowSkeleton
                 id="body"
                 loading={loading}
@@ -117,9 +136,7 @@ export const Table = (props: TableProps) => {
             onPageChange={handlePageChange}
             rowsPerPage={pagination.pageSize}
             onRowsPerPageChange={handleRowsPerPageChange}
-            sx={{
-              width: '100%',
-            }}
+            sx={paginationStyles}
           />
         )}
       </Paper>

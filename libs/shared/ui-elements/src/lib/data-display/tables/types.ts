@@ -37,6 +37,7 @@ export type TableProps = ProgressProps &
       sorting: TableSortingProps
     ) => void;
     sx?: SxProps;
+    fixPagination?: boolean;
   };
 
 /*
