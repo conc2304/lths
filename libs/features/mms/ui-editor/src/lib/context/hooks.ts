@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import {
   initEditor,
+  updateExtended,
   clearEditor,
   selectComponent,
   addComponent,
@@ -10,7 +11,6 @@ import {
   orderComponent,
   clearSelectedComponent,
   duplicateComponent,
-  initPageSettings,
 } from './actions';
 import { useEditor } from './context';
 
@@ -24,6 +24,7 @@ export const useEditorActions = () => {
 
   return {
     initEditor: useMemo(() => initEditor(dispatch), [dispatch]),
+    updateExtended: useMemo(() => updateExtended(dispatch), [dispatch]),
     clearEditor: useMemo(() => clearEditor(dispatch), [dispatch]),
     selectComponent: useMemo(() => selectComponent(dispatch), [dispatch]),
     clearSelectedComponent: useMemo(() => clearSelectedComponent(dispatch), [dispatch]),
@@ -32,7 +33,8 @@ export const useEditorActions = () => {
     removeComponent: useMemo(() => removeComponent(dispatch), [dispatch]),
     duplicateComponent: useMemo(() => duplicateComponent(dispatch), [dispatch]),
     orderComponent: useMemo(() => orderComponent(dispatch), [dispatch]),
-    initPageSettings: useMemo(() => initPageSettings(dispatch), [dispatch]),
-    ...state,
+    components: state.components,
+    selectedComponent: state.selectedComponent,
+    data: state,
   };
 };

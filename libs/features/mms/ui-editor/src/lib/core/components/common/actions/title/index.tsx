@@ -5,7 +5,7 @@ const ToolbarTitleAction = () => {
   const {
     handleTitleChange,
     selectedComponent: {
-      default_data: { title },
+      properties_data: { title },
     },
   } = useToolbarChange();
 

@@ -7,13 +7,13 @@ import { SegmentControlComponentProps } from '../../types';
 const SegmentControlComponent = (props: SegmentControlComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
-  const [selected, setSelected] = React.useState(component_data[0].title);
+  const [selected, setSelected] = React.useState(sub_properties_data[0].title);
   return (
     <BasicContainer id={id}>
       <Grid container>
-        {component_data.map(({ title }, index) => (
+        {sub_properties_data.map(({ title }, index) => (
           <Grid item key={`SegmentItem${index}`}>
             <Button
               onClick={() => setSelected(title)}

@@ -10,7 +10,7 @@ import { PhoneInquiryComponentProps } from '../../types';
 const PhoneInquiryToolbar = (props: PhoneInquiryComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc, linkcolor, linktitle, action },
+    properties_data: { title, desc, linkcolor, linktitle, action },
   } = props;
   const { handleTitleChange, handleDescChange, updateComponentProp, handleActionChange } = useToolbarChange();
 

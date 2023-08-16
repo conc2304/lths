@@ -1,22 +1,13 @@
-import {
-  Box,
-  Button,
-  Divider,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Divider, FormHelperText, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { object, string } from 'yup';
 
-import { useUpdatePageSettingsMutation } from '@lths/features/mms/data-access';
+import { PageDetail } from '@lths/features/mms/data-access';
+import { useEditorActions } from '@lths/features/mms/ui-editor';
 
-import Title from './Title';
-import { useEditorActions } from '../../../context';
+import { BaseContainer, HeaderContainer } from '../core';
+import { PageStatus } from '../core/types';
 
 const labelStyles = {
   color: 'black',
@@ -24,40 +15,35 @@ const labelStyles = {
   fontSize: '0.825rem',
 };
 
-const Settings = () => {
-  const {
-    settings: { page_id, name, description, status, default_page },
-  } = useEditorActions();
+type Props = {
+  onUpdate: (data: PageDetail) => void;
+};
 
-  const isPublished = status === 'published';
+const Settings = ({ onUpdate }: Props) => {
+  const { data } = useEditorActions();
+  const page_data = data as PageDetail;
+  const { page_id, name, description, status, default_page_name } = page_data;
 
-  const [updatePageSettings, { isLoading }] = useUpdatePageSettingsMutation();
+  const isPublished = status === PageStatus.PUBLISHED;
 
   const onSubmit = async (values) => {
-    const requestData = {
-      ...values,
-      page_id,
-    };
-    try {
-      await updatePageSettings(requestData);
-    } catch (error) {
-      console.error('Error in updating page settings');
-    }
+    onUpdate({ ...values });
   };
 
   const initialValues: { name?: string; description?: string } = {
     description,
   };
 
-  let validationSchema = yup.object({
-    description: yup.string(),
+  //TODO: Change this to object based conditional schema validation. Pass status as a parameter in the initialValues and access it with yup
+  let validationSchema = object({
+    description: string(),
   });
 
   if (!isPublished) {
     initialValues.name = name;
     validationSchema = validationSchema.concat(
-      yup.object({
-        name: yup.string().required(),
+      object({
+        name: string().required(),
       })
     );
   }
@@ -69,11 +55,11 @@ const Settings = () => {
   });
 
   return (
-    <Box style={{ backgroundColor: '#F3F3F3', padding: 16 }}>
+    <BaseContainer>
       <form onSubmit={handleSubmit}>
         <Grid container direction="row" alignItems="stretch" marginY={3} sx={{ minHeight: '250px', gap: 15 }}>
           <Grid item xs={3}>
-            <Title
+            <HeaderContainer
               title="Page details"
               description="Explain how this setting works and what the user can specify."
               infoText="Explain how this setting works and what the user can specify."
@@ -111,14 +97,14 @@ const Settings = () => {
             </Stack>
           </Grid>
           <Grid item xs={3}>
-            <Title
+            <HeaderContainer
               title="System"
               description="Explain how this setting works and what the user can specify."
               infoText="Explain how this setting works and what the user can specify."
             />
             <Stack marginTop={4}>
               <InputLabel sx={labelStyles}>DEFAULT PAGE</InputLabel>
-              <Typography sx={{ marginTop: 2, height: '1.75rem' }}>{default_page || 'N/A'}</Typography>
+              <Typography sx={{ marginTop: 2, height: '1.75rem' }}>{default_page_name || 'N/A'}</Typography>
             </Stack>
             <Stack marginTop={isPublished ? 5 : 8}>
               <InputLabel sx={labelStyles}>PAGE ID</InputLabel>
@@ -131,12 +117,12 @@ const Settings = () => {
           <Button variant="outlined" sx={{ marginRight: 2 }} onClick={handleReset}>
             CANCEL
           </Button>
-          <LoadingButton loading={isLoading} disabled={isSubmitting} variant="contained" onClick={() => handleSubmit()}>
+          <LoadingButton loading={false} disabled={isSubmitting} variant="contained" onClick={() => handleSubmit()}>
             SAVE
           </LoadingButton>
         </Stack>
       </form>
-    </Box>
+    </BaseContainer>
   );
 };
 

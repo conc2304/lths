@@ -18,7 +18,7 @@ import { HeadlineTextBlockComponentProps } from '../../types';
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { card_background_color, title, text_size, text_color, linked_text },
+    properties_data: { card_background_color, title, text_size, text_color, linked_text },
   } = props;
   const { selectComponent } = useEditorActions();
   const { updateComponentProp } = useToolbarChange();
@@ -38,7 +38,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
+      properties_data: {
         card_background_color,
         title,
         text_size,

@@ -1,10 +1,18 @@
 import { Dispatch } from 'react';
 
-import { EditorActionProps, EditorActionType, ComponentProps, PageSettings } from './types';
+import { EditorActionProps, EditorActionType, ComponentProps, EditorProps } from './types';
 
-export const initEditor = (dispatch: Dispatch<EditorActionProps>) => (components: ComponentProps[]) => {
-  dispatch({ type: EditorActionType.INIT_COMPONENTS, components });
-};
+export const initEditor =
+  <T extends EditorProps = EditorProps>(dispatch: Dispatch<EditorActionProps>) =>
+  (data: T) => {
+    dispatch({ type: EditorActionType.INIT_COMPONENTS, data });
+  };
+export const updateExtended =
+  <T extends EditorProps = EditorProps>(dispatch: Dispatch<EditorActionProps>) =>
+  (data: T) => {
+    dispatch({ type: EditorActionType.UPDATE_EXTENDED, data });
+  };
+
 export const selectComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
   dispatch({ type: EditorActionType.SET_CURRENT_COMPONENT, component });
 };
@@ -28,7 +36,4 @@ export const orderComponent = (dispatch: Dispatch<EditorActionProps>) => (dragIn
 };
 export const clearEditor = (dispatch: Dispatch<EditorActionProps>) => () => {
   dispatch({ type: EditorActionType.CLEAR_COMPONENTS });
-};
-export const initPageSettings = (dispatch: Dispatch<EditorActionProps>) => (settings: PageSettings) => {
-  dispatch({ type: EditorActionType.INIT_PAGE_SETTINGS, settings });
 };

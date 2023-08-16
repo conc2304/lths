@@ -17,7 +17,7 @@ import { BodyTextComponentProps } from '../../types';
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, card_background_color, text_color, text_size, linked_text },
+    properties_data: { title, card_background_color, text_color, text_size, linked_text },
   } = props;
 
   const { updateComponentProp } = useToolbarChange();
@@ -33,7 +33,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
+      properties_data: {
         title,
         card_background_color,
         text_color,

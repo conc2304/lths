@@ -58,8 +58,8 @@ const ComponentModal = ({
 
   const fetchCategories = async () => {
     try {
-      const response = await getEnumList('ComponentCategories');
-      setCategories(response?.data?.data?.enum_values);
+      const response = await getEnumList('ComponentCategories').unwrap();
+      if (response?.success) setCategories(response?.data?.enum_values);
     } catch (error) {
       console.error('Error in fetching the component categories');
     }

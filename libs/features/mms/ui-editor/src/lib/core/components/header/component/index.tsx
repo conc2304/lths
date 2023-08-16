@@ -7,7 +7,7 @@ import { HeaderComponentProps } from '../../types';
 const HeaderComponent = (props: HeaderComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { color = '#000000', title, desc },
+    properties_data: { color = '#000000', title, desc },
   } = props;
 
   return (

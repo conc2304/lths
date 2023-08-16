@@ -9,7 +9,7 @@ import { QuickLinksProps } from '../../types';
 export default function QuickLinksToolbar(props: QuickLinksProps) {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
   const { handleTitleChange, handleIconChange, handleActionChange } = useToolbarChange();
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -21,9 +21,9 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        component_data: [
-          ...component_data,
+      properties_data: {
+        sub_properties_data: [
+          ...sub_properties_data,
           { title: 'New Segment', icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png' },
         ],
       },
@@ -33,7 +33,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
 
   return (
     <BasicContainer id={id}>
-      {component_data?.map((props, i) => {
+      {sub_properties_data?.map((props, i) => {
         const panelId = `panel${i}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`quick_links_${i}`}>
@@ -52,7 +52,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
                     <TextField
                       value={props.action?.type}
                       onChange={(e) => {
-                        handleActionChange( e, 'type', i);
+                        handleActionChange(e, 'type', i);
                       }}
                       label="type"
                       select

@@ -28,7 +28,7 @@ const ImagePicker = ({ value, onChange, onReplace }: ImagePickerProps) => {
           </Typography>
 
           <Box sx={{ display: 'flex', justifyContent: 'center', padding: 1 }}>
-            <img src={value} alt={value} height="300px" />
+            <img src={value} alt={value} style={{ maxWidth: 280, maxHeight: 280, width: 'auto', height: 'auto' }} />
           </Box>
           <Button variant="text" onClick={handleReplace} sx={{ textTransform: 'uppercase' }}>
             Replace

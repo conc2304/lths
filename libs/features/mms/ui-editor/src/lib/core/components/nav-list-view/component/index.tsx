@@ -1,33 +1,33 @@
 import { Stack, Typography, Divider } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-import {
-  BasicContainer,
-} from '../../../../elements';
+import { BasicContainer } from '../../../../elements';
 import { NavListViewComponentProps } from '../../types';
 
 const NavListViewComponent = (props: NavListViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
 
   return (
     <BasicContainer id={id}>
-      <Stack
-        direction="column"
-        divider={<Divider orientation="horizontal" flexItem />}
-        spacing={1.3}
-        >
-          {component_data.map(({ title }, index) => {
-            return (
-              <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} key={`nav_item_${index}`}>
-                <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{title}</Typography>
-                <KeyboardArrowRightIcon/>
-              </Stack>
-            );
-          })} 
-        </Stack>
+      <Stack direction="column" divider={<Divider orientation="horizontal" flexItem />} spacing={1.3}>
+        {sub_properties_data.map(({ title }, index) => {
+          return (
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
+              key={`nav_item_${index}`}
+            >
+              <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{title}</Typography>
+              <KeyboardArrowRightIcon />
+            </Stack>
+          );
+        })}
+      </Stack>
     </BasicContainer>
   );
 };

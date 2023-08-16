@@ -5,11 +5,11 @@ import { CarouselNewsComponentProps } from '../../types';
 const CarouselNewsComponent = (props: CarouselNewsComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
   return (
     <BasicContainer id={id}>
-      <CardCarousel items={component_data} />
+      <CardCarousel items={sub_properties_data} />
     </BasicContainer>
   );
 };

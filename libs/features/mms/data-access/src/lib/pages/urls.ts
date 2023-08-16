@@ -1,11 +1,4 @@
-import {
-  PageDetailRequest,
-  PagesDataRequest,
-  UpdatePageSettingsRequest,
-  UpdatePageStatusRequest,
-  DeletePageRequest,
-  ComponentsListRequest,
-} from './types';
+import { PagesDataRequest, UpdatePageStatusRequest, DeletePageRequest, ComponentsListRequest } from './types';
 export const getComponentsListUrl = (req: ComponentsListRequest) => {
   const params = [];
   const { category, limit = 1000 } = req;
@@ -26,27 +19,25 @@ export const getPagesUrl = (req: PagesDataRequest) => {
   if (page != null) params.push(`offset=${page * page_size}`);
   if (page_size != null) params.push(`limit=${page_size}`);
   if (sort_key != null) params.push(`sort_field=${sort_key}`);
-  if (sort_order != null) params.push(`'sort_by'=${sort_order}`);
+  if (sort_order != null) params.push(`sort_by=${sort_order}`);
 
   return `/mms/pages?${params.join('&')}`;
 };
 
-export const getDefaultPagesUrl = () => `/mms/pages?is_variant=false&status=published&sort_field=name&sort_by=asc`;
+export const getDefaultPagesUrl = () =>
+  `/mms/pages?is_variant=false&status=published&sort_field=name&sort_by=asc&limit=1000`;
 
 export const getCreatePageUrl = () => `/mms/pages`;
 
-export const getPageDetailUrl = (req: PageDetailRequest) => {
-  const { page_id } = req;
-  return `/models/page/${page_id}`;
+export const getPageDetailUrl = (page_id: string) => {
+  return `/mms/pages/${page_id}`;
 };
-
-export const getSavePageConstraintsUrl = (req) => {
-  const { page_id } = req;
-  return `/models/pages/constraints/${page_id}`;
-};
-export const getUpatePageSettingsUrl = (req: UpdatePageSettingsRequest) => `/models/page/settings/${req.page_id}`;
 
 export const getEnumListUrl = (enum_id: string) => `/enums/${enum_id}`;
+
+export const getLocationsUrl = () => `/locations`;
+
+export const getUserSegmentsUrl = () => `/user-segments`;
 
 export const getUpcomingEvents = () => {
   const now = new Date().toISOString();
@@ -54,5 +45,7 @@ export const getUpcomingEvents = () => {
 };
 
 export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pages/update-page-status/${req.page_id}`;
+
+export const getUpdatePageDetailsUrl = (page_id: string) => `/mms/pages/${page_id}`;
 
 export const getDeletePageUrl = (req: DeletePageRequest) => `/mms/pages/${req.page_id}`;

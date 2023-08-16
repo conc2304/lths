@@ -4,41 +4,29 @@ export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
   _id: string;
   component_id: string;
-  type: string;
-  target_platform: string;
   name: string;
   description: string;
-  category: string;
+
   image_url: string;
-  created_by: string;
-  created_on: string;
-  updated_by: string;
-  updated_on: string;
-  deleted_by: string;
-  deleted_on: string;
-  is_deleted: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  properties_data: Record<string, any>;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: { [key: string]: any };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  default_data?: { [key: string]: any };
-};
 
-export type PageSettings = {
-  name: string;
-  default_page: string;
-  page_id: string;
-  description?: string;
-  status: string;
+  //TBD: remove these props
+  //constraints: Array<Record<string, string>>;
+  display_order: number;
+  category?: string;
+  variation_id: string;
 };
-
 export type EditorProviderProps = {
   children: ReactNode;
 };
 
 export type EditorProps = {
   components: ComponentProps[];
-  selectedComponent: ComponentProps | null;
-  settings: PageSettings;
+  selectedComponent?: ComponentProps | null;
 };
 
 export type EditorDispathProps = {
@@ -51,7 +39,10 @@ export type EditorDispathProps = {
   removeComponent: (id: string) => void;
 };
 
-export type EditorContextProps = { state: EditorProps; dispatch: Dispatch<EditorActionProps> };
+export type EditorContextProps<T extends EditorProps = EditorProps> = {
+  state: T;
+  dispatch: Dispatch<EditorActionProps<T>>;
+};
 
 export enum EditorActionType {
   SET_CURRENT_COMPONENT = 'SET_CURRENT_COMPONENT',
@@ -63,23 +54,22 @@ export enum EditorActionType {
   UPDATE_COMPONENT = 'UPDATE_COMPONENT',
   ORDER_COMPONENT = 'ORDER_COMPONENT',
   DUPLICATE_COMPONENT = 'DUPLICATE_COMPONENT',
-  INIT_PAGE_SETTINGS = 'INIT_PAGE_SETTINGS',
+  UPDATE_EXTENDED = 'UPDATE_EXTENDED',
 }
 
-export const initialState: EditorProps = {
+export const initialState2: EditorProps = {
   components: [],
   selectedComponent: null,
-  settings: null,
 };
 
-export type EditorActionProps =
+export type EditorActionProps<T extends EditorProps = EditorProps> =
+  | { type: EditorActionType.INIT_COMPONENTS; data: T }
+  | { type: EditorActionType.UPDATE_EXTENDED; data: Partial<T> }
   | { type: EditorActionType.SET_CURRENT_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.CLEAR_CURRENT_COMPONENT }
   | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps }
-  | { type: EditorActionType.INIT_COMPONENTS; components: ComponentProps[] }
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
   | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }
-  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number }
-  | { type: EditorActionType.INIT_PAGE_SETTINGS; settings: PageSettings };
+  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };

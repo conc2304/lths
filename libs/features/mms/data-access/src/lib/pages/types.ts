@@ -1,10 +1,27 @@
-import { ComponentProps } from '@lths/features/mms/ui-editor';
+import { EditorProps } from '@lths/features/mms/ui-editor';
 
 import { Pagination, PaginationRequest } from '../notifications/types';
+import { CommonResponse } from '../types';
+
+export type ComponentProps = {
+  __ui_id__: string; // need to be replaced with _id or component_id in all the places
+  _id: string;
+  variation_id: string;
+  component_id: string;
+  name: string;
+  description: string;
+  category?: string;
+  image_url: string;
+  constraints: Array<Record<string, string>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  properties_data: Record<string, any>;
+  display_order: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema: { [key: string]: any };
+};
 
 export type CardViewComponentProps = ComponentProps & {
-  constraint_data: any[];
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
     image: string;
@@ -98,14 +115,54 @@ export type CreatePageResponse = {
   };
 };
 
-export type PageDetailRequest = {
-  page_id: string;
+export type PageType = 'Pre-Defined' | 'User-Defined';
+
+export type PageStatus = 'DRAFT' | 'REJECTED' | 'APPROVED' | 'PUBLISHED' | 'UNPUBLISHED';
+
+export type ComponentSchema = {
+  _id: string;
+  component_id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema: Record<string, any>;
+  image_url: string;
 };
 
-export type UpdatePageSettingsRequest = {
+export type Location = {
+  _id: string;
+  name: string;
+  location: {
+    type: string;
+    lat: number;
+    long: number;
+    radius: number;
+    unit: string;
+    area_type: string;
+  };
+};
+
+export type PageConstraints = {
+  _id: string;
+  events: Array<Record<string, string>>;
+  locations: Location[];
+  user_segments: UserSegment[];
+};
+
+export type PageDetail = EditorProps & {
+  _id: string;
   page_id: string;
-  name?: string;
-  description?: string;
+  type: PageType;
+  name: string;
+  description: string;
+  is_variant: boolean;
+  status: PageStatus;
+  components_schema: ComponentSchema[];
+  default_page_id: string;
+  default_page_name: string;
+  constraints: PageConstraints;
+};
+
+export type PageDetailResponse = CommonResponse & {
+  data: [PageDetail];
 };
 
 export type EnumValue = {
@@ -114,7 +171,7 @@ export type EnumValue = {
   value: string;
 };
 
-export type EnumListResponse = {
+export type EnumListResponse = CommonResponse & {
   data: {
     _id: string;
     enum_group: string;
@@ -122,23 +179,60 @@ export type EnumListResponse = {
   };
 };
 
+export type LocationItem = {
+  _id: string;
+  name: string;
+  location: {
+    type: string;
+    lat: number;
+    long: number;
+    radius: number;
+    unit: string;
+    area_type: string;
+  };
+  display_order: number;
+};
+
+export type LocationListResponse = CommonResponse & {
+  data: LocationItem[];
+};
+
+export type UserSegment = {
+  _id: string;
+  segment_id: string;
+  name: string;
+  description: string;
+  properties: {
+    type: string;
+    value: string;
+  };
+  display_order?: number;
+};
+
+export type UserSegmentListResponse = CommonResponse & {
+  data: UserSegment[];
+};
+
 export type EventItem = {
+  _id: string;
+  event_id: string;
+  state: string;
+  __v: number;
   actual_end_date_time: string;
   actual_start_date_time: string;
-  created_on: Date;
-  deleted_on: Date;
-  description: Date;
-  duration_in_seconds: Date;
-  end_date_time: Date;
-  event_id: Date;
-  is_deleted: Date;
-  is_subject_to_change: Date;
-  name: Date;
-  source: Date;
-  start_date_time: Date;
-  type: Date;
-  updated_on: Date;
-  visibility: Date;
+  created_on: string;
+  deleted_on: string;
+  description: string;
+  duration_in_seconds: number;
+  end_date_time: string;
+  is_deleted: boolean;
+  is_subject_to_change: boolean;
+  name: string;
+  source: string;
+  start_date_time: string;
+  type: string;
+  updated_on: string;
+  visibility: string;
 };
 
 export type EventListResponse = {
@@ -148,6 +242,12 @@ export type EventListResponse = {
 export type UpdatePageStatusRequest = {
   page_id: string;
   status: string;
+};
+
+export type UpdatePageDetailRequest = PageDetail;
+
+export type UpdatePageDetailResponse = CommonResponse & {
+  data: [PageDetail];
 };
 
 export type DeletePageRequest = {

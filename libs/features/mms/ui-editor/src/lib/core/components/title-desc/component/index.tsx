@@ -6,7 +6,7 @@ import { TitleDescComponentProps } from '../../types';
 export default function TitleDescComponent(props: TitleDescComponentProps) {
   const {
     __ui_id__: id,
-    default_data: { title, desc, color },
+    properties_data: { title, desc, color },
   } = props;
 
   return (

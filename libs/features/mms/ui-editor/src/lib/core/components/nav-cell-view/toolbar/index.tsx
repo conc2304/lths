@@ -9,7 +9,7 @@ import { NavCellViewComponentProps } from '../../types';
 const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -24,9 +24,9 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        component_data: [
-          ...component_data,
+      properties_data: {
+        sub_properties_data: [
+          ...sub_properties_data,
           {
             title: 'Nav cell',
             icon: 'https://i.im.ge/2022/10/17/2UK1cX.Mobile-Tickets.png',
@@ -44,7 +44,7 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {component_data.map(({ title, action, icon }, index) => {
+      {sub_properties_data.map(({ title, action, icon }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`NavCell${index}`}>

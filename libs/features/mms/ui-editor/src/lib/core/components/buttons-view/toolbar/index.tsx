@@ -16,7 +16,7 @@ import { ButtonsViewComponentProps } from '../../types';
 const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc, image, component_data },
+    properties_data: { title, desc, image, sub_properties_data },
     onPropChange,
   } = props;
 
@@ -30,27 +30,26 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { ...props.default_data, component_data: [...component_data, { title: 'New Button', action: { type: "native", page_id: "new button" }}] } };
+    const data = {
+      ...props,
+      properties_data: {
+        ...props.properties_data,
+        sub_properties_data: [
+          ...sub_properties_data,
+          { title: 'New Button', action: { type: 'native', page_id: 'new button' } },
+        ],
+      },
+    };
     selectComponent(data);
   };
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <BasicTextField
-        label={'Description'}
-        value={desc}
-        onChange={handleDescChange}
-        multiline
-        rows={3}
-      />
-      <ImagePicker
-        value={image}
-        onChange={handleImageChange}
-        onReplace={onPropChange}
-      />
+      <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} multiline rows={3} />
+      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <Box sx={{ gap: 0 }}>
-        {component_data.map(({ title, action}, index) => {
+        {sub_properties_data.map(({ title, action }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Button${index}`}>
@@ -59,7 +58,13 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
               </AccordionSummary>
               <AccordionDetails>
                 <Stack spacing={2}>
-                  <BasicTextField label={'Title'} value={title} onChange={(e) => {handleTitleChange(e, index)}} />
+                  <BasicTextField
+                    label={'Title'}
+                    value={title}
+                    onChange={(e) => {
+                      handleTitleChange(e, index);
+                    }}
+                  />
                   <Accordion>
                     <AccordionSummary>
                       <Typography>action</Typography>
@@ -67,15 +72,29 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
                     <AccordionDetails>
                       <TextField
                         value={action?.type}
-                        onChange={(e) => {handleActionChange(e, "type", index)}}
+                        onChange={(e) => {
+                          handleActionChange(e, 'type', index);
+                        }}
                         label="type"
                         select
                       >
-                        <MenuItem value={"native"}>native</MenuItem>
-                        <MenuItem value={"weblink"}>weblink</MenuItem>
+                        <MenuItem value={'native'}>native</MenuItem>
+                        <MenuItem value={'weblink'}>weblink</MenuItem>
                       </TextField>
-                      <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange(e, "page_id", index)}} />
-                      <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange(e, "page_link", index)}} />
+                      <BasicTextField
+                        label={'Page Id'}
+                        value={action?.page_id}
+                        onChange={(e) => {
+                          handleActionChange(e, 'page_id', index);
+                        }}
+                      />
+                      <BasicTextField
+                        label={'Page Link'}
+                        value={action?.page_link}
+                        onChange={(e) => {
+                          handleActionChange(e, 'page_link', index);
+                        }}
+                      />
                     </AccordionDetails>
                   </Accordion>
                 </Stack>

@@ -7,7 +7,7 @@ import { BodyTextComponentProps } from '../../types';
 const BodyTextComponent = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, card_background_color, text_size, text_color, linked_text },
+    properties_data: { title, card_background_color, text_size, text_color, linked_text },
   } = props;
 
   let replacedText: string | React.ReactNode[] = title;

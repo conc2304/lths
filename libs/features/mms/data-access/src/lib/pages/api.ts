@@ -8,12 +8,15 @@ import {
   CreatePageResponse,
   EventListResponse,
   ImagesListResponse,
-  PageDetailRequest,
-  UpdatePageSettingsRequest,
   UpdatePageStatusRequest,
   DeletePageRequest,
   EnumListResponse,
   ComponentsListRequest,
+  LocationListResponse,
+  UserSegmentListResponse,
+  PageDetailResponse,
+  UpdatePageDetailRequest,
+  UpdatePageDetailResponse,
 } from './types';
 import { PagesDataRequest } from './types';
 import {
@@ -24,11 +27,12 @@ import {
   getDefaultPagesUrl,
   getImagesListUrl,
   getPageDetailUrl,
-  getSavePageConstraintsUrl,
-  getUpatePageSettingsUrl,
   getUpcomingEvents,
   getUpatePageStatusUrl,
   getDeletePageUrl,
+  getLocationsUrl,
+  getUserSegmentsUrl,
+  getUpdatePageDetailsUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
 
@@ -81,28 +85,27 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
       }),
     }),
 
-    getPageDetails: builder.query({
-      query: (req: PageDetailRequest) => ({
-        url: getPageDetailUrl(req),
+    getPageDetails: builder.query<PageDetailResponse, string>({
+      query: (page_id) => ({
+        url: getPageDetailUrl(page_id),
         method: 'GET',
-      }),
-    }),
-    savePageConstraints: builder.mutation({
-      query: (req) => ({
-        url: getSavePageConstraintsUrl(req),
-        method: 'POST',
-      }),
-    }),
-    updatePageSettings: builder.mutation({
-      query: (req: UpdatePageSettingsRequest) => ({
-        url: getUpatePageSettingsUrl(req),
-        method: 'PATCH',
-        body: req,
       }),
     }),
     getEnumList: builder.query<EnumListResponse, string>({
       query: (enum_id) => ({
         url: getEnumListUrl(enum_id),
+        method: 'GET',
+      }),
+    }),
+    getLocations: builder.query<LocationListResponse, void>({
+      query: () => ({
+        url: getLocationsUrl(),
+        method: 'GET',
+      }),
+    }),
+    getUserSegments: builder.query<UserSegmentListResponse, void>({
+      query: () => ({
+        url: getUserSegmentsUrl(),
         method: 'GET',
       }),
     }),
@@ -119,6 +122,13 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: {
           status: req.status,
         },
+      }),
+    }),
+    updatePageDetails: builder.mutation<UpdatePageDetailResponse, UpdatePageDetailRequest>({
+      query: (req) => ({
+        url: getUpdatePageDetailsUrl(req.page_id),
+        method: 'PATCH',
+        body: req,
       }),
     }),
     deletePage: builder.mutation({
@@ -138,11 +148,12 @@ export const {
   useLazyGetPagesItemsQuery,
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
-  useSavePageConstraintsMutation,
-  useUpdatePageSettingsMutation,
   useLazyGetEnumListQuery,
+  useLazyGetLocationsQuery,
+  useLazyGetUserSegmentsQuery,
   useLazyGetUpcomingEventsQuery,
   useUpdatePageStatusMutation,
+  useUpdatePageDetailsMutation,
   useDeletePageMutation,
 } = pageApi;
 export default pageApi;

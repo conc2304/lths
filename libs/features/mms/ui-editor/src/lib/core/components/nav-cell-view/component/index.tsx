@@ -7,13 +7,13 @@ import { NavCellViewComponentProps } from '../../types';
 const NavCellViewComponent = (props: NavCellViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
 
   return (
     <BasicContainer id={id}>
       <Stack direction="column" spacing={1.3}>
-        {component_data.map(({ title, icon }, index) => {
+        {sub_properties_data.map(({ title, icon }, index) => {
           return (
             <Stack
               direction="row"

@@ -4,9 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import {
-  BasicContainer,
-} from '../../../../elements';
+import { BasicContainer } from '../../../../elements';
 import { ButtonHCarouselComponentProps } from '../../types';
 
 const colors = { brand: { primary: '#111921', secondary: '#BA9765' }, text: '#ffffff' };
@@ -14,15 +12,15 @@ const colors = { brand: { primary: '#111921', secondary: '#BA9765' }, text: '#ff
 const ButtonHCarouselComponent = (props: ButtonHCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
 
   const handleClick = (index: number) => {
-    window.open(component_data[index].action.page_link, '_blank');
+    window.open(sub_properties_data[index].action.page_link, '_blank');
   };
 
   return (
-    <BasicContainer id={id} >
+    <BasicContainer id={id}>
       <Swiper
         direction="horizontal"
         spaceBetween={8}
@@ -30,7 +28,7 @@ const ButtonHCarouselComponent = (props: ButtonHCarouselComponentProps) => {
         modules={[Pagination]}
         pagination={{ clickable: true }}
       >
-        {component_data.map(({ title }, index) => {
+        {sub_properties_data.map(({ title }, index) => {
           return (
             <SwiperSlide key={index}>
               <Button
@@ -51,7 +49,7 @@ const ButtonHCarouselComponent = (props: ButtonHCarouselComponentProps) => {
                 {title}
               </Button>
             </SwiperSlide>
-          )
+          );
         })}
       </Swiper>
     </BasicContainer>

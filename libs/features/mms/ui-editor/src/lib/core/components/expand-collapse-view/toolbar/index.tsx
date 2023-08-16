@@ -1,21 +1,15 @@
 import { useState, SyntheticEvent } from 'react';
-import { Button, Stack, Typography, TextField, MenuItem} from '@mui/material';
+import { Button, Stack, Typography, TextField, MenuItem } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { ExpandCollapseViewComponentProps } from '../../types';
 
 const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    properties_data: { sub_properties_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -28,22 +22,40 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { component_data: [...component_data, { title: 'Expand/Collapse Item', action: { type: "expand/collapse", page_id: "Expand/Collapse Item" }}] } };
+    const data = {
+      ...props,
+      properties_data: {
+        sub_properties_data: [
+          ...sub_properties_data,
+          { title: 'Expand/Collapse Item', action: { type: 'expand/collapse', page_id: 'Expand/Collapse Item' } },
+        ],
+      },
+    };
     selectComponent(data);
   };
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {component_data.map(({ title, desc, action}, index) => {
+      {sub_properties_data.map(({ title, desc, action }, index) => {
         const panelId = `panel${index}`;
         return (
-          <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`ExpandCollapseItem${index}`}>
+          <Accordion
+            expanded={expanded === panelId}
+            onChange={handleAccordionChange(panelId)}
+            key={`ExpandCollapseItem${index}`}
+          >
             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
               <Typography>Expand/Collapse Item #{index + 1}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Stack spacing={2}>
-                <BasicTextField label={'Title'} value={title} onChange={(e) => {handleTitleChange(e, index)}} />
+                <BasicTextField
+                  label={'Title'}
+                  value={title}
+                  onChange={(e) => {
+                    handleTitleChange(e, index);
+                  }}
+                />
                 <BasicTextField
                   label={'Description'}
                   value={desc}
@@ -58,14 +70,28 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
                   <AccordionDetails>
                     <TextField
                       value={action?.type}
-                      onChange={(e) => {handleActionChange( e, "type", index)}}
+                      onChange={(e) => {
+                        handleActionChange(e, 'type', index);
+                      }}
                       label="type"
                       select
                     >
-                      <MenuItem value={"expand/collapse"}>expand/collapse</MenuItem>
+                      <MenuItem value={'expand/collapse'}>expand/collapse</MenuItem>
                     </TextField>
-                    <BasicTextField label={'Page Id'} value={action?.page_id} onChange={(e) => {handleActionChange(e, "page_id", index)}} />
-                    <BasicTextField label={'Page Link'} value={action?.page_link} onChange={(e) => {handleActionChange( e, "page_link", index)}} />
+                    <BasicTextField
+                      label={'Page Id'}
+                      value={action?.page_id}
+                      onChange={(e) => {
+                        handleActionChange(e, 'page_id', index);
+                      }}
+                    />
+                    <BasicTextField
+                      label={'Page Link'}
+                      value={action?.page_link}
+                      onChange={(e) => {
+                        handleActionChange(e, 'page_link', index);
+                      }}
+                    />
                   </AccordionDetails>
                 </Accordion>
               </Stack>

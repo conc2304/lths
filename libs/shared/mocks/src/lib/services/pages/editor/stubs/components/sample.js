@@ -17,12 +17,12 @@ export const payload = [
             component_id: 'cQuickLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get ready to rumble! Your event is about to start.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJWef.Image-9.png',
               link_title: 'Quick Links',
-              component_data: [
+              sub_properties_data: [
                 {
                   title: 'Getting here',
                   action: {
@@ -67,7 +67,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Explore Honda Center',
               desc: "Check out what's the center offers",
               image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
@@ -84,7 +84,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Plan your visit',
               desc: 'Get the best ways to get here and get home',
               image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -101,7 +101,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -117,8 +117,8 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
-              component_data: [
+            properties_data: {
+              sub_properties_data: [
                 {
                   tag: 'LATEST NEWS',
                   title: 'Ducks 3 - Kings 2',
@@ -187,7 +187,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Upcoming events',
               color: '#980766',
               desc: '',
@@ -203,7 +203,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               page: '1',
               size: '3',
               link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -214,7 +214,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -229,7 +229,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Discover OCVibe',
               desc: 'Get the best ways to get here and get home',
               image: 'https://i.im.ge/2022/10/13/2qHyV9.Image.png',
@@ -246,7 +246,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -263,7 +263,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -290,12 +290,12 @@ export const payload = [
             component_id: 'cQuickLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'It’s on! Hope you are in your seat and enjoying the show.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJ80P.Image-10.png',
               link_title: 'Quick Links',
-              component_data: [
+              sub_properties_data: [
                 {
                   title: 'Getting here',
                   action: {
@@ -340,7 +340,7 @@ export const payload = [
             component_id: 'cScoreBoard',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               date_info: '5:58 - 1st period',
               match_name: 'Final',
               hint: 'Game Center',
@@ -375,7 +375,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -391,8 +391,8 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
-              component_data: [
+            properties_data: {
+              sub_properties_data: [
                 {
                   tag: 'LATEST NEWS',
                   title: 'Ducks 3 - Kings 2',
@@ -461,7 +461,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Upcoming events',
               color: '#980766',
               desc: '',
@@ -477,7 +477,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               page: '1',
               size: '3',
               link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -488,7 +488,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -503,7 +503,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -520,7 +520,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -547,12 +547,12 @@ export const payload = [
             component_id: 'cQuickLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Thats’s a wrap! Hope you had a great time.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJRg1.Image-11.png',
               link_title: 'Quick Links',
-              component_data: [
+              sub_properties_data: [
                 {
                   title: 'Getting here',
                   action: {
@@ -597,7 +597,7 @@ export const payload = [
             component_id: 'cScoreBoard',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               date_info: '5:58 - 1st period',
               match_name: 'Final',
               hint: 'Game Center',
@@ -632,7 +632,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Video highlights',
               color: '#980766',
               desc: 'More highlights',
@@ -648,8 +648,8 @@ export const payload = [
             component_id: 'cVideoCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
-              component_data: [
+            properties_data: {
+              sub_properties_data: [
                 {
                   title: '',
                   desc: 'Sed ut unde omnis iste natus error sit  accusantium  laudantium. ',
@@ -698,7 +698,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Upcoming events',
               color: '#980766',
               desc: '',
@@ -714,7 +714,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               page: '1',
               size: '3',
               link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -725,7 +725,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -740,7 +740,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -756,8 +756,8 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
-              component_data: [
+            properties_data: {
+              sub_properties_data: [
                 {
                   tag: 'LATEST NEWS',
                   title: 'Ducks 3 - Kings 2',
@@ -826,7 +826,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -843,7 +843,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -858,18 +858,18 @@ export const payload = [
         ],
       },
     ],
-    default_data: [
+    properties_data: [
       {
         id: 'wq094f02ugxxr0p44jqw',
         component_id: 'cQuickLinkView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Welcome to Honda Center',
           desc: '',
           image: 'https://i.im.ge/2022/11/01/2Krok4.Hero-Section-2.png',
           link_title: 'Quick Links',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'Getting here',
               action: {
@@ -914,7 +914,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Explore Honda Center',
           desc: "Check out what's the center offers",
           image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
@@ -931,7 +931,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Get the best ways to get here and get home',
           image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -948,7 +948,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Discover OCVibe',
           desc: 'Get the best ways to get here and get home',
           image: 'https://i.im.ge/2022/10/13/2qHyV9.Image.png',
@@ -965,7 +965,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Upcoming events',
           color: '#980766',
           desc: '',
@@ -981,7 +981,7 @@ export const payload = [
         component_id: 'cEventVCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           page: '1',
           size: '3',
           link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -992,7 +992,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'View all events',
           style: 'fill',
           action: {
@@ -1007,7 +1007,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Honda Center News',
           color: '#980766',
           desc: '',
@@ -1023,8 +1023,8 @@ export const payload = [
         component_id: 'cNewsCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               tag: 'LATEST NEWS',
               title: 'Ducks 3 - Kings 2',
@@ -1093,7 +1093,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get news & announcements',
           desc: 'Sign up for the latest news from Honda Center',
           image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -1110,7 +1110,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Promotion Title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           underline_txt: 'LEARN MORE',
@@ -1129,13 +1129,13 @@ export const payload = [
     name: 'Tickets',
     page_id: 'tickets',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'pd88q0hc4uz2498qq033',
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'View my tickets',
           type: 'fill',
           desc: 'View the current tickets you have purchased',
@@ -1152,7 +1152,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Buy single event tickets',
           desc: 'Come and enjoy a game or concert',
           image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -1169,7 +1169,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Buy season tickets',
           desc: 'Come and enjoy a game or concert',
           image: 'https://i.im.ge/2022/10/13/2qHyV9.Image.png',
@@ -1186,7 +1186,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Upcoming events',
           color: '#980766',
           desc: '',
@@ -1202,7 +1202,7 @@ export const payload = [
         component_id: 'cEventHCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           page: '1',
           size: '5',
           link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -1213,7 +1213,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Promotion Title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           underline_txt: 'LEARN MORE',
@@ -1230,7 +1230,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Admission Rules',
           desc: 'Learn what you need to Visit Center',
           image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
@@ -1249,13 +1249,13 @@ export const payload = [
     name: 'Support',
     page_id: 'support',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '9h4t0ig9csk4ak9z2eih',
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get support',
           color: '',
           desc: '',
@@ -1271,8 +1271,8 @@ export const payload = [
         component_id: 'cNavListView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Contact us',
               action: {
@@ -1305,7 +1305,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Report a Problem',
           desc: 'Get help fast with any problems you witness',
           image: 'https://i.ibb.co/FgcX30M/support.png',
@@ -1324,13 +1324,13 @@ export const payload = [
     name: 'Arena',
     page_id: 'arena',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '32b7e0435txg9o5qmtfi',
         component_id: 'cVideoView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
           video_link: 'https: //i.im.ge/2022/10/13/2qp9up.Image.mp4',
           action: {
@@ -1345,8 +1345,8 @@ export const payload = [
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -1411,17 +1411,17 @@ export const payload = [
     name: 'Ducks',
     page_id: 'ducks',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'rnl71go5phtj84z2h7jt',
         component_id: 'cButtonsView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Welcome to Ducks World!',
           desc: '',
           image: 'https://i.im.ge/2022/10/18/209IAf.Frame-1.png',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'News',
               action: {
@@ -1470,7 +1470,7 @@ export const payload = [
         component_id: 'cScoreBoard',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: '5:58 - 1st period',
           match_name: 'Final',
           hint: 'Game Center',
@@ -1505,7 +1505,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Buy tickets',
           desc: 'Get tix for upcoming Ducks games',
           image: 'https://i.im.ge/2022/10/18/20mGZW.Image-1.png',
@@ -1522,7 +1522,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Game News',
           color: '#000000',
           desc: 'More News ',
@@ -1538,8 +1538,8 @@ export const payload = [
         component_id: 'cNewsCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               tag: 'LATEST NEWS',
               title: 'What to watch for tonight',
@@ -1608,7 +1608,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Video Highlights',
           color: '#000000',
           desc: 'More Highlights',
@@ -1624,8 +1624,8 @@ export const payload = [
         component_id: 'cVideoCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: '',
               desc: 'Sed ut unde omnis iste natus error sit  accusantium  laudantium. ',
@@ -1699,7 +1699,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get news & announcements',
           desc: 'Sign up for the latest news from Honda Center',
           underline_txt: 'LEARN MORE',
@@ -1716,7 +1716,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Buy season tickets',
           image: 'https://i.im.ge/2023/03/09/7fW5qM.Image-3.png',
           desc: 'Be there for every Ducks game this season!',
@@ -1735,14 +1735,14 @@ export const payload = [
     name: 'More',
     page_id: 'more',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'sccv1jx2co39k5f9phm6',
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -1825,13 +1825,13 @@ export const payload = [
     name: 'FoodDrink',
     page_id: 'fooddrink',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'z5j78dsfn9g2swk9zjjo',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Foods & Drinks',
           desc: 'save time, order in advance and pick at the counter',
           color: '#000000',
@@ -1847,8 +1847,8 @@ export const payload = [
         component_id: 'cFilterView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'FILTER',
               postion: 'start',
@@ -1878,8 +1878,8 @@ export const payload = [
         component_id: 'cVendorVCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Anaheim Pizza Co.',
               sub_title: 'FAST FOOD',
@@ -1938,13 +1938,13 @@ export const payload = [
     name: 'ReportAnIssue',
     page_id: 'reportanissue',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '1uym245wjrzacqj17cpr',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Report an issue',
           desc: 'Select your emergency',
           color: '#000000',
@@ -1960,8 +1960,8 @@ export const payload = [
         component_id: 'cQuickLinks',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -2026,13 +2026,13 @@ export const payload = [
     name: 'AdRequirements',
     page_id: 'adrequirements',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'ad89eeud4e85hemtodkq',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Admission Requirements',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           color: '#000000',
@@ -2048,8 +2048,8 @@ export const payload = [
         component_id: 'cExpandCollapseView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'expand/collapse',
@@ -2114,13 +2114,13 @@ export const payload = [
     name: 'ExploreHondaCenter',
     page_id: 'explorehondacenter',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '9wrsjd26e2hok595vp51',
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Explore Honda Center',
           color: '',
           desc: '',
@@ -2136,8 +2136,8 @@ export const payload = [
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -2182,7 +2182,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Arena Map',
           desc: 'Get directions to what youre looking for',
           image: 'https://i.im.ge/2022/11/14/SuDx2r.Image-5.png',
@@ -2199,7 +2199,7 @@ export const payload = [
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Order food & drink',
           desc: 'Beat the lines by ordering through the app',
           image: 'https://i.im.ge/2022/11/14/SuD3wW.Image-4.png',
@@ -2218,13 +2218,13 @@ export const payload = [
     name: 'ArenaHistory',
     page_id: 'arenahistory',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'vxcli6c1q8i543bh7bs7',
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: '',
@@ -2241,7 +2241,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Section Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                             Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -2257,7 +2257,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           underline_txt: 'LEARN MORE',
@@ -2274,7 +2274,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           id: 'cTitleDesc',
           title: 'Section Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                      Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -2291,7 +2291,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Section Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                        Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -2307,7 +2307,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           underline_txt: 'LEARN MORE',
@@ -2326,14 +2326,14 @@ export const payload = [
     name: 'DucksNews',
     page_id: 'ducksnews',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '15bdntrr5b5d8z19v6yj',
         component_id: 'cButtonHCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'News',
               action: {
@@ -2382,7 +2382,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'VIEW RECAP',
           match_name: '@',
@@ -2408,7 +2408,7 @@ export const payload = [
         component_id: 'cNewsView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'News title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo ',
           author: 'John Smith',
@@ -2427,7 +2427,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get news & announcements',
           desc: 'Sign up for the latest news from Honda Center',
           underline_txt: 'LEARN MORE',
@@ -2444,7 +2444,7 @@ export const payload = [
         component_id: 'cNewsView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'News title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo ',
           author: 'John Smith',
@@ -2463,7 +2463,7 @@ export const payload = [
         component_id: 'cNewsView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'News title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo ',
           author: 'John Smith',
@@ -2482,7 +2482,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'VIEW RECAP',
           match_name: '@',
@@ -2508,7 +2508,7 @@ export const payload = [
         component_id: 'cImageCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           image: 'https: //i.im.ge/2022/11/21/Ss4L7D.singleImageBanner.png',
           action: {
             type: 'native',
@@ -2522,7 +2522,7 @@ export const payload = [
         component_id: 'cNewsView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'News title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo ',
           author: 'John Smith',
@@ -2543,13 +2543,13 @@ export const payload = [
     name: 'PlanYourVisit',
     page_id: 'planyourvisit',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '5u5v82n1uijpbvyl50q6',
         component_id: 'cCardView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Parking and Directions',
           desc: 'View parking options and details for making your way to honda center',
           image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -2566,8 +2566,8 @@ export const payload = [
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -2605,13 +2605,13 @@ export const payload = [
     name: 'GameCenterSegment',
     page_id: 'gamecentersegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'nipyvhg0qi7bzrgk5o5x',
         component_id: 'cSimpleScoreView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           dateInfo: '5:58 - 1st period',
           match_name: '',
           hint: '',
@@ -2636,8 +2636,8 @@ export const payload = [
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Gamecast',
               action: {
@@ -2688,13 +2688,13 @@ export const payload = [
     name: 'GameCenterSegmentData',
     page_id: 'gamecentersegmentdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '90qwtn7ei5sofoc8eze6',
         component_id: 'cGameStats',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'GAME STATS',
           left: {
             logo: 'https://i.im.ge/2022/10/18/20mfhC.Ducks-Logo-4C-2.png',
@@ -2708,7 +2708,7 @@ export const payload = [
             efficiency: '3 POINT EFFICIENCY',
             percent: '65.0',
           },
-          component_data: [
+          sub_properties_data: [
             {
               title: 'POINTS',
               left_points: '99.5',
@@ -2729,13 +2729,13 @@ export const payload = [
     name: 'GameCenterRadio',
     page_id: 'gamecenterradio',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '60fvao8uo45q1w56t867',
         component_id: 'cSimpleScoreView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'vs',
           left: {
             logo: 'https://i.im.ge/2022/10/18/20mfhC.Ducks-Logo-4C-2.png',
@@ -2752,7 +2752,7 @@ export const payload = [
         component_id: 'cLiveRadio',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           link: '',
           status: 'Live',
         },
@@ -2762,7 +2762,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           desc: '',
           image: 'https://i.im.ge/2022/11/18/SSvxqX.Promotion.png',
@@ -2782,15 +2782,15 @@ export const payload = [
     name: 'NewsDetailList',
     page_id: 'newslist',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'fo1g1o37q2jny14j1opr',
         component_id: 'cNewsList',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           size: '10',
-          component_data: [
+          sub_properties_data: [
             {
               page_no: '1',
               page_id: 'iV5OL2eY9lPBzM7G7maAF',
@@ -2826,13 +2826,13 @@ export const payload = [
     name: 'ParkingPlusDirection',
     page_id: 'parkingplusdirection',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '0p3634699k2zi85u74hj',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Parking and Directions',
           color: '',
           desc: 'We encourage guests to reserve parking with ParkMobile to guarantee their parking spot.',
@@ -2844,7 +2844,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Book Parking Now',
           style: '',
           action: {
@@ -2859,7 +2859,7 @@ export const payload = [
         component_id: 'cMap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           style: '',
         },
@@ -2869,7 +2869,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Parking Fees',
           style: 'bold',
           desc: '',
@@ -2880,7 +2880,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Ducks Games',
           style: '',
           desc: 'General Parking: $20\nPreferred Parking(Plum/Gold Lots): $35\nOversized (Bus/RV/Limo) Parking: $50\n',
@@ -2891,7 +2891,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Concerts and Special Events',
           style: '',
           desc: 'General Parking: $25\nPreferred Parking (Plum/Gold Lots): $40\nOversized (Bus/RV/Limo) Parking $50\n',
@@ -2902,7 +2902,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Family Shows',
           style: '',
           desc: 'General Parking: $20\nPreferred Parking (Plum/Gold Lots): $25\nOversized (Bus/RV/Limo) Parking: $40\n',
@@ -2913,7 +2913,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           style: 'bold',
           desc: 'Parking passes purchased on ParkMobile will incur a ParkMobile fee.',
@@ -2924,7 +2924,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Preferred Parking (Plum/Gold Lots)',
           style: 'bold',
           desc: 'Use Gate 3 off of Douglass Road to access Plum and Gold Lots. Make sure to be in the right hand lane on Douglass Road as you approach Honda Center to ensure you enter through Gate 3.\nFor Ducks games, Plum and Gold Lots are reserved for our Suite holders and Club Preferred parking.\nFor concerts and other events, Preferred Parking may be purchased though Park Mobile.\nThere are EV Charging stations in the Gold Lot near Katella Avenue.',
@@ -2935,7 +2935,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Gate 3',
           style: '',
           desc: 'Use Gate 3 off of Douglass Road to access general parking(Orange/Red Lot)',
@@ -2946,7 +2946,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Gate 4',
           style: '',
           desc: 'Follow the Ã¢â‚¬Å“Event ParkingÃ¢â‚¬Â\u009d signs on Phoenix Club Drive until you reach the parking booths. Park as directed. Please note that Gate 4 will close one half hour after the beginning of each event.',
@@ -2957,7 +2957,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Gate 5',
           style: '',
           desc: 'Use Gate 5 off of Douglass Road to access general parking (Orange/Red Lot).',
@@ -2968,7 +2968,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Gate 6',
           style: '',
           desc: 'Use Gate 6 off of Douglass Road to access general parking (Orange/Red Lot).',
@@ -2979,7 +2979,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           style: '',
           desc: 'Gate 3 CAN NOT be used to exit the Orange/Red Lot after a game or concert. Please use Gate 4 to exit this general parking area.',
@@ -2990,7 +2990,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Rideshare & Taxis',
           style: '',
           desc: 'Guests using rideshare services and taxis must be dropped off and picked up at the Anaheim Regional Transportation Intermodal Center (ARTIC) at 2626 E. Katella Avenue, Anaheim 92806.',
@@ -3001,7 +3001,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Bicycle Parking',
           style: '',
           desc: 'Located near the northwest corner of Honda Center, complimentary bicycle parking is available for event ticket holders two hours prior to the start of the event and 30 minutes after the end of the event. Guests must provide their own locking mechanism.\n\nBicycles may not be parked in any other locations.',
@@ -3012,7 +3012,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Directions',
           style: '',
           desc: '',
@@ -3023,7 +3023,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Honda Center',
           style: '',
           desc: '2695 East Katella\nAnaheim,CA 92806\n(714) 704-2400',
@@ -3034,7 +3034,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'From 5 Northbound',
           style: '',
           desc: 'Take I-5 N\nTake Exit 107A for CA-57 N toward Pomona\nContinue on CA-57 N\nTake Exit 2 for Katella Avenue\nTurn right onto E Katella Avenue\nTurn left onto S Douglass Road\nStay in far right lane\nTurn right onto Stanley Cup Way',
@@ -3045,7 +3045,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'From 5 Southbound',
           style: '',
           desc: 'Take I-5 S\nTake Exit 109A for Katella Avenue\nTurn right onto E Katella Avenue\nTurn left onto S Douglass Road\nStay in far right lane\nTurn right onto Stanley Cup Way',
@@ -3056,7 +3056,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'From 5 Northbound',
           style: '',
           desc: 'Take CA-57 N\nTake Exit 2 for Katella Avenue\nTurn right onto E Katella Avenue\nTurn left onto S Douglass Road\nStay in far right lane\nTurn right onto Stanley Cup Way',
@@ -3067,7 +3067,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'From 5 Southbound',
           style: '',
           desc: 'Take CA-57 S\nTake Exit 3 for Ball Road\nTurn left onto E Ball Road\nTurn right onto S Phoenix Club Drive\nProceed ahead to parking staff',
@@ -3080,13 +3080,13 @@ export const payload = [
     name: 'NewsDetail',
     page_id: 'newsdetail',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'zl5i1nl7zs0vvpvb491w',
         component_id: 'cAuthorView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Facts and Figures: Anaheims 2021-22 Season in Review',
           author: 'Matt Weller',
           date_time: '11:40 AM PT May 10',
@@ -3097,7 +3097,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           image: 'https://i.im.ge/2023/03/14/DdNvth.News-Image.png',
         },
@@ -3107,7 +3107,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           desc: 'Anaheim completed the 2021-22 season with a 31-37-14 record for 76 points. The Ducks season included an eight-game win streak (Oct. 31-Nov. 16) several landmark moments in his final season from Ryan Getzlaf, a breakout season from Troy Terry (37 goals) and multiple  goals from Trevor Zegras, who set several rookie club records.',
           color: '#111921',
@@ -3119,7 +3119,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'WIN STREAK',
           desc: 'Anaheim completed the 2021-22 season with a 31-37-14 record for 76 points. The Ducks season included an eight-game win streak (Oct. 31-Nov. 16), several landmark moments in his final season from Ryan Getzlaf, a breakout season from Troy Terry (37 goals) and multiple  goals from Trevor Zegras, who set several rookie club records.',
           color: '#111921',
@@ -3131,7 +3131,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'POINTING IT OUT',
           desc: 'Anaheim completed the 2021-22 season with a 31-37-14 record for 76 points. The Ducks season included an eight-game win streak (Oct. 31-Nov. 16), several landmark moments in his final season from Ryan Getzlaf, a breakout season from Troy Terry (37 goals) and multiple  goals from Trevor Zegras, who set several rookie club records.',
           color: '#111921',
@@ -3145,13 +3145,13 @@ export const payload = [
     name: 'BuildingPolicies',
     page_id: 'buildingpolicies',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '8psoyy42014o2022ib1a',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Building policies',
           color: '',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
@@ -3162,7 +3162,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                                   Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -3173,7 +3173,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                             Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -3184,7 +3184,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                         Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -3195,7 +3195,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                            Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -3206,7 +3206,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Heading',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                                 Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '',
@@ -3217,7 +3217,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           image: '',
@@ -3236,13 +3236,13 @@ export const payload = [
     name: 'PremiumLoungesSeats',
     page_id: 'premiumloungesseats',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '8thcek60aak21w7dj9k1',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Premium Lounges and Seats',
           color: '',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -3253,7 +3253,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Players club',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                             Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                 ',
           color: '',
@@ -3264,7 +3264,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: '',
@@ -3276,7 +3276,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Premium seats',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                                                                                             Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.                                               ',
           color: '',
@@ -3287,7 +3287,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: '',
@@ -3299,7 +3299,7 @@ export const payload = [
         component_id: 'cPromotion',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           image: '',
@@ -3318,14 +3318,14 @@ export const payload = [
     name: 'NavigateToHondaCenter',
     page_id: 'navigatetohondacenter',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'crrfd187ascum7cn6kbh',
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -3363,14 +3363,14 @@ export const payload = [
     name: 'ScheduleSegment',
     page_id: 'schedulesegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'm1j8q5dw526kjixqalzg',
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'OCT',
               desc: '8 games',
@@ -3426,14 +3426,14 @@ export const payload = [
     name: 'StandingSegments',
     page_id: 'standingsegments',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'y3ru01mk82msgif8a965',
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Division',
               action: {
@@ -3468,13 +3468,13 @@ export const payload = [
     name: 'ScheduleSegmentData',
     page_id: 'schedulesegmentdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'a3m2eg4gk3waxrj2vgfu',
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'VIEW RECAP',
           match_name: '@',
@@ -3500,7 +3500,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'GAMECAST',
           btn_title2: 'LISTEN',
@@ -3527,7 +3527,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'GAMECAST',
           btn_title2: 'LISTEN',
@@ -3554,7 +3554,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'GAMECAST',
           btn_title2: 'LISTEN',
@@ -3581,7 +3581,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'GAMECAST',
           btn_title2: 'LISTEN',
@@ -3608,7 +3608,7 @@ export const payload = [
         component_id: 'cScoreBoardRecap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: 'Friday, May 3 at 7.30 PM',
           btn_title: 'VIEW RECAP',
           match_name: '@',
@@ -3634,7 +3634,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'View More',
           style: 'fill',
           action: {
@@ -3651,15 +3651,15 @@ export const payload = [
     name: 'StandingData',
     page_id: 'standingdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'flc4jfyg9771exbk3404',
         component_id: 'cTableHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#BA9765',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'PACIFIC',
             },
@@ -3692,9 +3692,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '1',
             },
@@ -3730,9 +3730,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '2',
             },
@@ -3768,9 +3768,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '3',
             },
@@ -3806,9 +3806,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '4',
             },
@@ -3844,9 +3844,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '5',
             },
@@ -3882,9 +3882,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '6',
             },
@@ -3920,10 +3920,10 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           id: 'cTableDetails',
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '7',
             },
@@ -3959,10 +3959,10 @@ export const payload = [
         component_id: 'cTableHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           id: 'cTableHeader',
           color: '#BA9765',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'CENTRAL',
             },
@@ -3995,9 +3995,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '1',
             },
@@ -4033,9 +4033,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '2',
             },
@@ -4071,9 +4071,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '3',
             },
@@ -4109,9 +4109,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '4',
             },
@@ -4147,9 +4147,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '5',
             },
@@ -4185,9 +4185,9 @@ export const payload = [
         component_id: 'cTableDetails',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           color: '#FFFFFF',
-          component_data: [
+          sub_properties_data: [
             {
               title: '6',
             },
@@ -4225,13 +4225,13 @@ export const payload = [
     name: 'Concessions',
     page_id: 'concessions',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'l2d56k2y64lac33gwgcd',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Concessions',
           color: '',
           desc: 'Save time, order in advance, and pick at the counter.',
@@ -4243,8 +4243,8 @@ export const payload = [
         component_id: 'cFilterView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'FILTER',
               postion: 'start',
@@ -4274,8 +4274,8 @@ export const payload = [
         component_id: 'cVendorVCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Anaheim Pizza Co.',
               sub_title: 'Fast Food',
@@ -4334,13 +4334,13 @@ export const payload = [
     name: 'GameCenterRecepSegment',
     page_id: 'gamecenterrecapsegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'liz3jrr5f1ltrsxn9id7',
         component_id: 'cSimpleScoreView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           date_info: '5:58 - 1st period',
           match_name: '',
           hint: '',
@@ -4365,8 +4365,8 @@ export const payload = [
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Recap',
               action: {
@@ -4409,13 +4409,13 @@ export const payload = [
     name: 'GameCenterRecepSegmentData',
     page_id: 'gamecenterrecapsegmentdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'j5858l0krvnfl8o1w1e4',
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           image: 'https://i.im.ge/2022/11/22/S7JN88.Image-12.png',
           action: {
@@ -4430,7 +4430,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           desc: 'Anaheim completed the 2021-22 season with a 31-37-14 record for 76 points The Ducks season included an eight-game win streak (Oct 31-Nov 16) several landmark moments in his final season from Ryan Getzlaf a breakout season from Troy Terry (37 goals) and multiple viral goals from Trevor Zegras who set several rookie club records.',
           color: '#111921',
@@ -4445,13 +4445,13 @@ export const payload = [
     name: 'TransportationOptions',
     page_id: 'transportation',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'ee3n68c39dcz2spnsrfo',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: 'There are many transportation options that make it easy to access Honda Center.',
@@ -4463,7 +4463,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'ARTIC',
           style: '',
           desc: 'The Anaheim Regional Transportation Intermodal Center, better Known as ARTIC, is located across the street from Honda Center. ARTIC provides rail, bus, taxi and other services forAnaheim visitors.',
@@ -4475,7 +4475,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for more information',
           style: '',
           action: {
@@ -4490,7 +4490,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Trains',
           style: '',
           desc: 'For visitor convenience, ARTIC currently offers an array of train routes from Amtrak and Metrolink, connecting much of Southern California. Amtrak Pacific Surfliner runs along the So Cal coastline, connecting San Luis Obispo and San Diego. Metrolink trains operate on seven routes across six counties: Antelope Valley, Inland Empire, Orange County, Riverside, San Bernardino, Venture, and Perris Valley.',
@@ -4502,7 +4502,7 @@ export const payload = [
         component_id: 'cHyperLinkText',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           style: '',
           desc: 'To view the most up to date schedules please visit Amtrak Pacific Surfliner and Metrolink.',
@@ -4527,7 +4527,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'RideShare',
           style: '',
           desc: 'Pickup and drop-off for popular rideshare services like Uber and Lyft are located across the street from Honda Center at Arctic',
@@ -4546,7 +4546,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for Uber',
           style: '',
           action: {
@@ -4561,7 +4561,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for Lyft',
           style: '',
           action: {
@@ -4576,7 +4576,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: '',
@@ -4588,7 +4588,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           color: '',
           desc: '',
@@ -4602,13 +4602,13 @@ export const payload = [
     name: 'TeamMembers',
     page_id: 'teammembers',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '37h8005psee1d4t9ngtz',
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Adam Henrique',
           image: 'https://i.im.ge/2022/11/11/SoJ0pC.Image-1.png',
           desc: '#11 6-2, 205lbs.',
@@ -4624,7 +4624,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Dominik Simon',
           image: 'https://i.im.ge/2022/11/11/SoJiA4.Image-2.png',
           desc: '#11 6-2, 205lbs.',
@@ -4640,7 +4640,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Troy Terry',
           image: 'https://i.im.ge/2022/11/11/SoJjwp.Image-3.png',
           desc: '#11 6-2, 205lbs.',
@@ -4656,7 +4656,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Urho Vaakanainen',
           image: 'https://i.im.ge/2022/11/11/SoJ92q.Image-4.png',
           desc: '#11 6-2, 205lbs.',
@@ -4672,7 +4672,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Kevin shattenkirk',
           image: 'https://i.im.ge/2022/11/11/SoJh7D.Image-5.png',
           desc: '#11 6-2, 205lbs.',
@@ -4688,7 +4688,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'john gibson',
           image: 'https://i.im.ge/2022/11/11/SoJmKP.Image-6.png',
           desc: '#11 6-2, 205lbs.',
@@ -4704,7 +4704,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Trevor Zegras',
           image: 'https://i.im.ge/2022/11/11/SoJ6l1.Image-7.png',
           desc: '#11 6-2, 205lbs.',
@@ -4720,7 +4720,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Sonny Milano',
           image: 'https://i.im.ge/2022/11/11/SoJNif.Image-8.png',
           desc: '#11 6-2, 205lbs.',
@@ -4736,7 +4736,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Vinni Lettieri',
           image: 'https://i.im.ge/2022/11/11/SoJPcm.Image-9.png',
           desc: '#11 6-2, 205lbs.',
@@ -4752,7 +4752,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Josh Mahura',
           image: 'https://i.im.ge/2022/11/11/SoJter.Image-10.png',
           desc: '#11 6-2, 205lbs.',
@@ -4768,7 +4768,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Jamie Drysdale',
           image: 'https://i.im.ge/2022/11/11/SoJA7W.Image.png',
           desc: '#11 6-2, 205lbs.',
@@ -4786,13 +4786,13 @@ export const payload = [
     name: 'MemberDetailSegment',
     page_id: 'memberdetailsegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'are7h4nw8gbe0jugt86d',
         component_id: 'cTeamPlayerInfo',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Adam Henrique',
           image: 'https://i.im.ge/2022/11/15/SFBIs1.Image-11.png',
           desc: 'CENTER',
@@ -4803,8 +4803,8 @@ export const payload = [
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Overview',
               action: {
@@ -4839,16 +4839,16 @@ export const payload = [
     name: 'TeamMemberOverView',
     page_id: 'teammemberoverview',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'gjg6fhvy57las4g8l84v',
         component_id: 'cKeyValue',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           desc: '',
-          component_data: [
+          sub_properties_data: [
             {
               key: 'HEIGHT',
               value: '6.0',
@@ -4885,7 +4885,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Bio',
           desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
           color: '#000000',
@@ -4903,14 +4903,14 @@ export const payload = [
     name: 'DuckStatsSegment',
     page_id: 'duckstatssegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '71ohi9unda1mphxx5p95',
         component_id: 'cSegmentControl',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Skaters',
               action: {
@@ -4945,13 +4945,13 @@ export const payload = [
     name: 'DuckStatsSegmentData',
     page_id: 'duckstatssegmentdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'cm94yuc8dw4bkis7xt2a',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Team Leaders',
           desc: '2020 - 2021 season',
         },
@@ -4961,7 +4961,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'POINTS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -4977,7 +4977,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Adam Henrique',
           image: 'https://i.im.ge/2022/11/11/SoJ0pC.Image-1.png',
           desc: '#11 6-2, 205lbs.',
@@ -4993,7 +4993,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Dominik Simon',
           image: 'https://i.im.ge/2022/11/11/SoJiA4.Image-2.png',
           desc: '#11 6-2, 205lbs.',
@@ -5009,7 +5009,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Troy Terry',
           image: 'https://i.im.ge/2022/11/11/SoJjwp.Image-3.png',
           desc: '#11 6-2, 205lbs.',
@@ -5025,7 +5025,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'GOALS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -5041,7 +5041,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Urho Vaakanainen',
           image: 'https://i.im.ge/2022/11/11/SoJ92q.Image-4.png',
           desc: '#11 6-2, 205lbs.',
@@ -5057,7 +5057,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Kevin shattenkirk',
           image: 'https://i.im.ge/2022/11/11/SoJh7D.Image-5.png',
           desc: '#11 6-2, 205lbs.',
@@ -5073,7 +5073,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'john gibson',
           image: 'https://i.im.ge/2022/11/11/SoJmKP.Image-6.png',
           desc: '#11 6-2, 205lbs.',
@@ -5089,7 +5089,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'ASSETS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -5105,7 +5105,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Trevor Zegras',
           image: 'https://i.im.ge/2022/11/11/SoJ6l1.Image-7.png',
           desc: '#11 6-2, 205lbs.',
@@ -5121,7 +5121,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Sonny Milano',
           image: 'https://i.im.ge/2022/11/11/SoJNif.Image-8.png',
           desc: '#11 6-2, 205lbs.',
@@ -5137,7 +5137,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Vinni Lettieri',
           image: 'https://i.im.ge/2022/11/11/SoJPcm.Image-9.png',
           desc: '#11 6-2, 205lbs.',
@@ -5153,7 +5153,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'PLUS-MINUS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -5169,7 +5169,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Josh Mahura',
           image: 'https://i.im.ge/2022/11/11/SoJter.Image-10.png',
           desc: '#11 6-2, 205lbs.',
@@ -5185,7 +5185,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Jamie Drysdale',
           image: 'https://i.im.ge/2022/11/11/SoJA7W.Image.png',
           desc: '#11 6-2, 205lbs.',
@@ -5201,7 +5201,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'POWER-PLAY-GOALS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -5217,7 +5217,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Troy Terry',
           image: 'https://i.im.ge/2022/11/11/SoJjwp.Image-3.png',
           desc: '#11 6-2, 205lbs.',
@@ -5233,7 +5233,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Urho Vaakanainen',
           image: 'https://i.im.ge/2022/11/11/SoJ92q.Image-4.png',
           desc: '#11 6-2, 205lbs.',
@@ -5249,7 +5249,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Kevin shattenkirk',
           image: 'https://i.im.ge/2022/11/11/SoJh7D.Image-5.png',
           desc: '#11 6-2, 205lbs.',
@@ -5265,7 +5265,7 @@ export const payload = [
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'SHORT-HANDED-GOALS',
           color: '#000000',
           desc: 'SEE ALL',
@@ -5281,7 +5281,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'john gibson',
           image: 'https://i.im.ge/2022/11/11/SoJmKP.Image-6.png',
           desc: '#11 6-2, 205lbs.',
@@ -5297,7 +5297,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Trevor Zegras',
           image: 'https://i.im.ge/2022/11/11/SoJ6l1.Image-7.png',
           desc: '#11 6-2, 205lbs.',
@@ -5313,7 +5313,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Sonny Milano',
           image: 'https://i.im.ge/2022/11/11/SoJNif.Image-8.png',
           desc: '#11 6-2, 205lbs.',
@@ -5329,7 +5329,7 @@ export const payload = [
         component_id: 'cTeamMembers',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Vinni Lettieri',
           image: 'https://i.im.ge/2022/11/11/SoJPcm.Image-9.png',
           desc: '#11 6-2, 205lbs.',
@@ -5347,14 +5347,14 @@ export const payload = [
     name: 'DucksHighlights',
     page_id: 'duckshighlights',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'zktq65e4o831yov1govk',
         component_id: 'cVideoVCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: '',
               desc: 'Sed ut unde omnis iste natus error sit  accusantium  laudantium. ',
@@ -5467,7 +5467,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'More highlights',
           style: 'fill',
           action: {
@@ -5484,13 +5484,13 @@ export const payload = [
     name: 'ExploreDistrict',
     page_id: 'exploredistrict',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'y86geyy4a5q5qo00s5xc',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Explore The District',
           color: '',
           desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et..',
@@ -5501,7 +5501,7 @@ export const payload = [
         component_id: 'cDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'THE DISTRICT VISION',
           color: '#BA9765',
           style: 'medium',
@@ -5512,7 +5512,7 @@ export const payload = [
         component_id: 'cImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           image: 'https://i.im.ge/2022/12/28/qgA8CJ.Mask-group.png',
         },
@@ -5522,8 +5522,8 @@ export const payload = [
         component_id: 'cNavCellView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               action: {
                 type: 'native',
@@ -5561,13 +5561,13 @@ export const payload = [
     name: 'VendorDetails',
     page_id: 'vendordetails',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'rl3h38077w7h6qr1dl8f',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Brewery x Biergarten',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
           color: '#000000',
@@ -5579,7 +5579,7 @@ export const payload = [
         component_id: 'cDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '12 min walk',
           color: '#BA9765',
           style: 'small',
@@ -5590,7 +5590,7 @@ export const payload = [
         component_id: 'cCardImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           image: 'https://i.im.ge/2022/12/28/qgA8CJ.Mask-group.png',
         },
@@ -5600,7 +5600,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get directions',
           style: 'fill',
           action: {
@@ -5615,7 +5615,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Website',
           color: '#000000',
           style: 'small',
@@ -5628,9 +5628,9 @@ export const payload = [
         component_id: 'cWorkingHours',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Hours',
-          component_data: [
+          sub_properties_data: [
             {
               key: 'Sunday',
               value: '11:00 AM to 9:00 PM',
@@ -5663,7 +5663,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'About',
           color: '#000000',
           style: 'small',
@@ -5677,13 +5677,13 @@ export const payload = [
     name: 'Policies',
     page_id: 'policies',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'an3wwh8u77cuz2kake21',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policies',
           style: 'medium',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5695,7 +5695,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Title',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n\nSed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5707,7 +5707,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Title',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n\nSed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5719,7 +5719,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Title',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n\nSed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5731,7 +5731,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Policy Title',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.\n\nSed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5745,13 +5745,13 @@ export const payload = [
     name: 'EventSegment',
     page_id: 'eventsegment',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'mhi0u0h0348741ub1wdm',
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Events',
           desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
           style: 'medium',
@@ -5763,9 +5763,9 @@ export const payload = [
         component_id: 'cMonthSegment',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Jul',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'Jan',
               action: {
@@ -5872,13 +5872,13 @@ export const payload = [
     name: 'ContactUs',
     page_id: 'contactus',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '5mv9eiod071tq9cevft3',
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Contact us',
           color: '',
           desc: '',
@@ -5889,7 +5889,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Chat with support',
           style: 'fill',
           action: {
@@ -5904,7 +5904,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Phone',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
@@ -5916,7 +5916,7 @@ export const payload = [
         component_id: 'cPhoneInquiry',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Ticket sales & inquiries',
           style: 'small',
           desc: '800. 123. 4567 and press 1',
@@ -5934,7 +5934,7 @@ export const payload = [
         component_id: 'cPhoneInquiry',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Group sales',
           style: 'small',
           desc: '800. 123. 4567 and press 1',
@@ -5952,7 +5952,7 @@ export const payload = [
         component_id: 'cPhoneInquiry',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Season ticket services',
           style: 'small',
           desc: '800. 123. 4567 and press 1',
@@ -5970,7 +5970,7 @@ export const payload = [
         component_id: 'cPhoneInquiry',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Suite sales',
           style: 'small',
           desc: '800. 123. 4567 and press 1',
@@ -5988,7 +5988,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Suite services',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
@@ -6005,7 +6005,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Send email',
           style: 'trans',
           action: {
@@ -6020,7 +6020,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Season ticket holders services',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
@@ -6032,7 +6032,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Send email',
           style: 'trans',
           action: {
@@ -6047,7 +6047,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Ticketing',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
@@ -6059,7 +6059,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Send email',
           style: 'trans',
           action: {
@@ -6074,7 +6074,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Ticketing',
           style: 'extrasmall',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
@@ -6086,7 +6086,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Submit feedback',
           style: 'fill',
           action: {
@@ -6103,14 +6103,14 @@ export const payload = [
     name: 'EventSegmentData',
     page_id: 'eventsegmentdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'tix7v25m46zleorxsrce',
         component_id: 'cEventsCarousel',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'PBR Teams.',
               sub_title: 'Fri Aug. 12 - Honda Center, Anaheim, CA',
@@ -6167,7 +6167,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'See More',
           style: 'fill',
           action: {
@@ -6184,13 +6184,13 @@ export const payload = [
     name: 'EventDetail',
     page_id: 'eventdetail',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '2lr1hoz9k0e864s3c8no',
         component_id: 'cEventInfo',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Twenty One Pilots',
           desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
           date_lbl_txt: 'Date',
@@ -6208,7 +6208,7 @@ export const payload = [
         component_id: 'cCardImage',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           image: 'https://i.im.ge/2023/03/22/DvoXTG.Image-6.png',
         },
@@ -6218,7 +6218,7 @@ export const payload = [
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Get tickets',
           style: 'fill',
           action: {
@@ -6233,7 +6233,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Website',
           color: '#000000',
           style: 'small',
@@ -6245,7 +6245,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'About',
           color: '#000000',
           style: 'small',
@@ -6259,13 +6259,13 @@ export const payload = [
     name: 'FAQ',
     page_id: 'faq',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: 'ykb71al458j8vfuqqriq',
         component_id: 'cHeader',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'FAQs',
           color: '#980766',
           desc: '',
@@ -6276,9 +6276,9 @@ export const payload = [
         component_id: 'cChipSetView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
-          component_data: [
+          sub_properties_data: [
             {
               title: 'Arena',
               action: {
@@ -6337,14 +6337,14 @@ export const payload = [
     name: 'FAQData',
     page_id: 'faqdata',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '7qks36m66ib7duuupvz2',
         component_id: 'cExpandCollapseView',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
-          component_data: [
+        properties_data: {
+          sub_properties_data: [
             {
               title: 'Question here lorem ipsum',
               desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.       Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  ',
@@ -6404,7 +6404,7 @@ export const payload = [
             component_id: 'cQucikLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get ready to rumble! Your event is about to start.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJWef.Image-9.png',
@@ -6454,7 +6454,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Explore Honda Center',
               desc: "Check out what's the center offers",
               image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
@@ -6471,7 +6471,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Plan your visit',
               desc: 'Get the best ways to get here and get home',
               image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -6488,7 +6488,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -6499,7 +6499,7 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               data: [
                 {
                   tag: 'LATEST NEWS',
@@ -6569,7 +6569,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               id: '',
               title: 'Upcoming events',
               color: '#980766',
@@ -6581,7 +6581,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               id: '',
               page: '1',
               size: '3',
@@ -6593,7 +6593,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -6608,7 +6608,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Discover OCVibe',
               desc: 'Get the best ways to get here and get home',
               image: 'https://i.im.ge/2022/10/13/2qHyV9.Image.png',
@@ -6625,7 +6625,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -6642,7 +6642,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -6669,7 +6669,7 @@ export const payload = [
             component_id: 'cQuickLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'It’s on! Hope you are in your seat and enjoying the show.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJ80P.Image-10.png',
@@ -6719,7 +6719,7 @@ export const payload = [
             component_id: 'cScoreBoard',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               date_info: '5:58 - 1st period',
               match_name: 'Final',
               hint: 'Game Center',
@@ -6755,7 +6755,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -6771,7 +6771,7 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               data: [
                 {
                   tag: 'LATEST NEWS',
@@ -6841,7 +6841,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Upcoming events',
               color: '#980766',
               desc: '',
@@ -6857,7 +6857,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               page: '1',
               size: '3',
               link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -6868,7 +6868,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -6883,7 +6883,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -6900,7 +6900,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -6927,7 +6927,7 @@ export const payload = [
             component_id: 'cQucikLinkView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Thats’s a wrap! Hope you had a great time.',
               desc: '',
               image: 'https://i.im.ge/2023/04/12/LQJRg1.Image-11.png',
@@ -6977,7 +6977,7 @@ export const payload = [
             component_id: 'cScoreBoard',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               date_info: '5:58 - 1st period',
               match_name: 'Final',
               hint: 'Game Center',
@@ -7012,7 +7012,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Video highlights',
               color: '#980766',
               desc: 'More highlights',
@@ -7028,7 +7028,7 @@ export const payload = [
             component_id: 'cVideoCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               data: [
                 {
                   title: '',
@@ -7078,7 +7078,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Upcoming events',
               color: '#980766',
               desc: '',
@@ -7089,7 +7089,7 @@ export const payload = [
             component_id: 'cEventVCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               page: '1',
               size: '3',
               link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -7100,7 +7100,7 @@ export const payload = [
             component_id: 'cButton',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'View all events',
               style: 'fill',
               action: {
@@ -7115,7 +7115,7 @@ export const payload = [
             component_id: 'cHeader',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Honda Center News',
               color: '#980766',
               desc: '',
@@ -7126,7 +7126,7 @@ export const payload = [
             component_id: 'cNewsCarousel',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               data: [
                 {
                   tag: 'LATEST NEWS',
@@ -7196,7 +7196,7 @@ export const payload = [
             component_id: 'cCardView',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Get news & announcements',
               desc: 'Sign up for the latest news from Honda Center',
               image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -7213,7 +7213,7 @@ export const payload = [
             component_id: 'cPromotion',
             component_type: 'Native',
             constraint_data: [],
-            default_data: {
+            properties_data: {
               title: 'Promotion Title',
               desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
               underline_txt: 'LEARN MORE',
@@ -7228,12 +7228,12 @@ export const payload = [
         ],
       },
     ],
-    default_data: [
+    properties_data: [
       {
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cQucikLinkView',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Welcome to Honda Center',
           desc: '',
           image: 'https://i.im.ge/2022/11/01/2Krok4.Hero-Section-2.png',
@@ -7282,7 +7282,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cCardView',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Explore Honda Center',
           desc: "Check out what's the center offers",
           image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
@@ -7298,7 +7298,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cCardView',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Plan your visit',
           desc: 'Get the best ways to get here and get home',
           image: 'https://i.im.ge/2022/10/13/2qHt6K.Image-2.png',
@@ -7314,7 +7314,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cCardView',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Discover OCVibe',
           desc: 'Get the best ways to get here and get home',
           image: 'https://i.im.ge/2022/10/13/2qHyV9.Image.png',
@@ -7330,7 +7330,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cHeader',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Upcoming events',
           color: '#980766',
           desc: '',
@@ -7340,7 +7340,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cEventVCarousel',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           page: '1',
           size: '3',
           link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',
@@ -7350,7 +7350,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cButton',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'View all events',
           style: 'fill',
           action: {
@@ -7364,7 +7364,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cHeader',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Honda Center News',
           color: '#980766',
           desc: '',
@@ -7374,7 +7374,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cNewsCarousel',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           data: [
             {
               tag: 'LATEST NEWS',
@@ -7443,7 +7443,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cCardView',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Get news & announcements',
           desc: 'Sign up for the latest news from Honda Center',
           image: 'https://i.im.ge/2022/10/13/2qp9up.Image.png',
@@ -7459,7 +7459,7 @@ export const payload = [
         id: 'l835b15cc3p74nttug0h',
         component_id: 'cPromotion',
         component_type: 'Native',
-        default_data: {
+        properties_data: {
           title: 'Promotion Title',
           desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
           underline_txt: 'LEARN MORE',
@@ -7478,13 +7478,13 @@ export const payload = [
     name: 'ParkingAndDirection',
     page_id: 'parkingdirection',
     constraint_data: [],
-    default_data: [
+    properties_data: [
       {
         id: '0n48504s570xns33g05z',
         component_id: 'cButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Book Parking',
           style: '',
           action: {
@@ -7499,7 +7499,7 @@ export const payload = [
         component_id: 'cMap',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: '',
           style: '',
         },
@@ -7509,7 +7509,7 @@ export const payload = [
         component_id: 'cMapLink',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           id: 'cMapLink',
           title: 'Honda Center',
           style: '',
@@ -7521,7 +7521,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'View on Map',
           style: '',
           action: {
@@ -7536,7 +7536,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'FROM 5 SOUTHBOUND',
           style: '',
           desc: 'Exit at Disney Way\nTurn left onto Disney Way\nTurn left onto Anaheim Blvd\nTurn right onto Cerritos Ave\nMerge right onto Douglass Rd\n(Cerritos curves into Douglass)\nHonda Center is on Left Hand Side.',
@@ -7548,7 +7548,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Parking',
           style: 'bold',
           desc: '',
@@ -7559,7 +7559,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Gate 3',
           style: '',
           desc: 'All of the above routes guide the driver through the back streets of Honda Center, at which point the parking lot entry will be at Gate 3.\nPlease note that access to Douglass Road and subsequently Gate 3 may occasionally be closed off from eastbound Katella by Anaheim traffic control. If you encounter this, continue forward on Katella and make a u-turn at the next turnout. Then make a right on Douglass Road and continue to Gate 3.',
@@ -7571,7 +7571,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Parking Fees',
           style: 'bold',
           desc: '',
@@ -7582,7 +7582,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Ducks Games',
           style: '',
           desc: 'General Parking $20\nPreferred Parking $35\nBus/RV Parking: $40\nLimo: $40',
@@ -7594,7 +7594,7 @@ export const payload = [
         component_id: 'cTitleDesc',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           id: 'cTitleDesc',
           title: 'Transportation Info',
           style: 'bold',
@@ -7606,7 +7606,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'ARTIC',
           style: '',
           desc: 'The Anaheim Regional Transportation Intermodal Center, better Known as ARTIC, is located across the street from Honda Center. ARTIC provides rail, bus, taxi and other services forAnaheim visitors.',
@@ -7618,7 +7618,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for more information',
           style: '',
           action: {
@@ -7633,7 +7633,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Trains',
           style: '',
           desc: 'For visitor convenience, ARTIC currently offers an array of train routes from Amtrak and Metrolink, connecting much of Southern California. Amtrak Pacific Surfliner runs along the So Cal coastline, connecting San Luis Obispo and San Diego. Metrolink trains operate on seven routes across six counties: Antelope Valley, Inland Empire, Orange County, Riverside, San Bernardino, Venture, and Perris Valley.',
@@ -7645,7 +7645,7 @@ export const payload = [
         component_id: 'cHyperLinkText',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Amtrak Pacific Surfliner and Metrolink',
           style: '',
           desc: 'To view the most up to date schedules please visit Amtrak Pacific Surfliner and Metrolink.',
@@ -7670,7 +7670,7 @@ export const payload = [
         component_id: 'cMapPath',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'RideShare',
           style: '',
           desc: 'Pickup and drop-off for popular rideshare services like Uber and Lyft are located across the street from Honda Center at Arctic',
@@ -7689,7 +7689,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for Uber',
           style: '',
           action: {
@@ -7704,7 +7704,7 @@ export const payload = [
         component_id: 'cLinkButton',
         component_type: 'Native',
         constraint_data: [],
-        default_data: {
+        properties_data: {
           title: 'Click here for Lyft',
           style: '',
           action: {

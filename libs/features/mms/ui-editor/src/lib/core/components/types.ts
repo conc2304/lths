@@ -17,7 +17,7 @@ export type HeroComponentProps = ComponentProps & {
   title: string;
   desc: string;
   link_title: string;
-  component_data: QuickLinkProps[];
+  sub_properties_data: QuickLinkProps[];
 };
 export type QuickLinkProps = ComponentProps & {
   icon: string;
@@ -26,8 +26,8 @@ export type QuickLinkProps = ComponentProps & {
 };
 
 export type QuickLinksProps = ComponentProps & {
-  default_data: {
-    component_data: QuickLinkProps[];
+  properties_data: {
+    sub_properties_data: QuickLinkProps[];
   };
 };
 export type PhoneInquiryComponentProps = ComponentProps & {
@@ -40,7 +40,7 @@ export type PhoneInquiryComponentProps = ComponentProps & {
 };
 
 export type EventInfoComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
     date_lbl_txt: string;
@@ -55,7 +55,7 @@ export type EventInfoComponentProps = ComponentProps & {
 };
 
 export type CardComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     image: string;
     title: string;
     desc: string;
@@ -64,7 +64,7 @@ export type CardComponentProps = ComponentProps & {
 };
 
 export type NewsViewComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     image: string;
     title: string;
     desc: string;
@@ -75,7 +75,7 @@ export type NewsViewComponentProps = ComponentProps & {
 };
 
 export type HeaderComponentProps = ComponentProps & {
-  default_data: { title: string; color: string; desc: string; action: ActionProps };
+  properties_data: { title: string; color: string; desc: string; action: ActionProps };
 };
 export type LinkedTextProps = {
   link_key: string;
@@ -84,7 +84,7 @@ export type LinkedTextProps = {
   link_id: string;
 };
 export type HeadlineTextBlockComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     card_background_color: string;
     title: string;
     text_size: string;
@@ -101,7 +101,7 @@ export enum ButtonStyle {
   Fill = 'fill',
 }
 export type ButtonComponentProps = ComponentProps & {
-  default_data: { title: string; style: ButtonStyle; action: ActionProps };
+  properties_data: { title: string; style: ButtonStyle; action: ActionProps };
 };
 
 export type CardNewsProps = {
@@ -123,8 +123,8 @@ export type EventCardProps = {
 };
 
 export type CarouselEventsComponentProps = ComponentProps & {
-  default_data: {
-    component_data: EventCardProps[];
+  properties_data: {
+    sub_properties_data: EventCardProps[];
   };
 };
 
@@ -138,19 +138,19 @@ export type VendorVCardProps = {
 };
 
 export type CarouselVendorComponentProps = ComponentProps & {
-  default_data: {
-    component_data: VendorVCardProps[];
+  properties_data: {
+    sub_properties_data: VendorVCardProps[];
   };
 };
 
 export type CarouselNewsComponentProps = ComponentProps & {
-  default_data: {
-    component_data: CardNewsProps[];
+  properties_data: {
+    sub_properties_data: CardNewsProps[];
   };
 };
 
 export type ScoreBoardComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     date_info: string;
     match_name: string;
     hint: string;
@@ -174,10 +174,10 @@ export type KeyValueProps = {
 };
 
 export type KeyValueComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
-    component_data: KeyValueProps[];
+    sub_properties_data: KeyValueProps[];
   };
 };
 
@@ -187,15 +187,15 @@ export type TitleActionProps = {
 };
 
 export type NavListViewComponentProps = ComponentProps & {
-  default_data: {
-    component_data: TitleActionProps[];
+  properties_data: {
+    sub_properties_data: TitleActionProps[];
   };
 };
 
 export type ChipSetViewComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
-    component_data: TitleActionProps[];
+    sub_properties_data: TitleActionProps[];
   };
 };
 
@@ -206,39 +206,39 @@ export type ExpandCollapseViewProps = {
 };
 
 export type ExpandCollapseViewComponentProps = ComponentProps & {
-  default_data: {
-    component_data: ExpandCollapseViewProps[];
+  properties_data: {
+    sub_properties_data: ExpandCollapseViewProps[];
   };
 };
 
 export type ButtonHCarouselComponentProps = ComponentProps & {
-  default_data: {
-    component_data: TitleActionProps[];
+  properties_data: {
+    sub_properties_data: TitleActionProps[];
   };
 };
 
 export type ButtonsViewComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
     image: string;
-    component_data: TitleActionProps[];
+    sub_properties_data: TitleActionProps[];
   };
 };
 
 export type VideoViewComponentProps = ComponentProps & {
-  default_data: { video_link: string; image: string; action: ActionProps };
+  properties_data: { video_link: string; image: string; action: ActionProps };
 };
 
 export type CardImageComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     image: string;
   };
 };
 
 export type ImageComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     color: string;
     desc: string;
@@ -247,7 +247,7 @@ export type ImageComponentProps = ComponentProps & {
   };
 };
 export type TitleDescComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
     color: string;
@@ -256,7 +256,7 @@ export type TitleDescComponentProps = ComponentProps & {
 };
 
 export type MapPathComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     desc: string;
     style: string;
@@ -270,19 +270,19 @@ export type NavCellViewItem = {
 };
 
 export type NavCellViewComponentProps = ComponentProps & {
-  default_data: {
-    component_data: NavCellViewItem[];
+  properties_data: {
+    sub_properties_data: NavCellViewItem[];
   };
 };
 
 export type SegmentControlComponentProps = ComponentProps & {
-  default_data: {
-    component_data: TitleActionProps[];
+  properties_data: {
+    sub_properties_data: TitleActionProps[];
   };
 };
 
 export type DescriptionComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     color: string;
     style: 'bold' | 'light' | 'medium';
@@ -290,7 +290,7 @@ export type DescriptionComponentProps = ComponentProps & {
 };
 
 export type BodyTextComponentProps = ComponentProps & {
-  default_data: {
+  properties_data: {
     title: string;
     card_background_color: string;
     text_color: string;

@@ -136,7 +136,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
                   >
                     <MenuItem value="">Page selector dropdown</MenuItem>
                     {defaultPages.map(({ page_id, name }) => (
-                      <MenuItem id={page_id} value={page_id}>
+                      <MenuItem id={page_id} value={page_id} key={`page_${page_id}`}>
                         {name}
                       </MenuItem>
                     ))}

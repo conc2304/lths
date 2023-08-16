@@ -57,7 +57,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     fetchData(pagination, sorting);
   };
 
-  const total = data?.meta.total;
+  const total = data?.meta?.total || 0;
 
   return (
     <AssetsModal

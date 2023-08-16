@@ -1,11 +1,21 @@
 import { v4 as uuid } from 'uuid';
 
-import { initialState, EditorActionType, EditorActionProps, EditorProps, ComponentProps } from './types';
+import { EditorActionType, EditorActionProps, EditorProps, ComponentProps } from './types';
 
 const fillUuid = (component: ComponentProps) => ({ ...component, __ui_id__: uuid() });
+const resetIds = (component: ComponentProps) => fillUuid({ ...component, variation_id: '', _id: '' });
 
-const reducer = (state: EditorProps, action: EditorActionProps) => {
+const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorActionProps<T>) => {
   switch (action.type) {
+    case EditorActionType.UPDATE_EXTENDED: {
+      //update the extended props of the T object while keeping the default_data property intact,
+      return {
+        ...state,
+        ...action.data,
+        components: state.components,
+        selectedComponent: state.selectedComponent,
+      };
+    }
     case EditorActionType.SET_CURRENT_COMPONENT: {
       const {
         component,
@@ -35,14 +45,16 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
     }
 
     case EditorActionType.INIT_COMPONENTS: {
-      const { components } = action;
-      return { ...state, components: components.map((component) => fillUuid(component)) };
+      const {
+        data: { components, ...rest },
+      } = action;
+      return { ...state, ...rest, components: components.map((component) => fillUuid(component)) };
     }
 
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
-      console.log('ADD_COMPONENT', [...state.components, fillUuid(component)]);
-      return { ...state, components: [...state.components, fillUuid(component)] };
+
+      return { ...state, components: [...state.components, resetIds(component)] };
     }
 
     case EditorActionType.REMOVE_COMPONENT: {
@@ -65,7 +77,7 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       const { id } = action;
       const index = state.components.findIndex((o) => o.__ui_id__ === id);
       if (index !== -1) {
-        const duplicate = { ...fillUuid(state.components[index]) };
+        const duplicate = { ...resetIds(state.components[index]) };
         return {
           ...state,
           components: [...state.components.slice(0, index), duplicate, ...state.components.slice(index)],
@@ -75,16 +87,9 @@ const reducer = (state: EditorProps, action: EditorActionProps) => {
       return state;
     }
 
-    case EditorActionType.INIT_PAGE_SETTINGS: {
-      const { settings } = action;
-      return {
-        ...state,
-        settings,
-      };
-    }
-
     default: {
-      return initialState;
+      // return initialState;
+      return state;
     }
   }
 };

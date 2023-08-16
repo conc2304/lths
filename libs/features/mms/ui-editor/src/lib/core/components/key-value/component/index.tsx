@@ -1,14 +1,12 @@
 import { Stack, Typography } from '@mui/material';
 
-import {
-  BasicContainer,
-} from '../../../../elements';
+import { BasicContainer } from '../../../../elements';
 import { KeyValueComponentProps } from '../../types';
 
 const KeyValueComponent = (props: KeyValueComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc, component_data },
+    properties_data: { title, desc, sub_properties_data },
   } = props;
 
   return (
@@ -19,9 +17,15 @@ const KeyValueComponent = (props: KeyValueComponentProps) => {
       <Typography gutterBottom variant="body2" component="div">
         {desc}
       </Typography>
-      {component_data.map(({ key, value}, index) => {
+      {sub_properties_data.map(({ key, value }, index) => {
         return (
-          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} key={`key_value_${index}`}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            key={`key_value_${index}`}
+          >
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{key}</Typography>
             <Typography sx={{ fontWeight: 600, fontSize: 13 }}>{value}</Typography>
           </Stack>

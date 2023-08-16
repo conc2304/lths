@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup, { ToggleButtonGroupProps } from '@mui/material/ToggleButtonGroup';
 
@@ -15,15 +15,7 @@ const defaultProps: Partial<SegmentedButtonProps> = {
   valueProp: 'value',
 };
 
-const SegmentedButton: FC<SegmentedButtonProps> = ({
-  data,
-  onValueChange,
-  value,
-  label,
-  keyProp,
-  valueProp,
-  ...rest
-}) => {
+const SegmentedButton = ({ data, onValueChange, value, label, keyProp, valueProp, ...rest }: SegmentedButtonProps) => {
   const handleChange = (event: MouseEvent<HTMLElement>, value: string) => {
     onValueChange(value);
   };

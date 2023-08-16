@@ -3,11 +3,11 @@ const payload = {
   component_id: 'cButtonsView',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  properties_data: {
     title: 'Welcome to Ducks World!',
     desc: '',
     image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cButtonsView.png',
-    component_data: [
+    sub_properties_data: [
       {
         title: 'News',
         action: {

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cScoreBoard',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  properties_data: {
     date_info: '5:58 - 1st period',
     match_name: 'Final',
     hint: 'Game Center',

@@ -9,7 +9,7 @@ import { DescriptionComponentProps } from '../../types';
 const DescriptionToolbar = (props: DescriptionComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, color, style },
+    properties_data: { title, color, style },
   } = props;
   const { handleTitleChange, handleColorChange, updateComponentProp } = useToolbarChange();
 

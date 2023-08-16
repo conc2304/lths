@@ -4,9 +4,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
+import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
+import { DateTimeType } from './index';
+import { findEventConstraintType, formatDateTime } from '../utils';
+import { EventItem } from '../types';
+import { useEditorActions } from '@lths/features/mms/ui-editor';
+import { PageDetail } from '@lths/features/mms/data-access';
 
-type DateRange = {
+export type DateRange = {
   startDate: Date;
   startTime: Date;
   endDate: Date;
@@ -16,8 +22,14 @@ type DateRange = {
 type Props = {
   onDateRangeSelect?: (dateRange: DateRange[]) => void;
 };
-
+//TODO: This logic is flimsy, rewrite this component
 const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
+  const { data } = useEditorActions();
+  const page_data = data as PageDetail;
+  const {
+    constraints: { events: eventConstraints },
+  } = page_data;
+
   const today = new Date();
 
   const [dateRange, setDateRange] = useState<DateRange[]>([
@@ -44,10 +56,33 @@ const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
     });
   }, [index]);
 
+  useEffect(() => {
+    onDateRangeSelect(dateRange);
+  }, [dateRange]);
+
+  useEffect(() => {
+    const constraintType =
+      eventConstraints.length === 0 ? EventItem.SPECIFIC_DATE_TIME : findEventConstraintType(eventConstraints);
+    if (constraintType === EventItem.SPECIFIC_DATE_TIME) setDateRange(eventConstraints.map((ec) => formatDateTime(ec)));
+  }, [eventConstraints]);
+
   const handleChange = (key, value) => {
-    console.log('handle change', key, value);
-    const ranges = [...dateRange];
+    console.log('🚀 ~ file: date-time-range-picker.tsx:72 ~ handleChange ~ isValid(value):', isValid(value));
+    if (!isValid(value)) return;
+    const ranges =
+      dateRange.length === 0
+        ? [
+            {
+              startDate: null,
+              startTime: null,
+              endDate: null,
+              endTime: null,
+            },
+          ]
+        : [...dateRange];
+
     ranges[index][key] = value;
+
     setDateRange(ranges);
   };
 
@@ -57,35 +92,6 @@ const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
 
   const formatTime = (date: Date) => {
     return date ? format(date, 'hh:mm a') : '';
-  };
-
-  const ordinalifyNumber = (number: number) => {
-    const ordinals = [
-      'Zeroth',
-      'First',
-      'Second',
-      'Third',
-      'Fourth',
-      'Fifth',
-      'Sixth',
-      'Seventh',
-      'Eighth',
-      'Ninth',
-      'Tenth',
-      'Eleventh',
-      'Twelfth',
-      'Thirteenth',
-      'Fourteenth',
-      'Fifteenth',
-      'Sixteenth',
-      'Seventeenth',
-      'Eighteenth',
-      'Nineteenth',
-    ];
-    const prefixes = ['Twent', 'Thirt', 'Fort', 'Fift', 'Sixt', 'Sevent', 'Eight', 'Ninet'];
-    if (number < 20) return ordinals[number];
-    else if (number % 10 === 0) return prefixes[Math.floor(number / 10) - 2] + 'ieth';
-    else return prefixes[Math.floor(number / 10) - 2] + 'y-' + ordinals[number % 10];
   };
 
   const { startDate, startTime, endDate, endTime } = dateRange[index] || {};
@@ -100,11 +106,13 @@ const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
     setDateRange((prevState) => {
       const ranges = [...prevState];
       ranges.splice(index, 1);
+      setIndex(ranges.length > 0 ? ranges.length - 1 : 0);
+
       return ranges;
     });
   };
 
-  const addedRanges = dateRange.slice(0, -1);
+  const addedRanges = dateRange.length > 0 ? dateRange.slice(0, -1) : [];
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

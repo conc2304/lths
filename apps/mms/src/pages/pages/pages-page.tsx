@@ -57,7 +57,7 @@ const statusIcon = {
   APPROVED: <ApprovalIcon htmlColor="yellow" />,
   UNPUBLISHED: <UnpublishedIcon htmlColor="coral" />,
 };
-
+//TODO: Add a response type for RTK queries
 const Pages = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -170,7 +170,7 @@ const Pages = (): JSX.Element => {
   };
 
   const tableRows = data?.data?.map((row) => (
-    <TableRow key={row.id}>
+    <TableRow key={`row_${row._id}`}>
       <TableCell>
         <Stack>
           <Link
