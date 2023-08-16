@@ -4,6 +4,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { Asset } from '@lths/features/mms/data-access';
 
+import { cleanUrl } from '../../components/assets/utils';
+
 type TableFileInfoRowProps = {
   row: Asset;
   index: number;
@@ -16,7 +18,7 @@ type TableFileInfoRowProps = {
   handleOpenModal: (action: string, row: Asset) => void;
   handlePreview: () => void;
   selectedRowIndex: number;
-  handleDownload: (url: string, filename: string) => void;
+  handleDownload: () => void;
 };
 
 const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
@@ -49,7 +51,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     >
       <TableCell sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <img
-          src={(row.media_files.length > 0 && row.media_files[0]?.url) || ''}
+          src={(row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || ''}
           alt={row.unique_file_name}
           style={{ width: 50, height: 50, marginRight: 1 }}
         />
@@ -71,11 +73,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
           onClose={withStopPropagation(handleClose)}
         >
           <MenuItem onClick={withStopPropagation(handlePreview)}>Preview</MenuItem>
-          <MenuItem
-            onClick={withStopPropagation(() => handleDownload(row.media_files[0]?.url, row.original_file_name))}
-          >
-            Download
-          </MenuItem>
+          <MenuItem onClick={withStopPropagation(handleDownload)}>Download</MenuItem>
           <MenuItem onClick={withStopPropagation(() => handleOpenModal('Rename', row))}>Rename</MenuItem>
           <MenuItem onClick={withStopPropagation(() => handleOpenModal('Delete', row))}>Delete</MenuItem>
         </Menu>

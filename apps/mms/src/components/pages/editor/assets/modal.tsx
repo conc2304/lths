@@ -72,27 +72,7 @@ const AssetsModal = ({
   };
 
   const handleAddAsset = async (file) => {
-    const newAsset = {
-      unique_file_name: file.name,
-      original_file_name: file.name,
-      file_extension: file.type.split('/')[1],
-      mime_type: file.type,
-
-      media_files: [
-        {
-          url: URL.createObjectURL(file),
-          format_label: 'source',
-          file_extension: file.type.split('/')[1],
-          mime_type: file.type,
-          description: '',
-          created_at: new Date().toISOString(),
-          is_finalized: true,
-        },
-      ],
-      created_at: new Date().toISOString(),
-      media_type: 'image',
-    };
-
+    const newAsset = file;
     try {
       await addResource(newAsset).unwrap();
     } catch (error) {

@@ -27,6 +27,31 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
 
     getData(req);
   }
+  const [refactoredData, setRefactoredData] = useState(null);
+
+  const refactorData = (response: any) => {
+    const refactoredResponse = {
+      data: response.data,
+      meta: {
+        page: response.pagination.offset, // Maps 'offset' to 'page'
+        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
+        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
+      },
+    };
+
+    return refactoredResponse;
+  };
+
+  const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
+  useEffect(() => {
+    if (data) {
+      if (MOCKING_ENABLED) {
+        setRefactoredData(data);
+      } else {
+        setRefactoredData(refactorData(data));
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     fetchData(null, undefined);
@@ -57,14 +82,14 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     fetchData(pagination, sorting);
   };
 
-  const total = data?.meta?.total || 0;
+  const total = refactoredData?.meta?.total || 0;
 
   return (
     <AssetsModal
       open={open}
       onClose={onClose}
       onSelect={onSelect}
-      assetData={data?.data}
+      assetData={refactoredData?.data}
       isFetching={isFetching}
       isLoading={isLoading}
       total={total}

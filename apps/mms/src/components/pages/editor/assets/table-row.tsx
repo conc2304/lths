@@ -1,6 +1,8 @@
 import React from 'react';
 import { TableRow, TableCell, Button } from '@mui/material';
 
+import { cleanUrl } from '../../../assets/utils';
+
 interface MediaFile {
   url: string;
 }
@@ -26,10 +28,10 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
     <TableRow hover key={row.id} style={{ backgroundColor: '#fff' }}>
       <TableCell
         sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-        onClick={() => onSelect((row.media_files.length > 0 && row.media_files[0]?.url) || '')}
+        onClick={() => onSelect((row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '')}
       >
         <img
-          src={(row.media_files.length > 0 && row.media_files[0]?.url) || ''}
+          src={(row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || ''}
           alt={row.unique_file_name}
           style={{ width: '50px', height: '50px' }}
         />
@@ -43,7 +45,7 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
       <TableCell>
         <Button
           variant="outlined"
-          onClick={() => onSelect((row.media_files.length > 0 && row.media_files[0]?.url) || '')}
+          onClick={() => onSelect((row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '')}
         >
           INSERT
         </Button>

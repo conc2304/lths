@@ -17,6 +17,7 @@ import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TableFileInfoRow from './table-row';
 import { PreviewDrawerContent, RenameModal, DeleteModal } from '../../components/assets';
+import { cleanUrl } from '../../components/assets/utils';
 
 const headers = [
   {
@@ -94,6 +95,31 @@ export default function AssetsPage() {
 
     getData(req);
   }
+  const [refactoredData, setRefactoredData] = useState(null);
+
+  const refactorData = (response: any) => {
+    const refactoredResponse = {
+      data: response.data,
+      meta: {
+        page: response.pagination.offset, // Maps 'offset' to 'page'
+        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
+        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
+      },
+    };
+
+    return refactoredResponse;
+  };
+
+  const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
+  useEffect(() => {
+    if (data) {
+      if (MOCKING_ENABLED) {
+        setRefactoredData(data);
+      } else {
+        setRefactoredData(refactorData(data));
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     fetchData(null, undefined);
@@ -139,9 +165,9 @@ export default function AssetsPage() {
   const filteredData = React.useMemo(
     () =>
       search
-        ? data?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
-        : data?.data,
-    [data, search]
+        ? refactoredData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
+        : refactoredData?.data,
+    [refactoredData, search]
   );
 
   const tableRows = filteredData?.map((row, index) => {
@@ -161,7 +187,20 @@ export default function AssetsPage() {
     };
 
     const handlePreview = () => {
-      const previewUrl = (row.media_files.length > 0 && row.media_files[0]?.url) || '';
+      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
+      if (previewUrl) {
+        const imageWindow = window.open(previewUrl);
+        imageWindow.document.write('<html><head><title>Preview</title></head><body>');
+        imageWindow.document.write(
+          '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
+        );
+        imageWindow.document.write('</body></html>');
+        imageWindow.document.close();
+      }
+    };
+
+    const handleDownload = () => {
+      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
       previewUrl && window.open(previewUrl);
       handleClose();
     };
@@ -170,23 +209,6 @@ export default function AssetsPage() {
       setSelectedRow(row);
       setIsRowModalOpen(action);
       handleClose();
-    };
-
-    const handleDownload = async (url, filename) => {
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const blobURL = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobURL;
-        a.download = filename || 'download';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(blobURL);
-      } catch (error) {
-        console.error('Error downloading the file:', error);
-      }
     };
 
     return (
@@ -208,14 +230,14 @@ export default function AssetsPage() {
     );
   });
 
-  const total = data?.meta?.total;
+  const total = refactoredData?.meta?.total;
 
   const [addResource] = useAddResourceMutation();
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (['image/jpeg', 'image/png'].includes(file.type)) {
+      if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
         await handleAddAsset(file);
         await fetchData(null, undefined);
       } else {
@@ -225,26 +247,7 @@ export default function AssetsPage() {
   };
 
   const handleAddAsset = async (file) => {
-    const newAsset = {
-      unique_file_name: file.name,
-      original_file_name: file.name,
-      file_extension: file.type.split('/')[1],
-      mime_type: file.type,
-
-      media_files: [
-        {
-          url: URL.createObjectURL(file),
-          format_label: 'source',
-          file_extension: file.type.split('/')[1],
-          mime_type: file.type,
-          description: '',
-          created_at: new Date().toISOString(),
-          is_finalized: true,
-        },
-      ],
-      created_at: new Date().toISOString(),
-      media_type: 'image',
-    };
+    const newAsset = file;
 
     try {
       await addResource(newAsset).unwrap();
@@ -278,7 +281,7 @@ export default function AssetsPage() {
   const [deleteResource] = useDeleteResourceMutation();
   const handleDeleteRow = async () => {
     try {
-      await deleteResource({ _id: selectedRow._id }).unwrap();
+      await deleteResource({ id: selectedRow._id }).unwrap();
       if (selectedRow._id === selectedPreviewRow?.asset?._id) {
         const nextRow = selectedPreviewRow.rowIndex - 1;
         if (nextRow < 0) {

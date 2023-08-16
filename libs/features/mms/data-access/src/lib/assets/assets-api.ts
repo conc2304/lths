@@ -12,25 +12,29 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         method: 'GET',
       }),
     }),
-    addResource: builder.mutation<Asset, Partial<Asset>>({
-      query: (newAsset) => ({
-        url: getAddAssetUrl(),
-        method: 'POST',
-        body: newAsset,
-      }),
+    addResource: builder.mutation<Asset, File>({
+      query: (newAsset) => {
+        const requestBody = new FormData();
+        requestBody.append('file', newAsset);
+        return {
+          url: getAddAssetUrl(),
+          method: 'POST',
+          body: requestBody,
+        };
+      },
     }),
     editResource: builder.mutation<Asset, { id: string; original_file_name: string }>({
       query: (prop) => ({
-        url: getUpdateAssetUrl(),
+        url: getUpdateAssetUrl(prop.id),
         method: 'PATCH',
         body: prop,
       }),
     }),
-    deleteResource: builder.mutation<Asset, { _id: string }>({
+    deleteResource: builder.mutation<Asset, { id: string }>({
       query: (prop) => ({
-        url: getUpdateAssetUrl(),
+        url: getUpdateAssetUrl(prop.id),
         method: 'DELETE',
-        body: prop,
+        body: prop.id,
       }),
     }),
   }),
