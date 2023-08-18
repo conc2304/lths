@@ -87,6 +87,8 @@ export { default as HeadLineTextBlockToolbar } from './headline-text-block/toolb
 export { default as BodyTextComponent } from './body-text-block/component';
 export { default as BodyTextToolbar } from './body-text-block/toolbar';
 
+export { default as ExternalDataViewComponent } from './external-data-view/component';
+export { default as ExternalDataViewToolbar } from './external-data-view/toolbar';
 export { default as FullHeightCarouselComponent } from './full-height-carousel-component/component';
 export { default as FullHeightCarouselToolbar } from './full-height-carousel-component/toolbar';
 

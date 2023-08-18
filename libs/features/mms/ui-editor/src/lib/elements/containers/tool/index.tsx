@@ -11,7 +11,7 @@ const ToolContainer = ({ id, children, ...rest }: BoxProps) => {
         margin: 2,
         borderRadius: 1,
         background: '#ffffff',
-        padding: 2,
+        padding: 3,
       }}
       {...rest}
     >

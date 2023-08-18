@@ -58,6 +58,7 @@ import {
   HeadlineTextBlockComponentProps,
   BodyTextToolbar,
   BodyTextComponentProps,
+  ExternalDataViewToolbar,
   FullHeightCarouselToolbar,
   FullHeightCarouselComponentProps,
 } from '../components';
@@ -120,6 +121,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.HalfHeightMatchup:
+      return <ExternalDataViewToolbar id={props.__ui_id__} title="Matchup" desc="Content and data from NHL.com." />;
     case Component.FullHeightCarousel:
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     default:

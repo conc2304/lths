@@ -29,6 +29,7 @@ import {
   DescriptionComponent,
   HeadlineTextBlockComponent,
   BodyTextComponent,
+  ExternalDataViewComponent,
   FullHeightCarouselComponent,
 } from '../components';
 import {
@@ -122,6 +123,15 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
+    case Component.HalfHeightMatchup:
+      return (
+        <ExternalDataViewComponent
+          id={props.__ui_id__}
+          image={
+            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHalfHeightMatchup.svg'
+          }
+        />
+      );
     case Component.FullHeightCarousel:
       return <FullHeightCarouselComponent {...(props as FullHeightCarouselComponentProps)} />;
     default:

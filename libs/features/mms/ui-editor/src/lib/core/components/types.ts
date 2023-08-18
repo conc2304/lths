@@ -7,6 +7,7 @@ export type ComponentProps = BaseProps & {
   onPropChange?: (callback: (value: any) => void) => void;
 };
 export type ComponentType = 'native' | 'webview';
+
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
