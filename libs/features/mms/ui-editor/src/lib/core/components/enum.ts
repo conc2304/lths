@@ -47,4 +47,5 @@ export enum Component {
   SegmentControl = 'cSegmentControl',
   HeadlineTextBlock = 'cHeadlineTextBlock',
   BodyTextBlock = 'cBodyTextBlock',
+  FullHeightCarousel = 'cFullHeightCarousel',
 }

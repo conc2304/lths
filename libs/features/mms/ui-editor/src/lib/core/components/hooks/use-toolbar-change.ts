@@ -27,6 +27,18 @@ export const useToolbarChange = () => {
     }
   };
 
+  const swapComponentProps = (index: number, index2: number) => {
+    const updatedComponentData = [...selectedComponent.properties_data.sub_properties_data];
+    const componet1 = updatedComponentData[index];
+    updatedComponentData[index] = updatedComponentData[index2];
+    updatedComponentData[index2] = componet1;
+    const data = {
+      ...selectedComponent,
+      properties_data: { ...selectedComponent.properties_data, sub_properties_data: updatedComponentData },
+    };
+
+    selectComponent(data);
+  };
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('title', event.target.value, index);
   };
@@ -83,6 +95,7 @@ export const useToolbarChange = () => {
   return {
     selectedComponent,
     updateComponentProp,
+    swapComponentProps,
     handleTitleChange,
     handleDescChange,
     handleLinkTitleChange,

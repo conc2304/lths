@@ -58,6 +58,8 @@ import {
   HeadlineTextBlockComponentProps,
   BodyTextToolbar,
   BodyTextComponentProps,
+  FullHeightCarouselToolbar,
+  FullHeightCarouselComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -118,6 +120,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightCarousel:
+      return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

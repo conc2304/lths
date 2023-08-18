@@ -29,6 +29,7 @@ import {
   DescriptionComponent,
   HeadlineTextBlockComponent,
   BodyTextComponent,
+  FullHeightCarouselComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -60,6 +61,7 @@ import {
   CardImageComponentProps,
   HeadlineTextBlockComponentProps,
   BodyTextComponentProps,
+  FullHeightCarouselComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -120,6 +122,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightCarousel:
+      return <FullHeightCarouselComponent {...(props as FullHeightCarouselComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

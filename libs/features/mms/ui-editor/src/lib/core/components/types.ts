@@ -12,6 +12,20 @@ export type ActionProps = {
   page_id: string;
   page_link: string;
 };
+
+export type FullHeightCarouselProps = {
+  title: string;
+  img_alt_text: string;
+  image: string;
+  description: string;
+  action: ActionProps;
+};
+export type FullHeightCarouselComponentProps = ComponentProps & {
+  properties_data: {
+    sub_properties_data: FullHeightCarouselProps[];
+  };
+};
+
 export type HeroComponentProps = ComponentProps & {
   image: string;
   title: string;
