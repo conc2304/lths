@@ -34,6 +34,15 @@ export type HeroComponentProps = ComponentProps & {
   link_title: string;
   sub_properties_data: QuickLinkProps[];
 };
+export type HalfHeightWithIconProps = ComponentProps & {
+  properties_data: {
+    title: string;
+    icon: string;
+    icon_alt_text: string;
+    description: string;
+    action: ActionProps;
+  };
+};
 export type QuickLinkProps = ComponentProps & {
   icon: string;
   title: string;

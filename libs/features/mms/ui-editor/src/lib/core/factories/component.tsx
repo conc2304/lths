@@ -27,6 +27,7 @@ import {
   MapPathComponent,
   NavCellViewComponent,
   DescriptionComponent,
+  HalfHeightWithIconComponent,
   HeadlineTextBlockComponent,
   BodyTextComponent,
   ExternalDataViewComponent,
@@ -60,6 +61,7 @@ import {
   NavCellViewComponentProps,
   DescriptionComponentProps,
   CardImageComponentProps,
+  HalfHeightWithIconProps,
   HeadlineTextBlockComponentProps,
   BodyTextComponentProps,
   FullHeightCarouselComponentProps,
@@ -119,6 +121,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
+    case Component.HalfHeightWithIcon:
+      return <HalfHeightWithIconComponent {...(props as HalfHeightWithIconProps)} />;
     case Component.HeadlineTextBlock:
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
