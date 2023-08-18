@@ -21,7 +21,6 @@ const ConnectedModal = ({ open, onClose, Modal, onSelect }: ConnectedComponentPr
   const handleSelectedCategory = (category: string) => {
     setCategory(category);
   };
-
   return (
     <Modal
       open={open}

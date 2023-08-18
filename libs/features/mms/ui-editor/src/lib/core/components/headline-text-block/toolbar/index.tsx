@@ -1,33 +1,27 @@
 import { ChangeEvent, SyntheticEvent } from 'react';
 import { useState } from 'react';
-import { Typography, Box, Button, MenuItem } from '@mui/material';
+import { Typography, Box, MenuItem, TextField, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { useEditorActions } from '../../../../context';
-import {
-  BasicTextField,
-  ColorPicker,
-  ToolContainer,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '../../../../elements';
+import { ToolContainer, Accordion, AccordionSummary, AccordionDetails, ActionInput } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { HeadlineTextBlockComponentProps } from '../../types';
+import { size } from '../utils';
 
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { card_background_color, title, text_size, text_color, linked_text },
+    properties_data: { title, text_size, linked_text, action },
   } = props;
   const { selectComponent } = useEditorActions();
-  const { updateComponentProp } = useToolbarChange();
+  const { updateComponentProp, handleActionChange } = useToolbarChange();
   const [expanded, setExpanded] = useState<string | false>('panel0');
+  const [actionType, setActionType] = useState<string>(action?.type);
 
   const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
-
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('title', event.target.value);
   };
@@ -38,41 +32,32 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        card_background_color,
-        title,
-        text_size,
-        text_color,
-        linked_text: [...linked_text, { link_value: 'New link' }],
-      },
+      properties_data: { title, text_size, linked_text: [...linked_text, { link_value: 'New link' }] },
     };
     selectComponent(data);
   };
+
   return (
     <ToolContainer id={id} aria-label="Headline Text" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      <Stack spacing={1}>
-        <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ mb: 4 }} />
-        <ColorPicker
-          label={'Background Color'}
-          value={card_background_color}
-          onChange={(card_background_color) => {
-            updateComponentProp('card_background_color', card_background_color);
-          }}
-        />
-        <BasicTextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
-          <MenuItem value={'24'}>Small</MenuItem>
-          <MenuItem value={'28'}>Medium</MenuItem>
-          <MenuItem value={'32'}>Large</MenuItem>
-        </BasicTextField>
-        <ColorPicker
-          label="Text Color"
-          value={text_color}
-          onChange={(text_color) => {
-            updateComponentProp('text_color', text_color);
-          }}
-        />
-        {linked_text.map(({ link_key, link_value, link_color }, index) => {
+      <Stack spacing={2}>
+        <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+          Title
+        </Typography>
+        <TextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ mb: 4 }} />
+
+        <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+          {size.map((s) => (
+            <MenuItem key={`option-${s.value}`} value={s.value}>
+              {s.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+          Link
+        </Typography>
+        {linked_text.map(({ link_key, link_value }, index) => {
           const panelId = `panel${index}`;
+
           return (
             <Accordion
               expanded={expanded === panelId}
@@ -82,10 +67,11 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
               <AccordionSummary data-testid={`Link #${index + 1}`} aria-controls="panelld-content" id="panelld-header">
                 <Typography>Link #{index + 1}</Typography>
               </AccordionSummary>
-              <AccordionDetails>
+
+              <AccordionDetails sx={{ padding: '16px 16px 16px' }}>
                 <Box sx={{ gap: 2 }}>
-                  <Stack spacing={1}>
-                    <BasicTextField
+                  <Stack spacing={2}>
+                    <TextField
                       label={'Link Key'}
                       value={link_key}
                       sx={{ textTransform: 'uppercase' }}
@@ -93,25 +79,23 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
                         updateComponentProp('link_key', e.target.value, index, 'linked_text');
                       }}
                     />
-                    <ColorPicker
-                      label="Link Color"
-                      value={link_color}
-                      onChange={(linkcolor) => {
-                        updateComponentProp('link_color', linkcolor, index, 'linked_text');
-                      }}
-                    />
-                    <BasicTextField
+
+                    <TextField
                       label={'Link Value'}
                       value={link_value}
                       onChange={(e) => updateComponentProp('link_value', e.target.value, index, 'linked_text')}
                     />
+                    <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
+                      Action
+                    </Typography>
+                    <ActionInput action={action} handleActionChange={handleActionChange} />
                   </Stack>
                 </Box>
               </AccordionDetails>
             </Accordion>
           );
         })}
-        <Button data-testid="HeadLine Text Add" variant="outlined" sx={{ marginTop: 3 }} onClick={handleAdd} fullWidth>
+        <Button data-testid="Add Button" variant="outlined" sx={{ marginTop: 3 }} onClick={handleAdd} fullWidth>
           Add
         </Button>
       </Stack>

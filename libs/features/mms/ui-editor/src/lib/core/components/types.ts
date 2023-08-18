@@ -116,8 +116,10 @@ export type HeadlineTextBlockComponentProps = ComponentProps & {
     text_color: string;
     text_font_family: string;
     linked_text: LinkedTextProps[];
+    action: ActionProps;
   };
 };
+
 //TODO: verify with mok team
 export enum ButtonStyle {
   Blank = '',
