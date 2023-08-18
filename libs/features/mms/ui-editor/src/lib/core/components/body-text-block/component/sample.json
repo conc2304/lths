@@ -1,0 +1,608 @@
+{
+  "status": "Ok",
+  "message": "Success.",
+  "data": {
+    "name": "NewDesign",
+    "page_id": "newdesign",
+    "constraint_data": [],
+    "default_data": [
+      {
+        "id": "o7s7b9cpje41ou5o44se",
+        "component_id": "cHeadlineTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "card_background_color": "#121213",
+          "title": "Heading Large",
+          "text_size": "32",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Bold",
+          "linked_text": [
+            { "link_key": "Heading", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ]
+        }
+      },
+      {
+        "id": "a27f271ux176pat2xq8a",
+        "component_id": "cHeadlineTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "card_background_color": "#121213",
+          "title": "Heading Medium",
+          "text_size": "28",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": []
+        }
+      },
+      {
+        "id": "5j6m96jo5t5k7sywljv7",
+        "component_id": "cHeadlineTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Heading Small",
+          "text_size": "24",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "card_background_color": "#121213",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "Small", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ]
+        }
+      },
+      {
+        "id": "4639dhmnx7oyiaf1j89x",
+        "component_id": "cHeadlineTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Heading Large",
+          "text_size": "32",
+          "text_size_unit": "Pixel",
+          "card_background_color": "#121213",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Bold",
+          "linked_text": [
+            { "link_key": "Large", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ]
+        }
+      },
+      {
+        "id": "6aor7601gx6xxuc7adwp",
+        "component_id": "cBodyTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Body Large",
+          "card_background_color": "#121213",
+          "text_size": "16",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Bold",
+          "linked_text": []
+        }
+      },
+      {
+        "id": "4wodbnz2u8h8wjfx6iiv",
+        "component_id": "cBodyTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Body Medium",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "card_background_color": "#121213",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": []
+        }
+      },
+      {
+        "id": "1e3m7xy4v7g62es9hkxj",
+        "component_id": "cBodyTextBlock",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Body Small",
+          "text_size": "12",
+          "text_size_unit": "Pixel",
+          "card_background_color": "#121213",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": []
+        }
+      },
+      {
+        "id": "vv066la385094b4xjo0e",
+        "component_id": "cTextButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Text Button Large",
+          "text_size": "18",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "card_background_color": "#121213",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "Button", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ]
+        }
+      },
+      {
+        "id": "p0f3jwubud97540k3pxy",
+        "component_id": "cTextButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Text Button Medium",
+          "text_size": "16",
+          "card_background_color": "#121213",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "Medium", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ]
+        }
+      },
+      {
+        "id": "01432yj6xkt6zd07svv6",
+        "component_id": "cTextButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Text Button Small",
+          "text_size": "14",
+          "card_background_color": "#121213",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "linked_text": []
+        }
+      },
+      {
+        "id": "l68gko3g76itc26u7fu2",
+        "component_id": "cHalfHeightWithIcon",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Card Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#ABABAC",
+          "icon": "https://i.im.ge/2023/07/18/56MqXJ.Screenshot-2023-07-18-103146.png",
+          "description": "text description",
+          "desc_text_size": "14",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "http://www.hondacenter.com/arena-info/premium-dining-experiences/"
+          }
+        }
+      },
+      {
+        "id": "3gpjhltn9r0qgb3b8b74",
+        "component_id": "cFullHeightFloatingText",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "card_background_color": "#ABABAC",
+          "text_font_family": "NimbusSans-Regular",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan1.jpg",
+          "description": "Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod tempor",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "aspect_ratio": "16:9",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "ipsum", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ],
+          "action": { "type": "native", "page_id": "carddetail", "page_link": "" }
+        }
+      },
+      {
+        "id": "z260m9ht4z5ra41xq6as",
+        "component_id": "cFullHeightFloatingText",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan10.jpg",
+          "description": "Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod tempor",
+          "aspect_ratio": "16:9",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "Lorem", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ],
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/a-z-arena-guide/"
+          }
+        }
+      },
+      {
+        "id": "eiqr8hrscweb758t9zo7",
+        "component_id": "cFullHeightCarousel",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Card Title",
+          "aspect_ratio": "3:2",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#ABABAC",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan11.jpg",
+          "description": "Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod tempor",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "consecteur", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ],
+          "action": { "type": "web", "page_id": "", "page_link": "https://www.hondacenter.com/arena-info/about-us/" }
+        }
+      },
+      {
+        "id": "ib7pm50ws0o5m334wotk",
+        "component_id": "cHalfWidthCarousel",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#ABABAC",
+          "aspect_ratio": "3:2",
+          "btn_background_color": "#ffffff",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan12.jpg",
+          "description": "Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod tempor",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "linked_text": [
+            { "link_key": "consecteur", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ],
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/ada-accessibility/"
+          }
+        }
+      },
+      {
+        "id": "xchiom3r84f7j9um9h1v",
+        "component_id": "cHalfWidthCarouselFloatingText",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title Desc",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "aspect_ratio": "3:2",
+          "card_background_color": "#303031",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan13.jpg",
+          "linked_text": [
+            { "link_key": "Desc", "link_value": "https://map.com", "link_color": "#234876", "link_id": "021" }
+          ],
+          "action": { "type": "web", "page_id": "", "page_link": "https://www.hondacenter.com/encore-club/" }
+        }
+      },
+      {
+        "id": "t8l8mi04fmqpuh123jec",
+        "component_id": "cPromotionOneIsToOneAspectRatio",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "btn_text": "Order",
+          "btn_text_size": "14",
+          "aspect_ratio": "1:1",
+          "card_background_color": "#303031",
+          "btn_text_size_unit": "Pixel",
+          "btn_text_color": "#000000",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "btn_background_color": "#ffffff",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan14.jpg",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/press-releases/"
+          }
+        }
+      },
+      {
+        "id": "g953nfl84zq7nkip2uoh",
+        "component_id": "cFanGuideThreeIsToFourAspectRatio",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Fan guide title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "description": "Lorem ipsum dolor sit amet consecteur",
+          "card_background_color": "#121213",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "alt_text": "FAN GUIDE",
+          "alt_underlined_text": "true",
+          "alt_underlined_color": "#FFFFFF",
+          "alt_text_size": "12",
+          "alt_text_size_unit": "Pixel",
+          "alt_text_color": "#FFFFFF",
+          "alt_text_font_family": "NimbusSans-Regular",
+          "btn_text": "Order",
+          "btn_text_size": "12",
+          "btn_text_size_unit": "Pixel",
+          "btn_text_color": "#000000",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "btn_background_color": "#ffffff",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan15.jpg",
+          "aspect_ratio": "3:4",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/schedule-download/"
+          }
+        }
+      },
+      {
+        "id": "fd3yvv5c9606656nwpvn",
+        "component_id": "cFullWidthButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "btn_text": "Label",
+          "btn_text_size": "14",
+          "btn_style": "Outline",
+          "btn_text_size_unit": "Pixel",
+          "card_background_color": "#121213",
+          "btn_text_color": "#FFFFFF",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/seating-maps/"
+          }
+        }
+      },
+      {
+        "id": "hq74ipzwcgjq62939py0",
+        "component_id": "cFullHeightEvent",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Event Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#121213",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan16.jpg",
+          "description": "Day Date - Time",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "aspect_ratio": "16:9",
+          "action": { "type": "web", "page_id": "", "page_link": "https://www.hondacenter.com/arena-info/contact-us/" }
+        }
+      },
+      {
+        "id": "73g50jq4a9buxogyqv3g",
+        "component_id": "cHalfHeightMatchup",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "away_team_name": "Ducks",
+          "away_team_logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+          "home_team_name": "Arizona",
+          "home_team_logo": "https://assets.nhle.com/logos/nhl/svg/ARI_light.svg",
+          "team_text_size": "12",
+          "team_text_size_unit": "Pixel",
+          "team_text_color": "#FFFFFF",
+          "team_text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#505051",
+          "vertical_view_color": "#2F3031",
+          "date": "Apr 5",
+          "date_text_size": "12",
+          "date_text_size_unit": "Pixel",
+          "date_text_color": "#FFFFFF",
+          "date_text_font_family": "NimbusSans-Regular",
+          "time": "7:00 PM",
+          "time_text_size": "12",
+          "time_text_size_unit": "Pixel",
+          "time_text_color": "#FFFFFF",
+          "time_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/box-office/box-office-hours/"
+          }
+        }
+      },
+      {
+        "id": "51ii067ldj42hl1z3thg",
+        "component_id": "cHeroGameBox",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "away_team_abbr": "ANA",
+          "away_team_logo": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+          "home_team_abbr": "ARI",
+          "home_team_logo": "https://assets.nhle.com/logos/nhl/svg/ARI_light.svg",
+          "team_text_size": "12",
+          "team_text_size_unit": "Pixel",
+          "team_text_color": "#FFFFFF",
+          "team_text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#000000",
+          "vertical_view_color": "#2F3031",
+          "date": "Thu,Apr 5",
+          "date_text_size": "12",
+          "date_text_size_unit": "Pixel",
+          "date_text_color": "#FFFFFF",
+          "date_text_font_family": "NimbusSans-Regular",
+          "time": "7:00",
+          "time_text_size": "12",
+          "time_text_size_unit": "Pixel",
+          "time_text_color": "#FFFFFF",
+          "time_text_font_family": "NimbusSans-Regular",
+          "action": { "type": "web", "page_id": "", "page_link": "https://www.hondacenter.com/box-office/group-sales/" }
+        }
+      },
+      {
+        "id": "hq74ipzwcgjq62939py0",
+        "component_id": "cHeroEvent",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#505051",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan2.jpg",
+          "description": "Sat,Jan 10 - 7:00PM",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "aspect_ratio": "16:9",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/premium-seating/explore-premium-seating/"
+          }
+        }
+      },
+      {
+        "id": "a58m70k59zpc81g8tuhw",
+        "component_id": "cHeroPromotionSiloTextAndButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Promo headline",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "description": "Short promo descriptive text",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#505051",
+          "btn_text": "Label",
+          "btn_text_size": "12",
+          "btn_text_size_unit": "Pixel",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan3.jpg",
+          "aspect_ratio": "16:9",
+          "btn_text_color": "#FFFFFF",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/schedule-download/"
+          }
+        }
+      },
+      {
+        "id": "21m8m185479rjpg08as2",
+        "component_id": "cHeroPromotionCardText",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Promo headline",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "description": "Short promo descriptive text",
+          "desc_text_size": "12",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan4.jpg",
+          "aspect_ratio": "16:9",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#505051",
+          "btn_text": "Label",
+          "btn_text_size": "12",
+          "btn_text_size_unit": "Pixel",
+          "btn_text_color": "#FFFFFF",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/arena-info/schedule-download/"
+          }
+        }
+      },
+      {
+        "id": "ol90b091juinq9v51dyh",
+        "component_id": "cHeroPromotionCardTextOverlayAndButton",
+        "component_type": "Native",
+        "constraint_data": [],
+        "default_data": {
+          "title": "Title",
+          "text_size": "14",
+          "text_size_unit": "Pixel",
+          "text_color": "#FFFFFF",
+          "text_font_family": "NimbusSans-Regular",
+          "card_background_color": "#505051",
+          "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/ducks_fan4.jpg",
+          "aspect_ratio": "16:9",
+          "description": "Supporting stuff",
+          "desc_text_size": "12",
+          "desc_text_size_unit": "Pixel",
+          "desc_text_color": "#FFFFFF",
+          "desc_text_font_family": "NimbusSans-Regular",
+          "btn_text": "Label",
+          "btn_text_size": "12",
+          "btn_text_size_unit": "Pixel",
+          "btn_text_color": "#FFFFFF",
+          "btn_text_font_family": "NimbusSans-Regular",
+          "action": {
+            "type": "web",
+            "page_id": "",
+            "page_link": "https://www.hondacenter.com/premium-seating/explore-premium-seating/"
+          }
+        }
+      }
+    ]
+  }
+}

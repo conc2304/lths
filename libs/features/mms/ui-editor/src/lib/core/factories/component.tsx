@@ -33,6 +33,7 @@ import {
   BodyTextComponent,
   ExternalDataViewComponent,
   FullHeightCarouselComponent,
+  FullWidthButtonComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -67,6 +68,7 @@ import {
   HeadlineTextBlockComponentProps,
   BodyTextComponentProps,
   FullHeightCarouselComponentProps,
+  FullWidthButtonComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -123,6 +125,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
+    case Component.FullWidthButton:
+      return <FullWidthButtonComponent {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
       return <FullHeightFloatingTextComponent {...(props as FullHeightFloatingTextProps)} />;
     case Component.HalfHeightWithIcon:

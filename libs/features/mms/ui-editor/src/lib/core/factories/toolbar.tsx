@@ -65,6 +65,8 @@ import {
   ExternalDataViewToolbar,
   FullHeightCarouselToolbar,
   FullHeightCarouselComponentProps,
+  FullWidthButtonComponentProps,
+  FullWidthButtonToolbar,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -121,6 +123,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
+    case Component.FullWidthButton:
+      return <FullWidthButtonToolbar {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
       return <FullHeightFloatingTextToolbar {...(props as FullHeightFloatingTextProps)} />;
     case Component.HalfHeightWithIcon:

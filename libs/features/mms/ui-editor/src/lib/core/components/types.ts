@@ -313,6 +313,12 @@ export type DescriptionComponentProps = ComponentProps & {
   };
 };
 
+export type FullWidthButtonComponentProps = ComponentProps & {
+  properties_data: {
+    label: string;
+    action: ActionProps;
+  };
+};
 export type FullHeightFloatingTextProps = ComponentProps & {
   properties_data: {
     title: string;
