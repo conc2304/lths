@@ -68,6 +68,7 @@ export default function AssetsPage() {
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
+    setSelectedPreviewRow(null);
   };
 
   const handleClose = () => {
@@ -286,7 +287,6 @@ export default function AssetsPage() {
         const nextRow = selectedPreviewRow.rowIndex - 1;
         if (nextRow < 0) {
           handleDrawerClose();
-          setSelectedPreviewRow(null);
         }
         setSelectedPreviewRow({ asset: filteredData[nextRow], rowIndex: nextRow });
       }
