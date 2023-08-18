@@ -81,6 +81,9 @@ export { default as NavCellViewToolbar } from './nav-cell-view/toolbar';
 export { default as DescriptionComponent } from './description/component';
 export { default as DescriptionToolbar } from './description/toolbar';
 
+export { default as FullHeightFloatingTextComponent } from './full-height-component/component';
+export { default as FullHeightFloatingTextToolbar } from './full-height-component/toolbar';
+
 export { default as HalfHeightWithIconComponent } from './half-height-with-Icon/component';
 export { default as HalfHeightWithIconToolbar } from './half-height-with-Icon/toolbar';
 

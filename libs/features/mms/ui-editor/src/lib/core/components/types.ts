@@ -313,6 +313,15 @@ export type DescriptionComponentProps = ComponentProps & {
   };
 };
 
+export type FullHeightFloatingTextProps = ComponentProps & {
+  properties_data: {
+    title: string;
+    image: string;
+    description: string;
+    action: ActionProps;
+  };
+};
+
 export type BodyTextComponentProps = ComponentProps & {
   properties_data: {
     title: string;

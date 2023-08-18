@@ -54,6 +54,8 @@ import {
   NavCellViewComponentProps,
   DescriptionToolbar,
   DescriptionComponentProps,
+  FullHeightFloatingTextToolbar,
+  FullHeightFloatingTextProps,
   HalfHeightWithIconToolbar,
   HalfHeightWithIconProps,
   HeadLineTextBlockToolbar,
@@ -119,6 +121,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
+    case Component.FullHeightFloatingText:
+      return <FullHeightFloatingTextToolbar {...(props as FullHeightFloatingTextProps)} />;
     case Component.HalfHeightWithIcon:
       return <HalfHeightWithIconToolbar {...(props as HalfHeightWithIconProps)} />;
     case Component.HeadlineTextBlock:
