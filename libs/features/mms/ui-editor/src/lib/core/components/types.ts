@@ -335,6 +335,7 @@ export type BodyTextComponentProps = ComponentProps & {
     text_color: string;
     text_size: '12px' | '16px' | '32px';
     linked_text: BodyTextComponentsProps[];
+    action: ActionProps;
   };
 };
 

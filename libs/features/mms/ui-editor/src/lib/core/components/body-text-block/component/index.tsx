@@ -3,11 +3,11 @@ import { Box, Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
 import { BodyTextComponentProps } from '../../types';
-
+import { size } from '../utils';
 const BodyTextComponent = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, card_background_color, text_size, text_color, linked_text },
+    properties_data: { title, text_size, linked_text },
   } = props;
 
   let replacedText: string | React.ReactNode[] = title;
@@ -19,7 +19,7 @@ const BodyTextComponent = (props: BodyTextComponentProps) => {
 
     replacedText = reactStringReplace(replacedText, regex, () => {
       return (
-        <Link href={word.link_value} color={word.link_color}>
+        <Link href={word.link_value} color={'#ffffff'}>
           {word.link_key}
         </Link>
       );
@@ -27,8 +27,10 @@ const BodyTextComponent = (props: BodyTextComponentProps) => {
   }
 
   return (
-    <Box id={id} sx={{ backgroundColor: card_background_color, p: 2 }}>
-      <Typography sx={{ fontSize: `${text_size}px`, color: text_color }}>{replacedText}</Typography>
+    <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
+      <Typography sx={{ fontSize: size.find((s) => s.value === text_size).fontSize, color: 'white' }}>
+        {replacedText}
+      </Typography>
     </Box>
   );
 };

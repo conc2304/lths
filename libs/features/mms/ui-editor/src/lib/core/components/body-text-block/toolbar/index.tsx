@@ -5,22 +5,25 @@ import { Stack } from '@mui/system';
 import { useEditorActions } from '../../../../context';
 import {
   BasicTextField,
-  ColorPicker,
   BasicContainer,
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  ActionInput,
+  GroupLabel,
+  OutlinedTextField,
 } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
+import { size } from '../utils';
 
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, card_background_color, text_color, text_size, linked_text },
+    properties_data: { title, card_background_color, text_size, linked_text, action },
   } = props;
 
-  const { updateComponentProp } = useToolbarChange();
+  const { updateComponentProp, handleActionChange, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -36,8 +39,6 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       properties_data: {
         title,
         card_background_color,
-        text_color,
-        text_size,
         linked_text: [...linked_text, { link_value: 'New link' }],
       },
     };
@@ -47,33 +48,16 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   return (
     <BasicContainer id={id}>
       <Stack spacing={2}>
-        <BasicTextField
-          label={'Title'}
-          value={title}
-          onChange={(e) => updateComponentProp('title', e.target.value)}
-          multiline
-          fullWidth
-        />
-        <TextField value={text_size} onChange={handleStyleChange} label="text_size" select fullWidth>
-          <MenuItem value={'12'}>Small</MenuItem>
-          <MenuItem value={'14'}>Medium</MenuItem>
-          <MenuItem value={'16'}>Large</MenuItem>
+        <GroupLabel label={'Text'} />
+        <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
+        <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+          {size.map((s) => (
+            <MenuItem key={`option-${s.value}`} value={s.value}>
+              {s.label}
+            </MenuItem>
+          ))}
         </TextField>
-        <Box>
-          <ColorPicker
-            label={'Background Color'}
-            value={card_background_color}
-            onChange={(card_background_color) => updateComponentProp('card_background_color', card_background_color)}
-          />
-        </Box>
-        <Box>
-          <ColorPicker
-            label={'Text Color'}
-            value={text_color}
-            onChange={(text_color) => updateComponentProp('text_color', text_color)}
-          />
-        </Box>
-        {linked_text.map(({ link_key, link_value, link_color }, index) => {
+        {linked_text.map(({ link_key }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion
@@ -82,31 +66,20 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
               key={`textcard_${index}`}
             >
               <AccordionSummary data-testid={`Link #${index + 1}`} aria-controls="panelld-content" id="panelld-header">
-                <Typography>Link #{index + 1}</Typography>
+                <Typography>Link {index + 1}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Box sx={{ gap: 2 }}>
                   <Stack spacing={2}>
                     <BasicTextField
-                      label={'Link-Key'}
+                      label={'Link Key'}
                       value={link_key}
                       sx={{ textTransform: 'uppercase' }}
                       onChange={(e) => {
                         updateComponentProp('link_key', e.target.value, index, 'linked_text');
                       }}
                     />
-                    <ColorPicker
-                      label={'Color'}
-                      value={link_color}
-                      onChange={(linkcolor) => {
-                        updateComponentProp('link_color', linkcolor, index, 'linked_text');
-                      }}
-                    />
-                    <BasicTextField
-                      label={'Link_Value'}
-                      value={link_value}
-                      onChange={(e) => updateComponentProp('link_value', e.target.value, index, 'linked_text')}
-                    />
+                    <ActionInput action={action} handleActionChange={handleActionChange} />
                   </Stack>
                 </Box>
               </AccordionDetails>
