@@ -53,13 +53,16 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
 
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
-
       return { ...state, components: [...state.components, resetIds(component)] };
     }
 
     case EditorActionType.REMOVE_COMPONENT: {
       const { id } = action;
-      return { ...state, components: state.components.filter((o) => o.__ui_id__ !== id) };
+      return {
+        ...state,
+        selectedComponent: state.selectedComponent.__ui_id__ === id ? null : state.selectedComponent,
+        components: state.components.filter((o) => o.__ui_id__ !== id),
+      };
     }
 
     case EditorActionType.ORDER_COMPONENT: {

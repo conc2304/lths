@@ -16,10 +16,12 @@ export default function OverflowMenu({ items, onClick }: Props) {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    event.stopPropagation();
   };
-  const handleClose = (item: string) => {
+  const handleClose = (event: React.MouseEvent<HTMLElement>, item?: string) => {
     setAnchorEl(null);
-    onClick(item);
+    item && onClick(item);
+    event?.stopPropagation();
   };
 
   return (
@@ -50,7 +52,7 @@ export default function OverflowMenu({ items, onClick }: Props) {
         }}
       >
         {items.map((item) => (
-          <MenuItem key={item} onClick={() => handleClose(item)}>
+          <MenuItem key={item} onClick={(e) => handleClose(e, item)}>
             {item}
           </MenuItem>
         ))}

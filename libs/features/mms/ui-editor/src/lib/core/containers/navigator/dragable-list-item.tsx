@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ListItem, ListItemIcon, Box } from '@mui/material';
+import { ListItemIcon, Box, ListItemButton } from '@mui/material';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { EditableListItemText } from './editable-list-item';
@@ -17,7 +17,7 @@ const style = {
 //TODO: move this to constants??
 const menuOptions = ['delete', 'duplicate'];
 
-export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCardProps) => {
+export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -98,12 +98,12 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick }: DragCard
 
   return (
     <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
-      <ListItem onClick={handleClick}>
+      <ListItemButton onClick={handleClick} selected={selected}>
         <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
         <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
           <OverflowMenu items={menuOptions} onClick={(action) => onMenuClick(index, id, action)} />
         </ListItemIcon>
-      </ListItem>
+      </ListItemButton>
     </Box>
   );
 };
