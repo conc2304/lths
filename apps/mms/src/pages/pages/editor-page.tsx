@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import {
   PageDetail,
+  useDuplicatePageMutation,
   useLazyGetComponentDetailQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
@@ -52,6 +53,8 @@ export function PageEditorTabs() {
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
 
   const [updatePageDetails] = useUpdatePageDetailsMutation();
+
+  const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   const navigate = useNavigate();
 
@@ -149,13 +152,25 @@ export function PageEditorTabs() {
     }
   };
 
+  const handleDuplicatePage = async () => {
+    try {
+      const response = await duplicatePage({ page_id: pageId }).unwrap();
+      if (response?.success) {
+        toast.success('Page has been duplicated successfully');
+        navigate('/pages');
+      }
+    } catch (error) {
+      console.error('Error in duplicating page', error.message);
+    }
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <PageHeader title={page_data?.name} status={page_data?.status} onStatusChange={handleMenuItemSelect} />
       <Box sx={{ mb: 1 }}>
-        <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: duplicate')}>
+        <LoadingButton loading={isDuplicatingPage} size="small" color="secondaryButton" onClick={handleDuplicatePage}>
           DUPLICATE
-        </Button>
+        </LoadingButton>
         <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: share')}>
           SHARE
         </Button>

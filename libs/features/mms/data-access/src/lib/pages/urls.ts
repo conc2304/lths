@@ -49,3 +49,6 @@ export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pag
 export const getUpdatePageDetailsUrl = (page_id: string) => `/mms/pages/${page_id}`;
 
 export const getDeletePageUrl = (req: DeletePageRequest) => `/mms/pages/${req.page_id}`;
+
+
+export const getDuplicatePageUrl = () => `/mms/pages/duplicate`;
