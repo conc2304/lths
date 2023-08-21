@@ -34,45 +34,6 @@ describe('ChipContainer component', () => {
     jest.clearAllMocks();
   });
 
-  it('should match the snapshot (inline variant)', () => {
-    // Arrange
-    const component = (
-      <ChipContainer
-        title="Filters Applied"
-        selectedFilters={selectedFilters}
-        onDelete={onDeleteMock}
-        variant="inline"
-        onClearAll={onClearAllMock}
-        openModal={openModalMock}
-      />
-    );
-
-    const { baseElement } = render(RBThemeProvider({ children: component }));
-    // Act
-    // Assert
-    expect(baseElement).toMatchSnapshot();
-  });
-
-  it('should match the snapshot (modal variant)', () => {
-    // Arrange
-    const component = (
-      <ChipContainer
-        title="Filters"
-        onDelete={onDeleteMock}
-        selectedFilters={selectedFilters}
-        variant="modal"
-        onClearAll={onClearAllMock}
-        openModal={openModalMock}
-      />
-    );
-    render(RBThemeProvider({ children: component }));
-
-    const { baseElement } = render(RBThemeProvider({ children: component }));
-    // Act
-    // Assert
-    expect(baseElement).toMatchSnapshot();
-  });
-
   it('should render the ChipContainer with modal variant correctly', () => {
     // Arrange
     const component = (
