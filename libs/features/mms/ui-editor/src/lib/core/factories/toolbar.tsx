@@ -166,6 +166,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightEvent:
+      return <ExternalDataViewToolbar id={props.__ui_id__} title="Event" desc="Content and data from Ticketmaster." />;
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselToolbar {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:

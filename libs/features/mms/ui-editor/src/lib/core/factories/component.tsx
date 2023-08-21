@@ -170,6 +170,15 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightEvent:
+      return (
+        <ExternalDataViewComponent
+          id={props.__ui_id__}
+          image={
+            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cFullHeightEvent.svg'
+          }
+        />
+      );
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselComponent {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
