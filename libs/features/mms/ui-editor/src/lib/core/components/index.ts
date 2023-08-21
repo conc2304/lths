@@ -121,4 +121,7 @@ export { default as ExternalDataViewToolbar } from './external-data-view/toolbar
 export { default as FullHeightCarouselComponent } from './full-height-carousel-component/component';
 export { default as FullHeightCarouselToolbar } from './full-height-carousel-component/toolbar';
 
+export { default as TextButtonComponent } from './text-button/component';
+export { default as TextButtonToolbar } from './text-button/toolbar';
+
 export * from './types';

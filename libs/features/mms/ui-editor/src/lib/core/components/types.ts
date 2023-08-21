@@ -112,6 +112,18 @@ export type NewsViewComponentProps = ComponentProps & {
   };
 };
 
+export type TextButtonProps = ComponentProps & {
+  properties_data: {
+    title: string;
+    text_size: string;
+    text_size_unit: string;
+    text_color: string;
+    card_background_color: string;
+    text_font_family: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
 export type HeaderComponentProps = ComponentProps & {
   properties_data: { title: string; color: string; desc: string; action: ActionProps };
 };
@@ -346,9 +358,9 @@ export type QuicklinkButton = {
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
   properties_data: {
-    first_button: QuicklinkButton,
-    second_button: QuicklinkButton,
-  }
+    first_button: QuicklinkButton;
+    second_button: QuicklinkButton;
+  };
 };
 
 export type FanGuideThreeIsToFourAspectRatioComponentProps = ComponentProps & {
@@ -361,7 +373,6 @@ export type FanGuideThreeIsToFourAspectRatioComponentProps = ComponentProps & {
     btn_text: string;
   };
 };
-
 
 // Hero Promotion
 export type CardTextOverlayAndButtonComponentProps = ComponentProps & {
@@ -407,7 +418,7 @@ export type HalfWidthCarouselFloatingTextProps = {
 export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
   properties_data: {
     sub_properties_data: HalfWidthCarouselFloatingTextProps[];
-  }
+  };
 };
 
 export type FullWidthButtonComponentProps = ComponentProps & {

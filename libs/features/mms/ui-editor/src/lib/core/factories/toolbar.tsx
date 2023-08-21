@@ -84,6 +84,8 @@ import {
   FullHeightCarouselComponentProps,
   FullWidthButtonComponentProps,
   FullWidthButtonToolbar,
+  TextButtonToolbar,
+  TextButtonProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -188,6 +190,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ExternalDataViewToolbar id={props.__ui_id__} title="Matchup" desc="Content and data from NHL.com." />;
     case Component.FullHeightCarousel:
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
+    case Component.TextButton:
+      return <TextButtonToolbar {...(props as TextButtonProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

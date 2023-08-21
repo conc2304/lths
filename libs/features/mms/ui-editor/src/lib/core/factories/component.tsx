@@ -43,6 +43,7 @@ import {
   ExternalDataViewComponent,
   FullHeightCarouselComponent,
   FullWidthButtonComponent,
+  TextButtonComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -86,6 +87,7 @@ import {
   HalfWidthCarouselComponentProps,
   FullHeightCarouselComponentProps,
   FullWidthButtonComponentProps,
+  TextButtonProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -197,6 +199,8 @@ export const componentFactory = (props: ComponentProps) => {
       );
     case Component.FullHeightCarousel:
       return <FullHeightCarouselComponent {...(props as FullHeightCarouselComponentProps)} />;
+    case Component.TextButton:
+      return <TextButtonComponent {...(props as TextButtonProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
