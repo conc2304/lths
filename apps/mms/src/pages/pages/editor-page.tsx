@@ -63,7 +63,7 @@ export function PageEditorTabs() {
     if (response.isSuccess) {
       const payload = response.data;
 
-      if (payload?.success && payload?.data?.length > 0) initEditor(payload.data[0]);
+      if (payload?.success && payload?.data) initEditor(payload.data);
       else toast.success('Page details could not be found');
     }
   };
@@ -145,7 +145,7 @@ export function PageEditorTabs() {
 
       if (response?.success) {
         toast.success('Page details has been updated successfully');
-        initEditor(response?.data[0]);
+        initEditor(response?.data);
       }
     } catch (error) {
       console.error('Error in updating page details', error.message);
