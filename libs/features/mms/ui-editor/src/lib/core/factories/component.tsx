@@ -40,7 +40,6 @@ import {
   HeadlineTextBlockComponent,
   BodyTextComponent,
   HalfWidthCarouselComponent,
-  ExternalDataViewComponent,
   FullHeightCarouselComponent,
   FullWidthButtonComponent,
   TextButtonComponent,
@@ -170,9 +169,20 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightEventFloatingText:
+      return (
+        <ExternalDataComponent
+          img_alt="FullHeightEventFloatingText"
+          id={props.__ui_id__}
+          image={
+            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cFullHeightEventFloatingText.png'
+          }
+        />
+      );
     case Component.FullHeightEvent:
       return (
-        <ExternalDataViewComponent
+        <ExternalDataComponent
+          img_alt="FullHeightEvent"
           id={props.__ui_id__}
           image={
             'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cFullHeightEvent.svg'
@@ -199,7 +209,8 @@ export const componentFactory = (props: ComponentProps) => {
       );
     case Component.HalfHeightMatchup:
       return (
-        <ExternalDataViewComponent
+        <ExternalDataComponent
+          img_alt="HalfHeightMatchup"
           id={props.__ui_id__}
           image={
             'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHalfHeightMatchup.svg'

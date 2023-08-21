@@ -59,6 +59,7 @@ export enum Component {
   HalfHeightWithIcon = 'cHalfHeightWithIcon',
   HeadlineTextBlock = 'cHeadlineTextBlock',
   BodyTextBlock = 'cBodyTextBlock',
+  FullHeightEventFloatingText = 'cFullHeightEventFloatingText',
   FullHeightEvent = 'cFullHeightEvent',
   HalfWidthCarousel = 'cHalfWidthCarousel',
   HalfHeightMatchup = 'cHalfHeightMatchup',

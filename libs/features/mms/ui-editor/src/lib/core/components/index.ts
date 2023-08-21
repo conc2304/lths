@@ -115,8 +115,6 @@ export { default as BodyTextToolbar } from './body-text-block/toolbar';
 
 export { default as HalfWidthCarouselComponent } from './half-width-carousel-component/component';
 export { default as HalfWidthCarouselToolbar } from './half-width-carousel-component/toolbar';
-export { default as ExternalDataViewComponent } from './external-data-view/component';
-export { default as ExternalDataViewToolbar } from './external-data-view/toolbar';
 
 export { default as FullHeightCarouselComponent } from './full-height-carousel-component/component';
 export { default as FullHeightCarouselToolbar } from './full-height-carousel-component/toolbar';

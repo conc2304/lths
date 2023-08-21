@@ -79,7 +79,6 @@ import {
   BodyTextComponentProps,
   HalfWidthCarouselToolbar,
   HalfWidthCarouselComponentProps,
-  ExternalDataViewToolbar,
   FullHeightCarouselToolbar,
   FullHeightCarouselComponentProps,
   FullWidthButtonComponentProps,
@@ -166,8 +165,24 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.FullHeightEventFloatingText:
+      return (
+        <ExternalDataToolbar
+          component_id={props.component_id}
+          id={props.__ui_id__}
+          title="Event"
+          desc="Content and data from Ticketmaster"
+        />
+      );
     case Component.FullHeightEvent:
-      return <ExternalDataViewToolbar id={props.__ui_id__} title="Event" desc="Content and data from Ticketmaster." />;
+      return (
+        <ExternalDataToolbar
+          component_id={props.component_id}
+          id={props.__ui_id__}
+          title="Event"
+          desc="Content and data from Ticketmaster."
+        />
+      );
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselToolbar {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
@@ -189,7 +204,14 @@ export const toolbarFactory = (props: ComponentProps) => {
         />
       );
     case Component.HalfHeightMatchup:
-      return <ExternalDataViewToolbar id={props.__ui_id__} title="Matchup" desc="Content and data from NHL.com." />;
+      return (
+        <ExternalDataToolbar
+          component_id={props.component_id}
+          id={props.__ui_id__}
+          title="Matchup"
+          desc="Content and data from NHL.com."
+        />
+      );
     case Component.FullHeightCarousel:
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:
