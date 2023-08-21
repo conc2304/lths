@@ -1,6 +1,9 @@
 export { default as UnsupportedComponent } from './unsupported/component';
 export { default as UnsupportedToolbar } from './unsupported/toolbar';
 
+export { default as ExternalDataComponent } from './external-data/component';
+export { default as ExternalDataToolbar } from './external-data/toolbar';
+
 export { default as GenericToolbar } from './generic/toolbar';
 
 export { default as HeroComponent } from './hero/component';
@@ -80,6 +83,20 @@ export { default as NavCellViewToolbar } from './nav-cell-view/toolbar';
 
 export { default as DescriptionComponent } from './description/component';
 export { default as DescriptionToolbar } from './description/toolbar';
+
+export * from './hero-promotion';
+
+export { default as PromotionOneIsToOneAspectRatioComponent } from './promotion-one-is-to-one-aspect-ratio/component';
+export { default as PromotionOneIsToOneAspectRatioToolbar } from './promotion-one-is-to-one-aspect-ratio/toolbar';
+
+export { default as FanGuideThreeIsToFourAspectRatioComponent } from './fan-guide-three-is-to-four-aspect-ratio/component';
+export { default as FanGuideThreeIsToFourAspectRatioToolbar } from './fan-guide-three-is-to-four-aspect-ratio/toolbar';
+
+export { default as QuicklinkButtonGroupComponent } from './quicklink-button-group/component';
+export { default as QuicklinkButtonGroupToolbar } from './quicklink-button-group/toolbar';
+
+export { default as HalfWidthCarouselFloatingTextComponent } from './half-width-carousel-floating-text/component';
+export { default as HalfWidthCarouselFloatingTextToolbar } from './half-width-carousel-floating-text/toolbar';
 
 export { default as FullWidthButtonComponent } from './full-width-button/component';
 export { default as FullWidthButtonToolbar } from './full-width-button/toolbar';

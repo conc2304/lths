@@ -9,6 +9,7 @@ import { DraggableCarouselListItemProps, DragItemProps, ItemTypes } from './type
 
 import type { Identifier, XYCoord } from 'dnd-core';
 
+
 const DraggableCarouselListItem = ({
   text,
   sub_properties_data,

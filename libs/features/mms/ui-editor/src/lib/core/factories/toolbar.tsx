@@ -54,6 +54,21 @@ import {
   NavCellViewComponentProps,
   DescriptionToolbar,
   DescriptionComponentProps,
+  CardTextToolbar,
+  CardTextComponentProps,
+  CardTextOverlayAndButtonToolbar,
+  CardTextOverlayAndButtonComponentProps,
+  SiloTextAndButtonToolbar,
+  SiloTextAndButtonComponentProps,
+  PromotionOneIsToOneAspectRatioToolbar,
+  PromotionOneIsToOneAspectRatioComponentProps,
+  FanGuideThreeIsToFourAspectRatioToolbar,
+  FanGuideThreeIsToFourAspectRatioComponentProps,
+  QuicklinkButtonGroupToolbar,
+  QuicklinkButtonGroupComponentProps,
+  HalfWidthCarouselFloatingTextToolbar,
+  HalfWidthCarouselFloatingTextComponentProps,
+  ExternalDataToolbar,
   FullHeightFloatingTextToolbar,
   FullHeightFloatingTextProps,
   HalfHeightWithIconToolbar,
@@ -123,6 +138,20 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <NavCellViewToolbar {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionToolbar {...(props as DescriptionComponentProps)} />;
+    case Component.HeroPromotionCardText:
+      return <CardTextToolbar {...(props as CardTextComponentProps)} />;
+    case Component.HeroPromotionCardTextOverlayAndButton:
+      return <CardTextOverlayAndButtonToolbar {...(props as CardTextOverlayAndButtonComponentProps)} />;
+    case Component.HeroPromotionSiloTextAndButton:
+      return <SiloTextAndButtonToolbar {...(props as SiloTextAndButtonComponentProps)} />;
+    case Component.PromotionOneIsToOneAspectRatio:
+      return <PromotionOneIsToOneAspectRatioToolbar {...(props as PromotionOneIsToOneAspectRatioComponentProps)} />;
+    case Component.FanGuideThreeIsToFourAspectRatio:
+      return <FanGuideThreeIsToFourAspectRatioToolbar {...(props as FanGuideThreeIsToFourAspectRatioComponentProps)} />;
+    case Component.QuicklinkButtonGroup:
+      return <QuicklinkButtonGroupToolbar {...(props as QuicklinkButtonGroupComponentProps)} />;
+    case Component.HalfWidthCarouselFloatingText:
+      return <HalfWidthCarouselFloatingTextToolbar {...(props as HalfWidthCarouselFloatingTextComponentProps)}/>;
     case Component.FullWidthButton:
       return <FullWidthButtonToolbar {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
@@ -133,6 +162,10 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.HeroEvent:
+      return <ExternalDataToolbar component_id={props.component_id} id={props.__ui_id__} title="Event" desc="Content and data from NHL.com."/>;
+    case Component.HeroGameBox:
+      return <ExternalDataToolbar component_id={props.component_id} id={props.__ui_id__} title="Gamebox" desc="Content and data from NHL.com."/>;
     case Component.HalfHeightMatchup:
       return <ExternalDataViewToolbar id={props.__ui_id__} title="Matchup" desc="Content and data from NHL.com." />;
     case Component.FullHeightCarousel:

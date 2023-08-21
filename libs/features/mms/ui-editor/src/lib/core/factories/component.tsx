@@ -27,6 +27,14 @@ import {
   MapPathComponent,
   NavCellViewComponent,
   DescriptionComponent,
+  CardTextComponent,
+  CardTextOverlayAndButtonComponent,
+  SiloTextAndButtonComponent,
+  PromotionOneIsToOneAspectRatioComponent,
+  FanGuideThreeIsToFourAspectRatioComponent,
+  QuicklinkButtonGroupComponent,
+  HalfWidthCarouselFloatingTextComponent,
+  ExternalDataComponent,
   FullHeightFloatingTextComponent,
   HalfHeightWithIconComponent,
   HeadlineTextBlockComponent,
@@ -63,6 +71,13 @@ import {
   NavCellViewComponentProps,
   DescriptionComponentProps,
   CardImageComponentProps,
+  CardTextOverlayAndButtonComponentProps,
+  CardTextComponentProps,
+  SiloTextAndButtonComponentProps,
+  PromotionOneIsToOneAspectRatioComponentProps,
+  FanGuideThreeIsToFourAspectRatioComponentProps,
+  QuicklinkButtonGroupComponentProps,
+  HalfWidthCarouselFloatingTextComponentProps,
   FullHeightFloatingTextProps,
   HalfHeightWithIconProps,
   HeadlineTextBlockComponentProps,
@@ -125,6 +140,20 @@ export const componentFactory = (props: ComponentProps) => {
       return <NavCellViewComponent {...(props as NavCellViewComponentProps)} />;
     case Component.Desc:
       return <DescriptionComponent {...(props as DescriptionComponentProps)} />;
+    case Component.HeroPromotionCardText:
+      return <CardTextComponent {...(props as CardTextComponentProps)} />;
+    case Component.HeroPromotionCardTextOverlayAndButton:
+      return <CardTextOverlayAndButtonComponent {...(props as CardTextOverlayAndButtonComponentProps)} />;
+    case Component.HeroPromotionSiloTextAndButton:
+      return <SiloTextAndButtonComponent {...(props as SiloTextAndButtonComponentProps)} />;
+    case Component.PromotionOneIsToOneAspectRatio:
+      return <PromotionOneIsToOneAspectRatioComponent {...(props as PromotionOneIsToOneAspectRatioComponentProps)} />;
+    case Component.FanGuideThreeIsToFourAspectRatio:
+      return <FanGuideThreeIsToFourAspectRatioComponent {...(props as FanGuideThreeIsToFourAspectRatioComponentProps)} />;
+    case Component.QuicklinkButtonGroup:
+      return <QuicklinkButtonGroupComponent {...(props as QuicklinkButtonGroupComponentProps)}/>;
+    case Component.HalfWidthCarouselFloatingText:
+      return <HalfWidthCarouselFloatingTextComponent {...(props as HalfWidthCarouselFloatingTextComponentProps)}/>;
     case Component.FullWidthButton:
       return <FullWidthButtonComponent {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
@@ -135,6 +164,18 @@ export const componentFactory = (props: ComponentProps) => {
       return <HeadlineTextBlockComponent {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
+    case Component.HeroEvent:
+      return (
+        <ExternalDataComponent img_alt="Hero Event" id={props.__ui_id__} 
+          image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.png'}
+        />
+        );
+    case Component.HeroGameBox:
+      return (
+        <ExternalDataComponent img_alt="Hero GameBox" id={props.__ui_id__} 
+          image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroGameBox.png'}
+        />
+      );
     case Component.HalfHeightMatchup:
       return (
         <ExternalDataViewComponent

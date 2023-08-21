@@ -6,6 +6,7 @@ export * from './enum';
 export type ComponentProps = BaseProps & {
   onPropChange?: (callback: (value: any) => void) => void;
 };
+
 export type ComponentType = 'native' | 'webview';
 
 export type ActionProps = {
@@ -313,6 +314,87 @@ export type DescriptionComponentProps = ComponentProps & {
     color: string;
     style: 'bold' | 'light' | 'medium';
   };
+};
+
+export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
+  properties_data: {
+    image: string;
+    img_alt_text: string;
+    action: ActionProps;
+    btn_text: string;
+  };
+};
+export type QuicklinkButton = {
+  label: string;
+  icon: string;
+  icon_alt_text: string;
+  action: ActionProps;
+};
+
+export type QuicklinkButtonGroupComponentProps = ComponentProps & {
+  properties_data: {
+    first_button: QuicklinkButton,
+    second_button: QuicklinkButton,
+  }
+};
+
+export type FanGuideThreeIsToFourAspectRatioComponentProps = ComponentProps & {
+  properties_data: {
+    image: string;
+    img_alt_text: string;
+    title: string;
+    description: string;
+    action: ActionProps;
+    btn_text: string;
+  };
+};
+
+
+// Hero Promotion
+export type CardTextOverlayAndButtonComponentProps = ComponentProps & {
+  properties_data: {
+    image: string;
+    img_alt_text: string;
+    title: string;
+    description: string;
+    action: ActionProps;
+    btn_text: string;
+  };
+};
+
+export type CardTextComponentProps = ComponentProps & {
+  properties_data: {
+    image: string;
+    img_alt_text: string;
+    title: string;
+    description: string;
+    action: ActionProps;
+  };
+};
+
+export type SiloTextAndButtonComponentProps = ComponentProps & {
+  properties_data: {
+    image: string;
+    img_alt_text: string;
+    title: string;
+    description: string;
+    action: ActionProps;
+    btn_text: string;
+  };
+};
+
+export type HalfWidthCarouselFloatingTextProps = {
+  name: string;
+  image: string;
+  img_alt_text: string;
+  title: string;
+  action: ActionProps;
+};
+
+export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
+  properties_data: {
+    sub_properties_data: HalfWidthCarouselFloatingTextProps[];
+  }
 };
 
 export type FullWidthButtonComponentProps = ComponentProps & {

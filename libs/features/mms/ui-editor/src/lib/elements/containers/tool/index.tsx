@@ -7,7 +7,7 @@ const ToolContainer = ({ id, children, ...rest }: BoxProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
+        gap: 3,
         margin: 2,
         borderRadius: 1,
         background: '#ffffff',

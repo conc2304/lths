@@ -67,4 +67,5 @@ const ImagePicker = ({ value, onChange, onReplace }: ImagePickerProps) => {
     </Box>
   );
 };
+
 export default ImagePicker;

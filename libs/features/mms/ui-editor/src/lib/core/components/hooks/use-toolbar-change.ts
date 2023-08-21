@@ -27,6 +27,7 @@ export const useToolbarChange = () => {
     }
   };
 
+
   const swapComponentProps = (index: number, index2: number) => {
     const updatedComponentData = [...selectedComponent.properties_data.sub_properties_data];
     const componet1 = updatedComponentData[index];
@@ -39,8 +40,12 @@ export const useToolbarChange = () => {
 
     selectComponent(data);
   };
+
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('title', event.target.value, index);
+  };
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('name', event.target.value, index);
   };
   const handleIconChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('icon', event.target.value, index);
@@ -57,8 +62,23 @@ export const useToolbarChange = () => {
   const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('desc', event.target.value, index);
   };
+
+  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('description', event.target.value, index);
+  };
+
+  const handleButtonTextChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('btn_text', event.target.value, index);
+  };
+
+  const handleLinkChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('link', event.target.value, index);
+  };
   const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('link_title', event.target.value, index);
+  };
+  const handleImageAltChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('img_alt_text', event.target.value, index);
   };
 
   const handleImageChange = (value: string, index?: number) => {
@@ -94,11 +114,16 @@ export const useToolbarChange = () => {
 
   return {
     selectedComponent,
-    updateComponentProp,
     swapComponentProps,
+    updateComponentProp,
     handleTitleChange,
+    handleNameChange,
     handleDescChange,
+    handleDescriptionChange,
+    handleButtonTextChange,
+    handleLinkChange,
     handleLinkTitleChange,
+    handleImageAltChange,
     handleImageChange,
     handleActionChange,
     handleComponentDataChange,
