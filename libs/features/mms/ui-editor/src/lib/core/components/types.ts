@@ -88,6 +88,19 @@ export type CardComponentProps = ComponentProps & {
   };
 };
 
+export type HalfWidthCarouselProps = {
+  title: string;
+  image: string;
+  description: string;
+  image_alt_text: string;
+  action: ActionProps;
+};
+export type HalfWidthCarouselComponentProps = ComponentProps & {
+  properties_data: {
+    sub_properties_data: HalfWidthCarouselProps[];
+  };
+};
+
 export type NewsViewComponentProps = ComponentProps & {
   properties_data: {
     image: string;

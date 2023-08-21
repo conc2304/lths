@@ -77,6 +77,8 @@ import {
   HeadlineTextBlockComponentProps,
   BodyTextToolbar,
   BodyTextComponentProps,
+  HalfWidthCarouselToolbar,
+  HalfWidthCarouselComponentProps,
   ExternalDataViewToolbar,
   FullHeightCarouselToolbar,
   FullHeightCarouselComponentProps,
@@ -151,7 +153,7 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.QuicklinkButtonGroup:
       return <QuicklinkButtonGroupToolbar {...(props as QuicklinkButtonGroupComponentProps)} />;
     case Component.HalfWidthCarouselFloatingText:
-      return <HalfWidthCarouselFloatingTextToolbar {...(props as HalfWidthCarouselFloatingTextComponentProps)}/>;
+      return <HalfWidthCarouselFloatingTextToolbar {...(props as HalfWidthCarouselFloatingTextComponentProps)} />;
     case Component.FullWidthButton:
       return <FullWidthButtonToolbar {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
@@ -162,10 +164,26 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HeadLineTextBlockToolbar {...(props as HeadlineTextBlockComponentProps)} />;
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
+    case Component.HalfWidthCarousel:
+      return <HalfWidthCarouselToolbar {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
-      return <ExternalDataToolbar component_id={props.component_id} id={props.__ui_id__} title="Event" desc="Content and data from NHL.com."/>;
+      return (
+        <ExternalDataToolbar
+          component_id={props.component_id}
+          id={props.__ui_id__}
+          title="Event"
+          desc="Content and data from NHL.com."
+        />
+      );
     case Component.HeroGameBox:
-      return <ExternalDataToolbar component_id={props.component_id} id={props.__ui_id__} title="Gamebox" desc="Content and data from NHL.com."/>;
+      return (
+        <ExternalDataToolbar
+          component_id={props.component_id}
+          id={props.__ui_id__}
+          title="Gamebox"
+          desc="Content and data from NHL.com."
+        />
+      );
     case Component.HalfHeightMatchup:
       return <ExternalDataViewToolbar id={props.__ui_id__} title="Matchup" desc="Content and data from NHL.com." />;
     case Component.FullHeightCarousel:

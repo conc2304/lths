@@ -9,36 +9,36 @@ const Story: Meta<typeof ExternalDataToolbar> = {
 export default Story;
 
 const Template: StoryFn<typeof ExternalDataToolbar> = (args) => (
-    <Box 
-        sx={{
-            backgroundColor: 'rgb(245, 245, 245)',
-            display: 'flex', justifyContent: 'center',
-            alignItems: 'center' 
-        }}
-    >
-        <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-            <ExternalDataToolbar {...args} />
-        </Box>
+  <Box
+    sx={{
+      backgroundColor: 'rgb(245, 245, 245)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
+      <ExternalDataToolbar {...args} />
     </Box>
+  </Box>
 );
-
 
 export const Primary = Template.bind({});
 Primary.args = {
-    img_alt: "Hero Event",
-    id: "3333333", 
-    image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.png',
-}
+  img_alt: 'Hero Event',
+  id: '3333333',
+  image: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.svg',
+};
 
 Primary.argTypes = {
-    __ui_id__: { table: { disable: true}},
-    component_id: { table: { disable: true}},
-    _id: { table: { disable: true}},
-    name: { table: { disable: true}},
-    description: { table: { disable: true}},
-    category: { table: { disable: true}},
-    image_url: { table: { disable: true}},
-    display_order: { table: { disable: true}},
-    variation_id: { table: { disable: true}},
-    schema: { table: { disable: true}},
-}
+  __ui_id__: { table: { disable: true } },
+  component_id: { table: { disable: true } },
+  _id: { table: { disable: true } },
+  name: { table: { disable: true } },
+  description: { table: { disable: true } },
+  category: { table: { disable: true } },
+  image_url: { table: { disable: true } },
+  display_order: { table: { disable: true } },
+  variation_id: { table: { disable: true } },
+  schema: { table: { disable: true } },
+};
