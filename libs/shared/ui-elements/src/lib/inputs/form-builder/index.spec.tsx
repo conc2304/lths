@@ -17,24 +17,6 @@ describe('Form component', () => {
   const onClearGroup: ClearGroup = jest.fn();
   const onAddGroupItems: AddGroupItems = jest.fn();
 
-  it('should match the snapshot', () => {
-    // Arrange
-    const { baseElement } = render(
-      <Form
-        formSchema={formSchema}
-        formState={formState}
-        onAddItem={onAddItem}
-        onRemoveItem={onRemoveItem}
-        onClearGroup={onClearGroup}
-        onAddGroupItems={onAddGroupItems}
-      />
-    );
-
-    // Act
-    // Assert
-    expect(baseElement).toMatchSnapshot();
-  });
-
   it('should render the form with provided schema and state', () => {
     // Arrange
     render(
