@@ -1,5 +1,5 @@
 import { useState, SyntheticEvent } from 'react';
-import { Button, Stack, Box, Typography, TextField, MenuItem } from '@mui/material';
+import { Button, Stack, Box, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
 import {
@@ -9,6 +9,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   ImagePicker,
+  ActionAccordion,
 } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { ButtonsViewComponentProps } from '../../types';
@@ -65,38 +66,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
                       handleTitleChange(e, index);
                     }}
                   />
-                  <Accordion>
-                    <AccordionSummary>
-                      <Typography>action</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <TextField
-                        value={action?.type}
-                        onChange={(e) => {
-                          handleActionChange(e, 'type', index);
-                        }}
-                        label="type"
-                        select
-                      >
-                        <MenuItem value={'native'}>native</MenuItem>
-                        <MenuItem value={'weblink'}>weblink</MenuItem>
-                      </TextField>
-                      <BasicTextField
-                        label={'Page Id'}
-                        value={action?.page_id}
-                        onChange={(e) => {
-                          handleActionChange(e, 'page_id', index);
-                        }}
-                      />
-                      <BasicTextField
-                        label={'Page Link'}
-                        value={action?.page_link}
-                        onChange={(e) => {
-                          handleActionChange(e, 'page_link', index);
-                        }}
-                      />
-                    </AccordionDetails>
-                  </Accordion>
+                  <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
                 </Stack>
               </AccordionDetails>
             </Accordion>

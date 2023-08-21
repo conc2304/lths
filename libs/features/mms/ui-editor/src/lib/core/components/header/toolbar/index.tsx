@@ -1,14 +1,4 @@
-import { ChangeEvent } from 'react';
-import { TextField, MenuItem, Typography } from '@mui/material';
-
-import {
-  ToolContainer,
-  ColorTextField,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from '../../../../elements';
+import { ToolContainer, ColorTextField, BasicTextField, ActionAccordion } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { HeaderComponentProps } from '../../types';
 
@@ -24,17 +14,6 @@ const HeaderToolbar = (props: HeaderComponentProps) => {
     updateComponentProp('color', color);
   };
 
-  const handleActionTypeChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'type');
-  };
-
-  const handleActionPageIdChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_id');
-  };
-  const handleActionPageLinkChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_link');
-  };
-
   return (
     <ToolContainer id={id}>
       <ColorTextField
@@ -45,19 +24,7 @@ const HeaderToolbar = (props: HeaderComponentProps) => {
         onColorChange={handleColorChange}
       />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-      <Accordion>
-        <AccordionSummary>
-          <Typography>action</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <TextField value={action?.type} onChange={handleActionTypeChange} label="type" select>
-            <MenuItem value={'native'}>native</MenuItem>
-            <MenuItem value={'weblink'}>weblink</MenuItem>
-          </TextField>
-          <BasicTextField label={'Page Id'} value={action?.page_id} onChange={handleActionPageIdChange} />
-          <BasicTextField label={'Page Link'} value={action?.page_link} onChange={handleActionPageLinkChange} />
-        </AccordionDetails>
-      </Accordion>
+      <ActionAccordion handleActionChange={handleActionChange} action={action} />
     </ToolContainer>
   );
 };
