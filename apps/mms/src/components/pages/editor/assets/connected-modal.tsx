@@ -79,7 +79,16 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
+    if (refactoredData && refactoredData.data) {
+      const sortedData = [...refactoredData.data].sort((a, b) => {
+        if (sorting.order === 'asc') {
+          return a[sorting.column] > b[sorting.column] ? 1 : -1;
+        } else {
+          return a[sorting.column] < b[sorting.column] ? 1 : -1;
+        }
+      });
+      setRefactoredData({ ...refactoredData, data: sortedData });
+    }
   };
 
   const total = refactoredData?.meta?.total || 0;

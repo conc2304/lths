@@ -29,6 +29,8 @@ export type Asset = {
   updated_at: string;
   _id: string;
   unique_file_name: string;
+  created_on?: string;
+  created_by?: string;
   original_file_name: string;
   description: string;
   original_file_size: number | null;

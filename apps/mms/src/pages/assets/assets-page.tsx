@@ -11,6 +11,7 @@ import {
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
+  useAppSelector,
 } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -41,8 +42,8 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'media_type',
-    label: 'Media Type',
+    id: 'owner',
+    label: 'Owner',
     sortable: true,
   },
   {
@@ -53,6 +54,7 @@ const headers = [
 ];
 
 export default function AssetsPage() {
+  const user = useAppSelector((state) => state.users.user);
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<Asset>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<{ asset: Asset; rowIndex: number }>(null);
@@ -102,9 +104,9 @@ export default function AssetsPage() {
     const refactoredResponse = {
       data: response.data,
       meta: {
-        page: response.pagination.offset, // Maps 'offset' to 'page'
-        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
-        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
+        page: response.pagination.offset,
+        page_size: response.pagination.limit,
+        total: response.pagination.totalItems,
       },
     };
 
@@ -148,7 +150,16 @@ export default function AssetsPage() {
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
+    if (refactoredData && refactoredData.data) {
+      const sortedData = [...refactoredData.data].sort((a, b) => {
+        if (sorting.order === 'asc') {
+          return a[sorting.column] > b[sorting.column] ? 1 : -1;
+        } else {
+          return a[sorting.column] < b[sorting.column] ? 1 : -1;
+        }
+      });
+      setRefactoredData({ ...refactoredData, data: sortedData });
+    }
   };
 
   const [search, setSearch] = React.useState('');
@@ -251,7 +262,7 @@ export default function AssetsPage() {
     const newAsset = file;
 
     try {
-      await addResource(newAsset).unwrap();
+      await addResource({ newAsset, user }).unwrap();
     } catch (error) {
       console.error('Failed to add asset:', error);
     }
@@ -313,7 +324,7 @@ export default function AssetsPage() {
               id="file-upload"
               style={{ display: 'none' }}
               onChange={handleUpload}
-              accept=".jpg,.jpeg,.png"
+              accept=".jpg,.jpeg,.png,.svg"
             />
             <Button
               variant="contained"

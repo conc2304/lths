@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useAddResourceMutation } from '@lths/features/mms/data-access';
+import { useAddResourceMutation, useAppSelector } from '@lths/features/mms/data-access';
 import { Table } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
@@ -62,6 +62,7 @@ const AssetsModal = ({
   onSortClick,
   fetchData,
 }: AssetModalProps) => {
+  const user = useAppSelector((state) => state.users.user);
   const theme = useTheme();
   const [addResource] = useAddResourceMutation();
 
@@ -71,24 +72,25 @@ const AssetsModal = ({
     setSearch(event.target.value);
   };
 
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
-    try {
-      await addResource(newAsset).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
-    }
-  };
-
   const handleAssetsUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (['image/jpeg', 'image/png'].includes(file.type)) {
+      if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
         await handleAddAsset(file);
         await fetchData(null, undefined);
       } else {
         console.error('Invalid file type:', file.type);
       }
+    }
+  };
+
+  const handleAddAsset = async (file) => {
+    const newAsset = file;
+
+    try {
+      await addResource({ newAsset, user }).unwrap();
+    } catch (error) {
+      console.error('Failed to add asset:', error);
     }
   };
 

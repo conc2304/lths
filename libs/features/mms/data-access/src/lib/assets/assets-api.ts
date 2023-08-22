@@ -12,10 +12,11 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         method: 'GET',
       }),
     }),
-    addResource: builder.mutation<Asset, File>({
-      query: (newAsset) => {
+    addResource: builder.mutation<Asset, { newAsset: File; user: any }>({
+      query: (prop) => {
         const requestBody = new FormData();
-        requestBody.append('file', newAsset);
+        requestBody.append('file', prop.newAsset);
+        requestBody.append('created_by', prop.user?.first_name);
         return {
           url: getAddAssetUrl(),
           method: 'POST',
