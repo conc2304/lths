@@ -162,7 +162,7 @@ export type PageDetail = EditorProps & {
 };
 
 export type PageDetailResponse = CommonResponse & {
-  data: [PageDetail];
+  data: PageDetail;
 };
 
 export type EnumValue = {
@@ -247,7 +247,7 @@ export type UpdatePageStatusRequest = {
 export type UpdatePageDetailRequest = PageDetail;
 
 export type UpdatePageDetailResponse = CommonResponse & {
-  data: [PageDetail];
+  data: PageDetail;
 };
 
 export type DeletePageRequest = {
