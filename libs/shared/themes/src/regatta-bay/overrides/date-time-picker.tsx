@@ -5,14 +5,6 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 export default function DateTimePicker(theme: Theme): Components {
   return {
     MuiDateTimePicker: {
-      styleOverrides: {
-        root: {
-          backgroundColor: 'red',
-        },
-        '& .MuiFormControl-root': {
-          margin: theme.spacing(2),
-        },
-      },
       defaultProps: {
         slots: {
           openPickerIcon: CalendarMonthOutlined,

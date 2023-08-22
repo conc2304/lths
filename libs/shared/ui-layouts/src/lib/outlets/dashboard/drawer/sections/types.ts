@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
-import { SxProps } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import { AppBarProps } from '@mui/material/AppBar';
-import { Theme } from '@emotion/react';
 
 import { BreadcrumbPathProps } from '../../content/breadcrumbs/types';
 

@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { filtersReducer } from 'libs/features/mms/data-access/src/lib/filters/slice';
 
 import { api, authReducer, userReducer } from '@lths/shared/data-access';
 
+import { filtersReducer } from './filters/slice';
 import { insightOverviewReducer } from './insights/overview-slice';
 import { insightPagesReducer } from './insights/pages/pages-slice';
 import { pagesDataReducer } from './pages/slice';

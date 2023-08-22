@@ -1,6 +1,6 @@
 //usgae StringFormat("Hello {0} {1}", "beautiful", "World!")
 
-import { ObjectIteratee } from 'cypress/types/lodash';
+import { Property } from 'csstype';
 
 /**
  * Converts the value of objects to strings based on the formats specified and inserts them into another string. Example usage: String.Format("Hello {0} {1}.", fname,lname);
@@ -10,6 +10,25 @@ import { ObjectIteratee } from 'cypress/types/lodash';
  */
 export const formatString = (format: string, ...args: string[]) =>
   !format ? '' : format.replace(/{(\d+)}/g, (match, index) => args[index] || '');
+
+/**
+ *
+ * @param inputSize The dimension as a css Width/Height property string.
+ * @returns A tuple with the numeric value and the unit as [numericValue, unit]
+ */
+export const extractNumericValue = (inputSize: Property.Width) => {
+  const str = inputSize.toString();
+  const pattern = /^(\d+(\.\d+)?)/;
+  const matches = str.match(pattern);
+
+  if (matches && matches.length > 0) {
+    const numericValue = matches[0];
+    const unit = str.slice(numericValue.length);
+    return [numericValue, unit];
+  }
+
+  return [null, str];
+};
 
 export const ordinalifyNumber = (number: number) => {
   const ordinals = [

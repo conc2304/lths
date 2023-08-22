@@ -11,7 +11,7 @@ export type RouteConfig = {
   element: JSX.Element;
 };
 
-//for react rounter, item.path should be unique
+//for react router, item.path should be unique
 export const generateRouteConfig = (pages: DrawerSectionProps[]): RouteConfig[] => {
   const routeConfigs: RouteConfig[] = [];
   //home page

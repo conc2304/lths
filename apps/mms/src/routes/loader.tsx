@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
 /*

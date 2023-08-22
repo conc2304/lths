@@ -135,7 +135,7 @@ export const DateRangeSelector = ({
                 value={dateOptionGroupValue}
                 onChange={handleOptionSelected}
                 exclusive
-                aria-label="Predifinded Date Range Fiter"
+                aria-label="Predifinded Date Range Filter"
                 sx={{
                   flexWrap: 'wrap',
                 }}

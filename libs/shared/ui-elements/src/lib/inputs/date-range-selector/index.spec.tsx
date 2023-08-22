@@ -82,7 +82,7 @@ describe('DateRangeSelector', () => {
   it('should initialize the date picker using enUS locale settings', () => {
     // Arrange
     const { container } = themedComponent;
-    const expectedPaceHolder = 'MM / DD / YYYY';
+    const expectedPaceHolder = 'MM/DD/YYYY';
     const inputFields = container.querySelectorAll('.MuiInputBase-input');
     // Act
     // Assert

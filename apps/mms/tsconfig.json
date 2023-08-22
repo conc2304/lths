@@ -5,7 +5,7 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": false,
-    "declaration": true,
+    "declaration": true
     /*"types": [
       "libs/shared/data-access/src/lib/users/types.d.ts"
     ]*/

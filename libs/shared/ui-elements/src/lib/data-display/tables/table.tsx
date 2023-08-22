@@ -90,7 +90,9 @@ export const Table = (props: TableProps) => {
           width: '100%',
         }}
       >
-        <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
+        {title && total && (
+          <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
+        )}
 
         <TableContainer
           sx={{
