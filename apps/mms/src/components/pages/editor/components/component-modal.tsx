@@ -85,7 +85,7 @@ const ComponentModal = ({
   }, []);
 
   return (
-    <Dialog fullScreen open={open} onClose={onClose} TransitionComponent={Transition}>
+    <Dialog fullWidth={true} maxWidth={'xl'} open={open} onClose={onClose} TransitionComponent={Transition}>
       {isComponentListLoading && <LinearProgress color="primary" />}
       <DialogTitle>
         <Typography sx={{ fontSize: '1.5rem' }}>Components</Typography>
@@ -104,7 +104,7 @@ const ComponentModal = ({
       </DialogTitle>
       <DialogContent dividers sx={{ height: '40rem', padding: 0 }}>
         <Grid container flexWrap="nowrap">
-          <Grid item xs={2}>
+          <Grid item xs={2.5}>
             <Box sx={{ position: 'sticky', top: 0 }}>
               <Box sx={{ padding: 1.5 }}>
                 <TextField

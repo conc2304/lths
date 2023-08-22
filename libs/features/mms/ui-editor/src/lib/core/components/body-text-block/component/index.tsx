@@ -9,7 +9,7 @@ const BodyTextComponent = (props: BodyTextComponentProps) => {
     __ui_id__: id,
     properties_data: { title, text_size, linked_text },
   } = props;
-
+  const fontSize = size.find((s) => s.value === text_size)?.fontSize;
   let replacedText: string | React.ReactNode[] = title;
 
   for (let i = 0; i < linked_text.length; i++) {
@@ -28,9 +28,7 @@ const BodyTextComponent = (props: BodyTextComponentProps) => {
 
   return (
     <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
-      <Typography sx={{ fontSize: size.find((s) => s.value === text_size).fontSize, color: 'white' }}>
-        {replacedText}
-      </Typography>
+      <Typography sx={{ fontSize: fontSize, color: 'white' }}>{replacedText}</Typography>
     </Box>
   );
 };

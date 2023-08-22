@@ -8,7 +8,7 @@ import getPalette from './palette';
 import getTypography from './typography';
 
 const palette = getPalette();
-const typography = getTypography(`'Public Sans', sans-serif`);
+const typography = getTypography(`'Roboto', sans-serif`);
 
 const baseThemeOptions: ThemeOptions = {
   breakpoints: {

@@ -10,7 +10,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
     __ui_id__: id,
     properties_data: { title, text_size, linked_text },
   } = props;
-
+  const fontSize = size.find((s) => s.value === text_size)?.fontSize;
   let replacedsentence: string | React.ReactNode[] = title;
 
   for (let i = 0; i < linked_text.length; i++) {
@@ -27,10 +27,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
 
   return (
     <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
-      <Typography
-        sx={{ fontSize: `${size.find((s) => s.value === text_size).fontSize}`, color: '#FFFFFF' }}
-        variant="h3"
-      >
+      <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3">
         {replacedsentence}
       </Typography>
     </Box>

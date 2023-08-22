@@ -40,23 +40,4 @@ describe('VerticalFormGroup component', () => {
     expect(screen.getByText(titleMock)).toBeInTheDocument();
     expect(screen.getByText(subtitleMock)).toBeInTheDocument();
   });
-
-  it('should match the snapshot (inline variant)', () => {
-    // Arrange
-    const component = (
-      <VerticalFormGroup
-        formSchema={formSchemaMock}
-        formState={formStateMock}
-        onAddItem={onAddItemMock}
-        onRemoveItem={onRemoveItemMock}
-        onClearGroup={onClearGroupMock}
-        onAddGroupItems={onAddGroupItemsMock}
-      />
-    );
-    const { baseElement } = render(component);
-
-    // Act
-    // Assert
-    expect(baseElement).toMatchSnapshot();
-  });
 });

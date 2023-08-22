@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+
 import { RBTheme } from './theme';
 
 type Props = {
