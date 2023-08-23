@@ -55,6 +55,7 @@ const headers = [
 
 export default function AssetsPage() {
   const user = useAppSelector((state) => state.users.user);
+  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<Asset>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<{ asset: Asset; rowIndex: number }>(null);
@@ -314,7 +315,7 @@ export default function AssetsPage() {
               id="file-upload"
               style={{ display: 'none' }}
               onChange={handleUpload}
-              accept=".jpg,.jpeg,.png,.svg"
+              accept={acceptedFileTypes}
             />
             <Button
               variant="contained"
