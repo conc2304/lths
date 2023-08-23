@@ -1,6 +1,8 @@
-import React from 'react';
-import { Typography, Card, CardMedia, Box, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Typography, Card, CardMedia, Box, Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import GroupLabel from '../../labels/group-label';
 
@@ -11,11 +13,53 @@ type SimpleImagePickerProps = {
 };
 
 const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProps) => {
+  const imageSrc = value;
+  const [ isHovering, setIsHovering ] = useState(false);
+
   const handleReplace = () => {
     onReplace && onReplace(onChange);
   };
 
-  const imageSrc = value;
+  const handleDelete = () => {
+    onChange('');
+  };
+
+  const IconButtonWithText = ({ icon, text, onClick }) => {
+    const buttonOnClickOnly = (event) => {
+      event.stopPropagation()
+      onClick(event);
+      setIsHovering(false);
+    }
+
+    return (
+      <Button
+        onClick={buttonOnClickOnly}
+        variant="contained"
+        sx={{
+          padding: '4.5px 19px',
+          boxShadow: 'none',
+          border: '1px solid #BDBDBD',
+          color: '#3D4752',
+          backgroundColor: '#FFFFFF',
+          '&:hover': { backgroundColor: '#FFFFFF' },
+        }}
+      >
+        {icon}
+        <Typography
+          sx={{
+            fontSize: 15,
+            fontWeight: 'bold',
+            letterSpacing: '0.46px',
+            whiteSpace: 'nowrap',
+          }}
+          textTransform="uppercase"
+        >
+          {text}
+        </Typography>
+      </Button>
+    );
+  };
+
   return (
     <Box data-testid="SimpleImagePicker" sx={{ '.sketch-picker': { boxShadow: 'none', border: 'none' } }}>
       <GroupLabel label={'Image'} />
@@ -30,6 +74,8 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
       >
         <Box
           onClick={handleReplace}
+          onMouseEnter={() => {setIsHovering(true)}}
+          onMouseLeave={() => {setIsHovering(false)}}
           sx={{
             cursor: 'pointer',
             paddingBottom: `${75}%`,
@@ -56,27 +102,32 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
               transform: 'translate(-50%, -50%)',
             }}
           >
-            {!imageSrc && (
-              <Button
-                variant="contained"
-                sx={{
-                  padding: '4px 15px',
-                  boxShadow: 'none',
-                  border: '1px solid #BDBDBD',
-                  color: '#3D4752',
-                  backgroundColor: '#FFFFFF',
-                  '&:hover': { backgroundColor: '#FFFFFF' },
-                }}
-              >
-                <AddIcon sx={{ fontSize: 32, paddingRight: 1 }} />
-                <Typography
-                  sx={{ fontSize: 15, fontWeight: 'bold', letterSpacing: '0.46px', whiteSpace: 'nowrap' }}
-                  textTransform={'uppercase'}
-                >
-                  Add Image
-                </Typography>
-              </Button>
-            )}
+            {imageSrc ? 
+              ( isHovering &&
+                (
+                <Stack spacing={1} >
+                  <IconButtonWithText 
+                    icon={<RefreshIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
+                    text="Change"
+                    onClick={handleReplace}
+                  />
+                  <IconButtonWithText 
+                    icon={<DeleteIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
+                    text="Remove"
+                    onClick={handleDelete}
+                  />
+                </Stack>
+                )
+              )
+              : 
+              (
+                <IconButtonWithText 
+                  icon={<AddIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
+                  text="Add Image"
+                  onClick={handleReplace}
+                />
+              )
+            }
           </Box>
         </Box>
       </Box>
