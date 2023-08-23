@@ -18,7 +18,7 @@ import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TableFileInfoRow from './table-row';
 import { PreviewDrawerContent, RenameModal, DeleteModal } from '../../components/assets';
-import { cleanUrl } from '../../components/assets/utils';
+import { cleanUrl, refactorData } from '../../components/assets/utils';
 
 const headers = [
   {
@@ -100,20 +100,8 @@ export default function AssetsPage() {
   }
   const [refactoredData, setRefactoredData] = useState(null);
 
-  const refactorData = (response: any) => {
-    const refactoredResponse = {
-      data: response.data,
-      meta: {
-        page: response.pagination.offset,
-        page_size: response.pagination.limit,
-        total: response.pagination.totalItems,
-      },
-    };
-
-    return refactoredResponse;
-  };
-
   const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
+
   useEffect(() => {
     if (data) {
       if (MOCKING_ENABLED) {
@@ -246,10 +234,12 @@ export default function AssetsPage() {
 
   const [addResource] = useAddResourceMutation();
 
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
         await fetchData(null, undefined);
       } else {

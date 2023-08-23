@@ -72,10 +72,12 @@ const AssetsModal = ({
     setSearch(event.target.value);
   };
 
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
   const handleAssetsUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
         await fetchData(null, undefined);
       } else {

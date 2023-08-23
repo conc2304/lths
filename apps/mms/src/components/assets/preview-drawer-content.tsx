@@ -117,22 +117,7 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
         <FileInfo infoType="Original File Name" infoData={data.original_file_name} />
         <FileInfo infoType="File Extension" infoData={data.file_extension} />
         <FileInfo infoType="Mime Type" infoData={data.mime_type} />
-        <FileInfo
-          infoType="Created At"
-          infoData={
-            data.created_at === undefined
-              ? new Date(data.created_on).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })
-              : new Date(data.created_on).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })
-          }
-        />
+        <FileInfo infoType="Created At" infoData={data.created_at_formatted} />
       </Stack>
     </>
   );

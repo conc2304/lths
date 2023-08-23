@@ -57,19 +57,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
         />
         {row.original_file_name}
       </TableCell>
-      <TableCell>
-        {row.created_at === undefined
-          ? new Date(row.created_on).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })
-          : new Date(row.created_at).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-      </TableCell>
+      <TableCell>{row.created_at_formatted}</TableCell>
       <TableCell>{row.file_extension}</TableCell>
       <TableCell>{row.mime_type}</TableCell>
       <TableCell>{row.created_by}</TableCell>

@@ -15,6 +15,7 @@ interface TableRowData {
   created_at: string;
   created_on?: string;
   created_by?: string;
+  created_at_formatted?: string;
   file_extension: string;
   mime_type: string;
   media_type: string;
@@ -40,19 +41,7 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
         <span style={{ marginLeft: 10 }}>{row.original_file_name}</span>
       </TableCell>
 
-      <TableCell>
-        {row.created_at === undefined
-          ? new Date(row.created_on).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })
-          : new Date(row.created_at).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-      </TableCell>
+      <TableCell>{row.created_at_formatted}</TableCell>
       <TableCell>{row.file_extension}</TableCell>
       <TableCell>{row.mime_type}</TableCell>
       <TableCell>{row.created_by}</TableCell>

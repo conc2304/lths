@@ -31,6 +31,7 @@ export type Asset = {
   unique_file_name: string;
   created_on?: string;
   created_by?: string;
+  created_at_formatted?: string;
   original_file_name: string;
   description: string;
   original_file_size: number | null;

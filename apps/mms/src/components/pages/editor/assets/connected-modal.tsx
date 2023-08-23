@@ -5,6 +5,7 @@ import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-element
 
 import AssetsModal from './modal';
 import { ConnectedAssetsModalProps } from './types';
+import { refactorData } from '../../../assets/utils';
 
 const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalProps) => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
@@ -28,19 +29,6 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     getData(req);
   }
   const [refactoredData, setRefactoredData] = useState(null);
-
-  const refactorData = (response: any) => {
-    const refactoredResponse = {
-      data: response.data,
-      meta: {
-        page: response.pagination.offset, // Maps 'offset' to 'page'
-        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
-        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
-      },
-    };
-
-    return refactoredResponse;
-  };
 
   const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
   useEffect(() => {
