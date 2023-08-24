@@ -7,11 +7,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   PageDetail,
   useLazyGetComponentDetailQuery,
+  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
 } from '@lths/features/mms/data-access';
-import { BlockEditor, useEditorActions, EditorProvider } from '@lths/features/mms/ui-editor';
+import {
+  BlockEditor,
+  useEditorActions,
+  EditorProvider,
+  Callback,
+  AutocompleteItemProps,
+} from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
 import AssetsModal from '../../components/pages/editor/assets/connected-modal';
@@ -50,6 +57,7 @@ export function PageEditorTabs() {
   const [getPageDetail] = useLazyGetPageDetailsQuery();
 
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
+  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
 
   const [updatePageDetails] = useUpdatePageDetailsMutation();
 
@@ -103,9 +111,11 @@ export function PageEditorTabs() {
     setImageCallback(() => callback);
     setImageModalOpen(true);
   };
-  const handlePropChange = (propName: string, callback: (url: string) => void) => {
-    if (propName === 'image_url') handleAddImage(callback);
-    else if (propName === 'action') handleAddImage(callback);
+  //TODO: API is not typed yet, so using any for now
+  const handlAddAction = async (callback: (data: AutocompleteItemProps) => void) => {
+    const response = await getDefaultPage({});
+    if (response.data?.data)
+      return callback(response.data.data.map((o) => ({ label: o.page_id, value: o.page_id, type: o.page_type })));
   };
 
   const handleSelectImage = (url: string) => {
@@ -153,6 +163,14 @@ export function PageEditorTabs() {
       console.error('Error in updating page details', error.message);
     }
   };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+    if (propName === 'image_url') {
+      handleAddImage(callback as Callback<string>);
+    } else if (propName === 'action') {
+      handlAddAction(callback as Callback<AutocompleteItemProps>);
+    }
+  }
 
   return (
     <Box sx={{ width: '100%' }}>

@@ -3,10 +3,16 @@ import { ComponentProps as BaseProps, ToolbarProps } from '../../context';
 export * from './enum';
 
 export type ComponentProps = BaseProps & {
-  onPropChange?: ToolbarProps['onPropChange']; //(callback: (value: any) => void) => void;
+  onPropChange?: ToolbarProps['onPropChange'];
 };
 
 export type ComponentType = 'native' | 'webview';
+
+export type AutocompleteItemProps = {
+  label: string;
+  value: string;
+  type: string;
+};
 
 export type ActionProps = {
   type: ComponentType;

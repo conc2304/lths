@@ -1,9 +1,12 @@
 import { Dispatch, ReactNode } from 'react';
-
+export type Callback<T> = (value: T) => void;
+/*
 export type ToolbarProps = {
-  onPropChange: (propName: string, callback: (url: string) => void) => void;
+  onPropChange: (propName: string, callback: (value: any) => void) => void;
+};*/
+export type ToolbarProps = {
+  onPropChange: <T>(propName: string, callback: Callback<T>) => void;
 };
-
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
   _id: string;
