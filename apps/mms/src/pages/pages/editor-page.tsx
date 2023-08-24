@@ -47,22 +47,30 @@ const TabItems = {
   settings: { value: 'settings', label: 'SETTINGS' },
 };
 export function PageEditorTabs() {
-  const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
-  const [openModal, setOpenModal] = useState(false);
-
-  const { pageId } = useParams();
-
+  //api
   const { initEditor, addComponent, components, data } = useEditorActions();
-  const page_data = data as PageDetail;
   const [getPageDetail] = useLazyGetPageDetailsQuery();
-
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
-
   const [updatePageDetails] = useUpdatePageDetailsMutation();
+  const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
 
+  //state
+  const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
+  const [openModal, setOpenModal] = useState(false);
+  const [compModalOpen, setCompModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageCallback, setImageCallback] = useState(null);
+  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+
+  //route
+  const { pageId } = useParams();
   const navigate = useNavigate();
 
+  //variables
+  const page_data = data as PageDetail;
+
+  //fetch
   const fetchPageDetail = async (pageId: string) => {
     const response = await getPageDetail(pageId);
     if (response.isSuccess) {
@@ -73,17 +81,12 @@ export function PageEditorTabs() {
     }
   };
 
+  //side effects
   useEffect(() => {
     if (pageId) fetchPageDetail(pageId);
   }, [pageId]);
 
-  const [compModalOpen, setCompModalOpen] = useState(false);
-  const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
-
-  const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
-
+  //modals
   const handleSelectComponent = async (componentId: string) => {
     setCompModalOpen(false);
     const detail = await getDetail(componentId);
@@ -93,7 +96,6 @@ export function PageEditorTabs() {
       console.log('Failed to find component');
     }
   };
-
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
@@ -111,12 +113,21 @@ export function PageEditorTabs() {
     setImageCallback(() => callback);
     setImageModalOpen(true);
   };
+
   //TODO: API is not typed yet, so using any for now
   const handlAddAction = async (callback: (data: AutocompleteItemProps) => void) => {
     const response = await getDefaultPage({});
     if (response.data?.data)
       return callback(response.data.data.map((o) => ({ label: o.page_id, value: o.page_id, type: o.page_type })));
   };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+    if (propName === 'image_url') {
+      handleAddImage(callback as Callback<string>);
+    } else if (propName === 'action') {
+      handlAddAction(callback as Callback<AutocompleteItemProps>);
+    }
+  }
 
   const handleSelectImage = (url: string) => {
     imageCallback && imageCallback(url);
@@ -130,11 +141,11 @@ export function PageEditorTabs() {
       setOpenModal(true);
     }
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  //api events
   const handleUpdatePageStatus = async () => {
     await updatePageStatus({ page_id: pageId, status: modalData.status });
     setOpenModal(false);
@@ -163,14 +174,6 @@ export function PageEditorTabs() {
       console.error('Error in updating page details', error.message);
     }
   };
-
-  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
-    if (propName === 'image_url') {
-      handleAddImage(callback as Callback<string>);
-    } else if (propName === 'action') {
-      handlAddAction(callback as Callback<AutocompleteItemProps>);
-    }
-  }
 
   return (
     <Box sx={{ width: '100%' }}>
