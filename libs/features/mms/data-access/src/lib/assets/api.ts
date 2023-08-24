@@ -1,6 +1,6 @@
-// assets-api.ts
 import { api } from '@lths/shared/data-access';
 
+import { transformAssetResponse } from './transformer';
 import { AssetsResponse, AssetsRequest, Asset } from './types';
 import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl } from './urls';
 
@@ -11,6 +11,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         url: getAssetsUrl(request),
         method: 'GET',
       }),
+      transformResponse: transformAssetResponse,
     }),
     addResource: builder.mutation<Asset, { newAsset: File; user: any }>({
       query: (prop) => {

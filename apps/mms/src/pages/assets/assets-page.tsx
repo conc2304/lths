@@ -18,7 +18,7 @@ import { PageHeader } from '@lths/shared/ui-layouts';
 
 import TableFileInfoRow from './table-row';
 import { PreviewDrawerContent, RenameModal, DeleteModal } from '../../components/assets';
-import { cleanUrl, refactorData } from '../../components/assets/utils';
+import { cleanUrl } from '../../components/assets/utils';
 
 const headers = [
   {
@@ -82,6 +82,11 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
+  const [localData, setLocalData] = useState(null);
+
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
     const req: AssetsRequest = {};
@@ -99,19 +104,6 @@ export default function AssetsPage() {
 
     getData(req);
   }
-  const [refactoredData, setRefactoredData] = useState(null);
-
-  const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
-
-  useEffect(() => {
-    if (data) {
-      if (MOCKING_ENABLED) {
-        setRefactoredData(data);
-      } else {
-        setRefactoredData(refactorData(data));
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     fetchData(null, undefined);
@@ -139,15 +131,15 @@ export default function AssetsPage() {
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    if (refactoredData && refactoredData.data) {
-      const sortedData = [...refactoredData.data].sort((a, b) => {
+    if (localData && localData.data) {
+      const sortedData = [...localData.data].sort((a, b) => {
         if (sorting.order === 'asc') {
           return a[sorting.column] > b[sorting.column] ? 1 : -1;
         } else {
           return a[sorting.column] < b[sorting.column] ? 1 : -1;
         }
       });
-      setRefactoredData({ ...refactoredData, data: sortedData });
+      setLocalData({ ...localData, data: sortedData });
     }
   };
 
@@ -166,9 +158,9 @@ export default function AssetsPage() {
   const filteredData = React.useMemo(
     () =>
       search
-        ? refactoredData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
-        : refactoredData?.data,
-    [refactoredData, search]
+        ? localData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
+        : localData?.data,
+    [localData, search]
   );
 
   const tableRows = filteredData?.map((row, index) => {
@@ -231,7 +223,7 @@ export default function AssetsPage() {
     );
   });
 
-  const total = refactoredData?.meta?.total;
+  const total = localData?.meta?.total;
 
   const [addResource] = useAddResourceMutation();
 

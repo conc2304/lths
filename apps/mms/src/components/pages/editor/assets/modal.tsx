@@ -38,13 +38,13 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'owner',
-    label: 'Owner',
+    id: 'mimetype',
+    label: 'Mime Type',
     sortable: true,
   },
   {
-    id: 'dimensions',
-    label: 'Dimensions',
+    id: 'owner',
+    label: 'Owner',
     sortable: true,
   },
 ];
