@@ -2,12 +2,12 @@ import React from 'react';
 import { TableRow, TableCell, IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import { Asset } from '@lths/features/mms/data-access';
+import { AssetExtended } from '@lths/features/mms/data-access';
 
 import { cleanUrl } from '../../components/assets/utils';
 
 type TableFileInfoRowProps = {
-  row: Asset;
+  row: AssetExtended;
   index: number;
   handleSelectFile: () => void;
   handleOpenMenu: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -15,7 +15,7 @@ type TableFileInfoRowProps = {
   theme: any;
   anchorEl: HTMLElement | null;
   handleClose: () => void;
-  handleOpenModal: (action: string, row: Asset) => void;
+  handleOpenModal: (action: string, row: AssetExtended) => void;
   handlePreview: () => void;
   selectedRowIndex: number;
   handleDownload: () => void;
@@ -45,7 +45,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
       key={row._id}
       style={{
         cursor: 'pointer',
-        backgroundColor: selectedPreviewRow?.asset?._id === row._id ? theme.palette.secondary.main : '#fff',
+        backgroundColor: selectedPreviewRow?.AssetExtended?._id === row._id ? theme.palette.secondary.main : '#fff',
       }}
       onClick={handleSelectFile}
     >

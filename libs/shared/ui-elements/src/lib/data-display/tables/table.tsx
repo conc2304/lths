@@ -128,7 +128,7 @@ export const Table = (props: TableProps) => {
               {!loading && hasData && tableRows}
               {!loading && !hasData && (
                 <TableCell colSpan={headerCells.length} align="center" style={{ height: '40vh' }}>
-                  No assets
+                  No data
                 </TableCell>
               )}
             </TableBody>

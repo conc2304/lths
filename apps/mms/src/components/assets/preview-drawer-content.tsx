@@ -4,14 +4,14 @@ import { Visibility, Download, Edit, Delete } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import { Asset } from '@lths/features/mms/data-access';
+import { AssetExtended } from '@lths/features/mms/data-access';
 
 import { FileInfo } from './file-info';
 import { cleanUrl } from './utils';
 
 export type PreviewDrawerContentProps = {
-  openModal: (modalName: string, row: Asset) => void;
-  data: Asset;
+  openModal: (modalName: string, row: AssetExtended) => void;
+  data: AssetExtended;
 };
 
 const height = 215;
