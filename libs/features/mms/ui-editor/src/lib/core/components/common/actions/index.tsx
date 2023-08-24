@@ -51,7 +51,7 @@ const Action = (props: ActionExtendedProps) => {
 
   return (
     <>
-      <GroupLabel label={'Action New'} />
+      <GroupLabel label={'Action'} />
       <TextField value={type} onChange={handleActionTypeChange} label="type" select fullWidth>
         <MenuItem value={ActionType.Native}>native</MenuItem>
         <MenuItem value={ActionType.WebView}>weblink</MenuItem>

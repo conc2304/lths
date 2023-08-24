@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import { Accordion, AccordionSummary } from './accordion';
 import AccordionDetails from './accordion/details';
-import { Card } from './dragable-list-item';
+import Card from './list-items/draggable';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
 import { StickyContainer } from '../../../elements';
