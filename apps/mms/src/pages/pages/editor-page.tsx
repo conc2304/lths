@@ -96,13 +96,18 @@ export function PageEditorTabs() {
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
-  const handleAddComponentClick = () => {
+  const handleAddComponent = () => {
     setCompModalOpen(true);
   };
-  const handleAddImageClick = (callback: (url: string) => void) => {
+  const handleAddImage = (callback: (url: string) => void) => {
     setImageCallback(() => callback);
     setImageModalOpen(true);
   };
+  const handlePropChange = (propName: string, callback: (url: string) => void) => {
+    if (propName === 'image_url') handleAddImage(callback);
+    else if (propName === 'action') handleAddImage(callback);
+  };
+
   const handleSelectImage = (url: string) => {
     imageCallback && imageCallback(url);
     setImageModalOpen(false);
@@ -173,9 +178,9 @@ export function PageEditorTabs() {
       <Box>
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
           <BlockEditor
-            onAddComponentClick={handleAddComponentClick}
-            onAddImageClick={handleAddImageClick}
-            onUpdateClick={handleEditorUpdate}
+            onAddComponent={handleAddComponent}
+            onPropChange={handlePropChange}
+            onUpdate={handleEditorUpdate}
           />
           <ComponentModal
             open={compModalOpen}
