@@ -347,6 +347,7 @@ export default function AssetsPage() {
         headerCells={headers}
         tableRows={tableRows}
         onPageChange={onPageChange}
+        noDataMessage="No assets"
         onRowsPerPageChange={onRowsPerPageChange}
         onSortClick={onSortClick}
         sx={{

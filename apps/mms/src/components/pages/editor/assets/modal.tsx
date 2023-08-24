@@ -181,6 +181,7 @@ const AssetsModal = ({
             onPageChange={onPageChange}
             onRowsPerPageChange={onRowsPerPageChange}
             onSortClick={onSortClick}
+            noDataMessage="No assets"
             sx={{
               mt: 1,
             }}

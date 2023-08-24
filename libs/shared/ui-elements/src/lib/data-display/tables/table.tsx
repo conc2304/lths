@@ -36,6 +36,7 @@ export const Table = (props: TableProps) => {
     onRowsPerPageChange,
     sx = {},
     fixPagination = false,
+    noDataMessage = 'No records found',
   } = props;
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
@@ -128,7 +129,7 @@ export const Table = (props: TableProps) => {
               {!loading && hasData && tableRows}
               {!loading && !hasData && (
                 <TableCell colSpan={headerCells.length} align="center" style={{ height: '40vh' }}>
-                  No data
+                  {noDataMessage}
                 </TableCell>
               )}
             </TableBody>
