@@ -14,7 +14,7 @@ import { Table, TablePaginationProps, TableSortingProps, OverflowMenu } from '@l
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 import { archiveLogo, DraftLogo, PublishLogo, ScheduleLogo, ReviewLogo } from '../../assets/index';
-import CreatePageModal from '../../components/pages/editor/components/create-page-modal';
+import CreatePageModal from '../../components/pages/editor/components/modals/pages/create';
 
 const headers = [
   {

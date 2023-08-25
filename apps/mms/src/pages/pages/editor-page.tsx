@@ -21,8 +21,8 @@ import {
 } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
+import { ComponentModal } from '../../components/pages/editor';
 import AssetsModal from '../../components/pages/editor/assets/connected-modal';
-import ComponentModal from '../../components/pages/editor/components/connected-modal';
 import { Constraints, Settings } from '../../components/pages/editor/containers';
 import { PageHeader } from '../../components/pages/editor/containers/core';
 import { PageStatus } from '../../components/pages/editor/containers/core/types';
@@ -63,11 +63,11 @@ export function PageEditorTabs() {
   const [imageCallback, setImageCallback] = useState(null);
   const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
 
-  //route
+  //route params
   const { pageId } = useParams();
   const navigate = useNavigate();
 
-  //variables
+  //fetch params
   const page_data = data as PageDetail;
 
   //fetch
@@ -86,7 +86,7 @@ export function PageEditorTabs() {
     if (pageId) fetchPageDetail(pageId);
   }, [pageId]);
 
-  //modals
+  //modal events
   const handleSelectComponent = async (componentId: string) => {
     setCompModalOpen(false);
     const detail = await getDetail(componentId);
@@ -118,7 +118,7 @@ export function PageEditorTabs() {
   const handlAddAction = async (callback: (data: AutocompleteItemProps) => void) => {
     const response = await getDefaultPage({});
     if (response.data?.data)
-      return callback(response.data.data.map((o) => ({ label: o.page_id, value: o.page_id, type: o.page_type })));
+      return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
   };
 
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {

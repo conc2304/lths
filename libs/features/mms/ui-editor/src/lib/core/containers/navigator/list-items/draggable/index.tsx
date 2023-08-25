@@ -74,9 +74,8 @@ const DraggableCard = ({ id, text, index, onDrag, onClick, onMenuClick, selected
       item.index = hoverIndex;
     },
   });
-  const onSave = (index: number, newText: string) => {
-    console.log(index, newText);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  const onSave = (index: number, newText: string) => {};
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
