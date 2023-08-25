@@ -20,7 +20,7 @@ const PageHeader = (props: PageHeaderProps) => {
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row">
           {title && (
-            <Typography variant="h1" fontWeight={300}>
+            <Typography variant="h1" fontWeight={400} fontSize={24}>
               {title}
             </Typography>
           )}

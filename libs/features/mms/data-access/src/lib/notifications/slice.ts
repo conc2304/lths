@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { userApi } from './notification-api';
+import { userApi } from './api';
 import { NotificationResponse } from './types';
 
 const initialState = { notifications: {} as NotificationResponse };

@@ -1,7 +1,6 @@
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
-import { Pagination, PaginationRequest } from '../notifications/types';
-import { CommonResponse } from '../types';
+import { CommonResponse, PaginationRequest } from '../types';
 
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
@@ -85,7 +84,7 @@ export type ImagesListResponse = {
   data: ImagesProps[];
 };
 
-export type PagesDataRequest = PaginationRequest & Record<string, unknown>;
+export type PagesDataRequest = PaginationRequest;
 
 export type PageData = {
   id: number;
@@ -99,7 +98,7 @@ export type PageData = {
   drafted_on?: string;
 };
 
-export type PagesDataResponse = { data: PageData[]; meta: Pagination };
+export type PagesDataResponse = { data: PageData[] };
 
 export type CreatePageRequest = {
   name: string;

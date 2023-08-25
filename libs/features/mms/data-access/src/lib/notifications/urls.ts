@@ -1,10 +1,9 @@
-import { NotificationRequest } from './types';
+import { NotificationListRequest } from './types';
+import { PaginationRequest } from '../types';
 
-const BASE_PATH = '/models/users/service/ports';
-export const AUTH_LOGIN_URL = `${BASE_PATH}/login`;
-export const AUTH_LOGOUT_URL = `${BASE_PATH}/logout`;
+const NOTIFICATION_BASE_URL = '/mms/notifications';
 
-export const getNotificationUrl = (req: NotificationRequest) => {
+export const getNotificationItemsUrl = (req: PaginationRequest) => {
   const params = [];
   const { page, page_size, sort_key, sort_order } = req;
   if (page != null) params.push(`page=${page}`);
@@ -14,3 +13,22 @@ export const getNotificationUrl = (req: NotificationRequest) => {
 
   return `/notifications?${params.join('&')}`;
 };
+
+export const getNotificationsListUrl = (req: NotificationListRequest) => {
+  const params = [];
+  const { page, page_size = 25, sort_key, sort_order } = req;
+  if (page != null) params.push(`offset=${page * page_size}`);
+  if (page_size != null) params.push(`limit=${page_size}`);
+  if (sort_key != null) params.push(`sort_field=${sort_key}`);
+  if (sort_order != null) params.push(`sort_by=${sort_order}`);
+
+  return `${NOTIFICATION_BASE_URL}?${params.join('&')}`;
+};
+
+export const getNotificationDetailUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}?${notification_id}`;
+
+export const getCreateNotificationUrl = () => NOTIFICATION_BASE_URL;
+
+export const getUpdateNotificationUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}?${notification_id}`;
+
+export const getSendNotificationUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}?${notification_id}`;

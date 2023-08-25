@@ -3,7 +3,7 @@ import { Box, Button, TableCell, TableRow, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-import { NotificationRequest, useLazyGetNotificationItemsQuery } from '@lths/features/mms/data-access';
+import { useLazyGetNotificationsItemsQuery, PaginationRequest } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -41,9 +41,9 @@ const headers = [
 ];
 
 const NotificationPage = (): JSX.Element => {
-  const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationItemsQuery();
+  const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsItemsQuery();
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const req: NotificationRequest = {};
+    const req: PaginationRequest = {};
     if (pagination != null) {
       req.page = pagination.page;
       req.page_size = pagination.pageSize;
