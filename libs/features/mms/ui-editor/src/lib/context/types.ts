@@ -1,9 +1,6 @@
 import { Dispatch, ReactNode } from 'react';
 export type Callback<T> = (value: T) => void;
-/*
-export type ToolbarProps = {
-  onPropChange: (propName: string, callback: (value: any) => void) => void;
-};*/
+
 export type ToolbarProps = {
   onPropChange: <T>(propName: string, callback: Callback<T>) => void;
 };
@@ -22,7 +19,6 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 
   //TBD: remove these props
-  //constraints: Array<Record<string, string>>;
   display_order: number;
   category?: string;
   variation_id: string;

@@ -40,12 +40,6 @@ const Action = (props: ActionExtendedProps) => {
 
   const handleActionTypeChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     handleActionChange(event, 'type', index);
-    console.log(
-      "🚀 ~ file: index.tsx:43 ~ handleActionTypeChange ~ event, 'type', index:",
-      event.target.value,
-      'type',
-      index
-    );
   };
 
   const handleActionPageIdChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
