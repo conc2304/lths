@@ -38,6 +38,7 @@ export type TableProps = ProgressProps &
     ) => void;
     sx?: SxProps;
     fixPagination?: boolean;
+    noDataMessage?: string;
   };
 
 /*

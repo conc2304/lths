@@ -10,6 +10,11 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
+  const [localData, setLocalData] = useState(null);
+
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
     const req: AssetsRequest = {};
@@ -27,31 +32,6 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
 
     getData(req);
   }
-  const [refactoredData, setRefactoredData] = useState(null);
-
-  const refactorData = (response: any) => {
-    const refactoredResponse = {
-      data: response.data,
-      meta: {
-        page: response.pagination.offset, // Maps 'offset' to 'page'
-        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
-        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
-      },
-    };
-
-    return refactoredResponse;
-  };
-
-  const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
-  useEffect(() => {
-    if (data) {
-      if (MOCKING_ENABLED) {
-        setRefactoredData(data);
-      } else {
-        setRefactoredData(refactorData(data));
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     fetchData(null, undefined);
@@ -79,17 +59,26 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
+    if (localData && localData.data) {
+      const sortedData = [...localData.data].sort((a, b) => {
+        if (sorting.order === 'asc') {
+          return a[sorting.column] > b[sorting.column] ? 1 : -1;
+        } else {
+          return a[sorting.column] < b[sorting.column] ? 1 : -1;
+        }
+      });
+      setLocalData({ ...localData, data: sortedData });
+    }
   };
 
-  const total = refactoredData?.meta?.total || 0;
+  const total = localData?.meta?.total || 0;
 
   return (
     <AssetsModal
       open={open}
       onClose={onClose}
       onSelect={onSelect}
-      assetData={refactoredData?.data}
+      assetData={localData?.data}
       isFetching={isFetching}
       isLoading={isLoading}
       total={total}

@@ -29,6 +29,8 @@ export type Asset = {
   updated_at: string;
   _id: string;
   unique_file_name: string;
+  created_on?: string;
+  created_by?: string;
   original_file_name: string;
   description: string;
   original_file_size: number | null;
@@ -43,6 +45,9 @@ export type Asset = {
   is_deleted: boolean;
   is_published: boolean;
   __v: number;
+};
+export type AssetExtended = Asset & {
+  created_at_formatted?: string;
 };
 
 export type AssetsResponse = { data: Asset[]; meta: PaginationAssets };
