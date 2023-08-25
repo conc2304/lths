@@ -11,6 +11,8 @@ import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
 import { FullHeightCarouselProps, FullHeightCarouselComponentProps } from '../../types';
 
+//TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
+
 const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   const {
     __ui_id__: id,

@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { MenuItem, Typography, TextField, Box } from '@mui/material';
 import { Stack } from '@mui/system';
 
-import { ToolContainer, ActionInput } from '../../../../elements';
+import { ToolContainer } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { TextButtonProps } from '../../types';
 import { size } from '../utils';
@@ -12,9 +12,9 @@ const TextButtonToolbar = (props: TextButtonProps) => {
   const {
     __ui_id__: id,
     properties_data: { title, text_size, action },
+    onPropChange,
   } = props;
-  const { updateComponentProp, handleActionChange } = useToolbarChange();
-  const [actionType, setActionType] = useState<string>(action?.type);
+  const { updateComponentProp } = useToolbarChange();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('title', event.target.value);
@@ -63,7 +63,7 @@ const TextButtonToolbar = (props: TextButtonProps) => {
             ))}
           </TextField>
         </Box>
-        <ActionInput action={action} handleActionChange={handleActionChange} />
+        <ActionToolbar action={action} onPropChange={onPropChange} />
       </Stack>
     </ToolContainer>
   );

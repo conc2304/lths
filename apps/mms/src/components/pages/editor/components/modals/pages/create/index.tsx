@@ -25,7 +25,7 @@ import * as yup from 'yup';
 
 import { CreatePageRequest, useCreatePageMutation, useLazyGetDefaultPagesQuery } from '@lths/features/mms/data-access';
 
-import { CreatePageModalProps } from './types';
+import { CreatePageModalProps } from '../../../types';
 
 const validationSchema = yup.object({
   name: yup.string().required('Page name is required'),

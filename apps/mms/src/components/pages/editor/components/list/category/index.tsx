@@ -1,7 +1,7 @@
 import { List, ListItemText } from '@mui/material';
 
-import SectionItemButton from './list-item-button-styled';
-import { CatergorySectionProps } from './types';
+import SectionItemButton from '../../list-item';
+import { CatergorySectionProps } from '../../types';
 
 const CategorySection = ({ categories, onSelectCategory, selectedCategory }: CatergorySectionProps) => {
   const handleListItemClick = (category: string) => {
