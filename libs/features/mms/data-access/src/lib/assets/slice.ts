@@ -1,8 +1,6 @@
-// assets-slice.ts
-
 import { createSlice } from '@reduxjs/toolkit';
 
-import { assetsApi } from './assets-api';
+import { assetsApi } from './api';
 import { AssetsResponse, Asset } from './types';
 
 type AssetsState = {

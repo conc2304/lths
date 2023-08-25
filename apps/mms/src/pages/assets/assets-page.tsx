@@ -11,6 +11,7 @@ import {
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
+  useAppSelector,
 } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -41,8 +42,8 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'media_type',
-    label: 'Media Type',
+    id: 'owner',
+    label: 'Owner',
     sortable: true,
   },
   {
@@ -53,6 +54,8 @@ const headers = [
 ];
 
 export default function AssetsPage() {
+  const user = useAppSelector((state) => state.users.user);
+  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<Asset>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<{ asset: Asset; rowIndex: number }>(null);
@@ -79,6 +82,11 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
+  const [localData, setLocalData] = useState(null);
+
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
     const req: AssetsRequest = {};
@@ -96,31 +104,6 @@ export default function AssetsPage() {
 
     getData(req);
   }
-  const [refactoredData, setRefactoredData] = useState(null);
-
-  const refactorData = (response: any) => {
-    const refactoredResponse = {
-      data: response.data,
-      meta: {
-        page: response.pagination.offset, // Maps 'offset' to 'page'
-        page_size: response.pagination.limit, // Maps 'limit' to 'page_size'
-        total: response.pagination.totalItems, // Maps 'totalItems' to 'total'
-      },
-    };
-
-    return refactoredResponse;
-  };
-
-  const MOCKING_ENABLED = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
-  useEffect(() => {
-    if (data) {
-      if (MOCKING_ENABLED) {
-        setRefactoredData(data);
-      } else {
-        setRefactoredData(refactorData(data));
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     fetchData(null, undefined);
@@ -148,7 +131,16 @@ export default function AssetsPage() {
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
+    if (localData && localData.data) {
+      const sortedData = [...localData.data].sort((a, b) => {
+        if (sorting.order === 'asc') {
+          return a[sorting.column] > b[sorting.column] ? 1 : -1;
+        } else {
+          return a[sorting.column] < b[sorting.column] ? 1 : -1;
+        }
+      });
+      setLocalData({ ...localData, data: sortedData });
+    }
   };
 
   const [search, setSearch] = React.useState('');
@@ -166,9 +158,9 @@ export default function AssetsPage() {
   const filteredData = React.useMemo(
     () =>
       search
-        ? refactoredData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
-        : refactoredData?.data,
-    [refactoredData, search]
+        ? localData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
+        : localData?.data,
+    [localData, search]
   );
 
   const tableRows = filteredData?.map((row, index) => {
@@ -231,14 +223,16 @@ export default function AssetsPage() {
     );
   });
 
-  const total = refactoredData?.meta?.total;
+  const total = localData?.meta?.total;
 
   const [addResource] = useAddResourceMutation();
+
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
         await fetchData(null, undefined);
       } else {
@@ -251,7 +245,7 @@ export default function AssetsPage() {
     const newAsset = file;
 
     try {
-      await addResource(newAsset).unwrap();
+      await addResource({ newAsset, user }).unwrap();
     } catch (error) {
       console.error('Failed to add asset:', error);
     }
@@ -313,7 +307,7 @@ export default function AssetsPage() {
               id="file-upload"
               style={{ display: 'none' }}
               onChange={handleUpload}
-              accept=".jpg,.jpeg,.png"
+              accept={acceptedFileTypes}
             />
             <Button
               variant="contained"
@@ -353,6 +347,7 @@ export default function AssetsPage() {
         headerCells={headers}
         tableRows={tableRows}
         onPageChange={onPageChange}
+        noDataMessage="No assets"
         onRowsPerPageChange={onRowsPerPageChange}
         onSortClick={onSortClick}
         sx={{
