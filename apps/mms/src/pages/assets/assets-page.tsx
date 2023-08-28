@@ -120,15 +120,6 @@ export default function AssetsPage() {
     fetchData(pagination, sorting);
   };
 
-  // const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event: any) => {
-  //   const newPageSize = Number(event.target.value);
-  //   setCurrPagination({
-  //     ...currPagination,
-  //     pageSize: newPageSize,
-  //   });
-  //   fetchData({ ...currPagination, pageSize: newPageSize }, currSorting);
-  // };
-
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
