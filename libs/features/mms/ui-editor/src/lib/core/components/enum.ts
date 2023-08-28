@@ -65,4 +65,5 @@ export enum Component {
   HalfHeightMatchup = 'cHalfHeightMatchup',
   FullHeightCarousel = 'cFullHeightCarousel',
   TextButton = 'cTextButton',
+  SocialIconButton = 'cSocialIconButtons',
 }

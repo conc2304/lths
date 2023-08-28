@@ -28,6 +28,18 @@ export type FullHeightCarouselComponentProps = ComponentProps & {
   };
 };
 
+export type SocialIconButtonProps = {
+  icon: string;
+  link: string;
+};
+export type SocialIconButtoncomponentProps = ComponentProps & {
+  properties_data: {
+    first_button: SocialIconButtonProps;
+    second_button: SocialIconButtonProps;
+    third_button: SocialIconButtonProps;
+    fourth_button: SocialIconButtonProps;
+  };
+};
 export type HeroComponentProps = ComponentProps & {
   image: string;
   title: string;
