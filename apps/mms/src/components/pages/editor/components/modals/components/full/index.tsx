@@ -1,30 +1,21 @@
-import { ChangeEvent, forwardRef, ReactElement, Ref, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Dialog, InputBase } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
-import Slide from '@mui/material/Slide';
 import Toolbar from '@mui/material/Toolbar';
-import { TransitionProps } from '@mui/material/transitions';
 
 import { filter } from '@lths/shared/utils';
 
-import ComponentGallery from './gallery';
-import { ComponentModalProps } from './types';
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement;
-  },
-  ref: Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import ComponentGallery from '../../../gallery';
+import Transition from '../../../transitions/slide-up';
+import { ComponentModalProps } from '../../../types';
 
 export const ComponentModal = ({ open, onClose, components, onSelect }: ComponentModalProps) => {
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
+
   const searchProps = ['component_id', 'component_name', 'component_type'];
 
   useEffect(() => {

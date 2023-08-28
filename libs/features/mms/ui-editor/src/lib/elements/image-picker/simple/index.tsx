@@ -4,12 +4,13 @@ import AddIcon from '@mui/icons-material/Add';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { ToolbarProps } from '../../../context';
 import GroupLabel from '../../labels/group-label';
 
 type SimpleImagePickerProps = {
   value: string;
   onChange: (value: string) => void;
-  onReplace: (callback: (url: string) => void) => void;
+  onReplace: ToolbarProps['onPropChange'];
 };
 
 const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProps) => {
@@ -17,7 +18,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
   const [ isHovering, setIsHovering ] = useState(false);
 
   const handleReplace = () => {
-    onReplace && onReplace(onChange);
+    onReplace && onReplace('image_url', onChange);
   };
 
   const handleDelete = () => {

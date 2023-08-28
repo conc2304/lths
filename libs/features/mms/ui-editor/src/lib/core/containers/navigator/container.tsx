@@ -6,16 +6,16 @@ import Typography from '@mui/material/Typography';
 
 import { Accordion, AccordionSummary } from './accordion';
 import AccordionDetails from './accordion/details';
-import { Card } from './dragable-list-item';
+import Card from './list-items/draggable';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
 import { StickyContainer } from '../../../elements';
 import { areEqual } from '../../utils';
 
 export type NavigatorProps = {
-  onAddComponentClick: () => void;
+  onAddComponent: () => void;
 };
-export const Container = ({ onAddComponentClick }: NavigatorProps) => {
+export const Container = ({ onAddComponent }: NavigatorProps) => {
   const { components, orderComponent, selectComponent, duplicateComponent, removeComponent, selectedComponent } =
     useEditorActions();
 
@@ -80,7 +80,7 @@ export const Container = ({ onAddComponentClick }: NavigatorProps) => {
         )}
       </Accordion>
       <Box sx={{ margin: 5 }}>
-        <Button variant="outlined" onClick={onAddComponentClick} fullWidth>
+        <Button variant="outlined" onClick={onAddComponent} fullWidth>
           Add Component
         </Button>
       </Box>

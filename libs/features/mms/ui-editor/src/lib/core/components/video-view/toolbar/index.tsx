@@ -1,18 +1,9 @@
 import { ChangeEvent } from 'react';
-import { Typography } from '@mui/material';
 
-import {
-  BasicTextField,
-  ToolContainer,
-  ImagePicker,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Action,
-} from '../../../../elements';
+import { BasicTextField, ToolContainer, ImagePicker } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ActionProps, VideoViewComponentProps } from '../../types';
-
 const VideoViewToolbar = (props: VideoViewComponentProps) => {
   const {
     __ui_id__: id,
@@ -30,14 +21,8 @@ const VideoViewToolbar = (props: VideoViewComponentProps) => {
     <ToolContainer id={id}>
       <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <BasicTextField label={'Video URL'} value={video_link} onChange={handleVideoChange} />
-      <Accordion>
-        <AccordionSummary>
-          <Typography>action</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Action {...action} />
-        </AccordionDetails>
-      </Accordion>
+
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };
