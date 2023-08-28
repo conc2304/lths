@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
 import { DropdownButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
@@ -9,11 +9,12 @@ import { NotificationStatus } from './types';
 
 type Props = {
   onStatusChange: (status: string) => void;
+  onActionClick: (action: string) => void;
   status: string;
   title: string;
 };
 
-const NotificationHeader = ({ onStatusChange, title = 'Notification Name', status }: Props) => {
+const NotificationHeader = ({ onStatusChange, onActionClick, title, status }: Props) => {
   const menuItems = [
     {
       id: NotificationStatus.SENT,
@@ -28,7 +29,7 @@ const NotificationHeader = ({ onStatusChange, title = 'Notification Name', statu
     <Header
       sx={{ mt: 1 }}
       title={title}
-      leftContent={<EditorActions />}
+      leftContent={<EditorActions onActionClick={onActionClick} />}
       rightContent={
         <Stack direction="row" alignItems="center" spacing={2}>
           <Status status={status} />

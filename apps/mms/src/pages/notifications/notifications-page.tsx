@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Grid, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DownloadIcon from '@mui/icons-material/Download';
-import { PaginationRequest } from 'libs/features/mms/data-access/src/lib/types';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+import { PaginationRequest } from '@lths/features/mms/data-access';
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
 import { OverflowMenu, Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';

@@ -18,7 +18,7 @@ const actions = [
   },
   {
     icon: <ArchiveOutlinedIcon />,
-    action: NotificationActions.DELETE,
+    action: NotificationActions.ARCHIVE,
   },
   {
     icon: <PreviewOutlinedIcon />,
@@ -30,11 +30,11 @@ const actions = [
   },
 ];
 
-const EditorActions = () => {
+const EditorActions = ({ onActionClick }) => {
   return (
     <Stack direction="row" marginLeft={3}>
       {actions.map(({ icon, action }) => (
-        <IconButton key={action} title={action.toLowerCase()}>
+        <IconButton key={action} title={action.toLowerCase()} onClick={() => onActionClick(action)}>
           {icon}
         </IconButton>
       ))}

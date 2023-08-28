@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import db from './index.db';
 import { RESPONSE_DELAY_MS, ITEMS_PER_PAGE } from '../../constants';
 
-const response = rest.get(/\/api\/notifications[?|/]?$/, function (req, res, ctx) {
+const response = rest.get(/\/api\/notifications-items[?|/]?$/, function (req, res, ctx) {
   console.log('search params', req.url.searchParams.get('page'));
   const page = Number(req.url.searchParams.get('page')) || 0;
   const itemsPerPage = Number(req.url.searchParams.get('page_size')) || ITEMS_PER_PAGE;

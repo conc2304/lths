@@ -6,7 +6,7 @@ export enum NotificationStatus {
 export enum NotificationActions {
   EDIT = 'EDIT',
   DUPLICATE = 'DUPLICATE',
-  DELETE = 'DELETE',
+  ARCHIVE = 'ARCHIVE',
   PREVIEW = 'PREVIEW',
   INSIGHTS = 'INSIGHTS',
 }

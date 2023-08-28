@@ -23,6 +23,7 @@ export type NotificationProps = {
   _id: string;
   name: string;
   description: string;
+  headline: string;
   content: string;
   payload: Record<string, string>;
   type: NotificationTyeProps;

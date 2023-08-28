@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -17,6 +16,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
+import { useNotificationTopics } from '@lths-mui/features/mms/ui-notifications';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -24,7 +24,6 @@ import {
   CreateNotificationRequest,
   NotificationType,
   useCreateNotificationMutation,
-  useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
 
 import { CreateNotificationModalProps } from './types';
@@ -35,10 +34,9 @@ const validationSchema = yup.object({
 });
 
 const CreateNotificationModal = (props: CreateNotificationModalProps) => {
+  const { open, handleCloseModal, onCreateNotification, isEdit, notificationData } = props;
+
   const [createNotification, { isLoading }] = useCreateNotificationMutation();
-  const [getEnumList] = useLazyGetEnumListQuery();
-  const [notificationTopics, setNotificationTopics] = useState([]);
-  const { open, handleCloseModal, onCreateNotification } = props;
 
   const onSubmit = async (values: CreateNotificationRequest) => {
     const requestData = {
@@ -48,34 +46,26 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
     onCreateNotification(response?.data?._id);
   };
 
+  console.log('create notify modal', notificationData);
+
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
     initialValues: {
-      name: '',
-      topic: '',
-      description: '',
+      name: notificationData?.name || '',
+      topic: notificationData?.topic || '',
+      description: notificationData?.description || '',
       type: NotificationType.PUSH_NOTIFICATION,
     },
     validationSchema: validationSchema,
     onSubmit: onSubmit,
+    enableReinitialize: true,
   });
 
-  const fetchNotificationTopics = async () => {
-    try {
-      const response = await getEnumList('NotificationTopics').unwrap();
-      if (response?.success) setNotificationTopics(response?.data?.enum_values);
-    } catch (error) {
-      console.error(`Error in fetching notification topics`);
-    }
-  };
-
-  useEffect(() => {
-    fetchNotificationTopics();
-  }, []);
+  const { notificationTopics } = useNotificationTopics();
 
   return (
     <Dialog open={open} onClose={handleCloseModal} maxWidth="xs" fullWidth>
       <DialogTitle>
-        <Typography variant="h2">Create notification</Typography>
+        <Typography variant="h2">{isEdit ? `Edit` : `Create`} notification</Typography>
         <Typography variant="body2">All text fields required unless noted.</Typography>
         <IconButton
           aria-label="close"
@@ -169,7 +159,7 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
           type="submit"
           onClick={() => handleSubmit()}
         >
-          CREATE
+          {isEdit ? `UPDATE` : `CREATE`}
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -1,7 +1,7 @@
 import { NotificationListRequest } from './types';
 import { PaginationRequest } from '../types';
 
-const NOTIFICATION_BASE_URL = '/mms/notifications';
+const NOTIFICATION_BASE_URL = '/notifications';
 
 export const getNotificationItemsUrl = (req: PaginationRequest) => {
   const params = [];
@@ -11,7 +11,7 @@ export const getNotificationItemsUrl = (req: PaginationRequest) => {
   if (sort_key != null) params.push(`sort_key=${sort_key}`);
   if (sort_order != null) params.push(`page=${sort_order}`);
 
-  return `/notifications?${params.join('&')}`;
+  return `/notifications-items?${params.join('&')}`;
 };
 
 export const getNotificationsListUrl = (req: NotificationListRequest) => {
@@ -25,7 +25,7 @@ export const getNotificationsListUrl = (req: NotificationListRequest) => {
   return `${NOTIFICATION_BASE_URL}?${params.join('&')}`;
 };
 
-export const getNotificationDetailUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}?${notification_id}`;
+export const getNotificationDetailUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}/${notification_id}`;
 
 export const getCreateNotificationUrl = () => NOTIFICATION_BASE_URL;
 
