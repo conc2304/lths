@@ -60,7 +60,7 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
       const { id } = action;
       return {
         ...state,
-        selectedComponent: state.selectedComponent.__ui_id__ === id ? null : state.selectedComponent,
+        selectedComponent: state.selectedComponent?.__ui_id__ === id ? null : state.selectedComponent,
         components: state.components.filter((o) => o.__ui_id__ !== id),
       };
     }
