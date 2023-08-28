@@ -2,7 +2,7 @@ import { CardMedia, Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
-import { ComponentGalleryProps } from './types';
+import { ComponentGalleryProps } from '../types';
 
 const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) => {
   return (

@@ -2,17 +2,18 @@ import React from 'react';
 import { Typography, Card, CardMedia, Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
+import { ToolbarProps } from '../../../context';
 import GroupLabel from '../../labels/group-label';
 
 type SimpleImagePickerProps = {
   value: string;
   onChange: (value: string) => void;
-  onReplace: (callback: (url: string) => void) => void;
+  onReplace: ToolbarProps['onPropChange'];
 };
 
 const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProps) => {
   const handleReplace = () => {
-    onReplace && onReplace(onChange);
+    onReplace && onReplace('image_url', onChange);
   };
 
   const imageSrc = value;

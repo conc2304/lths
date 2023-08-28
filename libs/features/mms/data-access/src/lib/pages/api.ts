@@ -35,7 +35,7 @@ import {
   getUpdatePageDetailsUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
-
+//TOD: Typing is missing for few methods
 const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
   endpoints: (builder) => ({
     getComponentList: builder.query<ComponentListResponse, ComponentsListRequest>({

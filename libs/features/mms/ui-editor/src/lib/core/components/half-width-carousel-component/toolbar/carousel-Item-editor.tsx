@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 
+import { ToolbarProps } from '../../../../context';
 import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
 import { HalfWidthCarouselProps } from '../../types';
 
-type CarouselItemProps = {
+//TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
+type CarouselItemProps = ToolbarProps & {
   item: HalfWidthCarouselProps;
-  onPropChange: (callback: (value: any) => void) => void;
   handleCloseItem: () => void;
   handleUpdateItem: (newComponent: HalfWidthCarouselProps) => void;
 };

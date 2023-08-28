@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 
-import { ToolbarProps } from './types';
-import { useEditorActions } from '../../../context';
+import { useEditorActions, ToolbarProps } from '../../../context';
 import { StickyContainer } from '../../../elements';
 import { toolbarFactory as factory } from '../../factories';
 

@@ -27,7 +27,6 @@ export const useToolbarChange = () => {
     }
   };
 
-
   const swapComponentProps = (index: number, index2: number) => {
     const updatedComponentData = [...selectedComponent.properties_data.sub_properties_data];
     const componet1 = updatedComponentData[index];
@@ -87,7 +86,7 @@ export const useToolbarChange = () => {
   const handleColorChange = (color: string, index?: number) => {
     updateComponentProp('color', color, index);
   };
-
+  //TODO: clean this up
   const handleActionChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string,
