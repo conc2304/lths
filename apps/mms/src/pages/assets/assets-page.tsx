@@ -13,6 +13,7 @@ import {
   useDeleteResourceMutation,
   useAppSelector,
 } from '@lths/features/mms/data-access';
+import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -37,8 +38,8 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'mime_type',
-    label: 'Mime Type',
+    id: 'file_type',
+    label: 'File Type',
     sortable: true,
   },
   {
@@ -54,7 +55,7 @@ const headers = [
 ];
 
 export default function AssetsPage() {
-  const user = useAppSelector((state) => state.users.user);
+  const user = useAppSelector((state) => state.auth);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<Asset>(null);
@@ -119,28 +120,19 @@ export default function AssetsPage() {
     fetchData(pagination, sorting);
   };
 
-  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event: any) => {
-    const newPageSize = Number(event.target.value);
-    setCurrPagination({
-      ...currPagination,
-      pageSize: newPageSize,
-    });
-    fetchData({ ...currPagination, pageSize: newPageSize }, currSorting);
-  };
+  // const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event: any) => {
+  //   const newPageSize = Number(event.target.value);
+  //   setCurrPagination({
+  //     ...currPagination,
+  //     pageSize: newPageSize,
+  //   });
+  //   fetchData({ ...currPagination, pageSize: newPageSize }, currSorting);
+  // };
 
   const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    if (localData && localData.data) {
-      const sortedData = [...localData.data].sort((a, b) => {
-        if (sorting.order === 'asc') {
-          return a[sorting.column] > b[sorting.column] ? 1 : -1;
-        } else {
-          return a[sorting.column] < b[sorting.column] ? 1 : -1;
-        }
-      });
-      setLocalData({ ...localData, data: sortedData });
-    }
+    fetchData(pagination, sorting);
   };
 
   const [search, setSearch] = React.useState('');
@@ -227,25 +219,27 @@ export default function AssetsPage() {
 
   const [addResource] = useAddResourceMutation();
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
-        await fetchData(null, undefined);
+        fetchData(currPagination, currSorting);
       } else {
         console.error('Invalid file type:', file.type);
       }
     }
   };
+  const [getUser] = useLazyGetUserQuery();
 
   const handleAddAsset = async (file) => {
     const newAsset = file;
 
     try {
-      await addResource({ newAsset, user }).unwrap();
+      const owner = await getUser(user.userId);
+      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
     } catch (error) {
       console.error('Failed to add asset:', error);
     }
@@ -291,12 +285,19 @@ export default function AssetsPage() {
     setIsRowModalOpen('');
   };
 
+  const cleanDrawerTitle = localData?.data[selectedPreviewRow?.rowIndex]?.original_file_name.slice(
+    0,
+    localData?.data[selectedPreviewRow?.rowIndex]?.original_file_name.lastIndexOf('.')
+  );
+
   return (
     <PageContentWithRightDrawer
       open={drawerOpen}
-      title={selectedPreviewRow?.asset?.original_file_name}
+      title={cleanDrawerTitle}
       handleDrawerClose={handleDrawerClose}
-      drawerContent={<PreviewDrawerContent data={selectedPreviewRow?.asset} openModal={handleOpenModal} />}
+      drawerContent={
+        <PreviewDrawerContent data={localData?.data[selectedPreviewRow?.rowIndex]} openModal={handleOpenModal} />
+      }
     >
       <PageHeader
         title="Assets"
@@ -348,7 +349,6 @@ export default function AssetsPage() {
         tableRows={tableRows}
         onPageChange={onPageChange}
         noDataMessage="No assets"
-        onRowsPerPageChange={onRowsPerPageChange}
         onSortClick={onSortClick}
         sx={{
           mt: 1,

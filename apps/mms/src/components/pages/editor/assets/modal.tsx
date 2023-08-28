@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { useAddResourceMutation, useAppSelector } from '@lths/features/mms/data-access';
+import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
@@ -33,13 +34,13 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'filetype',
-    label: 'File Type',
+    id: 'file_extension',
+    label: 'File Extension',
     sortable: true,
   },
   {
-    id: 'mimetype',
-    label: 'Mime Type',
+    id: 'filetype',
+    label: 'File Type',
     sortable: true,
   },
   {
@@ -58,11 +59,10 @@ const AssetsModal = ({
   isLoading,
   total,
   onPageChange,
-  onRowsPerPageChange,
   onSortClick,
   fetchData,
 }: AssetModalProps) => {
-  const user = useAppSelector((state) => state.users.user);
+  const user = useAppSelector((state) => state.auth);
   const theme = useTheme();
   const [addResource] = useAddResourceMutation();
 
@@ -72,7 +72,7 @@ const AssetsModal = ({
     setSearch(event.target.value);
   };
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 
   const handleAssetsUpload = async (event) => {
     const file = event.target.files[0];
@@ -86,11 +86,14 @@ const AssetsModal = ({
     }
   };
 
+  const [getUser] = useLazyGetUserQuery();
+
   const handleAddAsset = async (file) => {
     const newAsset = file;
 
     try {
-      await addResource({ newAsset, user }).unwrap();
+      const owner = await getUser(user.userId);
+      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
     } catch (error) {
       console.error('Failed to add asset:', error);
     }
@@ -179,7 +182,6 @@ const AssetsModal = ({
             headerCells={headers}
             tableRows={tableRows}
             onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
             onSortClick={onSortClick}
             noDataMessage="No assets"
             sx={{

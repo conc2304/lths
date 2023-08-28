@@ -33,7 +33,6 @@ export const Table = (props: TableProps) => {
     onSortClick,
     onExportClick,
     onPageChange,
-    onRowsPerPageChange,
     sx = {},
     fixPagination = false,
     noDataMessage = 'No records found',
@@ -62,10 +61,11 @@ export const Table = (props: TableProps) => {
     onPageChange && onPageChange(event, newPagination, sorting);
   };
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const newPagination = { ...pagination, page: 0, pageSize: parseInt(event.target.value, 10) };
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPageSize = parseInt(event.target.value, 10);
+    const newPagination = { ...pagination, pageSize: newPageSize, page: 0 };
     setPagination(newPagination);
-    onRowsPerPageChange && onRowsPerPageChange(event, newPagination, sorting);
+    onPageChange && onPageChange(null, newPagination, sorting);
   };
 
   const paginationStyles =
