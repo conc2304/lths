@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { ListItemIcon, Box, ListItemButton } from '@mui/material';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { EditableListItemText } from './editable-list-item';
-import { DragCardProps, DragItemProps, ItemTypes } from './types';
-import { Colors } from '../../../common';
-import { OverflowMenu } from '../../../elements';
+import { Colors } from '../../../../../common';
+import { OverflowMenu } from '../../../../../elements';
+import { DragCardProps, DragItemProps, ItemTypes } from '../../types';
+import EditableListItemText from '../editable';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 
@@ -17,7 +17,7 @@ const style = {
 //TODO: move this to constants??
 const menuOptions = ['delete', 'duplicate'];
 
-export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
+const DraggableCard = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -74,9 +74,8 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }
       item.index = hoverIndex;
     },
   });
-  const onSave = (index: number, newText: string) => {
-    console.log(index, newText);
-  };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  const onSave = (index: number, newText: string) => {};
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
@@ -107,3 +106,5 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }
     </Box>
   );
 };
+
+export default DraggableCard;

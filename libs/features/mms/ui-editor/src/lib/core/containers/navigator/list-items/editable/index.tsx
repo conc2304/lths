@@ -1,10 +1,10 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { ListItemText, TextField, Typography } from '@mui/material';
 
-import { Colors } from '../../../common';
-import { useClickOutside } from '../../../elements';
+import { Colors } from '../../../../../common';
+import { useClickOutside } from '../../../../../elements';
 
-export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
+const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,3 +55,5 @@ export const EditableListItemText = ({ text, onSave }: { text: string; onSave: (
     />
   );
 };
+
+export default EditableListItemText;

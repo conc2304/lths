@@ -1,26 +1,17 @@
 import { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 
-import {
-  ToolbarLabel,
-  OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput
-} from '../../../../elements';
-
+import { ToolbarProps } from '../../../../context';
+import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
 import { HalfWidthCarouselFloatingTextProps } from '../../types';
-
-type CarouselItemProps = {
+//TODO: Fix lint, create onChange wrapper function, chane event props to start with 'on'
+type CarouselItemProps = ToolbarProps & {
   item: HalfWidthCarouselFloatingTextProps;
-  onPropChange: (callback: (value: any) => void) => void;
   handleCloseItem: () => void;
   handleUpdateItem: (newComponent: HalfWidthCarouselFloatingTextProps) => void;
 };
 
-const CarouselItemEditor: React.FC<CarouselItemProps> = ({
-  item,
-  onPropChange,
-  handleCloseItem,
-  handleUpdateItem,
-}) => {
+const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, handleCloseItem, handleUpdateItem }) => {
   const [localItem, setLocalItem] = useState<HalfWidthCarouselFloatingTextProps>({ ...item });
   const { name, image, img_alt_text, title, action } = localItem;
 
@@ -31,7 +22,11 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
     }));
   };
 
-  const handleActionChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, key: string, index?: number) => {
+  const handleActionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    key: string,
+    index?: number
+  ) => {
     setLocalItem((prevData) => ({
       ...prevData,
       action: { ...prevData?.action, [key]: event.target.value },
@@ -42,11 +37,7 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
     <>
       <ToolbarLabel label={'Carousel Item'} />
 
-      <OutlinedTextField
-        label={'Name'}
-        value={name}
-        onChange={(e) => handleFieldChange('name', e.target.value)}
-      />
+      <OutlinedTextField label={'Name'} value={name} onChange={(e) => handleFieldChange('name', e.target.value)} />
 
       <SimpleImagePicker
         value={image}
@@ -60,25 +51,10 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
       />
 
       <GroupLabel label={'Text'} />
-      <OutlinedTextField
-        label={'Title'}
-        value={title}
-        onChange={(e) => handleFieldChange('title', e.target.value)}
-      />
-      <ActionInput
-        action={action}
-        handleActionChange={handleActionChange}
-      />
-      <Stack
-        direction="row"
-        justifyContent="flex-end"
-        spacing={2}
-      >
-        <Button
-          variant="outlined"
-          onClick={handleCloseItem}
-          sx={{ padding: '8px 22px', fontSize: 15 }}
-        >
+      <OutlinedTextField label={'Title'} value={title} onChange={(e) => handleFieldChange('title', e.target.value)} />
+      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <Stack direction="row" justifyContent="flex-end" spacing={2}>
+        <Button variant="outlined" onClick={handleCloseItem} sx={{ padding: '8px 22px', fontSize: 15 }}>
           CANCEL
         </Button>
         <Button

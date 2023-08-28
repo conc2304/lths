@@ -1,4 +1,4 @@
-import { ChangeEvent, forwardRef, ReactElement, Ref, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
   Dialog,
@@ -15,24 +15,14 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 
 import { EnumValue, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
 import { filter } from '@lths/shared/utils';
 
-import CategorySection from './category-section';
-import ComponentGallery from './gallery';
-import { ComponentModalProps } from './types';
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement;
-  },
-  ref: Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import ComponentGallery from '../../../gallery';
+import CategorySection from '../../../list/category';
+import Transition from '../../../transitions/slide-up';
+import { ComponentModalProps } from '../../../types';
 
 const ComponentModal = ({
   open,
@@ -42,19 +32,16 @@ const ComponentModal = ({
   onSelectCategory,
   isComponentListLoading,
 }: ComponentModalProps) => {
-  const theme = useTheme();
+  const [getEnumList] = useLazyGetEnumListQuery();
 
   const [filtered, setFiltered] = useState([]);
-
   const [search, setSearch] = useState('');
-
   const [selectedCategory, setSelectedCategory] = useState('all');
-
   const [categories, setCategories] = useState<EnumValue[]>([]);
 
-  const searchProps = ['component_id', 'component_name', 'component_type'];
+  const theme = useTheme();
 
-  const [getEnumList] = useLazyGetEnumListQuery();
+  const searchProps = ['component_id', 'component_name', 'component_type'];
 
   const fetchCategories = async () => {
     try {
@@ -64,6 +51,10 @@ const ComponentModal = ({
       console.error('Error in fetching the component categories');
     }
   };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (!components) setFiltered([]);
@@ -79,10 +70,6 @@ const ComponentModal = ({
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setSearch(event.target.value);
   };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   return (
     <Dialog fullWidth={true} maxWidth={'xl'} open={open} onClose={onClose} TransitionComponent={Transition}>

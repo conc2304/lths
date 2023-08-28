@@ -1,5 +1,9 @@
 import { Dispatch, ReactNode } from 'react';
+export type Callback<T> = (value: T) => void;
 
+export type ToolbarProps = {
+  onPropChange: <T>(propName: string, callback: Callback<T>) => void;
+};
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
   _id: string;
@@ -15,7 +19,6 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 
   //TBD: remove these props
-  //constraints: Array<Record<string, string>>;
   display_order: number;
   category?: string;
   variation_id: string;
