@@ -8,7 +8,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { DraggableCarouselListItemProps, DragItemProps, ItemTypes } from './types';
 
 import type { Identifier, XYCoord } from 'dnd-core';
-
+//TODO: remove this - This appears to be duplicate of the navigator list item.
 
 const DraggableCarouselListItem = ({
   text,

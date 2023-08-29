@@ -11,6 +11,7 @@ type ActionExtendedProps = {
   action: ActionProps;
   onPropChange: ToolbarProps['onPropChange'];
   index?: number;
+  keys?: string[] | undefined;
 };
 const ActionType = {
   Native: 'native',
@@ -18,7 +19,7 @@ const ActionType = {
 };
 
 const Action = (props: ActionExtendedProps) => {
-  const { action: { type = ActionType.Native, page_id, page_link } = {}, onPropChange, index } = props;
+  const { action: { type = ActionType.Native, page_id, page_link } = {}, onPropChange, index, keys } = props;
 
   const { handleActionChange } = useToolbarChange();
 
@@ -39,14 +40,15 @@ const Action = (props: ActionExtendedProps) => {
   useEffect(() => fetchData(type), [type]);
 
   const handleActionTypeChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'type', index);
+    handleActionChange(event, 'type', index, keys);
   };
 
   const handleActionPageIdChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_id', index);
+    handleActionChange(event, 'page_id', index, keys);
   };
+
   const handleActionPageLinkChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_link', index);
+    handleActionChange(event, 'page_link', index, keys);
   };
 
   return (

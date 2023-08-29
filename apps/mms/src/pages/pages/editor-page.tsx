@@ -115,8 +115,8 @@ export function PageEditorTabs() {
   };
 
   //TODO: API is not typed yet, so using any for now
-  const handlAddAction = async (callback: (data: AutocompleteItemProps) => void) => {
-    const response = await getDefaultPage({});
+  const handlAddAction = async (callback: (data) => void) => {
+    const response = await getDefaultPage();
     if (response.data?.data)
       return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
   };

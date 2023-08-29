@@ -1,3 +1,10 @@
+export type Pagination = {
+  limit: number;
+  offset: number;
+  currPage: number;
+  totalItems: number;
+};
+
 export type CommonResponse = {
   success: boolean;
   message: string;
@@ -7,6 +14,7 @@ export type CommonResponse = {
     timestamp: string;
     path: string;
   };
+  pagination?: Pagination;
 };
 
 export type PaginationRequest = {

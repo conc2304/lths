@@ -9,7 +9,7 @@ import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel } from '../../../../elements';
 import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
-import { HalfWidthCarouselProps, HalfWidthCarouselComponentProps } from '../../types';
+import { HalfWidthCarouselComponentProps } from '../../types';
 
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const {
@@ -34,22 +34,17 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     handleCloseItem();
   }, [id]);
 
-  const handleUpdateItem = (newComponent: HalfWidthCarouselProps, index: number) => {
-    const newComponentData = [...sub_properties_data];
-    newComponentData[index] = newComponent;
-    const data = { ...props, properties_data: { sub_properties_data: newComponentData } };
-    selectComponent(data);
-
-    setSelectedIndex(-1);
-  };
-
   const handleAdd = () => {
     const data = {
       ...props,
       properties_data: {
         sub_properties_data: [
           ...sub_properties_data,
-          { title: 'New Card', description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod' },
+          {
+            title: 'New Card',
+            description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
+            action: { type: 'native' },
+          },
         ],
       },
     };
@@ -91,9 +86,9 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
             item={sub_properties_data[selectedIndex]}
-            handleCloseItem={handleCloseItem}
-            handleUpdateItem={(newComponent) => handleUpdateItem(newComponent, selectedIndex)}
+            onClose={handleCloseItem}
             onPropChange={onPropChange}
+            index={selectedIndex}
           />
         ) : (
           <>

@@ -1,10 +1,14 @@
 import { ChangeEvent } from 'react';
 
+import { mergeKeys, updateNestedProp } from './utils';
 import { useEditorActions } from '../../../context';
 
 export const useToolbarChange = () => {
   const { selectComponent, selectedComponent } = useEditorActions();
 
+  /**
+   * @deprecated This function is deprecated. Use handlePropChange instead.
+   */
   const updateComponentProp = (
     key: string,
     value: string | object,
@@ -27,6 +31,12 @@ export const useToolbarChange = () => {
     }
   };
 
+  function handlePropChange(propName: string, value: string | object, index: number = undefined, keys: string[]) {
+    const data = updateNestedProp(selectedComponent, propName, value, index, mergeKeys(keys));
+    selectComponent(data);
+  }
+
+  //TODO: not generic enough
   const swapComponentProps = (index: number, index2: number) => {
     const updatedComponentData = [...selectedComponent.properties_data.sub_properties_data];
     const componet1 = updatedComponentData[index];
@@ -40,81 +50,116 @@ export const useToolbarChange = () => {
     selectComponent(data);
   };
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('title', event.target.value, index);
+  const handleTitleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('title', event.target.value, index, keys);
   };
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('name', event.target.value, index);
+  const handleNameChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('name', event.target.value, index, keys);
   };
-  const handleIconChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('icon', event.target.value, index);
+  const handleIconChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('icon', event.target.value, index, keys);
   };
-  const handleAuthorChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('author', event.target.value, index);
+  const handleAuthorChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('author', event.target.value, index, keys);
   };
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('date_info', event.target.value, index);
+  const handleDateChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('date_info', event.target.value, index, keys);
   };
-  const handleHintChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('hint', event.target.value, index);
+  const handleHintChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('hint', event.target.value, index, keys);
   };
-  const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('desc', event.target.value, index);
+  const handleDescChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('desc', event.target.value, index, keys);
+  };
+  const handleDescriptionChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('description', event.target.value, index, keys);
   };
 
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('description', event.target.value, index);
+  const handleButtonTextChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('btn_text', event.target.value, index, keys);
   };
 
-  const handleButtonTextChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('btn_text', event.target.value, index);
+  const handleLinkChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('link', event.target.value, index, keys);
   };
 
-  const handleLinkChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('link', event.target.value, index);
-  };
-  const handleLinkTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('link_title', event.target.value, index);
-  };
-  const handleImageAltChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    updateComponentProp('img_alt_text', event.target.value, index);
+  const handleLinkTitleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('link_title', event.target.value, index, keys);
   };
 
-  const handleImageChange = (value: string, index?: number) => {
-    updateComponentProp('image', value, index);
+  const handleImageAltChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('image_alt_text', event.target.value, index, keys);
   };
-  const handleColorChange = (color: string, index?: number) => {
-    updateComponentProp('color', color, index);
+
+  const handleImageChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('image', value, index, keys);
   };
-  //TODO: clean this up
+  const handleColorChange = (color: string, index?: number, keys?: string[]) => {
+    handlePropChange('color', color, index, keys);
+  };
+
   const handleActionChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     key: string,
-    index?: number
+    index?: number,
+    keys: string[] = []
   ) => {
-    if (index === undefined) {
-      updateComponentProp('action', { ...selectedComponent.properties_data.action, [key]: event.target.value }, index);
-    } else {
-      updateComponentProp(
-        'action',
-        { ...selectedComponent.properties_data.sub_properties_data[index].action, [key]: event.target.value },
-        index
-      );
-    }
-  };
-
-  const handleComponentDataChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    key: string,
-    index: number
-  ) => {
-    updateComponentProp(key, event.target.value, index);
+    handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 
   return {
     selectedComponent,
     swapComponentProps,
     updateComponentProp,
+    handlePropChange,
     handleTitleChange,
     handleNameChange,
     handleDescChange,
@@ -125,7 +170,6 @@ export const useToolbarChange = () => {
     handleImageAltChange,
     handleImageChange,
     handleActionChange,
-    handleComponentDataChange,
     handleColorChange,
     handleAuthorChange,
     handleDateChange,
