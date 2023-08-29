@@ -1,6 +1,6 @@
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
-import { Pagination, PaginationRequest } from '../notifications/types';
+import { PaginationRequest } from '../notifications/types';
 import { CommonResponse } from '../types';
 
 export type ComponentProps = {
@@ -56,50 +56,7 @@ export type File = {
   domain: string;
 };
 
-export type ImagesProps = {
-  _id: string;
-  id: string;
-  owner_id: string;
-  owner_type: string;
-  original_file_name: string;
-  original_content_type: string;
-  original_file_size: number;
-  finalized: boolean;
-  created_at: string;
-  updated_at: string;
-  media_type: string;
-  visible: boolean;
-  deleted: boolean;
-  published: boolean;
-  is_active: boolean;
-  modelName: string;
-  createTime: string;
-  endpoint: string;
-  portFlow: Array<string>;
-  domain: string;
-  updateTime: string;
-  files: File[];
-};
-
-export type ImagesListResponse = {
-  data: ImagesProps[];
-};
-
-export type PagesDataRequest = PaginationRequest & Record<string, unknown>;
-
-export type PageData = {
-  id: number;
-  name: string;
-  type: string;
-  constraints: string;
-  last_editor: string;
-  status: string;
-  published_on?: string;
-  scheduled_on?: string;
-  drafted_on?: string;
-};
-
-export type PagesDataResponse = { data: PageData[]; meta: Pagination };
+export type PageItemsRequest = PaginationRequest;
 
 export type CreatePageRequest = {
   name: string;
@@ -159,6 +116,25 @@ export type PageDetail = EditorProps & {
   default_page_id: string;
   default_page_name: string;
   constraints: PageConstraints;
+  approved_by?: string;
+  approved_on?: string;
+  created_by?: string;
+  created_on?: string;
+  published_by?: string;
+  published_on?: string;
+  rejected_by?: string;
+  rejected_on?: string;
+  unpublished_by?: string;
+  unpublished_on?: string;
+  updated_by?: string;
+  updated_on?: string;
+  deleted_by?: string;
+  deleted_on?: string;
+  is_deleted?: boolean;
+};
+
+export type PageItemsResponse = CommonResponse & {
+  data: PageDetail[];
 };
 
 export type PageDetailResponse = CommonResponse & {
@@ -244,6 +220,10 @@ export type UpdatePageStatusRequest = {
   status: string;
 };
 
+export type UpdatePageStatusResponse = CommonResponse & {
+  data: PageDetail;
+};
+
 export type UpdatePageDetailRequest = PageDetail;
 
 export type UpdatePageDetailResponse = CommonResponse & {
@@ -254,7 +234,12 @@ export type DeletePageRequest = {
   page_id: string;
 };
 
+export type DeletePageResponse = CommonResponse & {
+  data: PageDetail;
+};
+
 export type ComponentsListRequest = {
   category?: string;
   limit?: number;
+  offset?: number;
 };

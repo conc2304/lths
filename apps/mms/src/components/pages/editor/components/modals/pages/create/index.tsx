@@ -64,7 +64,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   });
 
   useEffect(() => {
-    getDefaultPage({});
+    getDefaultPage();
   }, []);
 
   return (
