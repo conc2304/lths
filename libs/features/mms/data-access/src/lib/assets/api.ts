@@ -9,7 +9,13 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
     getAssetsItems: builder.query<AssetsResponse, AssetsRequest>({
       query: (request: AssetsRequest) => ({
         url: getAssetsUrl(request),
-        method: 'GET',
+        method: 'POST',
+        body: {
+          sort: {
+            direction: request.sort_order ?? 'desc',
+            field: request.sort_key ?? 'created_at',
+          },
+        },
       }),
       transformResponse: transformAssetResponse,
     }),

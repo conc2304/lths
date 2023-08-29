@@ -45,11 +45,11 @@ export const Table = (props: TableProps) => {
 
   const [sorting, setSorting] = useState<TableSortingProps>({
     column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
-    order: (sort != null && sort.order) || 'asc',
+    order: (sort != null && sort.order) || 'desc',
   });
 
   const handleSortClick = (column: string) => {
-    const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'asc';
+    const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'desc';
     const newSorting = { ...sorting, column, order };
     setSorting(newSorting);
     onSortClick && onSortClick(pagination, newSorting);
