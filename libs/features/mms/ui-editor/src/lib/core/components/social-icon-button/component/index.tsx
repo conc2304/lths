@@ -4,17 +4,21 @@ import { BasicContainer } from '../../../../elements';
 import SocialIcon from '../../social-icon-button/component/social-button';
 import { SocialIconButtoncomponentProps } from '../../types';
 const SocialIconButtonComponent = (props: SocialIconButtoncomponentProps) => {
+  console.log('props', props);
   const {
-    properties_data: { first_button, second_button, third_button, fourth_button },
+    properties_data: { sub_properties_data },
     __ui_id__: id,
   } = props;
+  console.log('sub_properties_data', sub_properties_data);
+
   return (
-    <BasicContainer id={id}>
-      <Stack direction="row" spacing={1}>
-        <SocialIcon {...first_button} />
-        <SocialIcon {...second_button} />
-        <SocialIcon {...third_button} />
-        <SocialIcon {...fourth_button} />
+    <BasicContainer id={id} sx={{ backgroundColor: '#121213' }}>
+      <Stack direction="row" spacing={3} justifyContent={'center'}>
+        {sub_properties_data.map((data, index) => {
+          console.log('data', data);
+          const { icon } = data;
+          return <SocialIcon icon={icon} key={index} />;
+        })}
       </Stack>
     </BasicContainer>
   );

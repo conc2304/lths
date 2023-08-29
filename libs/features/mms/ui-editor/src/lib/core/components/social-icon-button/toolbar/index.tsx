@@ -1,9 +1,10 @@
-import { ChangeEvent } from 'react';
+/* eslint-disable @nx/enforce-module-boundaries */
+import { useEffect } from 'react';
 import { useState } from 'react';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { EnumValue, useLazyGetUpcomingEventsQuery, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
+import { EnumValue, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
 
+import SocialAction from './action';
 import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
@@ -12,67 +13,41 @@ import { SocialIconButtoncomponentProps } from '../../types';
 const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { first_button, second_button, third_button, fourth_button },
+    properties_data: { sub_properties_data },
+    onPropChange,
   } = props;
-  const { updateComponentProp } = useToolbarChange();
-  const [getUpcomingEvents, { data: upcomingEvents }] = useLazyGetUpcomingEventsQuery();
+  const { handleIconChange } = useToolbarChange();
   const [getEnumList] = useLazyGetEnumListQuery();
-  const [eventStates, setEventStates] = useState<EnumValue[]>(null);
+  const [socialIcons, setSocialIcons] = useState<EnumValue[]>(null);
 
-  console.log('getupcoming', getUpcomingEvents);
-  console.log('data', upcomingEvents);
-  const fetchEventStates = async (SocialIcons: string) => {
+  console.log('sub_properties_data', sub_properties_data);
+  console.log('socialIcons', socialIcons);
+
+  const fetchSocialIcons = async () => {
     try {
-      const response = await getEnumList(SocialIcons).unwrap();
-      if (response?.success) setEventStates(response?.data?.enum_values);
+      const response = await getEnumList('SocialIcons').unwrap();
+      if (response?.success) setSocialIcons(response?.data?.enum_values);
     } catch (error) {
       console.error(`Error in fetching event state list`);
     }
   };
-  console.log('fetchEventState', fetchEventStates);
-  const handleFirstButtonChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, key: string) => {
-    updateComponentProp('first_button', { ...first_button, [key]: event.target.value });
-  };
+
+  useEffect(() => {
+    fetchSocialIcons();
+  }, []);
 
   return (
     <ToolContainer id={id} aria-label={'SocialLink Button Toolbar'}>
       <ToolbarLabel label={'Quick Link'} />
-      <GroupLabel label={'FIRST'} />
-      <OutlinedTextField
-        aria-label="First Link"
-        label={'Link'}
-        value={first_button.link}
-        onChange={(e) => {
-          handleFirstButtonChange(e, 'link');
-        }}
-      />
-      <GroupLabel label={'SECOND'} />
-      <OutlinedTextField
-        aria-label="Second Link"
-        label={'Link'}
-        value={second_button.link}
-        onChange={(e) => {
-          handleFirstButtonChange(e, 'link');
-        }}
-      />
-      <GroupLabel label={'THIRD'} />
-      <OutlinedTextField
-        aria-label="Third Link"
-        label={'Link'}
-        value={third_button.link}
-        onChange={(e) => {
-          handleFirstButtonChange(e, 'link');
-        }}
-      />
-      <GroupLabel label={'FORTH'} />
-      <OutlinedTextField
-        aria-label="Forth Link"
-        label={'Link'}
-        value={fourth_button.link}
-        onChange={(e) => {
-          handleFirstButtonChange(e, 'link');
-        }}
-      />
+      {sub_properties_data.map(({ icon, action }, index) => {
+        return (
+          <>
+            <GroupLabel label={'FIRST'} key={index} />
+            <OutlinedTextField label={'Icon'} value={icon} onChange={handleIconChange} />
+            <SocialAction action={action} onPropChange={onPropChange} />
+          </>
+        );
+      })}
     </ToolContainer>
   );
 };
