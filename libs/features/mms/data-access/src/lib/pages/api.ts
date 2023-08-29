@@ -7,7 +7,6 @@ import {
   CreatePageRequest,
   CreatePageResponse,
   EventListResponse,
-  ImagesListResponse,
   UpdatePageStatusRequest,
   DeletePageRequest,
   EnumListResponse,
@@ -17,15 +16,17 @@ import {
   PageDetailResponse,
   UpdatePageDetailRequest,
   UpdatePageDetailResponse,
+  PageItemsResponse,
+  PageItemsRequest,
+  DeletePageResponse,
+  UpdatePageStatusResponse,
 } from './types';
-import { PagesDataRequest } from './types';
 import {
   getEnumListUrl,
   getComponentDetailUrl,
   getComponentsListUrl,
   getCreatePageUrl,
   getDefaultPagesUrl,
-  getImagesListUrl,
   getPageDetailUrl,
   getUpcomingEvents,
   getUpatePageStatusUrl,
@@ -57,12 +58,6 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         return { data: convertedResponse };
       },
     }),
-    getImagesList: builder.query<ImagesListResponse, void>({
-      query: () => ({
-        url: getImagesListUrl(),
-        method: 'GET',
-      }),
-    }),
     createPage: builder.mutation<CreatePageResponse, CreatePageRequest>({
       query: (data) => ({
         url: getCreatePageUrl(),
@@ -70,15 +65,15 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: data,
       }),
     }),
-    getPagesItems: builder.query({
-      query: (request: PagesDataRequest) => ({
+    getPagesItems: builder.query<PageItemsResponse, PageItemsRequest>({
+      query: (request) => ({
         url: getPagesUrl(request),
         method: 'GET',
       }),
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: ['Pages'],
     }),
-    getDefaultPages: builder.query({
+    getDefaultPages: builder.query<PageItemsResponse, void>({
       query: () => ({
         url: getDefaultPagesUrl(),
         method: 'GET',
@@ -115,8 +110,8 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'GET',
       }),
     }),
-    updatePageStatus: builder.mutation({
-      query: (req: UpdatePageStatusRequest) => ({
+    updatePageStatus: builder.mutation<UpdatePageStatusResponse, UpdatePageStatusRequest>({
+      query: (req) => ({
         url: getUpatePageStatusUrl(req),
         method: 'PATCH',
         body: {
@@ -131,8 +126,8 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: req,
       }),
     }),
-    deletePage: builder.mutation({
-      query: (req: DeletePageRequest) => ({
+    deletePage: builder.mutation<DeletePageResponse, DeletePageRequest>({
+      query: (req) => ({
         url: getDeletePageUrl(req),
         method: 'DELETE',
       }),
@@ -143,7 +138,6 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
 export const {
   useLazyGetComponentListQuery,
   useLazyGetComponentDetailQuery,
-  useLazyGetImagesListQuery,
   useCreatePageMutation,
   useLazyGetPagesItemsQuery,
   useLazyGetDefaultPagesQuery,
