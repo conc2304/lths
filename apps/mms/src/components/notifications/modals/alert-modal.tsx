@@ -1,22 +1,24 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-type SendAlertProps = {
+type AlertModalProps = {
   isOpen: boolean;
   handleClose: () => void;
   handleSend: () => void;
+  title: string;
+  description: string;
 };
 
-const SendAlert = ({ isOpen, handleClose, handleSend }: SendAlertProps) => {
+const AlertModal = ({ isOpen, handleClose, handleSend, title, description }: AlertModalProps) => {
   return (
     <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Send now?</DialogTitle>
-      <DialogContent>This notification will be sent immediately.</DialogContent>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>{description}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>CANCEL</Button>
-        <Button onClick={handleSend}>SEND NOW</Button>
+        <Button onClick={handleSend}>DUPLICATE</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default SendAlert;
+export default AlertModal;

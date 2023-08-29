@@ -12,8 +12,12 @@ const ArchiveAlert = ({ isOpen, handleClose, handleSend }: ArchiveAlertProps) =>
       <DialogTitle>Archive?</DialogTitle>
       <DialogContent>Once archived this notification cannot be restored.</DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>KEEP</Button>
-        <Button onClick={handleSend}>ARCHIVE</Button>
+        <Button onClick={handleClose} sx={{ fontWeight: 500 }}>
+          KEEP
+        </Button>
+        <Button onClick={handleSend} sx={{ fontWeight: 500 }}>
+          ARCHIVE
+        </Button>
       </DialogActions>
     </Dialog>
   );

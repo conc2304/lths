@@ -5,12 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { NotificationProps, useLazyGetNotificationDetailQuery } from '@lths/features/mms/data-access';
 
-import ArchiveAlert from '../../components/notifications/archive-alert';
 import CreateNotificationModal from '../../components/notifications/create-notification-modal';
-import DuplicateAlert from '../../components/notifications/duplicate-alert';
 import NotificationHeader from '../../components/notifications/editor/header';
 import { NotificationActions } from '../../components/notifications/editor/types';
-import SendAlert from '../../components/notifications/send-alert';
+import ArchiveAlert from '../../components/notifications/modals/archive-alert';
+import DuplicateAlert from '../../components/notifications/modals/duplicate-alert';
+import SendAlert from '../../components/notifications/modals/send-alert';
 
 const NotificationEditor = () => {
   const { notificationId } = useParams();
