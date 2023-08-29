@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import api from './api';
-import { PagesDataResponse } from './types';
+import { PageItemsResponse } from './types';
 
-const initialState = { pages: {} as PagesDataResponse };
+const initialState = { pages: {} as PageItemsResponse };
 const pagesSlice = createSlice({
   name: 'pages',
   initialState,

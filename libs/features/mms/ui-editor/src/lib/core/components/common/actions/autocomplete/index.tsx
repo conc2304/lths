@@ -51,7 +51,6 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   const selectedItem = data.find((a) => a.value === value) || null;
   return (
     <Autocomplete
-      freeSolo={true}
       value={selectedItem}
       options={data}
       getOptionLabel={getOptionLabel}
