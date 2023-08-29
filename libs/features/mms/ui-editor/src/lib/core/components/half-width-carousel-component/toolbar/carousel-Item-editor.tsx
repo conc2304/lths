@@ -1,68 +1,57 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Button, Stack } from '@mui/material';
 
 import { ToolbarProps } from '../../../../context';
-import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
+import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker } from '../../../../elements';
+import { ActionToolbar } from '../../common';
+import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselProps } from '../../types';
 
-//TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
 type CarouselItemProps = ToolbarProps & {
   item: HalfWidthCarouselProps;
-  handleCloseItem: () => void;
-  handleUpdateItem: (newComponent: HalfWidthCarouselProps) => void;
+  onClose: () => void;
+  index?: number;
 };
 
-const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, handleCloseItem, handleUpdateItem }) => {
-  const [localItem, setLocalItem] = useState<HalfWidthCarouselProps>({ ...item });
-  const { image, image_alt_text, title, description, action } = localItem;
+const CarouselItemEditor: React.FC<CarouselItemProps> = ({
+  item,
+  onPropChange,
+  onClose,
 
-  const handleFieldChange = (fieldName: string, value: string) => {
-    setLocalItem((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
+  index,
+}) => {
+  const { image, image_alt_text, title, description, action } = item;
+  const parentKeys = ['sub_properties_data'];
+  const { handleTitleChange, handleImageChange, handleImageAltChange, handleDescriptionChange } = useToolbarChange();
+
+  const _handleTitleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    handleTitleChange(e, index, parentKeys);
   };
 
-  const handleActionChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, key: string) => {
-    setLocalItem((prevData) => ({
-      ...prevData,
-      action: { ...prevData?.action, [key]: event.target.value },
-    }));
+  const _handleImageChange = (value: string) => {
+    handleImageChange(value, index, parentKeys);
   };
 
+  const _handleImageAltChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    handleImageAltChange(e, index, parentKeys);
+  };
+  const _handleDescriptionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    handleDescriptionChange(e, index, parentKeys);
+  };
   return (
     <>
       <ToolbarLabel label={'Carousel Item'} />
-      <SimpleImagePicker
-        value={image}
-        onChange={(value) => handleFieldChange('image', value)}
-        onReplace={onPropChange}
-      />
-      <OutlinedTextField
-        label={'Image alt-text'}
-        value={image_alt_text}
-        onChange={(e) => handleFieldChange('image_alt_text', e.target.value)}
-      />
+      <SimpleImagePicker value={image} onChange={_handleImageChange} onReplace={onPropChange} />
+      <OutlinedTextField label={'Image alt-text'} value={image_alt_text} onChange={_handleImageAltChange} />
 
       <GroupLabel label={'Text'} />
-      <OutlinedTextField label={'Title'} value={title} onChange={(e) => handleFieldChange('title', e.target.value)} />
-      <OutlinedTextField
-        label={'Description'}
-        value={description}
-        onChange={(e) => handleFieldChange('description', e.target.value)}
-      />
+      <OutlinedTextField label={'Title'} value={title} onChange={_handleTitleChange} />
+      <OutlinedTextField label={'Description'} value={description} onChange={_handleDescriptionChange} />
       <GroupLabel label={'Action'} />
-      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <ActionToolbar action={action} keys={parentKeys} onPropChange={onPropChange} index={index} />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>
-        <Button variant="outlined" onClick={handleCloseItem} sx={{ padding: '8px 22px', fontSize: 15 }}>
-          CANCEL
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => handleUpdateItem(localItem)}
-          sx={{ padding: '8px 22px', fontSize: 15 }}
-        >
-          UPDATE
+        <Button variant="outlined" onClick={onClose} sx={{ padding: '8px 22px', fontSize: 15 }}>
+          BACK
         </Button>
       </Stack>
     </>
