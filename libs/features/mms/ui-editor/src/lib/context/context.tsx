@@ -11,7 +11,6 @@ const EditorProvider = <T extends EditorProps = EditorProps>({ initialValue, chi
   const [state, dispatch] = useReducer(reducer, initialValue);
 
   const value = { state, dispatch };
-
   return <EditorContext.Provider value={value}>{children}</EditorContext.Provider>;
 };
 
