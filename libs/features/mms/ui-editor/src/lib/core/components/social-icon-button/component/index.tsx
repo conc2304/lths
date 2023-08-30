@@ -9,7 +9,6 @@ const SocialIconButtonComponent = (props: SocialIconButtoncomponentProps) => {
     properties_data: { sub_properties_data },
     __ui_id__: id,
   } = props;
-  console.log('sub_properties_data', sub_properties_data);
 
   return (
     <BasicContainer id={id} sx={{ backgroundColor: '#121213' }}>
