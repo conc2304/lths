@@ -22,6 +22,5 @@ export const convertComponentDetailResponse = (data) => {
     properties_data.sub_properties_data = Array(4).fill(properties_data.sub_properties_data[0]);
   }
   const convertedData = { ...data, properties_data };
-  console.log('convert', convertedData);
   return convertedData;
 };
