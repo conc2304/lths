@@ -4,21 +4,39 @@ const payload = {
   component_type: 'Native',
   constraint_data: [],
   properties_data: {
-    first_button: {
-      icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Twitter_Icon.svg%22',
-      link: 'https://twitter.com/anaheimducks%22',
-    },
-    second_button: {
-      icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Facebook_Icon.svg%22',
-      link: 'https://www.facebook.com/anaheimducks%22',
-    },
-    third_button: {
-      icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Instagram_Icon.svg%22',
-      link: 'https://www.instagram.com/anaheimducks%22',
-    },
-    fourth_button: {
-      icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Tiktok_Icon.svg%22',
-      link: 'https://www.tiktok.com/@anaheimducks%22',
+    sub_properties_data: {
+      first_button: {
+        icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Twitter_Icon.svg',
+        action: {
+          type: 'web',
+          page_id: '',
+          page_link: 'https://twitter.com/AnaheimDucks',
+        },
+      },
+      second_button: {
+        icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Facebook_Icon.svg',
+        action: {
+          type: 'web',
+          page_id: '',
+          page_link: 'https://www.facebook.com/anaheimducks%22',
+        },
+      },
+      third_button: {
+        icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Instagram_Icon.svg',
+        action: {
+          type: 'web',
+          page_id: '',
+          page_link: 'https://www.instagram.com/anaheimducks%22',
+        },
+      },
+      fourth_button: {
+        icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Tiktok_Icon.svg',
+        action: {
+          type: 'web',
+          page_id: '',
+          page_link: 'https://www.tiktok.com/@anaheimducks%22',
+        },
+      },
     },
   },
 };
