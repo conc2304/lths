@@ -12,6 +12,7 @@ import {
   useEditResourceMutation,
   useDeleteResourceMutation,
   useAppSelector,
+  useLazySearchAssetsQuery,
 } from '@lths/features/mms/data-access';
 import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
@@ -126,27 +127,39 @@ export default function AssetsPage() {
     fetchData(pagination, sorting);
   };
 
-  const [search, setSearch] = React.useState('');
-
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-  };
-
   const handleOpenModal = (modalName: string, row: Asset) => {
     setSelectedRow(row);
     setIsRowModalOpen(modalName);
     handleClose();
   };
 
-  const filteredData = React.useMemo(
-    () =>
-      search
-        ? localData?.data.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
-        : localData?.data,
-    [localData, search]
-  );
+  const [search, setSearch] = React.useState('');
 
-  const tableRows = filteredData?.map((row, index) => {
+  const [triggerSearch, { data: searchResult }] = useLazySearchAssetsQuery();
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  useEffect(() => {
+    if (search) {
+      const searchParams = {
+        queryString: search,
+        page: 0,
+        page_size: localData?.meta?.total,
+      };
+      triggerSearch(searchParams);
+    } else {
+      fetchData(null, undefined);
+    }
+  }, [search, triggerSearch]);
+
+  useEffect(() => {
+    if (searchResult) {
+      setLocalData(searchResult);
+    }
+  }, [searchResult]);
+
+  const tableRows = localData?.data?.map((row, index) => {
     const handleSelectFile = () => {
       setSelectedPreviewRow({ asset: row, rowIndex: index });
       handleDrawerOpen();
@@ -251,6 +264,7 @@ export default function AssetsPage() {
           rowIndex: null,
         });
       }
+      setSearch('');
     } catch (error) {
       console.error('Failed to edit asset:', error);
     }
@@ -267,7 +281,8 @@ export default function AssetsPage() {
         if (nextRow < 0) {
           handleDrawerClose();
         }
-        setSelectedPreviewRow({ asset: filteredData[nextRow], rowIndex: nextRow });
+        setSelectedPreviewRow({ asset: localData?.data[nextRow], rowIndex: nextRow });
+        setSearch('');
       }
     } catch (error) {
       console.error('Failed to delete asset:', error);
