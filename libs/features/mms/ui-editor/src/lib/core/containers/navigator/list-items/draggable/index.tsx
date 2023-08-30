@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ListItemIcon, Box, ListItemButton } from '@mui/material';
+import { ListItemIcon, Box, ListItem } from '@mui/material';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { Colors } from '../../../../../common';
@@ -17,7 +17,7 @@ const style = {
 //TODO: move this to constants??
 const menuOptions = ['delete', 'duplicate'];
 
-const DraggableCard = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
+export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -74,8 +74,9 @@ const DraggableCard = ({ id, text, index, onDrag, onClick, onMenuClick, selected
       item.index = hoverIndex;
     },
   });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  const onSave = (index: number, newText: string) => {};
+  const onSave = (index: number, newText: string) => {
+    console.log(index, newText);
+  };
 
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
@@ -94,17 +95,16 @@ const DraggableCard = ({ id, text, index, onDrag, onClick, onMenuClick, selected
   const handleClick = () => {
     onClick && onClick(index, id);
   };
-
+  const listItemSx = { background: selected ? Colors.editor.background : Colors.sidebar.background };
   return (
     <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
-      <ListItemButton onClick={handleClick} selected={selected}>
+      <ListItem onClick={handleClick} sx={listItemSx}>
         <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
         <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
           <OverflowMenu items={menuOptions} onClick={(action) => onMenuClick(index, id, action)} />
         </ListItemIcon>
-      </ListItemButton>
+      </ListItem>
     </Box>
   );
 };
-
-export default DraggableCard;
+export default Card;
