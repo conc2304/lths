@@ -1,25 +1,24 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import AlertDialog from './alert-dialog';
 
 type SendAlertProps = {
   isOpen: boolean;
   handleClose: () => void;
   handleSend: () => void;
+  isLoading: boolean;
 };
 
-const SendAlert = ({ isOpen, handleClose, handleSend }: SendAlertProps) => {
+const SendAlert = ({ isOpen, handleClose, handleSend, isLoading }: SendAlertProps) => {
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Send now?</DialogTitle>
-      <DialogContent>This notification will be sent immediately.</DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} sx={{ fontWeight: 500 }}>
-          CANCEL
-        </Button>
-        <Button onClick={handleSend} sx={{ fontWeight: 500 }}>
-          SEND NOW
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <AlertDialog
+      isOpen={isOpen}
+      title="Send now?"
+      description="This notification will be sent immediately."
+      cancelText="CANCEL"
+      handleClose={handleClose}
+      confirmText="SEND NOW"
+      handleConfirm={handleSend}
+      isLoading={isLoading}
+    />
   );
 };
 

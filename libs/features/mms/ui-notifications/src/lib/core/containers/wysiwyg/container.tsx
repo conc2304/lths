@@ -6,7 +6,7 @@ type WysiwygProps = {
   content: Content;
 };
 
-const Container = ({ content: { body, headline } }: WysiwygProps) => {
+const Container = ({ content: { content, headline } }: WysiwygProps) => {
   return (
     <Box sx={{ position: 'relative', height: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }} paddingTop={5}>
@@ -20,7 +20,6 @@ const Container = ({ content: { body, headline } }: WysiwygProps) => {
           >
             <Stack direction="row" spacing={2} alignItems="center">
               <Avatar
-                // TODO : replace with the image url given by dhamo
                 src="https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/honda-center-app-icon.png"
                 variant="square"
                 sx={{ bgColor: 'gray', width: 30, height: 30 }}
@@ -33,7 +32,7 @@ const Container = ({ content: { body, headline } }: WysiwygProps) => {
             <Typography fontWeight={600} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
               {headline}
             </Typography>
-            <Typography marginTop={1}>{body}</Typography>
+            <Typography marginTop={1}>{content}</Typography>
           </CardContent>
         </Card>
       </Box>

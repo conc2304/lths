@@ -20,30 +20,25 @@ import { useNotificationTopics } from '@lths-mui/features/mms/ui-notifications';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import {
-  CreateNotificationRequest,
-  NotificationType,
-  useCreateNotificationMutation,
-} from '@lths/features/mms/data-access';
+import { NotificationType } from '@lths/features/mms/data-access';
 
-import { CreateNotificationModalProps } from './types';
+import { CreateNotificationModalProps, NewNotificationRequest } from '../types';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
-  topic: yup.string().required('Topic is required'),
+  topics: yup.string().required('Topic is required'),
 });
 
 const CreateNotificationModal = (props: CreateNotificationModalProps) => {
-  const { open, handleCloseModal, onCreateNotification, isEdit, notificationData } = props;
+  const { open, handleCloseModal, onCreateNotification, isEdit, notificationData, isResponseLoading } = props;
 
-  const [createNotification, { isLoading }] = useCreateNotificationMutation();
-
-  const onSubmit = async (values: CreateNotificationRequest) => {
+  const onSubmit = async (values: NewNotificationRequest) => {
     const requestData = {
       ...values,
+      topics: [values.topics],
     };
-    const response = await createNotification(requestData).unwrap();
-    onCreateNotification(response?.data?._id);
+    if (isEdit) requestData._id = notificationData._id;
+    onCreateNotification(requestData);
   };
 
   console.log('create notify modal', notificationData);
@@ -51,7 +46,7 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
     initialValues: {
       name: notificationData?.name || '',
-      topic: notificationData?.topic || '',
+      topics: notificationData?.topics[0] || '',
       description: notificationData?.description || '',
       type: NotificationType.PUSH_NOTIFICATION,
     },
@@ -105,13 +100,13 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
                 <Select
                   label="Topic"
                   onChange={handleChange}
-                  error={touched.topic && Boolean(errors.topic)}
+                  error={touched.topics && Boolean(errors.topics)}
                   fullWidth
-                  id="topic"
-                  name="topic"
+                  id="topics"
+                  name="topics"
                   onBlur={handleBlur}
                   type="text"
-                  value={values.topic}
+                  value={values.topics}
                   variant="outlined"
                 >
                   {notificationTopics.map((nt) => {
@@ -124,9 +119,9 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
                   })}
                 </Select>
 
-                {touched.topic && errors.topic && (
+                {touched.topics && errors.topics && (
                   <FormHelperText error id="topic_helper_text">
-                    {errors.topic}
+                    {errors.topics}
                   </FormHelperText>
                 )}
               </FormControl>
@@ -135,8 +130,8 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
               <TextField
                 error={touched.description && Boolean(errors.description)}
                 fullWidth
-                id="name"
-                name="name"
+                id="description"
+                name="description"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 type="text"
@@ -153,7 +148,7 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
           CANCEL
         </Button>
         <LoadingButton
-          loading={isLoading}
+          loading={isResponseLoading}
           disabled={isSubmitting}
           variant="contained"
           type="submit"

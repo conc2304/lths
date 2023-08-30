@@ -9,45 +9,43 @@ export type NotificationTyeProps = NotificationType;
 export type PageLinkTarget = 'IN_APP' | 'BROWSER';
 
 export type NotificationPayloadProps = {
-  action: {
-    page_id: string;
-    page_link: {
-      url: string;
-      target: PageLinkTarget;
-    };
-  };
-  image_url: string;
+  inside_app: string;
+  outside_app: string;
+  image_url?: string;
 };
 
 export type NotificationProps = {
   _id: string;
   name: string;
   description: string;
-  headline: string;
-  content: string;
-  payload: Record<string, string>;
+  headline?: string;
+  content?: string;
+  payload?: Record<string, string>;
   type: NotificationTyeProps;
-  topic: string[];
-  notification: NotificationPayloadProps;
-  status: string;
-  created_on: string;
-  updated_on: string;
-  scheduled_sent_on: string;
-  sent_on: string;
+  topics: string[];
+  notification?: NotificationPayloadProps;
+  status?: string;
+  created_on?: string;
+  updated_on?: string;
+  scheduled_sent_on?: string;
+  sent_on?: string;
+  __v: number;
 };
 
 export type CreateNotificationRequestProps = {
   name: string;
-  description: string;
+  description?: string;
   type: NotificationTyeProps;
-  topic: string;
+  topics: string[];
 };
 
 export type UpdateNotificationRequestProps = {
-  notification_id: string;
+  _id: string;
   name: string;
   description: string;
   type: NotificationTyeProps;
   topics: string[];
-  content: string;
+  headline?: string;
+  content?: string;
+  notification?: NotificationPayloadProps;
 };

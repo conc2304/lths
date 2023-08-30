@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Grid, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DownloadIcon from '@mui/icons-material/Download';
+import toast from 'react-hot-toast';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import { PaginationRequest } from '@lths/features/mms/data-access';
+import {
+  CreateNotificationRequestProps,
+  PaginationRequest,
+  useCreateNotificationMutation,
+} from '@lths/features/mms/data-access';
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
-import { OverflowMenu, Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import CreateNotificationModal from '../../components/notifications/create-notification-modal';
 import FilterNotifications from '../../components/notifications/filter-notifications';
+import { CreateNotificationModal } from '../../components/notifications/modals';
 import SearchNotifications from '../../components/notifications/search-notifications';
 
 const headers = [
-  {
-    id: 'id',
-    label: 'ID',
-    sortable: true,
-  },
   {
     id: 'name',
     label: 'NAME',
@@ -54,6 +54,8 @@ const NotificationPage = () => {
   const navigate = useNavigate();
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsListQuery();
+
+  const [createNotification, { isLoading: isCreating }] = useCreateNotificationMutation();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: PaginationRequest = {};
@@ -93,54 +95,53 @@ const NotificationPage = () => {
     fetchData(pagination, sorting);
   };
 
-  const menuOptions = (page_id) => [
+  const menuOptions = (notification_id: string) => [
     {
-      id: 'edit page',
-      label: 'EDIT PAGE',
+      id: 'edit',
+      label: 'Edit',
       action: () => {
-        navigate(`/pages/editor/${page_id}`);
-      },
-    },
-    {
-      id: 'preview',
-      label: 'PREVIEW',
-      action: () => {
-        console.log('handling preview ...');
-      },
-    },
-    {
-      id: 'share',
-      label: 'SHARE',
-      action: () => {
-        console.log('handling share...');
+        navigate(`/notifications/editor/${notification_id}`);
       },
     },
     {
       id: 'duplicate',
-      label: 'DUPLICATE',
+      label: 'Duplicate',
       action: () => {
-        console.log('handling duplicate...');
+        console.log('handling duplicate ...');
       },
     },
     {
-      id: 'view insights',
-      label: 'VIEW INSIGHTS',
+      id: 'archive',
+      label: 'Archive',
       action: () => {
-        navigate(`/insights/pages`);
+        console.log('handling archive...');
       },
     },
     {
-      id: 'delete',
-      label: 'DELETE',
+      id: 'preview',
+      label: 'Preview',
       action: () => {
-        console.log('handling delete...');
+        console.log('handling preview...');
+      },
+    },
+    {
+      id: 'view_insights',
+      label: 'View Insights',
+      action: () => {
+        navigate(`/insights/notifications`);
+      },
+    },
+    {
+      id: 'send_now',
+      label: 'Send Now',
+      action: () => {
+        console.log('handling send now...');
       },
     },
   ];
 
   const tableRows = data?.data?.map((row) => (
     <TableRow key={`row_${row._id}`}>
-      <TableCell>{row._id}</TableCell>
       <TableCell>
         <Link
           component={RouterLink}
@@ -154,14 +155,25 @@ const NotificationPage = () => {
       </TableCell>
       <TableCell>{row.status}</TableCell>
       <TableCell>{row.sent_on}</TableCell>
-      <TableCell>{row.topic?.join(', ')}</TableCell>
+      <TableCell>{row.topics?.join(', ')}</TableCell>
       <TableCell>
-        <OverflowMenu items={menuOptions(row._id)} />
+        <ActionMenu options={menuOptions(row._id)} />
       </TableCell>
     </TableRow>
   ));
 
   const total = data?.pagination?.totalItems;
+
+  const handleCreateNotification = async (data: CreateNotificationRequestProps) => {
+    const response = await createNotification(data).unwrap();
+    // if (response.success) {
+    toast.success('Notification has been created successfully.');
+    const {
+      data: { _id },
+    } = response;
+    navigate(`/notifications/editor/${_id}`);
+    // }
+  };
 
   return (
     <Box>
@@ -203,7 +215,8 @@ const NotificationPage = () => {
       <CreateNotificationModal
         open={isModalOpen}
         handleCloseModal={closeModal}
-        onCreateNotification={(notification_id) => navigate(`/notifications/editor/${notification_id}`)}
+        onCreateNotification={handleCreateNotification}
+        isResponseLoading={isCreating}
       />
     </Box>
   );

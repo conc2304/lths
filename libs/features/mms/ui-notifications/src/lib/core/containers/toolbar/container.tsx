@@ -1,54 +1,53 @@
-import { useEffect } from 'react';
 import { Box, Fab, FormControlLabel, MenuItem, Radio, RadioGroup, Select, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { ToolbarProps } from './types';
+import { NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
+
+import { getInitialValues } from './utils';
 import { GroupLabel, OutlinedTextField } from '../../elements';
-import { Content } from '../types';
+import { UpdateEditorStateProps } from '../types';
 
 const validationSchema = yup.object({
   headline: yup.string().required('Headline is required'),
-  body: yup.string().required('Body is required'),
+  content: yup.string().required('Body is required'),
   notification_link: yup.string().required('Notification link is required'),
-  page_id: yup.string().when('notification_link', {
+  inside_app: yup.string().when('notification_link', {
     is: 'inside',
     then: (schema) => schema.required('Page id is required'),
   }),
-  page_link: yup.string().when('notification_link', {
+  outside_app: yup.string().when('notification_link', {
     is: 'outside',
     then: (schema) => schema.required('Page link is required'),
   }),
 });
 
 type ToolbarContainerProps = {
-  onToolbarChange: (content: Content) => void;
+  onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
+  notificationData: NotificationProps;
+  updateEditorState: UpdateEditorStateProps;
 };
 
-const Container = ({ onToolbarChange }: ToolbarContainerProps) => {
-  const onSubmit = async (values: ToolbarProps) => {
-    console.log('submitting...', values);
+const Container = ({ notificationData, onUpdateNotification, updateEditorState }: ToolbarContainerProps) => {
+  const onSubmit = async () => {
+    onUpdateNotification(notificationData);
   };
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
-    initialValues: {
-      headline: '',
-      body: '',
-      notification_link: 'inside',
-      page_id: '',
-      page_link: '',
-    },
+    initialValues: getInitialValues(notificationData),
     validationSchema: validationSchema,
     onSubmit: onSubmit,
+    enableReinitialize: true,
   });
-
-  const { body, headline } = values;
 
   const isNotValid = Object.keys(errors).length > 0;
 
-  useEffect(() => {
-    onToolbarChange({ body, headline });
-  }, [body, headline]);
+  const handleToolbarChange = (e: any) => {
+    const { name, value } = e.target;
+    const isNotificationKey = ['inside_app', 'outside_app'].includes(name);
+    if (name !== 'notification_link') updateEditorState(name, value, isNotificationKey ? 'notification' : null);
+    handleChange(e);
+  };
 
   return (
     <Box sx={{ paddingY: 3, paddingX: 4, height: '100%', position: 'relative' }}>
@@ -66,7 +65,7 @@ const Container = ({ onToolbarChange }: ToolbarContainerProps) => {
           id="headline"
           sx={{ marginTop: 3 }}
           name="headline"
-          onChange={handleChange}
+          onChange={handleToolbarChange}
           onBlur={handleBlur}
           value={values.headline}
           error={touched.headline && Boolean(errors.headline)}
@@ -77,19 +76,19 @@ const Container = ({ onToolbarChange }: ToolbarContainerProps) => {
           multiline
           rows={5}
           sx={{ marginTop: 2 }}
-          name="body"
-          onChange={handleChange}
+          name="content"
+          onChange={handleToolbarChange}
           onBlur={handleBlur}
-          value={values.body}
-          error={touched.body && Boolean(errors.body)}
-          helperText={touched.body && errors.body}
+          value={values.content}
+          error={touched.content && Boolean(errors.content)}
+          helperText={touched.content && errors.content}
         />
         <GroupLabel marginTop={3} marginBottom={2}>
           NOTIFICATION LINK
         </GroupLabel>
         <RadioGroup
           name="notification_link"
-          onChange={handleChange}
+          onChange={handleToolbarChange}
           onBlur={handleBlur}
           value={values.notification_link}
         >
@@ -100,11 +99,11 @@ const Container = ({ onToolbarChange }: ToolbarContainerProps) => {
           <Select
             fullWidth
             sx={{ marginTop: 3 }}
-            name="page_id"
-            onChange={handleChange}
+            name="inside_app"
+            onChange={handleToolbarChange}
             onBlur={handleBlur}
-            value={values.page_id}
-            error={touched.page_id && Boolean(errors.page_id)}
+            value={values.inside_app}
+            error={touched.inside_app && Boolean(errors.inside_app)}
           >
             <MenuItem value="ducks">Ducks</MenuItem>
             <MenuItem value="home">Home</MenuItem>
@@ -114,12 +113,12 @@ const Container = ({ onToolbarChange }: ToolbarContainerProps) => {
           <OutlinedTextField
             sx={{ marginTop: 2 }}
             label="Page link"
-            name="page_link"
-            onChange={handleChange}
+            name="outside_app"
+            onChange={handleToolbarChange}
             onBlur={handleBlur}
-            value={values.page_link}
-            error={touched.page_link && Boolean(errors.page_link)}
-            helperText={touched.page_link && errors.page_link}
+            value={values.outside_app}
+            error={touched.outside_app && Boolean(errors.outside_app)}
+            helperText={touched.outside_app && errors.outside_app}
           />
         )}
       </Box>

@@ -1,19 +1,33 @@
 import { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
-import { EditorContainer } from '@lths-mui/features/mms/ui-notifications';
+import { Backdrop, Box, CircularProgress } from '@mui/material';
+import { EditorContainer, transformRequest } from '@lths-mui/features/mms/ui-notifications';
+import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { NotificationProps, useLazyGetNotificationDetailQuery } from '@lths/features/mms/data-access';
+import {
+  NotificationProps,
+  UpdateNotificationRequestProps,
+  useArchiveNotificationMutation,
+  useDuplicateNotificationMutation,
+  useLazyGetNotificationDetailQuery,
+  useSendNotificationMutation,
+  useUpdateNotificationMutation,
+} from '@lths/features/mms/data-access';
+import { useLayoutActions } from '@lths/shared/ui-layouts';
 
-import CreateNotificationModal from '../../components/notifications/create-notification-modal';
 import NotificationHeader from '../../components/notifications/editor/header';
-import { NotificationActions } from '../../components/notifications/editor/types';
-import ArchiveAlert from '../../components/notifications/modals/archive-alert';
-import DuplicateAlert from '../../components/notifications/modals/duplicate-alert';
-import SendAlert from '../../components/notifications/modals/send-alert';
+import { NotificationActions, NotificationStatus } from '../../components/notifications/editor/types';
+import {
+  ArchiveAlert,
+  CreateNotificationModal,
+  DuplicateAlert,
+  SendAlert,
+} from '../../components/notifications/modals';
 
 const NotificationEditor = () => {
   const { notificationId } = useParams();
+
+  const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isSendAlertOpen, setIsSendAlertOpen] = useState(false);
@@ -23,19 +37,24 @@ const NotificationEditor = () => {
   const [editorState, setEditorState] = useState<NotificationProps>(null);
   const closeModal = () => setIsUpdateModalOpen(false);
 
-  const navigate = useNavigate();
+  const [getNotificationDetail, { isLoading }] = useLazyGetNotificationDetailQuery();
 
-  const [getNotificationDetail] = useLazyGetNotificationDetailQuery();
+  const [updateNotification, { isLoading: isUpdating }] = useUpdateNotificationMutation();
+
+  const [sendNotification, { isLoading: isSending }] = useSendNotificationMutation();
+
+  const [duplicateNotification, { isLoading: isDuplicating }] = useDuplicateNotificationMutation();
+
+  const [archiveNotification, { isLoading: isArchiving }] = useArchiveNotificationMutation();
+
+  const { setPageTitle } = useLayoutActions();
 
   const fetchNotificationDetail = async (notificationId: string) => {
-    console.log('fetching', notificationId);
     const response = await getNotificationDetail(notificationId).unwrap();
-    console.log('detail response', response);
-    // if (!response.success) {
-    const payload = response.data;
-    if (payload) setEditorState(payload);
-    //   else toast.success('Page details could not be found');
-    // }
+    if (response.success) {
+      const payload = response.data;
+      if (payload) setEditorState(payload);
+    } else toast.error('Page details could not be found');
   };
 
   const handleActionClick = (action: NotificationActions) => {
@@ -62,24 +81,75 @@ const NotificationEditor = () => {
     setIsSendAlertOpen(false);
   };
 
-  const handleSendNotification = () => {
-    console.log('handling send notification...');
+  const handleSendNotification = async () => {
+    const requestData = transformRequest(editorState);
+    const response = await sendNotification(requestData).unwrap();
+    if (response.success) {
+      setIsSendAlertOpen(false);
+      toast.success('Notification has been sent successfully');
+      if (response.data) setEditorState(response.data);
+    } else {
+      toast.error('Failed to send the notification');
+    }
   };
 
   const handleArchiveAlertClose = () => {
     setIsArchiveAlertOpen(false);
   };
 
-  const handleArchiveNotification = () => {
-    console.log('handling archive notification...');
+  const handleArchiveNotification = async () => {
+    const response = await archiveNotification(notificationId).unwrap();
+    if (response.success) {
+      setIsArchiveAlertOpen(false);
+      toast.success('Notification has been archived successfully');
+      if (response.data) navigate('/notifications');
+    } else {
+      toast.error('Failed to archive the notification');
+    }
   };
 
   const handleDuplicateAlertClose = () => {
     setIsDuplicateAlertOpen(false);
   };
 
-  const handleDuplicateNotification = () => {
-    console.log('handling duplicate notification...');
+  const handleDuplicateNotification = async () => {
+    const response = await duplicateNotification(notificationId).unwrap();
+    if (response.success) {
+      setIsDuplicateAlertOpen(false);
+      toast.success('Notification has been duplicated successfully');
+      if (response.data) navigate(`/notifications/editor/${response.data._id}`);
+    } else {
+      toast.error('Failed to duplicate the notification');
+    }
+  };
+
+  const updateEditorState = (key: string, value: string, parent_key: string) => {
+    let updatedData: Record<string, any> = { [key]: value };
+
+    if (parent_key) updatedData = { [parent_key]: updatedData };
+
+    setEditorState((prevState) => ({
+      ...prevState,
+      ...updatedData,
+    }));
+  };
+
+  const handleUpdateNotification = async (data: UpdateNotificationRequestProps) => {
+    const requestData = transformRequest(data);
+    const response = await updateNotification(requestData).unwrap();
+    if (response.success) {
+      setIsUpdateModalOpen(false);
+      toast.success('Notification has been updated successfully.');
+      if (response?.data) setEditorState(response?.data);
+    }
+  };
+
+  const handleStatusChange = (status: NotificationStatus) => {
+    switch (status) {
+      case NotificationStatus.SENT:
+        setIsSendAlertOpen(true);
+        break;
+    }
   };
 
   useEffect(() => {
@@ -88,33 +158,52 @@ const NotificationEditor = () => {
 
   const { name, status } = editorState || {};
 
+  useEffect(() => {
+    if (name) setPageTitle(name);
+  }, [name]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <NotificationHeader
         title={name}
         status={status}
-        onStatusChange={() => console.log('handling status change')}
+        onStatusChange={handleStatusChange}
         onActionClick={handleActionClick}
       />
-      <EditorContainer notificationData={editorState} />
+      <EditorContainer
+        notificationData={editorState}
+        onUpdateNotification={handleUpdateNotification}
+        updateEditorState={updateEditorState}
+      />
       <CreateNotificationModal
         open={isUpdateModalOpen}
         handleCloseModal={closeModal}
-        onCreateNotification={(notification_id) => navigate(`/notifications/editor/${notification_id}`)}
+        onCreateNotification={handleUpdateNotification}
         isEdit
         notificationData={editorState}
+        isResponseLoading={isUpdating}
       />
-      <SendAlert isOpen={isSendAlertOpen} handleClose={handleSendAlertClose} handleSend={handleSendNotification} />
+      <SendAlert
+        isLoading={isSending}
+        isOpen={isSendAlertOpen}
+        handleClose={handleSendAlertClose}
+        handleSend={handleSendNotification}
+      />
       <ArchiveAlert
+        isLoading={isArchiving}
         isOpen={isArchiveAlertOpen}
         handleClose={handleArchiveAlertClose}
-        handleSend={handleArchiveNotification}
+        handleArchive={handleArchiveNotification}
       />
       <DuplicateAlert
+        isLoading={isDuplicating}
         isOpen={isDuplicateAlertOpen}
         handleClose={handleDuplicateAlertClose}
-        handleSend={handleDuplicateNotification}
+        handleDuplicate={handleDuplicateNotification}
       />
+      <Backdrop open={isLoading}>
+        <CircularProgress />
+      </Backdrop>
     </Box>
   );
 };

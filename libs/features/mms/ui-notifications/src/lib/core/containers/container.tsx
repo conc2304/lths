@@ -1,45 +1,38 @@
-import { useEffect, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 
-import { NotificationProps } from '@lths/features/mms/data-access';
+import { NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
 
 import { Toolbar } from './toolbar';
-import { Content } from './types';
+import { UpdateEditorStateProps } from './types';
 import { Wysiwyg } from './wysiwyg';
 import { Colors } from '../../common';
 
 type Props = {
   notificationData: NotificationProps;
+  onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
+  updateEditorState: UpdateEditorStateProps;
 };
 
-const EditorContainer = ({ notificationData }: Props) => {
-  const [content, setContent] = useState<Content>({
-    headline: '',
-    body: '',
-  });
+const EditorContainer = ({ notificationData, onUpdateNotification, updateEditorState }: Props) => {
+  const { headline, content } = notificationData || {};
 
-  const handleToolbarChange = (content: Content) => {
-    setContent(content);
+  const previewData = {
+    headline,
+    content,
   };
-
-  useEffect(() => {
-    if (notificationData) {
-      const { content, headline } = notificationData;
-      setContent({
-        headline,
-        body: content,
-      });
-    }
-  }, [notificationData]);
 
   return (
     <Box sx={{ mt: 3 }}>
       <Grid container direction="row" alignItems="stretch" sx={{ height: '90vh' }}>
         <Grid item xs={8} sx={{ backgroundColor: Colors.preview.background }}>
-          <Wysiwyg content={content} />
+          <Wysiwyg content={previewData} />
         </Grid>
         <Grid item xs={4} sx={{ backgroundColor: Colors.toolbar.background }}>
-          <Toolbar onToolbarChange={handleToolbarChange} />
+          <Toolbar
+            notificationData={notificationData}
+            onUpdateNotification={onUpdateNotification}
+            updateEditorState={updateEditorState}
+          />
         </Grid>
       </Grid>
     </Box>

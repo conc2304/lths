@@ -22,3 +22,5 @@ export * from './lib/data-display/cards/preview/preview-card';
 export * from './lib/dropdown-button';
 
 export * from './lib/overflow-menu';
+
+export * from './lib/action-menu';

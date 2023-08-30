@@ -15,4 +15,8 @@ export type UpdateNotificationRequest = UpdateNotificationRequestProps;
 
 export type UpdateNotificationResponse = ApiResponse<NotificationProps>;
 
+export type DuplicateNotificationResponse = ApiResponse<NotificationProps>;
+
+export type ArchiveNotificationResponse = ApiResponse<NotificationProps>;
+
 export type SendNotificationResponse = ApiResponse<NotificationProps>;

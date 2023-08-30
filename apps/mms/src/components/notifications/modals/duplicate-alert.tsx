@@ -1,21 +1,24 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import AlertDialog from './alert-dialog';
 
 type DuplicateAlertProps = {
   isOpen: boolean;
   handleClose: () => void;
-  handleSend: () => void;
+  handleDuplicate: () => void;
+  isLoading: boolean;
 };
 
-const DuplicateAlert = ({ isOpen, handleClose, handleSend }: DuplicateAlertProps) => {
+const DuplicateAlert = ({ isOpen, handleClose, handleDuplicate, isLoading }: DuplicateAlertProps) => {
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Duplicate?</DialogTitle>
-      <DialogContent>A duplicate of this notification will be created.</DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>CANCEL</Button>
-        <Button onClick={handleSend}>DUPLICATE</Button>
-      </DialogActions>
-    </Dialog>
+    <AlertDialog
+      isOpen={isOpen}
+      title="Duplicate?"
+      description="A duplicate of this notification will be created."
+      cancelText="CANCEL"
+      handleClose={handleClose}
+      confirmText="DUPLICATE"
+      handleConfirm={handleDuplicate}
+      isLoading={isLoading}
+    />
   );
 };
 

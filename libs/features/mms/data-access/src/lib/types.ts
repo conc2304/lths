@@ -24,13 +24,6 @@ export type PaginationRequest = {
   sort_key?: string;
 };
 
-export type Pagination = {
-  offset: number;
-  limit: number;
-  currPage: number;
-  totalItems: number;
-};
-
 export type Error = {
   statusCode: number;
   type: string;

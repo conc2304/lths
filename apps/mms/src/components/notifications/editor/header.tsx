@@ -14,7 +14,7 @@ type Props = {
   title: string;
 };
 
-const NotificationHeader = ({ onStatusChange, onActionClick, title, status }: Props) => {
+const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notification name', status }: Props) => {
   const menuItems = [
     {
       id: NotificationStatus.SENT,

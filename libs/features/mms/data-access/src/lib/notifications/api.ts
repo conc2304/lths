@@ -1,17 +1,20 @@
 import { api } from '@lths/shared/data-access';
 
 import {
+  ArchiveNotificationResponse,
   CreateNotificationRequest,
   CreateNotificationResponse,
+  DuplicateNotificationResponse,
   NotificationDetailResponse,
   NotificationListRequest,
   NotificationListResponse,
-  SendNotificationResponse,
   UpdateNotificationRequest,
   UpdateNotificationResponse,
 } from './types';
 import {
   getCreateNotificationUrl,
+  getDeleteNotificationUrl,
+  getDuplicateNotificationUrl,
   getNotificationDetailUrl,
   getNotificationItemsUrl,
   getNotificationsListUrl,
@@ -48,15 +51,28 @@ const notificationApi = api.enhanceEndpoints({ addTagTypes: ['notifications'] })
     }),
     updateNotification: builder.mutation<UpdateNotificationResponse, UpdateNotificationRequest>({
       query: (req) => ({
-        url: getUpdateNotificationUrl(req.notification_id),
+        url: getUpdateNotificationUrl(req._id),
         method: 'PATCH',
         body: req,
       }),
     }),
-    sendNotification: builder.mutation<SendNotificationResponse, string>({
+    duplicateNotification: builder.mutation<UpdateNotificationResponse, string>({
       query: (notification_id) => ({
-        url: getSendNotificationUrl(notification_id),
+        url: getDuplicateNotificationUrl(notification_id),
         method: 'POST',
+      }),
+    }),
+    archiveNotification: builder.mutation<ArchiveNotificationResponse, string>({
+      query: (notification_id) => ({
+        url: getDeleteNotificationUrl(notification_id),
+        method: 'DELETE',
+      }),
+    }),
+    sendNotification: builder.mutation<DuplicateNotificationResponse, UpdateNotificationRequest>({
+      query: (req) => ({
+        url: getSendNotificationUrl(req._id),
+        method: 'PATCH',
+        body: req,
       }),
     }),
   }),
@@ -68,6 +84,8 @@ export const {
   useLazyGetNotificationDetailQuery,
   useCreateNotificationMutation,
   useUpdateNotificationMutation,
+  useDuplicateNotificationMutation,
+  useArchiveNotificationMutation,
   useSendNotificationMutation,
 } = notificationApi;
 
