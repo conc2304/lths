@@ -4,7 +4,7 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import RememberMeIcon from '@mui/icons-material/RememberMe';
 import { grey } from '@mui/material/colors';
 
-import { AutocompleteItemProps } from '../../types';
+import { AutocompleteItemProps } from '../../../types';
 
 export const PageType = {
   UserDefined: 'User-Defined',
@@ -51,7 +51,6 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   const selectedItem = data.find((a) => a.value === value) || null;
   return (
     <Autocomplete
-      freeSolo
       value={selectedItem}
       options={data}
       getOptionLabel={getOptionLabel}
@@ -61,8 +60,8 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
         <TextField
           {...params}
           label="Page ID"
-          inputProps={{
-            ...params.inputProps,
+          InputProps={{
+            ...params.InputProps,
             autoComplete: 'off', // disable autofill
             startAdornment: <IconAdornment />,
           }}
