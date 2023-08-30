@@ -29,6 +29,7 @@ export type NotificationProps = {
   updated_on?: string;
   scheduled_sent_on?: string;
   sent_on?: string;
+  sent_on_formatted?: string;
   __v: number;
 };
 

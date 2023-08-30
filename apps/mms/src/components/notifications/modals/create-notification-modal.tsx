@@ -41,8 +41,6 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
     onCreateNotification(requestData);
   };
 
-  console.log('create notify modal', notificationData);
-
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
     initialValues: {
       name: notificationData?.name || '',

@@ -31,12 +31,12 @@ const AlertDialog = ({
         {description}
       </DialogContent>
       <DialogActions>
-        <LoadingButton loading={isLoading} onClick={handleClose} sx={{ fontWeight: 600 }}>
+        <Button onClick={handleClose} sx={{ fontWeight: 600 }}>
           {cancelText}
-        </LoadingButton>
-        <Button onClick={handleConfirm} sx={{ fontWeight: 600 }}>
-          {confirmText}
         </Button>
+        <LoadingButton loading={isLoading} onClick={handleConfirm} sx={{ fontWeight: 600 }}>
+          {confirmText}
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

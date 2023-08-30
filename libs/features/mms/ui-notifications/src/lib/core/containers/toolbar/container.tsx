@@ -1,11 +1,23 @@
-import { Box, Fab, FormControlLabel, MenuItem, Radio, RadioGroup, Select, Typography } from '@mui/material';
+import { HTMLAttributes } from 'react';
+import {
+  Autocomplete,
+  Box,
+  CircularProgress,
+  Fab,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
+import { EnumValue, NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
 
 import { getInitialValues } from './utils';
 import { GroupLabel, OutlinedTextField } from '../../elements';
+import { usePageList } from '../../hooks';
 import { UpdateEditorStateProps } from '../types';
 
 const validationSchema = yup.object({
@@ -26,14 +38,22 @@ type ToolbarContainerProps = {
   onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
   notificationData: NotificationProps;
   updateEditorState: UpdateEditorStateProps;
+  isUpdating: boolean;
 };
 
-const Container = ({ notificationData, onUpdateNotification, updateEditorState }: ToolbarContainerProps) => {
+const Container = ({
+  notificationData,
+  onUpdateNotification,
+  updateEditorState,
+  isUpdating,
+}: ToolbarContainerProps) => {
+  const { pageList } = usePageList();
+
   const onSubmit = async () => {
     onUpdateNotification(notificationData);
   };
 
-  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
+  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
     initialValues: getInitialValues(notificationData),
     validationSchema: validationSchema,
     onSubmit: onSubmit,
@@ -44,9 +64,20 @@ const Container = ({ notificationData, onUpdateNotification, updateEditorState }
 
   const handleToolbarChange = (e: any) => {
     const { name, value } = e.target;
+    console.log('change e', name, value);
     const isNotificationKey = ['inside_app', 'outside_app'].includes(name);
     if (name !== 'notification_link') updateEditorState(name, value, isNotificationKey ? 'notification' : null);
     handleChange(e);
+  };
+
+  const getOptionLabel = (option: EnumValue) => (option ? option.name : '');
+
+  const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
+    return (
+      <Box component="li" {...props}>
+        <Typography>{option.name}</Typography>
+      </Box>
+    );
   };
 
   return (
@@ -96,18 +127,26 @@ const Container = ({ notificationData, onUpdateNotification, updateEditorState }
           <FormControlLabel value="outside" control={<Radio />} label="Link outside app" />
         </RadioGroup>
         {values.notification_link === 'inside' && (
-          <Select
-            fullWidth
-            sx={{ marginTop: 3 }}
-            name="inside_app"
-            onChange={handleToolbarChange}
-            onBlur={handleBlur}
-            value={values.inside_app}
-            error={touched.inside_app && Boolean(errors.inside_app)}
-          >
-            <MenuItem value="ducks">Ducks</MenuItem>
-            <MenuItem value="home">Home</MenuItem>
-          </Select>
+          <Autocomplete
+            sx={{ marginTop: 2 }}
+            id="inside_app"
+            options={pageList}
+            value={pageList.find((p) => p.value === values.inside_app) || null}
+            onChange={(e, item) => {
+              setFieldValue('inside_app', item?.value);
+              updateEditorState('inside_app', item?.value || '', 'notification');
+            }}
+            renderOption={renderOption}
+            getOptionLabel={getOptionLabel}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                error={touched.inside_app && Boolean(errors.inside_app)}
+                helperText={touched.inside_app && errors.inside_app}
+              />
+            )}
+            blurOnSelect
+          />
         )}
         {values.notification_link === 'outside' && (
           <OutlinedTextField
@@ -124,10 +163,10 @@ const Container = ({ notificationData, onUpdateNotification, updateEditorState }
       </Box>
       <Fab
         sx={{ position: 'absolute', bottom: 24, left: -72 }}
-        disabled={isNotValid || isSubmitting}
+        disabled={isNotValid || isSubmitting || isUpdating}
         onClick={() => handleSubmit()}
       >
-        <Typography fontWeight={500}>SAVE</Typography>
+        {isUpdating ? <CircularProgress size={20} /> : <Typography fontWeight={500}>SAVE</Typography>}
       </Fab>
     </Box>
   );

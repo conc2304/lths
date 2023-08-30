@@ -11,9 +11,10 @@ type Props = {
   notificationData: NotificationProps;
   onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
   updateEditorState: UpdateEditorStateProps;
+  isUpdating: boolean;
 };
 
-const EditorContainer = ({ notificationData, onUpdateNotification, updateEditorState }: Props) => {
+const EditorContainer = ({ notificationData, onUpdateNotification, updateEditorState, isUpdating }: Props) => {
   const { headline, content } = notificationData || {};
 
   const previewData = {
@@ -32,6 +33,7 @@ const EditorContainer = ({ notificationData, onUpdateNotification, updateEditorS
             notificationData={notificationData}
             onUpdateNotification={onUpdateNotification}
             updateEditorState={updateEditorState}
+            isUpdating={isUpdating}
           />
         </Grid>
       </Grid>

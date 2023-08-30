@@ -50,11 +50,18 @@ const NotificationEditor = () => {
   const { setPageTitle } = useLayoutActions();
 
   const fetchNotificationDetail = async (notificationId: string) => {
-    const response = await getNotificationDetail(notificationId).unwrap();
-    if (response.success) {
-      const payload = response.data;
-      if (payload) setEditorState(payload);
-    } else toast.error('Page details could not be found');
+    try {
+      const response = await getNotificationDetail(notificationId).unwrap();
+      if (response.success) {
+        const payload = response.data;
+        if (payload) setEditorState(payload);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error in fetching the notification details', error);
+      toast.error('Notification details could not be found');
+    }
   };
 
   const handleActionClick = (action: NotificationActions) => {
@@ -82,13 +89,18 @@ const NotificationEditor = () => {
   };
 
   const handleSendNotification = async () => {
-    const requestData = transformRequest(editorState);
-    const response = await sendNotification(requestData).unwrap();
-    if (response.success) {
-      setIsSendAlertOpen(false);
-      toast.success('Notification has been sent successfully');
-      if (response.data) setEditorState(response.data);
-    } else {
+    try {
+      const requestData = transformRequest(editorState);
+      const response = await sendNotification(requestData).unwrap();
+      if (response.success) {
+        setIsSendAlertOpen(false);
+        toast.success('Notification has been sent successfully');
+        if (response.data) setEditorState(response.data);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error in sending the notification', error);
       toast.error('Failed to send the notification');
     }
   };
@@ -98,12 +110,17 @@ const NotificationEditor = () => {
   };
 
   const handleArchiveNotification = async () => {
-    const response = await archiveNotification(notificationId).unwrap();
-    if (response.success) {
-      setIsArchiveAlertOpen(false);
-      toast.success('Notification has been archived successfully');
-      if (response.data) navigate('/notifications');
-    } else {
+    try {
+      const response = await archiveNotification(notificationId).unwrap();
+      if (response.success) {
+        setIsArchiveAlertOpen(false);
+        toast.success('Notification has been archived successfully');
+        if (response.data) navigate('/notifications');
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error in archiving the notification', error);
       toast.error('Failed to archive the notification');
     }
   };
@@ -113,12 +130,17 @@ const NotificationEditor = () => {
   };
 
   const handleDuplicateNotification = async () => {
-    const response = await duplicateNotification(notificationId).unwrap();
-    if (response.success) {
-      setIsDuplicateAlertOpen(false);
-      toast.success('Notification has been duplicated successfully');
-      if (response.data) navigate(`/notifications/editor/${response.data._id}`);
-    } else {
+    try {
+      const response = await duplicateNotification(notificationId).unwrap();
+      if (response.success) {
+        setIsDuplicateAlertOpen(false);
+        toast.success('Notification has been duplicated successfully');
+        if (response.data) navigate(`/notifications/editor/${response.data._id}`);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error in duplicating the notification', error);
       toast.error('Failed to duplicate the notification');
     }
   };
@@ -135,12 +157,19 @@ const NotificationEditor = () => {
   };
 
   const handleUpdateNotification = async (data: UpdateNotificationRequestProps) => {
-    const requestData = transformRequest(data);
-    const response = await updateNotification(requestData).unwrap();
-    if (response.success) {
-      setIsUpdateModalOpen(false);
-      toast.success('Notification has been updated successfully.');
-      if (response?.data) setEditorState(response?.data);
+    try {
+      const requestData = transformRequest(data);
+      const response = await updateNotification(requestData).unwrap();
+      if (response.success) {
+        setIsUpdateModalOpen(false);
+        toast.success('Notification has been updated successfully.');
+        if (response?.data) setEditorState(response?.data);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error in updating the notification', error);
+      toast.error('Failed to update the notification');
     }
   };
 
@@ -174,6 +203,7 @@ const NotificationEditor = () => {
         notificationData={editorState}
         onUpdateNotification={handleUpdateNotification}
         updateEditorState={updateEditorState}
+        isUpdating={isUpdating}
       />
       <CreateNotificationModal
         open={isUpdateModalOpen}
