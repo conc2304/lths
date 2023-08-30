@@ -12,7 +12,7 @@ const SocialIconButtonComponent = (props: SocialIconButtoncomponentProps) => {
 
   return (
     <BasicContainer id={id} sx={{ backgroundColor: '#121213' }}>
-      <Stack direction="row" spacing={3} justifyContent={'center'}>
+      <Stack direction="row" spacing={3} justifyContent={'center'} paddingY={1}>
         {sub_properties_data.map((data, index) => {
           console.log('data', data);
           const { icon } = data;
