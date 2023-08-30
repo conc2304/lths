@@ -1,8 +1,15 @@
 import { useState, SyntheticEvent } from 'react';
-import { Typography, Stack, Button, TextField, MenuItem } from '@mui/material';
+import { Typography, Stack, Button } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { BasicContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import {
+  BasicContainer,
+  BasicTextField,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ActionAccordion,
+} from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { QuickLinksProps } from '../../types';
 
@@ -44,38 +51,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
               <Stack spacing={2}>
                 <BasicTextField label={'Title'} value={props.title} onChange={(e) => handleTitleChange(e, i)} />
                 <BasicTextField label={'Icon URL'} value={props.icon} onChange={(e) => handleIconChange(e, i)} />
-                <Accordion>
-                  <AccordionSummary>
-                    <Typography>action</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <TextField
-                      value={props.action?.type}
-                      onChange={(e) => {
-                        handleActionChange(e, 'type', i);
-                      }}
-                      label="type"
-                      select
-                    >
-                      <MenuItem value={'native'}>native</MenuItem>
-                      <MenuItem value={'weblink'}>weblink</MenuItem>
-                    </TextField>
-                    <BasicTextField
-                      label={'Page_ID'}
-                      value={props.action?.page_id}
-                      onChange={(e) => {
-                        handleActionChange(e, 'page_id', i);
-                      }}
-                    />
-                    <BasicTextField
-                      label={'Page_Link'}
-                      value={props.action?.page_link}
-                      onChange={(e) => {
-                        handleActionChange(e, 'page_link', i);
-                      }}
-                    />
-                  </AccordionDetails>
-                </Accordion>
+                <ActionAccordion action={props?.action} index={i} handleActionChange={handleActionChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

@@ -55,7 +55,6 @@ export const FilterForm = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOnApplyFilters = () => {
-    console.log('APPLY FILTERS');
     onApplyFilters(formState);
     onClose();
   };

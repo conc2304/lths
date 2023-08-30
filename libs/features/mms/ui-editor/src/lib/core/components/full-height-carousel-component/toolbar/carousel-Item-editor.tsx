@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 
+import { ToolbarProps } from '../../../../context';
 import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
 import { FullHeightCarouselProps } from '../../types';
 
-type CarouselItemProps = {
+type CarouselItemProps = ToolbarProps & {
   item: FullHeightCarouselProps;
-  onPropChange: (callback: (value: any) => void) => void;
   handleCloseItem: () => void;
   handleUpdateItem: (newComponent: FullHeightCarouselProps) => void;
 };
+
+//TODO: Fix lint, create onChange wrapper function, chane event props to start with 'on'
 
 const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, handleCloseItem, handleUpdateItem }) => {
   const [localItem, setLocalItem] = useState<FullHeightCarouselProps>({ ...item });

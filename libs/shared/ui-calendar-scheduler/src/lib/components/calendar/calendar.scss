@@ -1,0 +1,229 @@
+// RBC Variable Overrides
+$cell-border: #d8d8d8;
+$current-time-color: var(--current-time-color, #2c87f6);
+$event-outline: unset; // border for selected item
+// Local Variables
+$accent-border: var(--accent-border-color, #6d727891);
+$accent-border-width: var(--accent-border-width, 2px);
+$slot-height: var(--time-slot-height, 4rem);
+$time-gutter-width: var(--time-gutter-width, 3.75);
+$scrollbar-color: var(--scrollbar-color, #979797);
+$scrollbar-width: var(--scrollbar-width, 5px);
+$margin-scroll: calc(var(--scrollbar-width) + 1px);
+$show-more-color: var(--show-more-color, #3d4752);
+$current-day-color: var(--current-day-highlight-color, #cddce787);
+$event-min-height: var(--event-min-height, 3.5rem);
+
+.rbc-today.rbc-today {
+  background-color: $current-day-color;
+}
+.rbc-month-row .rbc-today.rbc-today {
+  border: 1px solid lighten(#2c87f6, 10);
+  background-color: unset;
+  height: 100%;
+}
+
+.Calendar-Scheduler--view-day {
+  &.Calendar-Scheduler--root {
+    width: 100%;
+    width: -webkit-fill-available;
+    width: fill-available;
+  }
+
+  .rbc-time-view {
+    border-top: $accent-border-width solid $accent-border;
+
+    .rbc-allday-cell .MuiBox--root {
+      border: unset;
+    }
+  }
+}
+
+.rbc-event-content {
+  padding: 0 2px 2px 2px;
+}
+
+.rbc-event.rbc-event {
+  // force set height here so that the "show more events" is put in the correct place
+  height: 3rem;
+  background-color: unset;
+}
+
+.rbc-show-more.rbc-show-more {
+  padding: 0.5rem;
+  color: $show-more-color;
+}
+
+.rbc-overlay {
+  border-radius: 6px;
+
+  .rbc-overlay-header {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.25rem;
+  }
+}
+
+.rbc-event.rbc-selected.rbc-event.rbc-selected {
+  background-color: unset;
+  border: unset;
+}
+
+// Global Overrides
+.rbc-header.rbc-header {
+  & + & {
+    border-left: 1px solid transparent;
+  }
+}
+
+.rbc-time-header-content.rbc-time-header-content {
+  border-left-color: transparent;
+
+  .rbc-row-content {
+    border-bottom: $accent-border-width solid $accent-border;
+  }
+}
+
+.rbc-allday-cell.rbc-allday-cell {
+  border-left: $accent-border-width solid $accent-border;
+  border-right: $accent-border-width solid $accent-border;
+}
+
+.rbc-time-header {
+  margin-right: 5px !important;
+  &.rbc-overflowing.rbc-overflowing {
+    border-right: unset;
+    margin-right: 5px !important;
+    position: relative;
+  }
+
+  .rbc-button-link {
+    width: 100%;
+  }
+}
+
+.rbc-time-header-gutter {
+  width: $time-gutter-width;
+}
+
+.rbc-day-slot.rbc-day-slot {
+  .rbc-event {
+    border: unset;
+  }
+  .rbc-events-container {
+    margin-right: unset;
+    padding: 0 3px;
+  }
+  .rbc-event-label {
+    display: none;
+  }
+}
+
+.rbc-day-slot .rbc-event.rbc-event {
+  // using important bc rbc sets the the height
+  // on the element's style and we can't outspecify that
+  min-height: $event-min-height !important;
+}
+
+// Calendar Style Overrides
+
+.rbc-overlay.rbc-overlay {
+  min-width: 20rem !important;
+
+  .rbc-event.rbc-event {
+    color: initial;
+  }
+}
+
+.rbc-calendar {
+  .rbc-event.rbc-event {
+    padding: unset;
+    // background-color: unset;
+    border-radius: unset;
+    cursor: unset;
+    color: initial;
+  }
+
+  .rbc-day-slot {
+    border: unset;
+  }
+
+  .rbc-background-event.rbc-background-event {
+    opacity: 1;
+    background-color: unset;
+  }
+
+  .rbc-time-header-cell.rbc-time-header-cell {
+    min-height: calc(var(--time-slot-height) + 1px);
+    border-bottom: $accent-border-width solid $accent-border;
+    padding-left: calc(var(--accent-border-width) * 2);
+  }
+
+  .rbc-label.rbc-label {
+    padding: unset;
+  }
+
+  .rbc-header.rbc-header {
+    padding: unset;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: unset;
+  }
+
+  // Month View Overrides
+  .rbc-month-view {
+    .rbc-header {
+      padding: unset;
+      border: unset;
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+
+  // Time View Overrides
+  .rbc-time-content {
+    position: relative;
+    border-top: unset;
+
+    & > :nth-child(2) {
+      border-left: $accent-border-width solid $accent-border;
+    }
+  }
+
+  // Week and Day View
+  .rbc-time-vew {
+    .rbc-header {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  // Scroll Bar
+  ::-webkit-scrollbar {
+    display: block;
+    width: $scrollbar-width;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #00000000;
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: #00000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    border: $scrollbar-width solid $scrollbar-color;
+    border-width: $scrollbar-width;
+  }
+}
+
+@import 'react-big-calendar/lib/sass/styles';
+@import 'react-big-calendar/lib/addons/dragAndDrop/styles'; // if using DnD

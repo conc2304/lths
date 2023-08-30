@@ -36,6 +36,7 @@ export const Table = (props: TableProps) => {
     onRowsPerPageChange,
     sx = {},
     fixPagination = false,
+    noDataMessage = 'No records found',
   } = props;
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
@@ -81,6 +82,7 @@ export const Table = (props: TableProps) => {
       : {
           width: '100%',
         };
+  const hasData = tableRows && tableRows.length > 0;
 
   return (
     <Box sx={sx}>
@@ -90,7 +92,9 @@ export const Table = (props: TableProps) => {
           width: '100%',
         }}
       >
-        <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
+        {title && total && (
+          <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
+        )}
 
         <TableContainer
           sx={{
@@ -122,7 +126,12 @@ export const Table = (props: TableProps) => {
                 cells={headerCells?.length}
                 rows={DEFAULT_TABLE_PAGE_SIZE}
               />
-              {!loading && tableRows}
+              {!loading && hasData && tableRows}
+              {!loading && !hasData && (
+                <TableCell colSpan={headerCells.length} align="center" style={{ height: '40vh' }}>
+                  {noDataMessage}
+                </TableCell>
+              )}
             </TableBody>
           </MuiTable>
         </TableContainer>

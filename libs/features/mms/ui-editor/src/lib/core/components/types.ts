@@ -1,13 +1,18 @@
-import { ComponentProps as BaseProps } from '../../context';
-export * from './enum';
-/**NOTE: WE MAY HAVE TO RELAX ON THE NAMING CONVENTION HERE, SO THAT WE CAN FOLLOW EXACT JSON NAMES
+import { ComponentProps as BaseProps, ToolbarProps } from '../../context';
 
-*/
+export * from './enum';
+
 export type ComponentProps = BaseProps & {
-  onPropChange?: (callback: (value: any) => void) => void;
+  onPropChange?: ToolbarProps['onPropChange'];
 };
 
 export type ComponentType = 'native' | 'webview';
+
+export type AutocompleteItemProps = {
+  label: string;
+  value: string;
+  type: string;
+};
 
 export type ActionProps = {
   type: ComponentType;

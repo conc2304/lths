@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { TextField, MenuItem } from '@mui/material';
 
 import { ActionProps } from '../../core/components/types';
-import { OutlinedTextField } from '../text-fields';
 import { GroupLabel } from '../labels';
+import { OutlinedTextField } from '../text-fields';
 
 interface ActionInputProps {
   action: ActionProps;
@@ -19,7 +19,7 @@ const ActionInput: FC<ActionInputProps> = ({ action, handleActionChange, index }
   const labelEnd = index >= 0 ? ' ' + (index + 1) : '';
   return (
     <>
-      <GroupLabel label={"Action"}/>
+      <GroupLabel label={'Action'} />
       <TextField
         aria-label={'Type Select' + labelEnd}
         value={action?.type || ''}

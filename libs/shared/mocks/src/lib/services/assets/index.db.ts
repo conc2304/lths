@@ -38,7 +38,7 @@ for (let i = 0; i < 50; i++) {
     media_type: 'file',
     media_files: [
       {
-        url: faker.image.imageUrl(),
+        url: faker.image.url(),
         format_label: 'source',
         file_extension: '.mp4',
         mime_type: 'video/mp4',

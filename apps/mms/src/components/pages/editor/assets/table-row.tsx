@@ -1,25 +1,12 @@
 import React from 'react';
 import { TableRow, TableCell, Button } from '@mui/material';
 
+import { AssetExtended } from '@lths/features/mms/data-access';
+
 import { cleanUrl } from '../../../assets/utils';
 
-interface MediaFile {
-  url: string;
-}
-
-interface TableRowData {
-  id: string;
-  media_files: MediaFile[];
-  unique_file_name: string;
-  original_file_name: string;
-  created_at: string;
-  file_extension: string;
-  mime_type: string;
-  media_type: string;
-}
-
 interface TableFileInfoRowProps {
-  row: TableRowData;
+  row: AssetExtended;
   onSelect: (url: string) => void;
 }
 
@@ -38,10 +25,10 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
         <span style={{ marginLeft: 10 }}>{row.original_file_name}</span>
       </TableCell>
 
-      <TableCell>{row.created_at}</TableCell>
+      <TableCell>{row.created_at_formatted}</TableCell>
       <TableCell>{row.file_extension}</TableCell>
       <TableCell>{row.mime_type}</TableCell>
-      <TableCell>{row.media_type}</TableCell>
+      <TableCell>{row.created_by}</TableCell>
       <TableCell>
         <Button
           variant="outlined"

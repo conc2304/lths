@@ -18,7 +18,7 @@ export type TableSortingProps = {
   order: TableOrderProp;
   column: string | null;
 };
-export type TableTitleProps = ProgressLoadingProps & { total: number; title: string; onExportClick?: () => void };
+export type TableTitleProps = ProgressLoadingProps & { total?: number; title?: string; onExportClick?: () => void };
 export type TableProps = ProgressProps &
   TableTitleProps & {
     onSortClick?: (pagination: TablePaginationProps, sorting: TableSortingProps) => void;
@@ -38,6 +38,7 @@ export type TableProps = ProgressProps &
     ) => void;
     sx?: SxProps;
     fixPagination?: boolean;
+    noDataMessage?: string;
   };
 
 /*

@@ -5,7 +5,6 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 export default function DatePicker(theme: Theme): Components {
   return {
     MuiDatePicker: {
-      styleOverrides: {},
       defaultProps: {
         slots: {
           openPickerIcon: CalendarMonthOutlined,

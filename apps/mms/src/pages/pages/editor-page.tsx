@@ -8,15 +8,22 @@ import {
   PageDetail,
   useDuplicatePageMutation,
   useLazyGetComponentDetailQuery,
+  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
 } from '@lths/features/mms/data-access';
-import { BlockEditor, useEditorActions, EditorProvider } from '@lths/features/mms/ui-editor';
+import {
+  BlockEditor,
+  useEditorActions,
+  EditorProvider,
+  Callback,
+  AutocompleteItemProps,
+} from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
+import { ComponentModal } from '../../components/pages/editor';
 import AssetsModal from '../../components/pages/editor/assets/connected-modal';
-import ComponentModal from '../../components/pages/editor/components/connected-modal';
 import { Constraints, Settings } from '../../components/pages/editor/containers';
 import { PageHeader } from '../../components/pages/editor/containers/core';
 import { PageStatus } from '../../components/pages/editor/containers/core/types';
@@ -41,23 +48,33 @@ const TabItems = {
   settings: { value: 'settings', label: 'SETTINGS' },
 };
 export function PageEditorTabs() {
+  //api
+  const { initEditor, addComponent, components, data } = useEditorActions();
+  const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
+  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
+  const [updatePageDetails] = useUpdatePageDetailsMutation();
+  const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+
+  //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
   const [openModal, setOpenModal] = useState(false);
+  const [compModalOpen, setCompModalOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageCallback, setImageCallback] = useState(null);
+  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
 
+  //route params
   const { pageId } = useParams();
-
-  const { initEditor, addComponent, components, data } = useEditorActions();
-  const page_data = data as PageDetail;
-  const [getPageDetail] = useLazyGetPageDetailsQuery();
-
-  const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
-
-  const [updatePageDetails] = useUpdatePageDetailsMutation();
 
   const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   const navigate = useNavigate();
 
+  //fetch params
+  const page_data = data as PageDetail;
+
+  //fetch
   const fetchPageDetail = async (pageId: string) => {
     const response = await getPageDetail(pageId);
     if (response.isSuccess) {
@@ -68,17 +85,12 @@ export function PageEditorTabs() {
     }
   };
 
+  //side effects
   useEffect(() => {
     if (pageId) fetchPageDetail(pageId);
   }, [pageId]);
 
-  const [compModalOpen, setCompModalOpen] = useState(false);
-  const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
-
-  const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
-
+  //modal events
   const handleSelectComponent = async (componentId: string) => {
     setCompModalOpen(false);
     const detail = await getDetail(componentId);
@@ -88,7 +100,6 @@ export function PageEditorTabs() {
       console.log('Failed to find component');
     }
   };
-
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
   };
@@ -99,13 +110,29 @@ export function PageEditorTabs() {
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
-  const handleAddComponentClick = () => {
+  const handleAddComponent = () => {
     setCompModalOpen(true);
   };
-  const handleAddImageClick = (callback: (url: string) => void) => {
+  const handleAddImage = (callback: (url: string) => void) => {
     setImageCallback(() => callback);
     setImageModalOpen(true);
   };
+
+  //TODO: API is not typed yet, so using any for now
+  const handlAddAction = async (callback: (data) => void) => {
+    const response = await getDefaultPage();
+    if (response.data?.data)
+      return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
+  };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+    if (propName === 'image_url') {
+      handleAddImage(callback as Callback<string>);
+    } else if (propName === 'action') {
+      handlAddAction(callback as Callback<AutocompleteItemProps>);
+    }
+  }
+
   const handleSelectImage = (url: string) => {
     imageCallback && imageCallback(url);
     setImageModalOpen(false);
@@ -118,11 +145,11 @@ export function PageEditorTabs() {
       setOpenModal(true);
     }
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  //api events
   const handleUpdatePageStatus = async () => {
     await updatePageStatus({ page_id: pageId, status: modalData.status });
     setOpenModal(false);
@@ -188,9 +215,9 @@ export function PageEditorTabs() {
       <Box>
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
           <BlockEditor
-            onAddComponentClick={handleAddComponentClick}
-            onAddImageClick={handleAddImageClick}
-            onUpdateClick={handleEditorUpdate}
+            onAddComponent={handleAddComponent}
+            onPropChange={handlePropChange}
+            onUpdate={handleEditorUpdate}
           />
           <ComponentModal
             open={compModalOpen}

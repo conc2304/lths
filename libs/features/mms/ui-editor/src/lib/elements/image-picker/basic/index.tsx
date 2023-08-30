@@ -4,15 +4,17 @@ import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/system';
 
+import { ToolbarProps } from '../../../context';
+
 type ImagePickerProps = {
   value: string;
   onChange: (value: string) => void;
-  onReplace: (callback: (url: string) => void) => void;
+  onReplace: ToolbarProps['onPropChange'];
 };
 
 const ImagePicker = ({ value, onChange, onReplace }: ImagePickerProps) => {
   const handleReplace = () => {
-    onReplace && onReplace(onChange);
+    onReplace && onReplace('image_url', onChange);
   };
 
   const handleDelete = () => {

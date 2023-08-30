@@ -4,7 +4,6 @@ import { Components, Theme } from '@mui/material/styles';
 export default function TimePicker(theme: Theme): Components {
   return {
     MuiTimePicker: {
-      styleOverrides: {},
       defaultProps: {
         slots: {
           openPickerIcon: AccessTimeIcon,

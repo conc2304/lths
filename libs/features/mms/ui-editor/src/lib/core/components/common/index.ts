@@ -4,3 +4,4 @@ export { default as QuickLinkToolbar } from './quick-link/toolbar';
 export { default as QuickLinkListComponent } from './quick-link-list/component';
 export { default as QuickLinkListToolbar } from './quick-link-list/toolbar';
 export { default as DraggableCarouselListItem } from './draggable-carousel-list-item';
+export { default as ActionToolbar } from './actions';
