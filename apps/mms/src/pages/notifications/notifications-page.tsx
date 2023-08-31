@@ -159,11 +159,11 @@ const NotificationPage = () => {
 
   const handleDuplicateNotification = async () => {
     try {
-      const response = await duplicateNotification(selectedNotification._id).unwrap();
+      const response = await duplicateNotification({ id: selectedNotification._id }).unwrap();
       if (response.success) {
         setIsDuplicateAlertOpen(false);
         toast.success('Notification has been duplicated successfully');
-        fetchData(null, undefined);
+        if (response.data) navigate(`/notifications/editor/${response.data._id}`);
       } else {
         throw new Error(response.message);
       }

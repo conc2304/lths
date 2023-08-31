@@ -34,7 +34,6 @@ export const getUpdateNotificationUrl = (notification_id: string) => `${NOTIFICA
 export const getSendNotificationUrl = (notification_id: string) =>
   `${NOTIFICATION_BASE_URL}/${notification_id}?send_now=true`;
 
-export const getDuplicateNotificationUrl = (notification_id: string) =>
-  `${NOTIFICATION_BASE_URL}/${notification_id}/duplicate`;
+export const getDuplicateNotificationUrl = () => `${NOTIFICATION_BASE_URL}/duplicate`;
 
 export const getDeleteNotificationUrl = (notification_id: string) => `${NOTIFICATION_BASE_URL}/${notification_id}`;

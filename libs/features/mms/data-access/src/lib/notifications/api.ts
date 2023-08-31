@@ -5,6 +5,7 @@ import {
   ArchiveNotificationResponse,
   CreateNotificationRequest,
   CreateNotificationResponse,
+  DuplicateNotificationRequest,
   DuplicateNotificationResponse,
   NotificationDetailResponse,
   NotificationListRequest,
@@ -58,10 +59,11 @@ const notificationApi = api.enhanceEndpoints({ addTagTypes: ['notifications'] })
         body: req,
       }),
     }),
-    duplicateNotification: builder.mutation<UpdateNotificationResponse, string>({
-      query: (notification_id) => ({
-        url: getDuplicateNotificationUrl(notification_id),
+    duplicateNotification: builder.mutation<DuplicateNotificationResponse, DuplicateNotificationRequest>({
+      query: (req) => ({
+        url: getDuplicateNotificationUrl(),
         method: 'POST',
+        body: req,
       }),
     }),
     archiveNotification: builder.mutation<ArchiveNotificationResponse, string>({

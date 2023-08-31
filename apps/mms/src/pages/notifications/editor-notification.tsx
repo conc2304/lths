@@ -131,7 +131,7 @@ const NotificationEditor = () => {
 
   const handleDuplicateNotification = async () => {
     try {
-      const response = await duplicateNotification(notificationId).unwrap();
+      const response = await duplicateNotification({ id: notificationId }).unwrap();
       if (response.success) {
         setIsDuplicateAlertOpen(false);
         toast.success('Notification has been duplicated successfully');

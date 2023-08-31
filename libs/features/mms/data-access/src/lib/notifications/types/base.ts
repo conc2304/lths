@@ -50,3 +50,7 @@ export type UpdateNotificationRequestProps = {
   content?: string;
   notification?: NotificationPayloadProps;
 };
+
+export type DuplicateNotificationRequestProps = {
+  id: string;
+};
