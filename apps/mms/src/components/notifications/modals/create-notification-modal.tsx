@@ -1,16 +1,14 @@
+import { HTMLAttributes } from 'react';
 import {
+  Autocomplete,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormHelperText,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,7 +18,7 @@ import { useNotificationTopics } from '@lths-mui/features/mms/ui-notifications';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { NotificationType } from '@lths/features/mms/data-access';
+import { EnumValue, NotificationType } from '@lths/features/mms/data-access';
 
 import { CreateNotificationModalProps, NewNotificationRequest } from '../types';
 
@@ -41,7 +39,7 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
     onCreateNotification(requestData);
   };
 
-  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
+  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
     initialValues: {
       name: notificationData?.name || '',
       topics: notificationData?.topics[0] || '',
@@ -55,10 +53,24 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
 
   const { notificationTopics } = useNotificationTopics();
 
+  const getTopicOptionLabel = (option: EnumValue) => (option ? option.name : '');
+
+  const renderTopicOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
+    return (
+      <Box component="li" {...props}>
+        <Typography>{option.name}</Typography>
+      </Box>
+    );
+  };
+
+  const selectedTopic = notificationTopics.find((n) => n.value === values.topics) || null;
+
   return (
     <Dialog open={open} onClose={handleCloseModal} maxWidth="xs" fullWidth>
       <DialogTitle>
-        <Typography variant="h2">{isEdit ? `Edit` : `Create`} notification</Typography>
+        <Typography component="p" variant="h2">
+          {isEdit ? `Edit` : `Create`} notification
+        </Typography>
         <Typography variant="body2">All text fields required unless noted.</Typography>
         <IconButton
           aria-label="close"
@@ -88,41 +100,27 @@ const CreateNotificationModal = (props: CreateNotificationModalProps) => {
                 value={values.name}
                 label="Name"
                 variant="outlined"
-                helperText={errors.name}
+                helperText={touched.name && errors.name}
                 sx={{ marginTop: 1 }}
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel>Topic</InputLabel>
-                <Select
-                  label="Topic"
-                  onChange={handleChange}
-                  error={touched.topics && Boolean(errors.topics)}
-                  fullWidth
-                  id="topics"
-                  name="topics"
-                  onBlur={handleBlur}
-                  type="text"
-                  value={values.topics}
-                  variant="outlined"
-                >
-                  {notificationTopics.map((nt) => {
-                    const { name, value } = nt;
-                    return (
-                      <MenuItem key={value} value={value}>
-                        {name}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-
-                {touched.topics && errors.topics && (
-                  <FormHelperText error id="topic_helper_text">
-                    {errors.topics}
-                  </FormHelperText>
+              <Autocomplete
+                id="topics"
+                value={selectedTopic}
+                options={notificationTopics}
+                getOptionLabel={getTopicOptionLabel}
+                renderOption={renderTopicOption}
+                onChange={(e, item) => setFieldValue('topics', item?.value)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Topic"
+                    error={touched.topics && Boolean(errors.topics)}
+                    helperText={touched.topics && errors.topics}
+                  />
                 )}
-              </FormControl>
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField

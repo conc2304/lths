@@ -1,6 +1,6 @@
 import { api } from '@lths/shared/data-access';
 
-import { transformNotificationListResponse } from './transformer';
+import { transformNotificationDetailResponse, transformNotificationListResponse } from './transformer';
 import {
   ArchiveNotificationResponse,
   CreateNotificationRequest,
@@ -44,6 +44,7 @@ const notificationApi = api.enhanceEndpoints({ addTagTypes: ['notifications'] })
         url: getNotificationDetailUrl(notification_id),
         method: 'GET',
       }),
+      transformResponse: transformNotificationDetailResponse,
     }),
     createNotification: builder.mutation<CreateNotificationResponse, CreateNotificationRequest>({
       query: (req) => ({

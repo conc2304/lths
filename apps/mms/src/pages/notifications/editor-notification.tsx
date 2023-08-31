@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   NotificationProps,
-  UpdateNotificationRequestProps,
   useArchiveNotificationMutation,
   useDuplicateNotificationMutation,
   useLazyGetNotificationDetailQuery,
@@ -145,10 +144,8 @@ const NotificationEditor = () => {
     }
   };
 
-  const updateEditorState = (key: string, value: string, parent_key: string) => {
-    let updatedData: Record<string, any> = { [key]: value };
-
-    if (parent_key) updatedData = { [parent_key]: updatedData };
+  const updateEditorState = (key: string, value: string) => {
+    const updatedData: Record<string, string> = { [key]: value };
 
     setEditorState((prevState) => ({
       ...prevState,
@@ -156,7 +153,7 @@ const NotificationEditor = () => {
     }));
   };
 
-  const handleUpdateNotification = async (data: UpdateNotificationRequestProps) => {
+  const handleUpdateNotification = async (data: NotificationProps) => {
     try {
       const requestData = transformRequest(data);
       const response = await updateNotification(requestData).unwrap();

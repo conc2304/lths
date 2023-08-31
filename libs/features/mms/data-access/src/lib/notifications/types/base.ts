@@ -24,6 +24,9 @@ export type NotificationProps = {
   type: NotificationTyeProps;
   topics: string[];
   notification?: NotificationPayloadProps;
+  notification_link?: string;
+  inside_app?: string;
+  outside_app?: string;
   status?: string;
   created_on?: string;
   updated_on?: string;

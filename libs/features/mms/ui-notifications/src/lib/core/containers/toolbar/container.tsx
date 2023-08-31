@@ -15,7 +15,6 @@ import * as yup from 'yup';
 
 import { EnumValue, NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
 
-import { getInitialValues } from './utils';
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { usePageList } from '../../hooks';
 import { UpdateEditorStateProps } from '../types';
@@ -26,7 +25,7 @@ const validationSchema = yup.object({
   notification_link: yup.string().required('Notification link is required'),
   inside_app: yup.string().when('notification_link', {
     is: 'inside',
-    then: (schema) => schema.required('Page id is required'),
+    then: (schema) => schema.required('Page is required'),
   }),
   outside_app: yup.string().when('notification_link', {
     is: 'outside',
@@ -47,6 +46,14 @@ const Container = ({
   updateEditorState,
   isUpdating,
 }: ToolbarContainerProps) => {
+  const {
+    headline = '',
+    content = '',
+    notification_link = 'inside',
+    inside_app = '',
+    outside_app = '',
+  } = notificationData || {};
+
   const { pageList } = usePageList();
 
   const onSubmit = async () => {
@@ -54,7 +61,13 @@ const Container = ({
   };
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
-    initialValues: getInitialValues(notificationData),
+    initialValues: {
+      headline,
+      content,
+      notification_link,
+      inside_app,
+      outside_app,
+    },
     validationSchema: validationSchema,
     onSubmit: onSubmit,
     enableReinitialize: true,
@@ -64,20 +77,25 @@ const Container = ({
 
   const handleToolbarChange = (e: any) => {
     const { name, value } = e.target;
-    console.log('change e', name, value);
-    const isNotificationKey = ['inside_app', 'outside_app'].includes(name);
-    if (name !== 'notification_link') updateEditorState(name, value, isNotificationKey ? 'notification' : null);
+    updateEditorState(name, value);
     handleChange(e);
   };
 
-  const getOptionLabel = (option: EnumValue) => (option ? option.name : '');
+  const getPageOptionLabel = (option: EnumValue) => (option ? option.name : '');
 
-  const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
+  const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
     return (
       <Box component="li" {...props}>
         <Typography>{option.name}</Typography>
       </Box>
     );
+  };
+
+  const selectedPage = pageList.find((p) => p.value === values.inside_app) || null;
+
+  const handlePageChange = (value: string) => {
+    setFieldValue('inside_app', value);
+    updateEditorState('inside_app', value || '');
   };
 
   return (
@@ -131,21 +149,20 @@ const Container = ({
             sx={{ marginTop: 2 }}
             id="inside_app"
             options={pageList}
-            value={pageList.find((p) => p.value === values.inside_app) || null}
-            onChange={(e, item) => {
-              setFieldValue('inside_app', item?.value);
-              updateEditorState('inside_app', item?.value || '', 'notification');
-            }}
-            renderOption={renderOption}
-            getOptionLabel={getOptionLabel}
+            value={selectedPage}
+            onChange={(e, item) => handlePageChange(item?.value || '')}
+            renderOption={renderPageOption}
+            getOptionLabel={getPageOptionLabel}
             renderInput={(params) => (
               <TextField
+                name="inside_app"
                 {...params}
+                label="Page"
+                onBlur={handleBlur}
                 error={touched.inside_app && Boolean(errors.inside_app)}
                 helperText={touched.inside_app && errors.inside_app}
               />
             )}
-            blurOnSelect
           />
         )}
         {values.notification_link === 'outside' && (
