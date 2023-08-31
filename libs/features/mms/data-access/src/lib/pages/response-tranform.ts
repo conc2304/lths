@@ -1,3 +1,4 @@
+import { Component } from '../../../../ui-editor/src/lib/core/components/types';
 const newKey = (key: string) => (key === 'sub_properties' ? 'sub_properties_data' : key);
 
 const transformToObject = (schema: Record<any, any>): Record<any, any> => {
@@ -18,7 +19,7 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
 export const convertComponentDetailResponse = (data) => {
   const { schema } = data;
   const properties_data = transformToObject(schema);
-  if (data.component_id === 'cSocialIconButtons' && properties_data.sub_properties_data.length > 0) {
+  if (data.component_id === Component.SocialIconButton && properties_data.sub_properties_data.length > 0) {
     properties_data.sub_properties_data = Array(4).fill(properties_data.sub_properties_data[0]);
   }
   const convertedData = { ...data, properties_data };

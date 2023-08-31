@@ -1,8 +1,11 @@
 import { ChangeEvent, HTMLAttributes } from 'react';
 import { TextField, Autocomplete, Box, Avatar } from '@mui/material';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { EnumValue } from '@lths/features/mms/data-access';
+type EnumValue = {
+  display_order: number;
+  name: string;
+  value: string;
+};
 type SocialIconAutocompleteProps = {
   value: string;
   socialIcons: EnumValue[];
