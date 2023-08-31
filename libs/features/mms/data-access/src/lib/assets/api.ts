@@ -4,33 +4,26 @@ import { transformAssetResponse } from './transformer';
 import { AssetsResponse, AssetsRequest, Asset } from './types';
 import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl, searchAssetsUrl } from './urls';
 
+const createAssetQuery = (request: AssetsRequest, queryString?: string) => ({
+  url: queryString ? searchAssetsUrl(request) : getAssetsUrl(request),
+  method: 'POST',
+  body: {
+    ...(queryString && { queryString }),
+    sort: {
+      direction: request.sort_order ?? 'desc',
+      field: request.sort_key ?? 'created_at',
+    },
+  },
+});
+
 export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
   endpoints: (builder) => ({
     getAssetsItems: builder.query<AssetsResponse, AssetsRequest>({
-      query: (request: AssetsRequest) => ({
-        url: getAssetsUrl(request),
-        method: 'POST',
-        body: {
-          sort: {
-            direction: request.sort_order ?? 'desc',
-            field: request.sort_key ?? 'created_at',
-          },
-        },
-      }),
+      query: (request: AssetsRequest) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
     }),
     searchAssets: builder.query<AssetsResponse, AssetsRequest>({
-      query: (request: AssetsRequest) => ({
-        url: searchAssetsUrl(request),
-        method: 'POST',
-        body: {
-          queryString: request.queryString,
-          sort: {
-            direction: request.sort_order ?? 'desc',
-            field: request.sort_key ?? 'created_at',
-          },
-        },
-      }),
+      query: (request: AssetsRequest) => createAssetQuery(request, request.queryString),
       transformResponse: transformAssetResponse,
     }),
     addResource: builder.mutation<Asset, { newAsset: File; user: string }>({
