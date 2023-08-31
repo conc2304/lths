@@ -126,7 +126,8 @@ export function PageEditorTabs() {
 
   const handleAddSocialIcon = async (callback: (data) => void) => {
     const response = await getEnumList('socialIcons').unwrap();
-    if (response?.success) return callback(response?.data?.enum_values);
+    if (response && response.success && response.data) return callback(response.data.enum_values);
+    else return callback([]);
   };
 
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {

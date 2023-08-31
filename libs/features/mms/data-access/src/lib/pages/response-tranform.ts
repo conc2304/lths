@@ -18,7 +18,7 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
 export const convertComponentDetailResponse = (data) => {
   const { schema } = data;
   const properties_data = transformToObject(schema);
-  if (data.component_id === 'cSocialIconButtons') {
+  if (data.component_id === 'cSocialIconButtons' && properties_data.sub_properties_data.length > 0) {
     properties_data.sub_properties_data = Array(4).fill(properties_data.sub_properties_data[0]);
   }
   const convertedData = { ...data, properties_data };

@@ -3,6 +3,7 @@ const colors = {
   editor: { background: '#D9D9D9', highlight: '#FF9A02', phone: { background: '#ffffff', header: '#6D7278' } },
 
   quicklink: { background: '#BA9765' },
+  container: { background: '#121213' },
 };
 
 export default colors;
