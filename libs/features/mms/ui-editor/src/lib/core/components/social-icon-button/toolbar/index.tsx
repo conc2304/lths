@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import SocailIconAutoComplete from './autocomplete';
+import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
 
+import SocailIconAutoComplete from './autocomplete';
 import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
 import { SocialIconButtoncomponentProps } from '../../types';
-import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
 
 export type EnumValue = {
   display_order: number;
