@@ -6,7 +6,7 @@ import { KeyValueComponentProps } from '../../types';
 const KeyValueComponent = (props: KeyValueComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, desc, sub_properties_data },
+    default_data: { title, desc, component_data },
   } = props;
 
   return (
@@ -17,7 +17,7 @@ const KeyValueComponent = (props: KeyValueComponentProps) => {
       <Typography gutterBottom variant="body2" component="div">
         {desc}
       </Typography>
-      {sub_properties_data.map(({ key, value }, index) => {
+      {component_data.map(({ key, value }, index) => {
         return (
           <Stack
             direction="row"

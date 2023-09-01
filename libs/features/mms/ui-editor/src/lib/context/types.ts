@@ -13,7 +13,7 @@ export type ComponentProps = {
 
   image_url: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  properties_data: Record<string, any>;
+  default_data: Record<string, any>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: { [key: string]: any };

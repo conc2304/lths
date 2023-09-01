@@ -7,7 +7,7 @@ import { VideoViewComponentProps } from '../../types';
 const VideoViewComponent = (props: VideoViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image },
+    default_data: { image },
   } = props;
 
   return (

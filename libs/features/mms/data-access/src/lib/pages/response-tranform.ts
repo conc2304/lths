@@ -1,4 +1,4 @@
-const newKey = (key: string) => (key === 'sub_properties' ? 'sub_properties_data' : key);
+const newKey = (key: string) => (key === 'sub_properties' ? 'component_data' : key);
 
 const transformToObject = (schema: Record<any, any>) => {
   const obj = {};
@@ -17,7 +17,7 @@ const transformToObject = (schema: Record<any, any>) => {
 
 export const convertComponentDetailResponse = (data) => {
   const { schema } = data;
-  const properties_data = transformToObject(schema);
-  const convertedData = { ...data, properties_data };
+  const default_data = transformToObject(schema);
+  const convertedData = { ...data, default_data };
   return convertedData;
 };

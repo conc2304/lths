@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cHeader',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Upcoming events',
     color: '#980766',
     desc: '',

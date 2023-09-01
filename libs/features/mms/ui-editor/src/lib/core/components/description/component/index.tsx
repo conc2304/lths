@@ -7,7 +7,7 @@ import { DescriptionComponentProps } from '../../types';
 export default function DescriptionComponent(props: DescriptionComponentProps) {
   const {
     __ui_id__: id,
-    properties_data: { title, color, style },
+    default_data: { title, color, style },
   } = props;
 
   return (

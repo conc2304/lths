@@ -7,7 +7,7 @@ import { EventInfoComponentProps } from '../../types';
 const EventInfoToolbar = (props: EventInfoComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: {
+    default_data: {
       title,
       desc,
       date_lbl_txt,

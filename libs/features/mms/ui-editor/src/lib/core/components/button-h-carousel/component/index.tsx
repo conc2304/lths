@@ -12,11 +12,11 @@ const colors = { brand: { primary: '#111921', secondary: '#BA9765' }, text: '#ff
 const ButtonHCarouselComponent = (props: ButtonHCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    default_data: { component_data },
   } = props;
 
   const handleClick = (index: number) => {
-    window.open(sub_properties_data[index].action.page_link, '_blank');
+    window.open(component_data[index].action.page_link, '_blank');
   };
 
   return (
@@ -28,7 +28,7 @@ const ButtonHCarouselComponent = (props: ButtonHCarouselComponentProps) => {
         modules={[Pagination]}
         pagination={{ clickable: true }}
       >
-        {sub_properties_data.map(({ title }, index) => {
+        {component_data.map(({ title }, index) => {
           return (
             <SwiperSlide key={index}>
               <Button

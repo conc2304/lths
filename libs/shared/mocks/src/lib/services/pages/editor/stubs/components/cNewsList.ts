@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cNewsList',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     size: '10',
-    sub_properties_data: [
+    component_data: [
       {
         page_no: '1',
         page_id: 'iV5OL2eY9lPBzM7G7maAF',

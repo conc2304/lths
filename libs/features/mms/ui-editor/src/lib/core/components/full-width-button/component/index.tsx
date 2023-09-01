@@ -6,7 +6,7 @@ import { FullWidthButtonComponentProps } from '../../types';
 const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { label },
+    default_data: { label },
   } = props;
 
   return (

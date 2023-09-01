@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cSimpleScoreView',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     dateInfo: '5:58 - 1st period',
     match_name: '',
     hint: '',

@@ -4,7 +4,7 @@ import { SpacerProps } from '../../types';
 
 const SpacerComponent = (props: SpacerProps) => {
   const {
-    properties_data: { space },
+    default_data: { space },
     __ui_id__: id,
   } = props;
   return <Box id={id} height={`${space}px`} bgcolor={'black'}></Box>;

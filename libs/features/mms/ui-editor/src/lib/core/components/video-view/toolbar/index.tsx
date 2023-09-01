@@ -7,7 +7,7 @@ import { ActionProps, VideoViewComponentProps } from '../../types';
 const VideoViewToolbar = (props: VideoViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, video_link, action = {} as ActionProps },
+    default_data: { image, video_link, action = {} as ActionProps },
     onPropChange,
   } = props;
 

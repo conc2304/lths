@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cPromotion',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Promotion Title',
     desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo',
     underline_txt: 'LEARN MORE',

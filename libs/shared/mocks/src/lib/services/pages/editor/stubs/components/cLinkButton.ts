@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cLinkButton',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Click here for more information',
     style: '',
     action: {

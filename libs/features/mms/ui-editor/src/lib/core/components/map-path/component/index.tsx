@@ -7,7 +7,7 @@ import { MapPathComponentProps } from '../../types';
 export default function MapPathComponent(props: MapPathComponentProps) {
   const {
     __ui_id__: id,
-    properties_data: { title, desc },
+    default_data: { title, desc },
   } = props;
 
   return (

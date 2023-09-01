@@ -5,7 +5,7 @@ import { CardImageComponentProps } from '../../types';
 
 const CardImageComponent = (props: CardImageComponentProps) => {
   const {
-    properties_data: { title, image },
+    default_data: { title, image },
     __ui_id__: id,
   } = props;
   return (

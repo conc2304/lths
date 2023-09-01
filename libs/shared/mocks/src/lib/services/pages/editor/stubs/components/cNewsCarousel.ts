@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cNewsCarousel',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
-    sub_properties_data: [
+  default_data: {
+    component_data: [
       {
         tag: 'LATEST NEWS',
         title: 'Ducks 3 - Kings 2',

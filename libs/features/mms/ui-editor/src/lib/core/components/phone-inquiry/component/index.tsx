@@ -6,7 +6,7 @@ import { PhoneInquiryComponentProps } from '../../types';
 export default function PhoneInquiryComponent(props: PhoneInquiryComponentProps) {
   const {
     __ui_id__: id,
-    properties_data: { title, desc, linkcolor, action },
+    default_data: { title, desc, linkcolor, action },
   } = props;
   const handleClick = () => {
     window.open(action.page_link, '_blank');

@@ -11,7 +11,7 @@ import { size } from '../utils';
 export function TextButtonComponent(props: TextButtonProps) {
   const {
     __ui_id__: id,
-    properties_data: { title, text_size },
+    default_data: { title, text_size },
   } = props;
   const fontSize = size.find((s) => s.value === text_size)?.fontSize;
   return (

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cTeamPlayerInfo',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Adam Henrique',
     image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cTeamPlayerInfo.png',
     desc: 'CENTER',

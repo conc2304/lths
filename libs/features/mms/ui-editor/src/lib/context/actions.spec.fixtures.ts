@@ -7,7 +7,7 @@ export const newComponent: ComponentProps = {
   name: 'TEST COMPONENT',
   description: '',
   image_url: '',
-  properties_data: undefined,
+  default_data: undefined,
   schema: {},
   display_order: 0,
   variation_id: '',

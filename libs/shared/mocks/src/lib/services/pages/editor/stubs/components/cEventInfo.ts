@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cEventInfo',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Twenty One Pilots',
     desc: 'Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.  Sed ut unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ',
     date_lbl_txt: 'Date',

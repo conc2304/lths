@@ -11,7 +11,7 @@ import { size } from '../utils';
 const TextButtonToolbar = (props: TextButtonProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, text_size, action },
+    default_data: { title, text_size, action },
     onPropChange,
   } = props;
   const { updateComponentProp } = useToolbarChange();

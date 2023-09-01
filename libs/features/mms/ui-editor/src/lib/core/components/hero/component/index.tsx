@@ -8,7 +8,7 @@ import { HeroComponentProps } from '../../types';
 const HeroComponent = (props: HeroComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, title, link_title, sub_properties_data },
+    default_data: { image, title, link_title, component_data },
   } = props;
   const height = 690;
   return (
@@ -20,7 +20,7 @@ const HeroComponent = (props: HeroComponentProps) => {
           {title}
         </Typography>
 
-        <QuickLinkListComponent data={sub_properties_data} title={link_title} />
+        <QuickLinkListComponent data={component_data} title={link_title} />
       </Stack>
     </HeroContainer>
   );

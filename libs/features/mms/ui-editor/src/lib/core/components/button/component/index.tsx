@@ -6,7 +6,7 @@ import { ButtonComponentProps, ButtonStyle } from '../../types';
 const ButtonComponent = (props: ButtonComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, style },
+    default_data: { title, style },
   } = props;
   //TODO:make this generic??
   const variant = style === ButtonStyle.Fill ? 'contained' : 'outlined';

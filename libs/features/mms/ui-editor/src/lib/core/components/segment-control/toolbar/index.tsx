@@ -18,7 +18,7 @@ import { SegmentControlComponentProps } from '../../types';
 const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    default_data: { component_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -33,13 +33,13 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: { sub_properties_data: [...sub_properties_data, { title: 'New Segment' }] },
+      default_data: { component_data: [...component_data, { title: 'New Segment' }] },
     };
     selectComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {sub_properties_data.map(({ title, action }, index) => {
+      {component_data.map(({ title, action }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>

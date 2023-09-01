@@ -4,7 +4,7 @@ import { SpacerProps } from '../../types';
 
 const SpacerToolbar = (props: SpacerProps) => {
   const {
-    properties_data: { space },
+    default_data: { space },
     __ui_id__: id,
   } = props;
   const { updateComponentProp } = useToolbarChange();

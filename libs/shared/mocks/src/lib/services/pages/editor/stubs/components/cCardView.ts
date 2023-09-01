@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cCardView',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     title: 'Explore Honda Center',
     desc: "Check out what's the center offers",
     image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',

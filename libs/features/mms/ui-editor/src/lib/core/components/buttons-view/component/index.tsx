@@ -7,14 +7,14 @@ import { ButtonsViewComponentProps } from '../../types';
 const ButtonsViewComponent = (props: ButtonsViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, desc, image, sub_properties_data },
+    default_data: { title, desc, image, component_data },
   } = props;
 
   const colors = { brand: { primary: '#111921', secondary: '#BA9765' }, text: '#ffffff' };
   const height = 690;
 
   const handleClick = (index: number) => {
-    window.open(sub_properties_data[index].action.page_link, '_blank');
+    window.open(component_data[index].action.page_link, '_blank');
   };
 
   return (
@@ -35,7 +35,7 @@ const ButtonsViewComponent = (props: ButtonsViewComponentProps) => {
           {title}
         </Typography>
         <Grid container spacing={0.7}>
-          {sub_properties_data.map(({ title }, index) => {
+          {component_data.map(({ title }, index) => {
             return (
               <Grid item>
                 <Button

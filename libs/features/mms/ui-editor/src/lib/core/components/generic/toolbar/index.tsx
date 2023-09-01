@@ -12,22 +12,22 @@ enum FormControl {
 }
 
 const GenericToolbar = (props: ComponentProps) => {
-  console.log('props', props.component_id, Object.getOwnPropertyNames(props.properties_data));
+  console.log('props', props.component_id, Object.getOwnPropertyNames(props.default_data));
 
-  const { __ui_id__: id, properties_data, onPropChange } = props;
+  const { __ui_id__: id, default_data, onPropChange } = props;
 
   const { handleImageChange, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
 
   const formFactory = (key: string) => {
     switch (key) {
       case FormControl.Image:
-        return <ImagePicker value={properties_data.image} onChange={handleImageChange} onReplace={onPropChange} />;
+        return <ImagePicker value={default_data.image} onChange={handleImageChange} onReplace={onPropChange} />;
       case FormControl.Title:
-        return <BasicTextField label={'Title'} value={properties_data.title} onChange={handleTitleChange} />;
+        return <BasicTextField label={'Title'} value={default_data.title} onChange={handleTitleChange} />;
       case FormControl.Description:
-        return <BasicTextField label={'Description'} value={properties_data.desc} onChange={handleDescChange} />;
+        return <BasicTextField label={'Description'} value={default_data.desc} onChange={handleDescChange} />;
       case FormControl.Color:
-        return <ColorPicker label="Color" value={properties_data.color} onChange={handleColorChange} />;
+        return <ColorPicker label="Color" value={default_data.color} onChange={handleColorChange} />;
 
       default:
         return null;
@@ -35,7 +35,7 @@ const GenericToolbar = (props: ComponentProps) => {
   };
 
   const renderComponent = () => {
-    const keys = Object.getOwnPropertyNames(props.properties_data);
+    const keys = Object.getOwnPropertyNames(props.default_data);
     const controls = keys.map((key) => {
       return formFactory(key);
     });

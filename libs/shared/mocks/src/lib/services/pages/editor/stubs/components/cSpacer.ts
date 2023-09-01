@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cSpacer',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  default_data: {
     space: '52',
     type: 'pixel',
     background_color: '',

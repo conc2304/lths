@@ -1,6 +1,6 @@
 import { ComponentProps } from '../../../context';
 
-export const rootKey = 'properties_data';
+export const rootKey = 'default_data';
 
 export function getValue(data: object, name: string, value: number | string | object | undefined | null) {
   return typeof value === 'object' ? { ...(data[name] || {}), ...value } : value;
@@ -22,7 +22,7 @@ export const mergeKeys = (keys: string[]) => {
  *
  * @example
  * const data = {
- *   properties_data: {
+ *   default_data: {
  *     title: 'Test Title',
  *     text_size: '2',
  *     colors: ['red'],
@@ -33,20 +33,20 @@ export const mergeKeys = (keys: string[]) => {
  *   },
  * };
  *
- * const updatedData1 = updateRecursive('link_key', 'properties_data.link_text', 'abc', data, 1);
- * console.log(updatedData1.properties_data.link_text[1].link_key === 'abc'); // Output: true
+ * const updatedData1 = updateRecursive('link_key', 'default_data.link_text', 'abc', data, 1);
+ * console.log(updatedData1.default_data.link_text[1].link_key === 'abc'); // Output: true
  *
- * const updatedData2 = updateRecursive('action', 'properties_data.link_text', { type: 'webview' }, data, 1);
- * console.log(updatedData2.properties_data.link_text[1].action.type === 'webview'); // Output: true
+ * const updatedData2 = updateRecursive('action', 'default_data.link_text', { type: 'webview' }, data, 1);
+ * console.log(updatedData2.default_data.link_text[1].action.type === 'webview'); // Output: true
  *
- * const updatedData3 = updateRecursive('title', 'properties_data', 'Test Title++', data);
- * console.log(updatedData3.properties_data.title === 'Test Title++'); // Output: true
+ * const updatedData3 = updateRecursive('title', 'default_data', 'Test Title++', data);
+ * console.log(updatedData3.default_data.title === 'Test Title++'); // Output: true
  *
- * const updatedData4 = updateRecursive('colors', 'properties_data', 'green', data);
- * console.log(updatedData4.properties_data.colors === 'green'); // Output: true
+ * const updatedData4 = updateRecursive('colors', 'default_data', 'green', data);
+ * console.log(updatedData4.default_data.colors === 'green'); // Output: true
  *
- * const updatedData5 = updateRecursive('red', 'properties_data.colors', 'yes', data, 0);
- * console.log(updatedData5.properties_data.colors[0].red === 'yes'); // Output: true
+ * const updatedData5 = updateRecursive('red', 'default_data.colors', 'yes', data, 0);
+ * console.log(updatedData5.default_data.colors[0].red === 'yes'); // Output: true
  */
 
 export function updateNestedProp(
