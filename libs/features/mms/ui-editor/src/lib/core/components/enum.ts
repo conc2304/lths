@@ -66,4 +66,5 @@ export enum Component {
   FullHeightCarousel = 'cFullHeightCarousel',
   TextButton = 'cTextButton',
   SocialIconButton = 'cSocialIconButtons',
+  Spacer = 'cSpacer',
 }

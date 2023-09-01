@@ -20,6 +20,14 @@ export type ActionProps = {
   page_link: string;
 };
 
+export type SpacerProps = ComponentProps & {
+  properties_data: {
+    space: string;
+    type: string;
+    background_color: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;

@@ -87,6 +87,8 @@ import {
   TextButtonProps,
   SocialIconButtoncomponentProps,
   SocialIconButtonToolbar,
+  SpacerToolbar,
+  SpacerProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -220,6 +222,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <TextButtonToolbar {...(props as TextButtonProps)} />;
     case Component.SocialIconButton:
       return <SocialIconButtonToolbar {...(props as SocialIconButtoncomponentProps)} />;
+    case Component.Spacer:
+      return <SpacerToolbar {...(props as SpacerProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }
