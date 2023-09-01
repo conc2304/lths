@@ -16,6 +16,8 @@ import {
   PageDetailResponse,
   UpdatePageDetailRequest,
   UpdatePageDetailResponse,
+  DuplicatePageDetailResponse,
+  DuplicatePageDetailRequest,
   PageItemsResponse,
   PageItemsRequest,
   DeletePageResponse,
@@ -34,6 +36,7 @@ import {
   getLocationsUrl,
   getUserSegmentsUrl,
   getUpdatePageDetailsUrl,
+  getDuplicatePageUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
 //TOD: Typing is missing for few methods
@@ -132,6 +135,13 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'DELETE',
       }),
     }),
+    duplicatePage: builder.mutation<DuplicatePageDetailResponse, DuplicatePageDetailRequest>({
+      query: (req) => ({
+        url: getDuplicatePageUrl(),
+        method: 'POST',
+        body: req,
+      }),
+    }),
   }),
 });
 
@@ -149,5 +159,6 @@ export const {
   useUpdatePageStatusMutation,
   useUpdatePageDetailsMutation,
   useDeletePageMutation,
+  useDuplicatePageMutation,
 } = pageApi;
 export default pageApi;
