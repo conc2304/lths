@@ -28,10 +28,10 @@ const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   const fetchData = () => {
     onPropChange('social_icon', receiveData);
   };
-  useEffect(() => fetchData());
+  useEffect(() => fetchData(), []);
 
   const handleIconChange = (item: EnumValue, index: number) => {
-    updateComponentProp('icon', item?.value, index);
+    updateComponentProp('icon', item?.value, index, 'sub_properties_data');
   };
   const handleActionLinkChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     handleActionChange(event, 'page_link', index, ['sub_properties_data']);
