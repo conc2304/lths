@@ -24,3 +24,5 @@ export * from './lib/dropdown-button';
 export * from './lib/overflow-menu';
 
 export * from './lib/action-menu';
+
+export * from './lib/menu-button';

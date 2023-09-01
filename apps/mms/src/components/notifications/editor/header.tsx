@@ -1,4 +1,5 @@
 import { Stack } from '@mui/material';
+import MenuButton from 'libs/shared/ui-elements/src/lib/menu-button/menu-button';
 
 import { DropdownButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
@@ -33,7 +34,9 @@ const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notificati
       rightContent={
         <Stack direction="row" alignItems="center" spacing={2}>
           <Status status={status} />
-          <DropdownButton buttonText="PUSH" menuItems={menuItems} />
+          {/* <DropdownButton buttonText="PUSH" menuItems={menuItems} />
+           */}
+          <MenuButton buttonText="PUSH" buttonAction={() => console.log('handling action')} />
         </Stack>
       }
     />
