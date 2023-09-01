@@ -122,4 +122,7 @@ export { default as FullHeightCarouselToolbar } from './full-height-carousel-com
 export { default as TextButtonComponent } from './text-button/component';
 export { default as TextButtonToolbar } from './text-button/toolbar';
 
+export { default as SpacerComponent } from './spacer/component';
+export { default as SpacerToolbar } from './spacer/toolbar';
+
 export * from './types';

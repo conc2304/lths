@@ -43,6 +43,7 @@ import {
   FullHeightCarouselComponent,
   FullWidthButtonComponent,
   TextButtonComponent,
+  SpacerComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -87,6 +88,7 @@ import {
   FullHeightCarouselComponentProps,
   FullWidthButtonComponentProps,
   TextButtonProps,
+  SpacerProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -221,6 +223,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <FullHeightCarouselComponent {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:
       return <TextButtonComponent {...(props as TextButtonProps)} />;
+    case Component.Spacer:
+      return <SpacerComponent {...(props as SpacerProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
