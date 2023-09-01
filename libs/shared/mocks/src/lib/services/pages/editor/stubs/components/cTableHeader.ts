@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cTableHeader',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     color: '#BA9765',
-    component_data: [
+    sub_component_data: [
       {
         title: 'PACIFIC',
       },

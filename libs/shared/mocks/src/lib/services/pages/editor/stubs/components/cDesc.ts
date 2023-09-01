@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cDesc',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'THE DISTRICT VISION',
     color: '#BA9765',
     style: 'medium',

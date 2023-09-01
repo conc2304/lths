@@ -20,7 +20,7 @@ const mockComponent: ComponentProps = {
   display_order: 1,
   variation_id: 'variation_id',
   schema: { title: 'string', content: 'string' },
-  default_data: { title: 'Default Title', content: 'Default Content' },
+  data: { title: 'Default Title', content: 'Default Content' },
 };
 
 export default mockComponent;

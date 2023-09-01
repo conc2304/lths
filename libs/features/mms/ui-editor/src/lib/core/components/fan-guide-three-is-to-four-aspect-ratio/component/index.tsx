@@ -5,7 +5,7 @@ import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';
 
 const FanGuideThreeIsToFourAspectRatioComponent = (props: FanGuideThreeIsToFourAspectRatioComponentProps) => {
   const {
-    default_data: { image, img_alt_text, title, description, btn_text },
+    data: { image, img_alt_text, title, description, btn_text },
     __ui_id__: id,
   } = props;
   return (

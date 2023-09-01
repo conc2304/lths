@@ -14,7 +14,7 @@ describe('HeroPromotion: CardTextOverlayAndButton', () => {
       ...mockComponent,
       __ui_id__: '3333333',
       component_id: Component.HeroPromotionCardTextOverlayAndButton,
-      default_data: {
+      data: {
         image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
         img_alt_text: 'image alth text name',
         title: 'Explore Honda Center',
@@ -35,7 +35,7 @@ describe('HeroPromotion: CardTextOverlayAndButton', () => {
 
   test('renders component with default data', () => {
     render(<CardTextOverlayAndButton {...props} />);
-    const { title, description, btn_text } = props.default_data;
+    const { title, description, btn_text } = props.data;
 
     const titleElement = screen.getByText(title);
     expect(titleElement).toBeInTheDocument();
@@ -49,12 +49,12 @@ describe('HeroPromotion: CardTextOverlayAndButton', () => {
   });
 
   test('renders component with diffrent default data', () => {
-    props.default_data.title = `The cool title`;
-    props.default_data.description = `The cool description`;
-    props.default_data.btn_text = `The cool btn_text`;
+    props.data.title = `The cool title`;
+    props.data.description = `The cool description`;
+    props.data.btn_text = `The cool btn_text`;
 
     render(<CardTextOverlayAndButton {...props} />);
-    const { title, description, btn_text } = props.default_data;
+    const { title, description, btn_text } = props.data;
 
     const titleElement = screen.getByText(title);
     expect(titleElement).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('HeroPromotion: CardTextOverlayAndButton', () => {
     render(<CardTextOverlayAndButton {...props} />);
     const {
       __ui_id__: id,
-      default_data: { image, img_alt_text },
+      data: { image, img_alt_text },
     } = props;
 
     const imageElement = screen.getByAltText(img_alt_text);

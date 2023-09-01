@@ -5,12 +5,12 @@ import { HalfWidthCarouselComponentProps } from '../../types';
 const HalfWidthCarouselComponent = (props: HalfWidthCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
 
   return (
     <BasicContainer id={id}>
-      <HalfWidthCarousel items={component_data} />
+      <HalfWidthCarousel items={sub_component_data} />
     </BasicContainer>
   );
 };

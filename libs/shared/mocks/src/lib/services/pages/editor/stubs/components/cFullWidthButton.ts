@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cFullWidthButton',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     btn_text: 'Label',
     btn_text_size: '14',
     btn_style: 'Outline',

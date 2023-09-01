@@ -6,7 +6,7 @@ import { EventInfoComponentProps } from '../../types';
 const EventInfoComponent = (props: EventInfoComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: {
+    data: {
       title,
       desc,
       date_lbl_txt,

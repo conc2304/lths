@@ -5,7 +5,7 @@ import { HeaderComponentProps } from '../../types';
 const HeaderToolbar = (props: HeaderComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { color = '#000000', title, desc, action },
+    data: { color = '#000000', title, desc, action },
   } = props;
 
   const { handleTitleChange, handleDescChange, handleActionChange, updateComponentProp } = useToolbarChange();

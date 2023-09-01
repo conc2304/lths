@@ -6,7 +6,7 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps) => {
   const {
-    default_data: { first_button, second_button },
+    data: { first_button, second_button },
     __ui_id__: id,
   } = props;
   return (

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cHeroPromotionSiloTextAndButton',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cImage.png',
     img_alt_text: '',
     title: 'Promo headline',

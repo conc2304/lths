@@ -6,7 +6,7 @@ import { CardTextOverlayAndButtonComponentProps } from '../../../types';
 const CardTextOverlayAndButtonToolbar = (props: CardTextOverlayAndButtonComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, img_alt_text, title, description, btn_text, action },
+    data: { image, img_alt_text, title, description, btn_text, action },
     onPropChange,
   } = props;
 

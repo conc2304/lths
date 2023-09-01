@@ -6,7 +6,7 @@ import { MapPathComponentProps } from '../../types';
 const MapPathToolbar = (props: MapPathComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc },
+    data: { title, desc },
   } = props;
   const { handleTitleChange, handleDescChange } = useToolbarChange();
 

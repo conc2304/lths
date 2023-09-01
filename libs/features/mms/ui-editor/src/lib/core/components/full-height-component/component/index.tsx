@@ -7,7 +7,7 @@ import { FullHeightFloatingTextProps } from '../../types';
 const FullHeightFloatingTextComponent = (props: FullHeightFloatingTextProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, image, description },
+    data: { title, image, description },
   } = props;
 
   return (

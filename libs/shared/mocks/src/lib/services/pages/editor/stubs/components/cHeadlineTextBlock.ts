@@ -7,7 +7,7 @@ const payload = {
 
   constraint_data: [],
 
-  default_data: {
+  data: {
     title: 'Heading Large',
     text_size: '28',
     text_size_unit: 'Pixel',

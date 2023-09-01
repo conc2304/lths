@@ -6,7 +6,7 @@ import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';
 const FanGuideThreeIsToFourAspectRatioToolbar = (props: FanGuideThreeIsToFourAspectRatioComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, img_alt_text, title, description, action, btn_text },
+    data: { image, img_alt_text, title, description, action, btn_text },
     onPropChange,
   } = props;
 

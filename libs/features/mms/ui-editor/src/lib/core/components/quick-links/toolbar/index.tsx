@@ -16,7 +16,7 @@ import { QuickLinksProps } from '../../types';
 export default function QuickLinksToolbar(props: QuickLinksProps) {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
   const { handleTitleChange, handleIconChange, handleActionChange } = useToolbarChange();
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -28,9 +28,9 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        component_data: [
-          ...component_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           { title: 'New Segment', icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png' },
         ],
       },
@@ -40,7 +40,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
 
   return (
     <BasicContainer id={id}>
-      {component_data?.map((props, i) => {
+      {sub_component_data?.map((props, i) => {
         const panelId = `panel${i}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`quick_links_${i}`}>

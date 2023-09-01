@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import HalfWidthCarouselFloatingTextComponent from './index';
-import { HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 import mockComponent from '../../../../context/mockdata';
 import { Component } from '../../enum';
+import { HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 
 describe('HalfWidthCarouselFloatingTextComponent', () => {
   let props: HalfWidthCarouselFloatingTextComponentProps;
@@ -14,8 +14,8 @@ describe('HalfWidthCarouselFloatingTextComponent', () => {
       ...mockComponent,
       __ui_id__: '3333333',
       component_id: Component.HalfWidthCarouselFloatingText,
-      default_data: {
-        component_data: [
+      data: {
+        sub_component_data: [
           {
             name: 'Carousel Name 1',
             image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-1.png',
@@ -55,23 +55,23 @@ describe('HalfWidthCarouselFloatingTextComponent', () => {
 
   test('renders component with default data', () => {
     render(<HalfWidthCarouselFloatingTextComponent {...props} />);
-    const { component_data } = props.default_data;
+    const { sub_component_data } = props.data;
 
-    component_data.forEach(({ title }) => {
+    sub_component_data.forEach(({ title }) => {
       const titleElement = screen.getByText(title);
       expect(titleElement).toBeInTheDocument();
     });
   });
 
   test('renders component with diffrent default data', () => {
-    props.default_data.component_data.forEach((item, index) => {
-      props.default_data.component_data[index].title = `The cool title ${index}`;
+    props.data.sub_component_data.forEach((item, index) => {
+      props.data.sub_component_data[index].title = `The cool title ${index}`;
     });
 
     render(<HalfWidthCarouselFloatingTextComponent {...props} />);
-    const { component_data } = props.default_data;
+    const { sub_component_data } = props.data;
 
-    component_data.forEach(({ title }) => {
+    sub_component_data.forEach(({ title }) => {
       const titleElement = screen.getByText(title);
       expect(titleElement).toBeInTheDocument();
     });
@@ -79,9 +79,9 @@ describe('HalfWidthCarouselFloatingTextComponent', () => {
 
   test('renders Component with background image', () => {
     render(<HalfWidthCarouselFloatingTextComponent {...props} />);
-    const { component_data } = props.default_data;
+    const { sub_component_data } = props.data;
 
-    component_data.forEach(({ img_alt_text, image }) => {
+    sub_component_data.forEach(({ img_alt_text, image }) => {
       const imgElement = screen.getByAltText(img_alt_text);
 
       // Assert that the img element is found and has correct src
@@ -92,14 +92,14 @@ describe('HalfWidthCarouselFloatingTextComponent', () => {
   });
 
   test('renders Component with no background image', () => {
-    props.default_data.component_data.forEach((item, index) => {
+    props.data.sub_component_data.forEach((item, index) => {
       // only change even
-      if (index % 2 === 2) props.default_data.component_data[index].image = '';
+      if (index % 2 === 2) props.data.sub_component_data[index].image = '';
     });
     render(<HalfWidthCarouselFloatingTextComponent {...props} />);
-    const { component_data } = props.default_data;
+    const { sub_component_data } = props.data;
 
-    component_data.forEach(({ img_alt_text, image }) => {
+    sub_component_data.forEach(({ img_alt_text, image }) => {
       const imgElement = screen.getByAltText(img_alt_text);
 
       // Assert that the img element is found and has correct src

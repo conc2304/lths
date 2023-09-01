@@ -3,12 +3,12 @@ const payload = {
   component_id: 'cQuickLinkView',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'Get ready to rumble! Your event is about to start.',
     desc: '',
     image: 'https://i.im.ge/2023/04/12/LQJWef.Image-9.png',
     link_title: 'Quick Links',
-    component_data: [
+    sub_component_data: [
       {
         title: 'Getting here',
         action: {

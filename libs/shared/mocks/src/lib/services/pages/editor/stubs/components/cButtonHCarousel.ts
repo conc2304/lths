@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cButtonHCarousel',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
-    component_data: [
+  data: {
+    sub_component_data: [
       {
         title: 'News',
         action: {

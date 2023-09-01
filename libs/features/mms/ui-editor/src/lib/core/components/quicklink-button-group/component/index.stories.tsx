@@ -30,7 +30,7 @@ Primary.args = {
   ...mockComponent,
   __ui_id__: '3333333',
   component_id: Component.QuicklinkButtonGroup,
-  default_data: {
+  data: {
     first_button: {
       label: 'Medical Help',
       icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png',

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cGameStats',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'GAME STATS',
     left: {
       logo: 'https://i.im.ge/2022/10/18/20mfhC.Ducks-Logo-4C-2.png',
@@ -17,7 +17,7 @@ const payload = {
       efficiency: '3 POINT EFFICIENCY',
       percent: '65.0',
     },
-    component_data: [
+    sub_component_data: [
       {
         title: 'POINTS',
         left_points: '99.5',

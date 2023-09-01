@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cEventHCarousel',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     page: '1',
     size: '5',
     link: 'https://app.ticketmaster.com/discovery/v2/events.json?&countryCode=US&apikey=viAwpbnA9CWVtvA7KAUjlv9FZ9ySH9R',

@@ -5,11 +5,11 @@ import { FullHeightCarouselComponentProps } from '../../types';
 const FullHeightCarouselComponent = (props: FullHeightCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
   return (
     <BasicContainer id={id}>
-      <FullHeightCarousel items={component_data} />
+      <FullHeightCarousel items={sub_component_data} />
     </BasicContainer>
   );
 };

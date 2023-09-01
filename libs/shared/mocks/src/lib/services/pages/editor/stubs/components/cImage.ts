@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cImage',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: '',
     color: '',
     desc: '',

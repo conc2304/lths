@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cButton',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'View all events',
     style: 'fill',
     action: {

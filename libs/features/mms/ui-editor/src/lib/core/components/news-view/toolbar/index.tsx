@@ -6,7 +6,7 @@ import { NewsViewComponentProps } from '../../types';
 const NewsViewToolbar = (props: NewsViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, title, desc, author, date_info, hint },
+    data: { image, title, desc, author, date_info, hint },
     onPropChange,
   } = props;
 

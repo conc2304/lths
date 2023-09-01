@@ -1,21 +1,20 @@
 import { useCallback, useState, useEffect } from 'react';
-
 import { Button, List } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { ToolContainer, ToolbarLabel } from '../../../../elements';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import CarouselItemEditor from './carousel-item-editor';
-import { DraggableCarouselListItem } from '../../common/index';
 
+import CarouselItemEditor from './carousel-item-editor';
 import { useEditorActions } from '../../../../context';
+import { ToolContainer, ToolbarLabel } from '../../../../elements';
+import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselFloatingTextProps, HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 
 const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTextComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -36,24 +35,24 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
   }, [id]);
 
   const handleUpdateItem = (newComponent: HalfWidthCarouselFloatingTextProps, index: number) => {
-    const newComponentData = [...component_data];
+    const newComponentData = [...sub_component_data];
     newComponentData[index] = newComponent;
-    const data = { ...props, default_data: { component_data: newComponentData } };
+    const data = { ...props, data: { sub_component_data: newComponentData } };
     selectComponent(data);
 
     setSelectedIndex(-1);
   };
 
   const handleAdd = () => {
-    const data = { ...props, default_data: { component_data: [...component_data, { title: 'New Card' }] } };
+    const data = { ...props, data: { sub_component_data: [...sub_component_data, { title: 'New Card' }] } };
     selectComponent(data);
   };
 
   const handleDelete = (index) => {
-    const newData = [...props.default_data.component_data];
+    const newData = [...props.data.sub_component_data];
     newData.splice(index, 1);
 
-    const data = { ...props, default_data: { component_data: newData } };
+    const data = { ...props, data: { sub_component_data: newData } };
     selectComponent(data);
   };
 
@@ -61,7 +60,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
     (dragIndex: number, hoverIndex: number) => {
       swapComponentProps(dragIndex, hoverIndex);
     },
-    [props.default_data]
+    [props.data]
   );
 
   const renderCarouselDraggableItem = (item: any, index: number) => {
@@ -69,7 +68,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
       <DraggableCarouselListItem
         key={index}
         index={index}
-        component_data={component_data}
+        sub_component_data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
@@ -83,7 +82,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
       <DndProvider backend={HTML5Backend}>
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
-            item={component_data[selectedIndex]}
+            item={sub_component_data[selectedIndex]}
             handleCloseItem={handleCloseItem}
             handleUpdateItem={(newComponent) => handleUpdateItem(newComponent, selectedIndex)}
             onPropChange={onPropChange}
@@ -91,8 +90,8 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
         ) : (
           <>
             <ToolbarLabel label={'Carousel'} />
-            {component_data && component_data.length > 0 && (
-              <List>{component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
+            {sub_component_data && sub_component_data.length > 0 && (
+              <List>{sub_component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
             )}
             <div>
               <Button

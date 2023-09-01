@@ -7,13 +7,13 @@ import { NavListViewComponentProps } from '../../types';
 const NavListViewComponent = (props: NavListViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
 
   return (
     <BasicContainer id={id}>
       <Stack direction="column" divider={<Divider orientation="horizontal" flexItem />} spacing={1.3}>
-        {component_data.map(({ title }, index) => {
+        {sub_component_data.map(({ title }, index) => {
           return (
             <Stack
               direction="row"

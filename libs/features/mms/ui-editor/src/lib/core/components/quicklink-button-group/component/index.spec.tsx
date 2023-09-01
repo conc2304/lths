@@ -14,7 +14,7 @@ describe('QuicklinkButtonGroupComponent', () => {
       ...mockComponent,
       __ui_id__: '3333333',
       component_id: Component.QuicklinkButtonGroup,
-      default_data: {
+      data: {
         first_button: {
           label: 'Medical Help',
           icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png',
@@ -45,7 +45,7 @@ describe('QuicklinkButtonGroupComponent', () => {
 
   test('renders component with default data', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { first_button, second_button } = props.default_data;
+    const { first_button, second_button } = props.data;
 
     const firstlabelElement = screen.getByText(first_button.label);
     expect(firstlabelElement).toBeInTheDocument();
@@ -55,13 +55,13 @@ describe('QuicklinkButtonGroupComponent', () => {
   });
 
   test('renders component with diffrent default data', () => {
-    props.default_data.first_button.label = `The cool label 1`;
-    props.default_data.first_button.icon = `The cool icon 1`;
-    props.default_data.second_button.label = `The cool label 2`;
-    props.default_data.second_button.icon = `The cool icon 2`;
+    props.data.first_button.label = `The cool label 1`;
+    props.data.first_button.icon = `The cool icon 1`;
+    props.data.second_button.label = `The cool label 2`;
+    props.data.second_button.icon = `The cool icon 2`;
 
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { first_button, second_button } = props.default_data;
+    const { first_button, second_button } = props.data;
 
     const firstlabelElement = screen.getByText(first_button.label);
     expect(firstlabelElement).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('QuicklinkButtonGroupComponent', () => {
 
   test('renders Component with icons', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { first_button, second_button } = props.default_data;
+    const { first_button, second_button } = props.data;
     const firstImageAlt = first_button.label + '_icon';
     const secondImageAlt = second_button.label + '_icon';
 

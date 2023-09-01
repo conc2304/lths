@@ -12,7 +12,7 @@ import type { Identifier, XYCoord } from 'dnd-core';
 
 const DraggableCarouselListItem = ({
   text,
-  component_data,
+  sub_component_data,
   index,
   onDrag,
   onDelete,
@@ -23,7 +23,7 @@ const DraggableCarouselListItem = ({
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     setIsVisible(true);
-  }, [component_data]);
+  }, [sub_component_data]);
 
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.LISTITEM,

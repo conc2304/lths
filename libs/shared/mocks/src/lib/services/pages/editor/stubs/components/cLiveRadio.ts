@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cLiveRadio',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     link: '',
     status: 'Live',
   },

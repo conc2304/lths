@@ -30,8 +30,8 @@ Primary.args = {
   ...mockComponent,
   __ui_id__: '3333333',
   component_id: Component.HalfWidthCarouselFloatingText,
-  default_data: {
-    component_data: [
+  data: {
+    sub_component_data: [
       {
         name: 'Carousel Name 1',
         image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-1.png',

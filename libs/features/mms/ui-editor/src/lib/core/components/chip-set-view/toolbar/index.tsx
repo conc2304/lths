@@ -16,7 +16,7 @@ import { ChipSetViewComponentProps } from '../../types';
 const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, component_data },
+    data: { title, sub_component_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -31,9 +31,12 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        ...props.default_data,
-        component_data: [...component_data, { title: 'New Chip', action: { type: 'native', page_id: 'new chip' } }],
+      data: {
+        ...props.data,
+        sub_component_data: [
+          ...sub_component_data,
+          { title: 'New Chip', action: { type: 'native', page_id: 'new chip' } },
+        ],
       },
     };
     selectComponent(data);
@@ -43,7 +46,7 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
     <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <Box sx={{ gap: 0 }}>
-        {component_data.map(({ title, action }, index) => {
+        {sub_component_data.map(({ title, action }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Chip${index}`}>

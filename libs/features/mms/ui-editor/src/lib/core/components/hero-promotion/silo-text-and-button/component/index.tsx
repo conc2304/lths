@@ -5,7 +5,7 @@ import { SiloTextAndButtonComponentProps } from '../../../types';
 
 const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
   const {
-    default_data: { image, img_alt_text, title, description, btn_text },
+    data: { image, img_alt_text, title, description, btn_text },
     __ui_id__: id,
   } = props;
   return (

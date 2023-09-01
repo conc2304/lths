@@ -6,7 +6,7 @@ import { ButtonComponentProps } from '../../types';
 const ButtonToolbar = (props: ButtonComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { style, title },
+    data: { style, title },
   } = props;
 
   const { handleTitleChange, updateComponentProp } = useToolbarChange();

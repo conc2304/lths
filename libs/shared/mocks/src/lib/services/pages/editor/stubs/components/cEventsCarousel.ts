@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cEventsCarousel',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
-    component_data: [
+  data: {
+    sub_component_data: [
       {
         title: 'PBR Teams.',
         sub_title: 'Fri Aug. 12 - Honda Center, Anaheim, CA',

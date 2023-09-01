@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cTeamMembers',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'Adam Henrique',
     image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cTeamMembers.png',
     desc: '#11 6-2, 205lbs.',

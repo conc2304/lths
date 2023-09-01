@@ -9,18 +9,23 @@ export const useToolbarChange = () => {
   /**
    * @deprecated This function is deprecated. Use handlePropChange instead.
    */
-  const updateComponentProp = (key: string, value: string | object, index?: number, parent_key = 'component_data') => {
+  const updateComponentProp = (
+    key: string,
+    value: string | object,
+    index?: number,
+    parent_key = 'sub_component_data'
+  ) => {
     if (index === undefined) {
-      const data = { ...selectedComponent, default_data: { ...selectedComponent.default_data, [key]: value } };
+      const data = { ...selectedComponent, data: { ...selectedComponent.data, [key]: value } };
       selectComponent(data);
     } else {
-      const updatedComponentData = selectedComponent.default_data[parent_key].map((component, i) =>
+      const updatedComponentData = selectedComponent.data[parent_key].map((component, i) =>
         i === index ? { ...component, [key]: value } : component
       );
 
       const data = {
         ...selectedComponent,
-        default_data: { ...selectedComponent.default_data, [parent_key]: updatedComponentData },
+        data: { ...selectedComponent.data, [parent_key]: updatedComponentData },
       };
       selectComponent(data);
     }
@@ -33,13 +38,13 @@ export const useToolbarChange = () => {
 
   //TODO: not generic enough
   const swapComponentProps = (index: number, index2: number) => {
-    const updatedComponentData = [...selectedComponent.default_data.component_data];
+    const updatedComponentData = [...selectedComponent.data.sub_component_data];
     const componet1 = updatedComponentData[index];
     updatedComponentData[index] = updatedComponentData[index2];
     updatedComponentData[index2] = componet1;
     const data = {
       ...selectedComponent,
-      default_data: { ...selectedComponent.default_data, component_data: updatedComponentData },
+      data: { ...selectedComponent.data, sub_component_data: updatedComponentData },
     };
 
     selectComponent(data);

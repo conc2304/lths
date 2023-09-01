@@ -3,6 +3,6 @@ const payload = {
   component_id: 'cHeroEvent',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {},
+  data: {},
 };
 export default payload;

@@ -10,7 +10,7 @@ import { ExpandCollapseViewComponentProps } from '../../types';
 const ExpandCollapseViewComponent = (props: ExpandCollapseViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
 
   const theme = useTheme();
@@ -23,7 +23,7 @@ const ExpandCollapseViewComponent = (props: ExpandCollapseViewComponentProps) =>
 
   return (
     <BasicContainer id={id} sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {component_data.map(({ title, desc }, index) => {
+      {sub_component_data.map(({ title, desc }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion

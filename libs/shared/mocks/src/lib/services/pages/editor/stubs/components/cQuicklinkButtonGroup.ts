@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cQuickLinkButtonGroup',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     first_button: {
       label: 'Label',
       icon: '',

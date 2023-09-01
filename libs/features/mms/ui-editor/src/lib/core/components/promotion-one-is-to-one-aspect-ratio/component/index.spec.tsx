@@ -14,7 +14,7 @@ describe('PromotionOneIsToOneAspectRatioComponent', () => {
       ...mockComponent,
       __ui_id__: '3333333',
       component_id: Component.PromotionOneIsToOneAspectRatio,
-      default_data: {
+      data: {
         image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
         img_alt_text: 'image alth text name',
         title: 'Explore Honda Center',
@@ -35,7 +35,7 @@ describe('PromotionOneIsToOneAspectRatioComponent', () => {
 
   test('renders component with default data', () => {
     render(<PromotionOneIsToOneAspectRatioComponent {...props} />);
-    const { btn_text } = props.default_data;
+    const { btn_text } = props.data;
 
     const btnTextElement = screen.getByText(btn_text);
     expect(btnTextElement).toBeInTheDocument();
@@ -43,10 +43,10 @@ describe('PromotionOneIsToOneAspectRatioComponent', () => {
   });
 
   test('renders component with diffrent default data', () => {
-    props.default_data.btn_text = `The cool btn_text`;
+    props.data.btn_text = `The cool btn_text`;
 
     render(<PromotionOneIsToOneAspectRatioComponent {...props} />);
-    const { btn_text } = props.default_data;
+    const { btn_text } = props.data;
 
     const btnTextElement = screen.getByText(btn_text);
     expect(btnTextElement).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('PromotionOneIsToOneAspectRatioComponent', () => {
   test('renders Component with background image', () => {
     render(<PromotionOneIsToOneAspectRatioComponent {...props} />);
     const {
-      default_data: { image, img_alt_text },
+      data: { image, img_alt_text },
     } = props;
 
     const backgroundImageElement = screen.getByLabelText(img_alt_text);
@@ -69,7 +69,7 @@ describe('PromotionOneIsToOneAspectRatioComponent', () => {
   test('background image has one is to one aspect ratio', () => {
     render(<PromotionOneIsToOneAspectRatioComponent {...props} />);
     const {
-      default_data: { img_alt_text },
+      data: { img_alt_text },
     } = props;
 
     const backgroundImageElement = screen.getByLabelText(img_alt_text);

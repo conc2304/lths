@@ -5,7 +5,7 @@ import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 
 const PromotionOneIsToOneAspectRatioComponent = (props: PromotionOneIsToOneAspectRatioComponentProps) => {
   const {
-    default_data: { image, img_alt_text, btn_text },
+    data: { image, img_alt_text, btn_text },
     __ui_id__: id,
   } = props;
   return (

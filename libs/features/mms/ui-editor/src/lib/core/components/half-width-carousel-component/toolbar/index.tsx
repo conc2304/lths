@@ -14,7 +14,7 @@ import { HalfWidthCarouselComponentProps } from '../../types';
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -37,9 +37,9 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        component_data: [
-          ...component_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           {
             title: 'New Card',
             description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
@@ -52,10 +52,10 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   };
 
   const handleDelete = (index) => {
-    const newData = [...props.default_data.component_data];
+    const newData = [...props.data.sub_component_data];
     newData.splice(index, 1);
 
-    const data = { ...props, default_data: { component_data: newData } };
+    const data = { ...props, data: { sub_component_data: newData } };
     selectComponent(data);
   };
 
@@ -63,7 +63,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     (dragIndex: number, hoverIndex: number) => {
       swapComponentProps(dragIndex, hoverIndex);
     },
-    [props.default_data]
+    [props.data]
   );
 
   const renderCarouselDraggableItem = (item: any, index: number) => {
@@ -71,7 +71,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
       <DraggableCarouselListItem
         key={index}
         index={index}
-        component_data={component_data}
+        sub_component_data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
@@ -85,7 +85,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
       <DndProvider backend={HTML5Backend}>
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
-            item={component_data[selectedIndex]}
+            item={sub_component_data[selectedIndex]}
             onClose={handleCloseItem}
             onPropChange={onPropChange}
             index={selectedIndex}
@@ -93,8 +93,8 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         ) : (
           <>
             <ToolbarLabel label={'Carousel'} />
-            {component_data && component_data.length > 0 && (
-              <List>{component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
+            {sub_component_data && sub_component_data.length > 0 && (
+              <List>{sub_component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
             )}
             <div>
               <Button

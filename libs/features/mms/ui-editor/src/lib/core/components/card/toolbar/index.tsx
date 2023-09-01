@@ -6,7 +6,7 @@ import { CardComponentProps } from '../../types';
 const CardToolbar = (props: CardComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, title, desc },
+    data: { image, title, desc },
     onPropChange,
   } = props;
 

@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cNavListView',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
-    component_data: [
+  data: {
+    sub_component_data: [
       {
         title: 'Contact us',
         action: {

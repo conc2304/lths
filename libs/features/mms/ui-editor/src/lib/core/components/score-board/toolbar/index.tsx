@@ -10,7 +10,7 @@ import { ScoreBoardComponentProps } from '../../types';
 const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { date_info, match_name, hint, left, right },
+    data: { date_info, match_name, hint, left, right },
   } = props;
   const { updateComponentProp } = useToolbarChange();
 
@@ -25,7 +25,7 @@ const ScoreBoardToolbar = (props: ScoreBoardComponentProps) => {
   };
 
   const handleTeamChange = (group: string, key: string, value: string) => {
-    updateComponentProp(group, { ...props.default_data.left, [key]: value });
+    updateComponentProp(group, { ...props.data.left, [key]: value });
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar">

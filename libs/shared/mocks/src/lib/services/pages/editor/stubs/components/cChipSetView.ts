@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cChipSetView',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: '',
-    component_data: [
+    sub_component_data: [
       {
         title: 'Arena',
         action: {

@@ -10,7 +10,7 @@ import { KeyValueComponentProps } from '../../types';
 const KeyValueToolbar = (props: KeyValueComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc, component_data },
+    data: { title, desc, sub_component_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -33,9 +33,9 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        ...props.default_data,
-        component_data: [...component_data, { key: 'New Key', value: 'New Value' }],
+      data: {
+        ...props.data,
+        sub_component_data: [...sub_component_data, { key: 'New Key', value: 'New Value' }],
       },
     };
     selectComponent(data);
@@ -46,7 +46,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} multiline rows={3} />
       <Box sx={{ gap: 0 }}>
-        {component_data.map(({ key, value }, index) => {
+        {sub_component_data.map(({ key, value }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion

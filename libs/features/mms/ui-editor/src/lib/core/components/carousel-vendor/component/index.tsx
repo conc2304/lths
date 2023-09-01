@@ -5,11 +5,11 @@ import { CarouselVendorComponentProps } from '../../types';
 const CarouselVendorComponent = (props: CarouselVendorComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
   } = props;
   return (
     <BasicContainer id={id}>
-      <VendorVCardCarousel items={component_data} />
+      <VendorVCardCarousel items={sub_component_data} />
     </BasicContainer>
   );
 };

@@ -17,7 +17,7 @@ import { ButtonsViewComponentProps } from '../../types';
 const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, desc, image, component_data },
+    data: { title, desc, image, sub_component_data },
     onPropChange,
   } = props;
 
@@ -33,9 +33,12 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: {
-        ...props.default_data,
-        component_data: [...component_data, { title: 'New Button', action: { type: 'native', page_id: 'new button' } }],
+      data: {
+        ...props.data,
+        sub_component_data: [
+          ...sub_component_data,
+          { title: 'New Button', action: { type: 'native', page_id: 'new button' } },
+        ],
       },
     };
     selectComponent(data);
@@ -47,7 +50,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} multiline rows={3} />
       <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <Box sx={{ gap: 0 }}>
-        {component_data.map(({ title, action }, index) => {
+        {sub_component_data.map(({ title, action }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Button${index}`}>

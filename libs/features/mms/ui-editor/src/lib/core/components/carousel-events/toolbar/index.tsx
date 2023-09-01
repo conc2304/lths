@@ -19,7 +19,7 @@ import { CarouselEventsComponentProps } from '../../types';
 const CarouselEventsToolbar = (props: CarouselEventsComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { component_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -39,13 +39,13 @@ const CarouselEventsToolbar = (props: CarouselEventsComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: { component_data: [...component_data, { title: 'New Card' }] },
+      data: { sub_component_data: [...sub_component_data, { title: 'New Card' }] },
     };
     selectComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {component_data.map(({ sub_title, title, desc, image }, index) => {
+      {sub_component_data.map(({ sub_title, title, desc, image }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>

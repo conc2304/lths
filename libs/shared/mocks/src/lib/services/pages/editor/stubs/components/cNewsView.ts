@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cNewsView',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'News title',
     desc: 'Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor usmo ',
     author: 'John Smith',

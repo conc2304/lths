@@ -8,7 +8,7 @@ import { size } from '../utils';
 const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, text_size, linked_text },
+    data: { title, text_size, linked_text },
   } = props;
   const fontSize = size.find((s) => s.value === text_size)?.fontSize;
   let replacedsentence: string | React.ReactNode[] = title;

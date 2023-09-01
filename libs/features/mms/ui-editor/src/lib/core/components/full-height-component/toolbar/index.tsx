@@ -9,7 +9,7 @@ import { FullHeightFloatingTextProps } from '../../types';
 const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
   const {
     __ui_id__: id,
-    default_data: { image, title, description, action },
+    data: { image, title, description, action },
     onPropChange,
   } = props;
 

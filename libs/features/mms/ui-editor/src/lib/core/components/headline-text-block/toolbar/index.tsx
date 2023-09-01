@@ -12,7 +12,7 @@ import { size } from '../utils';
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { title, text_size, linked_text, action },
+    data: { title, text_size, linked_text, action },
   } = props;
   const { selectComponent } = useEditorActions();
   const { updateComponentProp, handleActionChange } = useToolbarChange();
@@ -32,7 +32,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      default_data: { title, text_size, linked_text: [...linked_text, { link_value: 'New link' }] },
+      data: { title, text_size, linked_text: [...linked_text, { link_value: 'New link' }] },
     };
     selectComponent(data);
   };

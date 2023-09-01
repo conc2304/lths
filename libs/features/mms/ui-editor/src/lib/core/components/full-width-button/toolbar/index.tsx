@@ -7,7 +7,7 @@ import { FullWidthButtonComponentProps } from '../../types';
 const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
   const {
     __ui_id__: id,
-    default_data: { label, action },
+    data: { label, action },
   } = props;
   console.log(props);
 

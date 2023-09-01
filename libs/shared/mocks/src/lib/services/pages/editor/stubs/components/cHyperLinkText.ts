@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cHyperLinkText',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: '',
     style: '',
     desc: 'To view the most up to date schedules please visit Amtrak Pacific Surfliner and Metrolink.',

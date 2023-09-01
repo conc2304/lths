@@ -30,7 +30,7 @@ Primary.args = {
   ...mockComponent,
   __ui_id__: '3333333',
   component_id: Component.HeroPromotionCardText,
-  default_data: {
+  data: {
     image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-2.png',
     img_alt_text: 'image alth text name',
     title: 'Explore Honda Center',
