@@ -243,3 +243,11 @@ export type ComponentsListRequest = {
   limit?: number;
   offset?: number;
 };
+
+export type DuplicatePageDetailRequest = {
+  page_id: string;
+};
+
+export type DuplicatePageDetailResponse = CommonResponse & {
+  data: PageDetail;
+};

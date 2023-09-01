@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import {
   PageDetail,
+  useDuplicatePageMutation,
   useLazyGetComponentDetailQuery,
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
@@ -21,7 +22,7 @@ import {
 } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
-import { ComponentModal } from '../../components/pages/editor';
+import { ComponentModal, DuplicateAlert } from '../../components/pages/editor';
 import AssetsModal from '../../components/pages/editor/assets/connected-modal';
 import { Constraints, Settings } from '../../components/pages/editor/containers';
 import { PageHeader } from '../../components/pages/editor/containers/core';
@@ -54,6 +55,7 @@ export function PageEditorTabs() {
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+  const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
@@ -62,9 +64,11 @@ export function PageEditorTabs() {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
   const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+  const [isDuplicateAlertOpen, setIsDuplicateAlertOpen] = useState(false);
 
   //route params
   const { pageId } = useParams();
+
   const navigate = useNavigate();
 
   //fetch params
@@ -145,6 +149,10 @@ export function PageEditorTabs() {
     setOpenModal(false);
   };
 
+  const handleCloseDuplicateAlert = () => {
+    setIsDuplicateAlertOpen(false);
+  };
+
   //api events
   const handleUpdatePageStatus = async () => {
     await updatePageStatus({ page_id: pageId, status: modalData.status });
@@ -175,11 +183,23 @@ export function PageEditorTabs() {
     }
   };
 
+  const handleDuplicatePage = async () => {
+    try {
+      const response = await duplicatePage({ page_id: pageId }).unwrap();
+      if (response?.success) {
+        toast.success('Page has been duplicated successfully');
+        navigate('/pages');
+      }
+    } catch (error) {
+      console.error('Error in duplicating page', error.message);
+    }
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <PageHeader title={page_data?.name} status={page_data?.status} onStatusChange={handleMenuItemSelect} />
       <Box sx={{ mb: 1 }}>
-        <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: duplicate')}>
+        <Button size="small" color="secondaryButton" onClick={() => setIsDuplicateAlertOpen(true)}>
           DUPLICATE
         </Button>
         <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: share')}>
@@ -247,6 +267,12 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
+      <DuplicateAlert
+        isOpen={isDuplicateAlertOpen}
+        onClose={handleCloseDuplicateAlert}
+        onConfirm={handleDuplicatePage}
+        isLoading={isDuplicatingPage}
+      />
       <Backdrop open={isFetchingComponentDetail}>
         <CircularProgress />
       </Backdrop>
