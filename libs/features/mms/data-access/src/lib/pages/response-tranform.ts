@@ -1,4 +1,5 @@
-import { Component } from '../../../../ui-editor/src/lib/core/components/types';
+import { Component } from '@lths/features/mms/ui-editor';
+
 const newKey = (key: string) => (key === 'sub_properties' ? 'sub_properties_data' : key);
 
 const transformToObject = (schema: Record<any, any>): Record<any, any> => {

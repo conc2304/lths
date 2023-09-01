@@ -1,11 +1,8 @@
 import { ChangeEvent, HTMLAttributes } from 'react';
 import { TextField, Autocomplete, Box, Avatar } from '@mui/material';
 
-type EnumValue = {
-  display_order: number;
-  name: string;
-  value: string;
-};
+import { EnumValue } from './';
+
 type SocialIconAutocompleteProps = {
   value: string;
   socialIcons: EnumValue[];

@@ -1,13 +1,18 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { ChangeEvent, useEffect, useState } from 'react';
 import SocailIconAutoComplete from './autocomplete';
-import { EnumValue } from '@lths/features/mms/data-access';
 
 import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
 import { SocialIconButtoncomponentProps } from '../../types';
 import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
+
+export type EnumValue = {
+  display_order: number;
+  name: string;
+  value: string;
+};
+
 const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   const {
     __ui_id__: id,
