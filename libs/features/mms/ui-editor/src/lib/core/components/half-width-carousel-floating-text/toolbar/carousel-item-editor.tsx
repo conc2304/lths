@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 
 import { ToolbarProps } from '../../../../context';
-import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
+import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { HalfWidthCarouselFloatingTextProps } from '../../types';
 //TODO: Fix lint, create onChange wrapper function, chane event props to start with 'on'
 type CarouselItemProps = ToolbarProps & {
@@ -19,17 +20,6 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, h
     setLocalItem((prevData) => ({
       ...prevData,
       [fieldName]: value,
-    }));
-  };
-
-  const handleActionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    key: string,
-    index?: number
-  ) => {
-    setLocalItem((prevData) => ({
-      ...prevData,
-      action: { ...prevData?.action, [key]: event.target.value },
     }));
   };
 
@@ -52,7 +42,7 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, h
 
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={(e) => handleFieldChange('title', e.target.value)} />
-      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>
         <Button variant="outlined" onClick={handleCloseItem} sx={{ padding: '8px 22px', fontSize: 15 }}>
           CANCEL

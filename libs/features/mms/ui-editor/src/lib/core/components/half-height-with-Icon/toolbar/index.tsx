@@ -1,5 +1,6 @@
-import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
+import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker } from '../../../../elements';
 import { ToolContainer } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HalfHeightWithIconProps } from '../../types';
 
@@ -10,7 +11,7 @@ const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
     onPropChange,
   } = props;
 
-  const { updateComponentProp, handleTitleChange, handleActionChange } = useToolbarChange();
+  const { updateComponentProp, handleTitleChange } = useToolbarChange();
 
   return (
     <ToolContainer id={id}>
@@ -32,7 +33,7 @@ const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
         value={description}
         onChange={(e) => updateComponentProp('description', e.target.value)}
       />
-      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };

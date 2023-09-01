@@ -2,14 +2,8 @@ import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ButtonHCarouselComponentProps } from '../../types';
 
@@ -17,10 +11,11 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
   const {
     __ui_id__: id,
     properties_data: { sub_properties_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -59,7 +54,7 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
                     handleTitleChange(e, index);
                   }}
                 />
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>
