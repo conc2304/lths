@@ -3,6 +3,8 @@ export type PaginationRequestAssets = {
   page_size?: number;
   sort_order?: string;
   sort_key?: string;
+  filter?: string;
+  queryString?: string;
 };
 
 export type PaginationAssets = {
