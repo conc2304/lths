@@ -30,7 +30,6 @@ export const Table = (props: TableProps) => {
     tableRows,
     pagination: page,
     sorting: sort,
-    onSortClick,
     onExportClick,
     onPageChange,
     sx = {},
@@ -52,7 +51,7 @@ export const Table = (props: TableProps) => {
     const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'desc';
     const newSorting = { ...sorting, column, order };
     setSorting(newSorting);
-    onSortClick && onSortClick(pagination, newSorting);
+    onPageChange && onPageChange(null, pagination, newSorting);
   };
 
   const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {

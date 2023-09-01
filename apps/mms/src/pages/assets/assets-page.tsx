@@ -121,12 +121,6 @@ export default function AssetsPage() {
     fetchData(pagination, sorting);
   };
 
-  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
-    setCurrPagination(pagination);
-    setCurrSorting(sorting);
-    fetchData(pagination, sorting);
-  };
-
   const handleOpenModal = (modalName: string, row: Asset) => {
     setSelectedRow(row);
     setIsRowModalOpen(modalName);
@@ -355,7 +349,6 @@ export default function AssetsPage() {
         tableRows={tableRows}
         onPageChange={onPageChange}
         noDataMessage="No assets"
-        onSortClick={onSortClick}
         sx={{
           mt: 1,
         }}
