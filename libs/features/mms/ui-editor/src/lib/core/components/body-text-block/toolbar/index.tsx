@@ -80,7 +80,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
                         updateComponentProp('link_key', e.target.value, index, 'linked_text');
                       }}
                     />
-                    <ActionToolbar action={action} onPropChange={onPropChange} />
+                    <ActionToolbar action={action} onPropChange={onPropChange} index={index} keys={['linked_text']} />
                   </Stack>
                 </Box>
               </AccordionDetails>

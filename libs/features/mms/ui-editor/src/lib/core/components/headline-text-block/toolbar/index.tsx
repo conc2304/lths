@@ -1,9 +1,9 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState, SyntheticEvent } from 'react';
 import { Typography, Box, MenuItem, TextField, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { useEditorActions } from '../../../../context';
-import { ToolContainer } from '../../../../elements';
+import { ToolContainer, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HeadlineTextBlockComponentProps } from '../../types';
@@ -15,8 +15,14 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
     properties_data: { title, text_size, linked_text, action },
     onPropChange,
   } = props;
+
   const { selectComponent } = useEditorActions();
   const { updateComponentProp } = useToolbarChange();
+  const [expanded, setExpanded] = useState<string | false>('panel0');
+
+  const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
+    setExpanded(newExpanded ? panel : false);
+  };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('title', event.target.value);
@@ -52,26 +58,38 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
           Link
         </Typography>
         {linked_text.map(({ link_key, link_value }, index) => {
+          const panelId = `panel${index}`;
           return (
-            <Box sx={{ gap: 2 }}>
-              <Stack spacing={2}>
-                <TextField
-                  label={'Link Key'}
-                  value={link_key}
-                  sx={{ textTransform: 'uppercase' }}
-                  onChange={(e) => {
-                    updateComponentProp('link_key', e.target.value, index, 'linked_text');
-                  }}
-                />
+            <Accordion
+              expanded={expanded === panelId}
+              onChange={handleAccordionChange(panelId)}
+              key={`textcard_${index}`}
+            >
+              <AccordionSummary data-testid={`Link #${index + 1}`} aria-controls="panelld-content" id="panelld-header">
+                <Typography>Link {index + 1}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box sx={{ gap: 2 }}>
+                  <Stack spacing={2}>
+                    <TextField
+                      label={'Link Key'}
+                      value={link_key}
+                      sx={{ textTransform: 'uppercase' }}
+                      onChange={(e) => {
+                        updateComponentProp('link_key', e.target.value, index, 'linked_text');
+                      }}
+                    />
 
-                <TextField
-                  label={'Link Value'}
-                  value={link_value}
-                  onChange={(e) => updateComponentProp('link_value', e.target.value, index, 'linked_text')}
-                />
-                <ActionToolbar action={action} onPropChange={onPropChange} />
-              </Stack>
-            </Box>
+                    <TextField
+                      label={'Link Value'}
+                      value={link_value}
+                      onChange={(e) => updateComponentProp('link_value', e.target.value, index, 'linked_text')}
+                    />
+                    <ActionToolbar action={action} onPropChange={onPropChange} index={index} keys={['linked_text']} />
+                  </Stack>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
           );
         })}
         <Button data-testid="Add Button" variant="outlined" sx={{ marginTop: 3 }} onClick={handleAdd} fullWidth>
