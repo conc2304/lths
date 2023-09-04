@@ -14,26 +14,29 @@ export type NotificationPayloadProps = {
   image_url?: string;
 };
 
-export type NotificationProps = {
+export type NotificationBaseProps = {
   _id: string;
   name: string;
-  description: string;
+  description?: string;
   headline?: string;
   content?: string;
   payload?: Record<string, string>;
   type: NotificationTyeProps;
   topics: string[];
   notification?: NotificationPayloadProps;
-  notification_link?: string;
-  inside_app?: string;
-  outside_app?: string;
   status?: string;
   created_on?: string;
   updated_on?: string;
   scheduled_sent_on?: string;
   sent_on?: string;
+  __v?: number;
+};
+
+export type NotificationProps = NotificationBaseProps & {
+  notification_link?: string;
+  inside_app?: string;
+  outside_app?: string;
   sent_on_formatted?: string;
-  __v: number;
 };
 
 export type CreateNotificationRequestProps = {
@@ -46,7 +49,7 @@ export type CreateNotificationRequestProps = {
 export type UpdateNotificationRequestProps = {
   _id: string;
   name: string;
-  description: string;
+  description?: string;
   type: NotificationTyeProps;
   topics: string[];
   headline?: string;

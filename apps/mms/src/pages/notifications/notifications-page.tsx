@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Grid, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DownloadIcon from '@mui/icons-material/Download';
-import toast from 'react-hot-toast';
+import { NotificationAction, useEditorActions } from '@lths-mui/features/mms/ui-notifications';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import {
-  CreateNotificationRequestProps,
-  NotificationProps,
-  PaginationRequest,
-  useArchiveNotificationMutation,
-  useCreateNotificationMutation,
-  useDuplicateNotificationMutation,
-  useSendNotificationMutation,
-} from '@lths/features/mms/data-access';
+import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-access';
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
+import ConnectedNotificationWrapper from './notification-wrapper';
 import Status from '../../components/notifications/editor/status';
 import FilterNotifications from '../../components/notifications/filter-notifications';
-import {
-  ArchiveAlert,
-  CreateNotificationModal,
-  DuplicateAlert,
-  SendAlert,
-} from '../../components/notifications/modals';
 import SearchNotifications from '../../components/notifications/search-notifications';
 
 const headers = [
@@ -57,24 +44,14 @@ const headers = [
 ];
 
 const NotificationPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSendAlertOpen, setIsSendAlertOpen] = useState(false);
-  const [isArchiveAlertOpen, setIsArchiveAlertOpen] = useState(false);
-  const [isDuplicateAlertOpen, setIsDuplicateAlertOpen] = useState(false);
-  const [selectedNotification, setSelectedNotification] = useState<NotificationProps>(null);
-
+  // route params
   const navigate = useNavigate();
 
+  // api
+  const { selectNotification, openNotificationAlert } = useEditorActions();
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsListQuery();
 
-  const [createNotification, { isLoading: isCreating }] = useCreateNotificationMutation();
-  const [sendNotification, { isLoading: isSending }] = useSendNotificationMutation();
-
-  const [duplicateNotification, { isLoading: isDuplicating }] = useDuplicateNotificationMutation();
-
-  const [archiveNotification, { isLoading: isArchiving }] = useArchiveNotificationMutation();
-
-  const closeModal = () => setIsModalOpen(false);
+  // fetch
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: PaginationRequest = {};
     if (pagination != null) {
@@ -89,9 +66,12 @@ const NotificationPage = () => {
     getData(req);
   }
 
+  // side effects
   useEffect(() => {
     fetchData(null, undefined);
   }, []);
+
+  // handlers
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -113,66 +93,6 @@ const NotificationPage = () => {
     fetchData(pagination, sorting);
   };
 
-  const handleSendAlertClose = () => {
-    setIsSendAlertOpen(false);
-  };
-
-  const handleSendNotification = async () => {
-    try {
-      const response = await sendNotification(selectedNotification).unwrap();
-      if (response.success) {
-        setIsSendAlertOpen(false);
-        toast.success('Notification has been sent successfully');
-        fetchData(null, undefined);
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error in sending the notification', error);
-      toast.error('Failed to send the notification');
-    }
-  };
-
-  const handleArchiveAlertClose = () => {
-    setIsArchiveAlertOpen(false);
-  };
-
-  const handleArchiveNotification = async () => {
-    try {
-      const response = await archiveNotification(selectedNotification._id).unwrap();
-      if (response.success) {
-        setIsArchiveAlertOpen(false);
-        toast.success('Notification has been archived successfully');
-        fetchData(null, undefined);
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error in archiving the notification', error);
-      toast.error('Failed to archive the notification');
-    }
-  };
-
-  const handleDuplicateAlertClose = () => {
-    setIsDuplicateAlertOpen(false);
-  };
-
-  const handleDuplicateNotification = async () => {
-    try {
-      const response = await duplicateNotification({ id: selectedNotification._id }).unwrap();
-      if (response.success) {
-        setIsDuplicateAlertOpen(false);
-        toast.success('Notification has been duplicated successfully');
-        if (response.data) navigate(`/notifications/editor/${response.data._id}`);
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error in duplicating the notification', error);
-      toast.error('Failed to duplicate the notification');
-    }
-  };
-
   const menuOptions = (notification: NotificationProps) => [
     {
       id: 'edit',
@@ -185,16 +105,16 @@ const NotificationPage = () => {
       id: 'duplicate',
       label: 'Duplicate',
       action: () => {
-        setSelectedNotification(notification);
-        setIsDuplicateAlertOpen(true);
+        selectNotification(notification);
+        openNotificationAlert(NotificationAction.DUPLICATE);
       },
     },
     {
       id: 'archive',
       label: 'Archive',
       action: () => {
-        setSelectedNotification(notification);
-        setIsArchiveAlertOpen(true);
+        selectNotification(notification);
+        openNotificationAlert(NotificationAction.ARCHIVE);
       },
     },
     {
@@ -215,8 +135,8 @@ const NotificationPage = () => {
       id: 'send_now',
       label: 'Send Now',
       action: () => {
-        setSelectedNotification(notification);
-        setIsSendAlertOpen(true);
+        selectNotification(notification);
+        openNotificationAlert(NotificationAction.PUSH);
       },
     },
   ];
@@ -245,30 +165,16 @@ const NotificationPage = () => {
 
   const total = data?.pagination?.totalItems;
 
-  const handleCreateNotification = async (data: CreateNotificationRequestProps) => {
-    try {
-      const response = await createNotification(data).unwrap();
-      if (response.success) {
-        toast.success('Notification has been created successfully.');
-        const {
-          data: { _id },
-        } = response;
-        navigate(`/notifications/editor/${_id}`);
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error in create the notification', error);
-      toast.error('Failed to create the notification');
-    }
-  };
-
   return (
     <Box>
       <PageHeader
         title="Notifications"
         rightContent={
-          <Button startIcon={<AddIcon />} variant="contained" onClick={() => setIsModalOpen(true)}>
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={() => openNotificationAlert(NotificationAction.CREATE)}
+          >
             CREATE
           </Button>
         }
@@ -300,32 +206,16 @@ const NotificationPage = () => {
           mt: 4,
         }}
       />
-      <CreateNotificationModal
-        open={isModalOpen}
-        handleCloseModal={closeModal}
-        onCreateNotification={handleCreateNotification}
-        isResponseLoading={isCreating}
-      />
-      <SendAlert
-        isLoading={isSending}
-        isOpen={isSendAlertOpen}
-        handleClose={handleSendAlertClose}
-        handleSend={handleSendNotification}
-      />
-      <ArchiveAlert
-        isLoading={isArchiving}
-        isOpen={isArchiveAlertOpen}
-        handleClose={handleArchiveAlertClose}
-        handleArchive={handleArchiveNotification}
-      />
-      <DuplicateAlert
-        isLoading={isDuplicating}
-        isOpen={isDuplicateAlertOpen}
-        handleClose={handleDuplicateAlertClose}
-        handleDuplicate={handleDuplicateNotification}
-      />
     </Box>
   );
 };
 
-export default NotificationPage;
+const WrappedNotificationPage = () => {
+  return (
+    <ConnectedNotificationWrapper>
+      <NotificationPage />
+    </ConnectedNotificationWrapper>
+  );
+};
+
+export default WrappedNotificationPage;

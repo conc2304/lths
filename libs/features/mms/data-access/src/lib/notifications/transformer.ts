@@ -20,7 +20,9 @@ export const transformNotificationListResponse = (response: NotificationListResp
 
 export const transformNotificationDetailResponse = (response: NotificationDetailResponse) => {
   const payload = response.data;
-  const { notification: { inside_app, outside_app } = {} } = payload;
+  const { notification } = payload;
+  const inside_app = notification?.inside_app || '';
+  const outside_app = notification?.outside_app || '';
   const transformedPayload = {
     ...payload,
     notification_link: outside_app ? 'outside' : 'inside',

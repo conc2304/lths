@@ -4,29 +4,28 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-
-import { NotificationActions } from './types';
+import { NotificationAction } from '@lths-mui/features/mms/ui-notifications';
 
 const actions = [
   {
     icon: <EditIcon />,
-    action: NotificationActions.EDIT,
+    action: NotificationAction.EDIT,
   },
   {
     icon: <ContentCopyIcon />,
-    action: NotificationActions.DUPLICATE,
+    action: NotificationAction.DUPLICATE,
   },
   {
     icon: <ArchiveOutlinedIcon />,
-    action: NotificationActions.ARCHIVE,
+    action: NotificationAction.ARCHIVE,
   },
   {
     icon: <PreviewOutlinedIcon />,
-    action: NotificationActions.PREVIEW,
+    action: NotificationAction.PREVIEW,
   },
   {
     icon: <ShowChartIcon />,
-    action: NotificationActions.INSIGHTS,
+    action: NotificationAction.INSIGHTS,
   },
 ];
 
