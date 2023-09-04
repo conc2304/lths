@@ -1,7 +1,6 @@
 import { Stack } from '@mui/material';
-import MenuButton from 'libs/shared/ui-elements/src/lib/menu-button/menu-button';
 
-import { DropdownButton } from '@lths/shared/ui-elements';
+import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
 
 import EditorActions from './actions';
@@ -16,13 +15,15 @@ type Props = {
 };
 
 const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notification name', status }: Props) => {
+  const setNotificationStatusSent = () => {
+    onStatusChange(NotificationStatus.SENT);
+  };
+
   const menuItems = [
     {
       id: NotificationStatus.SENT,
-      name: 'PUSH NOW',
-      action: () => {
-        onStatusChange(NotificationStatus.SENT);
-      },
+      label: 'PUSH NOW',
+      action: setNotificationStatusSent,
     },
   ];
 
@@ -36,7 +37,7 @@ const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notificati
           <Status status={status} />
           {/* <DropdownButton buttonText="PUSH" menuItems={menuItems} />
            */}
-          <MenuButton buttonText="PUSH" buttonAction={() => console.log('handling action')} />
+          <MenuButton buttonText="PUSH" buttonAction={setNotificationStatusSent} items={menuItems} />
         </Stack>
       }
     />
