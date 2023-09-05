@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import { Stack } from '@mui/system';
 
 import { SimpleImagePicker, OutlinedTextField, GroupLabel } from '../../../../elements';
@@ -13,7 +14,10 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
     onPropChange,
   } = props;
 
-  const { handleTitleChange, handleDescChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, updateComponentProp } = useToolbarChange();
+  const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('description', event.target.value, index);
+  };
 
   return (
     <ToolContainer id={id}>
