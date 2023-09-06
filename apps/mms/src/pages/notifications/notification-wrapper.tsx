@@ -113,7 +113,7 @@ const NotificationWrapper = ({ children }: Props) => {
       if (response.success) {
         closeNotificationAlert();
         toast.success('Notification has been sent successfully');
-        if (response.data) selectNotification(response.data);
+        if (response.data) navigate('/notifications');
       } else {
         throw new Error(response.message);
       }
