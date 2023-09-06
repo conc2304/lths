@@ -20,8 +20,7 @@ const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps
       }}
     >
       <Stack direction="row" spacing={1.5}>
-        <QuickLinkButtonComponent title={sub_properties_data[0]?.title} icon={sub_properties_data[0]?.icon} />
-        <QuickLinkButtonComponent title={sub_properties_data[1]?.title} icon={sub_properties_data[1]?.icon} />
+        {sub_properties_data.map((row, index) => <QuickLinkButtonComponent key={index} title={row.title} icon={row.icon} />)}
       </Stack>
     </BasicContainer>
   );

@@ -1,7 +1,7 @@
 import { ChangeEvent, HTMLAttributes, ReactNode  } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 
-import { AutocompleteOptionProps } from '../../core/index';
+import { AutocompleteOptionProps } from '../../../core/index';
 
 
 type GenericAutocompleteProps = {
@@ -9,23 +9,23 @@ type GenericAutocompleteProps = {
   value: string;
   data: AutocompleteOptionProps[];
   onChange: (value: string) => void;
-  customGetOptionLabel?: (option: AutocompleteOptionProps) => string;
-  customOptionDisplay?: (option: AutocompleteOptionProps) => ReactNode;
+  getOptionLabel?: (option: AutocompleteOptionProps) => string;
+  renderOption?:(props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => ReactNode;
 };
 
 const GenericAutocomplete = (props: GenericAutocompleteProps) => {
-  const { label, data, value = '', onChange, customGetOptionLabel, customOptionDisplay, ...rest } = props
+  const { label, data, value = '', onChange, getOptionLabel, renderOption, ...rest } = props
 
-  const getOptionLabel = (option: AutocompleteOptionProps) => (option?.name || option?.value ? `${option.name || option.value}` : '');
+  const handleGetOptionLabel = (option: AutocompleteOptionProps) => {
+    if(getOptionLabel) return getOptionLabel(option);
+    return (option?.name || option?.value ? `${option.name || option.value}` : '');
+  }
 
-  const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => {
+  const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => {
+    if(renderOption) return renderOption(props, option);
     return ( 
       <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
-        {customOptionDisplay ? 
-          customOptionDisplay(option)
-          :
-          (<Box>{option.name}</Box>)
-        }
+        <Box>{option.name}</Box>
       </Box>
     );
   };
@@ -51,8 +51,8 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
       freeSolo
       value={selectedAutocompleteOptionProps}
       options={data}
-      getOptionLabel={customGetOptionLabel || getOptionLabel}
-      renderOption={renderOption}
+      getOptionLabel={handleGetOptionLabel}
+      renderOption={handleRenderOption}
       onChange={handleAutocompleteChange}
       renderInput={(params) => (
         <TextField
