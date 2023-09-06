@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Grid, Link, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DownloadIcon from '@mui/icons-material/Download';
 import { NotificationAction, useEditorActions } from '@lths-mui/features/mms/ui-notifications';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
@@ -12,8 +11,6 @@ import { PageHeader } from '@lths/shared/ui-layouts';
 
 import ConnectedNotificationWrapper from './notification-wrapper';
 import Status from '../../components/notifications/editor/status';
-import FilterNotifications from '../../components/notifications/filter-notifications';
-import SearchNotifications from '../../components/notifications/search-notifications';
 
 const headers = [
   {
@@ -181,19 +178,6 @@ const NotificationPage = () => {
         }
         sx={{ mt: 2 }}
       />
-      <Grid container spacing={2} marginTop={2}>
-        <Grid item xs={8}>
-          <SearchNotifications />
-        </Grid>
-        <Grid item xs={2}>
-          <FilterNotifications />
-        </Grid>
-        <Grid item xs={2}>
-          <Button variant="outlined" startIcon={<DownloadIcon />} sx={{ padding: 1.8 }}>
-            EXPORT DATA
-          </Button>
-        </Grid>
-      </Grid>
       <Table
         loading={isLoading}
         fetching={isFetching}

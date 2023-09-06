@@ -107,6 +107,9 @@ const NotificationWrapper = ({ children }: Props) => {
     try {
       const requestData = {
         _id: selectedNotification._id,
+        data: {
+          ...selectedNotification.data,
+        },
         status: NotificationStatus.READY_TO_SEND,
       };
       const response = await sendNotification(requestData).unwrap();
