@@ -22,10 +22,8 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
         selectedNotification: notification,
       };
     }
-    case EditorActionType.UPDATE_NOTIFICATION: {
-      const {
-        payload: { key, value },
-      } = action;
+    case EditorActionType.UPDATE_NOTIFICATION_DATA: {
+      const { data } = action;
 
       const { selectedNotification } = state;
 
@@ -34,7 +32,9 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
         selectedNotification: selectedNotification
           ? {
               ...selectedNotification,
-              [key]: value,
+              data: {
+                ...data,
+              },
             }
           : null,
       };

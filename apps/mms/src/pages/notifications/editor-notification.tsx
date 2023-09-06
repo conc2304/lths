@@ -1,16 +1,11 @@
 import { useEffect } from 'react';
 import { Backdrop, Box, CircularProgress } from '@mui/material';
-import {
-  EditorContainer,
-  NotificationAction,
-  transformRequest,
-  useEditorActions,
-} from '@lths-mui/features/mms/ui-notifications';
+import { EditorContainer, NotificationAction, useEditorActions } from '@lths-mui/features/mms/ui-notifications';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
 import {
-  NotificationProps,
+  NotificationDataProps,
   useLazyGetNotificationDetailQuery,
   useUpdateNotificationMutation,
 } from '@lths/features/mms/data-access';
@@ -29,11 +24,11 @@ const NotificationEditor = () => {
     openNotificationAlert,
     selectNotification,
     selectedNotification,
-    updateNotification,
+    updateNotificationData,
     closeNotificationAlert,
   } = useEditorActions();
   const [getNotificationDetail, { isLoading }] = useLazyGetNotificationDetailQuery();
-  const [updateNotificationValues, { isLoading: isUpdating }] = useUpdateNotificationMutation();
+  const [updatenotification, { isLoading: isUpdating }] = useUpdateNotificationMutation();
 
   const { setPageTitle } = useLayoutActions();
 
@@ -56,13 +51,16 @@ const NotificationEditor = () => {
   };
 
   // fetch params
-  const { name, status } = selectedNotification || {};
+  const { name, status, data = {} } = selectedNotification || {};
 
   // update
-  const handleUpdateNotification = async (data: NotificationProps) => {
+  const handleUpdateNotification = async (data: NotificationDataProps) => {
     try {
-      const requestData = transformRequest(data);
-      const response = await updateNotificationValues(requestData).unwrap();
+      const requestData = {
+        ...selectedNotification,
+        data,
+      };
+      const response = await updatenotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
         toast.success('Notification has been updated successfully.');
@@ -106,15 +104,20 @@ const NotificationEditor = () => {
     }
   };
 
-  const updateEditorState = (key: keyof NotificationProps, value: string) => {
-    const payload = { key, value };
-    updateNotification(payload);
+  const updateEditorState = (key: string, value: string, parentKey?: string) => {
+    const newData = JSON.parse(JSON.stringify(data));
+    if (parentKey) {
+      if (!newData[parentKey]) newData[parentKey] = {};
+      newData[parentKey][key] = value;
+    } else newData[key] = value;
+    updateNotificationData(newData);
   };
 
   // side effects
   useEffect(() => {
     if (notificationId) fetchNotificationDetail(notificationId);
   }, [notificationId]);
+
   useEffect(() => {
     if (name) setPageTitle(name);
   }, [name]);
@@ -128,7 +131,7 @@ const NotificationEditor = () => {
         onActionClick={handleActionClick}
       />
       <EditorContainer
-        notificationData={selectedNotification}
+        notificationData={data}
         onUpdateNotification={handleUpdateNotification}
         updateEditorState={updateEditorState}
         isUpdating={isUpdating}

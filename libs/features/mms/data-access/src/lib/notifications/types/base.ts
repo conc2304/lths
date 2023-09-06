@@ -4,17 +4,31 @@ export enum NotificationType {
   SMS = 'SMS',
 }
 
+export enum NotificationStatus {
+  DRAFT = 'DRAFT',
+  READY_TO_SEND = 'READY_TO_SEND',
+  SENT = 'SENT',
+  FAILED = 'FAILED',
+}
+
+export type NotificationTargetType = 'native' | 'web';
+
 export type NotificationTyeProps = NotificationType;
 
 export type PageLinkTarget = 'IN_APP' | 'BROWSER';
 
-export type NotificationPayloadProps = {
-  inside_app: string;
-  outside_app: string;
-  image_url?: string;
+export type NotificationDataProps = {
+  headline?: string;
+  content?: string;
+  topics?: string[];
+  target?: {
+    type: NotificationTargetType;
+    page_id: string;
+    url: string;
+  };
 };
 
-export type NotificationBaseProps = {
+export type NotificationProps = {
   _id: string;
   name: string;
   description?: string;
@@ -22,9 +36,8 @@ export type NotificationBaseProps = {
   content?: string;
   payload?: Record<string, string>;
   type: NotificationTyeProps;
-  topics: string[];
-  notification?: NotificationPayloadProps;
-  status?: string;
+  data?: NotificationDataProps;
+  status?: NotificationStatus;
   created_on?: string;
   updated_on?: string;
   scheduled_sent_on?: string;
@@ -32,18 +45,14 @@ export type NotificationBaseProps = {
   __v?: number;
 };
 
-export type NotificationProps = NotificationBaseProps & {
-  notification_link?: string;
-  inside_app?: string;
-  outside_app?: string;
-  sent_on_formatted?: string;
-};
-
 export type CreateNotificationRequestProps = {
   name: string;
   description?: string;
   type: NotificationTyeProps;
-  topics: string[];
+  data?: {
+    topics: string[];
+  };
+  status: NotificationStatus;
 };
 
 export type UpdateNotificationRequestProps = {
@@ -51,12 +60,14 @@ export type UpdateNotificationRequestProps = {
   name: string;
   description?: string;
   type: NotificationTyeProps;
-  topics: string[];
-  headline?: string;
-  content?: string;
-  notification?: NotificationPayloadProps;
+  data?: NotificationDataProps;
 };
 
 export type DuplicateNotificationRequestProps = {
   id: string;
+};
+
+export type SendNotificationRequestProps = {
+  _id: string;
+  status: NotificationStatus;
 };

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import {
   initEditor,
   selectNotification,
-  updateNotification,
+  updateNotificationData,
   openNotificationAlert,
   closeNotificationAlert,
   setFormSubmitting,
@@ -21,7 +21,7 @@ export const useEditorActions = () => {
   return {
     initEditor: useMemo(() => initEditor(dispatch), [dispatch]),
     selectNotification: useMemo(() => selectNotification(dispatch), [dispatch]),
-    updateNotification: useMemo(() => updateNotification(dispatch), [dispatch]),
+    updateNotificationData: useMemo(() => updateNotificationData(dispatch), [dispatch]),
     openNotificationAlert: useMemo(() => openNotificationAlert(dispatch), [dispatch]),
     closeNotificationAlert: useMemo(() => closeNotificationAlert(dispatch), [dispatch]),
     setFormSubmitting: useMemo(() => setFormSubmitting(dispatch), [dispatch]),

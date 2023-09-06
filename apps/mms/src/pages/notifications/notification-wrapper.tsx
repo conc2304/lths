@@ -4,7 +4,6 @@ import {
   EditorProps,
   EditorProvider,
   NotificationAction,
-  transformRequest,
   useEditorActions,
   useNotificationTopics,
 } from '@lths-mui/features/mms/ui-notifications';
@@ -12,6 +11,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  NotificationStatus,
   useArchiveNotificationMutation,
   useCreateNotificationMutation,
   useDuplicateNotificationMutation,
@@ -50,8 +50,17 @@ const NotificationWrapper = ({ children }: Props) => {
 
   // mutation triggers
   const handleCreateNotification = async ({ name, description, topics, type }: NotificationRequest) => {
+    const requestData = {
+      name,
+      description,
+      type,
+      data: {
+        topics: [topics],
+      },
+      status: NotificationStatus.DRAFT,
+    };
     try {
-      const response = await createNotification({ name, description, topics: [topics], type }).unwrap();
+      const response = await createNotification(requestData).unwrap();
       if (response.success) {
         toast.success('Notification has been created successfully.');
         const {
@@ -69,13 +78,15 @@ const NotificationWrapper = ({ children }: Props) => {
 
   const handleUpdateNotification = async ({ name, description, topics, type }: NotificationRequest) => {
     try {
-      const requestData = transformRequest({
+      const requestData = {
         _id: selectedNotification._id,
         name,
         description,
         type,
-        topics: [topics],
-      });
+        data: {
+          topics: [topics],
+        },
+      };
       const response = await updateNotificationValues(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
@@ -94,7 +105,10 @@ const NotificationWrapper = ({ children }: Props) => {
 
   const handleSendNotification = async () => {
     try {
-      const requestData = transformRequest(selectedNotification);
+      const requestData = {
+        _id: selectedNotification._id,
+        status: NotificationStatus.READY_TO_SEND,
+      };
       const response = await sendNotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();

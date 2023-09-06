@@ -155,8 +155,8 @@ const NotificationPage = () => {
         </Link>
       </TableCell>
       <TableCell>{<Status status={row.status} />}</TableCell>
-      <TableCell>{row.sent_on_formatted}</TableCell>
-      <TableCell>{row.topics?.join(', ')}</TableCell>
+      <TableCell>{row.sent_on}</TableCell>
+      <TableCell>{row?.data?.topics?.join(', ')}</TableCell>
       <TableCell>
         <ActionMenu options={menuOptions(row)} />
       </TableCell>

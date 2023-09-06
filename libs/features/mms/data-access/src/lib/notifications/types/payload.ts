@@ -2,6 +2,7 @@ import {
   CreateNotificationRequestProps,
   DuplicateNotificationRequestProps,
   NotificationProps,
+  SendNotificationRequestProps,
   UpdateNotificationRequestProps,
 } from './base';
 import { ApiResponse, PaginationRequest } from '../../types';
@@ -25,5 +26,7 @@ export type DuplicateNotificationRequest = DuplicateNotificationRequestProps;
 export type DuplicateNotificationResponse = ApiResponse<NotificationProps>;
 
 export type ArchiveNotificationResponse = ApiResponse<NotificationProps>;
+
+export type SendNotificationRequest = SendNotificationRequestProps;
 
 export type SendNotificationResponse = ApiResponse<NotificationProps>;

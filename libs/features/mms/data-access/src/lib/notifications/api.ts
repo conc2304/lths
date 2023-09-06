@@ -10,6 +10,8 @@ import {
   NotificationDetailResponse,
   NotificationListRequest,
   NotificationListResponse,
+  SendNotificationRequest,
+  SendNotificationResponse,
   UpdateNotificationRequest,
   UpdateNotificationResponse,
 } from './types';
@@ -73,7 +75,7 @@ const notificationApi = api.enhanceEndpoints({ addTagTypes: ['notifications'] })
         method: 'DELETE',
       }),
     }),
-    sendNotification: builder.mutation<DuplicateNotificationResponse, UpdateNotificationRequest>({
+    sendNotification: builder.mutation<SendNotificationResponse, SendNotificationRequest>({
       query: (req) => ({
         url: getSendNotificationUrl(req._id),
         method: 'PATCH',

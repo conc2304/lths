@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
 import {
   Autocomplete,
   Box,
@@ -13,7 +13,7 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { EnumValue, NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
+import { EnumValue, NotificationDataProps } from '@lths/features/mms/data-access';
 
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { usePageList } from '../../hooks';
@@ -22,20 +22,20 @@ import { UpdateEditorStateProps } from '../types';
 const validationSchema = yup.object({
   headline: yup.string().required('Headline is required'),
   content: yup.string().required('Body is required'),
-  notification_link: yup.string().required('Notification link is required'),
-  inside_app: yup.string().when('notification_link', {
-    is: 'inside',
+  target_type: yup.string().required('Notification link is required'),
+  page_id: yup.string().when('target_type', {
+    is: 'native',
     then: (schema) => schema.required('Page is required'),
   }),
-  outside_app: yup.string().when('notification_link', {
-    is: 'outside',
+  url: yup.string().when('target_type', {
+    is: 'web',
     then: (schema) => schema.required('Page link is required'),
   }),
 });
 
 type ToolbarContainerProps = {
-  onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
-  notificationData: NotificationProps;
+  onUpdateNotification: (data: NotificationDataProps) => void;
+  notificationData: NotificationDataProps;
   updateEditorState: UpdateEditorStateProps;
   isUpdating: boolean;
 };
@@ -49,9 +49,7 @@ const Container = ({
   const {
     headline = '',
     content = '',
-    notification_link = 'inside',
-    inside_app = '',
-    outside_app = '',
+    target: { type = 'native', page_id = '', url = '' } = {},
   } = notificationData || {};
 
   const { pageList } = usePageList();
@@ -60,18 +58,19 @@ const Container = ({
     onUpdateNotification(notificationData);
   };
 
-  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
-    initialValues: {
-      headline,
-      content,
-      notification_link,
-      inside_app,
-      outside_app,
-    },
-    validationSchema: validationSchema,
-    onSubmit: onSubmit,
-    enableReinitialize: true,
-  });
+  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue, validateForm } =
+    useFormik({
+      initialValues: {
+        headline,
+        content,
+        target_type: type,
+        page_id,
+        url,
+      },
+      validationSchema: validationSchema,
+      onSubmit: onSubmit,
+      enableReinitialize: true,
+    });
 
   const isNotValid = Object.keys(errors).length > 0;
 
@@ -91,12 +90,16 @@ const Container = ({
     );
   };
 
-  const selectedPage = pageList.find((p) => p.value === values.inside_app) || null;
+  const selectedPage = pageList.find((p) => p.value === values.page_id) || null;
 
-  const handlePageChange = (value: string) => {
-    setFieldValue('inside_app', value);
-    updateEditorState('inside_app', value || '');
+  const handleTargetPropChange = (key: string, value: string) => {
+    setFieldValue(key, value);
+    updateEditorState(key, value, 'target');
   };
+
+  useEffect(() => {
+    validateForm();
+  }, [values.target_type]);
 
   return (
     <Box sx={{ paddingY: 3, paddingX: 4, height: '100%', position: 'relative' }}>
@@ -136,45 +139,45 @@ const Container = ({
           NOTIFICATION LINK
         </GroupLabel>
         <RadioGroup
-          name="notification_link"
-          onChange={handleToolbarChange}
+          name="target_type"
+          onChange={(e) => handleTargetPropChange('type', e.target.value)}
           onBlur={handleBlur}
-          value={values.notification_link}
+          value={values.target_type}
         >
-          <FormControlLabel value="inside" control={<Radio />} label="Link inside app" />
-          <FormControlLabel value="outside" control={<Radio />} label="Link outside app" />
+          <FormControlLabel value="native" control={<Radio />} label="Link inside app" />
+          <FormControlLabel value="web" control={<Radio />} label="Link outside app" />
         </RadioGroup>
-        {values.notification_link === 'inside' && (
+        {values.target_type === 'native' && (
           <Autocomplete
             sx={{ marginTop: 2 }}
-            id="inside_app"
+            id="page_id"
             options={pageList}
             value={selectedPage}
-            onChange={(e, item) => handlePageChange(item?.value || '')}
+            onChange={(e, item) => handleTargetPropChange('page_id', item?.value || '')}
             renderOption={renderPageOption}
             getOptionLabel={getPageOptionLabel}
             renderInput={(params) => (
               <TextField
-                name="inside_app"
+                name="page_id"
                 {...params}
                 label="Page"
                 onBlur={handleBlur}
-                error={touched.inside_app && Boolean(errors.inside_app)}
-                helperText={touched.inside_app && errors.inside_app}
+                error={(touched.target_type || touched.page_id) && Boolean(errors.page_id)}
+                helperText={touched.page_id && errors.page_id}
               />
             )}
           />
         )}
-        {values.notification_link === 'outside' && (
+        {values.target_type === 'web' && (
           <OutlinedTextField
             sx={{ marginTop: 2 }}
             label="Page link"
-            name="outside_app"
-            onChange={handleToolbarChange}
+            name="url"
+            onChange={(e) => handleTargetPropChange('url', e.target.value)}
             onBlur={handleBlur}
-            value={values.outside_app}
-            error={touched.outside_app && Boolean(errors.outside_app)}
-            helperText={touched.outside_app && errors.outside_app}
+            value={values.url}
+            error={(touched.target_type || touched.url) && Boolean(errors.url)}
+            helperText={touched.url && errors.url}
           />
         )}
       </Box>

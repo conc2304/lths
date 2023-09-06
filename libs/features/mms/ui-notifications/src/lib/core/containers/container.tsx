@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 
-import { NotificationProps, UpdateNotificationRequestProps } from '@lths/features/mms/data-access';
+import { NotificationDataProps } from '@lths/features/mms/data-access';
 
 import { Toolbar } from './toolbar';
 import { UpdateEditorStateProps } from './types';
@@ -8,8 +8,8 @@ import { Wysiwyg } from './wysiwyg';
 import { Colors } from '../../common';
 
 type Props = {
-  notificationData: NotificationProps;
-  onUpdateNotification: (data: UpdateNotificationRequestProps) => void;
+  notificationData: NotificationDataProps;
+  onUpdateNotification: (data: NotificationDataProps) => void;
   updateEditorState: UpdateEditorStateProps;
   isUpdating: boolean;
 };

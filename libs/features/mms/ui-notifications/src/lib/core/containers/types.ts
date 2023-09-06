@@ -3,4 +3,4 @@ export type Content = {
   content?: string;
 };
 
-export type UpdateEditorStateProps = (key: string, value: string, parent_key?: string | null) => void;
+export type UpdateEditorStateProps = (key: string, value: string, parentKey?: string) => void;

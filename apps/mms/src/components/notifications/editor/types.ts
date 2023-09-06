@@ -1,4 +1,6 @@
 export enum NotificationStatus {
-  SENT = 'SENT',
   DRAFT = 'DRAFT',
+  READY_TO_SEND = 'READY_TO_SEND',
+  SENT = 'SENT',
+  FAILED = 'FAILED',
 }

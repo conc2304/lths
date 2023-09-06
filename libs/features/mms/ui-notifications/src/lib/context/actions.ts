@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 
-import { NotificationProps } from '@lths/features/mms/data-access';
+import { NotificationDataProps, NotificationProps } from '@lths/features/mms/data-access';
 
 import { EditorActionProps, EditorActionType, NotificationAction } from './types';
 
@@ -12,10 +12,9 @@ export const selectNotification = (dispatch: Dispatch<EditorActionProps>) => (no
   dispatch({ type: EditorActionType.SET_CURRENT_NOTIFICATION, notification });
 };
 
-export const updateNotification =
-  (dispatch: Dispatch<EditorActionProps>) => (payload: { key: keyof NotificationProps; value: string }) => {
-    dispatch({ type: EditorActionType.UPDATE_NOTIFICATION, payload });
-  };
+export const updateNotificationData = (dispatch: Dispatch<EditorActionProps>) => (data: NotificationDataProps) => {
+  dispatch({ type: EditorActionType.UPDATE_NOTIFICATION_DATA, data });
+};
 
 export const openNotificationAlert = (dispatch: Dispatch<EditorActionProps>) => (alert: NotificationAction) => {
   dispatch({ type: EditorActionType.OPEN_NOTIFICATION_ALERT, alert });
