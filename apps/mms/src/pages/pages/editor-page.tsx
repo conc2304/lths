@@ -12,6 +12,7 @@ import {
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
+  useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
 import {
   BlockEditor,
@@ -19,6 +20,7 @@ import {
   EditorProvider,
   Callback,
   AutocompleteItemProps,
+  AutocompleteOptionProps,
 } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
@@ -55,6 +57,7 @@ export function PageEditorTabs() {
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+  const [getEnumList] = useLazyGetEnumListQuery();
   const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   //state
@@ -125,11 +128,19 @@ export function PageEditorTabs() {
       return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
   };
 
+  const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
+    const response = await getEnumList('Icons').unwrap();
+    if (response.data)
+      return callback(response.data.enum_values.map((o) => ({ name: o.name, value: o.value })));
+  };
+
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {
     if (propName === 'image_url') {
       handleAddImage(callback as Callback<string>);
     } else if (propName === 'action') {
       handlAddAction(callback as Callback<AutocompleteItemProps>);
+    } else if (propName === 'quickLinkIcons') {
+      handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
     }
   }
 

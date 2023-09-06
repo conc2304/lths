@@ -1,2 +1,2 @@
 export * from './containers';
-export type { AutocompleteItemProps } from './components/types';
+export type { AutocompleteItemProps, AutocompleteOptionProps } from './components/types';

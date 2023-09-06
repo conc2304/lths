@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 
-const QuickLinkButtonComponent = ({ label, icon }: { label: string, icon: string }) => {
+const QuickLinkButtonComponent = ({ title = "link", icon }: { title: string, icon: string }) => {
   return (
     <Box
       sx={{
@@ -17,9 +17,9 @@ const QuickLinkButtonComponent = ({ label, icon }: { label: string, icon: string
         spacing={1}
       >
         <div>
-          <img src={icon} alt={(label || "link") + "_icon"} style={{ width: 24, height: 24 }} />
+          <img src={icon} alt={title + "_icon"} style={{ width: 24, height: 24 }} />
         </div>
-        <Typography sx={{ letterSpacing: '0.16px', fontSize: 14, color: '#D8BA90', textTransform: 'uppercase' }}>{(label || "") }</Typography>
+        <Typography sx={{ letterSpacing: '0.16px', fontSize: 14, color: '#D8BA90', textTransform: 'uppercase' }}>{(title !== "link" && title) }</Typography>
       </Stack>
     </Box>
   );

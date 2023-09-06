@@ -1,30 +1,44 @@
 import { Box } from '@mui/material';
 
-import QuicklinkButtonGroupComponent from './index';
+import QuicklinkButtonGroupToolbar from './index';
+import { EditorProvider } from '../../../../context';
 import mockComponent from '../../../../context/mockdata';
 import { Component } from '../../enum';
+import { QuicklinkButtonGroupComponentProps, AutocompleteOptionProps } from '../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
-const Story: Meta<typeof QuicklinkButtonGroupComponent> = {
-  component: QuicklinkButtonGroupComponent,
-  title: 'core/ Components/ quicklink-button-group / Component',
+const Story: Meta<typeof QuicklinkButtonGroupToolbar> = {
+  component: QuicklinkButtonGroupToolbar,
+  title: 'core/ Components/ quicklink-button-group / Toolbar',
 };
 export default Story;
 
-const Template: StoryFn<typeof QuicklinkButtonGroupComponent> = (args) => (
-    <Box 
-        sx={{
-            backgroundColor: 'rgb(245, 245, 245)',
-            display: 'flex', justifyContent: 'center',
-            alignItems: 'center' 
-        }}
-    >
-        <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-            <QuicklinkButtonGroupComponent {...args} />
-        </Box>
-    </Box>
-);
+type StoryArgs = QuicklinkButtonGroupComponentProps & {
+  mock_quickLinkIcons: AutocompleteOptionProps[];
+};
+
+const Template: StoryFn<StoryArgs> = (args) => {
+  const initialState = {
+    components: [],
+    selectedComponent: args
+  };
+
+  function mockOnPropChange(propName, callback) {
+    if (propName === 'quickLinkIcons') {
+      callback(args.mock_quickLinkIcons);
+    }
+  };
+
+
+  return (
+    <EditorProvider initialValue={initialState}>
+      <Box sx={{padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
+          <QuicklinkButtonGroupToolbar {...args} onPropChange={mockOnPropChange} />
+      </Box>
+    </EditorProvider>
+  )
+};
 
 
 export const Primary = Template.bind({});
@@ -57,7 +71,12 @@ Primary.args = {
           },
         }
       ],
-    }
+    },
+    mock_quickLinkIcons: [
+      { name: "iconOne", value: "icon.one.link" },
+      { name: "iconTwo", value: "icon.two.link" },
+      { name: "iconThree", value: "icon.three.link" }
+    ]
 }
 
 Primary.argTypes = {

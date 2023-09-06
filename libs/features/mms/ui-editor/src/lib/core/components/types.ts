@@ -14,6 +14,11 @@ export type AutocompleteItemProps = {
   type: string;
 };
 
+export type AutocompleteOptionProps = {
+  name: string;
+  value: string;
+};
+
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
@@ -363,16 +368,16 @@ export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
   };
 };
 export type QuicklinkButton = {
-  label: string;
+  title: string;
   icon: string;
-  icon_alt_text: string;
+  card_background_color: string;
+  text_color: string;
   action: ActionProps;
 };
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
   properties_data: {
-    first_button: QuicklinkButton;
-    second_button: QuicklinkButton;
+    sub_properties_data: QuicklinkButton[]
   };
 };
 
