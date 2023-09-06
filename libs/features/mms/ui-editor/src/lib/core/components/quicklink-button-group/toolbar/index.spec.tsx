@@ -52,9 +52,9 @@ describe("QuicklinkButtonGroup Toolbar", () => {
     };
 
     mockCallbackData = [
-      { name: "iconOne", value: "icon.one.link" },
-      { name: "iconTwo", value: "icon.two.link" },
-      { name: "iconThree", value: "icon.three.link" }
+      { label: "iconOne", value: "icon.one.link" },
+      { label: "iconTwo", value: "icon.two.link" },
+      { label: "iconThree", value: "icon.three.link" }
     ];
   });
 
