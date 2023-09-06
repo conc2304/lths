@@ -22,7 +22,6 @@ import {
   getNotificationDetailUrl,
   getNotificationItemsUrl,
   getNotificationsListUrl,
-  getSendNotificationUrl,
   getUpdateNotificationUrl,
 } from './urls';
 
@@ -77,7 +76,7 @@ const notificationApi = api.enhanceEndpoints({ addTagTypes: ['notifications'] })
     }),
     sendNotification: builder.mutation<SendNotificationResponse, SendNotificationRequest>({
       query: (req) => ({
-        url: getSendNotificationUrl(req._id),
+        url: getUpdateNotificationUrl(req._id),
         method: 'PATCH',
         body: req,
       }),

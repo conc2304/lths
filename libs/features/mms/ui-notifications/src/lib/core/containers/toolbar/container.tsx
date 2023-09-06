@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { EnumValue, NotificationDataProps } from '@lths/features/mms/data-access';
+import { urlRegexPattern } from '@lths/shared/utils';
 
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { usePageList } from '../../hooks';
@@ -29,7 +30,7 @@ const validationSchema = yup.object({
   }),
   url: yup.string().when('target_type', {
     is: 'web',
-    then: (schema) => schema.required('Page link is required'),
+    then: (schema) => schema.matches(urlRegexPattern, 'Enter a valid URL').required('Page link is required'),
   }),
 });
 

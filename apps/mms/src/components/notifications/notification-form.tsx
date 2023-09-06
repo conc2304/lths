@@ -111,6 +111,7 @@ const NotificationForm = ({
           CANCEL
         </Button>
         <LoadingButton
+          color="primaryButton"
           loading={isLoading}
           disabled={isSubmitting}
           variant="contained"

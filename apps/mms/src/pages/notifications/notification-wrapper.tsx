@@ -43,7 +43,7 @@ const NotificationWrapper = ({ children }: Props) => {
   const { isAlertOpen, closeNotificationAlert, selectNotification, selectedNotification, setFormSubmitting } =
     useEditorActions();
   const [createNotification, { isLoading: isCreating }] = useCreateNotificationMutation();
-  const [updateNotificationValues, { isLoading: isUpdating }] = useUpdateNotificationMutation();
+  const [updateNotification, { isLoading: isUpdating }] = useUpdateNotificationMutation();
   const [sendNotification, { isLoading: isSending }] = useSendNotificationMutation();
   const [duplicateNotification, { isLoading: isDuplicating }] = useDuplicateNotificationMutation();
   const [archiveNotification, { isLoading: isArchiving }] = useArchiveNotificationMutation();
@@ -87,7 +87,7 @@ const NotificationWrapper = ({ children }: Props) => {
           topics: [topics],
         },
       };
-      const response = await updateNotificationValues(requestData).unwrap();
+      const response = await updateNotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
         toast.success('Notification has been updated successfully.');

@@ -56,8 +56,11 @@ const NotificationEditor = () => {
   // update
   const handleUpdateNotification = async (data: NotificationDataProps) => {
     try {
+      const { _id, name, type } = selectedNotification;
       const requestData = {
-        ...selectedNotification,
+        _id,
+        name,
+        type,
         data,
       };
       const response = await updatenotification(requestData).unwrap();
