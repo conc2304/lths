@@ -18,7 +18,6 @@ const Template: StoryFn<typeof ImageAutocomplete> = (args) => {
   )
 };
 
-
 export const Primary = Template.bind({});
 Primary.args = {
     label: "label name",
