@@ -8,6 +8,7 @@ import { BreadcrumbTitle } from './title';
 import { BreadcrumbPathProps, BreadcrumbTrailProps } from './types';
 
 const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
+  console.log("Breadcrumbs: ", paths);
   const renderInactivePaths = useCallback((paths: BreadcrumbPathProps[]) => {
     return (
       paths.length > 1 &&
