@@ -14,11 +14,6 @@ export type AutocompleteItemProps = {
   type: string;
 };
 
-export type AutocompleteOptionProps = {
-  name: string;
-  value: string;
-};
-
 export type ActionProps = {
   type: ComponentType;
   page_id: string;

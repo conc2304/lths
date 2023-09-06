@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { ImageAutocomplete, OutlinedTextField, ActionInput, GroupLabel, ToolbarLabel } from '../../../../elements';
+import { ImageAutocomplete, OutlinedTextField, ActionInput, GroupLabel, ToolbarLabel, AutocompleteOptionProps } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
-import { QuicklinkButtonGroupComponentProps, AutocompleteOptionProps } from '../../types';
+import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 
 const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) => {

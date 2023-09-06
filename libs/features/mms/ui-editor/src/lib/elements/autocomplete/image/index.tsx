@@ -1,15 +1,8 @@
 import { HTMLAttributes } from 'react';
 import { Box, Avatar } from '@mui/material';
 
-import { AutocompleteOptionProps } from '../../../core/index';
 import GenericAutocomplete from '../generic';
-
-const renderImageDisplay = (props: HTMLAttributes<HTMLLIElement>, option:  AutocompleteOptionProps) => (
-    <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
-      <Avatar sx={{ width: 20, height: 20 }} variant="square" alt={option.name + "_image"} src={option.value} />
-      <Box sx={{ paddingLeft: 2 }}>{option.name}</Box>
-    </Box>
-);
+import { AutocompleteOptionProps } from '../types';
 
 type ImageAutocompleteProps = {
   label?: string;
@@ -21,13 +14,20 @@ type ImageAutocompleteProps = {
 const ImageAutocomplete = (props: ImageAutocompleteProps) => {
   const { label, data, value = '', onChange, ...rest } = props
 
+  const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option:  AutocompleteOptionProps) => (
+    <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
+      <Avatar sx={{ width: 20, height: 20 }} variant="square" alt={option.label + "_image"} src={option.value} />
+      <Box sx={{ paddingLeft: 2 }}>{option.label}</Box>
+    </Box>
+  );
+
   return (
     <GenericAutocomplete
         label={label}
         value={value}
         data={data}
         onChange={onChange}
-        renderOption={renderImageDisplay}
+        renderOption={handleRenderOption}
         {...rest}
     />
   );

@@ -4,8 +4,9 @@ import { render, screen } from "@testing-library/react";
 import QuicklinkButtonGroupToolbar from './index';
 import { EditorProvider } from '../../../../context';
 import mockComponent from '../../../../context/mockdata';
+import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
-import { QuicklinkButtonGroupComponentProps, AutocompleteOptionProps } from '../../types';
+import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 describe("QuicklinkButtonGroup Toolbar", () => {
   let initialState;

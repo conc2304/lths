@@ -1,8 +1,7 @@
 import { ChangeEvent, HTMLAttributes, ReactNode  } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 
-import { AutocompleteOptionProps } from '../../../core/index';
-
+import { AutocompleteOptionProps } from '../types';
 
 type GenericAutocompleteProps = {
   label?: string;
@@ -18,14 +17,14 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
 
   const handleGetOptionLabel = (option: AutocompleteOptionProps) => {
     if(getOptionLabel) return getOptionLabel(option);
-    return (option?.name || option?.value ? `${option.name || option.value}` : '');
+    return (option?.label || option?.value ? `${option.label || option.value}` : '');
   }
 
   const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => {
     if(renderOption) return renderOption(props, option);
     return ( 
       <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
-        <Box>{option.name}</Box>
+        <Box>{option.label}</Box>
       </Box>
     );
   };
@@ -38,7 +37,7 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
     let result = '';
     if(reason  === "createOption") {
       const customInput = event.target.value.toLowerCase();
-      result = data.find((a) => a.name.toLowerCase() === customInput)?.value || '';
+      result = data.find((a) => a.label.toLowerCase() === customInput)?.value || '';
     } else if(item) {
       result = item.value;
     }
@@ -48,7 +47,6 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
   const selectedAutocompleteOptionProps = data.find((a) => a.value === value) || { value: value };
   return (
     <Autocomplete
-      freeSolo
       value={selectedAutocompleteOptionProps}
       options={data}
       getOptionLabel={handleGetOptionLabel}

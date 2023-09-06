@@ -3,8 +3,9 @@ import { Box } from '@mui/material';
 import QuicklinkButtonGroupToolbar from './index';
 import { EditorProvider } from '../../../../context';
 import mockComponent from '../../../../context/mockdata';
+import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
-import { QuicklinkButtonGroupComponentProps, AutocompleteOptionProps } from '../../types';
+import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
