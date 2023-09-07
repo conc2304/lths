@@ -1,3 +1,5 @@
+import { Component } from '@lths/features/mms/ui-editor';
+
 const newKey = (key: string) => (key === 'sub_properties' ? 'sub_properties_data' : key);
 
 const transformToObject = (schema: Record<any, any>): Record<any,any> => {
@@ -18,7 +20,7 @@ const transformToObject = (schema: Record<any, any>): Record<any,any> => {
 export const convertComponentDetailResponse = (data) => {
   const { schema } = data;
   const properties_data = transformToObject(schema);
-  if(data.component_id === "cQuickLinkButtonGroup") {
+  if(data.component_id === Component.QuicklinkButtonGroup) {
     const quickLinkButton = properties_data.sub_properties_data[0];
     if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'webview') quickLinkButton.action.type = '';
     properties_data.sub_properties_data = Array(2).fill(properties_data.sub_properties_data[0]);
