@@ -1,7 +1,7 @@
 import { FormControl, InputAdornment, InputLabel, Select } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-const FilterNotifications = () => {
+const Filter = () => {
   return (
     <FormControl fullWidth>
       <InputLabel>Filter by</InputLabel>
@@ -18,4 +18,4 @@ const FilterNotifications = () => {
   );
 };
 
-export default FilterNotifications;
+export default Filter;

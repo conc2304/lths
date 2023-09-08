@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { NotificationAction, useEditorActions } from '@lths-mui/features/mms/ui-notifications';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-access';
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
+import { NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
 import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import ConnectedNotificationWrapper from './notification-wrapper';
-import Status from '../../components/notifications/editor/status';
+import { ConnectedNotificationWrapper } from '../../components/notifications';
+import { Status } from '../../components/notifications';
 
 const headers = [
   {

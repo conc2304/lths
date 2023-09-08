@@ -15,7 +15,7 @@ const section: SectionItemProps = {
           title: 'Editor',
           icon: <SchemaIcon />,
           path: '/notifications/editor/:notificationId',
-          file: '/notifications/editor-notification',
+          file: '/notifications/editor-page',
           hidden: true,
         },
       ],

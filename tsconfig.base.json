@@ -15,10 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@lths-mui/features/mms/ui-notifications": ["libs/features/mms/ui-notifications/src/index.ts"],
+      "@lths/features/mms/ui-notifications": ["libs/features/mms/ui-notifications/src/index.ts"],
       "@lths-mui/shared/storybook": ["libs/shared/storybook/src/index.ts"],
       "@lths-mui/shared/themes": ["libs/shared/themes/src/index.ts"],
       "@lths/assets": ["apps/mms/src/assets/index.ts"],
+      "@lths/mms/notifications": ["apps/mms/src/components/notifications/index.ts"],
       "@lths/features/mms/data-access": ["libs/features/mms/data-access/src/index.ts"],
       "@lths/features/mms/ui-editor": ["libs/features/mms/ui-editor/src/index.ts"],
       "@lths/features/mms/ui-event-schedule": ["libs/features/mms/ui-event-schedule/src/index.ts"],

@@ -1,4 +1,4 @@
-import AlertDialog from './alert-dialog';
+import AlertDialog from '../basic';
 
 type SendAlertProps = {
   isOpen: boolean;

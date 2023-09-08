@@ -1,7 +1,7 @@
 import { FormControl, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchNotifications = () => (
+const Search = () => (
   <FormControl fullWidth>
     <InputLabel htmlFor="search-notifications">Search</InputLabel>
     <OutlinedInput
@@ -18,4 +18,4 @@ const SearchNotifications = () => (
   </FormControl>
 );
 
-export default SearchNotifications;
+export default Search;

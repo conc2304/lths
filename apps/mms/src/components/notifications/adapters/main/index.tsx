@@ -1,12 +1,5 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import {
-  EditorProps,
-  EditorProvider,
-  NotificationAction,
-  useEditorActions,
-  useNotificationTopics,
-} from '@lths-mui/features/mms/ui-notifications';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,15 +11,12 @@ import {
   useSendNotificationMutation,
   useUpdateNotificationMutation,
 } from '@lths/features/mms/data-access';
+import { EditorProps, EditorProvider, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
+import { useNotificationTopics } from '@lths/mms/notifications';
 
-import {
-  ArchiveAlert,
-  CreateNotificationModal,
-  DuplicateAlert,
-  EditNotificationModal,
-  SendAlert,
-} from '../../components/notifications/modals';
-import { NotificationRequest } from '../../components/notifications/types';
+import { ArchiveAlert, DuplicateAlert, SendAlert } from '../../dialog';
+import { CreateNotificationModal, EditNotificationModal } from '../../modals';
+import { NotificationRequest } from '../../types';
 
 type Props = {
   children: ReactNode;
@@ -40,7 +30,7 @@ const NotificationWrapper = ({ children }: Props) => {
   const { notificationTopics } = useNotificationTopics();
 
   // api
-  const { isAlertOpen, closeNotificationAlert, selectNotification, selectedNotification, setFormSubmitting } =
+  const { selectedAlert, closeNotificationAlert, selectNotification, selectedNotification, setFormSubmitting } =
     useEditorActions();
   const [createNotification, { isLoading: isCreating }] = useCreateNotificationMutation();
   const [updateNotification, { isLoading: isUpdating }] = useUpdateNotificationMutation();
@@ -86,6 +76,7 @@ const NotificationWrapper = ({ children }: Props) => {
         data: {
           topics: [topics],
         },
+        status: selectedNotification.status,
       };
       const response = await updateNotification(requestData).unwrap();
       if (response.success) {
@@ -163,7 +154,7 @@ const NotificationWrapper = ({ children }: Props) => {
     <Box>
       {children}
       <CreateNotificationModal
-        open={isAlertOpen === NotificationAction.CREATE}
+        open={selectedAlert === NotificationAction.CREATE}
         handleCloseModal={closeNotificationAlert}
         notificationTopics={notificationTopics}
         onCreateNotification={handleCreateNotification}
@@ -171,7 +162,7 @@ const NotificationWrapper = ({ children }: Props) => {
         setFormSubmitting={setFormSubmitting}
       />
       <EditNotificationModal
-        open={isAlertOpen === NotificationAction.EDIT}
+        open={selectedAlert === NotificationAction.EDIT}
         handleCloseModal={closeNotificationAlert}
         notificationTopics={notificationTopics}
         onUpdateNotification={handleUpdateNotification}
@@ -181,19 +172,19 @@ const NotificationWrapper = ({ children }: Props) => {
       />
       <SendAlert
         isLoading={isSending}
-        isOpen={isAlertOpen === NotificationAction.PUSH}
+        isOpen={selectedAlert === NotificationAction.PUSH}
         handleClose={closeNotificationAlert}
         handleSend={handleSendNotification}
       />
       <ArchiveAlert
         isLoading={isArchiving}
-        isOpen={isAlertOpen === NotificationAction.ARCHIVE}
+        isOpen={selectedAlert === NotificationAction.ARCHIVE}
         handleClose={closeNotificationAlert}
         handleArchive={handleArchiveNotification}
       />
       <DuplicateAlert
         isLoading={isDuplicating}
-        isOpen={isAlertOpen === NotificationAction.DUPLICATE}
+        isOpen={selectedAlert === NotificationAction.DUPLICATE}
         handleClose={closeNotificationAlert}
         handleDuplicate={handleDuplicateNotification}
       />
@@ -204,7 +195,7 @@ const NotificationWrapper = ({ children }: Props) => {
 const ConnectedNotificationWrapper = ({ children }: Props) => {
   const initialState: EditorProps = {
     selectedNotification: null,
-    isAlertOpen: null,
+    selectedAlert: null,
     isSubmittingForm: false,
   };
 

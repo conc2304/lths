@@ -2,15 +2,15 @@ import { HTMLAttributes, useEffect } from 'react';
 import { Autocomplete, Box, Grid, TextField, Typography, DialogContent, DialogActions, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { string, object } from 'yup';
 
 import { EnumValue, NotificationType } from '@lths/features/mms/data-access';
 
-import { NotificationFormProps } from './types';
+import { NotificationFormProps } from '../../types';
 
-const validationSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  topics: yup.string().required('Topic is required'),
+const validationSchema = object({
+  name: string().required('Name is required'),
+  topics: string().required('Topic is required'),
 });
 
 const NotificationForm = ({

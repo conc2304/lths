@@ -11,7 +11,10 @@ export enum NotificationStatus {
   FAILED = 'FAILED',
 }
 
-export type NotificationTargetType = 'native' | 'web';
+export enum NotificationTargetType {
+  NATIVE = 'native',
+  WEB = 'web',
+}
 
 export type NotificationTyeProps = NotificationType;
 

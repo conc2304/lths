@@ -1,40 +1,31 @@
 import { Dialog, DialogTitle, Typography } from '@mui/material';
 
-import CloseIconButton from './close-icon-button';
-import NotificationForm from '../notification-form';
-import { EditNotificationModalProps } from '../types';
+import { NotificationForm } from '../../forms';
+import { CreateNotificationModalProps } from '../../types';
+import CloseIconButton from '../close-icon-button';
 
-const EditNotificationModal = (props: EditNotificationModalProps) => {
-  const {
-    open,
-    handleCloseModal,
-    onUpdateNotification,
-    notificationData,
-    notificationTopics,
-    isLoading,
-    setFormSubmitting,
-  } = props;
+const CreateNotificationModal = (props: CreateNotificationModalProps) => {
+  const { open, onCreateNotification, handleCloseModal, notificationTopics, isLoading, setFormSubmitting } = props;
 
   return (
     <Dialog open={open} onClose={handleCloseModal} maxWidth="xs" fullWidth>
       <DialogTitle>
         <Typography component="p" variant="h2">
-          Edit notification
+          Create notification
         </Typography>
         <Typography variant="body2">All text fields required unless noted.</Typography>
         <CloseIconButton onClick={handleCloseModal} />
       </DialogTitle>
       <NotificationForm
-        onSubmit={onUpdateNotification}
+        onSubmit={onCreateNotification}
         onCancel={handleCloseModal}
-        notificationData={notificationData}
         notificationTopics={notificationTopics}
         isLoading={isLoading}
         setFormSubmitting={setFormSubmitting}
-        confirmButtonText="UPDATE"
+        confirmButtonText="CREATE"
       />
     </Dialog>
   );
 };
 
-export default EditNotificationModal;
+export default CreateNotificationModal;

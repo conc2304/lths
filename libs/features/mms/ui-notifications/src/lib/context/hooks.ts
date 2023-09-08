@@ -26,6 +26,6 @@ export const useEditorActions = () => {
     closeNotificationAlert: useMemo(() => closeNotificationAlert(dispatch), [dispatch]),
     setFormSubmitting: useMemo(() => setFormSubmitting(dispatch), [dispatch]),
     selectedNotification: state.selectedNotification,
-    isAlertOpen: state.isAlertOpen,
+    selectedAlert: state.selectedAlert,
   };
 };

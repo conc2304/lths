@@ -1,5 +1,6 @@
 import { Avatar, Box, Card, CardContent, Stack, Typography } from '@mui/material';
 
+import { Colors } from '../../../common';
 import { Content } from '../types';
 
 type WysiwygProps = {
@@ -14,7 +15,12 @@ const Container = ({ content: { content, headline } }: WysiwygProps) => {
           <Stack
             direction="row"
             justifyContent="space-between"
-            sx={{ borderBottom: '1px solid #0000001f', color: '#00000099', fontWeight: 500, fontSize: '14px' }}
+            sx={{
+              borderBottom: `1px solid ${Colors.preview.divider}`,
+              color: Colors.heading.color,
+              fontWeight: 500,
+              fontSize: '14px',
+            }}
             padding={2}
             alignItems="center"
           >

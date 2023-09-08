@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Backdrop, Box, CircularProgress } from '@mui/material';
-import { EditorContainer, NotificationAction, useEditorActions } from '@lths-mui/features/mms/ui-notifications';
+import { EditorContainer, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
@@ -11,9 +11,8 @@ import {
 } from '@lths/features/mms/data-access';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
-import ConnectedNotificationWrapper from './notification-wrapper';
-import NotificationHeader from '../../components/notifications/editor/header';
-import { NotificationStatus } from '../../components/notifications/editor/types';
+import { NotificationHeader, ConnectedNotificationWrapper } from '../../components/notifications';
+import { NotificationStatus } from '../../components/notifications/header/types';
 
 const NotificationEditor = () => {
   //route params

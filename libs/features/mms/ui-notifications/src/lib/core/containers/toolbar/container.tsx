@@ -11,25 +11,24 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { string, object } from 'yup';
 
-import { EnumValue, NotificationDataProps } from '@lths/features/mms/data-access';
+import { EnumValue, NotificationDataProps, NotificationTargetType } from '@lths/features/mms/data-access';
+import { usePageList } from '@lths/mms/notifications';
 import { urlRegexPattern } from '@lths/shared/utils';
 
 import { GroupLabel, OutlinedTextField } from '../../elements';
-import { usePageList } from '../../hooks';
 import { UpdateEditorStateProps } from '../types';
-
-const validationSchema = yup.object({
-  headline: yup.string().required('Headline is required'),
-  content: yup.string().required('Body is required'),
-  target_type: yup.string().required('Notification link is required'),
-  page_id: yup.string().when('target_type', {
-    is: 'native',
+const validationSchema = object({
+  headline: string().required('Headline is required'),
+  content: string().required('Body is required'),
+  target_type: string().required('Notification link is required'),
+  page_id: string().when('target_type', {
+    is: NotificationTargetType.NATIVE,
     then: (schema) => schema.required('Page is required'),
   }),
-  url: yup.string().when('target_type', {
-    is: 'web',
+  url: string().when('target_type', {
+    is: NotificationTargetType.WEB,
     then: (schema) => schema.matches(urlRegexPattern, 'Enter a valid URL').required('Page link is required'),
   }),
 });
@@ -50,7 +49,7 @@ const Container = ({
   const {
     headline = '',
     content = '',
-    target: { type = 'native', page_id = '', url = '' } = {},
+    target: { type = NotificationTargetType.NATIVE, page_id = '', url = '' } = {},
   } = notificationData || {};
 
   const { pageList } = usePageList();
@@ -145,10 +144,10 @@ const Container = ({
           onBlur={handleBlur}
           value={values.target_type}
         >
-          <FormControlLabel value="native" control={<Radio />} label="Link inside app" />
-          <FormControlLabel value="web" control={<Radio />} label="Link outside app" />
+          <FormControlLabel value={NotificationTargetType.NATIVE} control={<Radio />} label="Link inside app" />
+          <FormControlLabel value={NotificationTargetType.WEB} control={<Radio />} label="Link outside app" />
         </RadioGroup>
-        {values.target_type === 'native' && (
+        {values.target_type === NotificationTargetType.NATIVE && (
           <Autocomplete
             sx={{ marginTop: 2 }}
             id="page_id"
@@ -169,7 +168,7 @@ const Container = ({
             )}
           />
         )}
-        {values.target_type === 'web' && (
+        {values.target_type === NotificationTargetType.WEB && (
           <OutlinedTextField
             sx={{ marginTop: 2 }}
             label="Page link"

@@ -14,7 +14,7 @@ export enum NotificationAction {
 
 export type EditorProps = {
   selectedNotification: NotificationProps | null;
-  isAlertOpen: NotificationAction | null;
+  selectedAlert: NotificationAction | null;
   isSubmittingForm: boolean;
 };
 

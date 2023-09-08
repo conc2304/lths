@@ -1,6 +1,6 @@
 import { convertISOStringToDateTimeFormat } from '@lths/shared/utils';
 
-import { NotificationDetailResponse, NotificationListResponse } from './types';
+import { NotificationDetailResponse, NotificationListResponse, NotificationTargetType } from './types';
 
 export const transformNotificationListResponse = (response: NotificationListResponse) => {
   const payload = response.data;
@@ -21,7 +21,7 @@ export const transformNotificationListResponse = (response: NotificationListResp
 export const transformNotificationDetailResponse = (response: NotificationDetailResponse) => {
   const payload = response.data;
   const { data } = payload;
-  const { target: { type = 'native' } = {} } = data || {};
+  const { target: { type = NotificationTargetType.NATIVE } = {} } = data || {};
   const transformedPayload = {
     ...payload,
     data: {

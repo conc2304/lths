@@ -1,10 +1,21 @@
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Stack, Tooltip } from '@mui/material';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-import { NotificationAction } from '@lths-mui/features/mms/ui-notifications';
+
+// import { NotificationAction } from '@lths/features/mms/ui-notifications';
+
+export enum NotificationAction {
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  DUPLICATE = 'DUPLICATE',
+  ARCHIVE = 'ARCHIVE',
+  PREVIEW = 'PREVIEW',
+  INSIGHTS = 'INSIGHTS',
+  PUSH = 'PUSH',
+}
 
 const actions = [
   {
@@ -33,9 +44,9 @@ const EditorActions = ({ onActionClick }) => {
   return (
     <Stack direction="row" marginLeft={3}>
       {actions.map(({ icon, action }) => (
-        <IconButton key={action} title={action.toLowerCase()} onClick={() => onActionClick(action)}>
-          {icon}
-        </IconButton>
+        <Tooltip key={action} title={action.toLowerCase()} arrow>
+          <IconButton onClick={() => onActionClick(action)}>{icon}</IconButton>
+        </Tooltip>
       ))}
     </Stack>
   );

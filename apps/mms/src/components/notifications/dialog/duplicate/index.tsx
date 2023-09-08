@@ -1,4 +1,4 @@
-import AlertDialog from './alert-dialog';
+import AlertDialog from '../basic';
 
 type DuplicateAlertProps = {
   isOpen: boolean;

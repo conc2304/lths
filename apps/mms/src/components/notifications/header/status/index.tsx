@@ -3,8 +3,9 @@ import { Typography, Stack } from '@mui/material';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 
-import { NotificationStatus } from './types';
-import { DraftLogo, PublishLogo } from '../../../assets';
+import { DraftLogo, PublishLogo } from '@lths/assets';
+
+import { NotificationStatus } from '../types';
 
 type Props = {
   status: string;

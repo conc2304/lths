@@ -43,13 +43,13 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
       const { alert } = action;
       return {
         ...state,
-        isAlertOpen: alert,
+        selectedAlert: alert,
       };
     }
     case EditorActionType.CLOSE_NOTIFICATION_ALERT: {
       return {
         ...state,
-        isAlertOpen: null,
+        selectedAlert: null,
       };
     }
     case EditorActionType.SET_FORM_SUBMITTING: {
