@@ -9,7 +9,7 @@ export const transformNotificationListResponse = (response: NotificationListResp
     const sent_on_formatted = sent_on ? convertISOStringToDateTimeFormat(sent_on) : null;
     return {
       ...item,
-      sent_on_formatted,
+      sent_on: sent_on_formatted,
     };
   });
   return {

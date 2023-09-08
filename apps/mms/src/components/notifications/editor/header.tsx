@@ -35,8 +35,6 @@ const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notificati
       rightContent={
         <Stack direction="row" alignItems="center" spacing={2}>
           <Status status={status} />
-          {/* <DropdownButton buttonText="PUSH" menuItems={menuItems} />
-           */}
           <MenuButton buttonText="PUSH" buttonAction={setNotificationStatusSent} items={menuItems} />
         </Stack>
       }

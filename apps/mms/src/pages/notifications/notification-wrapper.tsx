@@ -107,6 +107,7 @@ const NotificationWrapper = ({ children }: Props) => {
     try {
       const requestData = {
         _id: selectedNotification._id,
+        type: selectedNotification.type,
         data: {
           ...selectedNotification.data,
         },
