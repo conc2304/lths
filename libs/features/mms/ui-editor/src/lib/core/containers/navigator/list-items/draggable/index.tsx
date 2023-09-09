@@ -17,7 +17,7 @@ const style = {
 //TODO: move this to constants??
 const menuOptions = ['delete', 'duplicate'];
 
-export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }: DragCardProps) => {
+export const Card = ({ id, text, index, onDrag, onClick, onRename, onMenuClick, selected }: DragCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
@@ -74,8 +74,8 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }
       item.index = hoverIndex;
     },
   });
-  const onSave = (index: number, newText: string) => {
-    console.log(index, newText);
+  const handleRename = (id: string, newText: string) => {
+    onRename && onRename(id, newText);
   };
 
   const [{ isDragging }, drag] = useDrag({
@@ -99,7 +99,7 @@ export const Card = ({ id, text, index, onDrag, onClick, onMenuClick, selected }
   return (
     <Box ref={ref} sx={{ ...style, opacity }} data-handler-id={handlerId}>
       <ListItem onClick={handleClick} sx={listItemSx}>
-        <EditableListItemText text={text} onSave={(newText) => onSave(index, newText)} />
+        <EditableListItemText text={text} onSave={(newText) => handleRename(id, newText)} />
         <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
           <OverflowMenu items={menuOptions} onClick={(action) => onMenuClick(index, id, action)} />
         </ListItemIcon>

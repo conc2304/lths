@@ -1,9 +1,5 @@
-import { v4 as uuid } from 'uuid';
-
-import { EditorActionType, EditorActionProps, EditorProps, ComponentProps } from './types';
-
-const fillUuid = (component: ComponentProps) => ({ ...component, __ui_id__: uuid() });
-const resetIds = (component: ComponentProps) => fillUuid({ ...component, variation_id: '', _id: '' });
+import { EditorActionType, EditorActionProps, EditorProps } from './types';
+import { addNewComponent, duplicateComponent, initComponents, renameComponent, swapComponent } from './utils';
 
 const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorActionProps<T>) => {
   switch (action.type) {
@@ -48,12 +44,26 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
       const {
         data: { components, ...rest },
       } = action;
-      return { ...state, ...rest, components: components.map((component) => fillUuid(component)) };
+
+      return {
+        ...state,
+        ...rest,
+        components: initComponents(components),
+      };
     }
 
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
-      return { ...state, components: [...state.components, resetIds(component)] };
+      const components = addNewComponent(state.components, component);
+      return { ...state, components };
+    }
+    case EditorActionType.RENAME_COMPONENT: {
+      const { id, name } = action;
+      return {
+        ...state,
+        selectedComponent: renameComponent(state.selectedComponent ,name),
+        components: state.components.map((o) => (o.__ui_id__ === id ? renameComponent(o, name) : o)),
+      };
     }
 
     case EditorActionType.REMOVE_COMPONENT: {
@@ -67,31 +77,21 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
 
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;
-      const dragged = state.components[dragIndex];
-      const components = [...state.components];
-      components.splice(dragIndex, 1);
-      components.splice(hoverIndex, 0, dragged);
-
-      //preserve the order of the components
+      const components = swapComponent(state.components, dragIndex, hoverIndex);
       return { ...state, components };
     }
 
     case EditorActionType.DUPLICATE_COMPONENT: {
       const { id } = action;
-      const index = state.components.findIndex((o) => o.__ui_id__ === id);
-      if (index !== -1) {
-        const duplicate = { ...resetIds(state.components[index]) };
-        return {
-          ...state,
-          components: [...state.components.slice(0, index), duplicate, ...state.components.slice(index)],
-        };
-      }
+      const components = duplicateComponent(state.components, id);
 
-      return state;
+      return {
+        ...state,
+        components,
+      };
     }
 
     default: {
-      // return initialState;
       return state;
     }
   }
