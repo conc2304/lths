@@ -9,13 +9,13 @@ const section: SectionItemProps = {
       title: 'Notifications',
       icon: <NotificationsActiveIcon />,
       path: '/notifications',
-      file: '/notifications/notifications-page',
+      file: '/notifications/list',
       items: [
         {
           title: 'Editor',
           icon: <SchemaIcon />,
           path: '/notifications/editor/:notificationId',
-          file: '/notifications/editor-page',
+          file: '/notifications/editor',
           hidden: true,
         },
       ],
