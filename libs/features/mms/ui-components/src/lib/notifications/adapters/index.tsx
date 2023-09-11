@@ -194,7 +194,7 @@ const NotificationAdapter = ({ children }: Props) => {
   );
 };
 
-const NotificationAdapterProvider = ({ children }: Props) => {
+export const NotificationAdapterProvider = ({ children }: Props) => {
   const initialState: EditorProps = {
     selectedNotification: {
       _id: '',
@@ -211,5 +211,3 @@ const NotificationAdapterProvider = ({ children }: Props) => {
     </EditorProvider>
   );
 };
-
-export default NotificationAdapterProvider;

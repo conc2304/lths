@@ -34,7 +34,7 @@ export type NotificationFormProps = {
   confirmButtonText: string;
 };
 
-export enum NotificationStatus {
+export enum NotificationStatusProps {
   DRAFT = 'DRAFT',
   READY_TO_SEND = 'READY_TO_SEND',
   SENT = 'SENT',

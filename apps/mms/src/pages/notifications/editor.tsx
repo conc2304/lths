@@ -8,7 +8,11 @@ import {
   useLazyGetNotificationDetailQuery,
   useUpdateNotificationMutation,
 } from '@lths/features/mms/data-access';
-import { NotificationHeader, NotificationAdapterProvider, NotificationStatus } from '@lths/features/mms/ui-components';
+import {
+  NotificationHeader,
+  NotificationAdapterProvider,
+  NotificationStatusProps,
+} from '@lths/features/mms/ui-components';
 import { EditorContainer, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
@@ -76,9 +80,9 @@ const NotificationEditor = () => {
       toast.error('Failed to update the notification');
     }
   };
-  const handleStatusChange = (status: NotificationStatus) => {
+  const handleStatusChange = (status: NotificationStatusProps) => {
     switch (status) {
-      case NotificationStatus.SENT:
+      case NotificationStatusProps.SENT:
         openNotificationAlert(NotificationAction.PUSH);
         break;
     }

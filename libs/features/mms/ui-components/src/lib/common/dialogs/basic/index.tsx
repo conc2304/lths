@@ -12,7 +12,7 @@ type AlertDialogProps = {
   isLoading: boolean;
 };
 
-const AlertDialog = ({
+export const AlertDialog = ({
   isOpen,
   handleClose,
   handleConfirm,
@@ -41,5 +41,3 @@ const AlertDialog = ({
     </Dialog>
   );
 };
-
-export default AlertDialog;

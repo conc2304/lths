@@ -5,7 +5,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-access';
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
-import { NotificationAdapterProvider, Status } from '@lths/features/mms/ui-components';
+import { NotificationAdapterProvider, NotificationStatus } from '@lths/features/mms/ui-components';
 import { NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
 import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -136,27 +136,30 @@ const NotificationPage = () => {
     },
   ];
 
-  const tableRows = data?.data?.map((row) => (
-    <TableRow key={`row_${row._id}`}>
-      <TableCell>
-        <Link
-          component={RouterLink}
-          to={`/notifications/editor/${row._id}`}
-          color="inherit"
-          underline="hover"
-          variant="h5"
-        >
-          {row.name}
-        </Link>
-      </TableCell>
-      <TableCell>{<Status status={row.status} />}</TableCell>
-      <TableCell>{row.sent_on}</TableCell>
-      <TableCell>{row?.data?.topics?.join(', ')}</TableCell>
-      <TableCell>
-        <ActionMenu options={menuOptions(row)} />
-      </TableCell>
-    </TableRow>
-  ));
+  const tableRows = data?.data?.map((row) => {
+    const { _id, name, status, sent_on } = row;
+    return (
+      <TableRow key={`row_${_id}`}>
+        <TableCell>
+          <Link
+            component={RouterLink}
+            to={`/notifications/editor/${_id}`}
+            color="inherit"
+            underline="hover"
+            variant="h5"
+          >
+            {name}
+          </Link>
+        </TableCell>
+        <TableCell>{<NotificationStatus status={status} />}</TableCell>
+        <TableCell>{sent_on}</TableCell>
+        <TableCell>{row?.data?.topics?.join(', ')}</TableCell>
+        <TableCell>
+          <ActionMenu options={menuOptions(row)} />
+        </TableCell>
+      </TableRow>
+    );
+  });
 
   const total = data?.pagination?.totalItems;
 

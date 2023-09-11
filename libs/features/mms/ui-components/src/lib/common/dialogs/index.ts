@@ -1,1 +1,1 @@
-export { default as AlertDialog } from './basic';
+export * from './basic';
