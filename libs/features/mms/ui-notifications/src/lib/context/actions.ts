@@ -4,10 +4,6 @@ import { NotificationDataProps, NotificationProps } from '@lths/features/mms/dat
 
 import { EditorActionProps, EditorActionType, NotificationAction } from './types';
 
-export const initEditor = (dispatch: Dispatch<EditorActionProps>) => (notification: NotificationProps) => {
-  dispatch({ type: EditorActionType.INIT_NOTIFICATION, notification });
-};
-
 export const selectNotification = (dispatch: Dispatch<EditorActionProps>) => (notification: NotificationProps) => {
   dispatch({ type: EditorActionType.SET_CURRENT_NOTIFICATION, notification });
 };

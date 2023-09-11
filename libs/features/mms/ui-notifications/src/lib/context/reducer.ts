@@ -9,19 +9,6 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
         selectedNotification: notification,
       };
     }
-    case EditorActionType.CLEAR_CURRENT_NOTIFICATION: {
-      return {
-        ...state,
-        selectedNotification: null,
-      };
-    }
-    case EditorActionType.INIT_NOTIFICATION: {
-      const { notification } = action;
-      return {
-        ...state,
-        selectedNotification: notification,
-      };
-    }
     case EditorActionType.UPDATE_NOTIFICATION_DATA: {
       const { data } = action;
 
@@ -29,14 +16,10 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
 
       return {
         ...state,
-        selectedNotification: selectedNotification
-          ? {
-              ...selectedNotification,
-              data: {
-                ...data,
-              },
-            }
-          : null,
+        selectedNotification: {
+          ...selectedNotification,
+          data,
+        },
       };
     }
     case EditorActionType.OPEN_NOTIFICATION_ALERT: {

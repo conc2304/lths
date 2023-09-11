@@ -34,7 +34,7 @@ export type Error = {
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
-  data?: T;
+  data: T;
   pagination?: Pagination;
   error?: Error;
 };

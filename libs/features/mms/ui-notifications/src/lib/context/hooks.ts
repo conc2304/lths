@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import {
-  initEditor,
   selectNotification,
   updateNotificationData,
   openNotificationAlert,
@@ -19,7 +18,6 @@ export const useEditorActions = () => {
    */
 
   return {
-    initEditor: useMemo(() => initEditor(dispatch), [dispatch]),
     selectNotification: useMemo(() => selectNotification(dispatch), [dispatch]),
     updateNotificationData: useMemo(() => updateNotificationData(dispatch), [dispatch]),
     openNotificationAlert: useMemo(() => openNotificationAlert(dispatch), [dispatch]),

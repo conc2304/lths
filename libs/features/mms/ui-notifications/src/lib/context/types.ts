@@ -13,13 +13,12 @@ export enum NotificationAction {
 }
 
 export type EditorProps = {
-  selectedNotification: NotificationProps | null;
+  selectedNotification: NotificationProps;
   selectedAlert: NotificationAction | null;
   isSubmittingForm: boolean;
 };
 
 export enum EditorActionType {
-  INIT_NOTIFICATION = 'INIT_NOTIFICATION',
   SET_CURRENT_NOTIFICATION = 'SET_CURRENT_NOTIFICATION',
   CLEAR_CURRENT_NOTIFICATION = 'CLEAR_CURRENT_NOTIFICATION',
   UPDATE_NOTIFICATION_DATA = 'UPDATE_NOTIFICATION_DATA',
@@ -29,7 +28,6 @@ export enum EditorActionType {
 }
 
 export type EditorActionProps =
-  | { type: EditorActionType.INIT_NOTIFICATION; notification: NotificationProps }
   | { type: EditorActionType.SET_CURRENT_NOTIFICATION; notification: NotificationProps }
   | { type: EditorActionType.CLEAR_CURRENT_NOTIFICATION }
   | {

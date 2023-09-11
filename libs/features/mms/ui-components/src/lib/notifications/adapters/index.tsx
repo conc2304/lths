@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   NotificationStatus,
+  NotificationType,
   useArchiveNotificationMutation,
   useCreateNotificationMutation,
   useDuplicateNotificationMutation,
@@ -38,6 +39,8 @@ const NotificationAdapter = ({ children }: Props) => {
   const [duplicateNotification, { isLoading: isDuplicating }] = useDuplicateNotificationMutation();
   const [archiveNotification, { isLoading: isArchiving }] = useArchiveNotificationMutation();
 
+  const { _id, type, data, status } = selectedNotification;
+
   // mutation triggers
   const handleCreateNotification = async ({ name, description, topics, type }: NotificationRequest) => {
     const requestData = {
@@ -69,14 +72,15 @@ const NotificationAdapter = ({ children }: Props) => {
   const handleUpdateNotification = async ({ name, description, topics, type }: NotificationRequest) => {
     try {
       const requestData = {
-        _id: selectedNotification?._id,
+        _id,
         name,
         description,
         type,
         data: {
           topics: [topics],
+          ...data,
         },
-        status: selectedNotification?.status,
+        status,
       };
       const response = await updateNotification(requestData).unwrap();
       if (response.success) {
@@ -97,11 +101,9 @@ const NotificationAdapter = ({ children }: Props) => {
   const handleSendNotification = async () => {
     try {
       const requestData = {
-        _id: selectedNotification._id,
-        type: selectedNotification.type,
-        data: {
-          ...selectedNotification.data,
-        },
+        _id,
+        type,
+        data,
         status: NotificationStatus.READY_TO_SEND,
       };
       const response = await sendNotification(requestData).unwrap();
@@ -120,7 +122,7 @@ const NotificationAdapter = ({ children }: Props) => {
 
   const handleArchiveNotification = async () => {
     try {
-      const response = await archiveNotification(selectedNotification._id).unwrap();
+      const response = await archiveNotification(_id).unwrap();
       if (response.success) {
         closeNotificationAlert();
         toast.success('Notification has been archived successfully');
@@ -136,7 +138,7 @@ const NotificationAdapter = ({ children }: Props) => {
 
   const handleDuplicateNotification = async () => {
     try {
-      const response = await duplicateNotification({ id: selectedNotification._id }).unwrap();
+      const response = await duplicateNotification({ id: _id }).unwrap();
       if (response.success) {
         closeNotificationAlert();
         toast.success('Notification has been duplicated successfully');
@@ -194,7 +196,11 @@ const NotificationAdapter = ({ children }: Props) => {
 
 const NotificationAdapterProvider = ({ children }: Props) => {
   const initialState: EditorProps = {
-    selectedNotification: null,
+    selectedNotification: {
+      _id: '',
+      name: '',
+      type: NotificationType.PUSH_NOTIFICATION,
+    },
     selectedAlert: null,
     isSubmittingForm: false,
   };
