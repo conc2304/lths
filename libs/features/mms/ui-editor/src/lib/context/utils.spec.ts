@@ -15,7 +15,7 @@ const defaultProps: ComponentProps = {
   __ui_id__: null,
   _id: null,
   image_url: null,
-  properties_data: null,
+  data: null,
   schema: null,
   component_id: '',
   display_order: undefined,
