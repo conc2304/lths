@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cHalfHeightWithIcon',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'Card Title',
     text_size: '14',
     text_size_unit: 'Pixel',

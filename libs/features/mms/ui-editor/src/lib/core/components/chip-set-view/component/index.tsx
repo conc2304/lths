@@ -8,7 +8,7 @@ import { ChipSetViewComponentProps } from '../../types';
 const ChipSetViewComponent = (props: ChipSetViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, sub_properties_data },
+    data: { title, sub_component_data },
   } = props;
 
   interface CustomChipProps {
@@ -50,7 +50,7 @@ const ChipSetViewComponent = (props: ChipSetViewComponentProps) => {
           {title}
         </Typography>
         <Grid container spacing={1.1}>
-          {sub_properties_data.map(({ title }, index) => {
+          {sub_component_data.map(({ title }, index) => {
             return (
               <Grid item>
                 <CustumChip label={title} selected={index === 0} />

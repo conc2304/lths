@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cWorkingHours',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Hours',
-    sub_properties_data: [
+    sub_component_data: [
       {
         key: 'Sunday',
         value: '11:00 AM to 9:00 PM',

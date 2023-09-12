@@ -16,7 +16,7 @@ import { ButtonHCarouselComponentProps } from '../../types';
 const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
   } = props;
 
   const { selectComponent } = useEditorActions();
@@ -31,9 +31,9 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        sub_properties_data: [
-          ...sub_properties_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           { title: 'NewButton', action: { type: 'native', page_id: 'new button' } },
         ],
       },
@@ -43,7 +43,7 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {sub_properties_data.map(({ title, action }, index) => {
+      {sub_component_data.map(({ title, action }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Button${index}`}>

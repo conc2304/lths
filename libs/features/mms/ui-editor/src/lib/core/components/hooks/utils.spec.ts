@@ -3,7 +3,7 @@ import { ComponentProps } from '../../../context';
 
 describe('updateNestedProp', () => {
   const data: ComponentProps = {
-    properties_data: {
+    data: {
       title: 'Test Title',
       text_size: '2',
       colors: ['red'],
@@ -24,26 +24,26 @@ describe('updateNestedProp', () => {
   };
 
   it('should update a nested property without index', () => {
-    const updatedData = updateNestedProp(data, 'title', 'New Title', undefined, ['properties_data']);
-    expect(updatedData.properties_data.title).toEqual('New Title');
+    const updatedData = updateNestedProp(data, 'title', 'New Title', undefined, ['data']);
+    expect(updatedData.data.title).toEqual('New Title');
   });
 
   it('should update a nested property with index', () => {
-    const updatedData = updateNestedProp(data, 'link_key', 'abc', 1, ['properties_data', 'link_text']);
-    expect(updatedData.properties_data.link_text[1].link_key).toEqual('abc');
+    const updatedData = updateNestedProp(data, 'link_key', 'abc', 1, ['data', 'link_text']);
+    expect(updatedData.data.link_text[1].link_key).toEqual('abc');
   });
 
   it('should update an array element property', () => {
-    const updatedData = updateNestedProp(data, 'action', { type: 'native' }, 1, ['properties_data', 'link_text']);
-    expect(updatedData.properties_data.link_text[1].action.type).toEqual('native');
+    const updatedData = updateNestedProp(data, 'action', { type: 'native' }, 1, ['data', 'link_text']);
+    expect(updatedData.data.link_text[1].action.type).toEqual('native');
   });
 
   it('should not update when array index is out of bounds', () => {
-    const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['properties_data', 'link_text']);
+    const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text']);
     expect(updatedData).toEqual(data);
   });
   it('should create an array when a non-existent prop is used', () => {
-    const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['properties_data', 'link_text2']);
-    expect(updatedData.properties_data['link_text2'].length).toBeGreaterThanOrEqual(0);
+    const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text2']);
+    expect(updatedData.data['link_text2'].length).toBeGreaterThanOrEqual(0);
   });
 });
