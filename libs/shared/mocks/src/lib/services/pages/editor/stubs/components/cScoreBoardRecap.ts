@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cScoreBoardRecap',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     date_info: 'Friday, May 3 at 7.30 PM',
     btn_title: 'VIEW RECAP',
     match_name: '@',

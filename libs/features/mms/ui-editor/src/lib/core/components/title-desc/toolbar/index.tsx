@@ -6,7 +6,7 @@ import { TitleDescComponentProps } from '../../types';
 const TitleDescToolbar = (props: TitleDescComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, desc, linkcolor },
+    data: { title, desc, linkcolor },
   } = props;
   const { handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
 

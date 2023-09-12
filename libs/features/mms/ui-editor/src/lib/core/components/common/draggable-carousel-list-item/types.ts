@@ -6,7 +6,7 @@ export const ItemTypes = {
 
 export type DraggableCarouselListItemProps = {
   children?: ReactNode;
-  sub_properties_data: any[];
+  sub_component_data: any[];
   text?: string;
   index: number;
   onDrag: (dragIndex: number, hoverIndex: number) => void;
