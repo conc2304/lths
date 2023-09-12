@@ -39,13 +39,13 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     event.stopPropagation();
     callback(event);
   };
-
+  const cleanName = row.original_file_name.slice(0, row.original_file_name.lastIndexOf('.')) || row.original_file_name;
   return (
     <TableRow
       key={row._id}
       style={{
         cursor: 'pointer',
-        backgroundColor: selectedPreviewRow?.AssetExtended?._id === row._id ? theme.palette.secondary.main : '#fff',
+        backgroundColor: selectedPreviewRow?.asset?._id === row._id ? theme.palette.secondary.main : '#fff',
       }}
       onClick={handleSelectFile}
     >
@@ -55,7 +55,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
           alt={row.unique_file_name}
           style={{ width: 50, height: 50, marginRight: 1 }}
         />
-        {row.original_file_name}
+        {cleanName}
       </TableCell>
       <TableCell>{row.created_at_formatted}</TableCell>
       <TableCell>{row.file_extension}</TableCell>

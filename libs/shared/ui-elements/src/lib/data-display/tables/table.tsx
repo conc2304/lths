@@ -30,10 +30,8 @@ export const Table = (props: TableProps) => {
     tableRows,
     pagination: page,
     sorting: sort,
-    onSortClick,
     onExportClick,
     onPageChange,
-    onRowsPerPageChange,
     sx = {},
     fixPagination = false,
     noDataMessage = 'No records found',
@@ -46,14 +44,14 @@ export const Table = (props: TableProps) => {
 
   const [sorting, setSorting] = useState<TableSortingProps>({
     column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
-    order: (sort != null && sort.order) || 'asc',
+    order: (sort != null && sort.order) || 'desc',
   });
 
   const handleSortClick = (column: string) => {
-    const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'asc';
+    const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'desc';
     const newSorting = { ...sorting, column, order };
     setSorting(newSorting);
-    onSortClick && onSortClick(pagination, newSorting);
+    onPageChange && onPageChange(null, pagination, newSorting);
   };
 
   const handlePageChange = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
@@ -62,10 +60,11 @@ export const Table = (props: TableProps) => {
     onPageChange && onPageChange(event, newPagination, sorting);
   };
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const newPagination = { ...pagination, page: 0, pageSize: parseInt(event.target.value, 10) };
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPageSize = parseInt(event.target.value, 10);
+    const newPagination = { ...pagination, pageSize: newPageSize, page: 0 };
     setPagination(newPagination);
-    onRowsPerPageChange && onRowsPerPageChange(event, newPagination, sorting);
+    onPageChange && onPageChange(null, newPagination, sorting);
   };
 
   const paginationStyles =

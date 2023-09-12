@@ -5,7 +5,7 @@ import { NewsViewComponentProps } from '../../types';
 
 const NewsViewComponent = (props: NewsViewComponentProps) => {
   const {
-    properties_data: { image, title, desc, hint, author, date_info },
+    data: { image, title, desc, hint, author, date_info },
     __ui_id__: id,
   } = props;
   return (

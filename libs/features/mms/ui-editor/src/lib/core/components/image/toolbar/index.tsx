@@ -6,7 +6,7 @@ import { ImageComponentProps } from '../../types';
 const ImageToolbar = (props: ImageComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, title, desc, color = '#000000' },
+    data: { image, title, desc, color = '#000000' },
     onPropChange,
   } = props;
 

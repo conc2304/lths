@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cTextButton',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'Text Button Large',
     text_size: '18',
     text_size_unit: 'Pixel',
