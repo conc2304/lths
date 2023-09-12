@@ -1,17 +1,17 @@
-import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
+import { OutlinedTextField, ActionInput, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
 import { ToolContainer } from '../../../../../elements/containers';
-import { ActionToolbar } from '../../../common';
 import { useToolbarChange } from '../../../hooks';
 import { CardTextComponentProps } from '../../../types';
 
 const CardTextToolbar = (props: CardTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, img_alt_text, title, description, action },
+    data: { image, img_alt_text, title, description, action },
     onPropChange,
   } = props;
 
-  const { handleTitleChange, handleDescriptionChange, handleImageChange, handleImageAltChange } = useToolbarChange();
+  const { handleTitleChange, handleActionChange, handleDescriptionChange, handleImageChange, handleImageAltChange } =
+    useToolbarChange();
 
   return (
     <ToolContainer id={id} aria-label={'Card Text Toolbar'}>
@@ -22,7 +22,9 @@ const CardTextToolbar = (props: CardTextComponentProps) => {
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <OutlinedTextField label={'Description'} value={description} onChange={handleDescriptionChange} />
-      <ActionToolbar action={action} onPropChange={onPropChange} />
+
+      <GroupLabel label={'Link'} />
+      <ActionInput action={action} handleActionChange={handleActionChange} />
     </ToolContainer>
   );
 };

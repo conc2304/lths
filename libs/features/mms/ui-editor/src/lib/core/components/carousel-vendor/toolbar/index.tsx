@@ -19,7 +19,7 @@ import { CarouselVendorComponentProps } from '../../types';
 const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -43,13 +43,13 @@ const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: { sub_properties_data: [...sub_properties_data, { title: 'New Card' }] },
+      data: { sub_component_data: [...sub_component_data, { title: 'New Card' }] },
     };
     selectComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {sub_properties_data.map(({ sub_title, title, desc, image, btn_title }, index) => {
+      {sub_component_data.map(({ sub_title, title, desc, image, btn_title }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>

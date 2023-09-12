@@ -47,30 +47,6 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     fetchData(pagination, sorting);
   };
 
-  const onRowsPerPageChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event: any) => {
-    const newPageSize = Number(event.target.value);
-    setCurrPagination({
-      ...currPagination,
-      pageSize: newPageSize,
-    });
-    fetchData({ ...currPagination, pageSize: newPageSize }, currSorting);
-  };
-
-  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
-    setCurrPagination(pagination);
-    setCurrSorting(sorting);
-    if (localData && localData.data) {
-      const sortedData = [...localData.data].sort((a, b) => {
-        if (sorting.order === 'asc') {
-          return a[sorting.column] > b[sorting.column] ? 1 : -1;
-        } else {
-          return a[sorting.column] < b[sorting.column] ? 1 : -1;
-        }
-      });
-      setLocalData({ ...localData, data: sortedData });
-    }
-  };
-
   const total = localData?.meta?.total || 0;
 
   return (
@@ -83,8 +59,6 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       isLoading={isLoading}
       total={total}
       onPageChange={onPageChange}
-      onSortClick={onSortClick}
-      onRowsPerPageChange={onRowsPerPageChange}
       fetchData={fetchData}
     />
   );

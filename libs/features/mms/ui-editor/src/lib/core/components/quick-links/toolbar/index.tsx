@@ -10,7 +10,7 @@ import { QuickLinksProps } from '../../types';
 export default function QuickLinksToolbar(props: QuickLinksProps) {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
   const { handleTitleChange, handleIconChange } = useToolbarChange();
@@ -23,9 +23,9 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        sub_properties_data: [
-          ...sub_properties_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           { title: 'New Segment', icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png' },
         ],
       },
@@ -35,7 +35,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
 
   return (
     <BasicContainer id={id}>
-      {sub_properties_data?.map((props, i) => {
+      {sub_component_data?.map((props, i) => {
         const panelId = `panel${i}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`quick_links_${i}`}>

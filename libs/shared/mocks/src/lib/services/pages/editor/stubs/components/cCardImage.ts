@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cCardImage',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: '',
     image: 'https://files-dev-westus-lths-mms-2.azureedge.net/files-lths-dev/files-lths-mok-dev/cCardImage.png',
   },

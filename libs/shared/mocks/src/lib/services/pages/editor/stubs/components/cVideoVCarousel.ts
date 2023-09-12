@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cVideoVCarousel',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
-    sub_properties_data: [
+  data: {
+    sub_component_data: [
       {
         title: '',
         desc: 'Sed ut unde omnis iste natus error sit  accusantium  laudantium. ',

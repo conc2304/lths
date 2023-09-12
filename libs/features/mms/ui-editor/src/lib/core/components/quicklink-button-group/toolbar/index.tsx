@@ -10,7 +10,7 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { first_button, second_button },
+    data: { first_button, second_button },
   } = props;
 
   const { updateComponentProp } = useToolbarChange();
@@ -30,8 +30,8 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
     buttonName: string
   ) => {
     updateComponentProp(buttonName, {
-      ...selectedComponent.properties_data[buttonName],
-      action: { ...selectedComponent.properties_data[buttonName].action, [key]: event.target.value },
+      ...selectedComponent.data[buttonName],
+      action: { ...selectedComponent.data[buttonName].action, [key]: event.target.value },
     });
   };
 

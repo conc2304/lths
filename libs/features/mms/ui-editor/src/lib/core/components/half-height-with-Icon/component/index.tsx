@@ -4,7 +4,7 @@ import { HalfHeightWithIconProps } from '../../types';
 const HalfHeightWithIconComponent = (props: HalfHeightWithIconProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, icon, description },
+    data: { title, icon, description },
   } = props;
   return (
     <Card id={id} sx={{ backgroundColor: '#242526', borderRadius: '10px' }}>

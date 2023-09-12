@@ -11,6 +11,7 @@ interface TableFileInfoRowProps {
 }
 
 export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelect }) => {
+  const cleanName = row.original_file_name.slice(0, row.original_file_name.lastIndexOf('.')) || row.original_file_name;
   return (
     <TableRow hover key={row.id} style={{ backgroundColor: '#fff' }}>
       <TableCell
@@ -22,7 +23,7 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
           alt={row.unique_file_name}
           style={{ width: '50px', height: '50px' }}
         />
-        <span style={{ marginLeft: 10 }}>{row.original_file_name}</span>
+        <span style={{ marginLeft: 10 }}>{cleanName}</span>
       </TableCell>
 
       <TableCell>{row.created_at_formatted}</TableCell>

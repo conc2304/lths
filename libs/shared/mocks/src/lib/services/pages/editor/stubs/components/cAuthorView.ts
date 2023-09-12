@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cAuthorView',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Facts and Figures: Anaheims 2021-22 Season in Review',
     author: 'Matt Weller',
     date_time: '11:40 AM PT May 10',

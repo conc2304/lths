@@ -8,7 +8,7 @@ const resetIds = (component: ComponentProps) => fillUuid({ ...component, variati
 const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorActionProps<T>) => {
   switch (action.type) {
     case EditorActionType.UPDATE_EXTENDED: {
-      //update the extended props of the T object while keeping the default_data property intact,
+      //update the extended props of the T object while keeping the data property intact,
       return {
         ...state,
         ...action.data,

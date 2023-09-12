@@ -41,7 +41,8 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
       imageWindow.document.close();
     }
   };
-
+  const cleanName =
+    data.original_file_name.slice(0, data.original_file_name.lastIndexOf('.')) || data.original_file_name;
   return (
     <>
       <Box sx={{ margin: theme.spacing(3), marginTop: 0, marginBottom: theme.spacing(2) }}>
@@ -113,10 +114,10 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
         sx={{ padding: `${theme.spacing(2)} ${theme.spacing(3)}` }}
       >
         <Typography sx={{ fontWeight: 600, fontSize: theme.spacing(2.5) }}>File details</Typography>
-        <FileInfo infoType="File Name" infoData={data.unique_file_name} />
-        <FileInfo infoType="Original File Name" infoData={data.original_file_name} />
+        <FileInfo infoType="File Name" infoData={cleanName} />
         <FileInfo infoType="File Extension" infoData={data.file_extension} />
-        <FileInfo infoType="Mime Type" infoData={data.mime_type} />
+        <FileInfo infoType="Owner" infoData={data.created_by} />
+        <FileInfo infoType="File Type" infoData={data.mime_type} />
         <FileInfo infoType="Created At" infoData={data.created_at_formatted} />
       </Stack>
     </>

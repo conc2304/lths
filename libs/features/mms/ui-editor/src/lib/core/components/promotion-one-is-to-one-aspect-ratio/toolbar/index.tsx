@@ -1,17 +1,16 @@
-import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../elements';
+import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker, ActionInput } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
-import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 
 const PromotionOneIsToOneAspectRatioToolbar = (props: PromotionOneIsToOneAspectRatioComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, img_alt_text, action, btn_text },
+    data: { image, img_alt_text, action, btn_text },
     onPropChange,
   } = props;
 
-  const { handleImageChange, handleImageAltChange, handleButtonTextChange } = useToolbarChange();
+  const { handleImageChange, handleImageAltChange, handleActionChange, handleButtonTextChange } = useToolbarChange();
 
   return (
     <ToolContainer id={id} aria-label={'Promotion One Is To One Aspect Ratio Toolbar'}>
@@ -21,7 +20,7 @@ const PromotionOneIsToOneAspectRatioToolbar = (props: PromotionOneIsToOneAspectR
 
       <GroupLabel label={'Button'} />
       <OutlinedTextField label={'Label'} value={btn_text} onChange={handleButtonTextChange} />
-      <ActionToolbar action={action} onPropChange={onPropChange} />
+      <ActionInput action={action} handleActionChange={handleActionChange} />
     </ToolContainer>
   );
 };
