@@ -5,7 +5,7 @@ import { ImageComponentProps } from '../../types';
 
 const ImageComponent = (props: ImageComponentProps) => {
   const {
-    properties_data: { image, title, desc, color = '#000000' },
+    data: { image, title, desc, color = '#000000' },
     __ui_id__: id,
   } = props;
   return (

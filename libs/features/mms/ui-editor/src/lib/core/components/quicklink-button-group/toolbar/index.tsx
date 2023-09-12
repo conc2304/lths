@@ -7,10 +7,9 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 
 const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) => {
-
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_properties_data },
     onPropChange,
   } = props;
 
@@ -34,8 +33,8 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
   };
 
   return (
-    <ToolContainer id={id} aria-label={"Quicklink Button Group Toolbar"}>
-      <ToolbarLabel label={"Quick Link"}/>
+    <ToolContainer id={id} aria-label={'Quicklink Button Group Toolbar'}>
+      <ToolbarLabel label={'Quick Link'} />
 
       <GroupLabel label={"First"}/>
       <OutlinedTextField aria-label="First Label"

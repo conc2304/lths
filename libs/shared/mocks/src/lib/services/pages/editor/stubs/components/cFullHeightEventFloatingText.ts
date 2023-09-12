@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cFullHeightEventFloatingText',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Event Title',
     text_size: '14',
     text_size_unit: 'Pixel',

@@ -4,10 +4,9 @@ import { BasicContainer } from '../../../../elements';
 import QuickLinkButtonComponent from '../../common/quick-link-button/component';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
 
-
 const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps) => {
   const {
-    properties_data: { sub_properties_data },
+    data: { sub_properties_data },
     __ui_id__: id,
   } = props;
   return (

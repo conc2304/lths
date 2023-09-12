@@ -14,14 +14,14 @@ export type ComponentProps = {
   image_url: string;
   constraints: Array<Record<string, string>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  properties_data: Record<string, any>;
+  data: Record<string, any>;
   display_order: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: { [key: string]: any };
 };
 
 export type CardViewComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     image: string;

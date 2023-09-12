@@ -4,7 +4,7 @@ import { ListItemText, TextField, Typography } from '@mui/material';
 import { Colors } from '../../../../../common';
 import { useClickOutside } from '../../../../../elements';
 
-const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText: string) => void }) => {
+const EditableListItemText = ({ text = 'New Item', onSave }: { text: string; onSave: (newText: string) => void }) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +21,9 @@ const EditableListItemText = ({ text, onSave }: { text: string; onSave: (newText
   };
   const handleClickOutside = () => {
     setEditing(false);
-    onSave(editedText);
+    if (editedText) {
+      onSave(editedText);
+    } else setEditedText(text);
   };
 
   useClickOutside(inputRef, handleClickOutside);

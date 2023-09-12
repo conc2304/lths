@@ -26,5 +26,9 @@ export const convertComponentDetailResponse = (data) => {
     properties_data.sub_properties_data = Array(2).fill(properties_data.sub_properties_data[0]);
   }
   const convertedData = { ...data, properties_data };
+// export const convertComponentDetailResponse = (response) => {
+//   const { schema } = response;
+//   const data = transformToObject(schema);
+//   const convertedData = { ...response, data };
   return convertedData;
 };

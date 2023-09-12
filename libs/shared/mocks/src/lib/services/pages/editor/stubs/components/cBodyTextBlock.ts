@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cBodyTextBlock',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Body Large',
     card_background_color: '#121213',
     text_size: '16',

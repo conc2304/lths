@@ -13,26 +13,26 @@ const Story: Meta<typeof QuicklinkButtonGroupComponent> = {
 export default Story;
 
 const Template: StoryFn<typeof QuicklinkButtonGroupComponent> = (args) => (
-    <Box 
-        sx={{
-            backgroundColor: 'rgb(245, 245, 245)',
-            display: 'flex', justifyContent: 'center',
-            alignItems: 'center' 
-        }}
-    >
-        <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-            <QuicklinkButtonGroupComponent {...args} />
-        </Box>
+  <Box
+    sx={{
+      backgroundColor: 'rgb(245, 245, 245)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
+      <QuicklinkButtonGroupComponent {...args} />
     </Box>
+  </Box>
 );
-
 
 export const Primary = Template.bind({});
 Primary.args = {
     ...mockComponent,
     __ui_id__ : "3333333",
     component_id: Component.QuicklinkButtonGroup,
-    properties_data: {    
+    data: {    
       sub_properties_data: [
         {
           card_background_color: "",
@@ -61,14 +61,14 @@ Primary.args = {
 }
 
 Primary.argTypes = {
-    __ui_id__: { table: { disable: true}},
-    component_id: { table: { disable: true}},
-    _id: { table: { disable: true}},
-    name: { table: { disable: true}},
-    description: { table: { disable: true}},
-    category: { table: { disable: true}},
-    image_url: { table: { disable: true}},
-    display_order: { table: { disable: true}},
-    variation_id: { table: { disable: true}},
-    schema: { table: { disable: true}},
-}
+  __ui_id__: { table: { disable: true } },
+  component_id: { table: { disable: true } },
+  _id: { table: { disable: true } },
+  name: { table: { disable: true } },
+  description: { table: { disable: true } },
+  category: { table: { disable: true } },
+  image_url: { table: { disable: true } },
+  display_order: { table: { disable: true } },
+  variation_id: { table: { disable: true } },
+  schema: { table: { disable: true } },
+};

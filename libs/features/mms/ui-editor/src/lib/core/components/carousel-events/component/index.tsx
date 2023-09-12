@@ -5,11 +5,11 @@ import { CarouselEventsComponentProps } from '../../types';
 const CarouselEventsComponent = (props: CarouselEventsComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
   } = props;
   return (
     <BasicContainer id={id}>
-      <EventCardCarousel items={sub_properties_data} />
+      <EventCardCarousel items={sub_component_data} />
     </BasicContainer>
   );
 };

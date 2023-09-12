@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
 import QuicklinkButtonGroupComponent from './index';
 import mockComponent from '../../../../context/mockdata';
@@ -14,8 +14,8 @@ describe("QuicklinkButtonGroupComponent", () => {
           ...mockComponent,
           __ui_id__ : "3333333",
           component_id: Component.QuicklinkButtonGroup,
-          properties_data: {    
-            sub_properties_data: [
+          data: {    
+            sub_component_data: [
               {
                 card_background_color: "",
                 icon: "nonexistent png",
@@ -49,14 +49,13 @@ describe("QuicklinkButtonGroupComponent", () => {
 
   test('renders component with default data', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { sub_properties_data } = props.properties_data;
+    const { sub_properties_data } = props.data;
 
     const firstlabelElement = screen.getByText(sub_properties_data[0].title);
     expect(firstlabelElement).toBeInTheDocument();
 
     const secondlabelElement = screen.getByText(sub_properties_data[1].title);
     expect(secondlabelElement).toBeInTheDocument();
-
   });
 
   test('renders component with diffrent default data', () => {
@@ -73,10 +72,9 @@ describe("QuicklinkButtonGroupComponent", () => {
 
     const secondlabelElement = screen.getByText(sub_properties_data[1].title);
     expect(secondlabelElement).toBeInTheDocument();
-
   });
 
-  test("renders Component with icons", () => {
+  test('renders Component with icons', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
     const { sub_properties_data } = props.properties_data;
     const firstImageAlt = sub_properties_data[0].title + "_icon";
@@ -93,5 +91,4 @@ describe("QuicklinkButtonGroupComponent", () => {
     expect(secondIconElement).toHaveAttribute('src', sub_properties_data[1].icon);
     expect(secondIconElement).toHaveAttribute('alt', secondImageAlt);
   });
-
 });
