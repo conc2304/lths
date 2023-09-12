@@ -49,46 +49,46 @@ describe("QuicklinkButtonGroupComponent", () => {
 
   test('renders component with default data', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { sub_properties_data } = props.data;
+    const { sub_component_data } = props.data;
 
-    const firstlabelElement = screen.getByText(sub_properties_data[0].title);
+    const firstlabelElement = screen.getByText(sub_component_data[0].title);
     expect(firstlabelElement).toBeInTheDocument();
 
-    const secondlabelElement = screen.getByText(sub_properties_data[1].title);
+    const secondlabelElement = screen.getByText(sub_component_data[1].title);
     expect(secondlabelElement).toBeInTheDocument();
   });
 
   test('renders component with diffrent default data', () => {
-    props.properties_data.sub_properties_data[0].title = `The cool label 1`
-    props.properties_data.sub_properties_data[0].icon = `The cool icon 1`
-    props.properties_data.sub_properties_data[1].title = `The cool label 2`
-    props.properties_data.sub_properties_data[1].icon = `The cool icon 2`
+    props.data.sub_component_data[0].title = `The cool label 1`
+    props.data.sub_component_data[0].icon = `The cool icon 1`
+    props.data.sub_component_data[1].title = `The cool label 2`
+    props.data.sub_component_data[1].icon = `The cool icon 2`
 
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { sub_properties_data } = props.properties_data;
+    const { sub_component_data } = props.data;
 
-    const firstlabelElement = screen.getByText(sub_properties_data[0].title);
+    const firstlabelElement = screen.getByText(sub_component_data[0].title);
     expect(firstlabelElement).toBeInTheDocument();
 
-    const secondlabelElement = screen.getByText(sub_properties_data[1].title);
+    const secondlabelElement = screen.getByText(sub_component_data[1].title);
     expect(secondlabelElement).toBeInTheDocument();
   });
 
   test('renders Component with icons', () => {
     render(<QuicklinkButtonGroupComponent {...props} />);
-    const { sub_properties_data } = props.properties_data;
-    const firstImageAlt = sub_properties_data[0].title + "_icon";
-    const secondImageAlt = sub_properties_data[1].title + "_icon";
+    const { sub_component_data } = props.data;
+    const firstImageAlt = sub_component_data[0].title + "_icon";
+    const secondImageAlt = sub_component_data[1].title + "_icon";
 
     const firstIconElement = screen.getByAltText(firstImageAlt);
     const secondIconElement = screen.getByAltText(secondImageAlt);
 
     expect(firstIconElement).toBeInTheDocument();
-    expect(firstIconElement).toHaveAttribute('src', sub_properties_data[0].icon);
+    expect(firstIconElement).toHaveAttribute('src', sub_component_data[0].icon);
     expect(firstIconElement).toHaveAttribute('alt', firstImageAlt);
 
     expect(secondIconElement).toBeInTheDocument();
-    expect(secondIconElement).toHaveAttribute('src', sub_properties_data[1].icon);
+    expect(secondIconElement).toHaveAttribute('src', sub_component_data[1].icon);
     expect(secondIconElement).toHaveAttribute('alt', secondImageAlt);
   });
 });

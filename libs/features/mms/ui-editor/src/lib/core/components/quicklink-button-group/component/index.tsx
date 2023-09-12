@@ -6,9 +6,10 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps) => {
   const {
-    data: { sub_properties_data },
+    data: { sub_component_data },
     __ui_id__: id,
   } = props;
+
   return (
     <BasicContainer id={id} 
       sx={{ 
@@ -19,7 +20,7 @@ const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps
       }}
     >
       <Stack direction="row" spacing={1.5}>
-        {sub_properties_data.map((row, index) => <QuickLinkButtonComponent key={index} title={row.title} icon={row.icon} />)}
+        {sub_component_data.map((row, index) => <QuickLinkButtonComponent key={index} title={row.title} icon={row.icon} />)}
       </Stack>
     </BasicContainer>
   );

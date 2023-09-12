@@ -372,7 +372,7 @@ export type QuicklinkButton = {
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
   data: {
-    sub_properties_data: QuicklinkButton[]
+    sub_component_data: QuicklinkButton[]
   };
 };
 

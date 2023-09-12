@@ -33,7 +33,7 @@ Primary.args = {
     __ui_id__ : "3333333",
     component_id: Component.QuicklinkButtonGroup,
     data: {    
-      sub_properties_data: [
+      sub_component_data: [
         {
           card_background_color: "",
           icon: "nonexistent png",

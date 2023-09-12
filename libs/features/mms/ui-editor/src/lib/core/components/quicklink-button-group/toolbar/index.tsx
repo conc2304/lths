@@ -9,7 +9,7 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) => {
   const {
     __ui_id__: id,
-    data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -25,7 +25,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
 
   useEffect(() => fetchData(), []);
 
-  const parentKeys = ['sub_properties_data'];
+  const parentKeys = ['sub_component_data'];
   const { handleTitleChange, handlePropChange} = useToolbarChange();
 
   const handleIconChange = (value: string, index: number) => {
@@ -38,34 +38,34 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
 
       <GroupLabel label={"First"}/>
       <OutlinedTextField aria-label="First Label"
-        label={'Label'} value={sub_properties_data[0]?.title} 
+        label={'Label'} value={sub_component_data[0]?.title} 
         onChange={(e) => handleTitleChange(e, 0, parentKeys)} 
       />
       <ImageAutocomplete
         aria-label="First Icon"
         label="Icon"
-        value={sub_properties_data[0]?.icon}
+        value={sub_component_data[0]?.icon}
         data={icons}
         onChange={(value) => handleIconChange(value, 0)}
       />
       <ActionInput
-        action={sub_properties_data[0]?.action} index={0}
+        action={sub_component_data[0]?.action} index={0}
         keys={parentKeys}
       />
 
       <GroupLabel label={"Second"}/>
       <OutlinedTextField aria-label="Second Label"
-        label={'Label'} value={sub_properties_data[1]?.title}
+        label={'Label'} value={sub_component_data[1]?.title}
         onChange={(e) => handleTitleChange(e, 1, parentKeys) } 
       />
       <ImageAutocomplete
         label={'Icon'} aria-label="Second Icon"
-        value={sub_properties_data[1]?.icon}
+        value={sub_component_data[1]?.icon}
         data={icons}
         onChange={(value) => { handleIconChange(value, 1) }}
       />
       <ActionInput
-        action={sub_properties_data[1]?.action} index={1}
+        action={sub_component_data[1]?.action} index={1}
         keys={parentKeys}
       />
     </ToolContainer>
