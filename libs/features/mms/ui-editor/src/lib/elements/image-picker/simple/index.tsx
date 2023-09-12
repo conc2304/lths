@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Typography, Card, CardMedia, Box, Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
+import { Colors } from '../../../common';
 import { ToolbarProps } from '../../../context';
 import GroupLabel from '../../labels/group-label';
 
@@ -39,10 +40,10 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
         sx={{
           padding: '4.5px 19px',
           boxShadow: 'none',
-          border: '1px solid #BDBDBD',
-          color: '#3D4752',
-          backgroundColor: '#FFFFFF',
-          '&:hover': { backgroundColor: '#FFFFFF' },
+          border: `1px solid ${Colors.simpleImagePicker.button.border}`,
+          color: Colors.simpleImagePicker.button.text,
+          backgroundColor: Colors.simpleImagePicker.button.background,
+          '&:hover': { backgroundColor: Colors.simpleImagePicker.button.background },
         }}
       >
         {icon}
@@ -82,10 +83,10 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
             paddingBottom: `${75}%`,
             position: 'relative',
             width: '100%',
-            backgroundColor: '#F5F5F5',
+            backgroundColor: Colors.simpleImagePicker.image.background,
           }}
         >
-          <Card sx={{ position: 'absolute', inset: 0, backgroundColor: '#F5F5F5', borderRadius: '4px' }}>
+          <Card sx={{ position: 'absolute', inset: 0, borderRadius: '4px', backgroundColor: Colors.simpleImagePicker.image.background }}>
             {imageSrc && (
               <CardMedia
                 component="img"
