@@ -14,7 +14,7 @@ import {
 } from '@lths/features/mms/data-access';
 import { EditorProps, EditorProvider, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
 
-import { ArchiveAlert, DuplicateAlert, SendAlert } from '../dialog';
+import { ArchiveAlert, DuplicateAlert, SendAlert } from '../dialogs';
 import { useNotificationTopics } from '../hooks';
 import { CreateNotificationModal, EditNotificationModal } from '../modals';
 import { NotificationRequest } from '../types';
