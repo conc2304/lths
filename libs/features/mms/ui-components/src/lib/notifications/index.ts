@@ -1,5 +1,5 @@
 export * from './hooks';
-export * from './dialog';
+export * from './dialogs';
 export * from './forms';
 export * from './header/status';
 export * from './header';
