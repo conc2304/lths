@@ -47,7 +47,6 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={_handleTitleChange} />
       <OutlinedTextField label={'Description'} value={description} onChange={_handleDescriptionChange} />
-      <GroupLabel label={'Action'} />
       <ActionToolbar action={action} keys={parentKeys} onPropChange={onPropChange} index={index} />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>
         <Button variant="outlined" onClick={onClose} sx={{ padding: '8px 22px', fontSize: 15 }}>

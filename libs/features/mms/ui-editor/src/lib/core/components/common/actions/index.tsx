@@ -15,7 +15,7 @@ type ActionExtendedProps = {
 };
 const ActionType = {
   Native: 'native',
-  WebView: 'webview',
+  WebView: 'web',
 };
 
 const Action = (props: ActionExtendedProps) => {
