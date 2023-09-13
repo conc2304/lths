@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cTableDetails',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     color: '#FFFFFF',
-    sub_properties_data: [
+    sub_component_data: [
       {
         title: '1',
       },

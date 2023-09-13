@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cFullHeightCarousel',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
-    component_data: {
+  data: {
+    sub_component_data: {
       title: 'Card Title',
       aspect_ratio: '3:2',
       text_size: '14',

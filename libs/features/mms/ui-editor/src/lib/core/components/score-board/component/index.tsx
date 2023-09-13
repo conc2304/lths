@@ -23,7 +23,7 @@ const TeamLogoDisplay = ({ url, team, info }) => {
 const ScoreBoardComponent = (props: ScoreBoardComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { date_info, match_name, hint, left, right },
+    data: { date_info, match_name, hint, left, right },
   } = props;
   const team = `${left.name} @ ${right.name}`;
   //TODO: cleanup style , split into components

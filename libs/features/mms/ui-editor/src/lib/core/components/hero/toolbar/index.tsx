@@ -9,7 +9,7 @@ import { HeroComponentProps } from '../../types';
 const ToolbarComponent = (props: HeroComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, title, link_title, sub_properties_data = [] },
+    data: { image, title, link_title, sub_component_data = [] },
     onPropChange,
   } = props;
 
@@ -25,7 +25,7 @@ const ToolbarComponent = (props: HeroComponentProps) => {
       <Divider />
       <BasicTextField label={'Links Title'} value={link_title} onChange={handleLinkTitleChange} />
       <Box sx={{ gap: 0 }}>
-        <QuickLinkListToolbar data={sub_properties_data} onChange={handleActionChange} />
+        <QuickLinkListToolbar data={sub_component_data} onChange={handleActionChange} />
       </Box>
     </ToolContainer>
   );
