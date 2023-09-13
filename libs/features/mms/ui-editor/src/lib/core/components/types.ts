@@ -46,7 +46,7 @@ export type SocialIconButtonProps = {
   action: ActionProps;
 };
 export type SocialIconButtoncomponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     sub_properties_data: SocialIconButtonProps[];
   };
 };

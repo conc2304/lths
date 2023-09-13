@@ -16,7 +16,7 @@ export type EnumValue = {
 const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_properties_data },
     onPropChange,
   } = props;
 
