@@ -8,11 +8,11 @@ import { useDrag, useDrop } from 'react-dnd';
 import { DraggableCarouselListItemProps, DragItemProps, ItemTypes } from './types';
 
 import type { Identifier, XYCoord } from 'dnd-core';
-
+//TODO: remove this - This appears to be duplicate of the navigator list item.
 
 const DraggableCarouselListItem = ({
   text,
-  sub_properties_data,
+  sub_component_data,
   index,
   onDrag,
   onDelete,
@@ -23,7 +23,7 @@ const DraggableCarouselListItem = ({
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     setIsVisible(true);
-  }, [sub_properties_data]);
+  }, [sub_component_data]);
 
   const [{ handlerId }, drop] = useDrop<DragItemProps, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.LISTITEM,

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cHalfHeightMatchup',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     away_team_name: 'Ducks',
     away_team_logo: 'https://assets.nhle.com/logos/nhl/svg/ANA_light.svg',
     home_team_name: 'Arizona',

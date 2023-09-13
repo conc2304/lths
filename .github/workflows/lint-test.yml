@@ -1,0 +1,35 @@
+name: Lint & Test
+
+on:
+  pull_request:
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NPM_ENV: local
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+          node-version: '18'
+
+      - uses: nrwl/nx-set-shas@v2
+
+      - name: Install dependencies
+        run: |
+          npm install -g yarn
+          yarn
+
+      - run: npx nx workspace-lint
+      # - run: npx nx format:check --verbose
+      - run: npx nx affected --target=lint --parallel=3
+      - run: npx nx affected --target=test --parallel=3 --ci --code-coverage
+      - run: npx nx affected --target=build --parallel=3

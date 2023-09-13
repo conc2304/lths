@@ -85,6 +85,8 @@ import {
   FullWidthButtonToolbar,
   TextButtonToolbar,
   TextButtonProps,
+  SpacerToolbar,
+  SpacerProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -216,6 +218,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:
       return <TextButtonToolbar {...(props as TextButtonProps)} />;
+    case Component.Spacer:
+      return <SpacerToolbar {...(props as SpacerProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

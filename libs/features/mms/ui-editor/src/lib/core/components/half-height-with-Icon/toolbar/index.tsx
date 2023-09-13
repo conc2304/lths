@@ -6,7 +6,7 @@ import { HalfHeightWithIconProps } from '../../types';
 const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, icon, description, action, icon_alt_text },
+    data: { title, icon, description, action, icon_alt_text },
     onPropChange,
   } = props;
 

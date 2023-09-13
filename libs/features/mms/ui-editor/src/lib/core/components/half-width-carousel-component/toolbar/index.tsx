@@ -9,12 +9,12 @@ import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel } from '../../../../elements';
 import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
-import { HalfWidthCarouselProps, HalfWidthCarouselComponentProps } from '../../types';
+import { HalfWidthCarouselComponentProps } from '../../types';
 
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -34,22 +34,17 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     handleCloseItem();
   }, [id]);
 
-  const handleUpdateItem = (newComponent: HalfWidthCarouselProps, index: number) => {
-    const newComponentData = [...sub_properties_data];
-    newComponentData[index] = newComponent;
-    const data = { ...props, properties_data: { sub_properties_data: newComponentData } };
-    selectComponent(data);
-
-    setSelectedIndex(-1);
-  };
-
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        sub_properties_data: [
-          ...sub_properties_data,
-          { title: 'New Card', description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod' },
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
+          {
+            title: 'New Card',
+            description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
+            action: { type: 'native' },
+          },
         ],
       },
     };
@@ -57,10 +52,10 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   };
 
   const handleDelete = (index) => {
-    const newData = [...props.properties_data.sub_properties_data];
+    const newData = [...props.data.sub_component_data];
     newData.splice(index, 1);
 
-    const data = { ...props, properties_data: { sub_properties_data: newData } };
+    const data = { ...props, data: { sub_component_data: newData } };
     selectComponent(data);
   };
 
@@ -68,7 +63,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     (dragIndex: number, hoverIndex: number) => {
       swapComponentProps(dragIndex, hoverIndex);
     },
-    [props.properties_data]
+    [props.data]
   );
 
   const renderCarouselDraggableItem = (item: any, index: number) => {
@@ -76,7 +71,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
       <DraggableCarouselListItem
         key={index}
         index={index}
-        sub_properties_data={sub_properties_data}
+        sub_component_data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
@@ -90,16 +85,16 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
       <DndProvider backend={HTML5Backend}>
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
-            item={sub_properties_data[selectedIndex]}
-            handleCloseItem={handleCloseItem}
-            handleUpdateItem={(newComponent) => handleUpdateItem(newComponent, selectedIndex)}
+            item={sub_component_data[selectedIndex]}
+            onClose={handleCloseItem}
             onPropChange={onPropChange}
+            index={selectedIndex}
           />
         ) : (
           <>
             <ToolbarLabel label={'Carousel'} />
-            {sub_properties_data && sub_properties_data.length > 0 && (
-              <List>{sub_properties_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
+            {sub_component_data && sub_component_data.length > 0 && (
+              <List>{sub_component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
             )}
             <div>
               <Button

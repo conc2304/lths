@@ -9,7 +9,7 @@ import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
-import { PagesDataRequest, useDeletePageMutation, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
+import { PageItemsRequest, useDeletePageMutation, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { Table, TablePaginationProps, TableSortingProps, OverflowMenu } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -69,7 +69,7 @@ const Pages = (): JSX.Element => {
   const [deletePage, { isLoading: isDeleteLoading }] = useDeletePageMutation();
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const req: PagesDataRequest = {};
+    const req: PageItemsRequest = {};
     if (pagination != null) {
       req.page = pagination.page;
       req.page_size = pagination.pageSize;
@@ -195,7 +195,7 @@ const Pages = (): JSX.Element => {
         <Stack direction="row" spacing={2} alignItems="center">
           <Box>
             <Typography variant="body1">{row.status}</Typography>
-            <Typography variant="body1">{row.lastModified}</Typography>
+            <Typography variant="body1">{row.updated_by}</Typography>
           </Box>
           {statusIcon[row.status]}
         </Stack>
