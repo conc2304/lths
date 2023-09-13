@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import {
   ImageAutocomplete,
   OutlinedTextField,
-  ActionInput,
   GroupLabel,
   ToolbarLabel,
   AutocompleteOptionProps,
@@ -59,7 +58,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
         data={icons}
         onChange={(value) => handleIconChange(value, 0)}
       />
-      <ActionInput action={sub_component_data[0]?.action} index={0} keys={parentKeys} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
 
       <GroupLabel label={'Second'} />
       <OutlinedTextField

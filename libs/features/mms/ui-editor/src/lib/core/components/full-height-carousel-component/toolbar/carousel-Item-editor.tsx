@@ -17,7 +17,7 @@ type CarouselItemProps = ToolbarProps & {
 
 const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, handleCloseItem, index }) => {
   const { image, img_alt_text, title, description, action } = item;
-  const parentKeys = ['sub_properties_data'];
+  const parentKeys = ['sub_component_data'];
   const { handleTitleChange, handleImageChange, handleImageAltChange, handleDescriptionChange } = useToolbarChange();
 
   const _handleTitleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
