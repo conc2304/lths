@@ -12,6 +12,7 @@ import {
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
+  EnumValue,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
 import {
@@ -53,11 +54,11 @@ export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data } = useEditorActions();
   const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
-  const [getEnumList] = useLazyGetEnumListQuery();
   const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   //state
@@ -128,10 +129,14 @@ export function PageEditorTabs() {
       return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
   };
 
+  const handleAddSocialIcon = async (callback: (data) => void) => {
+    const response = await getEnumList('socialIcons').unwrap();
+    if (response && response.success && response.data) return callback(response.data.enum_values);
+    else return callback([]);
+  };
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
     const response = await getEnumList('Icons').unwrap();
-    if (response.data)
-      return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+    if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
   };
 
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {
@@ -139,6 +144,8 @@ export function PageEditorTabs() {
       handleAddImage(callback as Callback<string>);
     } else if (propName === 'action') {
       handlAddAction(callback as Callback<AutocompleteItemProps>);
+    } else if (propName === 'social_icon') {
+      handleAddSocialIcon(callback as Callback<EnumValue>);
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
     }

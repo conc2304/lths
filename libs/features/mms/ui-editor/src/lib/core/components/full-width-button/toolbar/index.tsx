@@ -11,7 +11,6 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
     data: { label, action },
     onPropChange,
   } = props;
-  console.log(props);
 
   const { updateComponentProp } = useToolbarChange();
 

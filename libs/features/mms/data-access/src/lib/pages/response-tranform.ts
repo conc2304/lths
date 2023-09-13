@@ -21,6 +21,9 @@ export const convertComponentDetailResponse = (response) => {
   const { schema } = response;
 
   const data = transformToObject(schema);
+  if (response.component_id === Component.SocialIconButton && data.sub_component_data.length > 0) {
+    data.sub_component_data = Array(4).fill(data.sub_component_data[0]);
+  }
 
   if (response.component_id === Component.QuicklinkButtonGroup) {
     const quickLinkButton = data.sub_component_data[0];
