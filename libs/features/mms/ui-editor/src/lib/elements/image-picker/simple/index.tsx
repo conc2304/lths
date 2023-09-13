@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Typography, Card, CardMedia, Box, Button, Stack } from '@mui/material';
+import { Card, CardMedia, Box, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
+import IconTextButton from './icon-text-button'
 import { Colors } from '../../../common';
 import { ToolbarProps } from '../../../context';
 import GroupLabel from '../../labels/group-label';
@@ -20,46 +21,12 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
 
   const handleReplace = () => {
     onReplace && onReplace('image_url', onChange);
+    setIsHovering(false);
   };
 
   const handleDelete = () => {
     onChange('');
-  };
-
-  const IconButtonWithText = ({ icon, text, onClick }) => {
-    const buttonOnClickOnly = (event) => {
-      event.stopPropagation()
-      onClick(event);
-      setIsHovering(false);
-    }
-
-    return (
-      <Button
-        onClick={buttonOnClickOnly}
-        variant="contained"
-        sx={{
-          padding: '4.5px 19px',
-          boxShadow: 'none',
-          border: `1px solid ${Colors.simpleImagePicker.button.border}`,
-          color: Colors.simpleImagePicker.button.text,
-          backgroundColor: Colors.simpleImagePicker.button.background,
-          '&:hover': { backgroundColor: Colors.simpleImagePicker.button.background },
-        }}
-      >
-        {icon}
-        <Typography
-          sx={{
-            fontSize: 15,
-            fontWeight: 'bold',
-            letterSpacing: '0.46px',
-            whiteSpace: 'nowrap',
-          }}
-          textTransform="uppercase"
-        >
-          {text}
-        </Typography>
-      </Button>
-    );
+    setIsHovering(false);
   };
 
   return (
@@ -75,7 +42,6 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
         }}
       >
         <Box
-          onClick={handleReplace}
           onMouseEnter={() => {setIsHovering(true)}}
           onMouseLeave={() => {setIsHovering(false)}}
           sx={{
@@ -108,12 +74,12 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
               ( isHovering &&
                 (
                 <Stack spacing={1} >
-                  <IconButtonWithText 
+                  <IconTextButton 
                     icon={<RefreshIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
                     text="Change"
                     onClick={handleReplace}
                   />
-                  <IconButtonWithText 
+                  <IconTextButton 
                     icon={<DeleteIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
                     text="Remove"
                     onClick={handleDelete}
@@ -123,7 +89,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
               )
               : 
               (
-                <IconButtonWithText 
+                <IconTextButton 
                   icon={<AddIcon sx={{ fontSize: 32, paddingRight: 1 }} />} 
                   text="Add Image"
                   onClick={handleReplace}
