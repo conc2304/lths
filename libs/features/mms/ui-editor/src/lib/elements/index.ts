@@ -13,3 +13,5 @@ export * from './action-accordion';
 
 export * from './hooks';
 export { default as ActionInput } from './action-input';
+
+export * from './autocomplete';
