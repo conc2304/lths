@@ -9,13 +9,14 @@ import {
   AutocompleteOptionProps,
 } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
 
 const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) => {
   const {
     __ui_id__: id,
-    data: { sub_component_data },
+    data: { sub_component_data, action },
     onPropChange,
   } = props;
 
@@ -76,7 +77,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
           handleIconChange(value, 1);
         }}
       />
-      <ActionInput action={sub_component_data[1]?.action} index={1} keys={parentKeys} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };
