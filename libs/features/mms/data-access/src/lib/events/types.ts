@@ -14,7 +14,7 @@ export type CreateEventPayload = {
   visibility?: Record<string, unknown>;
   state?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
-  source: 'MMS'; // Backend can take different types, but we should only ever be sending "MMS"
+  source: 'mms'; // Backend can take different types, but we should only ever be sending "MMS"
 };
 
 export type CreateEventResponse = {

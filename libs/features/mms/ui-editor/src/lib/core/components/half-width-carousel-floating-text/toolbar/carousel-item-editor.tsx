@@ -6,6 +6,7 @@ import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker } from '
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselFloatingTextProps } from '../../types';
+
 //TODO: Fix lint, create onChange wrapper function, chane event props to start with 'on'
 type CarouselItemProps = ToolbarProps & {
   item: HalfWidthCarouselFloatingTextProps;

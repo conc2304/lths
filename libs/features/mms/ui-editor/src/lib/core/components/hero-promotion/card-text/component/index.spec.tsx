@@ -60,7 +60,6 @@ describe('HeroPromotion: CardText', () => {
   test('renders Component with image', () => {
     render(<CardText {...props} />);
     const {
-      __ui_id__: id,
       data: { image, img_alt_text },
     } = props;
 

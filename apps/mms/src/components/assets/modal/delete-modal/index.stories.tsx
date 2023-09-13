@@ -3,15 +3,15 @@ import { Button } from '@mui/material';
 
 import { DeleteModal } from './index';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof DeleteModal> = {
+const Story: Meta<typeof DeleteModal> = {
   component: DeleteModal,
   title: 'Inputs/ Modal/ Delete Modal',
 };
 export default Story;
 
-const Template: ComponentStory<typeof DeleteModal> = (args) => {
+const Template: StoryFn<typeof DeleteModal> = (args) => {
   const [open, setOpen] = useState(false);
 
   args.open = open;

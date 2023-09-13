@@ -1,6 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
 import {
   useLazyGetEventsQuery,
@@ -32,17 +33,26 @@ jest.mock('@lths/features/mms/ui-event-schedule', () => ({
   ImportEventsModal: jest.fn(() => null),
 }));
 
+let component: RenderResult<typeof import('@testing-library/dom/types/queries'), HTMLElement, HTMLElement>;
+let container: HTMLElement;
+
 describe('SchedulePage', () => {
-  beforeEach(() => {
-    // Mock the return values of the hooks before each test
-    (useLazyGetEventsQuery as jest.Mock).mockReturnValue([jest.fn(), {}]);
-    (useUpdateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
-    (useCreateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
-    (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([jest.fn()]);
+  beforeEach(async () => {
+    await act(async () => {
+      // Mock the return values of the hooks before each test
+      (useLazyGetEventsQuery as jest.Mock).mockReturnValue([jest.fn(), {}]);
+      (useUpdateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
+      (useCreateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
+      (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([jest.fn()]);
+    });
+
+    await act(async () => {
+      component = render(<SchedulePage />);
+      container = component.container;
+    });
   });
 
   it('renders without crashing', () => {
-    const { container } = render(<SchedulePage />);
     expect(container).toBeInTheDocument();
   });
 
@@ -56,7 +66,7 @@ describe('SchedulePage', () => {
     expect(getEventsDataMock).not.toHaveBeenCalled();
     expect(getEnumListMock).not.toHaveBeenCalled();
 
-    render(<SchedulePage />);
+    await act(async () => render(<SchedulePage />));
 
     // Verify we we are doing all of our initialization calls with the correct arguments
     expect(getEventsDataMock).toHaveBeenCalled();
@@ -73,33 +83,30 @@ describe('SchedulePage', () => {
         sort: '{ start_date_time: 1 }',
       })
     );
-    expect(getEnumListMock).toHaveBeenCalledWith('EventType');
+    expect(getEnumListMock).toHaveBeenLastCalledWith('EventType');
   });
 
   it('opens the import modal when IMPORT button is clicked', () => {
-    const { getByText } = render(<SchedulePage />);
-    const importButton = getByText('IMPORT');
+    const importButton = component.getByText('IMPORT');
     fireEvent.click(importButton);
 
     // Verify that the component was called with the Open prop
-    expect(ImportEventsModal).toHaveBeenCalledWith(expect.objectContaining({ open: true }), {});
+    expect(ImportEventsModal).toHaveBeenLastCalledWith(expect.objectContaining({ open: true }), {});
   });
 
   it('opens the export modal when EXPORT button is clicked', () => {
-    const { getByText } = render(<SchedulePage />);
-    const exportButton = getByText('EXPORT');
+    const exportButton = component.getByText('EXPORT');
     fireEvent.click(exportButton);
 
     // Verify that the component was called with the Open prop
-    expect(ExportEventsModal).toHaveBeenCalledWith(expect.objectContaining({ open: true }), {});
+    expect(ExportEventsModal).toHaveBeenLastCalledWith(expect.objectContaining({ open: true }), {});
   });
 
   it('opens the new event modal when + NEW EVENT button is clicked', () => {
-    const { getByText } = render(<SchedulePage />);
-    const newEventButton = getByText('+ NEW EVENT');
+    const newEventButton = component.getByText('+ NEW EVENT');
     fireEvent.click(newEventButton);
 
     // Verify that the component was called with the Open prop
-    expect(CreateNewEventModal).toHaveBeenCalledWith(expect.objectContaining({ open: true }), {});
+    expect(CreateNewEventModal).toHaveBeenLastCalledWith(expect.objectContaining({ open: true }), {});
   });
 });

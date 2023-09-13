@@ -1,4 +1,4 @@
-import { Box, Typography, Card, CardMedia, Button, Stack } from '@mui/material';
+import { Typography, Card, CardMedia, Button, Stack } from '@mui/material';
 
 import { BasicContainer } from '../../../../elements';
 import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';

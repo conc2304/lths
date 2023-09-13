@@ -13,4 +13,11 @@ module.exports = {
    * More info: https://jestjs.io/docs/upgrading-to-jest29#snapshot-format
    */
   snapshotFormat: { escapeString: true, printBasicPrototype: true },
+  transform: {
+    "^.+\\.[t|j]sx?$": "babel-jest",
+    ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+  },
+  transformIgnorePatterns: [
+    "/node_modules/(?!react-dnd|dnd-core|@react-dnd|swiper|ssr-window)",
+  ],
 };

@@ -1,4 +1,4 @@
-import { FilterSettingsPayload } from '@lths/types/ui-filters';
+import { FilterSettingsPayload } from '@lths/shared/ui-elements';
 
 export type InsightRequest = FilterSettingsPayload;
 export type InsightItem = {
@@ -17,14 +17,15 @@ export type PagesItem = {
 export type InsightResponse = {
   data: InsightItem;
 };
-export type InsightKpiColumnCardResponse = { 
+export type InsightKpiColumnCardResponse = {
   data: {
-    title: string | null; 
+    title: string | null;
     subtitle?: string | null;
     info: Info;
-    kpiData: Array<KPI>, 
-    columnData: Array<BarData>
-  } };
+    kpiData: Array<KPI>;
+    columnData: Array<BarData>;
+  };
+};
 
 export type InsightKpiResponse = { data: Array<KPI> };
 export type InsightHistogramResponse = { data: Array<Histogram> };
@@ -44,7 +45,7 @@ export type BarData = {
   uv: number;
   in?: number;
   drop?: number;
-}
+};
 
 export type KPI = {
   title: string | null; // metric title

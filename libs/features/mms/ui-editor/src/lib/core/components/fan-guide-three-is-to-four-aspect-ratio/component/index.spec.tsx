@@ -75,7 +75,6 @@ describe('FanGuideThreeIsToFourAspectRatioComponent', () => {
   test('renders Component with image', () => {
     render(<FanGuideThreeIsToFourAspectRatioComponent {...props} />);
     const {
-      __ui_id__: id,
       data: { image, img_alt_text },
     } = props;
 

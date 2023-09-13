@@ -3,15 +3,15 @@ import { Button } from '@mui/material';
 
 import { SimpleModal } from './index';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof SimpleModal> = {
+const Story: Meta<typeof SimpleModal> = {
   component: SimpleModal,
   title: 'Inputs/ Modal/ Simple Modal',
 };
 export default Story;
 
-const Template: ComponentStory<typeof SimpleModal> = (args) => {
+const Template: StoryFn<typeof SimpleModal> = (args) => {
   const [open, setOpen] = useState(false);
 
   args.open = open;

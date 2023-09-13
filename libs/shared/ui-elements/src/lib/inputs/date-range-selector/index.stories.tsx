@@ -1,19 +1,18 @@
 import { useState } from 'react';
 
-import { DateRange } from '@lths/types/ui-filters';
-
 import { DateRangeSelector } from './index';
 import { DateRangeFilterOptions } from './mock-button-ranges';
+import { DateRange } from '../../ui-filters/types';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof DateRangeSelector> = {
+const Story: Meta<typeof DateRangeSelector> = {
   component: DateRangeSelector,
   title: 'Inputs/ Date Range Selector',
 };
 export default Story;
 
-const Template: ComponentStory<typeof DateRangeSelector> = (args) => {
+const Template: StoryFn<typeof DateRangeSelector> = (args) => {
   const [dateRangeState, setDateRangeState] = useState<DateRange>(args.value);
 
   return (

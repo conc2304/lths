@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
 import { Box } from '@mui/material';
+
+import { ordinalifyNumber } from '@lths/shared/ui-elements';
 
 import SocailIconAutoComplete from './autocomplete';
 import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';

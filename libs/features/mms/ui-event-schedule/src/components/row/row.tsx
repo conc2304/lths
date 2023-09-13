@@ -8,7 +8,7 @@ import { CalendarEventTableCell } from './render-cell';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../../types';
 import { EventDetailsPopper } from '../modals/event-details-popper';
 
-type RowProps = RowBuilderProps & {
+export type RowProps = RowBuilderProps & {
   eventTypes: EventType[];
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
@@ -51,6 +51,7 @@ export const Row = (props: RowProps) => {
       <TableRow
         tabIndex={-1}
         key={`tr-${event.id}`}
+        role="row"
         sx={{
           height: '5.6rem',
           cursor: 'pointer',

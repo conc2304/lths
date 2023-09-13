@@ -8,7 +8,7 @@ import {
   useLazyGetInsightOnboardingKpiQuery,
 } from '@lths/features/mms/data-access';
 import { VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/types/ui-filters';
+import { FilterSettingsPayload } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { KpiAndColumnContainer } from '../../components/insights/flows/onboarding-flow';
@@ -19,31 +19,33 @@ import { PreviewContainer } from '../../components/insights/pages';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 const OnboardingFlowPage = (): JSX.Element => {
-  const [getKpiColumnCardData, { isFetching: isKpiColumnCardFetching, isLoading: isKpiColumnCardLoading, data: kpiColumnCardData }] =
-  useLazyGetInsightOnboardingKpiColumnCardQuery();
+  const [
+    getKpiColumnCardData,
+    { isFetching: isKpiColumnCardFetching, isLoading: isKpiColumnCardLoading, data: kpiColumnCardData },
+  ] = useLazyGetInsightOnboardingKpiColumnCardQuery();
 
   const [getPreviewData, { isFetching: isPreviewFetching, isLoading: isPreviewLoading, data: previewData }] =
     useLazyGetInsightPagesPreviewQuery();
-  
+
   const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
     useLazyGetInsightOnboardingKpiQuery();
 
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOnboardingHistogramQuery();
 
-    async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
-      const {
-        date_range: { start_date, end_date },
-        metrics,
-      } = filterSettings;
-      if (!filterSettings || !start_date || !end_date || !metrics) return;
+  async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+    const {
+      date_range: { start_date, end_date },
+      metrics,
+    } = filterSettings;
+    if (!filterSettings || !start_date || !end_date || !metrics) return;
 
-      await Promise.all([
-        getKpiColumnCardData(filterSettings),
-        getPreviewData(filterSettings),
-        getKpiData(filterSettings),
-        getHistogramData(filterSettings),
-      ]);
+    await Promise.all([
+      getKpiColumnCardData(filterSettings),
+      getPreviewData(filterSettings),
+      getKpiData(filterSettings),
+      getHistogramData(filterSettings),
+    ]);
   }
 
   return (
@@ -58,7 +60,7 @@ const OnboardingFlowPage = (): JSX.Element => {
         />
       </Stack>
       <VStack spacing={6.375}>
-        <KpiAndColumnContainer data={kpiColumnCardData}/>
+        <KpiAndColumnContainer data={kpiColumnCardData} />
         <PreviewContainer data={previewData} />
         <HistogramContainer data={histogramData} />
       </VStack>

@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 
-import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
-
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '../../ui-filters';
 import { formatWithSeq, groupItemsBySeq, sortBySeq } from '../filter-form/utils';
 import { VerticalFormGroup } from '../vertical-form-group';
 

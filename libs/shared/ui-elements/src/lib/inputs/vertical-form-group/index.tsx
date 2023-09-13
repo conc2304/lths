@@ -1,8 +1,7 @@
 import { Box, FormGroup, Skeleton, Typography, styled } from '@mui/material';
 
-import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
-
 import { InfoTooltip } from '../../data-display';
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '../../ui-filters/types';
 import { FormChildren } from '../form-children';
 
 type VerticalFormGroupProps = {
@@ -36,7 +35,7 @@ export const VerticalFormGroup = (props: VerticalFormGroupProps) => {
   const { isLoading, formSchema, formState } = props;
   const { onAddItem, onRemoveItem, onClearGroup, onAddGroupItems } = props;
 
-  if (isLoading || !formSchema || Object.keys(formSchema).length == 0 || !formState) {
+  if (isLoading || !formSchema || Object.keys(formSchema).length === 0 || !formState) {
     return (
       <div className="VerticalFormGroup-root">
         <div className="VerticalFormGroup--title">

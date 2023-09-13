@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/react';
 
+import { VerticalFormGroup } from './index';
+import { FilterFormState, FormSchema, FormState, FormStateValue } from '../../ui-filters/types';
 import {
   handleAddFormStateItem,
   handleAddFormStateItems,
   handleRemoveFormStateGroup,
   handleRemoveFormStateItem,
-} from '@lths/shared/ui-filters';
-import { FilterFormState, FormSchema, FormState, FormStateValue } from '@lths/types/ui-filters';
-
-import { VerticalFormGroup } from './index';
+} from '../../ui-filters/utils/actions';
 import { formSchemaMock, formStateMock } from '../filter-form/mockData';
 
-const Story: ComponentMeta<typeof VerticalFormGroup> = {
+const Story: Meta<typeof VerticalFormGroup> = {
   component: VerticalFormGroup,
   title: 'Inputs/Forms/ VerticalFormGroup',
 };
 export default Story;
 
-const Template: ComponentStory<typeof VerticalFormGroup> = (args) => {
+const Template: StoryFn<typeof VerticalFormGroup> = (args) => {
   const [formState, setFormState] = useState<FormState | undefined>(args.formState);
 
   const handleAddItem = ({ parentID, item }: { parentID: string; item: FormStateValue }) => {

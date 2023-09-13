@@ -1,6 +1,6 @@
 import { InsightHistogramResponse, Histogram } from '@lths/features/mms/data-access';
 import { LineChart } from '@lths/shared/ui-charts';
-import { BasicCard, HStack, InfoTooltip, KpiSparklineCard } from '@lths/shared/ui-elements';
+import { BasicCard, HStack, InfoTooltip } from '@lths/shared/ui-elements';
 
 type Props = {
   data: InsightHistogramResponse;

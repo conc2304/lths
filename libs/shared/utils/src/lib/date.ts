@@ -24,8 +24,10 @@ import {
   subYears,
 } from 'date-fns';
 
-import { DateRange } from '@lths/types/ui-filters';
-
+type DateRange = {
+  start_date: Date | null;
+  end_date: Date | null;
+};
 /**
  * Date Range/Interval Getters
  */

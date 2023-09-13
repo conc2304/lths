@@ -1,8 +1,10 @@
+import { Box } from '@mui/material';
+
 import HeroPromotionCardTextComponent from './index';
-import type { Meta, StoryFn } from '@storybook/react';
 import mockComponent from '../../../../../context/mockdata';
 import { Component } from '../../../enum';
-import { Box } from '@mui/material';
+
+import type { Meta, StoryFn } from '@storybook/react';
 
 const Story: Meta<typeof HeroPromotionCardTextComponent> = {
   component: HeroPromotionCardTextComponent,

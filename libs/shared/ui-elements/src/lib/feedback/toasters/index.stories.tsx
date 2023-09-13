@@ -1,15 +1,14 @@
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import { LayoutToaster } from '.';
 
-const Story: ComponentMeta<typeof LayoutToaster> = {
+import type { StoryFn, Meta } from '@storybook/react';
+
+const Story: Meta<typeof LayoutToaster> = {
   component: LayoutToaster,
   title: 'Feedback/ Layout Toaster',
 };
 export default Story;
 
-const Template: ComponentStory<typeof LayoutToaster> = (args) => (
-  <LayoutToaster {...args} />
-);
+const Template: StoryFn<typeof LayoutToaster> = (args) => <LayoutToaster {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

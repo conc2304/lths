@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import PromotionOneIsToOneAspectRatioComponent from './index';
-import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 import mockComponent from '../../../../context/mockdata';
 import { Component } from '../../enum';
+import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 
 describe('PromotionOneIsToOneAspectRatioComponent', () => {
   let props: PromotionOneIsToOneAspectRatioComponentProps;

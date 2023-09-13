@@ -17,7 +17,7 @@ const mockEvent: MMSEvent = {
   id: '1',
   eventId: 'test-id-1',
   title: 'Mock Event',
-  eventType: mockEventTypes[1],
+  eventType: mockEventTypes[3],
   allDay: false,
   start: new Date('2023-08-10T08:00:00Z'),
   end: new Date('2023-08-10T12:00:00Z'),
