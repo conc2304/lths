@@ -29,30 +29,36 @@ const Template: StoryFn<typeof QuicklinkButtonGroupComponent> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  ...mockComponent,
-  __ui_id__: '3333333',
-  component_id: Component.QuicklinkButtonGroup,
-  data: {
-    first_button: {
-      label: 'Medical Help',
-      icon: 'https://i.im.ge/2022/12/05/S82BeW.Group.png',
-      action: {
-        type: '',
-        page_id: 'medical page',
-        page_link: 'first aid link',
-      },
-    },
-    second_button: {
-      label: 'Report',
-      icon: 'https://i.im.ge/2022/12/05/S824gr.Group.png',
-      action: {
-        type: '',
-        page_id: 'report crime',
-        page_link: 'local police department link',
-      },
-    },
-  },
-};
+    ...mockComponent,
+    __ui_id__ : "3333333",
+    component_id: Component.QuicklinkButtonGroup,
+    data: {    
+      sub_component_data: [
+        {
+          card_background_color: "",
+          icon: "nonexistent png",
+          text_color: "",
+          title: "LABEL",
+          action: {
+            type: '',
+            page_id: 'medical page',
+            page_link: 'first aid link',
+          },
+        },
+        {
+          card_background_color: "",
+          icon: "nonexistent png 2",
+          text_color: "",
+          title: "LABEL2",
+          action: {
+            type: '',
+            page_id: 'report crime',
+            page_link: 'local police department link',
+          },
+        }
+      ],
+    }
+}
 
 Primary.argTypes = {
   __ui_id__: { table: { disable: true } },

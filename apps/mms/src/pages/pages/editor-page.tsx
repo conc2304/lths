@@ -21,6 +21,7 @@ import {
   EditorProvider,
   Callback,
   AutocompleteItemProps,
+  AutocompleteOptionProps,
 } from '@lths/features/mms/ui-editor';
 
 import TabPanel from './tab-panel';
@@ -133,6 +134,10 @@ export function PageEditorTabs() {
     if (response && response.success && response.data) return callback(response.data.enum_values);
     else return callback([]);
   };
+  const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
+    const response = await getEnumList('Icons').unwrap();
+    if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+  };
 
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {
     if (propName === 'image_url') {
@@ -141,6 +146,8 @@ export function PageEditorTabs() {
       handlAddAction(callback as Callback<AutocompleteItemProps>);
     } else if (propName === 'social_icon') {
       handleAddSocialIcon(callback as Callback<EnumValue>);
+    } else if (propName === 'quickLinkIcons') {
+      handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
     }
   }
 

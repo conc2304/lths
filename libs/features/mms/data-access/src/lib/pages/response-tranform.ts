@@ -19,10 +19,20 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
 
 export const convertComponentDetailResponse = (response) => {
   const { schema } = response;
+
   const data = transformToObject(schema);
   if (response.component_id === Component.SocialIconButton && data.sub_properties_data.length > 0) {
     data.sub_properties_data = Array(4).fill(data.sub_properties_data[0]);
   }
+
+  if (response.component_id === Component.QuicklinkButtonGroup) {
+    const quickLinkButton = data.sub_properties_data[0];
+    if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'webview')
+      quickLinkButton.action.type = '';
+    data.sub_component_data = Array(2).fill(data.sub_properties_data[0]);
+  }
+
   const convertedData = { ...response, data };
+
   return convertedData;
 };
