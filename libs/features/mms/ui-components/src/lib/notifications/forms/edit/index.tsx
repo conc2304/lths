@@ -25,7 +25,7 @@ const NotificationForm = ({
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
     initialValues: {
       name: notificationData?.name || '',
-      topics: notificationData?.data?.topics[0] || '',
+      topics: notificationData?.data?.topics ? notificationData?.data?.topics[0] : '',
       description: notificationData?.description || '',
       type: NotificationType.PUSH_NOTIFICATION,
     },

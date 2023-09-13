@@ -2,9 +2,9 @@ import { ReactNode } from 'react';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import SmsFailedIcon from '@mui/icons-material/SmsFailed';
 
-import { DraftLogo, PublishLogo } from '@lths/assets';
-
 import { Status } from '../../../common';
+import DraftLogo from '../../assets/Edit.svg';
+import PublishLogo from '../../assets/Live.svg';
 import { NotificationStatusProps } from '../../types';
 
 type Props = {

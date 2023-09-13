@@ -14,9 +14,9 @@ import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
 import { EnumValue, NotificationDataProps, NotificationTargetType } from '@lths/features/mms/data-access';
-import { usePageList } from '@lths/features/mms/ui-components';
 import { urlRegexPattern } from '@lths/shared/utils';
 
+import { usePageList } from '../../../hooks';
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { UpdateEditorStateProps } from '../types';
 const validationSchema = object({
