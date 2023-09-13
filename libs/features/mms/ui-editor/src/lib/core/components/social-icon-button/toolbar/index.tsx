@@ -17,7 +17,7 @@ export type EnumValue = {
 const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   const {
     __ui_id__: id,
-    data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -32,16 +32,16 @@ const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
   useEffect(() => fetchData(), []);
 
   const handleIconChange = (item: EnumValue, index: number) => {
-    updateComponentProp('icon', item?.value, index, 'sub_properties_data');
+    updateComponentProp('icon', item?.value, index, 'sub_component_data');
   };
   const handleActionLinkChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-    handleActionChange(event, 'page_link', index, ['sub_properties_data']);
+    handleActionChange(event, 'page_link', index, ['sub_component_data']);
   };
 
   return (
     <ToolContainer id={id} aria-label={'SocialLink Button Toolbar'}>
       <ToolbarLabel label={'Social Icon Link'} />
-      {sub_properties_data.map(({ icon, action }, index) => {
+      {sub_component_data.map(({ icon, action }, index) => {
         return (
           <Box key={`Social_Icon${index}`}>
             <GroupLabel label={ordinalifyNumber(index + 1)} key={index} />

@@ -47,7 +47,7 @@ export type SocialIconButtonProps = {
 };
 export type SocialIconButtoncomponentProps = ComponentProps & {
   data: {
-    sub_properties_data: SocialIconButtonProps[];
+    sub_component_data: SocialIconButtonProps[];
   };
 };
 export type HeroComponentProps = ComponentProps & {

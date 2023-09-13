@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cSocialIconButtons',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
-    sub_properties_data: [
+  data: {
+    sub_component_data: [
       {
         icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Twitter_Icon.svg',
         action: {
