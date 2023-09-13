@@ -34,6 +34,9 @@ export const duplicateComponent = (dispatch: Dispatch<EditorActionProps>) => (id
 export const orderComponent = (dispatch: Dispatch<EditorActionProps>) => (dragIndex: number, hoverIndex: number) => {
   dispatch({ type: EditorActionType.ORDER_COMPONENT, dragIndex, hoverIndex });
 };
+export const renameComponent = (dispatch: Dispatch<EditorActionProps>) => (id: string, name: string) => {
+  dispatch({ type: EditorActionType.RENAME_COMPONENT, id, name });
+};
 export const clearEditor = (dispatch: Dispatch<EditorActionProps>) => () => {
   dispatch({ type: EditorActionType.CLEAR_COMPONENTS });
 };

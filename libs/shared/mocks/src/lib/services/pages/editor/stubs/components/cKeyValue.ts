@@ -3,10 +3,10 @@ const payload = {
   component_id: 'cKeyValue',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: '',
     desc: '',
-    sub_properties_data: [
+    sub_component_data: [
       {
         key: 'HEIGHT',
         value: '6.0',

@@ -16,8 +16,15 @@ export type NavigatorProps = {
   onAddComponent: () => void;
 };
 export const Container = ({ onAddComponent }: NavigatorProps) => {
-  const { components, orderComponent, selectComponent, duplicateComponent, removeComponent, selectedComponent } =
-    useEditorActions();
+  const {
+    components,
+    orderComponent,
+    selectComponent,
+    duplicateComponent,
+    removeComponent,
+    renameComponent,
+    selectedComponent,
+  } = useEditorActions();
 
   const [expanded, setExpanded] = useState(true);
 
@@ -48,11 +55,15 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
       duplicateComponent(id);
     }
   };
+  const handleRename = (id: string, value: string) => {
+    renameComponent(id, value);
+  };
 
   const renderCard = (component: ComponentProps, index: number) => {
     const { __ui_id__, name, component_id } = component;
     const text = name || component_id;
     const selected = selectedComponent?.__ui_id__ === __ui_id__;
+
     return (
       <Card
         key={__ui_id__}
@@ -60,6 +71,7 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
         index={index}
         onDrag={handleDrag}
         onClick={handleClick}
+        onRename={handleRename}
         onMenuClick={handleMenuClick}
         text={text}
         selected={selected}

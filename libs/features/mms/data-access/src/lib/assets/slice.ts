@@ -22,6 +22,9 @@ const assetsSlice = createSlice({
       state.newAsset = payload;
       state.assets.data.push(payload);
     });
+    builder.addMatcher(assetsApi.endpoints.searchAssets.matchFulfilled, (state, { payload }) => {
+      state.assets = payload;
+    });
     builder.addMatcher(assetsApi.endpoints.editResource.matchFulfilled, (state, { payload }) => {
       const assetIndex = state.assets.data.findIndex((asset) => asset._id === payload._id);
       if (assetIndex !== -1) {

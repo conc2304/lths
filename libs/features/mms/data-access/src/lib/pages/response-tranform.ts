@@ -17,12 +17,12 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
   return obj;
 };
 
-export const convertComponentDetailResponse = (data) => {
-  const { schema } = data;
-  const properties_data = transformToObject(schema);
-  if (data.component_id === Component.SocialIconButton && properties_data.sub_properties_data.length > 0) {
-    properties_data.sub_properties_data = Array(4).fill(properties_data.sub_properties_data[0]);
+export const convertComponentDetailResponse = (response) => {
+  const { schema } = response;
+  const data = transformToObject(schema);
+  if (response.component_id === Component.SocialIconButton && data.sub_properties_data.length > 0) {
+    data.sub_properties_data = Array(4).fill(data.sub_properties_data[0]);
   }
-  const convertedData = { ...data, properties_data };
+  const convertedData = { ...response, data };
   return convertedData;
 };

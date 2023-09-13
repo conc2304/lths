@@ -21,7 +21,7 @@ export type ActionProps = {
 };
 
 export type SpacerProps = ComponentProps & {
-  properties_data: {
+  data: {
     space: string;
     type: string;
     background_color: string;
@@ -36,8 +36,8 @@ export type FullHeightCarouselProps = {
   action: ActionProps;
 };
 export type FullHeightCarouselComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: FullHeightCarouselProps[];
+  data: {
+    sub_component_data: FullHeightCarouselProps[];
   };
 };
 
@@ -55,10 +55,10 @@ export type HeroComponentProps = ComponentProps & {
   title: string;
   desc: string;
   link_title: string;
-  sub_properties_data: QuickLinkProps[];
+  sub_component_data: QuickLinkProps[];
 };
 export type HalfHeightWithIconProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     icon: string;
     icon_alt_text: string;
@@ -73,8 +73,8 @@ export type QuickLinkProps = ComponentProps & {
 };
 
 export type QuickLinksProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: QuickLinkProps[];
+  data: {
+    sub_component_data: QuickLinkProps[];
   };
 };
 export type PhoneInquiryComponentProps = ComponentProps & {
@@ -87,7 +87,7 @@ export type PhoneInquiryComponentProps = ComponentProps & {
 };
 
 export type EventInfoComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     date_lbl_txt: string;
@@ -102,7 +102,7 @@ export type EventInfoComponentProps = ComponentProps & {
 };
 
 export type CardComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     title: string;
     desc: string;
@@ -118,13 +118,13 @@ export type HalfWidthCarouselProps = {
   action: ActionProps;
 };
 export type HalfWidthCarouselComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: HalfWidthCarouselProps[];
+  data: {
+    sub_component_data: HalfWidthCarouselProps[];
   };
 };
 
 export type NewsViewComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     title: string;
     desc: string;
@@ -135,7 +135,7 @@ export type NewsViewComponentProps = ComponentProps & {
 };
 
 export type TextButtonProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     text_size: string;
     text_size_unit: string;
@@ -147,7 +147,7 @@ export type TextButtonProps = ComponentProps & {
 };
 
 export type HeaderComponentProps = ComponentProps & {
-  properties_data: { title: string; color: string; desc: string; action: ActionProps };
+  data: { title: string; color: string; desc: string; action: ActionProps };
 };
 export type LinkedTextProps = {
   link_key: string;
@@ -156,7 +156,7 @@ export type LinkedTextProps = {
   link_id: string;
 };
 export type HeadlineTextBlockComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     card_background_color: string;
     title: string;
     text_size: string;
@@ -175,7 +175,7 @@ export enum ButtonStyle {
   Fill = 'fill',
 }
 export type ButtonComponentProps = ComponentProps & {
-  properties_data: { title: string; style: ButtonStyle; action: ActionProps };
+  data: { title: string; style: ButtonStyle; action: ActionProps };
 };
 
 export type CardNewsProps = {
@@ -197,8 +197,8 @@ export type EventCardProps = {
 };
 
 export type CarouselEventsComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: EventCardProps[];
+  data: {
+    sub_component_data: EventCardProps[];
   };
 };
 
@@ -212,19 +212,19 @@ export type VendorVCardProps = {
 };
 
 export type CarouselVendorComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: VendorVCardProps[];
+  data: {
+    sub_component_data: VendorVCardProps[];
   };
 };
 
 export type CarouselNewsComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: CardNewsProps[];
+  data: {
+    sub_component_data: CardNewsProps[];
   };
 };
 
 export type ScoreBoardComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     date_info: string;
     match_name: string;
     hint: string;
@@ -248,10 +248,10 @@ export type KeyValueProps = {
 };
 
 export type KeyValueComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
-    sub_properties_data: KeyValueProps[];
+    sub_component_data: KeyValueProps[];
   };
 };
 
@@ -261,15 +261,15 @@ export type TitleActionProps = {
 };
 
 export type NavListViewComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: TitleActionProps[];
+  data: {
+    sub_component_data: TitleActionProps[];
   };
 };
 
 export type ChipSetViewComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
-    sub_properties_data: TitleActionProps[];
+    sub_component_data: TitleActionProps[];
   };
 };
 
@@ -280,39 +280,39 @@ export type ExpandCollapseViewProps = {
 };
 
 export type ExpandCollapseViewComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: ExpandCollapseViewProps[];
+  data: {
+    sub_component_data: ExpandCollapseViewProps[];
   };
 };
 
 export type ButtonHCarouselComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: TitleActionProps[];
+  data: {
+    sub_component_data: TitleActionProps[];
   };
 };
 
 export type ButtonsViewComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     image: string;
-    sub_properties_data: TitleActionProps[];
+    sub_component_data: TitleActionProps[];
   };
 };
 
 export type VideoViewComponentProps = ComponentProps & {
-  properties_data: { video_link: string; image: string; action: ActionProps };
+  data: { video_link: string; image: string; action: ActionProps };
 };
 
 export type CardImageComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     image: string;
   };
 };
 
 export type ImageComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     color: string;
     desc: string;
@@ -321,7 +321,7 @@ export type ImageComponentProps = ComponentProps & {
   };
 };
 export type TitleDescComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     color: string;
@@ -330,7 +330,7 @@ export type TitleDescComponentProps = ComponentProps & {
 };
 
 export type MapPathComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     style: string;
@@ -344,19 +344,19 @@ export type NavCellViewItem = {
 };
 
 export type NavCellViewComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: NavCellViewItem[];
+  data: {
+    sub_component_data: NavCellViewItem[];
   };
 };
 
 export type SegmentControlComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: TitleActionProps[];
+  data: {
+    sub_component_data: TitleActionProps[];
   };
 };
 
 export type DescriptionComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     color: string;
     style: 'bold' | 'light' | 'medium';
@@ -364,7 +364,7 @@ export type DescriptionComponentProps = ComponentProps & {
 };
 
 export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     img_alt_text: string;
     action: ActionProps;
@@ -379,14 +379,14 @@ export type QuicklinkButton = {
 };
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     first_button: QuicklinkButton;
     second_button: QuicklinkButton;
   };
 };
 
 export type FanGuideThreeIsToFourAspectRatioComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     img_alt_text: string;
     title: string;
@@ -398,7 +398,7 @@ export type FanGuideThreeIsToFourAspectRatioComponentProps = ComponentProps & {
 
 // Hero Promotion
 export type CardTextOverlayAndButtonComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     img_alt_text: string;
     title: string;
@@ -409,7 +409,7 @@ export type CardTextOverlayAndButtonComponentProps = ComponentProps & {
 };
 
 export type CardTextComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     img_alt_text: string;
     title: string;
@@ -419,7 +419,7 @@ export type CardTextComponentProps = ComponentProps & {
 };
 
 export type SiloTextAndButtonComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     image: string;
     img_alt_text: string;
     title: string;
@@ -438,19 +438,19 @@ export type HalfWidthCarouselFloatingTextProps = {
 };
 
 export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
-  properties_data: {
-    sub_properties_data: HalfWidthCarouselFloatingTextProps[];
+  data: {
+    sub_component_data: HalfWidthCarouselFloatingTextProps[];
   };
 };
 
 export type FullWidthButtonComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     label: string;
     action: ActionProps;
   };
 };
 export type FullHeightFloatingTextProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     image: string;
     description: string;
@@ -459,7 +459,7 @@ export type FullHeightFloatingTextProps = ComponentProps & {
 };
 
 export type BodyTextComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     card_background_color: string;
     text_color: string;
