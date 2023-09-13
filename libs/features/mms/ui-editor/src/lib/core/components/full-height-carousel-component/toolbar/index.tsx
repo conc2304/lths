@@ -9,7 +9,7 @@ import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel } from '../../../../elements';
 import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
-import { FullHeightCarouselProps, FullHeightCarouselComponentProps } from '../../types';
+import { FullHeightCarouselComponentProps } from '../../types';
 
 //TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
 
@@ -35,15 +35,6 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   useEffect(() => {
     handleCloseItem();
   }, [id]);
-
-  const handleUpdateItem = (newComponent: FullHeightCarouselProps, index: number) => {
-    const newComponentData = [...sub_component_data];
-    newComponentData[index] = newComponent;
-    const data = { ...props, data: { sub_component_data: newComponentData } };
-    selectComponent(data);
-
-    setSelectedIndex(-1);
-  };
 
   const handleAdd = () => {
     const data = {
@@ -88,14 +79,14 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Half Width Carousel Floating Text Toolbar">
+    <ToolContainer id={id} aria-label="Full Height Carousel Text Toolbar">
       <DndProvider backend={HTML5Backend}>
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
             item={sub_component_data[selectedIndex]}
             handleCloseItem={handleCloseItem}
-            handleUpdateItem={(newComponent) => handleUpdateItem(newComponent, selectedIndex)}
             onPropChange={onPropChange}
+            index={selectedIndex}
           />
         ) : (
           <>

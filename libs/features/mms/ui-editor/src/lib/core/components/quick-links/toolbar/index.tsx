@@ -2,14 +2,8 @@ import { useState, SyntheticEvent } from 'react';
 import { Typography, Stack, Button } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  BasicContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { BasicContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { QuickLinksProps } from '../../types';
 
@@ -17,8 +11,9 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
   const {
     __ui_id__: id,
     data: { sub_component_data },
+    onPropChange,
   } = props;
-  const { handleTitleChange, handleIconChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange, handleIconChange } = useToolbarChange();
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
   const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
@@ -51,7 +46,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
               <Stack spacing={2}>
                 <BasicTextField label={'Title'} value={props.title} onChange={(e) => handleTitleChange(e, i)} />
                 <BasicTextField label={'Icon URL'} value={props.icon} onChange={(e) => handleIconChange(e, i)} />
-                <ActionAccordion action={props?.action} index={i} handleActionChange={handleActionChange} />
+                <ActionToolbar action={props?.action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

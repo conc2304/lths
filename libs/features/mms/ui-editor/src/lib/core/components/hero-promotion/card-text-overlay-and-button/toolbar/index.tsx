@@ -1,5 +1,6 @@
-import { OutlinedTextField, ActionInput, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
+import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
 import { ToolContainer } from '../../../../../elements/containers';
+import { ActionToolbar } from '../../../common';
 import { useToolbarChange } from '../../../hooks';
 import { CardTextOverlayAndButtonComponentProps } from '../../../types';
 
@@ -16,7 +17,6 @@ const CardTextOverlayAndButtonToolbar = (props: CardTextOverlayAndButtonComponen
     handleButtonTextChange,
     handleImageChange,
     handleImageAltChange,
-    handleActionChange,
   } = useToolbarChange();
 
   return (
@@ -31,7 +31,7 @@ const CardTextOverlayAndButtonToolbar = (props: CardTextOverlayAndButtonComponen
 
       <GroupLabel label={'Button'} />
       <OutlinedTextField label={'Label'} value={btn_text} onChange={handleButtonTextChange} />
-      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };

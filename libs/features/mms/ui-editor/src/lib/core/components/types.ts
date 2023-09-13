@@ -136,8 +136,8 @@ export type NewsViewComponentProps = ComponentProps & {
 
 export type TextButtonProps = ComponentProps & {
   data: {
-    title: string;
-    text_size: string;
+    btn_text: string;
+    btn_text_size: string;
     text_size_unit: string;
     text_color: string;
     card_background_color: string;
@@ -381,7 +381,7 @@ export type QuicklinkButton = {
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
   data: {
-    sub_component_data: QuicklinkButton[]
+    sub_component_data: QuicklinkButton[];
   };
 };
 

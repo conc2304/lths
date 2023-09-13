@@ -1,5 +1,6 @@
-import { OutlinedTextField, ActionInput, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
+import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
 import { ToolContainer } from '../../../../../elements/containers';
+import { ActionToolbar } from '../../../common';
 import { useToolbarChange } from '../../../hooks';
 import { SiloTextAndButtonComponentProps } from '../../../types';
 
@@ -16,7 +17,6 @@ const SiloTextAndButtonToolbar = (props: SiloTextAndButtonComponentProps) => {
     handleButtonTextChange,
     handleImageChange,
     handleImageAltChange,
-    handleActionChange,
   } = useToolbarChange();
 
   return (
@@ -31,7 +31,7 @@ const SiloTextAndButtonToolbar = (props: SiloTextAndButtonComponentProps) => {
 
       <GroupLabel label={'Button'} />
       <OutlinedTextField label={'Label'} value={btn_text} onChange={handleButtonTextChange} />
-      <ActionInput action={action} handleActionChange={handleActionChange} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };
