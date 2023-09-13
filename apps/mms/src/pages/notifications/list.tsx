@@ -68,7 +68,7 @@ const NotificationPage = () => {
 
   // handlers
 
-  const onPageChange = (
+  const handlePageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     pagination: TablePaginationProps,
     sorting: TableSortingProps
@@ -76,7 +76,7 @@ const NotificationPage = () => {
     fetchData(pagination, sorting);
   };
 
-  const onRowsPerPageChange = (
+  const handleRowsPerPageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     pagination: TablePaginationProps,
     sorting: TableSortingProps
@@ -84,7 +84,7 @@ const NotificationPage = () => {
     fetchData(pagination, sorting);
   };
 
-  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
+  const handleSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
@@ -185,9 +185,9 @@ const NotificationPage = () => {
         total={total}
         headerCells={headers}
         tableRows={tableRows}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        onSortClick={onSortClick}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleRowsPerPageChange}
+        onSortClick={handleSortClick}
         sx={{
           mt: 4,
         }}
