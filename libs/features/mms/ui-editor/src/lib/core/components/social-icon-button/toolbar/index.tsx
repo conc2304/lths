@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { ordinalifyNumber } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
+import { Box } from '@mui/material';
 
 import SocailIconAutoComplete from './autocomplete';
 import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
@@ -42,19 +43,20 @@ const SocialIconButtonToolbar = (props: SocialIconButtoncomponentProps) => {
       <ToolbarLabel label={'Social Icon Link'} />
       {sub_properties_data.map(({ icon, action }, index) => {
         return (
-          <>
+          <Box key={`Social_Icon${index}`}>
             <GroupLabel label={ordinalifyNumber(index + 1)} key={index} />
             <OutlinedTextField
               label={'Link'}
               value={action.page_link}
               onChange={(e) => handleActionLinkChange(e, index)}
+              sx={{ margin: '9px', marginTop: '15px' }}
             />
             <SocailIconAutoComplete
               socialIcons={socialIcons}
               onChange={(e, item) => handleIconChange(item, index)}
               value={icon}
             />
-          </>
+          </Box>
         );
       })}
     </ToolContainer>
