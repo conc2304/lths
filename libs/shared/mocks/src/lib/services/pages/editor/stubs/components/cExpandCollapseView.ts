@@ -3,8 +3,8 @@ const payload = {
   component_id: 'cExpandCollapseView',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
-    sub_properties_data: [
+  data: {
+    sub_component_data: [
       {
         action: {
           type: 'expand/collapse',

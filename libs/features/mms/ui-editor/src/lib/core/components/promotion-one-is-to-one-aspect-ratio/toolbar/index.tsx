@@ -7,7 +7,7 @@ import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 const PromotionOneIsToOneAspectRatioToolbar = (props: PromotionOneIsToOneAspectRatioComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, img_alt_text, action, btn_text },
+    data: { image, img_alt_text, action, btn_text },
     onPropChange,
   } = props;
 

@@ -7,7 +7,7 @@ import { CardTextComponentProps } from '../../../types';
 const CardTextToolbar = (props: CardTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, img_alt_text, title, description, action },
+    data: { image, img_alt_text, title, description, action },
     onPropChange,
   } = props;
 

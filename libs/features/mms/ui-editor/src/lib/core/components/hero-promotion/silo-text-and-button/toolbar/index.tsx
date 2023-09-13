@@ -7,7 +7,7 @@ import { SiloTextAndButtonComponentProps } from '../../../types';
 const SiloTextAndButtonToolbar = (props: SiloTextAndButtonComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, img_alt_text, title, description, action, btn_text },
+    data: { image, img_alt_text, title, description, action, btn_text },
     onPropChange,
   } = props;
 

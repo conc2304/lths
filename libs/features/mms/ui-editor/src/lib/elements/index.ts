@@ -12,3 +12,5 @@ export * from './menus';
 
 export * from './hooks';
 export { default as ActionInput } from './action-input';
+
+export * from './autocomplete';

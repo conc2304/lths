@@ -20,7 +20,7 @@ import { size } from '../utils';
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, card_background_color, text_size, linked_text, action },
+    data: { title, card_background_color, text_size, linked_text, action },
     onPropChange,
   } = props;
 
@@ -37,7 +37,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
+      data: {
         title,
         card_background_color,
         linked_text: [...linked_text, { link_value: 'New link' }],

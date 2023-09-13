@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cMapPath',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Ducks Games',
     style: '',
     desc: 'General Parking: $20\nPreferred Parking(Plum/Gold Lots): $35\nOversized (Bus/RV/Limo) Parking: $50\n',
