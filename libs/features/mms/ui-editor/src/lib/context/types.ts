@@ -9,7 +9,7 @@ export type ComponentProps = {
   _id: string;
   component_id: string;
   name: string;
-  description: string;
+  description?: string;
 
   image_url: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +58,7 @@ export enum EditorActionType {
   ORDER_COMPONENT = 'ORDER_COMPONENT',
   DUPLICATE_COMPONENT = 'DUPLICATE_COMPONENT',
   UPDATE_EXTENDED = 'UPDATE_EXTENDED',
+  RENAME_COMPONENT = 'RENAME_COMPONENT',
 }
 
 export const initialState2: EditorProps = {
@@ -75,4 +76,5 @@ export type EditorActionProps<T extends EditorProps = EditorProps> =
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
   | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }
+  | { type: EditorActionType.RENAME_COMPONENT; id: string; name: string }
   | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };

@@ -2,14 +2,8 @@ import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ExpandCollapseViewComponentProps } from '../../types';
 
@@ -17,10 +11,11 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
   const {
     __ui_id__: id,
     data: { sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleDescChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange, handleDescChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -70,7 +65,7 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
                   multiline
                   rows={3}
                 />
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

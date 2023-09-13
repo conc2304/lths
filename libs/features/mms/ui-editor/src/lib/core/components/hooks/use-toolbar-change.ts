@@ -152,6 +152,7 @@ export const useToolbarChange = () => {
     index?: number,
     keys: string[] = []
   ) => {
+    console.log('handle', event, key, index, keys);
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 

@@ -2,14 +2,8 @@ import { useState, SyntheticEvent, ChangeEvent } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { NavCellViewComponentProps } from '../../types';
 
@@ -17,10 +11,11 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
   const {
     __ui_id__: id,
     data: { sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, updateComponentProp } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -68,7 +63,7 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
                   }}
                 />
                 <BasicTextField label={'Icon URL'} value={icon} onChange={(e) => handleIconChange(e, index)} />
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

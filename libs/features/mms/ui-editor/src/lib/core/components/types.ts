@@ -127,8 +127,8 @@ export type NewsViewComponentProps = ComponentProps & {
 
 export type TextButtonProps = ComponentProps & {
   data: {
-    title: string;
-    text_size: string;
+    btn_text: string;
+    btn_text_size: string;
     text_size_unit: string;
     text_color: string;
     card_background_color: string;
@@ -363,16 +363,16 @@ export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
   };
 };
 export type QuicklinkButton = {
-  label: string;
+  title: string;
   icon: string;
-  icon_alt_text: string;
+  card_background_color: string;
+  text_color: string;
   action: ActionProps;
 };
 
 export type QuicklinkButtonGroupComponentProps = ComponentProps & {
   data: {
-    first_button: QuicklinkButton;
-    second_button: QuicklinkButton;
+    sub_component_data: QuicklinkButton[];
   };
 };
 
