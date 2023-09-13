@@ -18,9 +18,9 @@ const PageHeader = (props: PageHeaderProps) => {
   return (
     <Box sx={sx}>
       <Stack direction="row" justifyContent="space-between">
-        <Stack direction="row">
+        <Stack direction="row" alignItems="center">
           {title && (
-            <Typography variant="h1" fontWeight={300}>
+            <Typography variant="h1" fontWeight={400} fontSize={24}>
               {title}
             </Typography>
           )}

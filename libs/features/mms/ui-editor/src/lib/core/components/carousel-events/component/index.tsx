@@ -8,7 +8,7 @@ const CarouselEventsComponent = (props: CarouselEventsComponentProps) => {
     data: { sub_component_data },
   } = props;
   return (
-    <BasicContainer id={id}>
+    <BasicContainer id={id} sx={{ margin: 0 }}>
       <EventCardCarousel items={sub_component_data} />
     </BasicContainer>
   );

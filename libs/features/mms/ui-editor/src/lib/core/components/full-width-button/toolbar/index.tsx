@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material';
 
-import { ToolContainer, BasicTextField, ActionInput } from '../../../../elements';
+import { ToolContainer, BasicTextField } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { FullWidthButtonComponentProps } from '../../types';
 
@@ -8,10 +9,10 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
   const {
     __ui_id__: id,
     data: { label, action },
+    onPropChange,
   } = props;
-  console.log(props);
 
-  const { updateComponentProp, handleActionChange } = useToolbarChange();
+  const { updateComponentProp } = useToolbarChange();
 
   return (
     <ToolContainer id={id}>
@@ -21,7 +22,7 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
           value={label}
           onChange={(event) => updateComponentProp('label', event.target.value)}
         />
-        <ActionInput action={action} handleActionChange={handleActionChange} />
+        <ActionToolbar action={action} onPropChange={onPropChange} />
       </Stack>
     </ToolContainer>
   );

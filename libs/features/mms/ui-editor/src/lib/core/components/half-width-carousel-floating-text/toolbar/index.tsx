@@ -9,7 +9,7 @@ import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel } from '../../../../elements';
 import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
-import { HalfWidthCarouselFloatingTextProps, HalfWidthCarouselFloatingTextComponentProps } from '../../types';
+import { HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 
 const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTextComponentProps) => {
   const {
@@ -33,15 +33,6 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
   useEffect(() => {
     handleCloseItem();
   }, [id]);
-
-  const handleUpdateItem = (newComponent: HalfWidthCarouselFloatingTextProps, index: number) => {
-    const newComponentData = [...sub_component_data];
-    newComponentData[index] = newComponent;
-    const data = { ...props, data: { sub_component_data: newComponentData } };
-    selectComponent(data);
-
-    setSelectedIndex(-1);
-  };
 
   const handleAdd = () => {
     const data = { ...props, data: { sub_component_data: [...sub_component_data, { title: 'New Card' }] } };
@@ -84,7 +75,6 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
           <CarouselItemEditor
             item={sub_component_data[selectedIndex]}
             handleCloseItem={handleCloseItem}
-            handleUpdateItem={(newComponent) => handleUpdateItem(newComponent, selectedIndex)}
             onPropChange={onPropChange}
           />
         ) : (

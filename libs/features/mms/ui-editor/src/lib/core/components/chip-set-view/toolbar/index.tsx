@@ -2,14 +2,8 @@ import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Box, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ChipSetViewComponentProps } from '../../types';
 
@@ -17,10 +11,11 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   const {
     __ui_id__: id,
     data: { title, sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -62,7 +57,7 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
                       handleTitleChange(e, index);
                     }}
                   />
-                  <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                  <ActionToolbar action={action} onPropChange={onPropChange} />
                 </Stack>
               </AccordionDetails>
             </Accordion>

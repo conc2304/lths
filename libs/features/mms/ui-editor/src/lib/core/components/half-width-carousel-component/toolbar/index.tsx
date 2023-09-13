@@ -81,7 +81,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Half Width Carousel Floating Text Toolbar">
+    <ToolContainer id={id} aria-label="Half Width Carousel Text Toolbar">
       <DndProvider backend={HTML5Backend}>
         {selectedIndex >= 0 ? (
           <CarouselItemEditor
