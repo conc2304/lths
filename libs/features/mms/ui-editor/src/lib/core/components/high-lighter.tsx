@@ -43,6 +43,7 @@ const HighlightableComponent = ({ id, children, selected = false, onClick }: Hig
           borderRadius: 0,
           border: `${isHighlighted ? `3px dashed ${colors.editor.highlight}` : 'none'}`,
           zIndex: 99,
+          pointerEvents: 'none',
         },
       }}
       onMouseEnter={handleMouseEnter}

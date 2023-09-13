@@ -8,7 +8,7 @@ const CarouselNewsComponent = (props: CarouselNewsComponentProps) => {
     data: { sub_component_data },
   } = props;
   return (
-    <BasicContainer id={id}>
+    <BasicContainer id={id} sx={{ margin: 0 }}>
       <CardCarousel items={sub_component_data} />
     </BasicContainer>
   );
