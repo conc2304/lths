@@ -8,7 +8,7 @@ import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselProps } from '../../types';
 
 type CarouselItemProps = ToolbarProps & {
-  item: HalfWidthCarouselProps;
+  item?: HalfWidthCarouselProps;
   onClose: () => void;
   index?: number;
 };
@@ -20,11 +20,14 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
 
   index,
 }) => {
-  const { image, image_alt_text, title, description, action } = item;
+  // todo: add skeleton when item not passed
+  // display loading while no index is passed
+  const { image = '', image_alt_text = '', title = '', description = '', action = {type: 'webview', page_id: '', page_link: '' } } = item || {};
   const parentKeys = ['sub_properties_data'];
   const { handleTitleChange, handleImageChange, handleImageAltChange, handleDescriptionChange } = useToolbarChange();
 
   const _handleTitleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if(index < 0) return;
     handleTitleChange(e, index, parentKeys);
   };
 
@@ -33,6 +36,10 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
   };
 
   const _handleImageAltChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if(index < 0) {
+      e.preventDefault();
+      return;
+    };
     handleImageAltChange(e, index, parentKeys);
   };
   const _handleDescriptionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,7 +54,6 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={_handleTitleChange} />
       <OutlinedTextField label={'Description'} value={description} onChange={_handleDescriptionChange} />
-      <GroupLabel label={'Action'} />
       <ActionToolbar action={action} keys={parentKeys} onPropChange={onPropChange} index={index} />
       <Stack direction="row" justifyContent="flex-end" spacing={2}>
         <Button variant="outlined" onClick={onClose} sx={{ padding: '8px 22px', fontSize: 15 }}>
