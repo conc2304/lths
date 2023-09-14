@@ -44,6 +44,10 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
           borderRadius: '2rem',
           paddingX: 4,
           paddingY: 2,
+          '&:hover': {
+            backgroundColor: { background },
+            color: { color },
+          },
         }}
         fullWidth
         variant={variantStyle}
