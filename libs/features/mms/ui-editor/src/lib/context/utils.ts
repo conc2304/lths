@@ -54,12 +54,47 @@ export const swapComponent = (components: ComponentProps[], dragIndex: number, h
 
   return populateDisplayOrder(updatedComponents);
 };
-export const DUPLICATE_NAME_SUFFIX = ' Duplicate';
+
+const splitStringWithLastNumber = (value: string): { name: string; seq: number } => {
+  // Use a regular expression to split the string into parts, eg 'Item 1' or 'Item22' or 'Item'
+  const parts = value.match(/^(.*?)(\d+)?$/);
+  let name: string,
+    seq = 0;
+  if (!parts) {
+    name = value?.trim();
+  }
+  //first part is index
+  else {
+    name = parts[1].trim();
+    if (parts[2]) seq = parseInt(parts[2]);
+  }
+  return { name, seq };
+};
+const getNextDuplicateName = (components: ComponentProps[], dup: ComponentProps): string => {
+  const map: Map<string, number> = new Map();
+
+  const { name: dupName } = splitStringWithLastNumber(dup.name);
+
+  components.forEach((item) => {
+    if (item.component_id === dup.component_id) {
+      const { name, seq } = splitStringWithLastNumber(item.name);
+
+      if (name.toLowerCase() === dupName.toLowerCase()) {
+        map.set(item.component_id, Math.max(map.get(item.component_id) || 0, seq));
+      }
+    }
+  });
+  const count = map.get(dup.component_id) || 0;
+  const newName = `${dupName} ${count + 1}`;
+
+  return newName;
+};
+
 export const duplicateComponent = (components: ComponentProps[], uuid: string) => {
   const index = components.findIndex((o) => o.__ui_id__ === uuid);
   if (index !== -1) {
     const duplicate = { ...clearExternalIds(components[index]) };
-    duplicate.name = duplicate.name + DUPLICATE_NAME_SUFFIX;
+    duplicate.name = getNextDuplicateName(components, duplicate);
     return populateDisplayOrder([...components.slice(0, index + 1), duplicate, ...components.slice(index + 1)]);
   }
 };
