@@ -45,6 +45,7 @@ import {
   TextButtonComponent,
   SocialIconButtonComponent,
   SpacerComponent,
+  TextwithIcon,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -91,6 +92,7 @@ import {
   TextButtonProps,
   SocialIconButtoncomponentProps,
   SpacerProps,
+  TextWithIconProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -229,6 +231,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <SocialIconButtonComponent {...(props as SocialIconButtoncomponentProps)} />;
     case Component.Spacer:
       return <SpacerComponent {...(props as SpacerProps)} />;
+    case Component.TextWithIcon:
+      return <TextwithIcon {...(props as TextWithIconProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

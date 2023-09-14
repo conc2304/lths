@@ -28,6 +28,13 @@ export type SpacerProps = ComponentProps & {
   };
 };
 
+export type TextWithIconProps = ComponentProps & {
+  data: {
+    icon: string;
+    title: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;

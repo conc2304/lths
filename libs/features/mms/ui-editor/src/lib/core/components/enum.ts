@@ -67,4 +67,5 @@ export enum Component {
   TextButton = 'cTextButton',
   SocialIconButton = 'cSocialIconButtons',
   Spacer = 'cSpacer',
+  TextWithIcon = 'cTextWithIcon',
 }
