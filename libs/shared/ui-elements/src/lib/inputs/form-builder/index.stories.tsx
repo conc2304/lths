@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/react';
 
+import { Form } from './index';
+import { FilterFormState, FormState, FormStateValue } from '../../ui-filters/types';
 import {
   handleAddFormStateItem,
   handleAddFormStateItems,
   handleRemoveFormStateGroup,
   handleRemoveFormStateItem,
-} from '@lths/shared/ui-filters';
-import { FilterFormState, FormState, FormStateValue } from '@lths/types/ui-filters';
-
-import { Form } from './index';
+} from '../../ui-filters/utils/actions';
 import { formSchemaMock, formStateMock } from '../filter-form/mockData';
 
-const Story: ComponentMeta<typeof Form> = {
+const Story: Meta<typeof Form> = {
   component: Form,
   title: 'Inputs/Forms/ Form Generator',
 };
 export default Story;
 
-const Template: ComponentStory<typeof Form> = (args) => {
+const Template: StoryFn<typeof Form> = (args) => {
   const [formState, setFormState] = useState<FormState | undefined>(args.formState);
 
   const handleonAddItem = ({ parentID, item }: { parentID: string; item: FormStateValue }) => {

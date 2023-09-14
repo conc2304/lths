@@ -1,8 +1,7 @@
 import { FormControlLabel, Radio, RadioGroup, Skeleton, Stack } from '@mui/material';
 
-import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '@lths/types/ui-filters';
-
 import { CheckBoxItems } from './checkbox-items';
+import { AddGroupItems, AddItem, ClearGroup, FormSchema, FormState, RemoveItem } from '../../ui-filters/types';
 import { sortBySeq } from '../filter-form/utils';
 
 type FormElementsProps = {

@@ -1,4 +1,4 @@
-import { FilterGroupResponse, FormSchema } from '@lths/types/ui-filters';
+import { FilterGroupResponse, FormSchema } from '@lths/shared/ui-elements';
 
 // keeping around as reference,
 // new data gets transformed in response into old data format

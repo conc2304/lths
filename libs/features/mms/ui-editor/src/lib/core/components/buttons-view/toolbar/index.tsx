@@ -9,8 +9,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   ImagePicker,
-  ActionAccordion,
 } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ButtonsViewComponentProps } from '../../types';
 
@@ -22,7 +22,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleDescChange, handleImageChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange, handleDescChange, handleImageChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -66,7 +66,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
                       handleTitleChange(e, index);
                     }}
                   />
-                  <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                  <ActionToolbar action={action} onPropChange={onPropChange} />
                 </Stack>
               </AccordionDetails>
             </Accordion>

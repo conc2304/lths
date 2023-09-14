@@ -1,4 +1,4 @@
-const payload = {
+export const payload = {
   id: 'l68gko3g76itc26u7fu2',
   component_id: 'cHalfHeightWithIcon',
   component_type: 'Native',

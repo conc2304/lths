@@ -1,5 +1,5 @@
 import { api } from '@lths/shared/data-access';
-import { FilterAPIResponse, FilterFormResponse } from '@lths/types/ui-filters';
+import { FilterAPIResponse, FilterFormResponse } from '@lths/shared/ui-elements';
 
 import { convertFilterResponse } from './response-transform';
 import { getAnalyticFiltersUrl } from './urls';

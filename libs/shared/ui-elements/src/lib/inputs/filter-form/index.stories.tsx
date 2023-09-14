@@ -1,26 +1,27 @@
 import { useRef, useState } from 'react';
 import { Button } from '@mui/material';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
+import { FilterForm } from './index';
+import { formSchemaMock, formStateMock } from './mockData';
 import {
   handleAddFormStateItem,
   handleAddFormStateItems,
   handleRemoveFormStateGroup,
   handleRemoveFormStateItem,
-} from '@lths/shared/ui-filters';
-import { FilterFormState, FormState, FormStateValue } from '@lths/types/ui-filters';
+  FilterFormState,
+  FormState,
+  FormStateValue,
+} from '../../ui-filters';
 
-import { FilterForm } from './index';
-import { formSchemaMock, formStateMock } from './mockData';
-
-const Story: ComponentMeta<typeof FilterForm> = {
+const Story: Meta<typeof FilterForm> = {
   component: FilterForm,
   title: 'Inputs/Forms/ Filter Form',
 };
 
 export default Story;
 
-const Template: ComponentStory<typeof FilterForm> = (args) => {
+const Template: StoryFn<typeof FilterForm> = (args) => {
   const initialFormState = useRef(args.formState);
   const [modalIsOpen, setModalIsOpen] = useState(args.open);
   const [formState, setFormState] = useState(args.formState);

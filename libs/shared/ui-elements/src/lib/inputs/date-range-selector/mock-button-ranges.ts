@@ -7,7 +7,8 @@ import {
   getPrevFullWeekRange,
   getPrevFullYearRange,
 } from '@lths/shared/utils';
-import { DateFilterOptions } from '@lths/types/ui-filters';
+
+import { DateFilterOptions } from '../../ui-filters';
 
 export const DateRangeFilterOptions: DateFilterOptions = [
   {

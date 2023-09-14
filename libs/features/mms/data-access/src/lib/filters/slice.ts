@@ -1,15 +1,15 @@
 import { AsyncThunk, PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { DateFilter, FilterFormState, FormSchema, FormState, FormStateValue } from '@lths/shared/ui-elements';
 import {
   getInitialFormState,
   handleAddFormStateItem,
   handleAddFormStateItems,
   handleRemoveFormStateGroup,
   handleRemoveFormStateItem,
-} from '@lths/shared/ui-filters';
+} from '@lths/shared/ui-elements';
 import { dateToUTCString } from '@lths/shared/utils';
-import { DateFilter, FilterFormState, FormSchema, FormState, FormStateValue } from '@lths/types/ui-filters';
 
 import { filterApi } from './api';
 import { RootState } from '../store';

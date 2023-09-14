@@ -48,7 +48,7 @@ describe('CreateNewEventModal', () => {
 
     // Fill in the form fields
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
-    await userEvent.type(inputElem, 'Event Name MOock');
+    await userEvent.type(inputElem, 'Event Name Mock');
 
     // Set start date after end date
     const startDateInput = screen

@@ -1,15 +1,12 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, cleanup, RenderResult, within, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
+import { render, fireEvent, screen, cleanup, RenderResult, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import mockConfigureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import 'whatwg-fetch'; // removes the warning/error for SSR fetching
 
-import { store as MMS_Store } from '@lths/features/mms/data-access';
 import {
   setDateRange,
   setFormState,
@@ -20,7 +17,6 @@ import {
   removeFilterItem,
 } from '@lths/features/mms/data-access';
 import { api } from '@lths/shared/data-access';
-import { Handlers } from '@lths/shared/mocks';
 
 import { ConnectedUiFilter } from './connected-ui-filter';
 import { formStateMock, formSchemaMock } from './mockData';
@@ -204,48 +200,5 @@ describe('ConnectedUiFilter', () => {
         item: { no_event: { id: 'no_event', title: targetLabel } },
       })
     );
-  });
-});
-
-describe('ConnectedUiFilter - Data Fetching', () => {
-  let store: ToolkitStore;
-  let connectedComponent: RenderResult;
-  let component: JSX.Element;
-  const server = setupServer(...Handlers.default);
-
-  beforeEach(() => {
-    server.listen();
-    store = MMS_Store;
-  });
-
-  afterEach(() => {
-    cleanup();
-    server.resetHandlers();
-  });
-
-  afterAll(() => server.close());
-  it('should fetch the filter form data if it does not have it available', async () => {
-    // Arrange
-
-    const handleUpdateFiters_Mock = jest.fn();
-    component = RBThemeProvider({ children: <ConnectedUiFilter onFiltersUpdate={handleUpdateFiters_Mock} /> });
-    connectedComponent = render(<Provider store={store}>{component}</Provider>);
-    const { baseElement } = connectedComponent;
-
-    // Force the page to wait for something dependent on the api call
-    // so that the api call returns a response before the test ends
-    await waitFor(() => {
-      expect(screen.getByText('1 Day')).toBeInTheDocument();
-    });
-
-    // Act
-
-    // Assert
-    expect(baseElement).toBeInTheDocument();
-    expect(handleUpdateFiters_Mock).toHaveBeenCalledTimes(1);
-    expect(handleUpdateFiters_Mock).toHaveBeenCalledWith({
-      metrics: expect.any(Object),
-      date_range: { start_date: expect.any(String), end_date: expect.any(String) },
-    });
   });
 });

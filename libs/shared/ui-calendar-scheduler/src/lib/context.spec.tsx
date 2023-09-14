@@ -5,6 +5,12 @@ import { render } from '@testing-library/react';
 import { ListViewContextProvider, useListViewContext, withListViewContextProvider } from './context';
 
 describe('ListViewContextProvider', () => {
+  // unsuppressing console.error for tests that dont' involve toThrow
+  const realError = console.error;
+  afterEach(() => {
+    console.error = realError;
+  });
+
   it('renders children with provided context values', () => {
     const headerCells = [{ id: 'column1', label: 'Column 1', sortable: false }];
     const rowBuilder = () => <div>Row</div>;
@@ -34,6 +40,9 @@ describe('ListViewContextProvider', () => {
   });
 
   it('throws an error if required context values are missing', () => {
+    // Suppressing console.error for CI testing
+    console.error = jest.fn();
+
     const MissingPropsComponent = () => {
       return (
         <ListViewContextProvider
@@ -59,6 +68,8 @@ describe('ListViewContextProvider', () => {
   });
 
   it('throws an error if used outside of the context provider', () => {
+    console.error = jest.fn();
+
     const TestComponent = () => {
       useListViewContext();
       return <div>Test</div>;

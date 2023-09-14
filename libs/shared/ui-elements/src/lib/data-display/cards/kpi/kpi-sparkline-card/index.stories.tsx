@@ -2,19 +2,16 @@ import { Stack } from '@mui/material/';
 
 import { KpiSparklineCard } from './index';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof KpiSparklineCard> = {
+const Story: Meta<typeof KpiSparklineCard> = {
   component: KpiSparklineCard,
   title: 'Data Display/ Cards/ Kpi / Kpi Sparkline Card',
 };
 export default Story;
 
-const Template: ComponentStory<typeof KpiSparklineCard> = (args) => (
-  <Stack
-    direction="row"
-    spacing={2}
-  >
+const Template: StoryFn<typeof KpiSparklineCard> = (args) => (
+  <Stack direction="row" spacing={2}>
     <KpiSparklineCard {...args} hero={77} heroUnit="%" />
     <KpiSparklineCard {...args} />
     <KpiSparklineCard {...args} heroUnit="" />
@@ -44,16 +41,17 @@ Primary.args = {
   hero: 799,
   heroUnit: 'SECS',
   trends: trendProp,
-  tooltip: { 
-    description: "The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.",
-    action: { 
-      url: "https://en.wikipedia.org/wiki/Retention",
-      title: "Learn More",
-    }, 
-    title: "Retention"
+  tooltip: {
+    description:
+      'The ratio of users who return to continue using the app. If retention is low, it means that users are not engaging with the app and steps must be taken to attract usage.',
+    action: {
+      url: 'https://en.wikipedia.org/wiki/Retention',
+      title: 'Learn More',
+    },
+    title: 'Retention',
   },
   sparkLine: <div>react Spark1 line</div>,
-  detail: { 
-    url: "https://en.wikipedia.org/wiki/Retention",
+  detail: {
+    url: 'https://en.wikipedia.org/wiki/Retention',
   },
 };

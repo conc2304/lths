@@ -1,5 +1,6 @@
 import React from 'react';
 import { SelectChangeEvent } from '@mui/material';
+
 import { InsightTabularResponse } from '@lths/features/mms/data-access';
 
 import { TabularCard } from './tabular-card';

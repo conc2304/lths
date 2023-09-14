@@ -33,6 +33,12 @@ const props: ListViewProps & ViewStatic = {
 };
 
 describe('WeekList', () => {
+  // unsuppressing error for tests that dont' involve toThrow
+  const realError = console.error;
+  afterEach(() => {
+    console.error = realError;
+  });
+
   it('renders without crashing', () => {
     const { container } = render(
       <ListViewContextProvider
@@ -49,6 +55,9 @@ describe('WeekList', () => {
   });
 
   it('throws an error without context provider', () => {
+    // Suppressing console.error for CI testing
+    console.error = jest.fn();
+
     expect(() => {
       render(<WeekList {...props} />);
     }).toThrow('useListViewContext has to be used within <ListViewContext.Provider>');

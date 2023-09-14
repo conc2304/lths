@@ -1,4 +1,4 @@
-import { FormSchema } from '@lths/types/ui-filters';
+import { FormSchema } from '@lths/shared/ui-elements';
 
 export const filtersResponse = {
   payload: {

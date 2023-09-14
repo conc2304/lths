@@ -5,6 +5,7 @@ import Chip from './chip';
 import DatePicker from './date-picker';
 import DateTimePicker from './date-time-picker';
 import Dialog from './dialog';
+import Fab from './fab';
 import Link from './link';
 import Paper from './paper';
 import Table from './table';
@@ -26,5 +27,6 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...ToggleButtonGroup(theme),
     ...Toolbar(theme),
     ...Dialog(),
+    ...Fab(),
   };
 }

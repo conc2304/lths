@@ -1,6 +1,6 @@
-import { api } from '../core/api';
 import { UserResponse } from './types';
 import { getAuthUserByIdUrl } from './urls';
+import { api } from '../core/api';
 
 export const userApi = api.enhanceEndpoints({ addTagTypes: ['User'] }).injectEndpoints({
   endpoints: (builder) => ({

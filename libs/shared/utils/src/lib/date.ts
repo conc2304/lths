@@ -24,8 +24,10 @@ import {
   subYears,
 } from 'date-fns';
 
-import { DateRange } from '@lths/types/ui-filters';
-
+type DateRange = {
+  start_date: Date | null;
+  end_date: Date | null;
+};
 /**
  * Date Range/Interval Getters
  */
@@ -155,4 +157,18 @@ export const getPrevFullYearRange = (date: Date = new Date()): DateRange => {
 
 export const dateToUTCString = (date: Date | string): string => {
   return date instanceof Date && typeof date !== 'string' ? date.toUTCString() : new Date(date).toUTCString();
+};
+
+export const convertISOStringToDateTimeFormat = (isoString: string) => {
+  const options: Intl.DateTimeFormatOptions = {
+    month: '2-digit',
+    day: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  };
+  const date = new Date(isoString);
+  const formattedDate = date.toLocaleString('en-US', options).replace(',', ' -');
+  return formattedDate;
 };

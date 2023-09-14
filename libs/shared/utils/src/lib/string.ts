@@ -13,3 +13,5 @@ export const deslugify = (str: string): string =>
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s_-]+/g, ' ')
     .trim();
+
+export const urlRegexPattern = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;

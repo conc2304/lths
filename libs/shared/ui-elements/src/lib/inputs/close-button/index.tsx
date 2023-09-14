@@ -2,8 +2,10 @@ import { CSSProperties } from 'react';
 import { Box, SxProps } from '@mui/material';
 import { Theme } from '@mui/system';
 import { Property } from 'csstype';
-import { extractNumericValue } from 'libs/shared/ui-elements/src/lib/utils/string-utils';
+
 import { pxToRem } from '@lths/shared/utils';
+
+import { extractNumericValue } from '../../utils/string-utils';
 
 type CloseButtonProps = {
   size?: Property.Width;

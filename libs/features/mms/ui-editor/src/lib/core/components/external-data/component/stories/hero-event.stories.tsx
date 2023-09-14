@@ -1,6 +1,8 @@
-import ExternalDataToolbar from './../index';
-import type { Meta, StoryFn } from '@storybook/react';
 import { Box } from '@mui/material';
+
+import ExternalDataToolbar from './../index';
+
+import type { Meta, StoryFn } from '@storybook/react';
 
 const Story: Meta<typeof ExternalDataToolbar> = {
   component: ExternalDataToolbar,

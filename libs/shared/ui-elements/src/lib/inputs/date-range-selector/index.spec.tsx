@@ -5,10 +5,10 @@ import { render, fireEvent, waitFor, screen, cleanup, RenderResult, within } fro
 import userEvent from '@testing-library/user-event';
 
 import { slugify } from '@lths/shared/utils';
-import { DateFilterOption, DateFilterOptions, DateRange } from '@lths/types/ui-filters';
 
 import { DateRangeSelector } from './index';
 import { DateRangeFilterOptions } from './mock-button-ranges';
+import { DateFilterOption, DateFilterOptions, DateRange } from '../../ui-filters';
 
 const resizeScreenSize = (x: number, y: number) => {
   window.innerWidth = x;

@@ -1,6 +1,5 @@
 import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
 import HomeIcon from '@mui/icons-material/Home';
-import PaletteIcon from '@mui/icons-material/Palette';
 
 const Home = {
   items: [
@@ -14,14 +13,7 @@ const Home = {
 };
 
 const Themes = {
-  items: [
-    {
-      title: 'Themes',
-      icon: <PaletteIcon />,
-      path: '/themes/list',
-      file: '/demo/sample-page',
-    },
-  ],
+  items: [],
 };
 
 const Assets = {

@@ -10,7 +10,7 @@ export * from './lib/pages/api';
 export * from './lib/pages/slice';
 export * from './lib/pages/types';
 
-export * from './lib/notifications/notification-api';
+export * from './lib/notifications/api';
 export * from './lib/notifications/types';
 
 export * from './lib/assets/api';
@@ -28,3 +28,5 @@ export * from './lib/insights/flows/onboarding-slice';
 
 export * from './lib/insights/pages/pages-api';
 export * from './lib/insights/pages/pages-slice';
+
+export * from './lib/types';

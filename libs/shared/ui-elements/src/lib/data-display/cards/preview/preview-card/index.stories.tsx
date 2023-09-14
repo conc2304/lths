@@ -1,14 +1,14 @@
 import { PreviewCard } from './index';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof PreviewCard> = {
+const Story: Meta<typeof PreviewCard> = {
   component: PreviewCard,
   title: 'Data Display/ Cards/ Preview / Preview Card',
 };
 export default Story;
 
-const Template: ComponentStory<typeof PreviewCard> = (args) => <PreviewCard {...args} />;
+const Template: StoryFn<typeof PreviewCard> = (args) => <PreviewCard {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

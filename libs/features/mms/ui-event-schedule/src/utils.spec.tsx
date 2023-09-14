@@ -60,15 +60,15 @@ describe('eventStateOffsetToDateRange', () => {
     const eventState = {
       stateDependency: { dependentPoint: 'start', referencePoint: 'start' },
       relativeOffsetHrs: 2,
-      start: new Date('2023-08-10T12:00:00Z').toUTCString(),
-      end: new Date('2023-08-10T14:00:00Z').toUTCString(),
+      start: new Date('2023-08-10T12:00:00Z').toISOString(),
+      end: new Date('2023-08-10T14:00:00Z').toISOString(),
     };
 
     const offset = 1;
 
     const result = eventStateOffsetToDateRange(eventState as EventState, offset);
 
-    expect(result.start).toBe(addHours(new Date(eventState.start), offset).toUTCString());
+    expect(result.start).toBe(addHours(new Date(eventState.start), offset).toISOString());
     expect(result.end).toBe(eventState.end);
     expect(result.offsetDifference).toBe(offset - eventState.relativeOffsetHrs);
     expect(result.relativeTo).toBe(eventState.stateDependency.dependentPoint);
@@ -78,8 +78,8 @@ describe('eventStateOffsetToDateRange', () => {
     const eventState = {
       stateDependency: { dependentPoint: 'end', referencePoint: 'end' },
       relativeOffsetHrs: 2,
-      start: new Date('2023-08-10T12:00:00Z').toUTCString(),
-      end: new Date('2023-08-10T14:00:00Z').toUTCString(),
+      start: new Date('2023-08-10T12:00:00Z').toISOString(),
+      end: new Date('2023-08-10T14:00:00Z').toISOString(),
     };
 
     const offset = 1;
@@ -87,7 +87,7 @@ describe('eventStateOffsetToDateRange', () => {
     const result = eventStateOffsetToDateRange(eventState as EventState, offset);
 
     expect(result.start).toBe(eventState.start);
-    expect(result.end).toBe(subHours(new Date(eventState.end), offset).toUTCString());
+    expect(result.end).toBe(subHours(new Date(eventState.end), offset).toISOString());
     expect(result.offsetDifference).toBe(offset - eventState.relativeOffsetHrs);
     expect(result.relativeTo).toBe(eventState.stateDependency.dependentPoint);
   });
@@ -98,14 +98,14 @@ describe('updateEventStatesWithOffsets', () => {
     const preEventState = {
       ...EventStateUIPreEvent,
       relativeOffsetHrs: 2,
-      start: new Date('2023-08-10T12:00:00Z').toUTCString(),
-      end: new Date('2023-08-10T14:00:00Z').toUTCString(),
+      start: new Date('2023-08-10T12:00:00Z').toISOString(),
+      end: new Date('2023-08-10T14:00:00Z').toISOString(),
     };
     const inEventState = {
       ...EventStateUIInEvent,
       relativeOffsetHrs: 0,
-      start: new Date('2023-08-10T14:00:00Z').toUTCString(),
-      end: new Date('2023-08-10T18:00:00Z').toUTCString(),
+      start: new Date('2023-08-10T14:00:00Z').toISOString(),
+      end: new Date('2023-08-10T18:00:00Z').toISOString(),
     };
 
     const eventStates = [preEventState, inEventState];
@@ -126,10 +126,10 @@ describe('updateEventStatesWithOffsets', () => {
       addHours(
         subHours(new Date(inEventState.start), preEventState.relativeOffsetHrs),
         offsetValues[EVENT_STATE.PRE_EVENT]
-      ).toUTCString()
+      ).toISOString()
     );
 
-    expect(newPreEventEnd).toBe(new Date(inEventState.start).toUTCString());
+    expect(newPreEventEnd).toBe(new Date(inEventState.start).toISOString());
   });
 });
 

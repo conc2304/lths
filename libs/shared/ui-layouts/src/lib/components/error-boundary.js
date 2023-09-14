@@ -7,21 +7,22 @@ import { Component } from 'react';
 export class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorMsg: '' };
   }
 
   static getDerivedStateFromError(_error) {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true };
+    return { hasError: true, errorMsg: _error };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  componentDidCatch(_error, _info) {}
+  componentDidCatch(_error, _info) { }
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return this.props.fallback;
+      // You can render any custom fallback UI otherwise display error message
+      const content = this.props.fallback ? this.props.fallback : decodeURI(this.state.errorMsg);
+      return <div data-testid="error-boundary">{content}</div>;
     }
 
     return this.props.children;

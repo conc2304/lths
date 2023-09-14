@@ -1,4 +1,5 @@
 import { SelectChangeEvent } from '@mui/material';
+
 import { InsightTabularResponse } from '@lths/features/mms/data-access';
 import { GenericTableCellProps, HStack, BasicCard, GenericTable } from '@lths/shared/ui-elements';
 import { InfoTooltip } from '@lths/shared/ui-elements';
@@ -31,11 +32,8 @@ export const TabularCard = ({ data, filter, onChange }: TabularCardProps) => {
       <DropdownList data={ddoptions} value={filter} onChange={onChange} />
       {info && <InfoTooltip title={''} description={info.description} action={{ url: info.url }} />}
     </HStack>
-  ); /*
-  const headers: GenericTableCellProps[] = metric.labels.map((o) => ({
-    label: o.label,
-    id: o.slug,
-  }));*/
+  );
+
   const headers: GenericTableCellProps[] = metric.labels.map((o) => {
     if (Object.entries(o).length === 1) {
       const id = Object.keys(o)[0];

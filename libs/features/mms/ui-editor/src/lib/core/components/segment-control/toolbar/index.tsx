@@ -4,14 +4,8 @@ import { Button, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { SegmentControlComponentProps } from '../../types';
 
@@ -19,10 +13,11 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
   const {
     __ui_id__: id,
     data: { sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -51,7 +46,7 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
                 <Box sx={{ gap: 2 }}>
                   <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e, index)} />
                 </Box>
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

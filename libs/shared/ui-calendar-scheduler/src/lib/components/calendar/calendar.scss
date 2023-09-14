@@ -26,8 +26,7 @@ $event-min-height: var(--event-min-height, 3.5rem);
 .Calendar-Scheduler--view-day {
   &.Calendar-Scheduler--root {
     width: 100%;
-    width: -webkit-fill-available;
-    width: fill-available;
+    width: stretch;
   }
 
   .rbc-time-view {
@@ -184,6 +183,7 @@ $event-min-height: var(--event-min-height, 3.5rem);
   .rbc-time-content {
     position: relative;
     border-top: unset;
+    overflow-x: clip;
 
     & > :nth-child(2) {
       border-left: $accent-border-width solid $accent-border;

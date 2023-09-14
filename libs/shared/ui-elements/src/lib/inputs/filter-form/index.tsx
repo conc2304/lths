@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogActions, Divider, useTheme, useMediaQuery,
 import { LoadingButton } from '@mui/lab';
 import Button from '@mui/material/Button';
 
+import { FormTitle } from './form-title';
 import {
   AddGroupItems,
   AddItem,
@@ -10,9 +11,7 @@ import {
   FormSchema,
   FormState,
   RemoveItem,
-} from '@lths/types/ui-filters';
-
-import { FormTitle } from './form-title';
+} from '../../ui-filters/types';
 import { ChipContainer } from '../chip-container';
 import { Form } from '../form-builder';
 

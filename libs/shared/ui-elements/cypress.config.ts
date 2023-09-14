@@ -1,5 +1,5 @@
-import { defineConfig } from 'cypress';
 import { nxE2EStorybookPreset } from '@nx/storybook/presets/cypress';
+import { defineConfig } from 'cypress';
 import { join } from 'path';
 
 export default defineConfig({

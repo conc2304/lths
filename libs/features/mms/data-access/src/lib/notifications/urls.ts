@@ -1,16 +1,23 @@
-import { NotificationRequest } from './types';
+import { NotificationListRequest } from './types';
+import { PaginationRequest } from '../types';
+import { addQueryParams } from '../utils';
 
-const BASE_PATH = '/models/users/service/ports';
-export const AUTH_LOGIN_URL = `${BASE_PATH}/login`;
-export const AUTH_LOGOUT_URL = `${BASE_PATH}/logout`;
+const BASE_URL = '/mms/notifications';
 
-export const getNotificationUrl = (req: NotificationRequest) => {
-  const params = [];
-  const { page, page_size, sort_key, sort_order } = req;
-  if (page != null) params.push(`page=${page}`);
-  if (page_size != null) params.push(`page_size=${page_size}`);
-  if (sort_key != null) params.push(`sort_key=${sort_key}`);
-  if (sort_order != null) params.push(`page=${sort_order}`);
-
-  return `/notifications?${params.join('&')}`;
+export const getNotificationItemsUrl = (req: PaginationRequest) => {
+  return addQueryParams(`/notifications-items`, req);
 };
+
+export const getNotificationsListUrl = (req: NotificationListRequest) => {
+  return addQueryParams(BASE_URL, req);
+};
+
+export const getNotificationDetailUrl = (notification_id: string) => `${BASE_URL}/${notification_id}`;
+
+export const getCreateNotificationUrl = () => BASE_URL;
+
+export const getUpdateNotificationUrl = (notification_id: string) => `${BASE_URL}/${notification_id}`;
+
+export const getDuplicateNotificationUrl = () => `${BASE_URL}/duplicate`;
+
+export const getDeleteNotificationUrl = (notification_id: string) => `${BASE_URL}/${notification_id}`;

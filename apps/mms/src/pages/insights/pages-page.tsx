@@ -7,26 +7,20 @@ import {
   useLazyGetInsightPagesHistogram2Query,
 } from '@lths/features/mms/data-access';
 import { VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/types/ui-filters';
+import { FilterSettingsPayload } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { HistogramContainer, KpiContainer } from '../../components/insights/overview';
 import { PreviewContainer } from '../../components/insights/pages';
 
 const PagesPage = (): JSX.Element => {
-  const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
-    useLazyGetInsightPagesKpiQuery();
+  const [getKpiData, { data: kpiData }] = useLazyGetInsightPagesKpiQuery();
 
-  const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
-    useLazyGetInsightPagesHistogramQuery();
+  const [getHistogramData, { data: histogramData }] = useLazyGetInsightPagesHistogramQuery();
 
-  const [
-    getHistogram2Data,
-    { isFetching: isHistogram2Fetching, isLoading: isHistogram2Loading, data: histogram2Data },
-  ] = useLazyGetInsightPagesHistogram2Query();
+  const [getHistogram2Data, { data: histogram2Data }] = useLazyGetInsightPagesHistogram2Query();
 
-  const [getPreviewData, { isFetching: isPreviewFetching, isLoading: isPreviewLoading, data: previewData }] =
-    useLazyGetInsightPagesPreviewQuery();
+  const [getPreviewData, { data: previewData }] = useLazyGetInsightPagesPreviewQuery();
 
   async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
     const {

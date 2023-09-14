@@ -3,6 +3,8 @@ const colors = {
   editor: { background: '#D9D9D9', highlight: '#FF9A02', mobile: { background: '#121213' } },
 
   quicklink: { background: '#BA9765' },
+  simpleImagePicker: {  image: { background: '#F5F5F5' }, button: { background: '#FFFFFF', text: '#3D4752', border: '#BDBDBD' } },
+  container: { background: '#121213' },
 };
 
 export default colors;
