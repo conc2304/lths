@@ -28,6 +28,12 @@ export type SpacerProps = ComponentProps & {
   };
 };
 
+export type DividerProps = ComponentProps & {
+  data: {
+    color: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;
@@ -308,6 +314,13 @@ export type CardImageComponentProps = ComponentProps & {
   data: {
     title: string;
     image: string;
+  };
+};
+
+export type FullHeightImageComponentProps = ComponentProps & {
+  data: {
+    image: string;
+    action: ActionProps;
   };
 };
 

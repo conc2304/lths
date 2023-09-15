@@ -67,4 +67,6 @@ export enum Component {
   TextButton = 'cTextButton',
   SocialIconButton = 'cSocialIconButtons',
   Spacer = 'cSpacer',
+  Divider = 'cDivider',
+  FullHeightImage = 'cFullHeightImage',
 }
