@@ -1,17 +1,16 @@
 import { useCallback, useState, useEffect } from 'react';
-
 import { Button, List, } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
+import CarouselItemEditor from './carousel-item-editor'
+import { useEditorActions } from '../../../../context';
 import {
   ToolContainer,
   ToolbarLabel,
 } from '../../../../elements';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import CarouselItemEditor from './carousel-item-editor'
 import { DraggableCarouselListItem } from '../../common/index'
-
-import { useEditorActions } from '../../../../context';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselFloatingTextProps, HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 
@@ -70,7 +69,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
       <DraggableCarouselListItem
         key={index}
         index={index}
-        sub_properties_data={sub_properties_data}
+        data={sub_properties_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}

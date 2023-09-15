@@ -1,13 +1,13 @@
 import { useCallback, useState, useEffect } from 'react';
-import { Button, List } from '@mui/material';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
+import CarouselDraggableItemsList from './carousel-draggable-items-list';
 import CarouselItemEditor from './carousel-Item-editor';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
-import { DraggableCarouselListItem } from '../../common/index';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselComponentProps } from '../../types';
 
@@ -66,30 +66,18 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     [props.properties_data]
   );
 
-  const renderCarouselDraggableItem = (item: any, index: number) => {
-    return (
-      <DraggableCarouselListItem
-        key={index}
-        index={index}
-        sub_properties_data={sub_properties_data}
-        onDrag={handleDrag}
-        onDelete={handleDelete}
-        onEditItem={handleEditItem}
-        text={item?.name}
-      ></DraggableCarouselListItem>
-    );
-  };
-  
-
   return (
       <DndProvider backend={HTML5Backend}>
         <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
           leftItem={
-            <ToolContainer id={id + 'Carousel'} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
+            <ToolContainer id={`Carousel_${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
               <ToolbarLabel label={'Carousel'} />
-              {sub_properties_data && sub_properties_data.length > 0 && (
-                <List>{sub_properties_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
-              )}
+              <CarouselDraggableItemsList
+                data={sub_properties_data}
+                onDrag={handleDrag}
+                onDelete={handleDelete}
+                onEditItem={handleEditItem}
+              />
               <div>
                 <Button
                   data-testid={'Add Carousel Item'}
@@ -104,7 +92,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
             </ToolContainer>
           }
           rightItem={
-            <ToolContainer id={id + 'Carousel Item'} aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item">
+            <ToolContainer id={`Carousel_Item${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item">
                 <CarouselItemEditor
                   item={sub_properties_data[selectedIndex]}
                   onClose={handleCloseItem}

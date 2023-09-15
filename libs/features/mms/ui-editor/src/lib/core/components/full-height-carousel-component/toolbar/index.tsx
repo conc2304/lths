@@ -78,7 +78,7 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
       <DraggableCarouselListItem
         key={index}
         index={index}
-        sub_properties_data={sub_properties_data}
+        data={sub_properties_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
