@@ -7,7 +7,6 @@ import {
   addNewComponent,
   swapComponent,
   duplicateComponent,
-  DUPLICATE_NAME_SUFFIX,
 } from './utils';
 
 const defaultProps: ComponentProps = {
@@ -173,18 +172,33 @@ describe('Component Navigator', () => {
       { ...defaultProps, name: 'Component A', display_order: 1 },
       { ...defaultProps, name: 'Component B', display_order: 2 },
       { ...defaultProps, name: 'Component C', display_order: 3 },
+      { ...defaultProps, name: 'Component A 1', display_order: 1 },
     ]);
     const currentUuid = components[currentIndex].__ui_id__;
 
     const duplicatedComponents = duplicateComponent(components, currentUuid);
-    const duplicatedName = `${duplicatedComponents[currentIndex].name}${DUPLICATE_NAME_SUFFIX}`;
+
     const duplicatedIndex = currentIndex + 1;
     expect(duplicatedComponents.find((o) => o.__ui_id__ === currentUuid).display_order).toBe(2);
     expect(duplicatedComponents[duplicatedIndex].display_order).toBe(3);
-    expect(duplicatedComponents[duplicatedIndex].name).toBe(duplicatedName);
     expect(validate(duplicatedComponents[duplicatedIndex].__ui_id__)).toBeTruthy();
     // Check if mangodb ids are cleared
     expect(duplicatedComponents[duplicatedIndex].variation_id).toBe('');
     expect(duplicatedComponents[duplicatedIndex]._id).toBe('');
+  });
+
+  it('should duplicate a component and continue from previous numbering', () => {
+    const currentIndex = 1;
+    const components = initComponents([
+      { ...defaultProps, component_id: 'componentB', name: 'Component B 1', display_order: 1 },
+      { ...defaultProps, component_id: 'componentB', name: 'Component B 2', display_order: 2 },
+      { ...defaultProps, component_id: 'componentC', name: 'Component C', display_order: 3 },
+      { ...defaultProps, component_id: 'componentB', name: 'Component B 3', display_order: 1 },
+    ]);
+    const currentUuid = components[currentIndex].__ui_id__;
+    const duplicatedComponents = duplicateComponent(components, currentUuid);
+    const duplicatedName = `Component B 4`;
+    const duplicatedIndex = currentIndex + 1;
+    expect(duplicatedComponents[duplicatedIndex].name).toBe(duplicatedName);
   });
 });

@@ -451,7 +451,8 @@ export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
 
 export type FullWidthButtonComponentProps = ComponentProps & {
   data: {
-    label: string;
+    btn_text: string;
+    btn_style: string;
     action: ActionProps;
   };
 };
