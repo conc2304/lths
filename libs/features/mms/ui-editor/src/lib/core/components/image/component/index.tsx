@@ -14,7 +14,6 @@ const ImageComponent = (props: ImageComponentProps) => {
         sx={{
           width: '100%',
           height: '427px',
-          position: 'relative',
           paddingBottom: '100%',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
