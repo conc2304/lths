@@ -89,6 +89,8 @@ import {
   SocialIconButtonToolbar,
   SpacerToolbar,
   SpacerProps,
+  FullHeightImageToolbar,
+  FullHeightImageComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -224,6 +226,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <SocialIconButtonToolbar {...(props as SocialIconButtoncomponentProps)} />;
     case Component.Spacer:
       return <SpacerToolbar {...(props as SpacerProps)} />;
+    case Component.FullHeightImage:
+      return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }
