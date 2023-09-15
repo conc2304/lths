@@ -317,6 +317,13 @@ export type CardImageComponentProps = ComponentProps & {
   };
 };
 
+export type FullHeightImageComponentProps = ComponentProps & {
+  data: {
+    image: string;
+    action: ActionProps;
+  };
+};
+
 export type ImageComponentProps = ComponentProps & {
   data: {
     title: string;
