@@ -1,27 +1,24 @@
-import { BasicTextField, ColorPicker, ImagePicker } from '../../../../elements';
+import { SimpleImagePicker, ToolbarLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ImageComponentProps } from '../../types';
 
 const ImageToolbar = (props: ImageComponentProps) => {
   const {
     __ui_id__: id,
-    data: { image, title, desc, color = '#000000' },
+    data: { image, action },
     onPropChange,
   } = props;
 
-  const { handleTitleChange, handleDescChange, handleImageChange, updateComponentProp } = useToolbarChange();
-
-  const handleColorChange = (color: string) => {
-    updateComponentProp('color', color);
-  };
+  const { handleImageChange } = useToolbarChange();
 
   return (
-    <ToolContainer id={id}>
-      <ImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
-      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <ColorPicker label={'Color'} value={color} onChange={handleColorChange} />
-      <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
+    <ToolContainer id={id} aria-label={'Image Toolbar'}>
+      <ToolbarLabel label={'Image'} />
+      <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
+
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };

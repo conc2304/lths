@@ -326,9 +326,6 @@ export type FullHeightImageComponentProps = ComponentProps & {
 
 export type ImageComponentProps = ComponentProps & {
   data: {
-    title: string;
-    color: string;
-    desc: string;
     image: string;
     action: ActionProps;
   };
