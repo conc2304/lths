@@ -9,10 +9,10 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ActionInput,
   GroupLabel,
   OutlinedTextField,
 } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
 import { size } from '../utils';
@@ -20,10 +20,11 @@ import { size } from '../utils';
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, card_background_color, text_size, linked_text, action },
+    data: { title, card_background_color, text_size, linked_text, action },
+    onPropChange,
   } = props;
 
-  const { updateComponentProp, handleActionChange, handleTitleChange } = useToolbarChange();
+  const { updateComponentProp, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -36,7 +37,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
+      data: {
         title,
         card_background_color,
         linked_text: [...linked_text, { link_value: 'New link' }],
@@ -79,7 +80,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
                         updateComponentProp('link_key', e.target.value, index, 'linked_text');
                       }}
                     />
-                    <ActionInput action={action} handleActionChange={handleActionChange} />
+                    <ActionToolbar action={action} onPropChange={onPropChange} index={index} keys={['linked_text']} />
                   </Stack>
                 </Box>
               </AccordionDetails>

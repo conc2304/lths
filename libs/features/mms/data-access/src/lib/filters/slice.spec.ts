@@ -6,7 +6,7 @@ import 'whatwg-fetch';
 
 import { api } from '@lths/shared/data-access';
 import { Handlers } from '@lths/shared/mocks';
-import { FormStateValue } from '@lths/types/ui-filters';
+import { FormStateValue } from '@lths/shared/ui-elements';
 
 import {
   setDateRange,

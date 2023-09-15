@@ -22,7 +22,7 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
   index,
 }) => {
   const { image = '', image_alt_text = '', title = '', description = '', action = {type: 'webview', page_id: '', page_link: '' } } = item || {};
-  const parentKeys = ['sub_properties_data'];
+  const parentKeys = ['sub_component_data'];
   const { handleTitleChange, handleImageChange, handleImageAltChange, handleDescriptionChange } = useToolbarChange();
   const theme = useTheme();
 

@@ -22,9 +22,11 @@ import {
   transformDateRange,
   transformFilterOptions,
   transformFormState,
-} from '@lths/shared/ui-filters';
+  FilterFormState,
+  FilterSettingsPayload,
+  SelectedUiFilters,
+} from '@lths/shared/ui-elements';
 import { dateToUTCString } from '@lths/shared/utils';
-import { FilterFormState, FilterSettingsPayload, SelectedUiFilters } from '@lths/types/ui-filters';
 
 import { DateRangeFilterOptions } from '../../fixtures/date-range-filter-options';
 

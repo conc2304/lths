@@ -2,25 +2,20 @@ import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ExpandCollapseViewComponentProps } from '../../types';
 
 const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleDescChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange, handleDescChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -31,9 +26,9 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        sub_properties_data: [
-          ...sub_properties_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           { title: 'Expand/Collapse Item', action: { type: 'expand/collapse', page_id: 'Expand/Collapse Item' } },
         ],
       },
@@ -43,7 +38,7 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
 
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {sub_properties_data.map(({ title, desc, action }, index) => {
+      {sub_component_data.map(({ title, desc, action }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion
@@ -70,7 +65,7 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
                   multiline
                   rows={3}
                 />
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

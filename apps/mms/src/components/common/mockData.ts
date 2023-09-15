@@ -1,4 +1,4 @@
-import { FormSchema, FormState } from '@lths/types/ui-filters';
+import { FormSchema, FormState } from '@lths/shared/ui-elements';
 
 export const formStateMock: FormState = {
   event_state: {

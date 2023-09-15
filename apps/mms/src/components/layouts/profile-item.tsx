@@ -1,9 +1,8 @@
-import { MouseEvent, useRef, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import {
   Avatar,
   Box,
   Button,
-  ButtonBase,
   Card,
   CardContent,
   ClickAwayListener,
@@ -17,12 +16,11 @@ import {
   Paper,
   Popper,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from '@mui/material';
 import { LogoutOutlined, EditAttributes } from '@mui/icons-material';
-import { Transitions, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
+
 import { useAppSelector, selectUserId } from '@lths/features/mms/data-access';
 import { useLogoutMutation } from '@lths/shared/data-access';
 const ProfileTab = ({ handleLogout }) => {
@@ -62,7 +60,7 @@ const ProfileTab = ({ handleLogout }) => {
 };
 
 const Profile = () => {
-  const [logout, { isLoading }] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
   const userId = useAppSelector((state) => selectUserId(state));
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);

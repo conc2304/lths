@@ -11,7 +11,7 @@ export * from './labels';
 export * from './carousels';
 export * from './accordions';
 export * from './menus';
-export * from './action-accordion';
 
 export * from './hooks';
-export { default as ActionInput } from './action-input';
+
+export * from './autocomplete';

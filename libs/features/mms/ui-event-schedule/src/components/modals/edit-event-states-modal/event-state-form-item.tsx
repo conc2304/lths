@@ -39,6 +39,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
             type="number"
             size="small"
             id={`${title}-form-id`}
+            role="textbox"
             name={title}
             value={value}
             onChange={onChange}

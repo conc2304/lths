@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { render, waitFor, screen, within, act } from '@testing-library/react';
+import { render, waitFor, screen, within, act, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventFormModal, EventFormModalProps } from './index';
@@ -11,7 +11,10 @@ describe('EventFormModal', () => {
   const onSaveMock = jest.fn();
   const onCancelMock = jest.fn();
 
-  const renderComponent = (props = {}) => {
+  let component: RenderResult<typeof import('@testing-library/dom/types/queries'), HTMLElement, HTMLElement>;
+  let container: HTMLElement;
+
+  const renderComponent = async (props = {}) => {
     const defaultProps: EventFormModalProps = {
       open: true,
       title: 'Test Event',
@@ -23,12 +26,14 @@ describe('EventFormModal', () => {
       ...props,
     };
 
-    return render(<EventFormModal {...defaultProps} />);
+    await act(async () => {
+      component = render(<EventFormModal {...defaultProps} />);
+      container = component.container;
+    });
   };
 
-  it('should render without crashing', () => {
-    const { container } = renderComponent();
-
+  fit('should render without crashing', () => {
+    renderComponent();
     expect(container).toBeInTheDocument();
   });
 
@@ -50,7 +55,8 @@ describe('EventFormModal', () => {
 
   it('should allow submit when filled', async () => {
     const eventValues = getNewEvent({ eventTypeID: 'COMEDY' });
-    const { getByText } = renderComponent({ eventValues });
+    renderComponent({ eventValues });
+    const { getByText } = component;
 
     await userEvent.click(getByText('Save'));
 
@@ -94,7 +100,8 @@ describe('EventFormModal', () => {
   });
 
   it('should show event type dropdown and select an event type', async () => {
-    const { getByTestId } = renderComponent();
+    renderComponent();
+    const { getByTestId } = component;
 
     // Open the event type dropdown
     const wrapper = getByTestId('Edit-Event--event-type');
@@ -118,7 +125,8 @@ describe('EventFormModal', () => {
   });
 
   it('should show "All-day event" checkbox and toggle it', async () => {
-    const { getByTestId } = renderComponent();
+    renderComponent();
+    const { getByTestId } = component;
 
     // Find and toggle the checkbox
     const checkbox = getByTestId('Edit-Event--isAllDay').querySelector('input');
@@ -144,7 +152,8 @@ describe('EventFormModal', () => {
   });
 
   it('should allow resetting the form', async () => {
-    const { getByTestId, getByText } = renderComponent();
+    renderComponent();
+    const { getByTestId, getByText } = component;
 
     // Fill in the form fields with valid input
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;

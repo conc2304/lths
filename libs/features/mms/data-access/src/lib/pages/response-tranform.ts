@@ -1,6 +1,8 @@
-const newKey = (key: string) => (key === 'sub_properties' ? 'sub_properties_data' : key);
+import { Component } from '@lths/features/mms/ui-editor';
 
-const transformToObject = (schema: Record<any, any>) => {
+const newKey = (key: string) => (key === 'sub_properties' ? 'sub_component_data' : key);
+
+const transformToObject = (schema: Record<any, any>): Record<any, any> => {
   const obj = {};
   for (const key in schema?.properties) {
     const value = schema?.properties[key];
@@ -15,9 +17,22 @@ const transformToObject = (schema: Record<any, any>) => {
   return obj;
 };
 
-export const convertComponentDetailResponse = (data) => {
-  const { schema } = data;
-  const properties_data = transformToObject(schema);
-  const convertedData = { ...data, properties_data };
+export const convertComponentDetailResponse = (response) => {
+  const { schema } = response;
+
+  const data = transformToObject(schema);
+  if (response.component_id === Component.SocialIconButton && data.sub_component_data.length > 0) {
+    data.sub_component_data = Array(4).fill(data.sub_component_data[0]);
+  }
+
+  if (response.component_id === Component.QuicklinkButtonGroup) {
+    const quickLinkButton = data.sub_component_data[0];
+    if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'web')
+      quickLinkButton.action.type = '';
+    data.sub_component_data = Array(2).fill(data.sub_component_data[0]);
+  }
+
+  const convertedData = { ...response, data };
+
   return convertedData;
 };

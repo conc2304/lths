@@ -1,14 +1,16 @@
-import { ToolContainer, ColorTextField, BasicTextField, ActionAccordion } from '../../../../elements';
+import { ToolContainer, ColorTextField, BasicTextField } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HeaderComponentProps } from '../../types';
 
 const HeaderToolbar = (props: HeaderComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { color = '#000000', title, desc, action },
+    data: { color = '#000000', title, desc, action },
+    onPropChange,
   } = props;
 
-  const { handleTitleChange, handleDescChange, handleActionChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, handleDescChange, updateComponentProp } = useToolbarChange();
 
   const handleColorChange = (color: string) => {
     updateComponentProp('color', color);
@@ -24,7 +26,7 @@ const HeaderToolbar = (props: HeaderComponentProps) => {
         onColorChange={handleColorChange}
       />
       <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} />
-      <ActionAccordion handleActionChange={handleActionChange} action={action} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };

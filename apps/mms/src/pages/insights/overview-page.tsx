@@ -7,7 +7,7 @@ import {
   useLazyGetInsightOverviewTabularQuery,
 } from '@lths/features/mms/data-access';
 import { HStack, VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/types/ui-filters';
+import { FilterSettingsPayload } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { DonutContainer, TabularContainer, KpiContainer, HistogramContainer } from '../../components/insights/overview';

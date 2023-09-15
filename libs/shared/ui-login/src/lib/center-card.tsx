@@ -1,10 +1,7 @@
+import { ReactNode } from 'react';
 import { Grid, Card, Box } from '@mui/material';
 
-export default function CenterCard({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+export default function CenterCard({ children }: { children: ReactNode }): JSX.Element {
   return (
     <Box sx={{ minHeight: '100vh', width: '100%', backgroundColor: '#e6f4ff' }}>
       {' '}

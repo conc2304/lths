@@ -7,7 +7,11 @@ import { RowBuilderProps } from '../../../types';
 
 export const BaseRowBuilder = ({ event, headerCells = [] }: RowBuilderProps) => {
   if (!event || typeof event == 'undefined') {
-    return <TableRow>Event Has No Data</TableRow>;
+    return (
+      <TableRow>
+        <TableCell>Event Has No Data</TableCell>
+      </TableRow>
+    );
   }
 
   return (

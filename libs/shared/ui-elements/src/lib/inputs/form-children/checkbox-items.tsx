@@ -9,8 +9,7 @@ import {
   FormState,
   FormStateValue,
   RemoveItem,
-} from '@lths/types/ui-filters';
-
+} from '../../ui-filters';
 import { getPluralizeLastWord } from '../filter-form/utils';
 
 type handleCheckProps = { checked: boolean; id: string; title: string };

@@ -2,7 +2,7 @@ import { Box, BoxProps } from '@mui/material';
 
 import { MOBILE_GUTTER } from '../../../common';
 
-const BasicContainer = ({ id, children, ...rest }: BoxProps) => {
+const BasicContainer = ({ id, sx, children, ...rest }: BoxProps) => {
   return (
     <Box
       id={`${id}-component`}
@@ -10,6 +10,7 @@ const BasicContainer = ({ id, children, ...rest }: BoxProps) => {
         display: 'flex',
         flexDirection: 'column',
         margin: MOBILE_GUTTER,
+        ...sx,
       }}
       {...rest}
     >

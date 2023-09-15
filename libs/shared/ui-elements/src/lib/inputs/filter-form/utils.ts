@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { FormSchema, Seq } from '@lths/types/ui-filters';
+import { FormSchema, Seq } from '../../ui-filters/types';
 
 export const sortBySeq = (formSchema: FormSchema[], dir: 'asc' | 'desc' = 'asc'): FormSchema[] => {
   return formSchema.sort((a, b) => {

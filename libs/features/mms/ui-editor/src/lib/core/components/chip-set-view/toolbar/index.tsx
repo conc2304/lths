@@ -2,25 +2,20 @@ import { useState, SyntheticEvent } from 'react';
 import { Button, Stack, Box, Typography } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ChipSetViewComponentProps } from '../../types';
 
 const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, sub_properties_data },
+    data: { title, sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -31,10 +26,10 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        ...props.properties_data,
-        sub_properties_data: [
-          ...sub_properties_data,
+      data: {
+        ...props.data,
+        sub_component_data: [
+          ...sub_component_data,
           { title: 'New Chip', action: { type: 'native', page_id: 'new chip' } },
         ],
       },
@@ -46,7 +41,7 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
     <ToolContainer id={id} aria-label="Button Toolbar">
       <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <Box sx={{ gap: 0 }}>
-        {sub_properties_data.map(({ title, action }, index) => {
+        {sub_component_data.map(({ title, action }, index) => {
           const panelId = `panel${index}`;
           return (
             <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`Chip${index}`}>
@@ -62,7 +57,7 @@ const ChipSetViewToolbar = (props: ChipSetViewComponentProps) => {
                       handleTitleChange(e, index);
                     }}
                   />
-                  <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                  <ActionToolbar action={action} onPropChange={onPropChange} />
                 </Stack>
               </AccordionDetails>
             </Accordion>

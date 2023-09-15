@@ -3,13 +3,13 @@ import React from 'react';
 import { SampleHeaderCells } from './mocks';
 import { Table } from './table';
 
-import type { ComponentStory } from '@storybook/react';
+import type { StoryFn } from '@storybook/react';
 export default {
   component: Table,
   title: 'Table',
 };
 
-const Template: ComponentStory<typeof Table> = (args) => <Table {...args} />;
+const Template: StoryFn<typeof Table> = (args) => <Table {...args} />;
 
 export const Empty = Template.bind({});
 Empty.args = {

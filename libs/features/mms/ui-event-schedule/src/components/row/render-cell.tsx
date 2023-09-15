@@ -16,6 +16,12 @@ export const CalendarEventTableCell = (props: RenderCellProps) => {
   const { event, colId } = props;
   const { start, end, title, eventType, createdBy, createdOn } = event;
 
+  let createdByText = createdBy;
+  createdByText +=
+    !!createdOn && eventType && !(eventType.id === EVENT_TYPE.GAME || eventType.id === EVENT_TYPE.CONCERT)
+      ? ` on ${format(createdOn, 'MM/dd/yy | h:mma')}`
+      : '';
+
   switch (colId) {
     case 'eventTime':
       return start && end ? (
@@ -38,16 +44,14 @@ export const CalendarEventTableCell = (props: RenderCellProps) => {
     case 'createdBy':
       return (
         <Typography
+          data-testid="List-View-Row--createdby"
           component="span"
           sx={{
             fontSize: '0.8125rem',
             letterSpacing: '0.15px',
           }}
         >
-          {createdBy}
-          {!!createdOn && eventType && !(eventType.id === EVENT_TYPE.GAME || eventType.id === EVENT_TYPE.CONCERT)
-            ? ` on ${format(createdOn, 'MM/dd/yy | h:mma')}`
-            : ''}
+          {createdByText}
         </Typography>
       );
   }

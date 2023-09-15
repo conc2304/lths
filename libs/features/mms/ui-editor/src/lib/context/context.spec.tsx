@@ -15,7 +15,14 @@ describe('EditorProvider', () => {
 });
 
 describe('useEditor', () => {
+  const realError = console.error;
+  afterEach(() => {
+    console.error = realError;
+  });
+
   it('should throw an error when used outside of EditorProvider', () => {
+    console.error = jest.fn();
+
     const MockComponent = () => {
       useEditor();
       return null;

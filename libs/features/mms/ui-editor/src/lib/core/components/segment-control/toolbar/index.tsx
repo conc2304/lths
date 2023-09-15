@@ -4,25 +4,20 @@ import { Button, Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
 import { useEditorActions } from '../../../../context';
-import {
-  ToolContainer,
-  BasicTextField,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ActionAccordion,
-} from '../../../../elements';
+import { ToolContainer, BasicTextField, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { SegmentControlComponentProps } from '../../types';
 
 const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
+    onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { handleTitleChange, handleActionChange } = useToolbarChange();
+  const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
 
@@ -33,13 +28,13 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: { sub_properties_data: [...sub_properties_data, { title: 'New Segment' }] },
+      data: { sub_component_data: [...sub_component_data, { title: 'New Segment' }] },
     };
     selectComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      {sub_properties_data.map(({ title, action }, index) => {
+      {sub_component_data.map(({ title, action }, index) => {
         const panelId = `panel${index}`;
         return (
           <Accordion expanded={expanded === panelId} onChange={handleAccordionChange(panelId)} key={`card_${index}`}>
@@ -51,7 +46,7 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
                 <Box sx={{ gap: 2 }}>
                   <BasicTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e, index)} />
                 </Box>
-                <ActionAccordion action={action} index={index} handleActionChange={handleActionChange} />
+                <ActionToolbar action={action} onPropChange={onPropChange} />
               </Stack>
             </AccordionDetails>
           </Accordion>

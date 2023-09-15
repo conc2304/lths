@@ -9,11 +9,10 @@ import pages from '../pages/paths';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/login')));
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 const ForgotPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/forgot-password')));
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+// eslint-disable-next-line @nx/enforce-module-boundaries
 const ResetPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/reset-password')));
-const PubliApiTestPage = LazyLoader(lazy(() => import('../pages/demo/public-page')));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const AuthenticationRoutes = (authenticated: boolean) => {
   return {
@@ -32,10 +31,6 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
       {
         path: '/reset-password/:resetToken?',
         element: <ResetPasswordPage />,
-      },
-      {
-        path: '/public-api-test',
-        element: <PubliApiTestPage />,
       },
     ],
   };

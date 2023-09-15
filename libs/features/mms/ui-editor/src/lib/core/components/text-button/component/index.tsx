@@ -11,9 +11,9 @@ import { size } from '../utils';
 export function TextButtonComponent(props: TextButtonProps) {
   const {
     __ui_id__: id,
-    properties_data: { title, text_size },
+    data: { btn_text, btn_text_size },
   } = props;
-  const fontSize = size.find((s) => s.value === text_size)?.fontSize;
+  const fontSize = size.find((s) => s.value === btn_text_size)?.fontSize;
   return (
     <BasicContainer id={id} sx={{ backgroundColor: '#000000', alignItems: 'center' }}>
       <Stack>
@@ -26,10 +26,10 @@ export function TextButtonComponent(props: TextButtonProps) {
             justifyContent: 'left',
           }}
           variant="text"
-          href={title}
+          href={btn_text}
           endIcon={<KeyboardArrowRightIcon sx={{ fontSize: fontSize, marginLeft: '-10px' }} />}
         >
-          {title}
+          {btn_text}
         </Button>
       </Stack>
     </BasicContainer>

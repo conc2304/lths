@@ -85,7 +85,7 @@ const SchedulePage = () => {
       end_date_time: values.endDateTime.toISOString(),
       actual_start_date_time: values.startDateTime.toISOString(),
       actual_end_date_time: values.endDateTime.toISOString(),
-      source: 'MMS' as const,
+      source: 'mms' as const,
       event_id: values?.eventId,
       _id: id || undefined,
     };

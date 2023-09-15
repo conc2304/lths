@@ -1,9 +1,9 @@
-const payload = {
+export const payload = {
   id: 'l68gko3g76itc26u7fu2',
   component_id: 'cHalfHeightWithIcon',
   component_type: 'Native',
   constraint_data: [],
-  default_data: {
+  data: {
     title: 'Card Title',
     text_size: '14',
     text_size_unit: 'Pixel',

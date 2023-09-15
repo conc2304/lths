@@ -1,20 +1,23 @@
-import { useState } from 'react';
+import { ChangeEvent } from 'react';
 import { Stack } from '@mui/system';
 
-import { ActionInput, SimpleImagePicker, OutlinedTextField, GroupLabel } from '../../../../elements';
+import { SimpleImagePicker, OutlinedTextField, GroupLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
+import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { FullHeightFloatingTextProps } from '../../types';
 
 const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
   const {
     __ui_id__: id,
-    properties_data: { image, title, description, action },
+    data: { image, title, description, action },
     onPropChange,
   } = props;
 
-  const { handleTitleChange, handleDescChange, handleActionChange, updateComponentProp } = useToolbarChange();
-  const [actionType, setActionType] = useState<string>(action?.type);
+  const { handleTitleChange, updateComponentProp } = useToolbarChange();
+  const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
+    updateComponentProp('description', event.target.value, index);
+  };
 
   return (
     <ToolContainer id={id}>
@@ -28,7 +31,7 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
         <GroupLabel label={'Text'} />
         <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
         <OutlinedTextField label={'Description'} value={description} onChange={handleDescChange} />
-        <ActionInput action={action} handleActionChange={handleActionChange} />
+        <ActionToolbar action={action} onPropChange={onPropChange} />
       </Stack>
     </ToolContainer>
   );

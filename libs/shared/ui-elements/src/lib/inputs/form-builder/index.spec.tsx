@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 
-import { FormSchema, FormState, AddItem, RemoveItem, ClearGroup, AddGroupItems } from '@lths/types/ui-filters';
-
 import { Form } from './index';
 import { groupItemsBySeq } from '../../inputs/filter-form/utils';
+import { FormSchema, FormState, AddItem, RemoveItem, ClearGroup, AddGroupItems } from '../../ui-filters';
 import { formSchemaMock, formStateMock } from '../filter-form/mockData';
 
 describe('Form component', () => {

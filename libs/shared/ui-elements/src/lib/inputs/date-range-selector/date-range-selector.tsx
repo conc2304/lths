@@ -8,7 +8,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { endOfDay, isBefore, isSameDay, startOfDay } from 'date-fns';
 
 import { slugify } from '@lths/shared/utils';
-import { DateFilterOptions, DateRange } from '@lths/types/ui-filters';
+
+import { DateFilterOptions, DateRange } from '../../ui-filters';
 
 type Props = {
   dateOptions: DateFilterOptions;

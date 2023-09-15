@@ -1,0 +1,44 @@
+name: Release Tagger
+
+on:
+  push:
+    branches:
+      - main
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NPM_ENV: local
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    # Prevent infinite loop
+    if: ${{ !contains(github.event.head_commit.message, 'release version') }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+          node-version: '16'
+
+      - uses: nrwl/nx-set-shas@v2
+
+      - name: Setup Git
+        run: |
+          git config user.name ocvibe-service-user
+          git config user.email "ocvibe-service-user@users.noreply.github.com"
+          git config --global url."https://ocvibe-service-user:$GITHUB_TOKEN@github.com".insteadOf "https://github.com"
+      - run: yarn install --frozen-lockfile
+      - name: Version
+        shell: bash
+        run: yarn nx affected --base=last-release --target=version --parallel=1 --push --noVerify
+      - name: Tag last-release
+        shell: bash
+        run: |
+          git tag -f last-release
+          git push origin last-release --force --no-verify

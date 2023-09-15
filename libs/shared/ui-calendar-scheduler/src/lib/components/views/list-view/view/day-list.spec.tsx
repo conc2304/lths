@@ -33,6 +33,12 @@ const props: ListViewProps & ViewStatic = {
 };
 
 describe('DayList', () => {
+  // unsuppressing error for tests that dont' involve toThrow
+  const realError = console.error;
+  afterEach(() => {
+    console.error = realError;
+  });
+
   it('renders without crashing', () => {
     const { container } = render(
       <ListViewContextProvider
@@ -49,9 +55,12 @@ describe('DayList', () => {
   });
 
   it('throws an error without context provider', () => {
-    expect(() => {
-      render(<DayList {...props} />);
-    }).toThrow('useListViewContext has to be used within <ListViewContext.Provider>');
+    // Suppressing console.error for CI testing
+    console.error = jest.fn();
+
+    expect(() => render(<DayList {...props} />)).toThrowError(
+      'useListViewContext has to be used within <ListViewContext.Provider>'
+    );
   });
 
   it('filters events for the specified date', () => {

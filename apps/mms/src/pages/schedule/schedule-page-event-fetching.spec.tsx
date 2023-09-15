@@ -61,13 +61,10 @@ describe('SchedulePage', () => {
 
   beforeEach(() => {
     // Mock the return values of the hooks before each test
-    act(() => {
-      // These mocks alter the dom render so wrap them in an act()
-      (useLazyGetEventsQuery as jest.Mock).mockReturnValue([jest.fn(), {}]);
-      (useUpdateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
-      (useCreateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
-      (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([jest.fn()]);
-    });
+    (useLazyGetEventsQuery as jest.Mock).mockReturnValue([jest.fn(), {}]);
+    (useUpdateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
+    (useCreateEventMutation as jest.Mock).mockReturnValue([jest.fn()]);
+    (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
   it('fetches new data when navigating past the date threshold', async () => {

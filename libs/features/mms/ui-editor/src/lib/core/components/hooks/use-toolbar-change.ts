@@ -13,19 +13,19 @@ export const useToolbarChange = () => {
     key: string,
     value: string | object,
     index?: number,
-    parent_key = 'sub_properties_data'
+    parent_key = 'sub_component_data'
   ) => {
     if (index === undefined) {
-      const data = { ...selectedComponent, properties_data: { ...selectedComponent.properties_data, [key]: value } };
+      const data = { ...selectedComponent, data: { ...selectedComponent.data, [key]: value } };
       selectComponent(data);
     } else {
-      const updatedComponentData = selectedComponent.properties_data[parent_key].map((component, i) =>
+      const updatedComponentData = selectedComponent.data[parent_key].map((component, i) =>
         i === index ? { ...component, [key]: value } : component
       );
 
       const data = {
         ...selectedComponent,
-        properties_data: { ...selectedComponent.properties_data, [parent_key]: updatedComponentData },
+        data: { ...selectedComponent.data, [parent_key]: updatedComponentData },
       };
       selectComponent(data);
     }
@@ -38,13 +38,13 @@ export const useToolbarChange = () => {
 
   //TODO: not generic enough
   const swapComponentProps = (index: number, index2: number) => {
-    const updatedComponentData = [...selectedComponent.properties_data.sub_properties_data];
+    const updatedComponentData = [...selectedComponent.data.sub_component_data];
     const componet1 = updatedComponentData[index];
     updatedComponentData[index] = updatedComponentData[index2];
     updatedComponentData[index2] = componet1;
     const data = {
       ...selectedComponent,
-      properties_data: { ...selectedComponent.properties_data, sub_properties_data: updatedComponentData },
+      data: { ...selectedComponent.data, sub_component_data: updatedComponentData },
     };
 
     selectComponent(data);
@@ -152,6 +152,7 @@ export const useToolbarChange = () => {
     index?: number,
     keys: string[] = []
   ) => {
+    console.log('handle', event, key, index, keys);
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 

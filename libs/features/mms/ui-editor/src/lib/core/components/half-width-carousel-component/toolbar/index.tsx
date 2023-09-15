@@ -14,7 +14,7 @@ import { HalfWidthCarouselComponentProps } from '../../types';
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    properties_data: { sub_properties_data },
+    data: { sub_component_data },
     onPropChange,
   } = props;
 
@@ -37,9 +37,9 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      properties_data: {
-        sub_properties_data: [
-          ...sub_properties_data,
+      data: {
+        sub_component_data: [
+          ...sub_component_data,
           {
             title: 'New Card',
             description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
@@ -52,10 +52,10 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   };
 
   const handleDelete = (index) => {
-    const newData = [...props.properties_data.sub_properties_data];
+    const newData = [...props.data.sub_component_data];
     newData.splice(index, 1);
 
-    const data = { ...props, properties_data: { sub_properties_data: newData } };
+    const data = { ...props, data: { sub_component_data: newData } };
     selectComponent(data);
   };
 
@@ -63,46 +63,46 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
     (dragIndex: number, hoverIndex: number) => {
       swapComponentProps(dragIndex, hoverIndex);
     },
-    [props.properties_data]
+    [props.data]
   );
 
   return (
-      <DndProvider backend={HTML5Backend}>
-        <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
-          leftItem={
-            <ToolContainer id={`Carousel_${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
-              <ToolbarLabel label={'Carousel'} />
-              <CarouselDraggableItemsList
-                data={sub_properties_data}
-                onDrag={handleDrag}
-                onDelete={handleDelete}
-                onEditItem={handleEditItem}
+    <DndProvider backend={HTML5Backend}>
+      <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
+        leftItem={
+          <ToolContainer id={`Carousel_${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
+            <ToolbarLabel label={'Carousel'} />
+            <CarouselDraggableItemsList
+              data={sub_component_data}
+              onDrag={handleDrag}
+              onDelete={handleDelete}
+              onEditItem={handleEditItem}
+            />
+            <div>
+              <Button
+                data-testid={'Add Carousel Item'}
+                variant="outlined"
+                onClick={handleAdd}
+                sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
+              >
+                <AddIcon sx={{ width: '18px', height: '18px' }} />
+                ADD ITEM
+              </Button>
+            </div>
+          </ToolContainer>
+        }
+        rightItem={
+          <ToolContainer id={`Carousel_Item${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item">
+              <CarouselItemEditor
+                item={sub_component_data[selectedIndex]}
+                onClose={handleCloseItem}
+                onPropChange={onPropChange}
+                index={selectedIndex}
               />
-              <div>
-                <Button
-                  data-testid={'Add Carousel Item'}
-                  variant="outlined"
-                  onClick={handleAdd}
-                  sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
-                >
-                  <AddIcon sx={{ width: '18px', height: '18px' }} />
-                  ADD ITEM
-                </Button>
-              </div>
-            </ToolContainer>
-          }
-          rightItem={
-            <ToolContainer id={`Carousel_Item${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item">
-                <CarouselItemEditor
-                  item={sub_properties_data[selectedIndex]}
-                  onClose={handleCloseItem}
-                  onPropChange={onPropChange}
-                  index={selectedIndex}
-                />
-            </ToolContainer>
-          }
-        />
-      </DndProvider>
+          </ToolContainer>
+        }
+      />
+    </DndProvider>
   );
 };
 export default HalfWidthCarouselToolbar;

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userApi } from './user-api';
-import { User } from './types';
 
-const initialState = { user: <User>{} };
+import { User } from './types';
+import { userApi } from './user-api';
+
+const initialState = { user: {} as User };
 const userSlice = createSlice({
   name: 'users',
   initialState,

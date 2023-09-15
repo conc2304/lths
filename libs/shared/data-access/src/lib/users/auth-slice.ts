@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { authApi } from './auth-api';
 import { AuthenticatedSession } from './types';
 import { AUTH_TOKEN, AUTH_USER_ID } from '../core/constants';
@@ -25,7 +26,7 @@ const authSlice = createSlice({
       state.userId = _id;
       state.authenticated = true;
     });
-    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state, _) => {
+    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
       state.token = null;
       state.userId = null;
       localStorage.setItem(AUTH_TOKEN, null);
@@ -34,7 +35,5 @@ const authSlice = createSlice({
     });
   },
 });
-
-export const {} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

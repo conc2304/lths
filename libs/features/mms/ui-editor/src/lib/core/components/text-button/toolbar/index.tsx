@@ -11,16 +11,16 @@ import { size } from '../utils';
 const TextButtonToolbar = (props: TextButtonProps) => {
   const {
     __ui_id__: id,
-    properties_data: { title, text_size, action },
+    data: { btn_text, btn_text_size, action },
     onPropChange,
   } = props;
   const { updateComponentProp } = useToolbarChange();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponentProp('title', event.target.value);
+    updateComponentProp('btn_text', event.target.value);
   };
   const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    updateComponentProp('text_size', event.target.value);
+    updateComponentProp('btn_text_size', event.target.value);
   };
 
   return (
@@ -43,13 +43,13 @@ const TextButtonToolbar = (props: TextButtonProps) => {
           </Typography>
           <TextField
             label={'Title'}
-            value={title}
+            value={btn_text}
             onChange={(e) => handleTitleChange(e)}
             sx={{ marginY: 1.5 }}
             fullWidth
           />
           <TextField
-            value={text_size}
+            value={btn_text_size}
             onChange={handleStyleChange}
             label="Text Size"
             select

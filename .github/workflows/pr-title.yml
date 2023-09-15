@@ -1,0 +1,25 @@
+name: PR Title
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+jobs:
+  prTitle:
+    name: PR Title Adheres To Standard Commit Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check PR Title
+        uses: clowdhaus/actions/pr-title@v0.1.0
+        with:
+          title-regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])* ([A-Z]{3}-[0-9]+)'
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -3,7 +3,7 @@ const payload = {
   component_id: 'cPhoneInquiry',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Ticket sales & inquiries',
     style: 'small',
     desc: '800. 123. 4567 and press 1',

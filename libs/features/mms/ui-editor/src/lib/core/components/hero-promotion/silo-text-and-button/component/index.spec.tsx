@@ -1,33 +1,33 @@
 import '@testing-library/jest-dom';
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
 import SiloTextAndButtonComponent from './index';
-import { SiloTextAndButtonComponentProps } from '../../../types';
 import mockComponent from '../../../../../context/mockdata';
 import { Component } from '../../../enum';
+import { SiloTextAndButtonComponentProps } from '../../../types';
 
-describe("HeroPromotion: SiloTextAndButtonComponent", () => {
-    let props: SiloTextAndButtonComponentProps;
+describe('HeroPromotion: SiloTextAndButtonComponent', () => {
+  let props: SiloTextAndButtonComponentProps;
 
-    beforeEach(() => {
-        props = {
-            ...mockComponent,
-            __ui_id__ : "3333333",
-            component_id: Component.HeroPromotionSiloTextAndButton,
-            properties_data: {    
-                image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
-                img_alt_text: "image alth text name",
-                title: 'Explore Honda Center',
-                description: "description",
-                btn_text: "button text",
-                action: {
-                    type: 'native',
-                    page_id: 'explorehondacenter',
-                    page_link: 'linkToExploreCenter',
-                },
-            }
-        }
-    });
+  beforeEach(() => {
+    props = {
+      ...mockComponent,
+      __ui_id__: '3333333',
+      component_id: Component.HeroPromotionSiloTextAndButton,
+      data: {
+        image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
+        img_alt_text: 'image alth text name',
+        title: 'Explore Honda Center',
+        description: 'description',
+        btn_text: 'button text',
+        action: {
+          type: 'native',
+          page_id: 'explorehondacenter',
+          page_link: 'linkToExploreCenter',
+        },
+      },
+    };
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -35,7 +35,7 @@ describe("HeroPromotion: SiloTextAndButtonComponent", () => {
 
   test('renders component with default data', () => {
     render(<SiloTextAndButtonComponent {...props} />);
-    const { title, description, btn_text } = props.properties_data;
+    const { title, description, btn_text } = props.data;
 
     const titleElement = screen.getByText(title);
     expect(titleElement).toBeInTheDocument();
@@ -49,12 +49,12 @@ describe("HeroPromotion: SiloTextAndButtonComponent", () => {
   });
 
   test('renders component with diffrent default data', () => {
-    props.properties_data.title = `The cool title`
-    props.properties_data.description = `The cool description`
-    props.properties_data.btn_text = `The cool btn_text`
+    props.data.title = `The cool title`;
+    props.data.description = `The cool description`;
+    props.data.btn_text = `The cool btn_text`;
 
     render(<SiloTextAndButtonComponent {...props} />);
-    const { title, description, btn_text } = props.properties_data;
+    const { title, description, btn_text } = props.data;
 
     const titleElement = screen.getByText(title);
     expect(titleElement).toBeInTheDocument();
@@ -64,12 +64,13 @@ describe("HeroPromotion: SiloTextAndButtonComponent", () => {
 
     const btnTextElement = screen.getByText(btn_text);
     expect(btnTextElement).toBeInTheDocument();
-
   });
 
-  test("renders Component with image", () => {
+  test('renders Component with image', () => {
     render(<SiloTextAndButtonComponent {...props} />);
-    const {__ui_id__: id, properties_data: { image, img_alt_text }} = props;
+    const {
+      data: { image, img_alt_text },
+    } = props;
 
     const imageElement = screen.getByAltText(img_alt_text);
 
@@ -77,5 +78,4 @@ describe("HeroPromotion: SiloTextAndButtonComponent", () => {
     expect(imageElement).toHaveAttribute('src', image);
     expect(imageElement).toHaveAttribute('alt', img_alt_text);
   });
-
 });

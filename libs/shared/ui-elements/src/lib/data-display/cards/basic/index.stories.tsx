@@ -1,14 +1,14 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { BasicCard } from '@lths/shared/ui-elements';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Meta, StoryFn } from '@storybook/react';
 
+import { BasicCard } from './index';
 
 export default {
   title: 'Basic-card',
   component: BasicCard,
-} as ComponentMeta<typeof BasicCard>;
+} as Meta<typeof BasicCard>;
 
-const Template: ComponentStory<typeof BasicCard> = (args) => {
+const Template: StoryFn<typeof BasicCard> = (args) => {
   return <BasicCard {...args}></BasicCard>;
 };
 
@@ -17,6 +17,6 @@ Basic_card.args = {
   title: 'Happy Morning!!🌅',
   subheader: 'Cheers🥳',
   children: 'Cheers to New Weekdays🙌',
-  action: <InfoOutlinedIcon/>,
+  action: <InfoOutlinedIcon />,
   footer: 'Have a Good Weekend 🥰🤞',
 };

@@ -1,15 +1,14 @@
-import { api } from '../core/api';
-import { 
-  AUTH_LOGIN_URL, AUTH_LOGOUT_URL, 
-  AUTH_FORGOT_PASSWORD_URL, AUTH_RESET_PASSWORD_URL ,
-} from './urls';
-import { 
-  LoginRequest, LoginResponse, 
+import {
+  LoginRequest,
+  LoginResponse,
   LogoutResponse,
-  ResetPasswordRequest, ResetPasswordResponse,
-  ForgotPasswordRequest, ForgotPasswordResponse,
-
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
 } from './types';
+import { AUTH_LOGIN_URL, AUTH_LOGOUT_URL, AUTH_FORGOT_PASSWORD_URL, AUTH_RESET_PASSWORD_URL } from './urls';
+import { api } from '../core/api';
 
 export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -50,9 +49,4 @@ export const authApi = api.injectEndpoints({
   }),
 });
 
-export const { 
-  useLoginMutation,
-  useLogoutMutation,
-  useForgotPasswordMutation,
-  useResetPasswordMutation,
-} = authApi;
+export const { useLoginMutation, useLogoutMutation, useForgotPasswordMutation, useResetPasswordMutation } = authApi;

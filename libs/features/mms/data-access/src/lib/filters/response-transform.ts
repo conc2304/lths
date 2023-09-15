@@ -1,4 +1,4 @@
-import { FilterGroupResponse, FilterItemResponse, FormSchema } from '@lths/types/ui-filters';
+import { FilterGroupResponse, FilterItemResponse, FormSchema } from '@lths/shared/ui-elements';
 
 export const convertFilterResponse = (data: FilterGroupResponse[]): FormSchema[] => {
   const convertFilterItem = (filterItem: FilterItemResponse): FormSchema => {

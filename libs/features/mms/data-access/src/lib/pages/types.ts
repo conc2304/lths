@@ -1,7 +1,6 @@
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
-import { PaginationRequest } from '../notifications/types';
-import { CommonResponse } from '../types';
+import { CommonResponse, PaginationRequest } from '../types';
 
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
@@ -14,14 +13,14 @@ export type ComponentProps = {
   image_url: string;
   constraints: Array<Record<string, string>>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  properties_data: Record<string, any>;
+  data: Record<string, any>;
   display_order: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: { [key: string]: any };
 };
 
 export type CardViewComponentProps = ComponentProps & {
-  properties_data: {
+  data: {
     title: string;
     desc: string;
     image: string;

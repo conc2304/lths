@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, TableBody } from '@mui/material';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 
@@ -23,13 +24,25 @@ const props: RowBuilderProps = {
 
 describe('BaseRowBuilder', () => {
   it('renders "Event Has No Data" if event is undefined', () => {
-    // @ts-expect-error forcing undefined event to test invalid event
-    const { getByText } = render(<BaseRowBuilder {...props} event={undefined} />);
+    const { getByText } = render(
+      <Table>
+        <TableBody>
+          {/* @ts-expect-error forcing undefined event to test invalid event */}
+          <BaseRowBuilder {...props} event={undefined} />
+        </TableBody>
+      </Table>
+    );
     expect(getByText('Event Has No Data')).toBeInTheDocument();
   });
 
   it('renders table row with cell values', () => {
-    const { getByText } = render(<BaseRowBuilder event={event} headerCells={headerCells} />);
+    const { getByText } = render(
+      <Table>
+        <TableBody>
+          <BaseRowBuilder event={event} headerCells={headerCells} />
+        </TableBody>
+      </Table>
+    );
 
     expect(getByText('Value 1')).toBeInTheDocument();
     expect(getByText('Value 2')).toBeInTheDocument();

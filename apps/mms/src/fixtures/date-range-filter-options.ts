@@ -1,3 +1,4 @@
+import { DateFilterOptions } from '@lths/shared/ui-elements';
 import {
   getPrevFullDayRange,
   getPrevFullHalfYearRange,
@@ -7,7 +8,6 @@ import {
   getPrevFullWeekRange,
   getPrevFullYearRange,
 } from '@lths/shared/utils';
-import { DateFilterOptions } from '@lths/types/ui-filters';
 
 export const DateRangeFilterOptions: DateFilterOptions = [
   {

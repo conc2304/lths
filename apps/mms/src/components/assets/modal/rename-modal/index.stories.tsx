@@ -3,15 +3,15 @@ import { Button } from '@mui/material';
 
 import { RenameModal } from './index';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof RenameModal> = {
+const Story: Meta<typeof RenameModal> = {
   component: RenameModal,
   title: 'Inputs/ Modal/ Rename Modal',
 };
 export default Story;
 
-const Template: ComponentStory<typeof RenameModal> = (args) => {
+const Template: StoryFn<typeof RenameModal> = (args) => {
   const [open, setOpen] = useState(false);
 
   args.open = open;

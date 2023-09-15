@@ -2,9 +2,8 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 
-import { FormSchema } from '@lths/types/ui-filters';
-
 import { VerticalFormGroup } from './index';
+import { FormSchema } from '../../ui-filters/types';
 import { formStateMock as mockState, formSchemaMock as mockSchema } from '../filter-form/mockData';
 
 describe('VerticalFormGroup component', () => {

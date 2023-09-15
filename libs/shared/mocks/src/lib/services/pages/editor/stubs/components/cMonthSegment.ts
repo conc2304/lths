@@ -3,9 +3,9 @@ const payload = {
   component_id: 'cMonthSegment',
   component_type: 'Native',
   constraint_data: [],
-  properties_data: {
+  data: {
     title: 'Jul',
-    sub_properties_data: [
+    sub_component_data: [
       {
         title: 'Jan',
         action: {

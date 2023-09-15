@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
-import { handleRemoveFormStateItem } from '@lths/shared/ui-filters';
-import { FormState } from '@lths/types/ui-filters';
-
 import { ChipContainer } from './index';
+import { FormState } from '../../ui-filters/types';
+import { handleRemoveFormStateItem } from '../../ui-filters/utils/actions';
 
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: ComponentMeta<typeof ChipContainer> = {
+const Story: Meta<typeof ChipContainer> = {
   component: ChipContainer,
   title: 'Inputs/ Chip Container',
 };
@@ -23,7 +22,7 @@ const initialFilters = {
   },
 };
 
-const Template: ComponentStory<typeof ChipContainer> = (args) => {
+const Template: StoryFn<typeof ChipContainer> = (args) => {
   const [selectedFilters, setSelectedFilters] = useState<FormState>(initialFilters);
 
   const handleDelete = ({ parentID, itemID }: { parentID: string; itemID: string }) => {

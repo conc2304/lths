@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Badge, Box, Button, Chip, Typography, styled } from '@mui/material';
 
-import { FormState } from '@lths/types/ui-filters';
+import { FormState } from '../../ui-filters';
 
 type ChipContainerProps = {
   title?: string;
