@@ -8,7 +8,7 @@ const DividerComponent = (props: DividerProps) => {
     data: { color },
     __ui_id__: id,
   } = props;
-  console.log('color', color);
+
   return (
     <BasicContainer id={id} sx={{ padding: '10px 0px' }}>
       <Divider sx={{ bgcolor: color }} />
