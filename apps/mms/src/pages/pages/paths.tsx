@@ -9,13 +9,13 @@ const section: SectionItemProps = {
       title: 'Pages',
       icon: <PagesIcon />,
       path: '/pages',
-      file: '/pages/pages-page',
+      file: '/pages/list',
       items: [
         {
           title: 'Editor',
           icon: <FlowIcon />,
           path: '/pages/editor/:pageId',
-          file: '/pages/editor-page',
+          file: '/pages/editor',
           hidden: true,
         },
       ],

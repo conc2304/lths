@@ -60,11 +60,11 @@ export type PageItemsRequest = PaginationRequest;
 export type CreatePageRequest = {
   name: string;
   is_variant: boolean | string;
-  default_page_id: string;
+  default_page_id?: string | null;
   description?: string;
 };
 
-export type CreatePageResponse = {
+export type CreatePageResponse = CommonResponse & {
   data: {
     page_id: string;
     name: string;
@@ -227,6 +227,11 @@ export type UpdatePageDetailRequest = PageDetail;
 
 export type UpdatePageDetailResponse = CommonResponse & {
   data: PageDetail;
+};
+
+export type UpdatePageNameRequest = {
+  name: string;
+  page_id: string;
 };
 
 export type DeletePageRequest = {
