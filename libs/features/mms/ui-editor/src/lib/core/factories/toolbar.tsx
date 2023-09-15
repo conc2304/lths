@@ -89,6 +89,8 @@ import {
   SocialIconButtonToolbar,
   SpacerToolbar,
   SpacerProps,
+  DividerToolbar,
+  DividerProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -224,6 +226,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <SocialIconButtonToolbar {...(props as SocialIconButtoncomponentProps)} />;
     case Component.Spacer:
       return <SpacerToolbar {...(props as SpacerProps)} />;
+    case Component.Divider:
+      return <DividerToolbar {...(props as DividerProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

@@ -128,4 +128,7 @@ export { default as SocialIconButtonToolbar } from './social-icon-button/toolbar
 export { default as SpacerComponent } from './spacer/component';
 export { default as SpacerToolbar } from './spacer/toolbar';
 
+export { default as DividerComponent } from './divider/component';
+export { default as DividerToolbar } from './divider/toolbar';
+
 export * from './types';

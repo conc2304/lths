@@ -28,6 +28,12 @@ export type SpacerProps = ComponentProps & {
   };
 };
 
+export type DividerProps = ComponentProps & {
+  data: {
+    color: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;
