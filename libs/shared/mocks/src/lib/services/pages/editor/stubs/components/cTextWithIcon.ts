@@ -5,7 +5,7 @@ const payload = {
   constraint_data: [],
   data: {
     title: 'Section 212 & 219',
-    icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Twitter_Icon.svg',
+    icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/location_pin.svg',
   },
 };
 
