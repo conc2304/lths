@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { AssetsRequest, useLazyGetAssetsItemsQuery } from '@lths/features/mms/data-access';
+import { AssetsRequest, useLazyGetAssetsItemsQuery, useLazySearchAssetsQuery } from '@lths/features/mms/data-access';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 import AssetsModal from './modal';
@@ -11,12 +11,10 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
   const [localData, setLocalData] = useState(null);
+  const [triggerSearch, { data: searchResult }] = useLazySearchAssetsQuery();
+  const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    setLocalData(data);
-  }, [data]);
-
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
+  const onFetch = async (pagination: TablePaginationProps, sorting: TableSortingProps, search = '') => {
     const req: AssetsRequest = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -30,12 +28,27 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       req.search = search;
     }
 
-    getData(req);
-  }
+    await getData(req);
+    setLocalData(data);
+  };
 
   useEffect(() => {
-    fetchData(null, undefined);
+    onFetch(null, undefined);
   }, []);
+
+  useEffect(() => {
+    if (search !== '') {
+      const searchParams = {
+        queryString: search,
+        page: 0,
+        page_size: localData?.meta?.total,
+      };
+      triggerSearch(searchParams);
+      setLocalData(searchResult);
+    } else {
+      onFetch(null, undefined);
+    }
+  }, [search]);
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -44,7 +57,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   ) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
+    onFetch(pagination, sorting);
   };
 
   const total = localData?.meta?.total || 0;
@@ -54,12 +67,14 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       open={open}
       onClose={onClose}
       onSelect={onSelect}
-      assetData={localData?.data}
+      data={localData?.data}
       isFetching={isFetching}
       isLoading={isLoading}
       total={total}
       onPageChange={onPageChange}
-      fetchData={fetchData}
+      onFetch={onFetch}
+      search={search}
+      onSearch={setSearch}
     />
   );
 };
