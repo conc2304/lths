@@ -10,10 +10,11 @@ type GenericAutocompleteProps = {
   onChange: (value: string) => void;
   getOptionLabel?: (option: AutocompleteOptionProps) => string;
   renderOption?:(props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => ReactNode;
+  renderStartAdornment?: (value: string, label?: string) => ReactNode;
 };
 
 const GenericAutocomplete = (props: GenericAutocompleteProps) => {
-  const { label, data, value = '', onChange, getOptionLabel, renderOption, ...rest } = props
+  const { label, data, value = '', onChange, getOptionLabel, renderOption, renderStartAdornment, ...rest } = props
 
   const handleGetOptionLabel = (option: AutocompleteOptionProps) => {
     if(getOptionLabel) return getOptionLabel(option);
@@ -44,7 +45,8 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
     onChange(result);
   };
 
-  const selectedAutocompleteOptionProps = data.find((a) => a.value === value) || { value: value };
+  const selectedOption = data.find((a) => a.value === value);
+  const selectedAutocompleteOptionProps = selectedOption || { value: value };
   return (
     <Autocomplete
       value={selectedAutocompleteOptionProps}
@@ -56,8 +58,9 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
         <TextField
           {...params}
           label={label}
-          inputProps={{
-            ...params.inputProps,
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: renderStartAdornment ? renderStartAdornment(selectedOption?.value || value, selectedOption?.label) : params.InputProps.startAdornment,  
             autoComplete: 'off', // disable autofill
           }}
         />
