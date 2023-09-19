@@ -134,4 +134,7 @@ export { default as DividerToolbar } from './divider/toolbar';
 export { default as FullHeightImageComponent } from './full-height-image/component';
 export { default as FullHeightImageToolbar } from './full-height-image/toolbar';
 
+export { default as ImageHeaderComponent } from './image-header/component';
+export { default as ImageHeaderToolbar } from './image-header/toolbar';
+
 export * from './types';

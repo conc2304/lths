@@ -381,6 +381,15 @@ export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
     btn_text: string;
   };
 };
+
+export type ImageHeaderComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    sub_title: string;
+    image: string;
+  };
+};
+
 export type QuicklinkButton = {
   title: string;
   icon: string;
