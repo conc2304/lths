@@ -47,6 +47,7 @@ import {
   SpacerComponent,
   DividerComponent,
   FullHeightImageComponent,
+  CenterBodyTextBlock,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -95,6 +96,7 @@ import {
   SpacerProps,
   DividerProps,
   FullHeightImageComponentProps,
+  CenterBodyTextBlockProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -237,6 +239,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
+    case Component.CenterBodyTextBlock:
+      return <CenterBodyTextBlock {...(props as CenterBodyTextBlockProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

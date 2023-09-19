@@ -34,6 +34,12 @@ export type DividerProps = ComponentProps & {
   };
 };
 
+export type CenterBodyTextBlockProps = ComponentProps & {
+  data: {
+    title: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;

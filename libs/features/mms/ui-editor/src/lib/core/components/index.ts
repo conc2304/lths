@@ -134,4 +134,7 @@ export { default as DividerToolbar } from './divider/toolbar';
 export { default as FullHeightImageComponent } from './full-height-image/component';
 export { default as FullHeightImageToolbar } from './full-height-image/toolbar';
 
+export { default as CenterBodyTextBlock } from './center-body-text-block/component';
+export { default as CenterBodyTextBlockToolbar } from './center-body-text-block/toolbar';
+
 export * from './types';
