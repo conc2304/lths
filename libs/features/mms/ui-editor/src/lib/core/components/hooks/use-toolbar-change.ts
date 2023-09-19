@@ -57,6 +57,15 @@ export const useToolbarChange = () => {
   ) => {
     handlePropChange('title', event.target.value, index, keys);
   };
+
+  const handleSubTitleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('sub_title', event.target.value, index, keys);
+  };
+
   const handleNameChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index?: number,
@@ -71,6 +80,15 @@ export const useToolbarChange = () => {
   ) => {
     handlePropChange('icon', event.target.value, index, keys);
   };
+
+  const handleIconValueChange = (
+    value: string,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('icon', value, index, keys);
+  };
+
   const handleAuthorChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index?: number,
@@ -142,8 +160,13 @@ export const useToolbarChange = () => {
   const handleImageChange = (value: string, index?: number, keys?: string[]) => {
     handlePropChange('image', value, index, keys);
   };
+
   const handleColorChange = (color: string, index?: number, keys?: string[]) => {
     handlePropChange('color', color, index, keys);
+  };
+
+  const handleTextColorChange = (color: string, index?: number, keys?: string[]) => {
+    handlePropChange('text_color', color, index, keys);
   };
 
   const handleActionChange = (
@@ -162,6 +185,7 @@ export const useToolbarChange = () => {
     updateComponentProp,
     handlePropChange,
     handleTitleChange,
+    handleSubTitleChange,
     handleNameChange,
     handleDescChange,
     handleDescriptionChange,
@@ -172,9 +196,11 @@ export const useToolbarChange = () => {
     handleImageChange,
     handleActionChange,
     handleColorChange,
+    handleTextColorChange,
     handleAuthorChange,
     handleDateChange,
     handleHintChange,
     handleIconChange,
+    handleIconValueChange,
   };
 };

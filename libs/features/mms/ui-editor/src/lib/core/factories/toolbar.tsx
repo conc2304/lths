@@ -93,6 +93,8 @@ import {
   DividerProps,
   FullHeightImageToolbar,
   FullHeightImageComponentProps,
+  HalfWidthTextToolbar,
+  HalfWidthTextComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -232,6 +234,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <DividerToolbar {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
+    case Component.HalfWidthText:
+      return <HalfWidthTextToolbar {...(props as HalfWidthTextComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }
