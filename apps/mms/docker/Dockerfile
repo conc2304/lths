@@ -33,7 +33,6 @@ COPY . /workspace/lths-mui
 
 RUN apk update && \
     apk add curl nano git bash yarn apache2-utils nodejs npm yarn && \
-    apk cache clean && \
     cat /etc/os-release && \
     # checkout the right branch
     cd /workspace/lths-mui && \
