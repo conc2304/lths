@@ -46,6 +46,9 @@ import {
   SocialIconButtonComponent,
   SpacerComponent,
   TextwithIcon,
+  DividerComponent,
+  FullHeightImageComponent,
+  ImageHeaderComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -93,6 +96,9 @@ import {
   SocialIconButtoncomponentProps,
   SpacerProps,
   TextWithIconProps,
+  DividerProps,
+  FullHeightImageComponentProps,
+  ImageHeaderComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -233,6 +239,12 @@ export const componentFactory = (props: ComponentProps) => {
       return <SpacerComponent {...(props as SpacerProps)} />;
     case Component.TextWithIcon:
       return <TextwithIcon {...(props as TextWithIconProps)} />;
+    case Component.Divider:
+      return <DividerComponent {...(props as DividerProps)} />;
+    case Component.FullHeightImage:
+      return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
+    case Component.ImageHeader:
+      return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

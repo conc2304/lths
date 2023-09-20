@@ -64,6 +64,15 @@ export default function AssetsPage() {
   const [selectedRowIndex, setSelectedRowIndex] = useState<number>(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
 
   const theme = useTheme();
 
@@ -135,7 +144,7 @@ export default function AssetsPage() {
   };
 
   useEffect(() => {
-    if (search) {
+    if (search !== '') {
       const searchParams = {
         queryString: search,
         page: 0,
@@ -213,7 +222,7 @@ export default function AssetsPage() {
     );
   });
 
-  const total = localData?.meta?.total;
+  const total = localData?.meta?.total || 0;
 
   const [addResource] = useAddResourceMutation();
 
@@ -330,6 +339,18 @@ export default function AssetsPage() {
             value={search}
             label="Search"
             variant="outlined"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            InputLabelProps={{
+              shrink: isFocused,
+              style: isFocused
+                ? {
+                    marginLeft: '10px',
+                    backgroundColor: '#fff',
+                    paddingRight: '10px',
+                  }
+                : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
+            }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

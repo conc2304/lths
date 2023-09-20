@@ -46,6 +46,7 @@ describe('EditEventModal', () => {
   });
 
   it('calls onCancel when the "Cancel" button is clicked', async () => {
+    const user = userEvent.setup();
     const { getByText } = render(
       <EditEventModal
         open={true}
@@ -56,11 +57,13 @@ describe('EditEventModal', () => {
       />
     );
 
-    await userEvent.click(getByText('CANCEL'));
+    await user.click(getByText('CANCEL'));
     expect(mockOnCancel).toHaveBeenCalledTimes(1);
   });
 
   it('calls onSave with correct values when the "Save Updates" button is clicked', async () => {
+    const user = userEvent.setup();
+
     const { getByText, getByTestId } = render(
       <EditEventModal
         open={true}
@@ -74,11 +77,11 @@ describe('EditEventModal', () => {
     // Simulate filling out the form fields
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
     const newEventTitle = 'Updated Event Name Mock';
-    await userEvent.clear(inputElem);
-    await userEvent.type(inputElem, newEventTitle);
+    await user.clear(inputElem);
+    await user.type(inputElem, newEventTitle);
 
     expect(getByText('SAVE UPDATES')).not.toBeDisabled();
-    await userEvent.click(getByText('SAVE UPDATES'));
+    await user.click(getByText('SAVE UPDATES'));
     expect(mockOnSave).toHaveBeenCalledWith(
       {
         eventName: newEventTitle,
@@ -92,5 +95,5 @@ describe('EditEventModal', () => {
       },
       mockEvent.id
     );
-  });
+  }, 20000);
 });

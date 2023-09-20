@@ -35,6 +35,12 @@ export type TextWithIconProps = ComponentProps & {
   };
 };
 
+export type DividerProps = ComponentProps & {
+  data: {
+    color: string;
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;
@@ -318,11 +324,15 @@ export type CardImageComponentProps = ComponentProps & {
   };
 };
 
+export type FullHeightImageComponentProps = ComponentProps & {
+  data: {
+    image: string;
+    action: ActionProps;
+  };
+};
+
 export type ImageComponentProps = ComponentProps & {
   data: {
-    title: string;
-    color: string;
-    desc: string;
     image: string;
     action: ActionProps;
   };
@@ -378,6 +388,15 @@ export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
     btn_text: string;
   };
 };
+
+export type ImageHeaderComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    sub_title: string;
+    image: string;
+  };
+};
+
 export type QuicklinkButton = {
   title: string;
   icon: string;
@@ -452,7 +471,8 @@ export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
 
 export type FullWidthButtonComponentProps = ComponentProps & {
   data: {
-    label: string;
+    btn_text: string;
+    btn_style: string;
     action: ActionProps;
   };
 };

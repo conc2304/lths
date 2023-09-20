@@ -6,7 +6,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import {
   PageDetail,
-  useDuplicatePageMutation,
   useLazyGetComponentDetailQuery,
   useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
@@ -15,6 +14,7 @@ import {
   EnumValue,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
+import { PageAdapterProvider, PageHeader, PageStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import {
   BlockEditor,
   useEditorActions,
@@ -22,14 +22,14 @@ import {
   Callback,
   AutocompleteItemProps,
   AutocompleteOptionProps,
+  PageAction,
 } from '@lths/features/mms/ui-editor';
+import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import TabPanel from './tab-panel';
-import { ComponentModal, DuplicateAlert } from '../../components/pages/editor';
+import { ComponentModal } from '../../components/pages/editor';
 import AssetsModal from '../../components/pages/editor/assets/connected-modal';
 import { Constraints, Settings } from '../../components/pages/editor/containers';
-import { PageHeader } from '../../components/pages/editor/containers/core';
-import { PageStatus } from '../../components/pages/editor/containers/core/types';
 
 const StatusChangeModalData = {
   [PageStatus.PUBLISHED]: {
@@ -53,13 +53,13 @@ const TabItems = {
 export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data } = useEditorActions();
+  const { openAlert } = useAlertActions();
   const [getPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
-  const [duplicatePage, { isLoading: isDuplicatingPage }] = useDuplicatePageMutation();
 
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
@@ -68,7 +68,6 @@ export function PageEditorTabs() {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
   const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
-  const [isDuplicateAlertOpen, setIsDuplicateAlertOpen] = useState(false);
 
   //route params
   const { pageId } = useParams();
@@ -77,6 +76,13 @@ export function PageEditorTabs() {
 
   //fetch params
   const page_data = data as PageDetail;
+
+  // Breadcrumbs title
+  const { setPageTitle } = useLayoutActions();
+  
+  useEffect(() => {
+    if (page_data?.name) setPageTitle(page_data.name);
+  }, [page_data?.name]);
 
   //fetch
   const fetchPageDetail = async (pageId: string) => {
@@ -168,10 +174,6 @@ export function PageEditorTabs() {
     setOpenModal(false);
   };
 
-  const handleCloseDuplicateAlert = () => {
-    setIsDuplicateAlertOpen(false);
-  };
-
   //api events
   const handleUpdatePageStatus = async () => {
     await updatePageStatus({ page_id: pageId, status: modalData.status });
@@ -202,32 +204,39 @@ export function PageEditorTabs() {
     }
   };
 
-  const handleDuplicatePage = async () => {
-    try {
-      const response = await duplicatePage({ page_id: pageId }).unwrap();
-      if (response?.success) {
-        toast.success('Page has been duplicated successfully');
-        navigate('/pages');
-      }
-    } catch (error) {
-      console.error('Error in duplicating page', error.message);
+  // handlers
+  const handleActionClick = (action: PageAction) => {
+    const { page_id, name } = page_data;
+    switch (action) {
+      case PageAction.RENAME:
+        openAlert(PageAction.RENAME, { page_id, name });
+        break;
+      case PageAction.DELETE:
+        openAlert(PageAction.DELETE, { page_id });
+        break;
+      case PageAction.DUPLICATE:
+        openAlert(PageAction.DUPLICATE, { page_id });
+        break;
+      case PageAction.PREVIEW:
+        console.log('Not implemented: preview');
+        break;
+      case PageAction.INSIGHTS:
+        console.log('Not implemented: insights');
+        break;
+      case PageAction.SHARE:
+        console.log('Not implemented: share');
+        break;
     }
   };
 
   return (
     <Box sx={{ width: '100%' }}>
-      <PageHeader title={page_data?.name} status={page_data?.status} onStatusChange={handleMenuItemSelect} />
-      <Box sx={{ mb: 1 }}>
-        <Button size="small" color="secondaryButton" onClick={() => setIsDuplicateAlertOpen(true)}>
-          DUPLICATE
-        </Button>
-        <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: share')}>
-          SHARE
-        </Button>
-        <Button size="small" color="secondaryButton" onClick={() => console.log('Not Implemented: preview')}>
-          PREVIEW
-        </Button>
-      </Box>
+      <PageHeader
+        title={page_data?.name}
+        status={page_data?.status}
+        onStatusChange={handleMenuItemSelect}
+        onActionClick={handleActionClick}
+      />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
@@ -286,12 +295,6 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <DuplicateAlert
-        isOpen={isDuplicateAlertOpen}
-        onClose={handleCloseDuplicateAlert}
-        onConfirm={handleDuplicatePage}
-        isLoading={isDuplicatingPage}
-      />
       <Backdrop open={isFetchingComponentDetail}>
         <CircularProgress />
       </Backdrop>
@@ -322,7 +325,9 @@ const ConnectedPageEditor = () => {
 
   return (
     <EditorProvider<PageDetail> initialValue={initialState}>
-      <PageEditorTabs />
+      <PageAdapterProvider>
+        <PageEditorTabs />
+      </PageAdapterProvider>
     </EditorProvider>
   );
 };

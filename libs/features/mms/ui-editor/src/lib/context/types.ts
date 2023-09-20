@@ -1,6 +1,18 @@
 import { Dispatch, ReactNode } from 'react';
 export type Callback<T> = (value: T) => void;
 
+export enum PageAction {
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  RENAME = 'RENAME',
+  DUPLICATE = 'DUPLICATE',
+  DELETE = 'DELETE',
+  PREVIEW = 'PREVIEW',
+  INSIGHTS = 'INSIGHTS',
+  PUSH = 'PUSH',
+  SHARE = 'SHARE',
+}
+
 export type ToolbarProps = {
   onPropChange: <T>(propName: string, callback: Callback<T>) => void;
 };

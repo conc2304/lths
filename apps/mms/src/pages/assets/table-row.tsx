@@ -53,7 +53,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
         <img
           src={(row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || ''}
           alt={row.unique_file_name}
-          style={{ width: 50, height: 50, marginRight: 1 }}
+          style={{ width: 50, height: 50, marginRight: 15 }}
         />
         {cleanName}
       </TableCell>

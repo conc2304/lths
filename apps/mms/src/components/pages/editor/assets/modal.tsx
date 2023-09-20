@@ -54,22 +54,31 @@ const AssetsModal = ({
   open,
   onClose,
   onSelect,
-  assetData = [],
+  data = [],
   isFetching,
   isLoading,
   total,
   onPageChange,
-  onSortClick,
-  fetchData,
+  onFetch,
+  search,
+  onSearch,
 }: AssetModalProps) => {
   const user = useAppSelector((state) => state.auth);
   const theme = useTheme();
   const [addResource] = useAddResourceMutation();
 
-  const [search, setSearch] = React.useState('');
+  const [isFocused, setIsFocused] = React.useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
 
   const handleAssetSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
+    onSearch(event.target.value);
   };
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
@@ -79,7 +88,7 @@ const AssetsModal = ({
     if (file) {
       if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
-        await fetchData(null, undefined);
+        await onFetch(null, undefined);
       } else {
         console.error('Invalid file type:', file.type);
       }
@@ -99,19 +108,11 @@ const AssetsModal = ({
     }
   };
 
-  const filteredData = React.useMemo(
-    () =>
-      search
-        ? assetData?.filter((item) => item.original_file_name.toLowerCase().includes(search.toLowerCase()))
-        : assetData,
-    [assetData, search]
-  );
-
-  const tableRows = filteredData?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
+  const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
 
   React.useEffect(() => {
     if (open) {
-      setSearch('');
+      onSearch('');
     }
   }, [open]);
 
@@ -135,11 +136,22 @@ const AssetsModal = ({
           <Grid item xs={10}>
             <TextField
               fullWidth
-              label="Search"
               onChange={handleAssetSearch}
               value={search}
+              label="Search"
               variant="outlined"
-              size="small"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              InputLabelProps={{
+                shrink: isFocused,
+                style: isFocused
+                  ? {
+                      marginLeft: '10px',
+                      backgroundColor: '#fff',
+                      paddingRight: '10px',
+                    }
+                  : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -147,7 +159,7 @@ const AssetsModal = ({
                   </InputAdornment>
                 ),
               }}
-            ></TextField>
+            />
           </Grid>
 
           <Grid item xs={2} justifyContent="flex-end" display="flex">
@@ -182,7 +194,6 @@ const AssetsModal = ({
             headerCells={headers}
             tableRows={tableRows}
             onPageChange={onPageChange}
-            onSortClick={onSortClick}
             noDataMessage="No assets"
             sx={{
               mt: 1,
