@@ -21,24 +21,16 @@ const ImageHeaderComponent = (props: ImageHeaderComponentProps) => {
           backgroundImage: `url(${image})`,
         }}
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '10%',
-            padding: 3,
-          }}
+        <Typography
+          sx={{ position: 'absolute', top: '10%', padding: 3, fontSize: '32px', color: 'white', fontWeight: 500 }}
         >
-          <Typography sx={{ fontSize: '32px', color: 'white', fontWeight: 500 }}>{title}</Typography>
-        </Box>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '75%',
-            padding: 3,
-          }}
+          {title}
+        </Typography>
+        <Typography
+          sx={{ position: 'absolute', top: '75%', padding: 3, fontSize: '24px', color: 'white', fontWeight: 500 }}
         >
-          <Typography sx={{ fontSize: '24px', color: 'white', fontWeight: 500 }}>{sub_title}</Typography>
-        </Box>
+          {sub_title}
+        </Typography>
       </Box>
     </BasicContainer>
   );

@@ -10,14 +10,14 @@ const ImageHeaderToolbar = (props: ImageHeaderComponentProps) => {
     onPropChange,
   } = props;
 
-  const { handleImageChange, handleTitleChange } = useToolbarChange();
+  const { handleImageChange, handleTitleChange, handleSubTitleChange } = useToolbarChange();
 
   return (
     <ToolContainer id={id} aria-label={'Image Header Toolbar'}>
       <ToolbarLabel label={'Image Header'} />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <OutlinedTextField label={'Sub Title'} value={sub_title} onChange={handleTitleChange} />
+      <OutlinedTextField label={'Sub Title'} value={sub_title} onChange={handleSubTitleChange} />
     </ToolContainer>
   );
 };
