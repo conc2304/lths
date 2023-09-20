@@ -67,9 +67,9 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   const renderCarouselDraggableItem = (item: any, index: number) => {
     return (
       <DraggableCarouselListItem
-        key={index}
+        key={item?.name} // ToDo: Use a unique key
+        id={item?.name}
         index={index}
-        data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
