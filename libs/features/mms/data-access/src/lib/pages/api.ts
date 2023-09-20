@@ -22,6 +22,7 @@ import {
   PageItemsRequest,
   DeletePageResponse,
   UpdatePageStatusResponse,
+  UpdatePageNameRequest,
 } from './types';
 import {
   getEnumListUrl,
@@ -129,6 +130,13 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         body: req,
       }),
     }),
+    updatePageName: builder.mutation<UpdatePageDetailResponse, UpdatePageNameRequest>({
+      query: (req) => ({
+        url: getUpdatePageDetailsUrl(req.page_id),
+        method: 'PATCH',
+        body: req,
+      }),
+    }),
     deletePage: builder.mutation<DeletePageResponse, DeletePageRequest>({
       query: (req) => ({
         url: getDeletePageUrl(req),
@@ -158,6 +166,7 @@ export const {
   useLazyGetUpcomingEventsQuery,
   useUpdatePageStatusMutation,
   useUpdatePageDetailsMutation,
+  useUpdatePageNameMutation,
   useDeletePageMutation,
   useDuplicatePageMutation,
 } = pageApi;

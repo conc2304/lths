@@ -21,26 +21,29 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { string, object } from 'yup';
 
-import { CreatePageRequest, useCreatePageMutation, useLazyGetDefaultPagesQuery } from '@lths/features/mms/data-access';
+import { CreatePageRequest, useLazyGetDefaultPagesQuery } from '@lths/features/mms/data-access';
 
-import { CreatePageModalProps } from '../../../types';
+type CreatePageModalProps = {
+  isOpen: boolean;
+  handleClose: () => void;
+  handleCreate: (data: CreatePageRequest) => void;
+  isLoading: boolean;
+};
 
-const validationSchema = yup.object({
-  name: yup.string().required('Page name is required'),
-  is_variant: yup.string().required('Variant is required'),
-  default_page_id: yup.string().when('is_variant', (is_variant, schema) => {
-    if (is_variant.includes('yes')) {
-      return schema.required('Variant default is required');
-    }
+const validationSchema = object({
+  name: string().required('Page name is required'),
+  is_variant: string().required('Variant is required'),
+  default_page_id: string().when('is_variant', {
+    is: 'yes',
+    then: (schema) => schema.required('Variant default is required'),
   }),
 });
 
-const CreatePageModal = (props: CreatePageModalProps) => {
+export const CreatePageModal = (props: CreatePageModalProps) => {
   const [getDefaultPage, { data: { data: defaultPages = [] } = {} }] = useLazyGetDefaultPagesQuery();
-  const [createPage, { isLoading }] = useCreatePageMutation();
-  const { open, handleCloseModal, onCreatePage } = props;
+  const { isOpen, handleClose, handleCreate, isLoading } = props;
 
   const onSubmit = async (values: CreatePageRequest) => {
     const requestData = {
@@ -48,8 +51,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
       default_page_id: values.is_variant === 'yes' ? values.default_page_id : null,
       is_variant: values.is_variant === 'yes',
     };
-    const response = await createPage(requestData).unwrap();
-    onCreatePage(response?.data?.page_id);
+    handleCreate(requestData);
   };
 
   const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
@@ -68,13 +70,13 @@ const CreatePageModal = (props: CreatePageModalProps) => {
   }, []);
 
   return (
-    <Dialog open={open} onClose={handleCloseModal} maxWidth="xs" fullWidth>
+    <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
       <DialogTitle>
         <Typography variant="h2">Create new page</Typography>
         <Typography variant="body2">All text fields required unless noted.</Typography>
         <IconButton
           aria-label="close"
-          onClick={handleCloseModal}
+          onClick={handleClose}
           sx={{
             position: 'absolute',
             right: 8,
@@ -169,7 +171,7 @@ const CreatePageModal = (props: CreatePageModalProps) => {
         </form>
       </DialogContent>
       <DialogActions sx={{ marginBottom: 2 }}>
-        <Button onClick={handleCloseModal} variant="outlined" sx={{ marginRight: 2 }}>
+        <Button onClick={handleClose} variant="outlined" sx={{ marginRight: 2 }}>
           CANCEL
         </Button>
         <LoadingButton
@@ -185,5 +187,3 @@ const CreatePageModal = (props: CreatePageModalProps) => {
     </Dialog>
   );
 };
-
-export default CreatePageModal;

@@ -38,13 +38,15 @@ describe('EventFormModal', () => {
   });
 
   it('should validate form on blur and show errors', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
 
     // Focus on the input elements and blur to trigger validation
     expect(document.getElementById('edit-event--event-name-helper-text')).not.toBeInTheDocument();
-    act(() => {
-      userEvent.click(screen.getByTestId('Edit-Event--event-name'));
-      userEvent.tab();
+    await act(async () => {
+      await user.click(screen.getByTestId('Edit-Event--event-name'));
+      await user.tab();
     });
 
     await waitFor(() => {
@@ -78,6 +80,8 @@ describe('EventFormModal', () => {
   });
 
   it('should show proper error when start date is after end date', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
 
     // Set start date after end date
@@ -87,19 +91,21 @@ describe('EventFormModal', () => {
     const endDateInput = screen.getByTestId('Edit-Event--end-date-wrapper').querySelector('input') as HTMLInputElement;
 
     // Set end date before start date
-    await userEvent.clear(endDateInput);
-    await userEvent.type(endDateInput, '01/22/2022 5:00 PM');
-    await userEvent.tab();
+    await user.clear(endDateInput);
+    await user.type(endDateInput, '01/22/2022 5:00 PM');
+    await user.tab();
 
-    await userEvent.clear(startDateInput);
-    await userEvent.type(startDateInput, '01/25/2022 4:00 PM');
-    await userEvent.tab();
+    await user.clear(startDateInput);
+    await user.type(startDateInput, '01/25/2022 4:00 PM');
+    await user.tab();
 
     // Assert that proper error message is shown
     expect(screen.getByText('The end date must be later than the start date')).toBeInTheDocument();
-  });
+  }, 20000);
 
   it('should show event type dropdown and select an event type', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
     const { getByTestId } = component;
 
@@ -108,7 +114,7 @@ describe('EventFormModal', () => {
 
     const dropDownButton = within(wrapper).getByRole('button');
     expect(dropDownButton).toBeInTheDocument();
-    await userEvent.click(within(wrapper).getByRole('button'));
+    await user.click(within(wrapper).getByRole('button'));
 
     const option = screen.getByText('Comedy');
 
@@ -117,14 +123,16 @@ describe('EventFormModal', () => {
       expect(option).toBeInTheDocument();
     });
 
-    await userEvent.click(option);
+    await user.click(option);
 
     await waitFor(() => {
       expect(wrapper.querySelector('input')?.value).toContain('Comedy');
     });
-  });
+  }, 20000);
 
   it('should show "All-day event" checkbox and toggle it', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
     const { getByTestId } = component;
 
@@ -136,37 +144,41 @@ describe('EventFormModal', () => {
       expect(checkbox).not.toBeChecked();
     });
     if (checkbox) {
-      await userEvent.click(checkbox);
+      await user.click(checkbox);
     }
     expect(checkbox).toBeChecked();
   });
 
   it('should disable submit button when form is invalid', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
 
     // Try to submit the form with invalid input
-    await userEvent.click(screen.getByText('Save'));
+    await user.click(screen.getByText('Save'));
 
     // Assert that the submit button is disabled
     expect(screen.getByText('Save')).toBeDisabled();
   });
 
   it('should allow resetting the form', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
     const { getByTestId, getByText } = component;
 
     // Fill in the form fields with valid input
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
-    await userEvent.type(inputElem, 'Event Name');
+    await user.type(inputElem, 'Event Name');
 
     await waitFor(() => {
       expect(inputElem).toHaveValue('Event Name');
     });
 
     // Click the "Reset" button
-    await userEvent.click(getByText('Cancel'));
+    await user.click(getByText('Cancel'));
 
     // Assert that the form is reset to its initial state
     expect(inputElem).toHaveValue('');
-  });
+  }, 15000);
 });

@@ -91,6 +91,8 @@ describe('SchedulingEvent', () => {
   });
 
   it('opens the popper on event click', async () => {
+    const user = userEvent.setup();
+
     renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
@@ -102,7 +104,7 @@ describe('SchedulingEvent', () => {
       />
     );
     const eventBox = screen.getByTestId('CalendarEvent--click-handler');
-    await userEvent.click(eventBox);
+    await user.click(eventBox);
 
     await waitFor(() => {
       expect(within(document.body).getByTestId('Popper-with-arrow--root')).toBeInTheDocument();

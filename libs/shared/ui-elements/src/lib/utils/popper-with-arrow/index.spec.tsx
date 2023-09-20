@@ -39,6 +39,8 @@ describe('PopperWithArrow component', () => {
   });
 
   it('calls onClickAway when clicking outside the popper', async () => {
+    const user = userEvent.setup();
+
     const { getByTestId } = render(
       <div data-testid="outside">
         <PopperWithArrow open={true} anchorEl={null} onClickAway={onClickAway} arrow={true}>
@@ -46,7 +48,7 @@ describe('PopperWithArrow component', () => {
         </PopperWithArrow>
       </div>
     );
-    await userEvent.click(getByTestId('outside'));
+    await user.click(getByTestId('outside'));
 
     expect(onClickAway).toHaveBeenCalledTimes(1);
   });

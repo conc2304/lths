@@ -38,6 +38,8 @@ describe('EventStateFormItem', () => {
   });
 
   it('calls onChange when input value changes', async () => {
+    const user = userEvent.setup();
+
     render(<EventStateFormItem {...defaultProps} />);
 
     const input = screen.getByRole('textbox').querySelector('input');
@@ -46,10 +48,10 @@ describe('EventStateFormItem', () => {
     if (!input) throw new Error('No Input element found on page');
 
     const testValue = 4;
-    await userEvent.clear(input);
+    await user.clear(input);
     mockOnChange.mockClear();
-    await userEvent.type(input, testValue.toString());
-    await userEvent.tab();
+    await user.type(input, testValue.toString());
+    await user.tab();
 
     // Check if onChange was called with the updated value
     waitFor(() => {

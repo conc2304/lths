@@ -1,22 +1,27 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { HeroContainer } from '../../../../elements';
+import { BasicContainer } from '../../../../elements';
 import { ImageComponentProps } from '../../types';
 
 const ImageComponent = (props: ImageComponentProps) => {
   const {
-    data: { image, title, desc, color = '#000000' },
+    data: { image },
     __ui_id__: id,
   } = props;
   return (
-    <HeroContainer id={id} width={335} height={245} image={image}>
-      <Box sx={{ alignSelf: ' flex-end' }}>
-        <Typography sx={{ paddingBottom: 0.5, fontSize: 20, fontWeight: 600, color, wordWrap: 'break-word' }}>
-          {title}
-        </Typography>
-        <Typography sx={{ fontSize: 10, color, wordWrap: 'break-word' }}>{desc}</Typography>
-      </Box>
-    </HeroContainer>
+    <BasicContainer id={id} sx={{ margin: 0 }}>
+      <Box
+        sx={{
+          width: '100%',
+          height: '427px',
+          paddingBottom: '100%',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundImage: `url(${image})`,
+        }}
+      ></Box>
+    </BasicContainer>
   );
 };
 
