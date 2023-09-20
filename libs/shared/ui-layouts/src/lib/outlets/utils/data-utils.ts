@@ -1,3 +1,5 @@
+import { matchPath } from 'react-router-dom';
+
 import { BreadcrumbPathProps } from '../dashboard/content';
 import { DrawerSectionItemProps, DrawerSectionProps } from '../dashboard/drawer/sections/types';
 
@@ -13,7 +15,8 @@ export const getActivePageTitle = (breadcrumbs: BreadcrumbPathProps[] | Breadcru
 const findPathInSection = (path: string, section: DrawerSectionProps) => {
   const paths: BreadcrumbPathProps[] = [];
   section.items?.every((i) => {
-    if (i.path === path) {
+    const match = matchPath({ path: i.path }, path);
+    if (match) {
       paths.push({ title: i.title, path: i.path });
       return false;
     } else {
@@ -32,7 +35,8 @@ const findPathInSection = (path: string, section: DrawerSectionProps) => {
 const findPathInItems = (path: string, items: DrawerSectionItemProps[]) => {
   const paths: BreadcrumbPathProps[] = [];
   items?.forEach((item) => {
-    if (item.path === path) {
+    const match = matchPath({ path: item.path }, path);
+    if (match) {
       paths.push({ title: item.title, path: item.path });
     } else {
       const subPaths = findPathInItems(path, item.items);

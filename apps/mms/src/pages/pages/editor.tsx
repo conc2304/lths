@@ -24,6 +24,7 @@ import {
   AutocompleteOptionProps,
   PageAction,
 } from '@lths/features/mms/ui-editor';
+import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import TabPanel from './tab-panel';
 import { ComponentModal } from '../../components/pages/editor';
@@ -75,6 +76,13 @@ export function PageEditorTabs() {
 
   //fetch params
   const page_data = data as PageDetail;
+
+  // Breadcrumbs title
+  const { setPageTitle } = useLayoutActions();
+  
+  useEffect(() => {
+    if (page_data?.name) setPageTitle(page_data.name);
+  }, [page_data?.name]);
 
   //fetch
   const fetchPageDetail = async (pageId: string) => {
