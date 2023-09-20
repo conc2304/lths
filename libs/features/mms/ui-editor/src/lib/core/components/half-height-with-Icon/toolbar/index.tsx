@@ -1,4 +1,12 @@
-import { ToolbarLabel, OutlinedTextField, GroupLabel, SimpleImagePicker } from '../../../../elements';
+import { useState, useEffect } from 'react';
+
+import {
+  ToolbarLabel,
+  OutlinedTextField,
+  GroupLabel,
+  ImageAutocomplete,
+  AutocompleteOptionProps,
+} from '../../../../elements';
 import { ToolContainer } from '../../../../elements';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
@@ -11,15 +19,34 @@ const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
     onPropChange,
   } = props;
 
+  const [icons, setIcons] = useState<AutocompleteOptionProps[]>([]);
+
+  const receiveIcons = (data: AutocompleteOptionProps[]) => {
+    setIcons(data);
+  };
+
+  const fetchData = () => {
+    onPropChange('quickLinkIcons', receiveIcons);
+  };
+
+  useEffect(() => fetchData(), []);
+
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
+
+  const handleIconChange = (value: string) => {
+    updateComponentProp('icon', value);
+  };
 
   return (
     <ToolContainer id={id}>
-      <ToolbarLabel label={'Component'} />
-      <SimpleImagePicker
+      <ToolbarLabel label={'Half-Height with Icon'} />
+
+      <ImageAutocomplete
+        aria-label="Icon"
+        label="Icon"
         value={icon}
-        onChange={(value) => updateComponentProp('icon', value)}
-        onReplace={onPropChange}
+        data={icons}
+        onChange={(value) => handleIconChange(value)}
       />
       <OutlinedTextField
         label={'Icon alt text'}
