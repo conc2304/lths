@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import QuicklinkButtonGroupToolbar from './index';
 import { EditorProvider } from '../../../../context';
-import mockComponent from '../../../../context/mockdata';
+import mockComponentProps from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
@@ -15,7 +15,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
 
   beforeEach(() => {
     component = {
-      ...mockComponent,
+      ...mockComponentProps,
       __ui_id__: '3333333',
       component_id: Component.QuicklinkButtonGroup,
       data: {
