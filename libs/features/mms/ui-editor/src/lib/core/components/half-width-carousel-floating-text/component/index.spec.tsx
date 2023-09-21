@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import HalfWidthCarouselFloatingTextComponent from './index';
-import mockComponent from '../../../../context/mockdata';
+import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 import { HalfWidthCarouselFloatingTextComponentProps } from '../../types';
 
@@ -11,7 +11,7 @@ describe('HalfWidthCarouselFloatingTextComponent', () => {
 
   beforeEach(() => {
     props = {
-      ...mockComponent,
+      ...mockComponentProps,
       __ui_id__: '3333333',
       component_id: Component.HalfWidthCarouselFloatingText,
       data: {

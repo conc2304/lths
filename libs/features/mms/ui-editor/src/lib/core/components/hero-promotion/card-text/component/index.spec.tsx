@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import CardText from './index';
-import mockComponent from '../../../../../context/mockdata';
+import mockComponentProps from '../../../../../context/mock-data';
 import { Component } from '../../../enum';
 import { CardTextComponentProps } from '../../../types';
 
@@ -11,7 +11,7 @@ describe('HeroPromotion: CardText', () => {
 
   beforeEach(() => {
     props = {
-      ...mockComponent,
+      ...mockComponentProps,
       __ui_id__: '3333333',
       component_id: Component.HeroPromotionCardText,
       data: {
