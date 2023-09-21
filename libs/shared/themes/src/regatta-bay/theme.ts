@@ -7,8 +7,10 @@ import getComponentOverrides from './overrides/index';
 import getPalette from './palette';
 import getTypography from './typography';
 
+import '../fonts/index.css';
+
 const palette = getPalette();
-const typography = getTypography(`'Roboto', sans-serif`);
+const typography = getTypography(`'Roboto', Circular, sans-serif`);
 
 const baseThemeOptions: ThemeOptions = {
   breakpoints: {
