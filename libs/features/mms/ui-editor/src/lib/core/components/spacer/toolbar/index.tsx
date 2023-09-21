@@ -1,11 +1,15 @@
-import { useState } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 
-import { ToolContainer, OutlinedTextField, GroupLabel } from '../../../../elements';
+import { ToolContainer, GroupLabel } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { SpacerProps } from '../../types';
 
-const spacing = [
+type Space = {
+  value: string;
+  label: string;
+};
+
+const spacing: Space[] = [
   {
     label: '4px',
     value: '4',
@@ -70,10 +74,9 @@ const SpacerToolbar = (props: SpacerProps) => {
     __ui_id__: id,
   } = props;
 
-  const [spaces, setSpace] = useState(spacing);
   const { updateComponentProp } = useToolbarChange();
-  const handleAutocompleteChange = (item) => {
-    setSpace(item.value);
+  const handleAutocompleteChange = (event, item: Space) => {
+    updateComponentProp('space', item.value);
   };
   const getOptionLabel = (option) => option.label;
   const renderOption = (props, option) => (
@@ -81,21 +84,14 @@ const SpacerToolbar = (props: SpacerProps) => {
       {option.label}
     </Box>
   );
-  const selectedvalue = spaces?.find((s) => s.value) || null;
-  console.log('selectedvalue', selectedvalue);
+  const selectedvalue = spacing.find((s) => s.value === space) || null;
 
   return (
     <ToolContainer id={id} aria-label="Spacer Toolbar">
       <GroupLabel label={'Spacer'} />
-      <OutlinedTextField
-        label={'Space'}
-        value={space}
-        onChange={(e) => updateComponentProp('space', e.target.value)}
-        type="number"
-      />
       <Autocomplete
         id="Spacing"
-        options={spaces}
+        options={spacing}
         getOptionLabel={getOptionLabel}
         renderOption={renderOption}
         renderInput={(params) => <TextField {...params} label="Spacing" />}
