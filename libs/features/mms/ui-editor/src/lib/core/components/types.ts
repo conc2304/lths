@@ -157,9 +157,9 @@ export type HeaderComponentProps = ComponentProps & {
 };
 export type LinkedTextProps = {
   link_key: string;
-  link_value: string;
   link_color: string;
   link_id: string;
+  action: ActionProps;
 };
 export type HeadlineTextBlockComponentProps = ComponentProps & {
   data: {
@@ -170,7 +170,6 @@ export type HeadlineTextBlockComponentProps = ComponentProps & {
     text_color: string;
     text_font_family: string;
     linked_text: LinkedTextProps[];
-    action: ActionProps;
   };
 };
 

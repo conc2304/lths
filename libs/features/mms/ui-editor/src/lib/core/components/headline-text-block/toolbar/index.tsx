@@ -1,10 +1,11 @@
-import { ChangeEvent, useState, SyntheticEvent } from 'react';
-import { Typography, Box, MenuItem, TextField, Button } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Typography, MenuItem, TextField, Button, Divider } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { Stack } from '@mui/system';
 
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, Accordion, AccordionSummary, AccordionDetails } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { ToolContainer } from '../../../../elements';
+import HyperLinkToolbar from '../../common/hyper-link';
 import { useToolbarChange } from '../../hooks';
 import { HeadlineTextBlockComponentProps } from '../../types';
 import { size } from '../utils';
@@ -12,17 +13,12 @@ import { size } from '../utils';
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, text_size, linked_text, action },
+    data: { title, text_size, linked_text },
     onPropChange,
   } = props;
 
   const { selectComponent } = useEditorActions();
   const { updateComponentProp } = useToolbarChange();
-  const [expanded, setExpanded] = useState<string | false>('panel0');
-
-  const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panel : false);
-  };
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('title', event.target.value);
@@ -34,7 +30,23 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const handleAdd = () => {
     const data = {
       ...props,
-      data: { title, text_size, linked_text: [...linked_text, { link_value: 'New link' }] },
+      data: {
+        title,
+        text_size,
+        linked_text: [...linked_text, { link_key: '', link_id: Math.floor(Math.random() * 9999) }],
+      },
+    };
+    selectComponent(data);
+  };
+
+  const handleRemove = (link_id: string) => {
+    const data = {
+      ...props,
+      data: {
+        title,
+        text_size,
+        linked_text: linked_text.filter((l) => l.link_id !== link_id),
+      },
     };
     selectComponent(data);
   };
@@ -54,45 +66,29 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
             </MenuItem>
           ))}
         </TextField>
-        <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-          Link
-        </Typography>
-        {linked_text.map(({ link_key, link_value }, index) => {
-          const panelId = `panel${index}`;
+        <Divider />
+        {linked_text.map(({ link_key, action, link_id }, index) => {
+          const hyperLinkId = `link${index}`;
           return (
-            <Accordion
-              expanded={expanded === panelId}
-              onChange={handleAccordionChange(panelId)}
-              key={`textcard_${index}`}
-            >
-              <AccordionSummary data-testid={`Link #${index + 1}`} aria-controls="panelld-content" id="panelld-header">
-                <Typography>Link {index + 1}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ gap: 2 }}>
-                  <Stack spacing={2}>
-                    <TextField
-                      label={'Link Key'}
-                      value={link_key}
-                      sx={{ textTransform: 'uppercase' }}
-                      onChange={(e) => {
-                        updateComponentProp('link_key', e.target.value, index, 'linked_text');
-                      }}
-                    />
-
-                    <TextField
-                      label={'Link Value'}
-                      value={link_value}
-                      onChange={(e) => updateComponentProp('link_value', e.target.value, index, 'linked_text')}
-                    />
-                    <ActionToolbar action={action} onPropChange={onPropChange} index={index} keys={['linked_text']} />
-                  </Stack>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
+            <HyperLinkToolbar
+              link_key={link_key}
+              link_number={index + 1}
+              action={action}
+              onPropChange={onPropChange}
+              onRemove={handleRemove}
+              key={hyperLinkId}
+              link_id={link_id}
+            />
           );
         })}
-        <Button data-testid="Add Button" variant="outlined" sx={{ marginTop: 3 }} onClick={handleAdd} fullWidth>
+        <Button
+          data-testid="Add Button"
+          variant="outlined"
+          sx={{ marginTop: 3, fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
+          onClick={handleAdd}
+          startIcon={<AddIcon />}
+          fullWidth
+        >
           Add Link
         </Button>
       </Stack>

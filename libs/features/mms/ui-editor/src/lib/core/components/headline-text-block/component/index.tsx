@@ -18,7 +18,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
     const regex = new RegExp(`(${word.link_key})`, 'gi');
     replacedsentence = reactStringReplace(replacedsentence, regex, () => {
       return (
-        <Link key={`link_${0}`} href={word.link_value} color="#FFFFFF">
+        <Link key={`link_${0}`} href={'#'} color="#FFFFFF">
           {word.link_key}
         </Link>
       );

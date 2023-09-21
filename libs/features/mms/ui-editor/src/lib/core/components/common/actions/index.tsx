@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { TextField, MenuItem, Box } from '@mui/material';
+import { TextField, MenuItem, Box, RadioGroup, Typography, FormControlLabel, Radio } from '@mui/material';
 
 import PageAutocomplete from './autocomplete';
 import { ToolbarProps } from '../../../../context';
@@ -12,6 +12,7 @@ type ActionExtendedProps = {
   onPropChange: ToolbarProps['onPropChange'];
   index?: number;
   keys?: string[] | undefined;
+  isRadioButton?: boolean;
 };
 const ActionType = {
   Native: 'native',
@@ -19,7 +20,13 @@ const ActionType = {
 };
 
 const Action = (props: ActionExtendedProps) => {
-  const { action: { type = ActionType.Native, page_id, page_link } = {}, onPropChange, index, keys } = props;
+  const {
+    action: { type = ActionType.Native, page_id, page_link } = {},
+    onPropChange,
+    index,
+    keys,
+    isRadioButton = false,
+  } = props;
 
   const { handleActionChange } = useToolbarChange();
 
@@ -53,18 +60,28 @@ const Action = (props: ActionExtendedProps) => {
 
   return (
     <>
-      <GroupLabel label={'Action'} />
-      <TextField
-        data-testid={'Action--type'}
-        value={type}
-        onChange={handleActionTypeChange}
-        label="Type"
-        select
-        fullWidth
-      >
-        <MenuItem value={ActionType.Native}>native</MenuItem>
-        <MenuItem value={ActionType.WebView}>weblink</MenuItem>
-      </TextField>
+      {!isRadioButton && <GroupLabel label={'Action'} />}
+      {!isRadioButton ? (
+        <TextField
+          data-testid={'Action--type'}
+          value={type}
+          onChange={handleActionTypeChange}
+          label="Type"
+          select
+          fullWidth
+        >
+          <MenuItem value={ActionType.Native}>native</MenuItem>
+          <MenuItem value={ActionType.WebView}>weblink</MenuItem>
+        </TextField>
+      ) : (
+        <RadioGroup aria-labelledby="link" onChange={handleActionTypeChange} value={type} row>
+          <Typography sx={{ marginLeft: 0.5 }}>Link</Typography>
+          <Box sx={{ marginTop: -1.15, marginLeft: 2 }}>
+            <FormControlLabel value={ActionType.Native} control={<Radio />} label="Native" />
+            <FormControlLabel value={ActionType.WebView} control={<Radio />} label="Web" />
+          </Box>
+        </RadioGroup>
+      )}
       {type !== ActionType.Native ? (
         <OutlinedTextField label={'Page Link'} value={page_link} onChange={handleActionPageLinkChange} />
       ) : (
