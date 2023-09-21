@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { v4 as uuid } from 'uuid';
 
 import CarouselDraggableItemsList from './carousel-draggable-items-list';
 import CarouselItemEditor from './carousel-Item-editor';
@@ -21,7 +22,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   
   const { selectComponent } = useEditorActions();
-  const { swapComponentProps } = useToolbarChange();
+  const { swapComponentProps, initSubComponentPropsUUID } = useToolbarChange();
 
   const handleEditItem = (index: number) => {
     setSelectedIndex(index);
@@ -32,6 +33,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
 
   useEffect(() => {
     handleCloseItem();
+    initSubComponentPropsUUID();
   }, [id]);
 
   const handleAdd = () => {
@@ -41,6 +43,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         sub_component_data: [
           ...sub_component_data,
           {
+            id: uuid(),
             title: 'New Card',
             description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
             action: { type: 'native' },

@@ -23,8 +23,8 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
       <List>
         {data.map((item, index) => 
           <DraggableCarouselListItem
-            key={item.title} // ToDo: Use a unique key
-            id={item.title}
+            key={item.id}
+            id={item.id}
             index={index}
             text={item.title}
             onDrag={onDrag}

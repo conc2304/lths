@@ -76,6 +76,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
             item={sub_component_data[selectedIndex]}
             handleCloseItem={handleCloseItem}
             onPropChange={onPropChange}
+            index={selectedIndex}
           />
         ) : (
           <>

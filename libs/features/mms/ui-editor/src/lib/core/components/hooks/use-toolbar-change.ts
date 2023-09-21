@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { validate, v4 as uuid } from 'uuid';
 
 import { mergeKeys, updateNestedProp } from './utils';
 import { useEditorActions } from '../../../context';
@@ -35,6 +36,23 @@ export const useToolbarChange = () => {
     const data = updateNestedProp(selectedComponent, propName, value, index, mergeKeys(keys));
     selectComponent(data);
   }
+
+  const initSubComponentPropsUUID = () => {
+    let updatedSubComponentData = [...selectedComponent.data.sub_component_data];
+
+    updatedSubComponentData = updatedSubComponentData.map((item) => {
+      if (validate(item.uuid)) return item;
+      const id = uuid();
+      return { ...item, id: id };
+    });
+
+    const data = {
+      ...selectedComponent,
+      data: { ...selectedComponent.data, sub_component_data: updatedSubComponentData },
+    };
+
+    selectComponent(data);
+  };
 
   //TODO: not generic enough
   const swapComponentProps = (index: number, index2: number) => {
@@ -165,6 +183,7 @@ export const useToolbarChange = () => {
 
   return {
     selectedComponent,
+    initSubComponentPropsUUID,
     swapComponentProps,
     updateComponentProp,
     handlePropChange,
