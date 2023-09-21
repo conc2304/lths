@@ -11,59 +11,59 @@ type Space = {
 
 const spacing: Space[] = [
   {
-    label: '4px',
+    label: '4 px',
     value: '4',
   },
   {
-    label: '8px',
+    label: '8 px',
     value: '8',
   },
   {
-    label: '12px',
+    label: '12 px',
     value: '12',
   },
   {
-    label: '16px',
+    label: '16 px',
     value: '16',
   },
   {
-    label: '20px',
+    label: '20 px',
     value: '20',
   },
   {
-    label: '24px',
+    label: '24 px',
     value: '24',
   },
   {
-    label: '28px',
+    label: '28 px',
     value: '28',
   },
   {
-    label: '32px',
+    label: '32 px',
     value: '32',
   },
   {
-    label: '36px',
+    label: '36 px',
     value: '36',
   },
   {
-    label: '40px',
+    label: '40 px',
     value: '40',
   },
   {
-    label: '48px',
+    label: '48 px',
     value: '48',
   },
   {
-    label: '56px',
+    label: '56 px',
     value: '56',
   },
   {
-    label: '64px',
+    label: '64 px',
     value: '64',
   },
   {
-    label: '80px',
+    label: '80 px',
     value: '80',
   },
 ];
