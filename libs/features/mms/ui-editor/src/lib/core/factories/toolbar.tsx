@@ -95,6 +95,8 @@ import {
   FullHeightImageComponentProps,
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
+  CardViewCarouselToolbar,
+  CardViewCarouselComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -236,6 +238,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
+    case Component.CardViewCarousel:
+      return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

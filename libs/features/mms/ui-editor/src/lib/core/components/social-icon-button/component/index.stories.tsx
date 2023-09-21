@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
 import SocialIconButtonComponent from './index';
-import mockComponent from '../../../../context/mockdata';
+import mockComponent from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
 import type { Meta, StoryFn } from '@storybook/react';

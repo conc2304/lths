@@ -54,6 +54,7 @@ export enum Component {
   HeroEvent = 'cHeroEvent',
   HeroGameBox = 'cHeroGameBox',
   HalfWidthCarouselFloatingText = 'cHalfWidthCarouselFloatingText',
+  CardViewCarousel = 'cCardViewCarousel',
   FullWidthButton = 'cFullWidthButton',
   FullHeightFloatingText = 'cFullHeightFloatingText',
   HalfHeightWithIcon = 'cHalfHeightWithIcon',
