@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 
 import { ToolContainer, OutlinedTextField, GroupLabel } from '../../../../elements';
@@ -69,11 +70,18 @@ const SpacerToolbar = (props: SpacerProps) => {
     __ui_id__: id,
   } = props;
 
+  const [spaces, setSpace] = useState(spacing);
   const { updateComponentProp } = useToolbarChange();
   const handleAutocompleteChange = (item) => {
-    updateComponentProp('value', item.value);
+    setSpace(item.value);
   };
-  const selectedvalue = spacing?.find((s) => s.value) || null;
+  const getOptionLabel = (option) => option.label;
+  const renderOption = (props, option) => (
+    <Box component="li" {...props}>
+      {option.label}
+    </Box>
+  );
+  const selectedvalue = spaces?.find((s) => s.value) || null;
   console.log('selectedvalue', selectedvalue);
 
   return (
@@ -87,13 +95,9 @@ const SpacerToolbar = (props: SpacerProps) => {
       />
       <Autocomplete
         id="Spacing"
-        options={spacing}
-        getOptionLabel={(option) => option.label}
-        renderOption={(props, option) => (
-          <Box component="li" {...props}>
-            {option.label}
-          </Box>
-        )}
+        options={spaces}
+        getOptionLabel={getOptionLabel}
+        renderOption={renderOption}
         renderInput={(params) => <TextField {...params} label="Spacing" />}
         onChange={handleAutocompleteChange}
         value={selectedvalue}
