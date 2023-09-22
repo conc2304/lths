@@ -98,7 +98,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const textSectionLabel = screen.getByText('BUTTON 2');
     expect(textSectionLabel).toBeInTheDocument();
 
-    const actionSectionLabels = screen.getAllByText('Action');
+    const actionSectionLabels = screen.getAllByText('Link');
     expect(actionSectionLabels.length).toBe(2);
   });
 
@@ -121,7 +121,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     expect(container.innerHTML).toContain(sub_component_data[1].icon);
   });
 
-  test('should render QuicklinkButtonGroup toolbar with correct Labels', () => {
+  test('should render QuicklinkButtonGroup toolbar with correct Labels', async () => {
     render(
       <EditorProvider initialValue={initialState}>
         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
@@ -130,27 +130,27 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('Label');
+    const firstLabelInput = await screen.findByTestId('first_button_label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('Icon');
+    const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Label');
+    const secondLabelInput = await screen.findByTestId('second_button_label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Icon');
+    const secondIconInput = await screen.findByTestId('second_button_');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
 
-  test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', () => {
+  test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', async () => {
     component.data.sub_component_data[0].title = 'Cool title 1';
     component.data.sub_component_data[1].title = 'Cool title 2';
     component.data.sub_component_data[0].icon = 'Cool icon 1';
@@ -164,22 +164,22 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('Label');
+    const firstLabelInput = await screen.findByTestId('first_button_label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('Icon');
+    const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Label');
+    const secondLabelInput = await screen.findByTestId('second_button_label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Icon');
+    const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });

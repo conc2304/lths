@@ -46,6 +46,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
 
       <GroupLabel label={'BUTTON 1'} />
       <OutlinedTextField
+        data-testid="first_button_label"
         aria-label="Label"
         label={'Label'}
         value={sub_component_data[0]?.title}
@@ -53,6 +54,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
       />
       <ImageAutocomplete
         aria-label="Icon"
+        data-testid="first_button_icon"
         label="Icon"
         value={sub_component_data[0]?.icon}
         data={icons}
@@ -70,12 +72,14 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
       <OutlinedTextField
         aria-label="Label"
         label={'Label'}
+        data-testid="second_button_label"
         value={sub_component_data[1]?.title}
         onChange={(e) => handleTitleChange(e, 1, parentKeys)}
       />
       <ImageAutocomplete
         label={'Icon'}
         aria-label="Icon"
+        data-testid="second_button_icon"
         value={sub_component_data[1]?.icon}
         data={icons}
         onChange={(value) => {
