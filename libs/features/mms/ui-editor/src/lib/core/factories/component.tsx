@@ -45,6 +45,7 @@ import {
   TextButtonComponent,
   SocialIconButtonComponent,
   SpacerComponent,
+  TextwithIcon,
   DividerComponent,
   FullHeightImageComponent,
   ImageHeaderComponent,
@@ -94,6 +95,7 @@ import {
   TextButtonProps,
   SocialIconButtoncomponentProps,
   SpacerProps,
+  TextWithIconProps,
   DividerProps,
   FullHeightImageComponentProps,
   ImageHeaderComponentProps,
@@ -235,6 +237,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <SocialIconButtonComponent {...(props as SocialIconButtoncomponentProps)} />;
     case Component.Spacer:
       return <SpacerComponent {...(props as SpacerProps)} />;
+    case Component.TextWithIcon:
+      return <TextwithIcon {...(props as TextWithIconProps)} />;
     case Component.Divider:
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
