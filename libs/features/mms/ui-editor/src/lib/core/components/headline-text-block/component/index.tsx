@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
@@ -13,17 +13,20 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   const fontSize = size.find((s) => s.value === text_size)?.fontSize;
   let replacedsentence: string | React.ReactNode[] = title;
 
-  for (let i = 0; i < linked_text.length; i++) {
-    const word = linked_text[i];
-    const regex = new RegExp(`(${word.link_key})`, 'gi');
-    replacedsentence = reactStringReplace(replacedsentence, regex, () => {
-      return (
-        <Link key={`link_${0}`} href={'#'} color="#FFFFFF">
-          {word.link_key}
-        </Link>
-      );
+  replacedsentence = useMemo(() => {
+    let text: string | ReactNode[] = title;
+    linked_text.forEach(({ link_key, link_id }) => {
+      const regex = new RegExp(`(${link_key})`, 'g');
+      text = reactStringReplace(text, regex, () => {
+        return (
+          <Link key={`link_${link_id}`} href={'#'} color="#FFFFFF">
+            {link_key}
+          </Link>
+        );
+      });
     });
-  }
+    return text;
+  }, [title, linked_text]);
 
   return (
     <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
