@@ -16,27 +16,6 @@
           "quiet": true
         }
       }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/shared/storybook/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "libs/shared/storybook/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
     }
   }
 }

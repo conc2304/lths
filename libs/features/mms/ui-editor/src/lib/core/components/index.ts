@@ -128,6 +128,9 @@ export { default as SocialIconButtonToolbar } from './social-icon-button/toolbar
 export { default as SpacerComponent } from './spacer/component';
 export { default as SpacerToolbar } from './spacer/toolbar';
 
+export { default as TextwithIcon } from './text-with-icon/component';
+export { default as TextwithIconToolbar } from './text-with-icon/toolbar';
+
 export { default as DividerComponent } from './divider/component';
 export { default as DividerToolbar } from './divider/toolbar';
 
@@ -136,5 +139,8 @@ export { default as FullHeightImageToolbar } from './full-height-image/toolbar';
 
 export { default as CenterBodyTextBlock } from './center-body-text-block/component';
 export { default as CenterBodyTextBlockToolbar } from './center-body-text-block/toolbar';
+
+export { default as ImageHeaderComponent } from './image-header/component';
+export { default as ImageHeaderToolbar } from './image-header/toolbar';
 
 export * from './types';

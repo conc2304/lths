@@ -1,4 +1,4 @@
-export const size = [
+export const sizes = [
   {
     label: 'Large',
     value: 'large',

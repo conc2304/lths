@@ -96,12 +96,14 @@ describe('EditEventStatesModal', () => {
   });
 
   it('calls onSave with updated event states when the "Update Event States" button is clicked', async () => {
+    const user = userEvent.setup();
+
     render(<EditEventStatesModal open={true} onCancel={mockOnCancel} onSave={mockOnSave} eventData={mockEventData} />);
     expect(mockOnSave).toHaveBeenCalledTimes(0);
 
     // Simulate user input by changing offset value
-    await userEvent.type(screen.getByLabelText('PRE-EVENT'), '3');
-    await userEvent.click(screen.getByRole('button', { name: 'UPDATE EVENT STATES' }));
+    await user.type(screen.getByLabelText('PRE-EVENT'), '3');
+    await user.click(screen.getByRole('button', { name: 'UPDATE EVENT STATES' }));
 
     const updatedEventStates = updateEventStatesWithOffsets(mockEventData.eventStates as EventState[], {
       [EVENT_STATE.PRE_EVENT]: 3,

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import FanGuideThreeIsToFourAspectRatioComponent from './index';
-import mockComponent from '../../../../context/mockdata';
+import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';
 
@@ -11,7 +11,7 @@ describe('FanGuideThreeIsToFourAspectRatioComponent', () => {
 
   beforeEach(() => {
     props = {
-      ...mockComponent,
+      ...mockComponentProps,
       __ui_id__: '3333333',
       component_id: Component.FanGuideThreeIsToFourAspectRatio,
       data: {
