@@ -16,8 +16,6 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
     onPropChange,
   } = props;
 
-  console.log('headline props', props);
-
   const { selectComponent } = useEditorActions();
   const { updateComponentProp } = useToolbarChange();
 

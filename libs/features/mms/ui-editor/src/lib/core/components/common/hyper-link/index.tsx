@@ -21,7 +21,6 @@ type HyperLinkToolbarProps = {
 const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
   const { action, onPropChange, link_number, link_key, link_id, onRemove, index, parent_key, updateComponentProp } =
     props;
-  console.log('action', action);
   return (
     <Box>
       <Stack spacing={2}>

@@ -4,7 +4,7 @@ import reactStringReplace from 'react-string-replace';
 
 import { HeadlineTextBlockComponentProps } from '../../types';
 import { size } from '../utils';
-//TODO: use react memo or state for generating link  texts
+
 const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
