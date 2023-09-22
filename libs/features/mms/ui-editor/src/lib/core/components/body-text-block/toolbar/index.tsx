@@ -1,39 +1,28 @@
-import { ChangeEvent, SyntheticEvent, useState } from 'react';
-import { Box, MenuItem, TextField, Typography, Button } from '@mui/material';
-import { Stack } from '@mui/system';
+import { ChangeEvent } from 'react';
+import { MenuItem, TextField, Button, Divider } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 import { useEditorActions } from '../../../../context';
-import {
-  BasicTextField,
-  BasicContainer,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  GroupLabel,
-  OutlinedTextField,
-} from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { BasicContainer, GroupLabel, OutlinedTextField } from '../../../../elements';
+import { HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
-import { size } from '../utils';
+import { sizes } from '../utils';
 
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, card_background_color, text_size, linked_text, action },
+    data: { title, card_background_color, text_size, linked_text = [] },
     onPropChange,
   } = props;
 
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
-  const [expanded, setExpanded] = useState<string | false>('panel0');
 
   const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('text_size', event.target.value);
   };
-  const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+
   const handleAdd = () => {
     const data = {
       ...props,
@@ -46,51 +35,57 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
     selectComponent(data);
   };
 
+  const handleRemove = (link_id: string) => {
+    const data = {
+      ...props,
+      data: {
+        title,
+        text_size,
+        linked_text: linked_text.filter((l) => l.link_id !== link_id),
+      },
+    };
+    selectComponent(data);
+  };
+
   return (
     <BasicContainer id={id}>
-      <Stack spacing={2}>
-        <GroupLabel label={'Text'} />
-        <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-        <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
-          {size.map((s) => (
-            <MenuItem key={`option-${s.value}`} value={s.value}>
-              {s.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        {linked_text.map(({ link_key }, index) => {
-          const panelId = `panel${index}`;
-          return (
-            <Accordion
-              expanded={expanded === panelId}
-              onChange={handleAccordionChange(panelId)}
-              key={`textcard_${index}`}
-            >
-              <AccordionSummary data-testid={`Link #${index + 1}`} aria-controls="panelld-content" id="panelld-header">
-                <Typography>Link {index + 1}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ gap: 2 }}>
-                  <Stack spacing={2}>
-                    <BasicTextField
-                      label={'Link Key'}
-                      value={link_key}
-                      sx={{ textTransform: 'uppercase' }}
-                      onChange={(e) => {
-                        updateComponentProp('link_key', e.target.value, index, 'linked_text');
-                      }}
-                    />
-                    <ActionToolbar action={action} onPropChange={onPropChange} index={index} keys={['linked_text']} />
-                  </Stack>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          );
-        })}
-        <Button data-testid="Add Button" variant="outlined" sx={{ marginTop: 3 }} onClick={handleAdd} fullWidth>
-          Add
-        </Button>
-      </Stack>
+      <GroupLabel label={'Body Text Block'} />
+      <OutlinedTextField label={'Title'} value={title} sx={{ marginY: 3 }} onChange={handleTitleChange} />
+      <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+        {sizes.map((s) => (
+          <MenuItem key={`option-${s.value}`} value={s.value}>
+            {s.label}
+          </MenuItem>
+        ))}
+      </TextField>
+      <Divider sx={{ marginY: 3 }} />
+
+      {linked_text.map(({ link_key, action, link_id }, index) => {
+        const hyperLinkId = `panel_${index}`;
+        return (
+          <HyperLinkToolbar
+            index={index}
+            link_key={link_key}
+            action={action}
+            onPropChange={onPropChange}
+            updateComponentProp={updateComponentProp}
+            onRemove={handleRemove}
+            key={hyperLinkId}
+            link_id={link_id}
+            parent_key={['linked_text']}
+          />
+        );
+      })}
+      <Button
+        data-testid="Add Button"
+        variant="outlined"
+        sx={{ marginTop: 1, fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
+        onClick={handleAdd}
+        startIcon={<AddIcon />}
+        fullWidth
+      >
+        Add Link
+      </Button>
     </BasicContainer>
   );
 };
