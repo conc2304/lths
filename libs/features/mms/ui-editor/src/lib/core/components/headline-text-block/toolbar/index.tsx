@@ -1,18 +1,19 @@
 import { ChangeEvent } from 'react';
 import { MenuItem, TextField, Button, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
 import { GroupLabel, ToolContainer } from '../../../../elements';
 import HyperLinkToolbar from '../../common/hyper-link';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, HeadlineTextBlockComponentProps } from '../../types';
-import { size } from '../utils';
+import { sizes } from '../utils';
 
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, text_size, linked_text },
+    data: { title, text_size, linked_text = [] },
     onPropChange,
   } = props;
 
@@ -32,10 +33,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       data: {
         title,
         text_size,
-        linked_text: [
-          ...linked_text,
-          { link_key: '', link_id: Math.floor(Math.random() * 9999), action: { type: ActionType.NATIVE } },
-        ],
+        linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
     selectComponent(data);
@@ -59,7 +57,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       <TextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ marginY: 3 }} fullWidth />
 
       <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
-        {size.map((s) => (
+        {sizes.map((s) => (
           <MenuItem key={`option-${s.value}`} value={s.value}>
             {s.label}
           </MenuItem>
@@ -67,7 +65,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       </TextField>
       <Divider sx={{ marginY: 3 }} />
       {linked_text.map(({ link_key, action, link_id }, index) => {
-        const hyperLinkId = `link${index}`;
+        const hyperLinkId = `link_${index}`;
         return (
           <HyperLinkToolbar
             index={index}

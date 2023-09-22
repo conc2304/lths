@@ -3,16 +3,16 @@ import { Box, Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
 import { HeadlineTextBlockComponentProps } from '../../types';
-import { size } from '../utils';
+import { sizes } from '../utils';
 
 const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, text_size, linked_text },
+    data: { title, text_size, linked_text = [] },
   } = props;
-  const fontSize = size.find((s) => s.value === text_size)?.fontSize;
+  const fontSize = sizes.find((s) => s.value === text_size)?.fontSize;
 
-  const replacedsentence = useMemo(() => {
+  const replacedSentence = useMemo(() => {
     let text: string | ReactNode[] = title;
     linked_text?.forEach(({ link_key, link_id }) => {
       const regex = new RegExp(`(${link_key})`, 'g');
@@ -30,7 +30,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   return (
     <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
       <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3">
-        {replacedsentence}
+        {replacedSentence}
       </Typography>
     </Box>
   );

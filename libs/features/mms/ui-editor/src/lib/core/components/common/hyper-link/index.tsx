@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 
@@ -19,17 +20,14 @@ type HyperLinkToolbarProps = {
 
 const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
   const { action, onPropChange, link_key, link_id, onRemove, index, parent_key, updateComponentProp } = props;
+  const handleLinkText = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateComponentProp('link_key', e.target.value, index, 'linked_text');
+  };
   return (
     <Box>
       <Stack spacing={2}>
         <Typography>Link Text {index + 1}</Typography>
-        <TextField
-          label={'Link Text'}
-          value={link_key}
-          onChange={(e) => {
-            updateComponentProp('link_key', e.target.value, index, 'linked_text');
-          }}
-        />
+        <TextField label={'Link Text'} value={link_key} onChange={handleLinkText} />
         <ActionToolbar action={action} onPropChange={onPropChange} isRadioButton index={index} keys={parent_key} />
         <Stack sx={{ justifyContent: 'center' }}>
           <Button
