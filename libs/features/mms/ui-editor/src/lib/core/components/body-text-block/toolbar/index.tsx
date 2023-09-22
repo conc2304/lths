@@ -61,7 +61,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       <Divider sx={{ marginY: 3 }} />
 
       {linked_text.map(({ link_key, action, link_id }, index) => {
-        const hyperLinkId = `panel_${index}`;
+        const hyperLinkId = `Link_${index}`;
         return (
           <HyperLinkToolbar
             index={index}
