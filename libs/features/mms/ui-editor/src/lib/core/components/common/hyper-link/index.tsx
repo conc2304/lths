@@ -8,7 +8,6 @@ import { ActionProps } from '../../types';
 
 type HyperLinkToolbarProps = {
   index: number;
-  link_number: number;
   link_id: string;
   link_key: string;
   action: ActionProps;
@@ -19,12 +18,11 @@ type HyperLinkToolbarProps = {
 };
 
 const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
-  const { action, onPropChange, link_number, link_key, link_id, onRemove, index, parent_key, updateComponentProp } =
-    props;
+  const { action, onPropChange, link_key, link_id, onRemove, index, parent_key, updateComponentProp } = props;
   return (
     <Box>
       <Stack spacing={2}>
-        <Typography>Link Text {link_number}</Typography>
+        <Typography>Link Text {index + 1}</Typography>
         <TextField
           label={'Link Text'}
           value={link_key}
@@ -44,7 +42,7 @@ const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
           </Button>
         </Stack>
       </Stack>
-      <Divider sx={{ margin: '24px 0' }} />
+      <Divider sx={{ marginY: 3 }} />
     </Box>
   );
 };

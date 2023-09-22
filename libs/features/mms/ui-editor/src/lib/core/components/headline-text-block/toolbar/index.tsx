@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
-import { Typography, MenuItem, TextField, Button, Divider } from '@mui/material';
+import { MenuItem, TextField, Button, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import { useEditorActions } from '../../../../context';
-import { ToolContainer } from '../../../../elements';
+import { GroupLabel, ToolContainer } from '../../../../elements';
 import HyperLinkToolbar from '../../common/hyper-link';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, HeadlineTextBlockComponentProps } from '../../types';
@@ -55,10 +55,8 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
 
   return (
     <ToolContainer id={id} aria-label="Headline Text" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-        Title
-      </Typography>
-      <TextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ mb: 4 }} fullWidth />
+      <GroupLabel label={'Headline Text Block'} />
+      <TextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ marginY: 3 }} fullWidth />
 
       <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
         {size.map((s) => (
@@ -67,14 +65,13 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
           </MenuItem>
         ))}
       </TextField>
-      <Divider sx={{ margin: '24px 0' }} />
+      <Divider sx={{ marginY: 3 }} />
       {linked_text.map(({ link_key, action, link_id }, index) => {
         const hyperLinkId = `link${index}`;
         return (
           <HyperLinkToolbar
             index={index}
             link_key={link_key}
-            link_number={index + 1}
             action={action}
             onPropChange={onPropChange}
             updateComponentProp={updateComponentProp}

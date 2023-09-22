@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Box, Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
@@ -11,11 +11,10 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
     data: { title, text_size, linked_text },
   } = props;
   const fontSize = size.find((s) => s.value === text_size)?.fontSize;
-  let replacedsentence: string | React.ReactNode[] = title;
 
-  replacedsentence = useMemo(() => {
+  const replacedsentence = useMemo(() => {
     let text: string | ReactNode[] = title;
-    linked_text.forEach(({ link_key, link_id }) => {
+    linked_text?.forEach(({ link_key, link_id }) => {
       const regex = new RegExp(`(${link_key})`, 'g');
       text = reactStringReplace(text, regex, () => {
         return (
