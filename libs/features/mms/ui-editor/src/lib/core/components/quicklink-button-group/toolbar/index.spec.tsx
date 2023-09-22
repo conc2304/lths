@@ -92,10 +92,10 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const toolbarlabel = screen.getByText('Quick Link');
     expect(toolbarlabel).toBeInTheDocument();
 
-    const imageSectionLabel = screen.getByText('First');
+    const imageSectionLabel = screen.getByText('BUTTON 1');
     expect(imageSectionLabel).toBeInTheDocument();
 
-    const textSectionLabel = screen.getByText('Second');
+    const textSectionLabel = screen.getByText('BUTTON 2');
     expect(textSectionLabel).toBeInTheDocument();
 
     const actionSectionLabels = screen.getAllByText('Action');
@@ -130,22 +130,22 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('First Label');
+    const firstLabelInput = screen.getByLabelText('Label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('First Icon');
+    const firstIconInput = screen.getByLabelText('Icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Second Label');
+    const secondLabelInput = screen.getByLabelText('Label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Second Icon');
+    const secondIconInput = screen.getByLabelText('Icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
@@ -164,22 +164,22 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('First Label');
+    const firstLabelInput = screen.getByLabelText('Label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('First Icon');
+    const firstIconInput = screen.getByLabelText('Icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Second Label');
+    const secondLabelInput = screen.getByLabelText('Label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Second Icon');
+    const secondIconInput = screen.getByLabelText('Icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
@@ -197,13 +197,13 @@ describe('QuicklinkButtonGroup Toolbar', () => {
       const { sub_component_data } = component.data;
 
       // ASSERT
-      const firstLinkTextArea = screen.getByLabelText('Link ' + 1).querySelector('textarea');
+      const firstLinkTextArea = screen.getByLabelText('Link ').querySelector('textarea');
       expect(firstLinkTextArea.value).toContain(sub_component_data[0].action.page_link);
-      expect(screen.queryByLabelText('Page ID ' + 1)).toBeNull();
+      expect(screen.queryByLabelText('Page ID')).toBeNull();
 
-      const secondPageIDTextArea = screen.getByLabelText('Page ID ' + 2).querySelector('textarea');
+      const secondPageIDTextArea = screen.getByLabelText('Page ID').querySelector('textarea');
       expect(secondPageIDTextArea.value).toContain(sub_component_data[1].action.page_id);
-      expect(screen.queryByLabelText('Link ' + 2)).toBeNull();
+      expect(screen.queryByLabelText('Link')).toBeNull();
     });
   });
 });
