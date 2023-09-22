@@ -102,13 +102,15 @@ describe('ListView', () => {
   });
 
   it('handles rows per page changes', async () => {
+    const user = userEvent.setup();
+
     const { getByRole } = renderComponent({ events: mockEvents });
 
     const rowsPerPageDropdown = getByRole('button', { name: /10/ });
 
     expect(rowsPerPageDropdown).toBeInTheDocument();
 
-    await userEvent.click(rowsPerPageDropdown);
+    await user.click(rowsPerPageDropdown);
 
     const modal = document.getElementById('menu-');
     const fiveRowOption = modal?.querySelector('[data-value="5"]');
@@ -117,7 +119,7 @@ describe('ListView', () => {
     mockRowBuilder.mockClear();
 
     if (fiveRowOption) {
-      await userEvent.click(fiveRowOption);
+      await user.click(fiveRowOption);
     }
 
     // The row builder should be called 5 times since we selected 5 rows per page.

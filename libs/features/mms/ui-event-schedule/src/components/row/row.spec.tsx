@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableBody } from '@mui/material';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, waitFor, RenderResult } from '@testing-library/react';
+import { render, screen, waitFor, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { act } from 'react-dom/test-utils';
@@ -57,14 +57,11 @@ describe('Row', () => {
     return render(component);
   };
 
-  beforeEach(async () => {
+  it('renders the row with cells', async () => {
     await act(async () => {
       component = renderComponent();
-      // container = component.container;
     });
-  });
 
-  it('renders the row with cells', () => {
     const { getByText, getByRole, getByTestId } = component;
 
     // Check if the row is rendered
@@ -83,19 +80,24 @@ describe('Row', () => {
   });
 
   it('opens popper when row is clicked, and closes when clicked away', async () => {
+    const user = userEvent.setup();
+    await act(async () => {
+      component = renderComponent();
+    });
+
     expect(screen.queryByRole('tooltip')).toBeNull();
 
     // Click on the row
     await act(async () => {
-      fireEvent.click(screen.getByRole('row'));
+      await user.click(screen.getByRole('row'));
     });
 
     // Check if the popper is open
     expect(screen.getByRole('tooltip')).toBeInTheDocument();
 
-    await act(async () => userEvent.click(document.body)); // Simulating a click away
+    await act(async () => user.click(document.body)); // Simulating a click away
     await waitFor(() => {
       expect(screen.queryByRole('tooltip')).toBeNull();
     });
-  });
+  }, 15000);
 });

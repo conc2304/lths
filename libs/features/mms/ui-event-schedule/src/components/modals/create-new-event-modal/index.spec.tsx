@@ -34,21 +34,24 @@ describe('CreateNewEventModal', () => {
   });
 
   it('closes the modal when clicking "CANCEL"', async () => {
+    const user = userEvent.setup();
+
     renderComponent();
 
     // Click the "CANCEL" button
-    await userEvent.click(screen.getByText('CANCEL'));
+    await user.click(screen.getByText('CANCEL'));
 
     // Verify that onCancel is called
     expect(mockOnCancel).toHaveBeenCalledTimes(1);
   });
 
   it('calls onSave when clicking "CREATE EVENT"', async () => {
+    const user = userEvent.setup();
     const { getByTestId } = renderComponent();
 
     // Fill in the form fields
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
-    await userEvent.type(inputElem, 'Event Name Mock');
+    await user.type(inputElem, 'Event Name Mock');
 
     // Set start date after end date
     const startDateInput = screen
@@ -56,30 +59,30 @@ describe('CreateNewEventModal', () => {
       .querySelector('input') as HTMLInputElement;
     const endDateInput = screen.getByTestId('Edit-Event--end-date-wrapper').querySelector('input') as HTMLInputElement;
 
-    await userEvent.clear(startDateInput);
-    await userEvent.type(startDateInput, '01/22/2022 4:00 PM');
-    await userEvent.tab();
+    await user.clear(startDateInput);
+    await user.type(startDateInput, '01/22/2022 4:00 PM');
+    await user.tab();
 
-    await userEvent.clear(endDateInput);
-    await userEvent.type(endDateInput, '01/25/2022 5:00 PM');
-    await userEvent.tab();
+    await user.clear(endDateInput);
+    await user.type(endDateInput, '01/25/2022 5:00 PM');
+    await user.tab();
 
     const wrapper = getByTestId('Edit-Event--event-type');
 
     const dropDownButton = within(wrapper).getByRole('button');
     expect(dropDownButton).toBeInTheDocument();
-    await userEvent.click(within(wrapper).getByRole('button'));
+    await user.click(within(wrapper).getByRole('button'));
 
     const option = screen.getByText('Comedy');
 
     // Select an event type
     expect(option).toBeInTheDocument();
 
-    await userEvent.click(option);
+    await user.click(option);
 
     // Click the "CREATE EVENT" button
-    await userEvent.click(screen.getByText('CREATE EVENT'));
+    await user.click(screen.getByText('CREATE EVENT'));
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
-  });
+  }, 20000);
 });

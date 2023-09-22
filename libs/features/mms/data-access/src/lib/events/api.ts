@@ -12,7 +12,7 @@ import {
 import { createEventUrl, getEventsUrl, updateEventUrl } from './urls';
 import { QueryParams } from '../../types';
 
-const EVENTS_TAG = 'EVENTs';
+const EVENTS_TAG = 'EVENTS';
 const VIRTUAL_ID = 'EVENTS_CACHE';
 
 export const eventsApi = api.injectEndpoints({
@@ -30,15 +30,20 @@ export const eventsApi = api.injectEndpoints({
       // to invalidate this query specifically if a new `Events` element was added
 
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
-      providesTags: ({ events, eventStates }) => {
-        return events
+      providesTags: (responseData) => {
+        // an error occurred, but we still want to refetch this query when `{ type: 'EVENTS_TAG', id: 'VIRTUAL_ID' }` is invalidated
+        const onErrorTags = [{ type: EVENTS_TAG, id: VIRTUAL_ID }];
+
+        if (!responseData) return onErrorTags;
+
+        const { events, eventStates } = responseData;
+        return events && eventStates
           ? [
               ...events.map(({ eventId }) => ({ type: EVENTS_TAG, id: eventId } as const)),
               ...eventStates.map(({ eventId }) => ({ type: EVENTS_TAG, id: eventId } as const)),
               { type: EVENTS_TAG, id: VIRTUAL_ID },
             ]
-          : // an error occurred, but we still want to refetch this query when `{ type: 'EVENTS_TAG', id: 'VIRTUAL_ID' }` is invalidated
-            [{ type: EVENTS_TAG, id: VIRTUAL_ID }];
+          : onErrorTags;
       },
       transformResponse: (response: GetEventsResponse): TransormedGetEventsResponse => {
         return getEventsResponseTransformer(response);
