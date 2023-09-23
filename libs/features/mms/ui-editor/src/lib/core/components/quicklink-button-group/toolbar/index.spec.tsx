@@ -145,7 +145,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = await screen.findByTestId('second_button_');
+    const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
