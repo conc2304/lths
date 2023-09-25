@@ -12,9 +12,11 @@ import { sizes } from '../utils';
 const BodyTextToolbar = (props: BodyTextComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, card_background_color, text_size, linked_text = [] },
+    data: { title, text_size, linked_text = [], ...rest },
     onPropChange,
   } = props;
+
+  console.log('props', props);
 
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
@@ -29,7 +31,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       data: {
         title,
         text_size,
-        card_background_color,
+        ...rest,
         linked_text: [...linked_text, { link_value: 'New link' }],
       },
     };
@@ -42,6 +44,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       data: {
         title,
         text_size,
+        ...rest,
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
