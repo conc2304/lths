@@ -40,7 +40,7 @@ const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
           </Button>
         </Stack>
       </Stack>
-      <Divider sx={{ marginY: 3 }} />
+      <Divider sx={{ marginY: 1 }} />
     </Box>
   );
 };

@@ -3,7 +3,7 @@ import { MenuItem, TextField, Button, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 import { useEditorActions } from '../../../../context';
-import { BasicContainer, GroupLabel, OutlinedTextField } from '../../../../elements';
+import { GroupLabel, OutlinedTextField, ToolContainer } from '../../../../elements';
 import { HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
@@ -28,6 +28,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       ...props,
       data: {
         title,
+        text_size,
         card_background_color,
         linked_text: [...linked_text, { link_value: 'New link' }],
       },
@@ -48,9 +49,9 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   };
 
   return (
-    <BasicContainer id={id}>
+    <ToolContainer id={id}>
       <GroupLabel label={'Body Text Block'} />
-      <OutlinedTextField label={'Title'} value={title} sx={{ marginY: 3 }} onChange={handleTitleChange} />
+      <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
         {sizes.map((s) => (
           <MenuItem key={`option-${s.value}`} value={s.value}>
@@ -58,7 +59,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
           </MenuItem>
         ))}
       </TextField>
-      <Divider sx={{ marginY: 3 }} />
+      <Divider sx={{ marginY: 1 }} />
 
       {linked_text.map(({ link_key, action, link_id }, index) => {
         const hyperLinkId = `Link_${index}`;
@@ -79,14 +80,14 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       <Button
         data-testid="Add Button"
         variant="outlined"
-        sx={{ marginTop: 1, fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
+        sx={{ fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
         onClick={handleAdd}
         startIcon={<AddIcon />}
         fullWidth
       >
         Add Link
       </Button>
-    </BasicContainer>
+    </ToolContainer>
   );
 };
 export default BodyTextToolbar;
