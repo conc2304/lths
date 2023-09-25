@@ -70,6 +70,6 @@ export enum Component {
   TextWithIcon = 'cTextWithIcon',
   Divider = 'cDivider',
   FullHeightImage = 'cFullHeightImage',
-  CenterHeadlineText = 'cCenterHeadlineText',
+  CenterHeadlineTextBlock = 'cCenterHeadlineTextBlock',
   ImageHeader = 'cImageHeader',
 }

@@ -49,6 +49,7 @@ export type DividerProps = ComponentProps & {
 export type CenterHeadlineTextProps = ComponentProps & {
   data: {
     title: string;
+    linked_text: LinkedTextProps[];
   };
 };
 export type FullHeightCarouselProps = {

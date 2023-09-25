@@ -245,7 +245,7 @@ export const componentFactory = (props: ComponentProps) => {
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
-    case Component.CenterHeadlineText:
+    case Component.CenterHeadlineTextBlock:
       return <CenterHeadlineText {...(props as CenterHeadlineTextProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
