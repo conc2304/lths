@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { authApi } from './auth-api';
-import { AuthenticatedSession } from './types';
-import { AUTH_TOKEN, AUTH_USER_ID } from '../core/constants';
+import { removeAuthTokenFromStorage, setAuthTokenFromStorage, getAuthSessionFromStorage } from './utils';
 
-const initialState: AuthenticatedSession = {
-  token: localStorage.getItem(AUTH_TOKEN),
-  userId: localStorage.getItem(AUTH_USER_ID),
-  authenticated: !!localStorage.getItem(AUTH_TOKEN),
-};
+const initialState = getAuthSessionFromStorage();
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -20,8 +16,8 @@ const authSlice = createSlice({
         accessToken,
         user: { _id },
       } = payload;
-      localStorage.setItem(AUTH_TOKEN, accessToken);
-      localStorage.setItem(AUTH_USER_ID, _id);
+      setAuthTokenFromStorage(accessToken, _id);
+
       state.token = accessToken;
       state.userId = _id;
       state.authenticated = true;
@@ -29,8 +25,7 @@ const authSlice = createSlice({
     builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
       state.token = null;
       state.userId = null;
-      localStorage.setItem(AUTH_TOKEN, null);
-      localStorage.setItem(AUTH_USER_ID, null);
+      removeAuthTokenFromStorage();
       state.authenticated = false;
     });
   },
