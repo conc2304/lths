@@ -502,13 +502,12 @@ export type BodyTextComponentProps = ComponentProps & {
     text_color: string;
     text_size: '12px' | '16px' | '32px';
     linked_text: BodyTextComponentsProps[];
-    action: ActionProps;
   };
 };
 
 export type BodyTextComponentsProps = ComponentProps & {
   link_key: string;
-  link_value: string;
   link_color: string;
   link_id: string;
+  action: ActionProps;
 };
