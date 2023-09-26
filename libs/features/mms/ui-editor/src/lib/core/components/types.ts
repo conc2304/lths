@@ -46,6 +46,14 @@ export type DividerProps = ComponentProps & {
   };
 };
 
+export type CenterHeadlineTextProps = ComponentProps & {
+  data: {
+    title: string;
+    text_size: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
 export type CenterBodyTextBlockProps = ComponentProps & {
   data: {
     title: string;
