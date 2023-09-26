@@ -16,8 +16,6 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
     onPropChange,
   } = props;
 
-  console.log('props', props);
-
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
 
