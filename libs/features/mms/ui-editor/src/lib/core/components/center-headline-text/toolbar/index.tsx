@@ -1,4 +1,5 @@
-import { Button, Divider } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Button, Divider, MenuItem, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Stack } from '@mui/system';
 import { v4 as uuid } from 'uuid';
@@ -6,24 +7,30 @@ import { v4 as uuid } from 'uuid';
 import { useEditorActions } from '../../../../context';
 import { GroupLabel, OutlinedTextField, ToolContainer } from '../../../../elements';
 import { HyperLinkToolbar } from '../../common';
+import { sizes } from '../../headline-text-block/utils';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, CenterHeadlineTextProps } from '../../types';
 
 const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
   const {
     __ui_id__: id,
-    data: { title, linked_text = [] },
+    data: { title, text_size, linked_text = [], ...rest },
     onPropChange,
   } = props;
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
   const { selectComponent } = useEditorActions();
+  const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponentProp('text_size', event.target.value);
+  };
 
   const handleAdd = () => {
     const data = {
       ...props,
       data: {
         title,
-        linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
+        text_size,
+        ...rest,
+        linked_text: [...linked_text, { link_key: 'New Link', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
     selectComponent(data);
@@ -34,6 +41,8 @@ const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
       ...props,
       data: {
         title,
+        text_size,
+        ...rest,
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
@@ -43,8 +52,15 @@ const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
   return (
     <ToolContainer id={id}>
       <Stack spacing={2}>
-        <GroupLabel label={'Headline'} />
+        <GroupLabel label={'Center Headline Text Block'} />
         <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
+        <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+          {sizes.map((s) => (
+            <MenuItem key={`option-${s.value}`} value={s.value}>
+              {s.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <Divider sx={{ marginY: 3 }} />
         {linked_text.map(({ link_key, action, link_id }, index) => {
           const hyperLinkId = `link_${index}`;

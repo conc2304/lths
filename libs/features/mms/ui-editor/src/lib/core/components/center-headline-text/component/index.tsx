@@ -1,14 +1,17 @@
 import { ReactNode, useMemo } from 'react';
-import { Box, Typography, Link } from '@mui/material';
+import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import { BasicContainer } from '../../../../elements';
 import { CenterHeadlineTextProps } from '../../types';
+import { sizes } from '../utils';
 
 const CenterHeadlineText = (props: CenterHeadlineTextProps) => {
   const {
     __ui_id__: id,
-    data: { title, linked_text = [] },
+    data: { title, text_size, linked_text = [] },
   } = props;
+  const fontSize = sizes.find((s) => s.value === text_size)?.fontSize;
 
   const replacedSentence = useMemo(() => {
     let text: string | ReactNode[] = title;
@@ -25,11 +28,11 @@ const CenterHeadlineText = (props: CenterHeadlineTextProps) => {
     return text;
   }, [title, linked_text]);
   return (
-    <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
-      <Typography sx={{ fontSize: '1.5rem', color: '#FFFFFF' }} variant="h3" align="center">
+    <BasicContainer id={id}>
+      <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3" align="center">
         {replacedSentence}
       </Typography>
-    </Box>
+    </BasicContainer>
   );
 };
 
