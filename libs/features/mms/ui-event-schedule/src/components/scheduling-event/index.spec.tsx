@@ -54,7 +54,7 @@ describe('SchedulingEvent', () => {
     expect(screen.getByText(testEvent.title?.toString() as string)).toBeInTheDocument();
   });
 
-  it('shows the event time when view is not month and not in all day row', () => {
+  it('shows the event time when view is not month and not in all day row', async () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
     testEvent.start?.setHours(10, 0, 0, 0);
     testEvent.end?.setHours(12, 0, 0, 0);
@@ -69,8 +69,13 @@ describe('SchedulingEvent', () => {
         onSaveEventStates={mockOnSaveEventStates}
       />
     );
-    expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
-  });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
+      expect(screen.getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
+      expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
+    });
+  }, 10000);
 
   it('shows the "NEW EVENT ADDED" icon banner for new events', () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });

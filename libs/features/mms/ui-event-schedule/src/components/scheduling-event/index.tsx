@@ -143,7 +143,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
             )}
 
             <Box
-              className="CalendarEvent--text-container"
+              data-testid="CalendarEvent--text-container"
               sx={{
                 flex: 1,
                 flexShrink: 1,
@@ -152,8 +152,9 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                 justifyContent: view === 'month' || isInAllDayRow ? 'center' : 'start',
               }}
             >
-              {view !== 'month' && !isInAllDayRow && start && end && (
+              {view !== 'month' && !isInAllDayRow && !!start && !!end && (
                 <Typography
+                  data-testid="CalendarEvent--event-time"
                   sx={{
                     fontWeight: 'bold',
                     fontSize: pxToRem(11),
