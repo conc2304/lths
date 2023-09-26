@@ -1,4 +1,5 @@
-import { Button, Divider } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Button, Divider, MenuItem, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Stack } from '@mui/system';
 import { v4 as uuid } from 'uuid';
@@ -8,20 +9,26 @@ import { GroupLabel, OutlinedTextField, ToolContainer } from '../../../../elemen
 import { HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, CenterBodyTextBlockProps } from '../../types';
+import { sizes } from '../utils';
 
 const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
   const {
     __ui_id__: id,
-    data: { title, linked_text = [] },
+    data: { title, text_size, linked_text = [], ...rest },
     onPropChange,
   } = props;
   const { handleTitleChange, updateComponentProp } = useToolbarChange();
   const { selectComponent } = useEditorActions();
+  const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    updateComponentProp('text_size', event.target.value);
+  };
   const handleAdd = () => {
     const data = {
       ...props,
       data: {
         title,
+        text_size,
+        ...rest,
         linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
@@ -33,6 +40,8 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
       ...props,
       data: {
         title,
+        text_size,
+        ...rest,
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
@@ -44,6 +53,13 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
       <Stack spacing={2}>
         <GroupLabel label={'Text'} />
         <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
+        <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+          {sizes.map((s) => (
+            <MenuItem key={`option-${s.value}`} value={s.value}>
+              {s.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <Divider sx={{ marginY: 3 }} />
         {linked_text.map(({ link_key, action, link_id }, index) => {
           const hyperLinkId = `link_${index}`;
