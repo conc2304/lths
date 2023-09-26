@@ -2,16 +2,16 @@ export const sizes = [
   {
     label: 'Large',
     value: 'large',
-    fontSize: '18px',
+    fontSize: '32px',
   },
   {
     label: 'Medium',
     value: 'medium',
-    fontSize: '16px',
+    fontSize: '28px',
   },
   {
     label: 'Small',
     value: 'small',
-    fontSize: '14px',
+    fontSize: '24px',
   },
 ];
