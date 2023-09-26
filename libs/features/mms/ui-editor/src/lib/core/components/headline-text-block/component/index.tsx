@@ -1,7 +1,8 @@
 import { ReactNode, useMemo } from 'react';
-import { Box, Typography, Link } from '@mui/material';
+import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import { BasicContainer } from '../../../../elements';
 import { HeadlineTextBlockComponentProps } from '../../types';
 import { sizes } from '../utils';
 
@@ -28,11 +29,11 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   }, [title, linked_text]);
 
   return (
-    <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
+    <BasicContainer id={id}>
       <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3">
         {replacedSentence}
       </Typography>
-    </Box>
+    </BasicContainer>
   );
 };
 export default HeadlineTextBlockComponent;

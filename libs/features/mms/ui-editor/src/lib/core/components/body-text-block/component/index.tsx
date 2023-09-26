@@ -1,7 +1,8 @@
 import { ReactNode, useMemo } from 'react';
-import { Box, Typography, Link } from '@mui/material';
+import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import { BasicContainer } from '../../../../elements';
 import { BodyTextComponentProps } from '../../types';
 import { sizes } from '../utils';
 const BodyTextComponent = (props: BodyTextComponentProps) => {
@@ -27,9 +28,9 @@ const BodyTextComponent = (props: BodyTextComponentProps) => {
   }, [title, linked_text]);
 
   return (
-    <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
+    <BasicContainer id={id}>
       <Typography sx={{ fontSize: fontSize, color: 'white' }}>{replacedText}</Typography>
-    </Box>
+    </BasicContainer>
   );
 };
 export default BodyTextComponent;

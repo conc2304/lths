@@ -13,7 +13,7 @@ import { sizes } from '../utils';
 const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, text_size, linked_text = [] },
+    data: { title, text_size, linked_text = [], ...rest },
     onPropChange,
   } = props;
 
@@ -33,6 +33,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       data: {
         title,
         text_size,
+        ...rest,
         linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
@@ -45,6 +46,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       data: {
         title,
         text_size,
+        ...rest,
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
