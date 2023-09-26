@@ -71,5 +71,6 @@ export enum Component {
   Divider = 'cDivider',
   FullHeightImage = 'cFullHeightImage',
   CenterHeadlineTextBlock = 'cCenterHeadlineTextBlock',
+  CenterBodyTextBlock = 'cCenterBodyTextBlock',
   ImageHeader = 'cImageHeader',
 }

@@ -53,6 +53,15 @@ export type CenterHeadlineTextProps = ComponentProps & {
     linked_text: LinkedTextProps[];
   };
 };
+
+export type CenterBodyTextBlockProps = ComponentProps & {
+  data: {
+    title: string;
+    text_size: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
 export type FullHeightCarouselProps = {
   title: string;
   img_alt_text: string;
