@@ -41,6 +41,7 @@ export const CloseButton = ({
       width={size}
       height={size}
       onClick={onClick}
+      className="Close-Button--root"
       data-testid="Close-Button--root"
       sx={{
         p: 0.25,

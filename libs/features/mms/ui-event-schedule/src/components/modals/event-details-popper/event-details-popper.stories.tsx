@@ -5,6 +5,7 @@ import { PopperWithArrow } from '@lths/shared/ui-elements';
 
 import { EventDetailsPopper } from './index';
 import { eventTypesMock, getNewEvent } from '../../../mock-events';
+import { MMSEvent } from '../../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
@@ -14,8 +15,11 @@ const Story: Meta<typeof EventDetailsPopper> = {
 };
 export default Story;
 
-const Template: StoryFn<typeof EventDetailsPopper> = (args) => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+const Template: StoryFn<{ eventA: MMSEvent; eventB: MMSEvent }> = (args) => {
+  const buttonRefA = useRef<HTMLButtonElement>(null);
+  const buttonRefB = useRef<HTMLButtonElement>(null);
+  const popperTargetRef = useRef<HTMLElement>(null);
+  const [popperEvent, setPopperEvent] = useState(args.eventA);
   const [popperOpen, setPopperOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -23,26 +27,48 @@ const Template: StoryFn<typeof EventDetailsPopper> = (args) => {
 
   return (
     <>
-      <Box display="flex" justifyContent={'center'}>
+      <Box display="flex" justifyContent={'space-around'}>
         <Button
-          ref={buttonRef}
+          ref={buttonRefA}
           sx={{ m: 2 }}
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => setPopperOpen(true)}
+          onClick={() => {
+            // @ts-expect-error - dynamically assigning a new anchor target even though it's "read-only"
+            popperTargetRef.current = buttonRefA.current;
+            setPopperEvent(args.eventA);
+            setPopperOpen(true);
+          }}
         >
-          OPEN
+          OPEN EVENT A
+        </Button>
+        <Button
+          ref={buttonRefB}
+          sx={{ m: 2 }}
+          color="primary"
+          variant="contained"
+          size="large"
+          onClick={() => {
+            // @ts-expect-error - dynamically assigning a new anchor target even though it's "read-only"
+            popperTargetRef.current = buttonRefB.current;
+            setPopperEvent(args.eventB);
+            setPopperOpen(true);
+          }}
+        >
+          OPEN EVENT B
         </Button>
       </Box>
       <PopperWithArrow
         open={popperOpen}
-        anchorEl={buttonRef.current}
+        anchorEl={popperTargetRef.current}
         placement={popperPlacement}
-        onClickAway={() => !editModalOpen && setPopperOpen(false)}
+        onClickAway={() => {
+          /** do nothing */
+        }}
       >
         <EventDetailsPopper
-          event={args}
+          event={popperEvent}
           onClose={() => setPopperOpen(false)}
           editModalOpen={editModalOpen}
           onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}
@@ -59,6 +85,7 @@ const Template: StoryFn<typeof EventDetailsPopper> = (args) => {
   );
 };
 
-const event = getNewEvent({});
+const eventA = getNewEvent({});
+const eventB = getNewEvent({});
 export const Default = Template.bind({});
-Default.args = event;
+Default.args = { eventA, eventB };
