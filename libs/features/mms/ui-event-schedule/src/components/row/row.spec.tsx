@@ -37,9 +37,10 @@ describe('Row', () => {
   const mockEventTypes = eventTypesMock;
   const mockOnSaveEvent = jest.fn();
   const mockOnSaveEventStates = jest.fn();
+  const mockOnEventClick = jest.fn();
 
   const renderComponent = () => {
-    const component = RBThemeProvider({
+    component = RBThemeProvider({
       children: (
         <Table>
           <TableBody>
@@ -49,6 +50,7 @@ describe('Row', () => {
               eventTypes={mockEventTypes}
               onSaveEvent={mockOnSaveEvent}
               onSaveEventStates={mockOnSaveEventStates}
+              onEventClick={mockOnEventClick}
             />
           </TableBody>
         </Table>
@@ -61,7 +63,6 @@ describe('Row', () => {
     await act(async () => {
       component = renderComponent();
     });
-
     const { getByText, getByRole, getByTestId } = component;
 
     // Check if the row is rendered
@@ -79,25 +80,26 @@ describe('Row', () => {
     expect(getByTestId('List-View-Row--createdby').textContent).toContain(mockEvent.createdBy);
   });
 
-  it('opens popper when row is clicked, and closes when clicked away', async () => {
+  it('calls onEventClick when the event is clicked', async () => {
     const user = userEvent.setup();
     await act(async () => {
       component = renderComponent();
     });
 
-    expect(screen.queryByRole('tooltip')).toBeNull();
+    expect(mockOnEventClick).not.toHaveBeenCalled();
 
-    // Click on the row
     await act(async () => {
-      await user.click(screen.getByRole('row'));
+      user.click(screen.getByRole('row'));
     });
 
-    // Check if the popper is open
-    expect(screen.getByRole('tooltip')).toBeInTheDocument();
-
-    await act(async () => user.click(document.body)); // Simulating a click away
     await waitFor(() => {
-      expect(screen.queryByRole('tooltip')).toBeNull();
+      expect(mockOnEventClick).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          event: mockEvent,
+          popperPlacement: expect.any(String),
+          anchorEl: expect.any(HTMLElement),
+        })
+      );
     });
-  }, 15000);
+  });
 });

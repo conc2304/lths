@@ -2,7 +2,7 @@ import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, within, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format, getDay, parse, startOfWeek, subHours } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -13,6 +13,7 @@ import { eventTypesMock, getNewEvent } from '../../mock-events';
 
 const mockOnSaveEvent = jest.fn();
 const mockOnSaveEventStates = jest.fn();
+const mockOnEventClick = jest.fn();
 
 describe('SchedulingEvent', () => {
   const renderWithTheme = (component: JSX.Element) => {
@@ -41,20 +42,22 @@ describe('SchedulingEvent', () => {
   it('renders without crashing', () => {
     const testEvent = getNewEvent({});
 
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
         event={testEvent}
         view="day"
         eventTypes={eventTypesMock}
+        onEventClick={mockOnEventClick}
         onSaveEvent={mockOnSaveEvent}
         onSaveEventStates={mockOnSaveEventStates}
       />
     );
+    expect(container.firstChild).toHaveClass('CalendarEvent--root');
     expect(screen.getByText(testEvent.title?.toString() as string)).toBeInTheDocument();
   });
 
-  it('shows the event time when view is not month and not in all day row', () => {
+  it('shows the event time when view is not month and not in all day row', async () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
     testEvent.start?.setHours(10, 0, 0, 0);
     testEvent.end?.setHours(12, 0, 0, 0);
@@ -67,10 +70,16 @@ describe('SchedulingEvent', () => {
         eventTypes={eventTypesMock}
         onSaveEvent={mockOnSaveEvent}
         onSaveEventStates={mockOnSaveEventStates}
+        onEventClick={mockOnEventClick}
       />
     );
-    expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
-  });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
+      expect(screen.getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
+      expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
+    });
+  }, 10000);
 
   it('shows the "NEW EVENT ADDED" icon banner for new events', () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
@@ -85,29 +94,41 @@ describe('SchedulingEvent', () => {
         eventTypes={eventTypesMock}
         onSaveEvent={mockOnSaveEvent}
         onSaveEventStates={mockOnSaveEventStates}
+        onEventClick={mockOnEventClick}
       />
     );
     expect(screen.getByTestId('FiberNewIcon')).toBeInTheDocument();
   });
 
-  it('opens the popper on event click', async () => {
+  it('calls onEventClick when the event is clicked', async () => {
+    const mockEvent = getNewEvent({});
     const user = userEvent.setup();
 
     renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
-        event={getNewEvent({})}
+        event={mockEvent}
         view="day"
         eventTypes={eventTypesMock}
         onSaveEvent={mockOnSaveEvent}
         onSaveEventStates={mockOnSaveEventStates}
+        onEventClick={mockOnEventClick}
       />
     );
+
     const eventBox = screen.getByTestId('CalendarEvent--click-handler');
+    expect(mockOnEventClick).not.toHaveBeenCalled();
+
     await user.click(eventBox);
 
     await waitFor(() => {
-      expect(within(document.body).getByTestId('Popper-with-arrow--root')).toBeInTheDocument();
+      expect(mockOnEventClick).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          event: mockEvent,
+          popperPlacement: expect.any(String),
+          anchorEl: expect.any(HTMLElement),
+        })
+      );
     });
   });
 });

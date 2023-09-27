@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import colors from '../../../../../common/colors';
 import { HalfWidthCarouselProps } from '../../../types';
 
 import './index.css';
@@ -19,7 +20,7 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
         return (
           <SwiperSlide key={index}>
             <Stack direction="column" alignItems="center" spacing={1.5}>
-              <Card key={index} sx={{ maxWidth: 144, bgcolor: '#242526' }}>
+              <Card key={index} sx={{ maxWidth: 144, bgcolor: colors.card.background }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -27,14 +28,16 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
                     image={image}
                     alt={image_alt_text}
                   />
-                  <CardContent sx={{ bgcolor: '#242526', padding: '16px', borderColor: '#242526' }}>
+                  <CardContent
+                    sx={{ bgcolor: colors.card.background, padding: '16px', borderColor: colors.card.background }}
+                  >
                     <Typography
                       gutterBottom
                       variant="h5"
                       sx={{
                         fontSize: '0.875rem',
                         fontWeight: 450,
-                        color: '#ffffff',
+                        color: colors.editor.text,
                       }}
                     >
                       {title}
@@ -42,7 +45,7 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      sx={{ fontSize: '0.875rem', color: '#ABABAC', fontWeight: 400 }}
+                      sx={{ fontSize: '0.875rem', color: colors.editor.subText, fontWeight: 400 }}
                     >
                       {description}
                     </Typography>

@@ -1,5 +1,6 @@
 import { Box, Typography, Button } from '@mui/material';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
 import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 
@@ -9,7 +10,7 @@ const PromotionOneIsToOneAspectRatioComponent = (props: PromotionOneIsToOneAspec
     __ui_id__: id,
   } = props;
   return (
-    <BasicContainer id={id} sx={{ margin: 0 }}>
+    <BasicContainer id={id} sx={{ marginX: 0 }}>
       <Box
         aria-label={img_alt_text}
         sx={{
@@ -35,10 +36,11 @@ const PromotionOneIsToOneAspectRatioComponent = (props: PromotionOneIsToOneAspec
           <Button
             variant="contained"
             sx={{
-              borderRadius: '24px',
-              backgroundColor: 'white',
-              color: 'black',
-              padding: '12px 25px',
+              borderRadius: 6,
+              backgroundColor: colors.button.background,
+              color: colors.button.text,
+              fontSize: '1rem',
+              padding: '0.75rem 1.5rem',
             }}
           >
             <Typography sx={{ fontSize: 16 }}>{btn_text}</Typography>

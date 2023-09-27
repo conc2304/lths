@@ -125,6 +125,9 @@ const SchedulePage = () => {
     // week list = {start, end}
     // month list = {start, end}
     // day list = {start, end}
+
+    if (!events || events.length === 0 || !upperIndexFetchingThreshold || !lowerIndexFetchingThreshold) return;
+
     const upperThresholdDate: Date = new Date(events[upperIndexFetchingThreshold].start);
     const lowerThresholdDate: Date = new Date(events[lowerIndexFetchingThreshold].end);
     let endRange: Date;

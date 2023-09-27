@@ -1,23 +1,30 @@
 import { MouseEventHandler, useRef, useState } from 'react';
-import { PopperPlacementType, Typography } from '@mui/material';
+import { ClickAwayListener, PopperPlacementType, Typography } from '@mui/material';
 import { Box, useTheme } from '@mui/material';
 import { addHours, format, getMinutes, isDate, isSameDay, isWithinInterval } from 'date-fns';
 import { Event, EventProps } from 'react-big-calendar';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
 import { LTHSView } from '@lths/shared/ui-calendar-scheduler';
-import { PopperWithArrow } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { AllDayBanner } from './all-day-banner';
 import { EVENT_STATE } from '../../constants';
 import { EventFormValues, EventState, EventStateID, EventType, MMSEvent } from '../../types';
 import { EventStateUIMap, eventColorMap } from '../../utils';
-import { EventDetailsPopper } from '../modals/event-details-popper';
 
 type EventComponentProps<TEvent extends object = Event> = {
   view: LTHSView;
   eventTypes: EventType[];
+  onEventClick: ({
+    event,
+    anchorEl,
+    popperPlacement,
+  }: {
+    event: MMSEvent;
+    anchorEl: HTMLElement;
+    popperPlacement: PopperPlacementType;
+  }) => void;
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
 } & EventProps<TEvent>;
@@ -25,7 +32,7 @@ type EventComponentProps<TEvent extends object = Event> = {
 type SchedulingEventProps = EventComponentProps<MMSEvent>;
 
 export const SchedulingEvent = (props: SchedulingEventProps) => {
-  const { event, view, eventTypes, onSaveEvent, onSaveEventStates } = props;
+  const { event, view, onEventClick } = props;
 
   const { title, allDay, start, end, eventType, createdOn, eventState, isBackgroundEvent } = event;
 
@@ -37,10 +44,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
   const popperTargetOverflows = useRef(false);
 
   const [containerWidth] = useState(0);
-  const [popperOpen, setPopperOpen] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-  const [popperPlacement, setPopperPlacement] = useState<PopperPlacementType>('auto');
-  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [eventSelected, setEventSelected] = useState(false);
 
   const today = new Date();
   const getFormattedTime = (date: Date) => (getMinutes(date) === 0 ? format(date, 'ha') : format(date, 'h:mma'));
@@ -56,10 +60,19 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
 
   const showNewEventBanner = isNewEvent && (view === 'day' || view === 'week');
 
+  const hanldeClickAway = (event: MouseEvent | TouchEvent) => {
+    const target = event.target as HTMLElement;
+    const clickedInDetailsPopper = !!target.closest('.Popper-with-arrow--root');
+    const closedPopper = target.classList.contains('Close-Button--root');
+    const clickedInModal = !!target.closest('.MuiDialog-root');
+
+    if ((!clickedInModal && !clickedInDetailsPopper) || closedPopper) setEventSelected(false);
+  };
+
   const handleEventClick: MouseEventHandler<HTMLDivElement> = (e) => {
     if (isBackgroundEvent) return;
 
-    setIsSelected(true);
+    setEventSelected(true);
 
     // if our target overflows the parent use the parent
     const targetWidth = popperTargetShortRef.current?.getBoundingClientRect().width || 0;
@@ -77,18 +90,18 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
     const yPos = clientY > clientHeight / 2 ? 'end' : 'start';
     const placement: PopperPlacementType = `${xPos}-${yPos}`;
 
-    setPopperPlacement(placement);
-    setPopperOpen(!popperOpen);
-  };
-
-  const handleModalClose = () => {
-    setIsSelected(false);
-    setPopperOpen(false);
+    onEventClick({
+      event,
+      popperPlacement: placement,
+      anchorEl: popperTargetOverflows.current
+        ? (popperTargetOverflowRef.current as HTMLElement)
+        : (popperTargetShortRef.current as HTMLElement),
+    });
   };
 
   const eventBorder = isBackgroundEvent
     ? `2px solid ${eventColorMap(eventType?.id || '')}`
-    : isSelected
+    : eventSelected
     ? `2px solid ${theme.palette.primary.main}`
     : `1px solid #FFF`;
 
@@ -104,119 +117,100 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
         border: eventBorder,
       }}
     >
-      <Box
-        onClick={handleEventClick}
-        data-testid="CalendarEvent--click-handler"
-        width={'100%'}
-        height={'100%'}
-        sx={{ cursor: isBackgroundEvent ? undefined : 'pointer' }}
-      >
-        {showNewEventBanner && !isInAllDayRow && (
-          <AllDayBanner isInAllDayRow={isInAllDayRow} containerWidth={containerWidth} breakpoint={125} />
-        )}
-
+      <ClickAwayListener onClickAway={hanldeClickAway}>
         <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 1,
-            pl: isInAllDayRow && !isNewEvent ? pxToRem(14) : pxToRem(6),
-            pr: pxToRem(6),
-          }}
+          onClick={handleEventClick}
+          data-testid="CalendarEvent--click-handler"
+          width={'100%'}
+          height={'100%'}
+          sx={{ cursor: isBackgroundEvent ? undefined : 'pointer' }}
         >
+          {showNewEventBanner && !isInAllDayRow && (
+            <AllDayBanner isInAllDayRow={isInAllDayRow} containerWidth={containerWidth} breakpoint={125} />
+          )}
+
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'start',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              width: '100%',
+              py: 1,
+              pl: isInAllDayRow && !isNewEvent ? pxToRem(14) : pxToRem(6),
+              pr: pxToRem(6),
             }}
           >
-            {showNewEventBanner && isInAllDayRow && (
-              <AllDayBanner
-                isInAllDayRow={isInAllDayRow}
-                containerWidth={containerWidth}
-                breakpoint={125}
-                sx={{ mr: 0.5 }}
-              />
-            )}
-
             <Box
-              className="CalendarEvent--text-container"
               sx={{
-                flex: 1,
-                flexShrink: 1,
-                flexDirection: 'column',
-                width: isNewEvent && isInAllDayRow ? '80%' : '100%',
-                justifyContent: view === 'month' || isInAllDayRow ? 'center' : 'start',
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'center',
+                width: '100%',
               }}
             >
-              {view !== 'month' && !isInAllDayRow && start && end && (
-                <Typography
-                  sx={{
-                    fontWeight: 'bold',
-                    fontSize: pxToRem(11),
-                    lineHeight: pxToRem(18),
-                    letterSpacing: '0.15px',
-                    color: '#000',
-                  }}
-                >
-                  {`${getFormattedTime(start)} - ${getFormattedTime(end)} ${TMZ}`}
-
-                  {!!eventState && eventState !== EVENT_STATE.IN_EVENT && (
-                    <>
-                      <br /> {EventStateUIMap(eventState as EventStateID)?.label || eventState}
-                    </>
-                  )}
-                </Typography>
+              {showNewEventBanner && isInAllDayRow && (
+                <AllDayBanner
+                  isInAllDayRow={isInAllDayRow}
+                  containerWidth={containerWidth}
+                  breakpoint={125}
+                  sx={{ mr: 0.5 }}
+                />
               )}
-              <Typography
-                ref={popperTargetOverflowRef}
+
+              <Box
+                data-testid="CalendarEvent--text-container"
                 sx={{
-                  fontWeight: (allDay || isMultiDayEvent) && view !== 'month' ? 'bold' : 'normal',
-                  fontSize: pxToRem(13),
-                  letterSpacing: '0.15px',
-                  lineHeight: pxToRem(18),
-                  color: '#000',
-                  display: 'block',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
+                  flex: 1,
+                  flexShrink: 1,
+                  flexDirection: 'column',
+                  width: isNewEvent && isInAllDayRow ? '80%' : '100%',
+                  justifyContent: view === 'month' || isInAllDayRow ? 'center' : 'start',
                 }}
               >
-                {
-                  <Box component={'span'} sx={{ maxWidth: '100%' }} ref={popperTargetShortRef}>
-                    {title as string}
-                  </Box>
-                }
-              </Typography>
+                {view !== 'month' && !isInAllDayRow && start && end && (
+                  <Typography
+                    data-testid="CalendarEvent--event-time"
+                    sx={{
+                      fontWeight: 'bold',
+                      fontSize: pxToRem(11),
+                      lineHeight: pxToRem(18),
+                      letterSpacing: '0.15px',
+                      color: '#000',
+                    }}
+                  >
+                    {`${getFormattedTime(start)} - ${getFormattedTime(end)} ${TMZ}`}
+
+                    {!!eventState && eventState !== EVENT_STATE.IN_EVENT && (
+                      <>
+                        <br /> {EventStateUIMap(eventState as EventStateID)?.label || eventState}
+                      </>
+                    )}
+                  </Typography>
+                )}
+                <Typography
+                  ref={popperTargetOverflowRef}
+                  sx={{
+                    fontWeight: (allDay || isMultiDayEvent) && view !== 'month' ? 'bold' : 'normal',
+                    fontSize: pxToRem(13),
+                    letterSpacing: '0.15px',
+                    lineHeight: pxToRem(18),
+                    color: '#000',
+                    display: 'block',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {
+                    <Box component={'span'} sx={{ maxWidth: '100%' }} ref={popperTargetShortRef}>
+                      {title as string}
+                    </Box>
+                  }
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-
-      {eventType && (
-        <PopperWithArrow
-          open={popperOpen}
-          anchorEl={popperTargetOverflows.current ? popperTargetOverflowRef.current : popperTargetShortRef.current}
-          placement={popperPlacement}
-          onClickAway={() => !editModalOpen && handleModalClose()}
-        >
-          <EventDetailsPopper
-            event={event}
-            onClose={handleModalClose}
-            editModalOpen={editModalOpen}
-            onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}
-            eventTypes={eventTypes}
-            onSaveEvent={(values, id) => {
-              setPopperOpen(false);
-              onSaveEvent(values, id);
-            }}
-            onSaveEventStates={onSaveEventStates}
-          />
-        </PopperWithArrow>
-      )}
+      </ClickAwayListener>
     </Box>
   );
 };

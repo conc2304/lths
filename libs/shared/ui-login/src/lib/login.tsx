@@ -18,7 +18,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import { LoginRequest } from '@lths/shared/data-access';
+import { LoginRequest, removeAuthTokenFromStorage } from '@lths/shared/data-access';
 import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
 
 import CenterCard from './center-card';
@@ -43,11 +43,14 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   const onSubmit = async (values: LoginRequest) => {
     try {
+      //remove tokens from storage, having auth bearer token in header is causing issues on the backend server
+      removeAuthTokenFromStorage();
+
       const data = await login(values).unwrap();
       const uid = data.user._id;
-      const user2 = await getUser(uid);
-      console.log(data, user2?.data);
-      console.log('routing to next screen');
+
+      await getUser(uid);
+
       navigate('/');
     } catch (e) {
       console.log(e);

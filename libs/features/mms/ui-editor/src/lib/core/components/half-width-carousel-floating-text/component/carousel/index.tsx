@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import colors from '../../../../../common/colors';
 import { HalfWidthCarouselFloatingTextProps } from '../../../types';
 
 import './index.css';
@@ -36,7 +37,9 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
                   alt={img_alt_text}
                 />
               </Card>
-              <Typography sx={{ width: '144px', fontSize: 14, textAlign: 'left', color: 'white' }}>{title}</Typography>
+              <Typography sx={{ width: '144px', fontSize: 14, textAlign: 'left', color: colors.editor.text }}>
+                {title}
+              </Typography>
             </Stack>
           </SwiperSlide>
         );
