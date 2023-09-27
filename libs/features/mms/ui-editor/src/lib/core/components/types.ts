@@ -63,6 +63,7 @@ export type CenterBodyTextBlockProps = ComponentProps & {
 };
 
 export type FullHeightCarouselProps = {
+  name?: string;
   title: string;
   img_alt_text: string;
   image: string;
@@ -145,6 +146,7 @@ export type CardComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselProps = {
+  name?: string;
   title: string;
   image: string;
   description: string;
@@ -476,7 +478,7 @@ export type SiloTextAndButtonComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselFloatingTextProps = {
-  name: string;
+  name?: string;
   image: string;
   img_alt_text: string;
   title: string;
