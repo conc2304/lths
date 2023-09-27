@@ -26,10 +26,10 @@ import {
 } from '@lths/features/mms/ui-editor';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
-import TabPanel from './tab-panel';
-import { ComponentModal } from '../../components/pages/editor';
-import AssetsModal from '../../components/pages/editor/assets/connected-modal';
-import { Constraints, Settings } from '../../components/pages/editor/containers';
+import { ComponentModal } from '../../../components/pages/editor';
+import AssetsModal from '../../../components/pages/editor/assets/connected-modal';
+import { Constraints, Settings } from '../../../components/pages/editor/containers';
+import TabPanel from '../tab-panel';
 
 const StatusChangeModalData = {
   [PageStatus.PUBLISHED]: {
@@ -79,7 +79,7 @@ export function PageEditorTabs() {
 
   // Breadcrumbs title
   const { setPageTitle } = useLayoutActions();
-  
+
   useEffect(() => {
     if (page_data?.name) setPageTitle(page_data.name);
   }, [page_data?.name]);

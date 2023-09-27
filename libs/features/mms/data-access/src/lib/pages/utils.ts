@@ -11,6 +11,6 @@ export const formatConstraintsToReadable = (constraints: PageConstraints) => {
   }
   if (locations.length > 0) text += locations.map((l) => l.name).join(', ') + ', ';
   if (user_segments.length > 0) text += user_segments.map((us) => us.name).join(', ');
-  text = text.replace(/,$/, '').toLowerCase();
+  text = text.replace(/, ?$/, '').toLowerCase();
   return text;
 };
