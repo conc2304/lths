@@ -22,7 +22,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   
   const { selectComponent } = useEditorActions();
-  const { swapComponentProps, initSubComponentPropsUUID } = useToolbarChange();
+  const { swapComponentProps, generateUniqueId } = useToolbarChange();
 
   const handleEditItem = (index: number) => {
     setSelectedIndex(index);
@@ -33,7 +33,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
 
   useEffect(() => {
     handleCloseItem();
-    initSubComponentPropsUUID();
+    generateUniqueId();
   }, [id]);
 
   const handleAdd = () => {
@@ -43,7 +43,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         sub_component_data: [
           ...sub_component_data,
           {
-            id: uuid(),
+            _ui_id_: uuid(),
             title: 'New Card',
             description: 'Lorem ipsum dolor sit amet',
             action: { type: 'native' },

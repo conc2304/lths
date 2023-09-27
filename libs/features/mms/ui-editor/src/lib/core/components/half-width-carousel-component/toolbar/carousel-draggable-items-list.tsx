@@ -23,8 +23,8 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
       <List>
         {data.map((item, index) => 
           <DraggableCarouselListItem
-            key={item.id}
-            id={item.id}
+            key={item._ui_id_}
+            id={item._ui_id_}
             index={index}
             text={item.title}
             onDrag={onDrag}

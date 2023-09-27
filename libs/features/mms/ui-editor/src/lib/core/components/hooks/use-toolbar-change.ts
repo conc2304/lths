@@ -37,21 +37,35 @@ export const useToolbarChange = () => {
     selectComponent(data);
   }
 
-  const initSubComponentPropsUUID = () => {
-    let updatedSubComponentData = [...selectedComponent.data.sub_component_data];
+  const generateUniqueId = (objectKey = 'sub_component_data') => {
+    if (selectedComponent.data[objectKey]) {
+      const object = selectedComponent.data[objectKey];
+      let updatedItem;
 
-    updatedSubComponentData = updatedSubComponentData.map((item) => {
-      if (validate(item.uuid)) return item;
-      const id = uuid();
-      return { ...item, id: id };
-    });
+      if (Array.isArray(object)) {
+        const updatedArray = object.map((item) => ({
+          ...item,
+          _ui_id_: validate(item._ui_id_)? item._ui_id_ : uuid(),
+        }));
+        updatedItem = updatedArray;
+      } else if (typeof object === 'object') {
+        const updatedObject = {
+          ...object,
+          _ui_id_: validate(object._ui_id_)? object._ui_id_: uuid(),
+        };
+        updatedItem = updatedObject;
+      } else {
+        throw new Error(`Invalid type for ${objectKey}`);
+      }
 
-    const data = {
-      ...selectedComponent,
-      data: { ...selectedComponent.data, sub_component_data: updatedSubComponentData },
-    };
-
-    selectComponent(data);
+      console.log("updatedItem: ", updatedItem)
+      selectComponent({ 
+        ...selectedComponent, 
+        data: { ...selectedComponent.data, [objectKey]: updatedItem } 
+      });
+    } else {
+      throw new Error(`Object key ${objectKey} not found in data`);
+    }
   };
 
   //TODO: not generic enough
@@ -161,7 +175,7 @@ export const useToolbarChange = () => {
     index?: number,
     keys?: string[]
   ) => {
-    handlePropChange('image_alt_text', event.target.value, index, keys);
+    handlePropChange('img_alt_text', event.target.value, index, keys);
   };
 
   const handleImageChange = (value: string, index?: number, keys?: string[]) => {
@@ -183,7 +197,7 @@ export const useToolbarChange = () => {
 
   return {
     selectedComponent,
-    initSubComponentPropsUUID,
+    generateUniqueId,
     swapComponentProps,
     updateComponentProp,
     handlePropChange,
