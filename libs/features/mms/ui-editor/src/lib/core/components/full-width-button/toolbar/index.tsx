@@ -19,7 +19,6 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
     <ToolContainer id={id}>
       <Stack spacing={2}>
         <GroupLabel label={'Full Width Button'} />
-        <GroupLabel label={btn_text} />
         <OutlinedTextField
           label={'Label'}
           value={btn_text}

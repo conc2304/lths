@@ -42,7 +42,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
           ...sub_component_data,
           {
             title: 'New Card',
-            description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
+            description: 'Lorem ipsum dolor sit amet',
             action: { type: 'native' },
           },
         ],

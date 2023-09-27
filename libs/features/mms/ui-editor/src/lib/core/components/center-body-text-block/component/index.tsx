@@ -2,6 +2,7 @@ import { ReactNode, useMemo } from 'react';
 import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
 import { CenterBodyTextBlockProps } from '../../types';
 import { sizes } from '../utils';
@@ -11,6 +12,7 @@ const CenterBodyTextBlock = (props: CenterBodyTextBlockProps) => {
     __ui_id__: id,
     data: { title, text_size, linked_text = [] },
   } = props;
+  const { text: textColor } = colors.editor;
   const fontSize = sizes.find((s) => s.value === text_size)?.fontSize;
 
   const replacedSentence = useMemo(() => {
@@ -19,7 +21,7 @@ const CenterBodyTextBlock = (props: CenterBodyTextBlockProps) => {
       const regex = new RegExp(`(${link_key})`, 'g');
       text = reactStringReplace(text, regex, () => {
         return (
-          <Link key={`link_${link_id}`} href={'#'} color="#FFFFFF">
+          <Link key={`link_${link_id}`} href={'#'} color={textColor}>
             {link_key}
           </Link>
         );
@@ -30,7 +32,13 @@ const CenterBodyTextBlock = (props: CenterBodyTextBlockProps) => {
   return (
     <BasicContainer id={id}>
       <Typography
-        sx={{ fontSize: fontSize, color: '#FFFFFF', fontWeight: '400', lineHeight: '24px', textAlign: 'center' }}
+        sx={{
+          fontSize: fontSize,
+          color: textColor,
+          fontWeight: '400',
+          lineHeight: '24px',
+          textAlign: 'center',
+        }}
       >
         {replacedSentence}
       </Typography>

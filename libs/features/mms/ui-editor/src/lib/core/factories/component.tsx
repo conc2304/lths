@@ -221,6 +221,7 @@ export const componentFactory = (props: ComponentProps) => {
           img_alt="Hero GameBox"
           id={props.__ui_id__}
           image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroGameBox.svg'}
+          sx={{ margin: 0 }}
         />
       );
     case Component.HalfHeightMatchup:

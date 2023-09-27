@@ -2,6 +2,7 @@ import { ReactNode, useMemo } from 'react';
 import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
 import { HeadlineTextBlockComponentProps } from '../../types';
 import { sizes } from '../utils';
@@ -19,7 +20,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
       const regex = new RegExp(`(${link_key})`, 'g');
       text = reactStringReplace(text, regex, () => {
         return (
-          <Link key={`link_${link_id}`} href={'#'} color="#FFFFFF">
+          <Link key={`link_${link_id}`} href={'#'} color={colors.editor.text}>
             {link_key}
           </Link>
         );
@@ -30,7 +31,7 @@ const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
 
   return (
     <BasicContainer id={id}>
-      <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3">
+      <Typography sx={{ fontSize: fontSize, color: colors.editor.text }} variant="h3">
         {replacedSentence}
       </Typography>
     </BasicContainer>

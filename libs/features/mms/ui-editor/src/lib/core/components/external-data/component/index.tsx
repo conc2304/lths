@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, SxProps } from '@mui/material';
 
 import { BasicContainer } from '../../../../elements';
 
-const ExternalDataComponent = (props: {id: string, img_alt: string, image: string}) => {
-  const {
-    id, image, img_alt
-  } = props;
+const ExternalDataComponent = (props: { id: string; img_alt: string; image: string; sx?: SxProps }) => {
+  const { id, image, img_alt, sx = {} } = props;
 
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
 
@@ -23,9 +21,9 @@ const ExternalDataComponent = (props: {id: string, img_alt: string, image: strin
   const paddingPercentage = aspectRatio ? aspectRatio * 100 : 56.25;
 
   return (
-    <BasicContainer id={id} sx={{margin: 0}}>
+    <BasicContainer id={id} sx={sx}>
       <Box
-        aria-label={img_alt + " Component Image"}
+        aria-label={img_alt + ' Component Image'}
         sx={{
           width: '100%',
           position: 'relative',
@@ -35,8 +33,7 @@ const ExternalDataComponent = (props: {id: string, img_alt: string, image: strin
           backgroundPosition: 'center',
           backgroundImage: `url(${image})`,
         }}
-      >
-      </Box>
+      ></Box>
     </BasicContainer>
   );
 };

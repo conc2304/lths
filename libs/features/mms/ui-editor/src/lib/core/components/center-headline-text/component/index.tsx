@@ -2,6 +2,7 @@ import { ReactNode, useMemo } from 'react';
 import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
 import { CenterHeadlineTextProps } from '../../types';
 import { sizes } from '../utils';
@@ -11,6 +12,7 @@ const CenterHeadlineText = (props: CenterHeadlineTextProps) => {
     __ui_id__: id,
     data: { title, text_size, linked_text = [] },
   } = props;
+  const { text: textColor } = colors.editor;
   const fontSize = sizes.find((s) => s.value === text_size)?.fontSize;
 
   const replacedSentence = useMemo(() => {
@@ -19,7 +21,7 @@ const CenterHeadlineText = (props: CenterHeadlineTextProps) => {
       const regex = new RegExp(`(${link_key})`, 'g');
       text = reactStringReplace(text, regex, () => {
         return (
-          <Link key={`link_${link_id}`} href={'#'} color="#FFFFFF">
+          <Link key={`link_${link_id}`} href={'#'} color={textColor}>
             {link_key}
           </Link>
         );
@@ -29,7 +31,7 @@ const CenterHeadlineText = (props: CenterHeadlineTextProps) => {
   }, [title, linked_text]);
   return (
     <BasicContainer id={id}>
-      <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3" align="center">
+      <Typography sx={{ fontSize: fontSize, color: textColor }} variant="h3" align="center">
         {replacedSentence}
       </Typography>
     </BasicContainer>
