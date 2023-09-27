@@ -16,20 +16,26 @@ const headers = [
     sortable: true,
   },
   {
+    id: 'status',
+    label: 'STATUS',
+    sortable: true,
+  },
+  {
+    id: 'updated_on',
+    label: 'LAST ACTION',
+    sortable: true,
+  },
+  {
     id: 'type',
     label: 'TYPE',
     sortable: true,
   },
   {
-    id: 'lastEditor',
-    label: 'LAST EDITOR',
-    sortable: true,
+    id: 'constraints',
+    label: 'CONSTRAINTS',
+    sortable: false,
   },
-  {
-    id: 'status',
-    label: 'STATUS',
-    sortable: true,
-  },
+
   {
     id: 'actions',
     label: '',
@@ -131,8 +137,7 @@ const Page = (): JSX.Element => {
   };
 
   const tableRows = data?.data?.map((row) => {
-    const { _id, page_id, name, type, updated_by, created_by, status } = row;
-    const last_editor = updated_by || created_by;
+    const { _id, page_id, name, type, status, updated_on, constraints_formatted } = row;
     return (
       <TableRow key={`row_${_id}`}>
         <TableCell>
@@ -143,17 +148,14 @@ const Page = (): JSX.Element => {
             <Typography variant="subtitle1">{page_id}</Typography>
           </Stack>
         </TableCell>
-        <TableCell>{type}</TableCell>
-        <TableCell>
-          <Typography variant="body1" color="#0091FF">
-            {last_editor}
-          </Typography>
-        </TableCell>
         <TableCell>
           <Stack direction="row" spacing={2} alignItems="center">
             <PagesStatus status={status} />
           </Stack>
         </TableCell>
+        <TableCell>{updated_on}</TableCell>
+        <TableCell>{type}</TableCell>
+        <TableCell>{constraints_formatted}</TableCell>
         <TableCell>
           <ActionMenu options={menuOptions(row)} />
         </TableCell>
