@@ -154,4 +154,28 @@ describe('EventScheduler', () => {
     expect(getByText(matchTitle)).toBeInTheDocument();
     expect(queryByText(notMatchTitle)).toBeNull();
   });
+
+  it('opens Event Detail Popper when calendar event is clicked, and closes when clicked away', async () => {
+    const { getAllByTestId } = renderWithTheme(
+      <EventScheduler
+        events={eventsMock}
+        backgroundEvents={eventStateMockEvents}
+        eventTypes={eventTypesMock}
+        onSaveEvent={onSaveEvent}
+        onSaveEventStates={onSaveEventStates}
+        onNavigate={onNavigate}
+        onRangeChange={onRangeChange}
+      />
+    );
+    const eventBox = getAllByTestId('CalendarEvent--click-handler')[0];
+
+    expect(within(document.body).queryByTestId('Popper-with-arrow--root')).not.toBeInTheDocument();
+    await userEvent.click(eventBox);
+
+    expect(within(document.body).getByTestId('Popper-with-arrow--root')).toBeInTheDocument();
+
+    await userEvent.click(document.body); // Simulating a click away
+    expect(within(document.body).queryByRole('tooltip')).toBeNull();
+    expect(within(document.body).queryByTestId('Popper-with-arrow--root')).not.toBeInTheDocument();
+  });
 });

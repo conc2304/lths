@@ -8,3 +8,5 @@ export * from './lib/users/auth-slice';
 
 export * from './lib/users/user-api';
 export * from './lib/users/user-slice';
+
+export { removeAuthTokenFromStorage } from './lib/users/utils';

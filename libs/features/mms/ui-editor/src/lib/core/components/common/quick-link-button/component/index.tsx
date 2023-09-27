@@ -5,7 +5,7 @@ const QuickLinkButtonComponent = ({ title = 'link', icon }: { title: string; ico
     <Box
       sx={{
         width: '162px',
-        height: '84px',
+        height: icon ? '84px' : '52px',
         padding: 2,
         background: '#303031',
         color: '#D8BA90',
@@ -15,9 +15,7 @@ const QuickLinkButtonComponent = ({ title = 'link', icon }: { title: string; ico
       }}
     >
       <Stack direction="column" alignItems="center" spacing={1}>
-        <div>
-          <img src={icon} alt={''} style={{ width: 24, height: 24 }} />
-        </div>
+        {icon && <img src={icon} alt={'Icon'} style={{ width: 24, height: 24 }} />}
         <Typography sx={{ letterSpacing: '0.16px', fontSize: 14, color: '#D8BA90', textTransform: 'uppercase' }}>
           {title !== 'link' && title}
         </Typography>

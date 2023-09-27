@@ -48,6 +48,8 @@ import {
   TextwithIcon,
   DividerComponent,
   FullHeightImageComponent,
+  CenterHeadlineText,
+  CenterBodyTextBlock,
   ImageHeaderComponent,
 } from '../components';
 import {
@@ -98,6 +100,8 @@ import {
   TextWithIconProps,
   DividerProps,
   FullHeightImageComponentProps,
+  CenterHeadlineTextProps,
+  CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
 } from '../components/types';
 
@@ -243,6 +247,10 @@ export const componentFactory = (props: ComponentProps) => {
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
+    case Component.CenterHeadlineTextBlock:
+      return <CenterHeadlineText {...(props as CenterHeadlineTextProps)} />;
+    case Component.CenterBodyTextBlock:
+      return <CenterBodyTextBlock {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
     default:

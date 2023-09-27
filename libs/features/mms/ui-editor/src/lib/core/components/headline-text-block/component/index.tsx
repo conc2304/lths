@@ -1,36 +1,39 @@
-import React from 'react';
-import { Box, Typography, Link } from '@mui/material';
+import { ReactNode, useMemo } from 'react';
+import { Typography, Link } from '@mui/material';
 import reactStringReplace from 'react-string-replace';
 
+import { BasicContainer } from '../../../../elements';
 import { HeadlineTextBlockComponentProps } from '../../types';
-import { size } from '../utils';
-//TODO: use react memo or state for generating link  texts
+import { sizes } from '../utils';
+
 const HeadlineTextBlockComponent = (props: HeadlineTextBlockComponentProps) => {
   const {
     __ui_id__: id,
-    data: { title, text_size, linked_text },
+    data: { title, text_size, linked_text = [] },
   } = props;
-  const fontSize = size.find((s) => s.value === text_size)?.fontSize;
-  let replacedsentence: string | React.ReactNode[] = title;
+  const fontSize = sizes.find((s) => s.value === text_size)?.fontSize;
 
-  for (let i = 0; i < linked_text.length; i++) {
-    const word = linked_text[i];
-    const regex = new RegExp(`(${word.link_key})`, 'gi');
-    replacedsentence = reactStringReplace(replacedsentence, regex, () => {
-      return (
-        <Link key={`link_${0}`} href={word.link_value} color="#FFFFFF">
-          {word.link_key}
-        </Link>
-      );
+  const replacedSentence = useMemo(() => {
+    let text: string | ReactNode[] = title;
+    linked_text?.forEach(({ link_key, link_id }) => {
+      const regex = new RegExp(`(${link_key})`, 'g');
+      text = reactStringReplace(text, regex, () => {
+        return (
+          <Link key={`link_${link_id}`} href={'#'} color="#FFFFFF">
+            {link_key}
+          </Link>
+        );
+      });
     });
-  }
+    return text;
+  }, [title, linked_text]);
 
   return (
-    <Box id={id} sx={{ backgroundColor: 'black', p: 2 }}>
+    <BasicContainer id={id}>
       <Typography sx={{ fontSize: fontSize, color: '#FFFFFF' }} variant="h3">
-        {replacedsentence}
+        {replacedSentence}
       </Typography>
-    </Box>
+    </BasicContainer>
   );
 };
 export default HeadlineTextBlockComponent;
