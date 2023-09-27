@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import QuicklinkButtonGroupToolbar from './index';
 import { EditorProvider } from '../../../../context';
-import mockComponent from '../../../../context/mockdata';
+import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
