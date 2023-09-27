@@ -35,19 +35,19 @@ Primary.args = {
   data: {
     sub_component_data: [
       {
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-1.png',
+        image: 'https://Image-1.png',
         action: { type: '', page_id: 'pageId1', page_link: 'pageLink1' },
       },
       {
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-2.png',
+        image: 'https://Image-2.png',
         action: { type: '', page_id: 'pageId2', page_link: 'pageLink2' },
       },
       {
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-3.png',
+        image: 'https://Image-3.png',
         action: { type: '', page_id: 'pageId3', page_link: 'pageLink3' },
       },
       {
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-4.png',
+        image: 'https://Image-4.png',
         action: { type: '', page_id: 'pageId4', page_link: 'pageLink4' },
       },
     ],

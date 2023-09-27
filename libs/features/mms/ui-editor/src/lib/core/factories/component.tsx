@@ -48,6 +48,7 @@ import {
   DividerComponent,
   FullHeightImageComponent,
   ImageHeaderComponent,
+  CardViewCarouselComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -97,6 +98,7 @@ import {
   DividerProps,
   FullHeightImageComponentProps,
   ImageHeaderComponentProps,
+  CardViewCarouselComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -241,6 +243,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
+    case Component.CardViewCarousel:
+      return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

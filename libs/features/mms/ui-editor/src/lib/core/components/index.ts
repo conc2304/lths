@@ -137,4 +137,7 @@ export { default as FullHeightImageToolbar } from './full-height-image/toolbar';
 export { default as ImageHeaderComponent } from './image-header/component';
 export { default as ImageHeaderToolbar } from './image-header/toolbar';
 
+export { default as CardViewCarouselComponent } from './card-view-carousel/component';
+export { default as CardViewCarouselToolbar } from './card-view-carousel/toolbar';
+
 export * from './types';
