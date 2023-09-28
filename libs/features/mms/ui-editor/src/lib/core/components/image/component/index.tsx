@@ -9,7 +9,7 @@ const ImageComponent = (props: ImageComponentProps) => {
     __ui_id__: id,
   } = props;
   return (
-    <BasicContainer id={id} sx={{ margin: 0 }}>
+    <BasicContainer id={id} sx={{ marginX: 0 }}>
       <Box
         sx={{
           width: '100%',

@@ -14,13 +14,20 @@ describe('PopperWithArrow component', () => {
 
   it('renders with arrow', () => {
     const { getByText, getByTestId } = render(
-      <div>
-        <PopperWithArrow open={true} anchorEl={null} onClickAway={onClickAway} arrow={true}>
+      <div className="outer">
+        <div className="target"></div>
+        <PopperWithArrow
+          open={true}
+          anchorEl={document.querySelector('.target')}
+          onClickAway={onClickAway}
+          arrow={true}
+        >
           <div>Popper content</div>
         </PopperWithArrow>
       </div>
     );
 
+    expect(document.querySelector('.Popper-with-arrow--root')).toBeInTheDocument();
     expect(getByText('Popper content')).toBeInTheDocument();
     expect(getByTestId('Popper--arrow')).toBeInTheDocument();
   });
@@ -28,9 +35,17 @@ describe('PopperWithArrow component', () => {
   it('renders without arrow', async () => {
     const { getByText, queryByTestId } = render(
       <div>
-        <PopperWithArrow open={true} anchorEl={undefined} onClickAway={onClickAway} arrow={false}>
-          <div>Popper content</div>
-        </PopperWithArrow>
+        <div className="target"></div>
+        <div>
+          <PopperWithArrow
+            open={true}
+            anchorEl={document.querySelector('.target')}
+            onClickAway={onClickAway}
+            arrow={false}
+          >
+            <div>Popper content</div>
+          </PopperWithArrow>
+        </div>
       </div>
     );
 
@@ -39,14 +54,22 @@ describe('PopperWithArrow component', () => {
   });
 
   it('calls onClickAway when clicking outside the popper', async () => {
+    const user = userEvent.setup();
+
     const { getByTestId } = render(
       <div data-testid="outside">
-        <PopperWithArrow open={true} anchorEl={null} onClickAway={onClickAway} arrow={true}>
+        <div className="target"></div>
+        <PopperWithArrow
+          open={true}
+          anchorEl={document.querySelector('.target')}
+          onClickAway={onClickAway}
+          arrow={true}
+        >
           <div>Popper content</div>
         </PopperWithArrow>
       </div>
     );
-    await userEvent.click(getByTestId('outside'));
+    await user.click(getByTestId('outside'));
 
     expect(onClickAway).toHaveBeenCalledTimes(1);
   });

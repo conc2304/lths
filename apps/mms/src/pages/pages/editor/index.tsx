@@ -24,11 +24,12 @@ import {
   AutocompleteOptionProps,
   PageAction,
 } from '@lths/features/mms/ui-editor';
+import { useLayoutActions } from '@lths/shared/ui-layouts';
 
-import TabPanel from './tab-panel';
-import { ComponentModal } from '../../components/pages/editor';
-import AssetsModal from '../../components/pages/editor/assets/connected-modal';
-import { Constraints, Settings } from '../../components/pages/editor/containers';
+import { ComponentModal } from '../../../components/pages/editor';
+import AssetsModal from '../../../components/pages/editor/assets/connected-modal';
+import { Constraints, Settings } from '../../../components/pages/editor/containers';
+import TabPanel from '../tab-panel';
 
 const StatusChangeModalData = {
   [PageStatus.PUBLISHED]: {
@@ -75,6 +76,13 @@ export function PageEditorTabs() {
 
   //fetch params
   const page_data = data as PageDetail;
+
+  // Breadcrumbs title
+  const { setPageTitle } = useLayoutActions();
+
+  useEffect(() => {
+    if (page_data?.name) setPageTitle(page_data.name);
+  }, [page_data?.name]);
 
   //fetch
   const fetchPageDetail = async (pageId: string) => {
@@ -132,6 +140,7 @@ export function PageEditorTabs() {
     if (response && response.success && response.data) return callback(response.data.enum_values);
     else return callback([]);
   };
+
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
     const response = await getEnumList('Icons').unwrap();
     if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));

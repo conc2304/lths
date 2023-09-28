@@ -40,6 +40,7 @@ describe('EventScheduler', () => {
   });
 
   it('renders EventScheduler component in List View', async () => {
+    const user = userEvent.setup();
     const { getByTestId, queryByTestId } = renderWithTheme(
       <EventScheduler
         events={eventsMock}
@@ -57,13 +58,15 @@ describe('EventScheduler', () => {
     // Click on the view mode button
     const listViewButton = getByTestId('Calendar-View-Control--view-type-list');
     expect(listViewButton).toBeInTheDocument();
-    await userEvent.click(listViewButton);
+    await user.click(listViewButton);
 
     // Verify we have our list view items
     expect(getByTestId('Calendar-List-View--root')).toBeInTheDocument();
   });
 
   it('toggles the view mode', async () => {
+    const user = userEvent.setup();
+
     const { getByTestId } = renderWithTheme(
       <EventScheduler
         events={eventsMock}
@@ -80,7 +83,7 @@ describe('EventScheduler', () => {
     expect(viewTypeToggle).toHaveAttribute('aria-pressed', 'false');
 
     // Simulate user interactions with the view type toggle
-    await userEvent.click(viewTypeToggle);
+    await user.click(viewTypeToggle);
 
     // Verify that the view mode has been changed
     await waitFor(() => {
@@ -89,6 +92,8 @@ describe('EventScheduler', () => {
   });
 
   it('navigates to a different date range', async () => {
+    const user = userEvent.setup();
+
     const { getByTestId } = renderWithTheme(
       <EventScheduler
         events={eventsMock}
@@ -103,7 +108,7 @@ describe('EventScheduler', () => {
     const nextButton = getByTestId('Calendar-View-Control--navigation--next');
 
     // Simulate user interactions with the navigation buttons
-    await userEvent.click(nextButton);
+    await user.click(nextButton);
 
     // Verify that the onNavigate handler has been called
     await waitFor(() => {
@@ -114,6 +119,8 @@ describe('EventScheduler', () => {
 
   it('filters events based on selected event types', async () => {
     // Arrange
+    const user = userEvent.setup();
+
     const gameEvent = getNewEvent({ eventTypeID: EVENT_TYPE.GAME, isToday: true, isAllDay: false });
     const concertEvent = getNewEvent({ eventTypeID: EVENT_TYPE.CONCERT, isToday: true, isAllDay: false });
     const testEvents = [gameEvent, concertEvent];
@@ -138,13 +145,37 @@ describe('EventScheduler', () => {
 
     // Click on the select filter and filter option
     const selectFilter = within(getByTestId('Calendar-toolbar--filter-select')).getByRole('button');
-    await userEvent.click(selectFilter);
+    await user.click(selectFilter);
     const eventTypeItem = within(getByRole('presentation')).getByText('Hockey Game');
     expect(eventTypeItem).toBeInTheDocument();
-    await userEvent.click(eventTypeItem);
+    await user.click(eventTypeItem);
 
     // Verify that the events are filtered based on the selected event type.
     expect(getByText(matchTitle)).toBeInTheDocument();
     expect(queryByText(notMatchTitle)).toBeNull();
+  });
+
+  it('opens Event Detail Popper when calendar event is clicked, and closes when clicked away', async () => {
+    const { getAllByTestId } = renderWithTheme(
+      <EventScheduler
+        events={eventsMock}
+        backgroundEvents={eventStateMockEvents}
+        eventTypes={eventTypesMock}
+        onSaveEvent={onSaveEvent}
+        onSaveEventStates={onSaveEventStates}
+        onNavigate={onNavigate}
+        onRangeChange={onRangeChange}
+      />
+    );
+    const eventBox = getAllByTestId('CalendarEvent--click-handler')[0];
+
+    expect(within(document.body).queryByTestId('Popper-with-arrow--root')).not.toBeInTheDocument();
+    await userEvent.click(eventBox);
+
+    expect(within(document.body).getByTestId('Popper-with-arrow--root')).toBeInTheDocument();
+
+    await userEvent.click(document.body); // Simulating a click away
+    expect(within(document.body).queryByRole('tooltip')).toBeNull();
+    expect(within(document.body).queryByTestId('Popper-with-arrow--root')).not.toBeInTheDocument();
   });
 });

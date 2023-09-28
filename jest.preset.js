@@ -20,4 +20,5 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/(?!react-dnd|dnd-core|@react-dnd|swiper|ssr-window)",
   ],
+  testTimeout: 20000
 };

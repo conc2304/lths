@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import QuicklinkButtonGroupToolbar from './index';
 import { EditorProvider } from '../../../../context';
-import mockComponent from '../../../../context/mockdata';
+import mockComponentProps from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
@@ -15,7 +15,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
 
   beforeEach(() => {
     component = {
-      ...mockComponent,
+      ...mockComponentProps,
       __ui_id__: '3333333',
       component_id: Component.QuicklinkButtonGroup,
       data: {
@@ -92,13 +92,13 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const toolbarlabel = screen.getByText('Quick Link');
     expect(toolbarlabel).toBeInTheDocument();
 
-    const imageSectionLabel = screen.getByText('First');
+    const imageSectionLabel = screen.getByText('BUTTON 1');
     expect(imageSectionLabel).toBeInTheDocument();
 
-    const textSectionLabel = screen.getByText('Second');
+    const textSectionLabel = screen.getByText('BUTTON 2');
     expect(textSectionLabel).toBeInTheDocument();
 
-    const actionSectionLabels = screen.getAllByText('Action');
+    const actionSectionLabels = screen.getAllByText('Link');
     expect(actionSectionLabels.length).toBe(2);
   });
 
@@ -121,7 +121,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     expect(container.innerHTML).toContain(sub_component_data[1].icon);
   });
 
-  test('should render QuicklinkButtonGroup toolbar with correct Labels', () => {
+  test('should render QuicklinkButtonGroup toolbar with correct Labels', async () => {
     render(
       <EditorProvider initialValue={initialState}>
         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
@@ -130,27 +130,27 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('First Label');
+    const firstLabelInput = await screen.findByTestId('first_button_label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('First Icon');
+    const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Second Label');
+    const secondLabelInput = await screen.findByTestId('second_button_label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Second Icon');
+    const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
 
-  test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', () => {
+  test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', async () => {
     component.data.sub_component_data[0].title = 'Cool title 1';
     component.data.sub_component_data[1].title = 'Cool title 2';
     component.data.sub_component_data[0].icon = 'Cool icon 1';
@@ -164,22 +164,22 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     const { sub_component_data } = component.data;
 
     // Test First Label TextArea
-    const firstLabelInput = screen.getByLabelText('First Label');
+    const firstLabelInput = await screen.findByTestId('first_button_label');
     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
 
     // Test First Icon Input
-    const firstIconInput = screen.getByLabelText('First Icon');
+    const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
 
     // Test Second Label TextArea
-    const secondLabelInput = screen.getByLabelText('Second Label');
+    const secondLabelInput = await screen.findByTestId('second_button_label');
     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
 
     // Test Second Icon Input
-    const secondIconInput = screen.getByLabelText('Second Icon');
+    const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
   });
@@ -197,13 +197,13 @@ describe('QuicklinkButtonGroup Toolbar', () => {
       const { sub_component_data } = component.data;
 
       // ASSERT
-      const firstLinkTextArea = screen.getByLabelText('Link ' + 1).querySelector('textarea');
+      const firstLinkTextArea = screen.getByLabelText('Link ').querySelector('textarea');
       expect(firstLinkTextArea.value).toContain(sub_component_data[0].action.page_link);
-      expect(screen.queryByLabelText('Page ID ' + 1)).toBeNull();
+      expect(screen.queryByLabelText('Page ID')).toBeNull();
 
-      const secondPageIDTextArea = screen.getByLabelText('Page ID ' + 2).querySelector('textarea');
+      const secondPageIDTextArea = screen.getByLabelText('Page ID').querySelector('textarea');
       expect(secondPageIDTextArea.value).toContain(sub_component_data[1].action.page_id);
-      expect(screen.queryByLabelText('Link ' + 2)).toBeNull();
+      expect(screen.queryByLabelText('Link')).toBeNull();
     });
   });
 });

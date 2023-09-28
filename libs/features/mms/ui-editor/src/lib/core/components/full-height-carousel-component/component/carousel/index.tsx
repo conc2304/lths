@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import colors from '../../../../../common/colors';
 import { FullHeightCarouselProps } from '../../../types';
 
 import './index.css';
@@ -27,7 +28,7 @@ const FullHeightCarousel = ({ items }: CarouselProps) => {
                     image={image}
                     alt={img_alt_text}
                   />
-                  <CardContent sx={{ bgcolor: '#242526', width: '300px', padding: '16px' }}>
+                  <CardContent sx={{ bgcolor: colors.card.background, width: '300px', padding: '16px' }}>
                     <Typography
                       gutterBottom
                       variant="h5"
@@ -36,7 +37,7 @@ const FullHeightCarousel = ({ items }: CarouselProps) => {
                         paddingBottom: 0.5,
                         fontSize: '1rem',
                         fontWeight: 450,
-                        color: '#ffffff',
+                        color: colors.editor.text,
                         wordWrap: 'break-word',
                       }}
                     >
@@ -45,7 +46,12 @@ const FullHeightCarousel = ({ items }: CarouselProps) => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      sx={{ fontSize: '0.875rem', color: '#ABABAC', fontWeight: 400, wordWrap: 'break-word' }}
+                      sx={{
+                        fontSize: '0.875rem',
+                        color: colors.editor.subText,
+                        fontWeight: 400,
+                        wordWrap: 'break-word',
+                      }}
                     >
                       {description}
                     </Typography>

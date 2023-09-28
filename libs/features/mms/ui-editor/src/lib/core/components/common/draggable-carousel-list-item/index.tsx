@@ -1,11 +1,13 @@
 import { useRef, useEffect, useState } from 'react';
-import { Box, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, IconButton } from '@mui/material';
+import { Box, ListItem, ListItemAvatar, ListItemSecondaryAction, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { DraggableCarouselListItemProps, DragItemProps, ItemTypes } from './types';
+import { EditableListItemText } from '../../../../elements';
+import { useToolbarChange } from '../../hooks';
 
 import type { Identifier, XYCoord } from 'dnd-core';
 //TODO: remove this - This appears to be duplicate of the navigator list item.
@@ -19,6 +21,8 @@ const DraggableCarouselListItem = ({
   onEditItem,
 }: DraggableCarouselListItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const { handleNameValueChange } = useToolbarChange();
+  const parentKeys = ['sub_component_data'];
 
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
@@ -104,7 +108,7 @@ const DraggableCarouselListItem = ({
         <ListItemAvatar sx={{ minWidth: 0 }}>
           <DragHandleIcon sx={{ paddingTop: '4px' }} />
         </ListItemAvatar>
-        <ListItemText sx={{ fontSize: 14 }} color="textSecondary" primary={text || 'carousel item'} />
+        <EditableListItemText text={text || 'Carousel Item'} sx={{ margin: 0 }} textStyle={{ fontSize: 14, lineHeight: 1.43 }} onSave={(value)=> (handleNameValueChange(value, index, parentKeys))} />
         <ListItemSecondaryAction sx={{ right: 0 }}>
           <IconButton onClick={() => onDelete(index)} size="small" aria-label="delete" data-testid={'delete_' + index}>
             <DeleteIcon sx={{ width: '20px', height: '20px' }} />

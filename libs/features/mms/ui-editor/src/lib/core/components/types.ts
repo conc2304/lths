@@ -14,6 +14,11 @@ export type AutocompleteItemProps = {
   type: string;
 };
 
+export enum ActionType {
+  NATIVE = 'native',
+  WEBVIEW = 'web',
+}
+
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
@@ -28,13 +33,37 @@ export type SpacerProps = ComponentProps & {
   };
 };
 
+export type TextWithIconProps = ComponentProps & {
+  data: {
+    icon: string;
+    title: string;
+  };
+};
+
 export type DividerProps = ComponentProps & {
   data: {
     color: string;
   };
 };
 
+export type CenterHeadlineTextProps = ComponentProps & {
+  data: {
+    title: string;
+    text_size: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
+export type CenterBodyTextBlockProps = ComponentProps & {
+  data: {
+    title: string;
+    text_size: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
 export type FullHeightCarouselProps = {
+  name?: string;
   title: string;
   img_alt_text: string;
   image: string;
@@ -117,6 +146,7 @@ export type CardComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselProps = {
+  name?: string;
   title: string;
   image: string;
   description: string;
@@ -157,20 +187,19 @@ export type HeaderComponentProps = ComponentProps & {
 };
 export type LinkedTextProps = {
   link_key: string;
-  link_value: string;
   link_color: string;
   link_id: string;
+  action: ActionProps;
 };
 export type HeadlineTextBlockComponentProps = ComponentProps & {
   data: {
-    card_background_color: string;
     title: string;
+    card_background_color: string;
     text_size: string;
     text_size_unit: string;
     text_color: string;
     text_font_family: string;
     linked_text: LinkedTextProps[];
-    action: ActionProps;
   };
 };
 
@@ -395,6 +424,15 @@ export type PromotionOneIsToOneAspectRatioComponentProps = ComponentProps & {
     btn_text: string;
   };
 };
+
+export type ImageHeaderComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    sub_title: string;
+    image: string;
+  };
+};
+
 export type QuicklinkButton = {
   title: string;
   icon: string;
@@ -454,7 +492,7 @@ export type SiloTextAndButtonComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselFloatingTextProps = {
-  name: string;
+  name?: string;
   image: string;
   img_alt_text: string;
   title: string;
@@ -490,13 +528,12 @@ export type BodyTextComponentProps = ComponentProps & {
     text_color: string;
     text_size: '12px' | '16px' | '32px';
     linked_text: BodyTextComponentsProps[];
-    action: ActionProps;
   };
 };
 
 export type BodyTextComponentsProps = ComponentProps & {
   link_key: string;
-  link_value: string;
   link_color: string;
   link_id: string;
+  action: ActionProps;
 };

@@ -1,0 +1,123 @@
+/*
+ *
+ * INSTRUCTIONS
+ *
+ * Copy the Legal Disclaimer and the @font-faces statements to your regular CSS file.
+ * The font file(s) should be placed relative to the regular CSS file.
+ *
+ */
+
+/*
+ * Legal Disclaimer for App licence
+ *
+ * Licence to use fonts in native, web, or hybrid apps on mobile or stationary devices, for example personal computers, smart phones, entertainment systems, game consoles, medical instruments, etc.
+ *
+ * Should the license download limit be exceeded the license holder will be required to contact Lineto.com for an upgrade.
+ * 
+ * It is strictly prohibited to rename the font and to download or use these fonts in any other media. 
+ * 
+ * These Web fonts are licensed exclusively for the use on the following App(s):
+ *
+ * Honda Center + Ducks (Total Downloads: <100k)
+ *
+ */
+
+/* complete */
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-BookItalic.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-BookItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Medium.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Medium.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-ExtraBlack.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CircularXXWeb-ExtraBlack';
+  src: url('CircularXXWeb-ExtraBlack.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-MediumItalic.woff') format('woff');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-MediumItalic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Book.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+  src: url('CircularXXWeb-Book.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}

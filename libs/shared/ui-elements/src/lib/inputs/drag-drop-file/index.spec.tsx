@@ -95,6 +95,8 @@ describe('DragDropFile component', () => {
   });
 
   it('removes file when delete button is clicked', async () => {
+    const user = userEvent.setup();
+
     const onFilesChanged = jest.fn();
     const { queryAllByTestId } = renderWithTheme(
       <DragDropFile files={mockFileList} onFilesChanged={onFilesChanged} showFilesAdded={true} filesRemovable={true} />
@@ -102,7 +104,7 @@ describe('DragDropFile component', () => {
     const deleteButton = queryAllByTestId('Drag-Drop-File--delete-file-button')[0];
     expect(deleteButton).toBeInTheDocument();
 
-    await userEvent.click(deleteButton);
+    await user.click(deleteButton);
 
     expect(onFilesChanged).toHaveBeenCalledTimes(1);
     expect(onFilesChanged).toHaveBeenCalledWith(mockFiles[0]);

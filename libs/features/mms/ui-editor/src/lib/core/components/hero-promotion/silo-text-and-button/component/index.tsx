@@ -1,5 +1,6 @@
 import { Box, Typography, CardMedia, Button, Stack } from '@mui/material';
 
+import colors from '../../../../../common/colors';
 import { BasicContainer } from '../../../../../elements';
 import { SiloTextAndButtonComponentProps } from '../../../types';
 
@@ -9,16 +10,24 @@ const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
     __ui_id__: id,
   } = props;
   return (
-    <BasicContainer id={id} sx={{ background: 'linear-gradient(180deg, #888888, #000000)' }}>
+    <BasicContainer id={id} sx={{ background: colors.hero.background }}>
       <Stack direction="column" justifyContent="center" alignItems="center" spacing={0} sx={{ padding: '32px 0' }}>
         <CardMedia component="img" sx={{ width: '166px', paddingBottom: 1 }} image={image} alt={img_alt_text} />
         <Box sx={{ paddingBottom: 2 }}>
           <Typography
-            sx={{ fontSize: '16px', color: 'white', fontWeight: 400, wordWrap: 'break-word', textAlign: 'center' }}
+            sx={{
+              fontSize: '16px',
+              color: colors.editor.text,
+              fontWeight: 400,
+              wordWrap: 'break-word',
+              textAlign: 'center',
+            }}
           >
             {title}
           </Typography>
-          <Typography sx={{ fontSize: '14px', color: '#ABABAC', wordWrap: 'break-word', textAlign: 'center' }}>
+          <Typography
+            sx={{ fontSize: '14px', color: colors.editor.subText, wordWrap: 'break-word', textAlign: 'center' }}
+          >
             {description}
           </Typography>
         </Box>
@@ -26,8 +35,8 @@ const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
           variant="outlined"
           sx={{
             borderRadius: '20px',
-            borderColor: '#636364',
-            color: 'white',
+            borderColor: colors.button.border,
+            color: colors.editor.text,
             padding: '10px 20px',
           }}
         >

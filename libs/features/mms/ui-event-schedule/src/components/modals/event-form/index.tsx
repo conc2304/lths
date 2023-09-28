@@ -120,7 +120,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
   const formGroupSX = { marginTop: pxToRem(16) };
 
   return (
-    <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="FilterForm--Dailog" maxWidth="md">
+    <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" maxWidth="md">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
           <CalendarDialogTitle

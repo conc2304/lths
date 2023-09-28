@@ -41,8 +41,9 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         sub_component_data: [
           ...sub_component_data,
           {
+            // name: "Carousel Item",
             title: 'New Card',
-            description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
+            description: 'Lorem ipsum dolor sit amet',
             action: { type: 'native' },
           },
         ],
@@ -75,7 +76,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         onDrag={handleDrag}
         onDelete={handleDelete}
         onEditItem={handleEditItem}
-        text={item?.name}
+        text={item.name}
       ></DraggableCarouselListItem>
     );
   };

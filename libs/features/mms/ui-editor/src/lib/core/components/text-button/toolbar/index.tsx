@@ -6,7 +6,7 @@ import { ToolContainer } from '../../../../elements';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { TextButtonProps } from '../../types';
-import { size } from '../utils';
+import { sizes } from '../utils';
 
 const TextButtonToolbar = (props: TextButtonProps) => {
   const {
@@ -56,7 +56,7 @@ const TextButtonToolbar = (props: TextButtonProps) => {
             fullWidth
             sx={{ marginY: 1.5 }}
           >
-            {size.map((s) => (
+            {sizes.map((s) => (
               <MenuItem key={`option-${s.value}`} value={s.value}>
                 {s.label}
               </MenuItem>

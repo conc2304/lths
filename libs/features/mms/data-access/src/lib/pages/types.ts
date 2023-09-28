@@ -19,21 +19,8 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 };
 
-export type CardViewComponentProps = ComponentProps & {
-  data: {
-    title: string;
-    desc: string;
-    image: string;
-    type: string;
-    action: {
-      type: string;
-      page_id: string;
-      page_link: string;
-    };
-  };
-};
 export type ComponentDetailResponse = {
-  data: CardViewComponentProps;
+  data: ComponentProps;
 };
 
 export type ComponentListResponse = {
@@ -130,6 +117,7 @@ export type PageDetail = EditorProps & {
   deleted_by?: string;
   deleted_on?: string;
   is_deleted?: boolean;
+  constraints_formatted?: string;
 };
 
 export type PageItemsResponse = CommonResponse & {

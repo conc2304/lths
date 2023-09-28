@@ -57,7 +57,6 @@ export const useToolbarChange = () => {
   ) => {
     handlePropChange('title', event.target.value, index, keys);
   };
-
   const handleSubTitleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index?: number,
@@ -65,13 +64,19 @@ export const useToolbarChange = () => {
   ) => {
     handlePropChange('sub_title', event.target.value, index, keys);
   };
-
   const handleNameChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index?: number,
     keys?: string[]
   ) => {
     handlePropChange('name', event.target.value, index, keys);
+  };
+  const handleNameValueChange = (
+    value: string,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('name', value, index, keys);
   };
   const handleIconChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -187,6 +192,7 @@ export const useToolbarChange = () => {
     handleTitleChange,
     handleSubTitleChange,
     handleNameChange,
+    handleNameValueChange,
     handleDescChange,
     handleDescriptionChange,
     handleButtonTextChange,

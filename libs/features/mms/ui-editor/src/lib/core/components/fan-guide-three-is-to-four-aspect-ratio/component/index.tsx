@@ -1,5 +1,6 @@
 import { Typography, Card, CardMedia, Button, Stack } from '@mui/material';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
 import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';
 
@@ -8,15 +9,16 @@ const FanGuideThreeIsToFourAspectRatioComponent = (props: FanGuideThreeIsToFourA
     data: { image, img_alt_text, title, description, btn_text },
     __ui_id__: id,
   } = props;
+  const { background, underline } = colors.fanGuide;
   return (
     <BasicContainer id={id}>
       <Card
         sx={{
-          background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)',
-          color: 'white',
+          background: background,
+          color: colors.editor.text,
           width: '335px',
           padding: '32px 20px',
-          borderRadius: '10px',
+          borderRadius: 2.5,
         }}
       >
         <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={4}>
@@ -27,7 +29,7 @@ const FanGuideThreeIsToFourAspectRatioComponent = (props: FanGuideThreeIsToFourA
                 fontSize: 16,
                 display: 'inline-block',
                 paddingBottom: 1,
-                borderBottom: '4px solid #BA9765',
+                borderBottom: `4px solid ${underline}`,
                 letterSpacing: '0.12em',
               }}
             >

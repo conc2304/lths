@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useTheme } from '@mui/material';
+import { PopperPlacementType, useTheme } from '@mui/material';
 import { NavigateAction } from 'react-big-calendar';
 
 import {
@@ -12,9 +12,10 @@ import {
   ToolbarHeaderProps,
   ViewMode,
 } from '@lths/shared/ui-calendar-scheduler';
-import { TableHeaderCellProps } from '@lths/shared/ui-elements';
+import { PopperWithArrow, TableHeaderCellProps } from '@lths/shared/ui-elements';
 
 import { EventSchedulingFooter } from './footers';
+import { EventDetailsPopper } from './modals/event-details-popper';
 import { RowBuilder } from './row/row-builder';
 import { SchedulingEvent } from './scheduling-event';
 import { EventTypeFilter } from './toolbar/event-type-filter';
@@ -44,6 +45,12 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     onNavigate,
     onRangeChange,
   } = props;
+
+  const [popperEvent, setPopperEvent] = useState<MMSEvent>();
+  const [popperOpen, setPopperOpen] = useState(false);
+  const [popperAnchor, setPopperAnchor] = useState<HTMLElement>();
+  const [popperPlacement, setPopperPlacement] = useState<PopperPlacementType>('auto');
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const [filters, setFilters] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode);
@@ -84,6 +91,21 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     setView(view);
   };
 
+  const handleEventClick = ({
+    event,
+    anchorEl,
+    popperPlacement,
+  }: {
+    event: MMSEvent;
+    anchorEl: HTMLElement;
+    popperPlacement: PopperPlacementType;
+  }) => {
+    setPopperEvent(event);
+    setPopperPlacement(popperPlacement);
+    setPopperAnchor(anchorEl);
+    setPopperOpen(true);
+  };
+
   const components = useMemo<{
     footer?: JSX.Element;
     toolbar: (args: ToolbarHeaderProps) => JSX.Element;
@@ -109,6 +131,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
           eventTypes={eventTypes}
           onSaveEvent={onSaveEvent}
           onSaveEventStates={onSaveEventStates}
+          onEventClick={handleEventClick}
         />
       ),
     };
@@ -145,25 +168,55 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   return (
-    <LTHSCalendar
-      events={visibileEvents}
-      view={defaultView}
-      customComponents={components}
-      backgroundEvents={backgroundEvents}
-      viewMode={viewMode}
-      onSetViewMode={handleSetViewMode}
-      onSetView={handleSetView}
-      cssVariableOverrides={cssVariables}
-      // Context
-      headerCells={columns}
-      rowBuilder={RowBuilder({
-        eventTypes,
-        onSaveEvent,
-        onSaveEventStates,
-      })}
-      onNavigate={onNavigate}
-      onRangeChange={onRangeChange}
-      headerToEventValueMap={getColumnValue}
-    />
+    <>
+      <LTHSCalendar
+        events={visibileEvents}
+        view={defaultView}
+        customComponents={components}
+        backgroundEvents={backgroundEvents}
+        viewMode={viewMode}
+        onSetViewMode={handleSetViewMode}
+        onSetView={handleSetView}
+        cssVariableOverrides={cssVariables}
+        // Context Values
+        headerCells={columns}
+        rowBuilder={RowBuilder({
+          eventTypes,
+          onEventClick: handleEventClick,
+        })}
+        onNavigate={onNavigate}
+        onRangeChange={onRangeChange}
+        headerToEventValueMap={getColumnValue}
+      />
+      {!!popperEvent && (
+        <PopperWithArrow
+          open={popperOpen}
+          anchorEl={popperAnchor}
+          placement={popperPlacement}
+          onClickAway={(event: MouseEvent | TouchEvent | undefined) => {
+            const target = event?.target as HTMLElement;
+            const clickedInEvent = !!target.closest('.CalendarEvent--root');
+            if (clickedInEvent) return;
+            if (!editModalOpen) {
+              setPopperOpen(false);
+              setPopperEvent(undefined);
+            }
+          }}
+        >
+          <EventDetailsPopper
+            event={popperEvent}
+            onClose={() => setPopperOpen(false)}
+            editModalOpen={editModalOpen}
+            onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}
+            eventTypes={eventTypes}
+            onSaveEvent={(values, id) => {
+              setPopperOpen(false);
+              onSaveEvent(values, id);
+            }}
+            onSaveEventStates={onSaveEventStates}
+          />
+        </PopperWithArrow>
+      )}
+    </>
   );
 };

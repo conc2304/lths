@@ -10,7 +10,7 @@ const DividerComponent = (props: DividerProps) => {
   } = props;
 
   return (
-    <BasicContainer id={id} sx={{ padding: '10px 0px' }}>
+    <BasicContainer id={id}>
       <Divider sx={{ bgcolor: color }} />
     </BasicContainer>
   );

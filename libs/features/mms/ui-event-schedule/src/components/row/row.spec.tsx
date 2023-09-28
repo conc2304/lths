@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableBody } from '@mui/material';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, waitFor, RenderResult } from '@testing-library/react';
+import { render, screen, waitFor, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { act } from 'react-dom/test-utils';
@@ -37,9 +37,10 @@ describe('Row', () => {
   const mockEventTypes = eventTypesMock;
   const mockOnSaveEvent = jest.fn();
   const mockOnSaveEventStates = jest.fn();
+  const mockOnEventClick = jest.fn();
 
   const renderComponent = () => {
-    const component = RBThemeProvider({
+    component = RBThemeProvider({
       children: (
         <Table>
           <TableBody>
@@ -49,6 +50,7 @@ describe('Row', () => {
               eventTypes={mockEventTypes}
               onSaveEvent={mockOnSaveEvent}
               onSaveEventStates={mockOnSaveEventStates}
+              onEventClick={mockOnEventClick}
             />
           </TableBody>
         </Table>
@@ -57,14 +59,10 @@ describe('Row', () => {
     return render(component);
   };
 
-  beforeEach(async () => {
+  it('renders the row with cells', async () => {
     await act(async () => {
       component = renderComponent();
-      // container = component.container;
     });
-  });
-
-  it('renders the row with cells', () => {
     const { getByText, getByRole, getByTestId } = component;
 
     // Check if the row is rendered
@@ -82,20 +80,26 @@ describe('Row', () => {
     expect(getByTestId('List-View-Row--createdby').textContent).toContain(mockEvent.createdBy);
   });
 
-  it('opens popper when row is clicked, and closes when clicked away', async () => {
-    expect(screen.queryByRole('tooltip')).toBeNull();
-
-    // Click on the row
+  it('calls onEventClick when the event is clicked', async () => {
+    const user = userEvent.setup();
     await act(async () => {
-      fireEvent.click(screen.getByRole('row'));
+      component = renderComponent();
     });
 
-    // Check if the popper is open
-    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    expect(mockOnEventClick).not.toHaveBeenCalled();
 
-    await act(async () => userEvent.click(document.body)); // Simulating a click away
+    await act(async () => {
+      user.click(screen.getByRole('row'));
+    });
+
     await waitFor(() => {
-      expect(screen.queryByRole('tooltip')).toBeNull();
+      expect(mockOnEventClick).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          event: mockEvent,
+          popperPlacement: expect.any(String),
+          anchorEl: expect.any(HTMLElement),
+        })
+      );
     });
   });
 });
