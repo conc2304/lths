@@ -30,6 +30,7 @@ const CardViewCarousel = ({ items }: CarouselProps) => {
               >
                 <CardMedia
                   component="img"
+                  aria-label={`image ${index}`}
                   sx={{ width: 275, height: 180, objectFit: 'cover' }}
                   image={image}
                 />

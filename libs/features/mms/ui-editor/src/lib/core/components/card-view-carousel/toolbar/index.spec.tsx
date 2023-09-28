@@ -1,209 +1,169 @@
-// import '@testing-library/jest-dom';
-// import { render, screen } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom';
+import { render, fireEvent, screen, within  } from '@testing-library/react';
 
-// import QuicklinkButtonGroupToolbar from './index';
-// import { EditorProvider } from '../../../../context';
-// import mockComponentProps from '../../../../context/mock-data';
-// import { AutocompleteOptionProps } from '../../../../elements';
-// import { Component } from '../../enum';
-// import { QuicklinkButtonGroupComponentProps } from '../../types';
+import CardViewCarouselToolbar from './index';
+import { EditorProvider } from '../../../../context';
+import mockComponentProps from '../../../../context/mock-data';
+import { Component } from '../../enum';
+import { CardViewCarouselComponentProps, AutocompleteItemProps } from '../../types';
 
-// describe('QuicklinkButtonGroup Toolbar', () => {
-//   let initialState;
-//   let component: QuicklinkButtonGroupComponentProps;
-//   let mockCallbackData: AutocompleteOptionProps[];
+describe('CardViewCarousel Toolbar', () => {
+    let initialState;
+    let component: CardViewCarouselComponentProps;
+    let mockCallbackData: AutocompleteItemProps[];
 
-//   beforeEach(() => {
-//     component = {
-//       ...mockComponentProps,
-//       __ui_id__: '3333333',
-//       component_id: Component.QuicklinkButtonGroup,
-//       data: {
-//         sub_component_data: [
-//           {
-//             card_background_color: '',
-//             icon: 'nonexistent png',
-//             text_color: '',
-//             title: 'LABEL',
-//             action: {
-//               type: 'webview',
-//               page_id: 'medical page',
-//               page_link: 'first aid link',
-//             },
-//           },
-//           {
-//             card_background_color: '',
-//             icon: 'nonexistent png 2',
-//             text_color: '',
-//             title: 'LABEL2',
-//             action: {
-//               type: 'webview',
-//               page_id: 'report crime',
-//               page_link: 'local police department link',
-//             },
-//           },
-//         ],
-//       },
-//     };
+    beforeEach(() => {
+        component = {
+            ...mockComponentProps,
+            __ui_id__: '3333333',
+            component_id: Component.CardViewCarousel,
+            data: {
+                sub_component_data: [
+                    {
+                        image: 'https://Image-1.png',
+                        action: { type: 'web', page_id: 'pageId1', page_link: 'pageLink1' },
+                    },
+                    {
+                        image: 'https://Image-2.png',
+                        action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
+                    },
+                    {
+                        image: 'https://Image-3.png',
+                        action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
+                    },
+                    {
+                        image: 'https://Image-4.png',
+                        action: { type: 'native', page_id: 'pageId4', page_link: 'pageLink4' },
+                    },
+                ],
+            },
+        };
 
-//     initialState = {
-//       components: [],
-//       selectedComponent: component,
-//     };
+        initialState = {
+            components: [],
+            selectedComponent: component,
+        };
 
-//     mockCallbackData = [
-//       { label: 'iconOne', value: 'icon.one.link' },
-//       { label: 'iconTwo', value: 'icon.two.link' },
-//       { label: 'iconThree', value: 'icon.three.link' },
-//     ];
-//   });
+        mockCallbackData = [
+            { label: 'label1', value: 'pageId1', type: '' },
+            { label: 'label2', value: 'pageId2', type: '' },
+            { label: 'label3', value: 'pageId3', type: '' },
+            { label: 'label4', value: 'pageId4', type: '' },
+          ];
+    });
+      
+    function createMockOnPropChange(callbackData) {
+        return function mockOnPropChange(propName, callback) {
+        if (propName === 'action') {
+            callback(callbackData);
+        }
+        };
+    }
 
-//   function createMockOnPropChange(callbackData) {
-//     return function mockOnPropChange(propName, callback) {
-//       if (propName === 'quickLinkIcons') {
-//         callback(callbackData);
-//       }
-//     };
-//   }
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 
-//   afterEach(() => {
-//     jest.clearAllMocks();
-//   });
+    test('should render CardViewCarousel toolbar component', () => {
+        render(
+        <EditorProvider initialValue={initialState}>
+            <CardViewCarouselToolbar {...component} />
+        </EditorProvider>
+        );
 
-//   test('should render QuicklinkButtonGroup toolbar component', () => {
-//     render(
-//       <EditorProvider initialValue={initialState}>
-//         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//       </EditorProvider>
-//     );
+        const containerLabel = screen.getByLabelText('Half Width Carousel Text Toolbar');
+        expect(containerLabel).toBeInTheDocument();
 
-//     const labelAfterSelect = screen.getByLabelText('Quicklink Button Group Toolbar');
-//     expect(labelAfterSelect).toBeInTheDocument();
-//   });
+        
+    });
 
-//   test('should render QuicklinkButtonGroup toolbar with section labels', () => {
-//     render(
-//       <EditorProvider initialValue={initialState}>
-//         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//       </EditorProvider>
-//     );
+    test('should render CardViewCarousel toolbar title and add button', () => {
+        render(
+            <EditorProvider initialValue={initialState}>
+                <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)}/>
+            </EditorProvider>
+        );
 
-//     // Assert
-//     const toolbarlabel = screen.getByText('Quick Link');
-//     expect(toolbarlabel).toBeInTheDocument();
+        const toolbarlabel = screen.getByText('Carousel');
+        expect(toolbarlabel).toBeInTheDocument();
 
-//     const imageSectionLabel = screen.getByText('First');
-//     expect(imageSectionLabel).toBeInTheDocument();
+        const addButton = screen.getByText('ADD ITEM').parentElement;
+        expect(addButton).toBeInTheDocument();
+        expect(addButton).toBeInTheDocument();
+    });
 
-//     const textSectionLabel = screen.getByText('Second');
-//     expect(textSectionLabel).toBeInTheDocument();
+    test('should render CardViewCarousel toolbar with carousel items', () => {
+        render(
+            <EditorProvider initialValue={initialState}>
+                <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)}/>
+            </EditorProvider>
+        );
+        const { sub_component_data } = component.data;
 
-//     const actionSectionLabels = screen.getAllByText('Action');
-//     expect(actionSectionLabels.length).toBe(2);
-//   });
+        sub_component_data.forEach((item, index) => {
+            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement;
+            expect(carouselListItem).toBeInTheDocument();
 
-//   test('should render QuicklinkButtonGroup toolbar with text props', () => {
-//     const container = render(
-//       <EditorProvider initialValue={initialState}>
-//         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//       </EditorProvider>
-//     ).container;
+            const editButton = within(carouselListItem).getByLabelText('edit', {selector: "button"});
+            expect(editButton).toBeInTheDocument();
 
-//     const { sub_component_data } = component.data;
+            const deleteButton = within(carouselListItem).getByLabelText('delete', {selector: "button"})
+            expect(deleteButton).toBeInTheDocument();
+        });
 
-//     // Assert
-//     // test quicklink 1
-//     expect(container.innerHTML).toContain(sub_component_data[0].title);
-//     expect(container.innerHTML).toContain(sub_component_data[0].icon);
+    });
 
-//     // test quicklink 2
-//     expect(container.innerHTML).toContain(sub_component_data[1].title);
-//     expect(container.innerHTML).toContain(sub_component_data[1].icon);
-//   });
+    test('should render CardViewCarousel toolbar edit item view', () => {
+        render(
+            <EditorProvider initialValue={initialState}>
+                <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)}/>
+            </EditorProvider>
+        );
+        const { sub_component_data } = component.data;
 
-//   test('should render QuicklinkButtonGroup toolbar with correct Labels', () => {
-//     render(
-//       <EditorProvider initialValue={initialState}>
-//         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//       </EditorProvider>
-//     );
-//     const { sub_component_data } = component.data;
+        // for (let index = 0; index < sub_component_data.length; index++) { 
+        sub_component_data.forEach((item, index) => {
+            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement;
+            expect(carouselListItem).toBeInTheDocument();
 
-//     // Test First Label TextArea
-//     const firstLabelInput = screen.getByLabelText('First Label');
-//     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
-//     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
+            // Act
+            const editButton = within(carouselListItem).getByLabelText('edit', {selector: "button"});
+            fireEvent.click(editButton);
 
-//     // Test First Icon Input
-//     const firstIconInput = screen.getByLabelText('First Icon');
-//     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
-//     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
+            // Assert
+            // test labels
+            const toolbarlabel = screen.getByText('Carousel Item');
+            expect(toolbarlabel).toBeInTheDocument();
+            const imagelabel = screen.getByText('Image');
+            expect(imagelabel).toBeInTheDocument();
+            const actionlabel = screen.getByText('Action');
+            expect(actionlabel).toBeInTheDocument();
+            // test data
+            const imageElement = screen.getByRole('img');
+            expect(imageElement).toHaveAttribute('src', sub_component_data[index].image);
 
-//     // Test Second Label TextArea
-//     const secondLabelInput = screen.getByLabelText('Second Label');
-//     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
-//     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
+            if (sub_component_data[index].action.type === 'webview') {
+                const actionType = screen.getByText('weblink');
+                expect(actionType).toBeInTheDocument();
 
-//     // Test Second Icon Input
-//     const secondIconInput = screen.getByLabelText('Second Icon');
-//     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
-//     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
-//   });
+                const pageLinkInput = screen.getByLabelText('Page Link').parentElement.querySelector('textarea');
+                expect(pageLinkInput.value).toContain(sub_component_data[index].action.page_link);
+            } else if (sub_component_data[index].action.type === 'native') {
+                const actionType = screen.getByText('native');
+                expect(actionType).toBeInTheDocument();
 
-//   test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', () => {
-//     component.data.sub_component_data[0].title = 'Cool title 1';
-//     component.data.sub_component_data[1].title = 'Cool title 2';
-//     component.data.sub_component_data[0].icon = 'Cool icon 1';
-//     component.data.sub_component_data[1].icon = 'Cool icon 2';
+                const pageIDInput = screen.getByLabelText('Page ID').parentElement.querySelector('input');
+                const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
+                expect(pageIDInput.value).toContain(pageIDValue);
+            }
 
-//     render(
-//       <EditorProvider initialValue={initialState}>
-//         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//       </EditorProvider>
-//     );
-//     const { sub_component_data } = component.data;
+            // Act
+            const backButton = screen.getByText('BACK');
+            expect(backButton).toHaveAttribute('type', 'button');
+            fireEvent.click(backButton);
 
-//     // Test First Label TextArea
-//     const firstLabelInput = screen.getByLabelText('First Label');
-//     expect(firstLabelInput.querySelector('label').textContent).toContain('Label');
-//     expect(firstLabelInput.querySelector('textarea').value).toBe(sub_component_data[0].title);
+        });
 
-//     // Test First Icon Input
-//     const firstIconInput = screen.getByLabelText('First Icon');
-//     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
-//     expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
-
-//     // Test Second Label TextArea
-//     const secondLabelInput = screen.getByLabelText('Second Label');
-//     expect(secondLabelInput.querySelector('label').textContent).toContain('Label');
-//     expect(secondLabelInput.querySelector('textarea').value).toBe(sub_component_data[1].title);
-
-//     // Test Second Icon Input
-//     const secondIconInput = screen.getByLabelText('Second Icon');
-//     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
-//     expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
-//   });
-
-//   xdescribe('Test Page Link and Page Id', () => {
-//     test('renders QuicklinkButtonGroup Toolbar with Correct Action Option for type', () => {
-//       component.data.sub_component_data[0].action.type = 'webview';
-//       component.data.sub_component_data[1].action.type = 'native';
-
-//       render(
-//         <EditorProvider initialValue={initialState}>
-//           <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
-//         </EditorProvider>
-//       );
-//       const { sub_component_data } = component.data;
-
-//       // ASSERT
-//       const firstLinkTextArea = screen.getByLabelText('Link ' + 1).querySelector('textarea');
-//       expect(firstLinkTextArea.value).toContain(sub_component_data[0].action.page_link);
-//       expect(screen.queryByLabelText('Page ID ' + 1)).toBeNull();
-
-//       const secondPageIDTextArea = screen.getByLabelText('Page ID ' + 2).querySelector('textarea');
-//       expect(secondPageIDTextArea.value).toContain(sub_component_data[1].action.page_id);
-//       expect(screen.queryByLabelText('Link ' + 2)).toBeNull();
-//     });
-//   });
-// });
+    });
+});
