@@ -102,7 +102,7 @@ describe('CardViewCarousel Toolbar', () => {
         const { sub_component_data } = component.data;
 
         sub_component_data.forEach((item, index) => {
-            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement;
+            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement as HTMLElement;
             expect(carouselListItem).toBeInTheDocument();
 
             const editButton = within(carouselListItem).getByLabelText('edit', {selector: "button"});
@@ -124,7 +124,7 @@ describe('CardViewCarousel Toolbar', () => {
 
         // for (let index = 0; index < sub_component_data.length; index++) { 
         sub_component_data.forEach((item, index) => {
-            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement;
+            const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement as HTMLElement;
             expect(carouselListItem).toBeInTheDocument();
 
             // Act
@@ -147,15 +147,17 @@ describe('CardViewCarousel Toolbar', () => {
                 const actionType = screen.getByText('weblink');
                 expect(actionType).toBeInTheDocument();
 
-                const pageLinkInput = screen.getByLabelText('Page Link').parentElement.querySelector('textarea');
-                expect(pageLinkInput.value).toContain(sub_component_data[index].action.page_link);
+                const pageLinkInputContainer = screen.getByLabelText('Page Link').parentElement as HTMLElement;
+                const pageLinkInput = pageLinkInputContainer.querySelector('textarea');
+                expect(pageLinkInput?.value).toContain(sub_component_data[index].action.page_link);
             } else if (sub_component_data[index].action.type === 'native') {
                 const actionType = screen.getByText('native');
                 expect(actionType).toBeInTheDocument();
 
-                const pageIDInput = screen.getByLabelText('Page ID').parentElement.querySelector('input');
+                const pageIDInputContainer = screen.getByLabelText('Page ID').parentElement as HTMLElement;
+                const pageIDInput = pageIDInputContainer.querySelector('input');
                 const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
-                expect(pageIDInput.value).toContain(pageIDValue);
+                expect(pageIDInput?.value).toContain(pageIDValue);
             }
 
             // Act
