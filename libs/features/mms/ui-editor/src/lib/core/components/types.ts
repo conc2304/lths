@@ -523,3 +523,12 @@ export type BodyTextComponentsProps = ComponentProps & {
   link_id: string;
   action: ActionProps;
 };
+
+export type FullHeightEventComponentProps = ComponentProps & {
+  data: {
+    max_size: string;
+    title: string;
+    btn_text: string;
+    source_type: string;
+  };
+};
