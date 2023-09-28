@@ -8,6 +8,10 @@ export type ComponentProps = BaseProps & {
 
 export type ComponentType = 'native' | 'webview';
 
+export enum SourceType {
+  NHL_SCHEDULE = 'NHL_Schedule',
+}
+
 export type AutocompleteItemProps = {
   label: string;
   value: string;
@@ -530,5 +534,14 @@ export type FullHeightEventComponentProps = ComponentProps & {
     title: string;
     btn_text: string;
     source_type: string;
+  };
+};
+
+export type HalfHeightMatchUpComponentProps = ComponentProps & {
+  data: {
+    max_size: number;
+    title: string;
+    btn_text: string;
+    source_type: SourceType;
   };
 };

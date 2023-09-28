@@ -104,6 +104,9 @@ import {
   FullHeightEventComponentProps,
 } from '../components';
 import FullHeightEventToolbar from '../components/full-height-event/toolbar';
+  HalfHeightMatchUpComponentProps,
+} from '../components';
+import HalfHeightMatchUpToolbar from '../components/half-height-matchup/toolbar';
 
 export const toolbarFactory = (props: ComponentProps) => {
   switch (props.component_id) {
@@ -215,14 +218,7 @@ export const toolbarFactory = (props: ComponentProps) => {
         />
       );
     case Component.HalfHeightMatchup:
-      return (
-        <ExternalDataToolbar
-          component_id={props.component_id}
-          id={props.__ui_id__}
-          title="Matchup"
-          desc="Content and data from NHL.com."
-        />
-      );
+      return <HalfHeightMatchUpToolbar {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:

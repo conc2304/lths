@@ -23,7 +23,7 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
 
 export const transformComponentDetailResponse = (response: ComponentDetailResponse) => {
   const payload = response.data;
-  const { schema } = payload;
+  const { schema, constraints } = payload;
 
   const data = transformToObject(schema);
   if (payload.component_id === Component.SocialIconButton && data.sub_component_data.length > 0) {
@@ -36,6 +36,8 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
       quickLinkButton.action.type = '';
     data.sub_component_data = Array(2).fill(data.sub_component_data[0]);
   }
+
+  payload.constraints = constraints || [];
 
   const transformedData = { ...payload, data };
   return {
