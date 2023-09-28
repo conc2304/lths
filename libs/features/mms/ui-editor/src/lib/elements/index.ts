@@ -16,3 +16,4 @@ export * from './hooks';
 
 export * from './autocomplete';
 export * from './list-items';
+export * from './list-item';

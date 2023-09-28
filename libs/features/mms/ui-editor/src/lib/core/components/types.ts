@@ -8,6 +8,10 @@ export type ComponentProps = BaseProps & {
 
 export type ComponentType = 'native' | 'webview';
 
+export enum SourceType {
+  NHL_SCHEDULE = 'NHL_Schedule',
+}
+
 export type AutocompleteItemProps = {
   label: string;
   value: string;
@@ -63,6 +67,7 @@ export type CenterBodyTextBlockProps = ComponentProps & {
 };
 
 export type FullHeightCarouselProps = {
+  name?: string;
   title: string;
   img_alt_text: string;
   image: string;
@@ -146,6 +151,7 @@ export type CardComponentProps = ComponentProps & {
 
 export type HalfWidthCarouselProps = {
   _ui_id_?: string;
+  name?: string;
   title: string;
   image: string;
   description: string;
@@ -477,7 +483,7 @@ export type SiloTextAndButtonComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselFloatingTextProps = {
-  name: string;
+  name?: string;
   image: string;
   img_alt_text: string;
   title: string;
@@ -521,4 +527,13 @@ export type BodyTextComponentsProps = ComponentProps & {
   link_color: string;
   link_id: string;
   action: ActionProps;
+};
+
+export type HalfHeightMatchUpComponentProps = ComponentProps & {
+  data: {
+    max_size: number;
+    title: string;
+    btn_text: string;
+    source_type: SourceType;
+  };
 };

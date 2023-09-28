@@ -52,6 +52,7 @@ import {
   CenterBodyTextBlock,
   ImageHeaderComponent,
 } from '../components';
+import HalfHeightMatchupComponent from '../components/half-height-matchup/component';
 import {
   ButtonComponentProps,
   CardComponentProps,
@@ -103,6 +104,7 @@ import {
   CenterHeadlineTextProps,
   CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
+  HalfHeightMatchUpComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -225,15 +227,7 @@ export const componentFactory = (props: ComponentProps) => {
         />
       );
     case Component.HalfHeightMatchup:
-      return (
-        <ExternalDataComponent
-          img_alt="HalfHeightMatchup"
-          id={props.__ui_id__}
-          image={
-            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHalfHeightMatchup.svg'
-          }
-        />
-      );
+      return <HalfHeightMatchupComponent {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:
       return <FullHeightCarouselComponent {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:

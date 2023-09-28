@@ -1,9 +1,10 @@
-import { ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, IconButton } from '@mui/material';
+import { ListItem, ListItemAvatar, ListItemSecondaryAction, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import { DraggableCard } from '../../../../elements';
+import { DraggableCard, EditableListItemText } from '../../../../elements';
+import { useToolbarChange } from '../../hooks';
 
 interface DraggableCarouselListItemProps {
   id: string;
@@ -18,6 +19,8 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
   const ItemTypes = {
     LISTITEM: 'carousel item',
   };
+  const { handleNameValueChange } = useToolbarChange();
+  const parentKeys = ['sub_component_data'];
 
   const handleOnDelete = () => {
     onDelete && onDelete(index);
@@ -36,7 +39,7 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
         <ListItemAvatar sx={{ minWidth: 0 }}>
           <DragHandleIcon sx={{ paddingTop: '4px' }} />
         </ListItemAvatar>
-        <ListItemText sx={{ fontSize: 14 }} color="textSecondary" primary={text || 'carousel item'} />
+        <EditableListItemText text={text || 'Carousel Item'} sx={{ margin: 0 }} textStyle={{ fontSize: 14, lineHeight: 1.43 }} onSave={(value)=> (handleNameValueChange(value, index, parentKeys))} />
         <ListItemSecondaryAction sx={{ right: 0 }}>
           <IconButton onClick={handleOnDelete} size="small" aria-label="delete" data-testid={'delete_' + index}>
             <DeleteIcon sx={{ width: '20px', height: '20px' }} />

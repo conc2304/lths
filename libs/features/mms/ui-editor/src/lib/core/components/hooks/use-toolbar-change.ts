@@ -58,7 +58,6 @@ export const useToolbarChange = () => {
         throw new Error(`Invalid type for ${objectKey}`);
       }
 
-      console.log("updatedItem: ", updatedItem)
       selectComponent({ 
         ...selectedComponent, 
         data: { ...selectedComponent.data, [objectKey]: updatedItem } 
@@ -102,6 +101,13 @@ export const useToolbarChange = () => {
     keys?: string[]
   ) => {
     handlePropChange('name', event.target.value, index, keys);
+  };
+  const handleNameValueChange = (
+    value: string,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('name', value, index, keys);
   };
   const handleIconChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -195,6 +201,10 @@ export const useToolbarChange = () => {
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 
+  const handleMaxSizeChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('max_size', value, index, keys);
+  };
+
   return {
     selectedComponent,
     generateUniqueId,
@@ -204,6 +214,7 @@ export const useToolbarChange = () => {
     handleTitleChange,
     handleSubTitleChange,
     handleNameChange,
+    handleNameValueChange,
     handleDescChange,
     handleDescriptionChange,
     handleButtonTextChange,
@@ -217,5 +228,6 @@ export const useToolbarChange = () => {
     handleDateChange,
     handleHintChange,
     handleIconChange,
+    handleMaxSizeChange,
   };
 };
