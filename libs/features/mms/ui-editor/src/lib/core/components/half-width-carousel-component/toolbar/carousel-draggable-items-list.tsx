@@ -8,14 +8,14 @@ type CarouselDraggableItemsListProps = {
   data?: HalfWidthCarouselProps[];
   onDrag: (dragIndex: number, hoverIndex: number) => void;
   onDelete?: (index: number) => void;
-  onEditItem?: (index: number) => void;
+  onEdit?: (index: number) => void;
 };
 
 const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
   data,
   onDrag,
   onDelete,
-  onEditItem,
+  onEdit,
 }) => {
 
   return (
@@ -29,7 +29,7 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
             text={item.title}
             onDrag={onDrag}
             onDelete={onDelete}
-            onEditItem={onEditItem}
+            onEdit={onEdit}
           />
         )}
       </List>

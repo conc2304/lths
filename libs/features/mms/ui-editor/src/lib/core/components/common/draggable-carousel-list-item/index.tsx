@@ -11,10 +11,10 @@ interface DraggableCarouselListItemProps {
   text?: string;
   onDrag: (dragIndex: number, hoverIndex: number) => void;
   onDelete?: (index: number) => void;
-  onEditItem?: (index: number) => void;
+  onEdit?: (index: number) => void;
 }
 
-const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEditItem }: DraggableCarouselListItemProps) => {
+const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }: DraggableCarouselListItemProps) => {
   const ItemTypes = {
     LISTITEM: 'carousel item',
   };
@@ -23,8 +23,8 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEditIt
     onDelete && onDelete(index);
   };
 
-  const handleOnEditItem= () => {
-    onEditItem && onEditItem(index);
+  const handleOnEdit= () => {
+    onEdit && onEdit(index);
   };
 
   return (
@@ -43,7 +43,7 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEditIt
           </IconButton>
           <IconButton
             data-testid={'edit_' + index}
-            onClick={handleOnEditItem}
+            onClick={handleOnEdit}
             size="small"
             edge="end"
             aria-label="edit"

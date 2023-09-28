@@ -24,7 +24,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   const { selectComponent } = useEditorActions();
   const { swapComponentProps, generateUniqueId } = useToolbarChange();
 
-  const handleEditItem = (index: number) => {
+  const handleEdit = (index: number) => {
     setSelectedIndex(index);
   };
   const handleCloseItem = () => {
@@ -79,7 +79,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
               data={sub_component_data}
               onDrag={handleDrag}
               onDelete={handleDelete}
-              onEditItem={handleEditItem}
+              onEdit={handleEdit}
             />
             <div>
               <Button

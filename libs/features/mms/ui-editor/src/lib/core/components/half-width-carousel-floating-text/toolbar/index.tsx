@@ -23,7 +23,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-  const handleEditItem = (index: number) => {
+  const handleEdit = (index: number) => {
     setSelectedIndex(index);
   };
   const handleCloseItem = () => {
@@ -62,7 +62,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
         index={index}
         onDrag={handleDrag}
         onDelete={handleDelete}
-        onEditItem={handleEditItem}
+        onEdit={handleEdit}
         text={item?.name}
       ></DraggableCarouselListItem>
     );
