@@ -170,6 +170,10 @@ export const useToolbarChange = () => {
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 
+  const handleMaxSizeChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('max_size', value, index, keys);
+  };
+
   return {
     selectedComponent,
     swapComponentProps,
@@ -192,5 +196,6 @@ export const useToolbarChange = () => {
     handleDateChange,
     handleHintChange,
     handleIconChange,
+    handleMaxSizeChange,
   };
 };

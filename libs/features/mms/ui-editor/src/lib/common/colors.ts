@@ -14,7 +14,11 @@ const colors = {
     button: { background: '#FFFFFF', text: '#3D4752', border: '#BDBDBD' },
   },
   container: { background: '#121213' },
-  card: { background: '#242526' },
+  card: {
+    background: '#242526',
+    border: '#505051',
+    boxShadow: '0px 1px 3px 0px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.04)',
+  },
   button: {
     background: '#FFFFFF',
     text: '#121213',
