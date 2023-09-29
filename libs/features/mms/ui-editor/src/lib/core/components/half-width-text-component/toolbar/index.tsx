@@ -49,7 +49,7 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id}>
+    <ToolContainer id={id} aria-label={'Half Width Text Toolbar'}>
       <ToolbarLabel label={'Component'} />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <GroupLabel label={'Text'} />

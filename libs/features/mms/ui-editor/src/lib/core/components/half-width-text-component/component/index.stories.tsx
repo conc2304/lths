@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
 import HalfWidthTextComponent from './index';
-import mockComponent from '../../../../context/mockdata';
+import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
 import type { Meta, StoryFn } from '@storybook/react';
@@ -29,7 +29,7 @@ const Template: StoryFn<typeof HalfWidthTextComponent> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-    ...mockComponent,
+    ...mockComponentProps,
     __ui_id__ : "3333333",
     component_id: Component.HalfWidthText,
     data: {    

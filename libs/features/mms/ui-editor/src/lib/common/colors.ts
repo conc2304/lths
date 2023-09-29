@@ -34,6 +34,17 @@ const colors = {
     boxShadow: '0px 8px 12px -2px #0000004D, 0px 2px 6px -2px #0000004D',
     text: '#D8BA90',
   },
+  halfWidthText: {
+    background: '#242526',
+    titleText: '#ffffff',
+    subTitleText: '#ffffff69',
+    sectionText: '#ffffff69',
+    descriptionText: '#ABABAC',
+    button: {
+      border: '#636364',
+      text: '#ffffff',
+    },
+  },
 };
 
 export default colors;
