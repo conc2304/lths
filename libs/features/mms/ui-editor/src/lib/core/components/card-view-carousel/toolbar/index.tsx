@@ -3,6 +3,7 @@ import { Button, List } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
 import { useEditorActions } from '../../../../context';
@@ -19,11 +20,11 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { swapComponentProps } = useToolbarChange();
+  const { swapComponentProps, generateUniqueId } = useToolbarChange();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-  const handleEditItem = (index: number) => {
+  const handleEdit = (index: number) => {
     setSelectedIndex(index);
   };
   const handleCloseItem = () => {
@@ -32,6 +33,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
 
   useEffect(() => {
     handleCloseItem();
+    generateUniqueId();
   }, [id]);
 
   const handleAdd = () => {
@@ -41,6 +43,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
         sub_component_data: [
           ...sub_component_data,
           {
+            _ui_id_: uuid(),
             image: "",
             action: { type: 'native' },
           },
@@ -68,13 +71,13 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   const renderCarouselDraggableItem = (item: any, index: number) => {
     return (
       <DraggableCarouselListItem
-        key={index}
+        key={item._ui_id_}
+        id={item._ui_id_}
         index={index}
-        sub_component_data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
-        onEditItem={handleEditItem}
-        text={item?.name}
+        onEdit={handleEdit}
+        text={item.name}
       ></DraggableCarouselListItem>
     );
   };

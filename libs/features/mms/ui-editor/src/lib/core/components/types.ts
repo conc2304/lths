@@ -497,6 +497,8 @@ export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
 };
 
 export type CardViewCarouselProps = {
+  _ui_id_?: string;
+  name?: string;
   image: string;
   action: ActionProps;
 };
