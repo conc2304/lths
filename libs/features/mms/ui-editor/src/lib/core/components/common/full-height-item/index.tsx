@@ -21,7 +21,10 @@ const FullHeightItem = (props: FullHeightItemProps) => {
         alt={title}
         sx={{ borderTopRightRadius: 10, borderTopLeftRadius: 10, height: 168, width: 300 }}
       />
-      <Box sx={{ background: '#242526', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }} padding={2}>
+      <Box
+        sx={{ background: colors.card.background, borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}
+        padding={2}
+      >
         <Typography variant="h5" sx={{ color: colors.editor.text, fontWeight: 450 }}>
           {title}
         </Typography>
