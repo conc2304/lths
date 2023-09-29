@@ -102,11 +102,10 @@ import {
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
   FullHeightEventComponentProps,
-} from '../components';
-import FullHeightEventToolbar from '../components/full-height-event/toolbar';
   HalfHeightMatchUpComponentProps,
+  FullHeightEventToolbar,
+  HalfHeightMatchUpToolbar,
 } from '../components';
-import HalfHeightMatchUpToolbar from '../components/half-height-matchup/toolbar';
 
 export const toolbarFactory = (props: ComponentProps) => {
   switch (props.component_id) {

@@ -51,9 +51,9 @@ import {
   CenterHeadlineText,
   CenterBodyTextBlock,
   ImageHeaderComponent,
+  FullHeightEventComponent,
+  HalfHeightMatchupComponent,
 } from '../components';
-import FullHeightEventComponent from '../components/full-height-event/component';
-import HalfHeightMatchupComponent from '../components/half-height-matchup/component';
 import {
   ButtonComponentProps,
   CardComponentProps,

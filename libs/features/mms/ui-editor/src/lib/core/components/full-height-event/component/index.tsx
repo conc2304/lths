@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Box, CardMedia, Grid, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';

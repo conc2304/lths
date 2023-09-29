@@ -71,11 +71,7 @@ export const useToolbarChange = () => {
   ) => {
     handlePropChange('name', event.target.value, index, keys);
   };
-  const handleNameValueChange = (
-    value: string,
-    index?: number,
-    keys?: string[]
-  ) => {
+  const handleNameValueChange = (value: string, index?: number, keys?: string[]) => {
     handlePropChange('name', value, index, keys);
   };
   const handleIconChange = (
@@ -166,7 +162,6 @@ export const useToolbarChange = () => {
     index?: number,
     keys: string[] = []
   ) => {
-    console.log('handle', event, key, index, keys);
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 
