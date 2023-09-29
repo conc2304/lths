@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { validate, v4 as uuid } from 'uuid';
 
 import { mergeKeys, updateNestedProp } from './utils';
 import { useEditorActions } from '../../../context';
@@ -35,6 +36,36 @@ export const useToolbarChange = () => {
     const data = updateNestedProp(selectedComponent, propName, value, index, mergeKeys(keys));
     selectComponent(data);
   }
+
+  const generateUniqueId = (objectKey = 'sub_component_data') => {
+    if (selectedComponent.data[objectKey]) {
+      const object = selectedComponent.data[objectKey];
+      let updatedItem;
+
+      if (Array.isArray(object)) {
+        const updatedArray = object.map((item) => ({
+          ...item,
+          _ui_id_: validate(item._ui_id_)? item._ui_id_ : uuid(),
+        }));
+        updatedItem = updatedArray;
+      } else if (typeof object === 'object') {
+        const updatedObject = {
+          ...object,
+          _ui_id_: validate(object._ui_id_)? object._ui_id_: uuid(),
+        };
+        updatedItem = updatedObject;
+      } else {
+        throw new Error(`Invalid type for ${objectKey}`);
+      }
+
+      selectComponent({ 
+        ...selectedComponent, 
+        data: { ...selectedComponent.data, [objectKey]: updatedItem } 
+      });
+    } else {
+      throw new Error(`Object key ${objectKey} not found in data`);
+    }
+  };
 
   //TODO: not generic enough
   const swapComponentProps = (index: number, index2: number) => {
@@ -159,7 +190,7 @@ export const useToolbarChange = () => {
     index?: number,
     keys?: string[]
   ) => {
-    handlePropChange('image_alt_text', event.target.value, index, keys);
+    handlePropChange('img_alt_text', event.target.value, index, keys);
   };
 
   const handleImageChange = (value: string, index?: number, keys?: string[]) => {
@@ -184,8 +215,13 @@ export const useToolbarChange = () => {
     handlePropChange('action', { [key]: event.target.value }, index, keys);
   };
 
+  const handleMaxSizeChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('max_size', value, index, keys);
+  };
+
   return {
     selectedComponent,
+    generateUniqueId,
     swapComponentProps,
     updateComponentProp,
     handlePropChange,
@@ -208,5 +244,6 @@ export const useToolbarChange = () => {
     handleHintChange,
     handleIconChange,
     handleIconValueChange,
+    handleMaxSizeChange,
   };
 };

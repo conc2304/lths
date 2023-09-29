@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useRef, useState, CSSProperties } from 'react';
+import { ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties } from 'react';
 import { ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
@@ -8,6 +8,11 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onSave }: { te
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setEditedText(text);
+  }, [text]);
+
   const handleDoubleClick = () => {
     setEditing(true);
   };

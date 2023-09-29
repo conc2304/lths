@@ -8,6 +8,10 @@ export type ComponentProps = BaseProps & {
 
 export type ComponentType = 'native' | 'webview';
 
+export enum SourceType {
+  NHL_SCHEDULE = 'NHL_Schedule',
+}
+
 export type AutocompleteItemProps = {
   label: string;
   value: string;
@@ -146,6 +150,7 @@ export type CardComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselProps = {
+  _ui_id_?: string;
   name?: string;
   title: string;
   image: string;
@@ -536,4 +541,13 @@ export type BodyTextComponentsProps = ComponentProps & {
   link_color: string;
   link_id: string;
   action: ActionProps;
+};
+
+export type HalfHeightMatchUpComponentProps = ComponentProps & {
+  data: {
+    max_size: number;
+    title: string;
+    btn_text: string;
+    source_type: SourceType;
+  };
 };
