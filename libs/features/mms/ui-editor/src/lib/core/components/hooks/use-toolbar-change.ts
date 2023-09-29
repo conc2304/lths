@@ -45,22 +45,22 @@ export const useToolbarChange = () => {
       if (Array.isArray(object)) {
         const updatedArray = object.map((item) => ({
           ...item,
-          _ui_id_: validate(item._ui_id_)? item._ui_id_ : uuid(),
+          _ui_id_: validate(item._ui_id_) ? item._ui_id_ : uuid(),
         }));
         updatedItem = updatedArray;
       } else if (typeof object === 'object') {
         const updatedObject = {
           ...object,
-          _ui_id_: validate(object._ui_id_)? object._ui_id_: uuid(),
+          _ui_id_: validate(object._ui_id_) ? object._ui_id_ : uuid(),
         };
         updatedItem = updatedObject;
       } else {
         throw new Error(`Invalid type for ${objectKey}`);
       }
 
-      selectComponent({ 
-        ...selectedComponent, 
-        data: { ...selectedComponent.data, [objectKey]: updatedItem } 
+      selectComponent({
+        ...selectedComponent,
+        data: { ...selectedComponent.data, [objectKey]: updatedItem },
       });
     } else {
       throw new Error(`Object key ${objectKey} not found in data`);
@@ -200,6 +200,10 @@ export const useToolbarChange = () => {
     handlePropChange('max_size', value, index, keys);
   };
 
+  const handleSourceTypeChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('source_type', value, index, keys);
+  };
+
   return {
     selectedComponent,
     generateUniqueId,
@@ -224,5 +228,6 @@ export const useToolbarChange = () => {
     handleHintChange,
     handleIconChange,
     handleMaxSizeChange,
+    handleSourceTypeChange,
   };
 };

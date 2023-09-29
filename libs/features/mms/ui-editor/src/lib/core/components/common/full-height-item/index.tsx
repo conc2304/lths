@@ -1,4 +1,4 @@
-import { Box, Card, CardMedia, Stack, Typography } from '@mui/material';
+import { Box, CardMedia, Typography } from '@mui/material';
 
 import colors from '../../../../common/colors';
 
@@ -19,7 +19,7 @@ const FullHeightItem = (props: FullHeightItemProps) => {
         width="300"
         image={image}
         alt={title}
-        sx={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+        sx={{ borderTopRightRadius: 10, borderTopLeftRadius: 10, height: 168, width: 300 }}
       />
       <Box sx={{ background: '#242526', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }} padding={2}>
         <Typography variant="h5" sx={{ color: colors.editor.text, fontWeight: 450 }}>

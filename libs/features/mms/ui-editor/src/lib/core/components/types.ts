@@ -10,6 +10,8 @@ export type ComponentType = 'native' | 'webview';
 
 export enum SourceType {
   NHL_SCHEDULE = 'NHL_Schedule',
+  NHL_VIDEO = 'NHL_Video',
+  NHL_NEWS = 'NHL_News',
 }
 
 export type AutocompleteItemProps = {
@@ -534,7 +536,7 @@ export type FullHeightEventComponentProps = ComponentProps & {
     max_size: string;
     title: string;
     btn_text: string;
-    source_type: string;
+    source_type: SourceType;
   };
 };
 

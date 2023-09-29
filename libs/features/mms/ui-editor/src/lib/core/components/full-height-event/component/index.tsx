@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { Stack, Typography } from '@mui/material';
 
+import placeholder from '../../../../../assets/placeholder_3_2.svg';
 import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements';
+import { Carousel } from '../../common';
 import FullHeightItem from '../../common/full-height-item';
 import { FullHeightEventComponentProps } from '../../types';
 
@@ -16,12 +18,7 @@ const FullHeightEventComponent = (props: FullHeightEventComponentProps) => {
     const components = [];
     for (let i = 0; i < Number(max_size); i++) {
       components.push(
-        <FullHeightItem
-          key={`fullHeightItem_${i}`}
-          title="Martin Madden on Ducks 2023 Draft"
-          description="June 29, 2023"
-          image="https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/PremiumDiningJD_3_2.png"
-        />
+        <FullHeightItem key={`fullHeightItem_${i}`} title="Title" description="description" image={placeholder} />
       );
     }
     return components;
@@ -29,7 +26,7 @@ const FullHeightEventComponent = (props: FullHeightEventComponentProps) => {
 
   return (
     <BasicContainer id={id}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={4}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={3}>
         <Typography fontSize="1.5rem" fontWeight={500} color={colors.editor.text}>
           {title}
         </Typography>
@@ -37,9 +34,7 @@ const FullHeightEventComponent = (props: FullHeightEventComponentProps) => {
           {btn_text}
         </Typography>
       </Stack>
-      <Stack spacing={2} direction="row" sx={{ flexWrap: 'nowrap', overflowX: 'hidden' }}>
-        {eventComponents}
-      </Stack>
+      <Carousel items={eventComponents} />
     </BasicContainer>
   );
 };
