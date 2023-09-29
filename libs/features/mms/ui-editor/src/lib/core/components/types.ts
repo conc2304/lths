@@ -150,6 +150,7 @@ export type CardComponentProps = ComponentProps & {
 };
 
 export type HalfWidthCarouselProps = {
+  _ui_id_?: string;
   name?: string;
   title: string;
   image: string;
