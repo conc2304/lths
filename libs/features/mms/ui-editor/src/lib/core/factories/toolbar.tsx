@@ -89,15 +89,23 @@ import {
   SocialIconButtonToolbar,
   SpacerToolbar,
   SpacerProps,
+  TextWithIconProps,
+  TextwithIconToolbar,
   DividerToolbar,
   DividerProps,
   FullHeightImageToolbar,
   FullHeightImageComponentProps,
+  CenterHeadlineTextToolbar,
+  CenterHeadlineTextProps,
+  CenterBodyTextBlockToolbar,
+  CenterBodyTextBlockProps,
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
   CardViewCarouselToolbar,
   CardViewCarouselComponentProps,
+  HalfHeightMatchUpComponentProps,
 } from '../components';
+import HalfHeightMatchUpToolbar from '../components/half-height-matchup/toolbar';
 
 export const toolbarFactory = (props: ComponentProps) => {
   switch (props.component_id) {
@@ -216,14 +224,7 @@ export const toolbarFactory = (props: ComponentProps) => {
         />
       );
     case Component.HalfHeightMatchup:
-      return (
-        <ExternalDataToolbar
-          component_id={props.component_id}
-          id={props.__ui_id__}
-          title="Matchup"
-          desc="Content and data from NHL.com."
-        />
-      );
+      return <HalfHeightMatchUpToolbar {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:
       return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:
@@ -232,10 +233,16 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <SocialIconButtonToolbar {...(props as SocialIconButtoncomponentProps)} />;
     case Component.Spacer:
       return <SpacerToolbar {...(props as SpacerProps)} />;
+    case Component.TextWithIcon:
+      return <TextwithIconToolbar {...(props as TextWithIconProps)} />;
     case Component.Divider:
       return <DividerToolbar {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
+    case Component.CenterHeadlineTextBlock:
+      return <CenterHeadlineTextToolbar {...(props as CenterHeadlineTextProps)} />;
+    case Component.CenterBodyTextBlock:
+      return <CenterBodyTextBlockToolbar {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
     case Component.CardViewCarousel:

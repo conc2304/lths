@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements/containers';
 import { FullWidthButtonComponentProps } from '../../types';
 const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
@@ -18,12 +19,12 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
     case 'SecondaryOutline':
       variantStyle = 'outlined';
       background = '';
-      border = '1px solid #636364';
+      border = `1px solid ${colors.button.border}`;
       color = 'white';
       break;
     case 'BrandFill':
       variantStyle = 'contained';
-      background = 'linear-gradient(180deg, #AD7C35 0%, #8D6834 66.67%, #785523 100%)';
+      background = colors.button.brand;
       color = 'white';
       break;
     default:
@@ -33,7 +34,7 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
   }
 
   return (
-    <BasicContainer id={id} sx={{ backgroundColor: 'black', padding: 2 }}>
+    <BasicContainer id={id}>
       <Button
         sx={{
           fontSize: '1.125rem',
@@ -42,8 +43,7 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
           color: { color },
           border: { border },
           borderRadius: '2rem',
-          paddingX: 4,
-          paddingY: 2,
+          paddingY: 1.5,
           '&:hover': {
             backgroundColor: { background },
             color: { color },

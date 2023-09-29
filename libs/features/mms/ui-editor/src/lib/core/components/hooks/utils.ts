@@ -57,7 +57,7 @@ export function updateNestedProp(
   keys: string[]
 ) {
   const updatedObject = { ...data };
-
+  console.log('updatedObject', updatedObject);
   function updateRecursive(obj: any, keyIndex: number) {
     const key = keys[keyIndex];
     if (!obj[key]) {
@@ -65,6 +65,7 @@ export function updateNestedProp(
     }
 
     if (keyIndex === keys.length - 1) {
+      console.log('obj', obj, 'key', key, 'index', index);
       obj[key] =
         index === undefined
           ? {

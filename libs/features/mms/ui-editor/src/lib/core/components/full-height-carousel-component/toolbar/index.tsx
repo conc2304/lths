@@ -25,7 +25,7 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-  const handleEditItem = (index: number) => {
+  const handleEdit = (index: number) => {
     setSelectedIndex(index);
   };
   const handleCloseItem = () => {
@@ -67,12 +67,12 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   const renderCarouselDraggableItem = (item: any, index: number) => {
     return (
       <DraggableCarouselListItem
-        key={index}
+        key={item?.name} // ToDo: Use a unique key
+        id={item?.name}
         index={index}
-        sub_component_data={sub_component_data}
         onDrag={handleDrag}
         onDelete={handleDelete}
-        onEditItem={handleEditItem}
+        onEdit={handleEdit}
         text={item?.name}
       ></DraggableCarouselListItem>
     );

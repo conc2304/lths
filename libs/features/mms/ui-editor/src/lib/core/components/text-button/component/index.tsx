@@ -1,37 +1,34 @@
-import { Stack, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-// eslint-disable-next-line import/order
+import colors from '../../../../common/colors';
 import { BasicContainer } from '../../../../elements/containers';
-
-/* eslint-disable-next-line */
 import { TextButtonProps } from '../../types';
-import { size } from '../utils';
+import { sizes } from '../utils';
 
 export function TextButtonComponent(props: TextButtonProps) {
   const {
     __ui_id__: id,
     data: { btn_text, btn_text_size },
   } = props;
-  const fontSize = size.find((s) => s.value === btn_text_size)?.fontSize;
+  const fontSize = sizes.find((s) => s.value === btn_text_size)?.fontSize;
   return (
-    <BasicContainer id={id} sx={{ backgroundColor: '#000000', alignItems: 'center' }}>
-      <Stack>
-        <Button
-          sx={{
-            fontSize: fontSize,
-            padding: '13px 19px',
-            color: '#FFFFFF',
-            textDecoration: 'underline',
-            justifyContent: 'left',
-          }}
-          variant="text"
-          href={btn_text}
-          endIcon={<KeyboardArrowRightIcon sx={{ fontSize: fontSize, marginLeft: '-10px' }} />}
-        >
-          {btn_text}
-        </Button>
-      </Stack>
+    <BasicContainer id={id}>
+      <Button
+        sx={{
+          fontSize: fontSize,
+          color: colors.editor.text,
+          textDecoration: 'underline',
+          padding: 0,
+        }}
+        variant="text"
+        href={btn_text}
+        endIcon={
+          <KeyboardArrowRightIcon sx={{ width: fontSize, height: fontSize, fontSize: fontSize, marginLeft: -1 }} />
+        }
+      >
+        {btn_text}
+      </Button>
     </BasicContainer>
   );
 }

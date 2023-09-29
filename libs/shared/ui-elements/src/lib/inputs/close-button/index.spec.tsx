@@ -11,6 +11,7 @@ describe('CloseButton', () => {
 
   it('renders with default props', () => {
     const { container } = render(<CloseButton {...defaultProps} />);
+    expect(container.firstChild).toHaveClass('Close-Button--root');
     expect(container).toBeInTheDocument();
   });
 

@@ -1,6 +1,6 @@
 import { api } from '@lths/shared/data-access';
 
-import { convertComponentDetailResponse } from './response-tranform';
+import { transformComponentDetailResponse, transformPageListResponse } from './transformer';
 import {
   ComponentDetailResponse,
   ComponentListResponse,
@@ -57,10 +57,7 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         url: getComponentDetailUrl(id),
         method: 'GET',
       }),
-      transformResponse: (response: ComponentDetailResponse): ComponentDetailResponse => {
-        const convertedResponse = convertComponentDetailResponse(response.data);
-        return { data: convertedResponse };
-      },
+      transformResponse: transformComponentDetailResponse,
     }),
     createPage: builder.mutation<CreatePageResponse, CreatePageRequest>({
       query: (data) => ({
@@ -74,6 +71,7 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         url: getPagesUrl(request),
         method: 'GET',
       }),
+      transformResponse: transformPageListResponse,
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: ['Pages'],
     }),

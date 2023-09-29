@@ -11,16 +11,11 @@ const QuicklinkButtonGroupComponent = (props: QuicklinkButtonGroupComponentProps
   } = props;
 
   return (
-    <BasicContainer id={id} 
-      sx={{ 
-        padding: 2,
-        display: 'flex',
-        justifyContent: 'center',
-        background: 'linear-gradient(180deg, rgba(18, 18, 19, 0) 0%, #121213 100%), linear-gradient(0deg, #242526, #242526)'
-      }}
-    >
-      <Stack direction="row" spacing={1.5}>
-        {sub_component_data.map((row, index) => <QuickLinkButtonComponent key={index} title={row.title} icon={row.icon} />)}
+    <BasicContainer id={id}>
+      <Stack direction="row" spacing={1.5} id={id}>
+        {sub_component_data.map((row, index) => (
+          <QuickLinkButtonComponent key={index} title={row.title} icon={row.icon} />
+        ))}
       </Stack>
     </BasicContainer>
   );
