@@ -101,9 +101,11 @@ import {
   CenterBodyTextBlockProps,
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
+  FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
+  FullHeightEventToolbar,
+  HalfHeightMatchUpToolbar,
 } from '../components';
-import HalfHeightMatchUpToolbar from '../components/half-height-matchup/toolbar';
 
 export const toolbarFactory = (props: ComponentProps) => {
   switch (props.component_id) {
@@ -193,14 +195,7 @@ export const toolbarFactory = (props: ComponentProps) => {
         />
       );
     case Component.FullHeightEvent:
-      return (
-        <ExternalDataToolbar
-          component_id={props.component_id}
-          id={props.__ui_id__}
-          title="Event"
-          desc="Content and data from Ticketmaster."
-        />
-      );
+      return <FullHeightEventToolbar {...(props as FullHeightEventComponentProps)} />;
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselToolbar {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:

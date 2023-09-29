@@ -6,6 +6,7 @@ const colors = {
     mobile: { background: '#121213' },
     text: '#FFFFFF',
     subText: '#ABABAC',
+    smallText: '#E2E2E3',
   },
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },

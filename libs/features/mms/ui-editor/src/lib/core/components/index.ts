@@ -146,4 +146,10 @@ export { default as CenterBodyTextBlockToolbar } from './center-body-text-block/
 export { default as ImageHeaderComponent } from './image-header/component';
 export { default as ImageHeaderToolbar } from './image-header/toolbar';
 
+export { default as HalfHeightMatchupComponent } from './half-height-matchup/component';
+export { default as HalfHeightMatchUpToolbar } from './half-height-matchup/toolbar';
+
+export { default as FullHeightEventComponent } from './full-height-event/component';
+export { default as FullHeightEventToolbar } from './full-height-event/toolbar';
+
 export * from './types';

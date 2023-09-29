@@ -51,8 +51,9 @@ import {
   CenterHeadlineText,
   CenterBodyTextBlock,
   ImageHeaderComponent,
+  FullHeightEventComponent,
+  HalfHeightMatchupComponent,
 } from '../components';
-import HalfHeightMatchupComponent from '../components/half-height-matchup/component';
 import {
   ButtonComponentProps,
   CardComponentProps,
@@ -104,6 +105,7 @@ import {
   CenterHeadlineTextProps,
   CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
+  FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
 } from '../components/types';
 
@@ -198,15 +200,7 @@ export const componentFactory = (props: ComponentProps) => {
         />
       );
     case Component.FullHeightEvent:
-      return (
-        <ExternalDataComponent
-          img_alt="FullHeightEvent"
-          id={props.__ui_id__}
-          image={
-            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cFullHeightEvent.svg'
-          }
-        />
-      );
+      return <FullHeightEventComponent {...(props as FullHeightEventComponentProps)} />;
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselComponent {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
