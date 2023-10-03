@@ -149,4 +149,10 @@ export { default as ImageHeaderToolbar } from './image-header/toolbar';
 export { default as CardViewCarouselComponent } from './card-view-carousel/component';
 export { default as CardViewCarouselToolbar } from './card-view-carousel/toolbar';
 
+export { default as HalfHeightMatchupComponent } from './half-height-matchup/component';
+export { default as HalfHeightMatchUpToolbar } from './half-height-matchup/toolbar';
+
+export { default as FullHeightEventComponent } from './full-height-event/component';
+export { default as FullHeightEventToolbar } from './full-height-event/toolbar';
+
 export * from './types';
