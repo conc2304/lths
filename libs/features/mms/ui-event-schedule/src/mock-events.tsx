@@ -16,23 +16,6 @@ export const eventStateMock: EventState[] = [
   {
     name: 'whatever',
     id: '2134',
-    duration: 6.25,
-    eventId: faker.database.mongodbObjectId(),
-    label: 'Event Day',
-    state: EVENT_STATE.EVENT_DAY,
-    start: new Date(),
-    end: new Date(),
-    desc: 'before pre-event start',
-    relativeOffsetHrs: 3,
-    stateDependency: {
-      relativeState: EVENT_STATE.PRE_EVENT,
-      referencePoint: 'start',
-      dependentPoint: 'start',
-    },
-  },
-  {
-    name: 'whatever',
-    id: '2134',
     eventId: faker.database.mongodbObjectId(),
     label: 'Pre-Event',
     state: EVENT_STATE.PRE_EVENT,
@@ -169,16 +152,11 @@ const getEventStatesMockEvents = (events: MMSEvent[]) => {
     let stateStart: Date;
     let stateEnd: Date;
 
-    const eventDayLength = 30 * faker.number.int({ max: 8, min: 4 });
     const preEventLength = 15 * faker.number.int({ max: 16, min: 2 });
     const postEventLength = 15 * faker.number.int({ max: 16, min: 2 });
 
     eventStates?.forEach((eventState, j) => {
       switch (eventState.state) {
-        case EVENT_STATE.EVENT_DAY:
-          stateStart = subMinutes(subMinutes(eventStart, preEventLength), eventDayLength);
-          stateEnd = subMinutes(eventStart, preEventLength);
-          break;
         case EVENT_STATE.PRE_EVENT:
           stateStart = subMinutes(eventStart, preEventLength);
           stateEnd = eventStart;

@@ -84,10 +84,18 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   const handleSetViewMode = (viewMode: ViewMode) => {
+    // close popper on view change
+    setPopperAnchor(undefined);
+    setPopperOpen(false);
+
     setViewMode(viewMode);
   };
 
   const handleSetView = (view: LTHSView) => {
+    // close popper on view change
+    setPopperAnchor(undefined);
+    setPopperOpen(false);
+
     setView(view);
   };
 

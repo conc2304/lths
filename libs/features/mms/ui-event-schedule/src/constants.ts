@@ -21,28 +21,23 @@ export enum EVENT_STATE {
   IN_EVENT = 'INGAME',
   PRE_EVENT = 'PREGAME',
   POST_EVENT = 'POSTGAME',
-  EVENT_DAY = 'EVENTDAY',
 }
 
 // !! also hardcoded ... :(
 export const BACKGROUND_EVENT_STATES = ['PREGAME', 'POSTGAME', 'EVENTDAY'];
+export const FOREGROUND_EVENT_STATES = ['INGAME'];
 
 // !! moar hardcoding of ui
 export const UNEDITABLE_EVENT_TYPES = [EVENT_TYPE.GAME, EVENT_TYPE.CONCERT];
 export const EVENTS_W_STATES = [EVENT_TYPE.GAME, EVENT_TYPE.CONCERT];
 
-// !! would you believe that i am going to also hard code this UI ?????
-export const EventStateUIEventDay: EventStateUI = {
-  state: EVENT_STATE.EVENT_DAY,
-  label: 'Event Day',
-  desc: 'before pre-event start',
-  stateDependency: {
-    relativeState: EVENT_STATE.PRE_EVENT,
-    referencePoint: 'start',
-    dependentPoint: 'start',
-  },
+export const EVENT_STATE_SORT_ORDER = {
+  PREGAME: -1,
+  INGAME: 0,
+  POSTGAME: 1,
 };
 
+// !! would you believe that i am going to also hard code this UI ?????
 export const EventStateUIPreEvent: EventStateUI = {
   state: EVENT_STATE.PRE_EVENT,
   label: 'Pre-Event',

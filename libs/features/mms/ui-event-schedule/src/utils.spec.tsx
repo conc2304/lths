@@ -2,13 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, within } from '@testing-library/react';
 import { addHours, subHours } from 'date-fns';
 
-import {
-  EVENT_STATE,
-  EventStateUIPostEvent,
-  EventStateUIEventDay,
-  EventStateUIPreEvent,
-  EventStateUIInEvent,
-} from './constants';
+import { EVENT_STATE, EventStateUIPostEvent, EventStateUIPreEvent, EventStateUIInEvent } from './constants';
 import { EventState, EventStateID } from './types';
 import {
   eventColorMap,
@@ -135,12 +129,21 @@ describe('updateEventStatesWithOffsets', () => {
 
 describe('EventStateUIMap', () => {
   it('should correctly map event state IDs to corresponding UI definitions', () => {
-    expect(EventStateUIMap(EVENT_STATE.EVENT_DAY)).toEqual(EventStateUIEventDay);
     expect(EventStateUIMap(EVENT_STATE.PRE_EVENT)).toEqual(EventStateUIPreEvent);
     expect(EventStateUIMap(EVENT_STATE.IN_EVENT)).toEqual(EventStateUIInEvent);
     expect(EventStateUIMap(EVENT_STATE.POST_EVENT)).toEqual(EventStateUIPostEvent);
 
-    // Test for an unknown event state ID (default should return EventStateUIInEvent)
-    expect(EventStateUIMap('UNKNOWN_STATE' as EventStateID)).toEqual(EventStateUIInEvent);
+    // Test for an unknown event state ID
+    const testState = 'UNKNOWN_STATE';
+    expect(EventStateUIMap(testState as EventStateID)).toEqual({
+      desc: 'N/A',
+      label: testState,
+      state: testState,
+      stateDependency: {
+        dependentPoint: null,
+        referencePoint: null,
+        relativeState: null,
+      },
+    });
   });
 });
