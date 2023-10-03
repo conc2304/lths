@@ -6,6 +6,7 @@ type ActionMenuItem = {
   id: string;
   label: string;
   action: () => void;
+  isDisabled?: boolean;
 };
 
 type ActionMenuProps = {
@@ -30,7 +31,7 @@ const ActionMenu = ({ options }: ActionMenuProps) => {
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         {options.map((option) => {
-          const { id, label, action } = option;
+          const { id, label, action, isDisabled = false } = option;
           return (
             <MenuItem
               key={id}
@@ -38,6 +39,7 @@ const ActionMenu = ({ options }: ActionMenuProps) => {
                 action();
                 handleClose();
               }}
+              disabled={isDisabled}
             >
               {label}
             </MenuItem>

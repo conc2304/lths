@@ -133,6 +133,7 @@ const NotificationPage = () => {
         selectNotification(notification);
         openNotificationAlert(NotificationAction.PUSH);
       },
+      isDisabled: true,
     },
   ];
 
