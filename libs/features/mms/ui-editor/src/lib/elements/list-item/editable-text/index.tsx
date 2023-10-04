@@ -58,7 +58,7 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onSave }: { te
             onKeyDown={handleKeyDown}
           />
         ) : (
-          <Typography sx={{ fontSize: '1rem', ...textStyle }} >{editedText}</Typography>
+          <Typography sx={{ overflow: 'hidden', overflowWrap: "break-word", textOverflow: 'ellipsis', fontSize: '1rem', ...textStyle }} >{editedText}</Typography>
         )
       }
     />
