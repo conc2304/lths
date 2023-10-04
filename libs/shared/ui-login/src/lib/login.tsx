@@ -146,7 +146,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                         size="small"
                       />
                     }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
+                    label={<Typography variant="h6">Keep me signed in</Typography>}
                   />
                   <Link variant="h6" component={RouterLink} to="/forgot-password" color="text.primary">
                     Forgot Password?

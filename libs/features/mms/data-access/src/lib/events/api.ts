@@ -17,7 +17,7 @@ const VIRTUAL_ID = 'EVENTS_CACHE';
 
 export const eventsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getEvents: builder.query<TransormedGetEventsResponse, QueryParams | void>({
+    getEvents: builder.query<TransormedGetEventsResponse, QueryParams | undefined>({
       query: (params = undefined) => ({
         url: getEventsUrl(),
         method: 'GET',
