@@ -53,6 +53,7 @@ import {
   ImageHeaderComponent,
   FullHeightEventComponent,
   HalfHeightMatchupComponent,
+  FullHeightEventFloatingTextComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -107,6 +108,7 @@ import {
   ImageHeaderComponentProps,
   FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
+  FullHeightEventFloatingTextComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -190,15 +192,7 @@ export const componentFactory = (props: ComponentProps) => {
     case Component.BodyTextBlock:
       return <BodyTextComponent {...(props as BodyTextComponentProps)} />;
     case Component.FullHeightEventFloatingText:
-      return (
-        <ExternalDataComponent
-          img_alt="FullHeightEventFloatingText"
-          id={props.__ui_id__}
-          image={
-            'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cFullHeightEventFloatingText.png'
-          }
-        />
-      );
+      return <FullHeightEventFloatingTextComponent {...(props as FullHeightEventFloatingTextComponentProps)} />;
     case Component.FullHeightEvent:
       return <FullHeightEventComponent {...(props as FullHeightEventComponentProps)} />;
     case Component.HalfWidthCarousel:

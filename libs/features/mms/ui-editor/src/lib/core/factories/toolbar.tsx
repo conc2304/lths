@@ -105,6 +105,8 @@ import {
   HalfHeightMatchUpComponentProps,
   FullHeightEventToolbar,
   HalfHeightMatchUpToolbar,
+  FullHeightEventFloatingTextToolbar,
+  FullHeightEventFloatingTextComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -186,14 +188,7 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.BodyTextBlock:
       return <BodyTextToolbar {...(props as BodyTextComponentProps)} />;
     case Component.FullHeightEventFloatingText:
-      return (
-        <ExternalDataToolbar
-          component_id={props.component_id}
-          id={props.__ui_id__}
-          title="Event"
-          desc="Content and data from Ticketmaster"
-        />
-      );
+      return <FullHeightEventFloatingTextToolbar {...(props as FullHeightEventFloatingTextComponentProps)} />;
     case Component.FullHeightEvent:
       return <FullHeightEventToolbar {...(props as FullHeightEventComponentProps)} />;
     case Component.HalfWidthCarousel:
