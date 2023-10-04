@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import { api } from '@lths/shared/data-access';
 
-import { errorToasterMiddleware } from './middlewares/error-toaster-middleware';
+import { errorToasterMiddleware, unauthorizedHandlerMiddleware } from './middlewares';
 import rootReducer from './root-reducer';
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware).concat(errorToasterMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware, errorToasterMiddleware, unauthorizedHandlerMiddleware),
+
   devTools: process.env.NODE_ENV !== 'production',
 });
 

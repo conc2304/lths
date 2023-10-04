@@ -7,6 +7,7 @@ import {
   EventStateID,
   EventStateUIMap,
   EventTypeID,
+  FOREGROUND_EVENT_STATES,
 } from '@lths/features/mms/ui-event-schedule';
 
 import { GetEventsEvent, GetEventsResponse, SerializableMMSEvent, TransormedGetEventsResponse } from './types';
@@ -30,6 +31,14 @@ export const getEventsResponseTransformer = (response: GetEventsResponse): Trans
     const eventState = event.state || null;
     //  !! hardcoding this is brittle, but it is "by design"
     const isBackgroundEventState = BACKGROUND_EVENT_STATES.includes(eventState);
+    const isForegroundEventState = FOREGROUND_EVENT_STATES.includes(eventState);
+
+    const isUnhandledEventState = !isForegroundEventState && !isBackgroundEventState;
+
+    let isBackgroundEvent = isBackgroundEventState;
+    if (isUnhandledEventState) {
+      isBackgroundEvent = false;
+    }
 
     const uiEvent: SerializableMMSEvent = {
       start,
@@ -38,16 +47,19 @@ export const getEventsResponseTransformer = (response: GetEventsResponse): Trans
       title: event.name,
       id: event._id,
       eventId: event.event_id,
-      isBackgroundEvent: isBackgroundEventState,
-      eventType: { label: EVENT_LABEL_MAP[event.type] || 'label not found', id: event.type as EventTypeID },
-      desc: isBackgroundEventState ? undefined : event.description,
-      createdBy: isBackgroundEventState ? undefined : event.source,
-      eventStates: isBackgroundEventState ? undefined : getEventStatesByEventId(apiEvents, event.event_id),
-      eventState: eventState,
-      createdOn: isBackgroundEventState ? undefined : event.created_on,
+      isBackgroundEvent: isBackgroundEvent,
+      eventType: {
+        label: EVENT_LABEL_MAP[event.type] || 'Unknown',
+        id: (event.type as EventTypeID) || 'N/A',
+      },
+      desc: isBackgroundEvent ? undefined : event.description,
+      createdBy: isBackgroundEvent ? undefined : event.source || 'Unknown',
+      eventStates: isBackgroundEvent ? undefined : getEventStatesByEventId(apiEvents, event.event_id),
+      eventState: !isUnhandledEventState ? eventState : `Unregistered state: ${eventState} `,
+      createdOn: isBackgroundEvent ? undefined : event.created_on,
     };
 
-    isBackgroundEventState ? eventStates.push(uiEvent) : events.push(uiEvent);
+    isBackgroundEvent ? eventStates.push(uiEvent) : events.push(uiEvent);
   });
 
   return { events, eventStates };
@@ -65,6 +77,7 @@ export const getEventStatesByEventId = (events: GetEventsEvent[], eventId: strin
   eventsWithId.forEach((event) => {
     const { state, actual_start_date_time, actual_end_date_time, start_date_time, end_date_time, _id, event_id } =
       event;
+
     if (!state) return;
 
     const currentStateStart = actual_start_date_time || start_date_time || null;

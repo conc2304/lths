@@ -6,11 +6,7 @@ export type EventType = { id: EventTypeID | string; label: string };
 
 export type EventTypeID = EVENT_TYPE.GAME | EVENT_TYPE.CONCERT;
 
-export type EventStateID =
-  | EVENT_STATE.IN_EVENT
-  | EVENT_STATE.PRE_EVENT
-  | EVENT_STATE.POST_EVENT
-  | EVENT_STATE.EVENT_DAY;
+export type EventStateID = EVENT_STATE.IN_EVENT | EVENT_STATE.PRE_EVENT | EVENT_STATE.POST_EVENT;
 
 export interface EventStateBase {
   id: string;

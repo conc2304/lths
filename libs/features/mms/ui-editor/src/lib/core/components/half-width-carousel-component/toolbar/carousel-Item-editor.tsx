@@ -1,10 +1,8 @@
 import React, { ChangeEvent } from 'react';
-import { Button, Stack, IconButton } from '@mui/material';
-import {ChevronLeft, ChevronRight} from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
+import { Button, Stack } from '@mui/material';
 
 import { ToolbarProps } from '../../../../context';
-import { OutlinedTextField, GroupLabel, SimpleImagePicker, EditableListItemText } from '../../../../elements';
+import { OutlinedTextField, GroupLabel, SimpleImagePicker, EditableListItemTextWithClose } from '../../../../elements';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthCarouselProps } from '../../types';
@@ -21,12 +19,12 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
   onClose,
   index,
 }) => {
-  const { name, image = '', image_alt_text = '', title = '', description = '', action = {type: 'webview', page_id: '', page_link: '' } } = item || {};
+  const { name, image = '', img_alt_text = '', title = '', description = '', action = {type: 'webview', page_id: '', page_link: '' } } = item || {};
   const parentKeys = ['sub_component_data'];
   const { handleTitleChange, handleImageChange, handleImageAltChange, handleDescriptionChange, handleNameValueChange } = useToolbarChange();
-  const theme = useTheme();
 
   const _handleNameChange = (value: string) => {
+    if(index < 0) return;
     handleNameValueChange(value, index, parentKeys);
   };
 
@@ -52,17 +50,9 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({
 
   return (
     <>
-      <div style={{ position: 'relative' }} >
-        <EditableListItemText text={name || 'Carousel Item'} sx={{ height: 30, margin: 0, display: "flex", alignItems: "center" }} textStyle={{ fontSize: '1.25rem', fontWeight: 600, color: "text.secondary" }} onSave={_handleNameChange} />
-        <IconButton aria-label="Close Carousel Item" 
-          onClick={onClose}
-          style={{ position: 'absolute', top: '50%', right: '0', transform: 'translate(0, -50%)' }}
-        >
-          {theme.direction === 'rtl' ? <ChevronLeft sx={{ fontSize: theme.spacing(4) }}/> : <ChevronRight sx={{ fontSize: theme.spacing(4) }}/>}
-        </IconButton>
-      </div>
+      <EditableListItemTextWithClose text={name || 'Carousel Item'} onSave={_handleNameChange} onClose={onClose} />
       <SimpleImagePicker value={image} onChange={_handleImageChange} onReplace={onPropChange} />
-      <OutlinedTextField label={'Image alt-text'} value={image_alt_text} onChange={_handleImageAltChange} />
+      <OutlinedTextField label={'Image alt-text'} value={img_alt_text} onChange={_handleImageAltChange} />
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={_handleTitleChange} />
       <OutlinedTextField label={'Description'} value={description} onChange={_handleDescriptionChange} />

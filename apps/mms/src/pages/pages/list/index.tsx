@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
@@ -179,8 +180,9 @@ const Page = (): JSX.Element => {
             CREATE
           </Button>
         }
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, mb: 2 }}
       />
+      <Divider />
       <Table
         loading={isLoading}
         fetching={isFetching}

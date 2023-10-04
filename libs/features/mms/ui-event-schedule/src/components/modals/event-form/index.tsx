@@ -49,6 +49,7 @@ export type EventFormModalProps = {
 export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
+  const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
   const eventTypeFallback = { id: 'none', label: 'Select Event Type' };
   const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | typeof eventTypeFallback } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
@@ -116,6 +117,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
       },
     },
   };
+
+  const originalEventTypeUnknown =
+    eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
+  const availableEventTypes = eventTypes.filter(
+    ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
+  );
 
   const formGroupSX = { marginTop: pxToRem(16) };
 
@@ -301,6 +308,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                       </Box>
                     );
                   }
+                  if (sVal.id === eventTypeUnknown.id) {
+                    return <Box component="span">{eventTypeUnknown.label}</Box>;
+                  }
                   return sVal.label;
                 }}
                 placeholder="Select event type"
@@ -317,15 +327,21 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 }}
               >
                 <MenuItem disabled value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}>
-                  <em>Select event type</em>
+                  <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Select event type'}</em>
                 </MenuItem>
-                {eventTypes
-                  .filter(({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString()))
-                  .map(({ label, id }) => (
-                    <MenuItem key={id} value={JSON.stringify({ id, label })}>
-                      {label}
-                    </MenuItem>
-                  ))}
+                {originalEventTypeUnknown && (
+                  <MenuItem
+                    sx={{ display: 'none' }}
+                    value={JSON.stringify({ id: eventTypeUnknown.id, label: eventTypeUnknown.label })}
+                  >
+                    <em>{eventTypeUnknown.label}</em>
+                  </MenuItem>
+                )}
+                {availableEventTypes.map(({ label, id }) => (
+                  <MenuItem key={id} value={JSON.stringify({ id, label })}>
+                    {label}
+                  </MenuItem>
+                ))}
               </Select>
               {Boolean(formik.errors?.eventType?.id) && (
                 <FormHelperText error sx={{ ml: 2 }}>

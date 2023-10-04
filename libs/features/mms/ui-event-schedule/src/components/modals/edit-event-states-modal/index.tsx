@@ -1,15 +1,15 @@
 import { ChangeEvent } from 'react';
 import { DialogProps, Dialog, Typography, SxProps, Box } from '@mui/material';
-import { format, getMinutes, isBefore } from 'date-fns';
+import { format, getMinutes } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
 
 import { EventStateFormItem } from './event-state-form-item';
-import { EVENT_STATE } from '../../../constants';
+import { BACKGROUND_EVENT_STATES, EVENT_STATE, FOREGROUND_EVENT_STATES } from '../../../constants';
 import { EventState, EventStateID, MMSEvent } from '../../../types';
-import { updateEventStatesWithOffsets } from '../../../utils';
+import { sortByEventState, updateEventStatesWithOffsets } from '../../../utils';
 import { CalendarDialogActions } from '../dialog-actions';
 import { CalendarDialogTitle } from '../dialog-title';
 import { FormLabel, StyledDialogContent, dialogSubtitleText } from '../utils';
@@ -114,7 +114,14 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
           </Typography>
 
           {eventStates
-            ?.sort((a, b) => (isBefore(new Date(a.start), new Date(b.start)) ? -1 : 1))
+            ?.filter((eventState) => {
+              const isBackgroundEventState = BACKGROUND_EVENT_STATES.includes(eventState.state);
+              const isForegroundEventState = FOREGROUND_EVENT_STATES.includes(eventState.state);
+              const isUnhandledEventState = !isForegroundEventState && !isBackgroundEventState;
+
+              return !isUnhandledEventState;
+            })
+            ?.sort(sortByEventState)
             .map((eventState) => {
               const { desc, label, state, id } = eventState;
               if (state === EVENT_STATE.IN_EVENT) {

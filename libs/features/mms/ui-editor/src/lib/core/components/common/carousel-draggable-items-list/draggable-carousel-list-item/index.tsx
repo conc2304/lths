@@ -3,8 +3,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import { DraggableCard, EditableListItemText } from '../../../../elements';
-import { useToolbarChange } from '../../hooks';
+import { DraggableCard, EditableListItemText } from '../../../../../elements';
+import { useToolbarChange } from '../../../hooks';
 
 interface DraggableCarouselListItemProps {
   id: string;

@@ -7,15 +7,17 @@ type Menu = {
   id: string;
   label: string;
   action: () => void;
+  isDisabled?: boolean;
 };
 
 type Props = {
   buttonText: string;
   buttonAction: () => void;
   items: Menu[];
+  isDisabled?: boolean;
 };
 
-const MenuButton = ({ buttonText, buttonAction, items }: Props) => {
+const MenuButton = ({ buttonText, buttonAction, items, isDisabled = false }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -36,7 +38,17 @@ const MenuButton = ({ buttonText, buttonAction, items }: Props) => {
   return (
     <Box>
       <Stack sx={stackSXProps} direction="row" borderRadius={1} alignItems="center">
-        <Button onClick={() => buttonAction()} sx={{ color: 'white', paddingY: 0.75, paddingX: 2 }}>
+        <Button
+          onClick={() => buttonAction()}
+          sx={{
+            color: 'white',
+            paddingY: 0.75,
+            paddingX: 2,
+            opacity: isDisabled ? 0.38 : 1,
+            '&:disabled': { color: 'white' },
+          }}
+          disabled={isDisabled}
+        >
           {buttonText}
         </Button>
         <Divider orientation="vertical" flexItem variant="middle" sx={{ bgcolor: 'white' }} />
@@ -64,7 +76,7 @@ const MenuButton = ({ buttonText, buttonAction, items }: Props) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {items.map(({ id, label, action }) => (
+        {items.map(({ id, label, action, isDisabled = false }) => (
           <MenuItem
             key={id}
             onClick={() => {
@@ -75,6 +87,7 @@ const MenuButton = ({ buttonText, buttonAction, items }: Props) => {
               fontSize: '0.875rem',
               fontWeight: 500,
             }}
+            disabled={isDisabled}
           >
             {label}
           </MenuItem>

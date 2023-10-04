@@ -92,7 +92,7 @@ const events: GetEventsEvent[] = [
 
 describe('getEventStatesByEventId', () => {
   it('returns undefined for no matching events', () => {
-    const result = getEventStatesByEventId(events, 'nonexistentId');
+    const result = getEventStatesByEventId(events, 'nonexistent-id');
     expect(result).toBeUndefined();
   });
 

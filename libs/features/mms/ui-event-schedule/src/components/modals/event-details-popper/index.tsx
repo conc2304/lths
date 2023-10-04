@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Theme } from '@mui/system';
-import { format, isAfter, isBefore } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 
 import { CloseButton } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
@@ -9,6 +9,7 @@ import { pxToRem } from '@lths/shared/utils';
 import { EventTime } from './event-time-header';
 import { EVENTS_W_STATES, UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../../../types';
+import { sortByEventState } from '../../../utils';
 import { EditEventModal } from '../edit-event-modal';
 import { EditEventStatesModal } from '../edit-event-states-modal';
 
@@ -109,42 +110,40 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
               sx={{ fontSize: pxToRem(14), lineHeight: pxToRem(18), letterSpacing: '0.15px' }}
             >
               {createdBy}
-              {eventType &&
+              {eventType?.id &&
               createdOn &&
               !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(eventType.id.toString())
                 ? ` on ${format(createdOn, 'MM/dd/yy | hh:mma')}`
                 : ''}
             </Typography>
           </Box>
-          {eventType &&
+          {eventType?.id &&
             EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) &&
             eventStates &&
             eventStates.length > 0 && (
               <Box mb={2} className="EventDetailsPopper--eventStates">
                 <FieldLabel mb={1.5}>Event States</FieldLabel>
                 <Stack direction="column" spacing={2}>
-                  {eventStates
-                    ?.sort((a, b) => (isBefore(new Date(a.start), new Date(b.start)) ? -1 : 1))
-                    .map((eventState: EventState) => {
-                      const { label, desc, state, relativeOffsetHrs } = eventState;
-                      const offsetTimeSuffix = relativeOffsetHrs && relativeOffsetHrs > 1 ? 'hrs' : 'hr';
-                      const offsetText = `${relativeOffsetHrs} ${offsetTimeSuffix}`;
-                      return (
-                        <Box
-                          display="flex"
-                          justifyContent={'start'}
-                          key={state}
-                          sx={{ fontSize: pxToRem(12), fontWeight: 'bold' }}
-                        >
-                          {label && <Box width={'40%'}>{label}</Box>}
-                          {desc && (
-                            <Box>
-                              {relativeOffsetHrs !== null && offsetText} {desc.toString()}
-                            </Box>
-                          )}
-                        </Box>
-                      );
-                    })}
+                  {eventStates?.sort(sortByEventState).map((eventState: EventState) => {
+                    const { label, desc, state, relativeOffsetHrs } = eventState;
+                    const offsetTimeSuffix = relativeOffsetHrs && relativeOffsetHrs > 1 ? 'hrs' : 'hr';
+                    const offsetText = `${relativeOffsetHrs} ${offsetTimeSuffix}`;
+                    return (
+                      <Box
+                        display="flex"
+                        justifyContent={'start'}
+                        key={state}
+                        sx={{ fontSize: pxToRem(12), fontWeight: 'bold' }}
+                      >
+                        {label && <Box width={'40%'}>{label}</Box>}
+                        {desc && (
+                          <Box>
+                            {relativeOffsetHrs !== null && offsetText} {desc.toString()}
+                          </Box>
+                        )}
+                      </Box>
+                    );
+                  })}
                 </Stack>
               </Box>
             )}
@@ -158,7 +157,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
                 mt: 1.25,
               }}
             >
-              {eventType && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString())
+              {eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString())
                 ? 'EDIT EVENT STATES'
                 : 'EDIT EVENT'}
             </Typography>
@@ -180,7 +179,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           )}
         </Box>
       </Box>
-      {eventType && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && eventStates && (
+      {eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && eventStates && (
         <EditEventStatesModal
           open={editModalOpen}
           eventData={event}
@@ -192,7 +191,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           }}
         />
       )}
-      {eventType && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && (
+      {eventType?.id && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && (
         <EditEventModal
           event={event}
           eventTypes={eventTypes}

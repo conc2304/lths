@@ -13,16 +13,14 @@ import { addHours, subHours } from 'date-fns';
 import {
   EVENT_STATE,
   EventStateUIPostEvent,
-  EventStateUIEventDay,
   EventStateUIPreEvent,
   EventStateUIInEvent,
+  EVENT_STATE_SORT_ORDER,
 } from './constants';
 import { EventState, EventStateID, EventStateUI } from './types';
 
 export const EventStateUIMap = (eventStateID: EventStateID): EventStateUI => {
   switch (eventStateID) {
-    case EVENT_STATE.EVENT_DAY:
-      return EventStateUIEventDay;
     case EVENT_STATE.PRE_EVENT:
       return EventStateUIPreEvent;
     case EVENT_STATE.IN_EVENT:
@@ -30,8 +28,24 @@ export const EventStateUIMap = (eventStateID: EventStateID): EventStateUI => {
     case EVENT_STATE.POST_EVENT:
       return EventStateUIPostEvent;
     default:
-      return EventStateUIInEvent;
+      return {
+        stateDependency: {
+          relativeState: null,
+          referencePoint: null,
+          dependentPoint: null,
+        },
+        state: eventStateID,
+        label: eventStateID,
+        desc: 'N/A',
+      };
   }
+};
+
+export const sortByEventState = (a: EventState, b: EventState) => {
+  const aVal = EVENT_STATE_SORT_ORDER[a.state] || -10;
+  const bVal = EVENT_STATE_SORT_ORDER[b.state] || -10;
+  if (aVal === bVal) return 0;
+  return bVal < aVal ? -1 : 1;
 };
 
 /**

@@ -17,7 +17,7 @@ const VIRTUAL_ID = 'EVENTS_CACHE';
 
 export const eventsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getEvents: builder.query<TransormedGetEventsResponse, QueryParams | void>({
+    getEvents: builder.query<TransormedGetEventsResponse, QueryParams | undefined>({
       query: (params = undefined) => ({
         url: getEventsUrl(),
         method: 'GET',
@@ -71,6 +71,7 @@ export const eventsApi = api.injectEndpoints({
       // Invalidates all queries that subscribe to this EVENT `id` only.
       // `getEvents` *might*  rerun, if this id was under its results.
       invalidatesTags: (result, error, { payload: { event_id } }) => {
+        if (!event_id) return;
         return [{ type: EVENTS_TAG, id: event_id }];
       },
     }),

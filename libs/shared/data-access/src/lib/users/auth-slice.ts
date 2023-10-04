@@ -1,15 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { authApi } from './auth-api';
+import { AuthenticatedSession } from './types';
 import { removeAuthTokenFromStorage, setAuthTokenFromStorage, getAuthSessionFromStorage } from './utils';
 
 const initialState = getAuthSessionFromStorage();
 
+const handleLogout = (state: AuthenticatedSession) => {
+  state.token = null;
+  state.userId = null;
+  removeAuthTokenFromStorage();
+  state.authenticated = false;
+};
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-
+  reducers: {
+    logout: (state: typeof initialState) => {
+      handleLogout(state);
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
       const {
@@ -22,13 +33,13 @@ const authSlice = createSlice({
       state.userId = _id;
       state.authenticated = true;
     });
-    builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
-      state.token = null;
-      state.userId = null;
-      removeAuthTokenFromStorage();
-      state.authenticated = false;
-    });
+    builder.addMatcher(
+      isAnyOf(authApi.endpoints.logout.matchFulfilled, authApi.endpoints.logout.matchRejected),
+      (state) => {
+        handleLogout(state);
+      }
+    );
   },
 });
 
-export const authReducer = authSlice.reducer;
+export const { actions: authActions, reducer: authReducer } = authSlice;
