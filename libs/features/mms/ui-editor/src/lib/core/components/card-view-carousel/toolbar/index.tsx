@@ -1,5 +1,5 @@
-import { useCallback, useState, useEffect } from 'react';
-import { Button, List } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,9 +7,8 @@ import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, ToolbarLabel } from '../../../../elements';
-import { DraggableCarouselListItem } from '../../common/index';
-import { useToolbarChange } from '../../hooks';
+import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
+import { CarouselDraggableItemsList } from '../../common/index';
 import { CardViewCarouselComponentProps } from '../../types';
 
 const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
@@ -20,23 +19,22 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   } = props;
 
   const { selectComponent } = useEditorActions();
-  const { swapComponentProps, generateUniqueId } = useToolbarChange();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-  const handleEdit = (index: number) => {
-    setSelectedIndex(index);
-  };
-  const handleCloseItem = () => {
+  const onClose = () => {
     setSelectedIndex(-1);
   };
 
+  const onEdit = (index: number) => {
+    setSelectedIndex(index);
+  };
+
   useEffect(() => {
-    handleCloseItem();
-    generateUniqueId();
+    onClose ();
   }, [id]);
 
-  const handleAdd = () => {
+  const onAdd = () => {
     const data = {
       ...props,
       data: {
@@ -53,66 +51,41 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
     selectComponent(data);
   };
 
-  const handleDelete = (index) => {
-    const newData = [...props.data.sub_component_data];
-    newData.splice(index, 1);
-
-    const data = { ...props, data: { sub_component_data: newData } };
-    selectComponent(data);
-  };
-
-  const handleDrag = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      swapComponentProps(dragIndex, hoverIndex);
-    },
-    [props.data]
-  );
-
-  const renderCarouselDraggableItem = (item: any, index: number) => {
-    return (
-      <DraggableCarouselListItem
-        key={item._ui_id_}
-        id={item._ui_id_}
-        index={index}
-        onDrag={handleDrag}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-        text={item.name}
-      ></DraggableCarouselListItem>
-    );
-  };
-
   return (
-    <ToolContainer id={id} aria-label="Half Width Carousel Text Toolbar">
-      <DndProvider backend={HTML5Backend}>
-        {selectedIndex >= 0 ? (
-          <CarouselItemEditor
-            item={sub_component_data[selectedIndex]}
-            onClose={handleCloseItem}
-            onPropChange={onPropChange}
-            index={selectedIndex}
-          />
-        ) : (
-          <>
+    <DndProvider backend={HTML5Backend}>
+      <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
+        leftItem={
+          <ToolContainer id={`Carousel_${id}`} aria-label="Card View Carousel Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
-            {sub_component_data && sub_component_data.length > 0 && (
-              <List>{sub_component_data.map((item, i) => renderCarouselDraggableItem(item, i))}</List>
-            )}
+            <CarouselDraggableItemsList
+              props={props}
+              onEdit={onEdit}
+            />
             <div>
               <Button
                 data-testid={'Add Carousel Item'}
                 variant="outlined"
-                onClick={handleAdd}
+                onClick={onAdd}
                 sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
               >
                 <AddIcon sx={{ width: '18px', height: '18px' }} />
                 ADD ITEM
               </Button>
             </div>
-          </>
-        )}
-      </DndProvider>
-    </ToolContainer>
+          </ToolContainer>
+        }
+        rightItem={
+          <ToolContainer id={`Carousel_Item${id}`} aria-label="Card View Carousel Toolbar: Carousel Item">
+            <CarouselItemEditor
+              item={sub_component_data[selectedIndex]}
+              onClose={onClose}
+              onPropChange={onPropChange}
+              index={selectedIndex}
+            />
+          </ToolContainer>
+        }
+      />
+    </DndProvider>
   );
 };
 export default CardViewCarouselToolbar;

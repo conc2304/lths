@@ -8,6 +8,12 @@ import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 import { CardViewCarouselComponentProps, AutocompleteItemProps } from '../../types';
 
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+}))
+
 describe('CardViewCarousel Toolbar', () => {
     let initialState;
     let component: CardViewCarouselComponentProps;
@@ -21,18 +27,22 @@ describe('CardViewCarousel Toolbar', () => {
             data: {
                 sub_component_data: [
                     {
+                        name: "Card 1",
                         image: 'https://Image-1.png',
                         action: { type: 'web', page_id: 'pageId1', page_link: 'pageLink1' },
                     },
                     {
+                        name: "Card 2",
                         image: 'https://Image-2.png',
                         action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
                     },
                     {
+                        name: "Card 3",
                         image: 'https://Image-3.png',
                         action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
                     },
                     {
+                        name: "Card 4",
                         image: 'https://Image-4.png',
                         action: { type: 'native', page_id: 'pageId4', page_link: 'pageLink4' },
                     },
@@ -72,10 +82,10 @@ describe('CardViewCarousel Toolbar', () => {
         </EditorProvider>
         );
 
-        const containerLabel = screen.getByLabelText('Half Width Carousel Text Toolbar');
-        expect(containerLabel).toBeInTheDocument();
-
-        
+        const containerLabelCarousel = screen.getByLabelText('Card View Carousel Toolbar: Carousel');
+        expect(containerLabelCarousel).toBeInTheDocument();
+        const containerLabelCarouselItem = screen.getByLabelText('Card View Carousel Toolbar: Carousel Item');
+        expect(containerLabelCarouselItem).toBeInTheDocument();
     });
 
     test('should render CardViewCarousel toolbar title and add button', () => {
@@ -133,8 +143,9 @@ describe('CardViewCarousel Toolbar', () => {
 
             // Assert
             // test labels
-            const toolbarlabel = screen.getByText('Carousel Item');
-            expect(toolbarlabel).toBeInTheDocument();
+            const toolbarlabel = screen.queryAllByText(item.name);
+            expect(toolbarlabel[0]).toBeInTheDocument();
+            expect(toolbarlabel.length).toBe(2);
             const imagelabel = screen.getByText('Image');
             expect(imagelabel).toBeInTheDocument();
             const actionlabel = screen.getByText('Action');
