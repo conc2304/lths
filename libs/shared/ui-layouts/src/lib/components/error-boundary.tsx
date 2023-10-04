@@ -43,7 +43,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (this.state.hasError) {
       return (
         <Box data-testid="Error-Boundary--root">
-          <ErrorDialog data-testid="Error-Boundary--root" message={this.props.fallback} />;
+          <ErrorDialog message={this.props.fallback} />
         </Box>
       );
     }
