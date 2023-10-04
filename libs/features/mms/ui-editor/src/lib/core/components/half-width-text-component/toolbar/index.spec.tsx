@@ -31,7 +31,6 @@ describe('HalfWidthText Toolbar', () => {
         image: "iamge url",
         section: 'Section 206',
         sub_title: 'Pizza, Drinks',
-        text_color: 'current text color',
         title: 'Anaheim Pizza Co',
         action: {
           type: 'native',
@@ -127,18 +126,6 @@ describe('HalfWidthText Toolbar', () => {
     expect(container.innerHTML).toContain(description);
     expect(container.innerHTML).toContain(section);
     expect(container.innerHTML).toContain(btn_text);
-  });
-
-  test('should render HalfWidthText with correct color value', () => {
-    const container = render(
-      <EditorProvider initialValue={initialState}>
-        <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
-      </EditorProvider>
-    ).container;
-
-    const { text_color } = component.data;
-
-    expect(container.innerHTML).toContain(text_color);
   });
 
   test('should render HalfWidthText with correct icon value', () => {

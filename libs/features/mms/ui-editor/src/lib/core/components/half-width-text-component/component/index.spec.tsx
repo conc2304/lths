@@ -21,7 +21,6 @@ describe('HalfWidthTextComponent', () => {
         image: "iamge url",
         section: 'Section 206',
         sub_title: 'Pizza, Drinks',
-        text_color: 'string',
         title: 'Anaheim Pizza Co',
         action: {
           type: 'native',
@@ -55,27 +54,6 @@ describe('HalfWidthTextComponent', () => {
     const sectionElement = screen.getByText(section);
     expect(sectionElement).toBeInTheDocument();
   });
-
-  test('renders component with diffrent color', () => {
-    props.data.text_color = 'rgb(235, 38, 38)';
-
-    render(<HalfWidthTextComponent {...props} />);
-    const { title, sub_title, description, section, text_color } = props.data;
-
-    const titleElement = screen.getByText(title);
-    expect(window.getComputedStyle(titleElement).color).toBe(text_color);
-
-    const subTitleElement = screen.getByText(sub_title);
-    expect(window.getComputedStyle(subTitleElement).color).toBe(text_color);
-
-    const descriptionElement = screen.getByText(description);
-    expect(window.getComputedStyle(descriptionElement).color).toBe(text_color);
-
-    const sectionElement = screen.getByText(section);
-    expect(window.getComputedStyle(sectionElement).color).toBe(text_color);
-  });
-
-
 
   test('renders Component with card image and section icon', () => {
     render(<HalfWidthTextComponent {...props} />);

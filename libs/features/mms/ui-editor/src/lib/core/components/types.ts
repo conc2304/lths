@@ -367,7 +367,6 @@ export type HalfWidthTextComponentProps = ComponentProps & {
     image: string;
     section: string;
     sub_title: string;
-    text_color: string;
     title: string;
   };
 };

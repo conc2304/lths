@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 
-import { ToolbarLabel, OutlinedTextField, GroupLabel, ImageAutocomplete, SimpleImagePicker, AutocompleteOptionProps, ColorPicker } from '../../../../elements';
+import { ToolbarLabel, OutlinedTextField, GroupLabel, ImageAutocomplete, SimpleImagePicker, AutocompleteOptionProps } from '../../../../elements';
 import { ToolContainer } from '../../../../elements';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
@@ -16,7 +16,6 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
       image,
       section,
       sub_title,
-      text_color,
       title,
       action,
     },
@@ -40,7 +39,7 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
   const { 
     handlePropChange, 
     handleTitleChange, handleSubTitleChange, handleDescriptionChange,
-    handleButtonTextChange, handleTextColorChange,
+    handleButtonTextChange,
     handleIconValueChange, handleImageChange 
   } = useToolbarChange();
 
@@ -60,7 +59,6 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
         value={description}
         onChange={handleDescriptionChange}
       />
-      <ColorPicker label="color" value={text_color} onChange={handleTextColorChange} />
       <GroupLabel label={'Section'} />
       <OutlinedTextField label={'Label'} value={section} onChange={handleSectionChange} />
       <ImageAutocomplete

@@ -40,13 +40,13 @@ const colors = {
   },
   halfWidthText: {
     background: '#242526',
-    titleText: '#ffffff',
-    subTitleText: '#ffffff69',
-    sectionText: '#ffffff69',
-    descriptionText: '#ABABAC',
+    titleText: '#FFFFFF',
+    subTitleText: '#ABABAC',
+    sectionText: '#ABABAC',
+    descriptionText: '#E2E2E3',
     button: {
       border: '#636364',
-      text: '#ffffff',
+      text: '#FFFFFF',
     },
   },
 };

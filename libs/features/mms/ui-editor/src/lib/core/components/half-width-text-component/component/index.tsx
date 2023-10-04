@@ -15,7 +15,6 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
       image,
       section,
       sub_title,
-      text_color,
       title,
     },
   } = props;
@@ -32,40 +31,41 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
             sx={{ width: HALF_WIDTH_COMPONENT_WIDTH, height: calculatedHeight, objectFit: 'cover' }}
             image={image}
           />
-          <CardContent sx={{ bgcolor: colors.halfWidthText.background, padding: '12px', borderColor: colors.halfWidthText.background }}>
-            <Typography sx={{ fontSize: 12, lineHeight: 1.3, fontWeight: 450, color: text_color ? text_color : colors.halfWidthText.titleText }} >
+          <CardContent sx={{ bgcolor: colors.halfWidthText.background, padding: '16px', borderColor: colors.halfWidthText.background }}>
+            <Typography sx={{ fontSize: 20, lineHeight: 1.2, fontWeight: 450, color: colors.halfWidthText.titleText }} >
               {title}
             </Typography>
             <Typography 
-              gutterBottom
               sx={{
-                fontSize: 10,
-                fontWeight: 450,
-                color: text_color ? text_color : colors.halfWidthText.subTitleText,
+                fontSize: 14, lineHeight: 1.4, fontWeight: 400,
+                marginBottom: 1,
+                color: colors.halfWidthText.subTitleText,
               }}
             >
               {sub_title}
             </Typography>
             <Typography
-              gutterBottom
               variant="body2"
-              sx={{ fontSize: 11, fontWeight: 400, color: text_color ? text_color : colors.halfWidthText.descriptionText }}
+              sx={{ 
+                fontSize: 14, lineHeight: 1.4, fontWeight: 400, 
+                marginBottom: 2,
+                color: colors.halfWidthText.descriptionText 
+              }}
             >
               {description}
             </Typography>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
-              <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
+              <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0.5}>
                 <CardMedia
                   component="img" data-testid="section_icon"
                   image={icon}
-                  sx={{ height: '10px', width: '10px', objectFit: 'contain' }}
+                  sx={{ height: '12px', width: '12px', objectFit: 'contain' }}
                 />
                 <Typography
                   gutterBottom
                   sx={{
-                    fontSize: 10,
-                    fontWeight: 450,
-                    color: text_color ? text_color : colors.halfWidthText.sectionText,
+                    fontSize: 14, lineHeight: 1.4, fontWeight: 400,
+                    color: colors.halfWidthText.sectionText,
                   }}
                 >
                   {section}
@@ -77,11 +77,11 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
                   borderRadius: '20px',
                   borderColor: colors.halfWidthText.button.border,
                   color: colors.halfWidthText.button.text,
-                  padding: '4px 8px',
+                  padding: '10px 20px',
                   minWidth: 0,
                 }}
               >
-                <Typography sx={{ fontSize: 10 }}>{btn_text}</Typography>
+                <Typography sx={{ fontSize: 14, lineHeight: 1.4, fontWeight: 500 }}>{btn_text}</Typography>
               </Button>
             </Stack>
           </CardContent>
