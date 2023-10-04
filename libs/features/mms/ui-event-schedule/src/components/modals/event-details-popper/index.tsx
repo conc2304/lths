@@ -2,12 +2,14 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Theme } from '@mui/system';
 import { format, isAfter } from 'date-fns';
+import { Flags } from 'react-feature-flags';
 
 import { CloseButton } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { EventTime } from './event-time-header';
 import { EVENTS_W_STATES, UNEDITABLE_EVENT_TYPES } from '../../../constants';
+import { EVENT_SCHEDULER_UPDATE_EVENTS_FLAG, EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG } from '../../../feature-flags';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../../../types';
 import { sortByEventState } from '../../../utils';
 import { EditEventModal } from '../edit-event-modal';
@@ -40,6 +42,10 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
       letterSpacing: '0.15px',
     };
   });
+
+  const eventStatesEditable =
+    eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString());
+  const eventEditable = eventType?.id && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString());
 
   return (
     <>
@@ -117,6 +123,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
                 : ''}
             </Typography>
           </Box>
+          {/* Event States Container */}
           {eventType?.id &&
             EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) &&
             eventStates &&
@@ -148,6 +155,8 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
               </Box>
             )}
 
+          {/* Event Actions */}
+
           <Box onClick={() => onSetEditModalOpen(true)}>
             <Typography
               sx={{
@@ -157,9 +166,10 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
                 mt: 1.25,
               }}
             >
-              {eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString())
-                ? 'EDIT EVENT STATES'
-                : 'EDIT EVENT'}
+              <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
+                {eventStatesEditable && 'EDIT EVENT STATES'}
+              </Flags>
+              <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>{eventEditable && 'EDIT EVENT'}</Flags>
             </Typography>
           </Box>
 
@@ -179,29 +189,33 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           )}
         </Box>
       </Box>
-      {eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && eventStates && (
-        <EditEventStatesModal
-          open={editModalOpen}
-          eventData={event}
-          onClose={() => onSetEditModalOpen(false)}
-          onCancel={() => onSetEditModalOpen(false)}
-          onSave={(updatedEventStates) => {
-            onSaveEventStates(updatedEventStates);
-            onSetEditModalOpen(false);
-          }}
-        />
+      {eventStatesEditable && eventStates && (
+        <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
+          <EditEventStatesModal
+            open={editModalOpen}
+            eventData={event}
+            onClose={() => onSetEditModalOpen(false)}
+            onCancel={() => onSetEditModalOpen(false)}
+            onSave={(updatedEventStates) => {
+              onSaveEventStates(updatedEventStates);
+              onSetEditModalOpen(false);
+            }}
+          />
+        </Flags>
       )}
-      {eventType?.id && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString()) && (
-        <EditEventModal
-          event={event}
-          eventTypes={eventTypes}
-          open={editModalOpen}
-          onSave={(values) => {
-            onSaveEvent(values, id);
-            onSetEditModalOpen(false);
-          }}
-          onCancel={() => onSetEditModalOpen(false)}
-        />
+      {eventEditable && (
+        <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>
+          <EditEventModal
+            event={event}
+            eventTypes={eventTypes}
+            open={editModalOpen}
+            onSave={(values) => {
+              onSaveEvent(values, id);
+              onSetEditModalOpen(false);
+            }}
+            onCancel={() => onSetEditModalOpen(false)}
+          />
+        </Flags>
       )}
     </>
   );

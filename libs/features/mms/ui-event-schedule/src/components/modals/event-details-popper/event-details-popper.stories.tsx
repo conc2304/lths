@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 import { PopperWithArrow } from '@lths/shared/ui-elements';
 
 import { EventDetailsPopper } from './index';
+import { FlagsProviderMock } from '../../../feature-flags';
 import { eventTypesMock, getNewEvent } from '../../../mock-events';
 import { MMSEvent } from '../../../types';
 
@@ -26,7 +27,7 @@ const Template: StoryFn<{ eventA: MMSEvent; eventB: MMSEvent }> = (args) => {
   const popperPlacement = 'right-start';
 
   return (
-    <>
+    <FlagsProviderMock>
       <Box display="flex" justifyContent={'space-around'}>
         <Button
           ref={buttonRefA}
@@ -81,7 +82,7 @@ const Template: StoryFn<{ eventA: MMSEvent; eventB: MMSEvent }> = (args) => {
           }}
         />
       </PopperWithArrow>
-    </>
+    </FlagsProviderMock>
   );
 };
 

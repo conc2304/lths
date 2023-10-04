@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { FlagsProvider } from 'react-feature-flags';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
 import { store } from '@lths/features/mms/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
+import { MMS_FEATURE_FLAGS } from './feature-flags';
 import Routes from './routes';
 import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
@@ -28,12 +30,14 @@ function App() {
 
   return (
     <Provider store={store}>
-      <HashRouter>
-        <LayoutThemeProvider>
-          <Routes />
-          <LayoutToaster />
-        </LayoutThemeProvider>
-      </HashRouter>
+      <FlagsProvider value={MMS_FEATURE_FLAGS}>
+        <HashRouter>
+          <LayoutThemeProvider>
+            <Routes />
+            <LayoutToaster />
+          </LayoutThemeProvider>
+        </HashRouter>
+      </FlagsProvider>
     </Provider>
   );
 }

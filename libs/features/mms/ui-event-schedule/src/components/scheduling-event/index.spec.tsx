@@ -59,6 +59,7 @@ describe('SchedulingEvent', () => {
 
   it('shows the event time when view is not month and not in all day row', async () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
+
     testEvent.start?.setHours(10, 0, 0, 0);
     testEvent.end?.setHours(12, 0, 0, 0);
 
