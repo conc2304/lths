@@ -23,7 +23,7 @@ const CardViewCarousel = ({ items }: CarouselProps) => {
             <Stack direction="column" alignItems="center" spacing={1.5}>
               <Card
                 sx={{
-                  maxWidth: 275,
+                  maxWidth: 300,
                   borderRadius: '10px',
                   boxShadow: 'none',
                 }}
@@ -31,7 +31,7 @@ const CardViewCarousel = ({ items }: CarouselProps) => {
                 <CardMedia
                   component="img"
                   aria-label={`image ${index}`}
-                  sx={{ width: 275, height: 180, objectFit: 'cover' }}
+                  sx={{ width: 300, height: 200, objectFit: 'cover' }}
                   image={image}
                 />
               </Card>
