@@ -155,4 +155,8 @@ export { default as HalfHeightMatchUpToolbar } from './half-height-matchup/toolb
 export { default as FullHeightEventComponent } from './full-height-event/component';
 export { default as FullHeightEventToolbar } from './full-height-event/toolbar';
 
+export { default as FullHeightEventFloatingTextComponent } from './full-height-event-floating-text/component';
+
+export { default as FullHeightEventFloatingTextToolbar } from './full-height-event-floating-text/toolbar';
+
 export * from './types';

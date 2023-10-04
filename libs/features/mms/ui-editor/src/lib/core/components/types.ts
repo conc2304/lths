@@ -560,3 +560,5 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
     source_type: SourceType;
   };
 };
+
+export type FullHeightEventFloatingTextComponentProps = ComponentProps;
