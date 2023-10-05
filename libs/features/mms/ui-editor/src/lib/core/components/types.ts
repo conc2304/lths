@@ -362,6 +362,19 @@ export type FullHeightImageComponentProps = ComponentProps & {
   };
 };
 
+export type HalfWidthTextComponentProps = ComponentProps & {
+  data: {
+    action: ActionProps;
+    btn_text: string;
+    description: string;
+    icon: string;
+    image: string;
+    section: string;
+    sub_title: string;
+    title: string;
+  };
+};
+
 export type ImageComponentProps = ComponentProps & {
   data: {
     image: string;

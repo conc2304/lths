@@ -48,6 +48,7 @@ import {
   TextwithIcon,
   DividerComponent,
   FullHeightImageComponent,
+  HalfWidthTextComponent,
   CenterHeadlineText,
   CenterBodyTextBlock,
   ImageHeaderComponent,
@@ -104,6 +105,7 @@ import {
   TextWithIconProps,
   DividerProps,
   FullHeightImageComponentProps,
+  HalfWidthTextComponentProps,
   CenterHeadlineTextProps,
   CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
@@ -232,6 +234,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
+    case Component.HalfWidthText:
+      return <HalfWidthTextComponent {...(props as HalfWidthTextComponentProps)} />;
     case Component.CenterHeadlineTextBlock:
       return <CenterHeadlineText {...(props as CenterHeadlineTextProps)} />;
     case Component.CenterBodyTextBlock:

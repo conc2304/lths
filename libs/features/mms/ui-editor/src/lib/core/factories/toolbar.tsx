@@ -95,6 +95,8 @@ import {
   DividerProps,
   FullHeightImageToolbar,
   FullHeightImageComponentProps,
+  HalfWidthTextToolbar,
+  HalfWidthTextComponentProps,
   CenterHeadlineTextToolbar,
   CenterHeadlineTextProps,
   CenterBodyTextBlockToolbar,
@@ -229,6 +231,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <DividerToolbar {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
+    case Component.HalfWidthText:
+      return <HalfWidthTextToolbar {...(props as HalfWidthTextComponentProps)} />;
     case Component.CenterHeadlineTextBlock:
       return <CenterHeadlineTextToolbar {...(props as CenterHeadlineTextProps)} />;
     case Component.CenterBodyTextBlock:
