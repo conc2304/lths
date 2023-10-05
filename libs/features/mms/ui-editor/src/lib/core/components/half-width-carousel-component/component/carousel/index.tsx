@@ -16,7 +16,7 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
   return (
     <Swiper spaceBetween={10} slidesPerView={1} modules={[Pagination]} pagination={{ clickable: true }}>
       {items.map((item, index) => {
-        const { image, title, description, image_alt_text } = item;
+        const { image, title, description, img_alt_text } = item;
         return (
           <SwiperSlide key={index}>
             <Stack direction="column" alignItems="center" spacing={1.5}>
@@ -26,7 +26,7 @@ const HalfWidthCarousel = ({ items }: CarouselProps) => {
                     component="img"
                     sx={{ width: '144px', height: '96px', objectFit: 'cover', bgcolor: 'white' }}
                     image={image}
-                    alt={image_alt_text}
+                    alt={img_alt_text}
                   />
                   <CardContent
                     sx={{ bgcolor: colors.card.background, padding: '16px', borderColor: colors.card.background }}

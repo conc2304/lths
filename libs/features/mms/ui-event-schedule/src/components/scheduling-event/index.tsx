@@ -27,12 +27,19 @@ type EventComponentProps<TEvent extends object = Event> = {
   }) => void;
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
+  // eventsEditable?: boolean;
+  // eventStatesEditable?: boolean;
 } & EventProps<TEvent>;
 
 type SchedulingEventProps = EventComponentProps<MMSEvent>;
 
 export const SchedulingEvent = (props: SchedulingEventProps) => {
-  const { event, view, onEventClick } = props;
+  const {
+    event,
+    view,
+    onEventClick,
+    // eventStatesEditable = true, eventsEditable = true
+  } = props;
 
   const { title, allDay, start, end, eventType, createdOn, eventState, isBackgroundEvent } = event;
 

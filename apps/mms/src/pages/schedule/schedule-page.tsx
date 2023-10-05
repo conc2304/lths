@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
+import { Flags } from 'react-feature-flags';
 
 import {
   useLazyGetEventsQuery,
@@ -16,6 +17,11 @@ import {
   EventType,
   ExportEventsModal,
   ImportEventsModal,
+} from '@lths/features/mms/ui-event-schedule';
+import {
+  EVENT_SCHEDULER_CREATE_EVENTS_FLAG,
+  EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
+  EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
 } from '@lths/features/mms/ui-event-schedule';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -96,6 +102,8 @@ const SchedulePage = () => {
       updateEvent({ id, payload: eventPayload });
     }
   };
+
+  console.log({ events, backgroundEvents });
 
   const handleSaveEventStates = (updatedEventStates: EventState[]) => {
     updatedEventStates.forEach((eventState) => {
@@ -188,25 +196,31 @@ const SchedulePage = () => {
         sx={{ mt: '1rem', mb: '3.5rem' }}
         rightContent={
           <Box>
-            <Button
-              variant="outlined"
-              color="primary"
-              sx={{ marginRight: 1.5 }}
-              onClick={() => setImportModelOpen(true)}
-            >
-              IMPORT
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              sx={{ marginRight: 1.5 }}
-              onClick={() => setExportModelOpen(true)}
-            >
-              EXPORT
-            </Button>
-            <Button variant="contained" color="primary" onClick={() => setNewEventModalOpen(true)}>
-              + NEW EVENT
-            </Button>
+            <Flags authorizedFlags={[EVENT_SCHEDULER_IMPORT_EVENTS_FLAG]}>
+              <Button
+                variant="outlined"
+                color="primary"
+                sx={{ marginRight: 1.5 }}
+                onClick={() => setImportModelOpen(true)}
+              >
+                IMPORT
+              </Button>
+            </Flags>
+            <Flags authorizedFlags={[EVENT_SCHEDULER_EXPORT_EVENTS_FLAG]}>
+              <Button
+                variant="outlined"
+                color="primary"
+                sx={{ marginRight: 1.5 }}
+                onClick={() => setExportModelOpen(true)}
+              >
+                EXPORT
+              </Button>
+            </Flags>
+            <Flags authorizedFlags={[EVENT_SCHEDULER_CREATE_EVENTS_FLAG]}>
+              <Button variant="contained" color="primary" onClick={() => setNewEventModalOpen(true)}>
+                + NEW EVENT
+              </Button>
+            </Flags>
           </Box>
         }
       />

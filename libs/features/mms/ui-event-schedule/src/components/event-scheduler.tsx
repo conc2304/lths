@@ -31,6 +31,8 @@ type EventSchedulerProps = {
   defaultView?: LTHSView;
   onRangeChange?: (range: Date[] | { start: Date; end: Date }, view?: LTHSView) => void | undefined;
   onNavigate?: ((newDate: Date, view: LTHSView, action: NavigateAction) => void) | undefined;
+  eventsEditable?: boolean;
+  eventStatesEditable?: boolean;
 };
 
 export const EventScheduler = (props: EventSchedulerProps) => {

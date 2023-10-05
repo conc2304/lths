@@ -7,11 +7,12 @@ import userEvent from '@testing-library/user-event';
 
 import { EventScheduler } from './event-scheduler';
 import { EVENT_TYPE } from '../constants';
+import { FlagsProviderMock } from '../feature-flags';
 import { eventStateMockEvents, eventsMock, eventTypesMock, getNewEvent } from '../mock-events';
 
 describe('EventScheduler', () => {
   const renderWithTheme = (component: JSX.Element) => {
-    return render(RBThemeProvider({ children: component }));
+    return render(RBThemeProvider({ children: component }), { wrapper: FlagsProviderMock });
   };
 
   const onSaveEvent = jest.fn();

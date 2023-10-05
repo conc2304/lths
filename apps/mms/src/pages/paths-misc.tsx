@@ -6,8 +6,8 @@ const Home = {
     {
       title: 'Home',
       icon: <HomeIcon />,
-      path: '/emails/sent',
-      file: '/demo/sample-page',
+      path: '/pages/list',
+      file: '/pages/list',
     },
   ],
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { FlagsProvider } from 'react-feature-flags';
 
 import {
   useLazyGetEventsQuery,
@@ -9,7 +10,16 @@ import {
   useCreateEventMutation,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
-import { CreateNewEventModal, ExportEventsModal, ImportEventsModal } from '@lths/features/mms/ui-event-schedule';
+import {
+  CreateNewEventModal,
+  EVENT_SCHEDULER_CREATE_EVENTS_FLAG,
+  EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
+  EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
+  EVENT_SCHEDULER_UPDATE_EVENTS_FLAG,
+  EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG,
+  ExportEventsModal,
+  ImportEventsModal,
+} from '@lths/features/mms/ui-event-schedule';
 
 import SchedulePage from './schedule-page';
 
@@ -36,6 +46,29 @@ jest.mock('@lths/features/mms/ui-event-schedule', () => ({
 let component: RenderResult<typeof import('@testing-library/dom/types/queries'), HTMLElement, HTMLElement>;
 let container: HTMLElement;
 
+export const SPEC_EVENT_SCHEDULER_FLAGS = [
+  {
+    name: EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
+    isActive: true,
+  },
+  {
+    name: EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
+    isActive: true,
+  },
+  {
+    name: EVENT_SCHEDULER_CREATE_EVENTS_FLAG,
+    isActive: true,
+  },
+  {
+    name: EVENT_SCHEDULER_UPDATE_EVENTS_FLAG,
+    isActive: true,
+  },
+  {
+    name: EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG,
+    isActive: true,
+  },
+];
+
 describe('SchedulePage', () => {
   beforeEach(async () => {
     await act(async () => {
@@ -47,7 +80,11 @@ describe('SchedulePage', () => {
     });
 
     await act(async () => {
-      component = render(<SchedulePage />);
+      component = render(
+        <FlagsProvider value={SPEC_EVENT_SCHEDULER_FLAGS}>
+          <SchedulePage />
+        </FlagsProvider>
+      );
       container = component.container;
     });
   });
@@ -66,7 +103,14 @@ describe('SchedulePage', () => {
     expect(getEventsDataMock).not.toHaveBeenCalled();
     expect(getEnumListMock).not.toHaveBeenCalled();
 
-    await act(async () => render(<SchedulePage />));
+    await act(
+      async () =>
+        (component = render(
+          <FlagsProvider value={SPEC_EVENT_SCHEDULER_FLAGS}>
+            <SchedulePage />
+          </FlagsProvider>
+        ))
+    );
 
     // Verify we we are doing all of our initialization calls with the correct arguments
     expect(getEventsDataMock).toHaveBeenCalled();

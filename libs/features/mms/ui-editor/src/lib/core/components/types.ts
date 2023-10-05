@@ -31,6 +31,11 @@ export type ActionProps = {
   page_link: string;
 };
 
+export type CarouselProps = {
+  _ui_id_?: string;
+  name?: string;
+}
+
 export type SpacerProps = ComponentProps & {
   data: {
     space: string;
@@ -68,8 +73,7 @@ export type CenterBodyTextBlockProps = ComponentProps & {
   };
 };
 
-export type FullHeightCarouselProps = {
-  name?: string;
+export type FullHeightCarouselProps = CarouselProps & {
   title: string;
   img_alt_text: string;
   image: string;
@@ -145,13 +149,11 @@ export type CardComponentProps = ComponentProps & {
   };
 };
 
-export type HalfWidthCarouselProps = {
-  _ui_id_?: string;
-  name?: string;
+export type HalfWidthCarouselProps = CarouselProps & {
   title: string;
   image: string;
   description: string;
-  image_alt_text: string;
+  img_alt_text: string;
   action: ActionProps;
 };
 export type HalfWidthCarouselComponentProps = ComponentProps & {
@@ -478,8 +480,7 @@ export type SiloTextAndButtonComponentProps = ComponentProps & {
   };
 };
 
-export type HalfWidthCarouselFloatingTextProps = {
-  name?: string;
+export type HalfWidthCarouselFloatingTextProps = CarouselProps & {
   image: string;
   img_alt_text: string;
   title: string;
@@ -542,3 +543,5 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
     source_type: SourceType;
   };
 };
+
+export type FullHeightEventFloatingTextComponentProps = ComponentProps;
