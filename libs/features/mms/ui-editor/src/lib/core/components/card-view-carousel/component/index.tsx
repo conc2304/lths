@@ -1,5 +1,8 @@
-import CardViewCarousel from './carousel';
+import { ReactNode } from 'react';
+import { Card, CardMedia, Stack } from '@mui/material';
+
 import { BasicContainer } from '../../../../elements/containers';
+import { Carousel } from '../../common';
 import { CardViewCarouselComponentProps } from '../../types';
 
 const CardViewCarouselComponent = (props: CardViewCarouselComponentProps) => {
@@ -7,9 +10,36 @@ const CardViewCarouselComponent = (props: CardViewCarouselComponentProps) => {
     __ui_id__: id,
     data: { sub_component_data },
   } = props;
+
+  const eventComponents = () => {
+    const components: ReactNode[]  = sub_component_data.map((item, index) => {
+      const edgeItemStyle = { ...(index === 0 && { paddingLeft: 20 }), ...(index === (sub_component_data.length - 1) && {paddingRight: 20 }) }
+      
+      return (
+        <Stack key={index} style={edgeItemStyle} direction="column" alignItems="center" spacing={1.5}>
+          <Card
+            sx={{
+              maxWidth: 300,
+              borderRadius: '10px',
+              boxShadow: 'none',
+            }}
+          >
+            <CardMedia
+              component="img"
+              aria-label={`image ${index}`}
+              sx={{ width: 300, height: 200, objectFit: 'cover' }}
+              image={item.image}
+            />
+          </Card>
+        </Stack>
+      )
+    });
+    return components;
+  };
+
   return (
-    <BasicContainer id={id}>
-      <CardViewCarousel items={sub_component_data} />
+    <BasicContainer id={id} style={{marginRight: 0, marginLeft: 0}}>
+      <Carousel items={eventComponents()} />
     </BasicContainer>
   );
 };
