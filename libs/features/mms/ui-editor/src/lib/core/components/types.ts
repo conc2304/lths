@@ -34,7 +34,7 @@ export type ActionProps = {
 export type CarouselProps = {
   _ui_id_?: string;
   name?: string;
-}
+};
 
 export type SpacerProps = ComponentProps & {
   data: {
@@ -513,6 +513,22 @@ export type FullHeightFloatingTextProps = ComponentProps & {
     description: string;
     action: ActionProps;
   };
+};
+
+export type TitleTextComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    card_background_color: string;
+    text_color: string;
+    linked_text: TitleTextComponentsProps[];
+  };
+};
+
+export type TitleTextComponentsProps = ComponentProps & {
+  link_key: string;
+  link_color: string;
+  link_id: string;
+  action: ActionProps;
 };
 
 export type BodyTextComponentProps = ComponentProps & {
