@@ -109,6 +109,8 @@ import {
   HalfHeightMatchUpToolbar,
   FullHeightEventFloatingTextToolbar,
   FullHeightEventFloatingTextComponentProps,
+  TitleTextToolbar,
+  TitleTextComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -237,6 +239,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CenterBodyTextBlockToolbar {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
+    case Component.TitleTextBlock:
+      return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

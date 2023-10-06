@@ -55,6 +55,7 @@ import {
   FullHeightEventComponent,
   HalfHeightMatchupComponent,
   FullHeightEventFloatingTextComponent,
+  TitleTextComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -111,6 +112,7 @@ import {
   FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
   FullHeightEventFloatingTextComponentProps,
+  TitleTextComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -240,6 +242,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CenterBodyTextBlock {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
+    case Component.TitleTextBlock:
+      return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
