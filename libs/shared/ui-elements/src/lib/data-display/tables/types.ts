@@ -7,6 +7,7 @@ export type TableHeaderCellProps = {
   id: string;
   label: string;
   sortable: boolean;
+  width?: string;
 };
 
 export type TableOrderProp = 'asc' | 'desc';
