@@ -533,15 +533,8 @@ export type TitleTextComponentProps = ComponentProps & {
     title: string;
     card_background_color: string;
     text_color: string;
-    linked_text: TitleTextComponentsProps[];
+    linked_text: LinkedTextProps[];
   };
-};
-
-export type TitleTextComponentsProps = ComponentProps & {
-  link_key: string;
-  link_color: string;
-  link_id: string;
-  action: ActionProps;
 };
 
 export type BodyTextComponentProps = ComponentProps & {
@@ -549,16 +542,8 @@ export type BodyTextComponentProps = ComponentProps & {
     title: string;
     card_background_color: string;
     text_color: string;
-    text_size: '12px' | '16px' | '32px';
-    linked_text: BodyTextComponentsProps[];
+    linked_text: LinkedTextProps[];
   };
-};
-
-export type BodyTextComponentsProps = ComponentProps & {
-  link_key: string;
-  link_color: string;
-  link_id: string;
-  action: ActionProps;
 };
 
 export type FullHeightEventComponentProps = ComponentProps & {
