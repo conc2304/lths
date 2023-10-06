@@ -113,11 +113,7 @@ export const useToolbarChange = () => {
     handlePropChange('icon', event.target.value, index, keys);
   };
 
-  const handleIconValueChange = (
-    value: string,
-    index?: number,
-    keys?: string[]
-  ) => {
+  const handleIconValueChange = (value: string, index?: number, keys?: string[]) => {
     handlePropChange('icon', value, index, keys);
   };
 
