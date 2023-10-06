@@ -50,6 +50,11 @@ const colors = {
       text: '#FFFFFF',
     },
   },
+  componentLibrary: {
+    background: '#1A1B1E',
+    title: 'rgb(158, 158, 158)',
+    category: 'rgba(0, 0, 0, 0.6)',
+  },
 };
 
 export default colors;

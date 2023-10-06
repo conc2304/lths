@@ -2,6 +2,8 @@ import { CardMedia, Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
+import { Colors } from '@lths/features/mms/ui-editor';
+
 import { ComponentGalleryProps } from '../types';
 
 const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) => {
@@ -9,7 +11,6 @@ const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) 
     <ImageList
       cols={2}
       sx={{
-        backgroundColor: '#000',
         margin: 0,
       }}
     >
@@ -18,8 +19,10 @@ const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) 
           key={`component_${index}`}
           onClick={() => onSelect(component_id)}
           sx={{
-            textAlign: 'center',
-            padding: '2.5rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 8,
             '&:hover': {
               cursor: 'pointer',
             },
@@ -31,8 +34,15 @@ const ComponentGallery = ({ components = [], onSelect }: ComponentGalleryProps) 
             srcSet={`${image_url}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={component_id}
             loading="lazy"
+            sx={{ maxWidth: '360px' }}
           />
-          <Typography gutterBottom variant="h5" component="div" color={'#9E9E9E'} marginTop={'1.5rem'}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            color={Colors.componentLibrary.title}
+            marginTop={'1.5rem'}
+          >
             {name}
           </Typography>
         </ImageListItem>

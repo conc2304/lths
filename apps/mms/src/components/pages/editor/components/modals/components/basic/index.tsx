@@ -17,6 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { EnumValue, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
+import { Colors } from '@lths/features/mms/ui-editor';
 import { filter } from '@lths/shared/utils';
 
 import ComponentGallery from '../../../gallery';
@@ -118,7 +119,7 @@ const ComponentModal = ({
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ height: '40rem', padding: 0 }} />
-          <Grid item xs={10}>
+          <Grid item xs={10} sx={{ background: Colors.componentLibrary.background }}>
             <ComponentGallery
               components={filtered}
               onSelect={onSelect}

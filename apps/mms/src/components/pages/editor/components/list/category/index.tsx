@@ -1,5 +1,7 @@
 import { List, ListItemText } from '@mui/material';
 
+import { Colors } from '@lths/features/mms/ui-editor';
+
 import SectionItemButton from '../../list-item';
 import { CatergorySectionProps } from '../../types';
 
@@ -19,7 +21,7 @@ const CategorySection = ({ categories, onSelectCategory, selectedCategory }: Cat
           onClick={() => handleListItemClick(c.value)}
           key={c.value}
         >
-          <ListItemText primary={c.name.toUpperCase()} />
+          <ListItemText primary={c.name.toUpperCase()} color={Colors.componentLibrary.category} />
         </SectionItemButton>
       ))}
     </List>
