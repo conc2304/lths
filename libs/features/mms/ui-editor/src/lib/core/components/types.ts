@@ -34,7 +34,7 @@ export type ActionProps = {
 export type CarouselProps = {
   _ui_id_?: string;
   name?: string;
-}
+};
 
 export type SpacerProps = ComponentProps & {
   data: {
@@ -356,6 +356,19 @@ export type FullHeightImageComponentProps = ComponentProps & {
   };
 };
 
+export type HalfWidthTextComponentProps = ComponentProps & {
+  data: {
+    action: ActionProps;
+    btn_text: string;
+    description: string;
+    icon: string;
+    image: string;
+    section: string;
+    sub_title: string;
+    title: string;
+  };
+};
+
 export type ImageComponentProps = ComponentProps & {
   data: {
     image: string;
@@ -509,21 +522,22 @@ export type FullHeightFloatingTextProps = ComponentProps & {
   };
 };
 
+export type TitleTextComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    card_background_color: string;
+    text_color: string;
+    linked_text: LinkedTextProps[];
+  };
+};
+
 export type BodyTextComponentProps = ComponentProps & {
   data: {
     title: string;
     card_background_color: string;
     text_color: string;
-    text_size: '12px' | '16px' | '32px';
-    linked_text: BodyTextComponentsProps[];
+    linked_text: LinkedTextProps[];
   };
-};
-
-export type BodyTextComponentsProps = ComponentProps & {
-  link_key: string;
-  link_color: string;
-  link_id: string;
-  action: ActionProps;
 };
 
 export type FullHeightEventComponentProps = ComponentProps & {
