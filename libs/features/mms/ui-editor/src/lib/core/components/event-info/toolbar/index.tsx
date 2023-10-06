@@ -1,79 +1,71 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 
-import { ToolContainer, BasicTextField, ColorTextField } from '../../../../elements';
+import {
+  ToolContainer,
+  OutlinedTextField,
+  ToolbarLabel,
+  ImageAutocomplete,
+  AutocompleteOptionProps,
+} from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { EventInfoComponentProps } from '../../types';
 
 const EventInfoToolbar = (props: EventInfoComponentProps) => {
   const {
     __ui_id__: id,
-    data: {
-      title,
-      desc,
-      date_lbl_txt,
-      date_lbl_txt_color,
-      date_data_txt,
-      date_data_txt_color,
-      location_lbl_txt,
-      location_lbl_txt_color,
-      location_data_txt,
-      location_data_txt_color,
-    },
+    data: { location_text, time_text, location_icon, time_icon },
+    onPropChange,
   } = props;
-
-  const { handleTitleChange, handleDescChange, updateComponentProp } = useToolbarChange();
-
-  const handleColorChange = (key: string, color: string) => {
-    updateComponentProp(key, color);
+  const [icons, setIcons] = useState<AutocompleteOptionProps[]>([]);
+  const receiveIcons = (data: AutocompleteOptionProps[]) => {
+    setIcons(data);
   };
 
-  const handleDateLabelChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('date_lbl_txt', event.target.value);
+  const fetchData = () => {
+    onPropChange('quickLinkIcons', receiveIcons);
   };
 
-  const handleDateDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('date_data_txt', event.target.value);
-  };
+  useEffect(() => fetchData(), []);
+  const parentKeys = ['sub_component_data'];
 
-  const handleLocationLabelChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('location_lbl_txt', event.target.value);
-  };
+  const { updateComponentProp, handlePropChange } = useToolbarChange();
 
   const handleLocationDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('location_data_txt', event.target.value);
+    updateComponentProp('location_text', event.target.value);
+  };
+
+  const handleTimeDataChange = (event: ChangeEvent<HTMLInputElement>) => {
+    updateComponentProp('time_text', event.target.value);
+  };
+
+  const handleIconChange = (value: string, index: number) => {
+    handlePropChange('location_icon', value, index, parentKeys);
+  };
+
+  const handletimeIconChange = (value: string, index: number) => {
+    handlePropChange('time_icon', value, index, parentKeys);
   };
 
   return (
-    <ToolContainer id={id} aria-label="Button Toolbar">
-      <BasicTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <BasicTextField label={'Description'} value={desc} onChange={handleDescChange} multiline rows={3} />
-      <ColorTextField
-        label={'Date Label'}
-        value={date_lbl_txt}
-        onChange={handleDateLabelChange}
-        colorValue={date_lbl_txt_color}
-        onColorChange={(c) => handleColorChange('date_lbl_txt_color', c)}
+    <ToolContainer id={id} aria-label="Event Info Button Toolbar">
+      <ToolbarLabel label={'Event Info'} />
+      <OutlinedTextField label={'Text1'} value={location_text} onChange={handleLocationDataChange} />
+      <ImageAutocomplete
+        aria-label="Icon"
+        data-testid="location_text_icon"
+        label="Icon"
+        value={location_icon}
+        data={icons}
+        onChange={(value) => handleIconChange(value, 0)}
       />
-      <ColorTextField
-        label={'Date Data'}
-        value={date_data_txt}
-        onChange={handleDateDataChange}
-        colorValue={date_data_txt_color}
-        onColorChange={(c) => handleColorChange('date_data_txt_color', c)}
-      />
-      <ColorTextField
-        label={'Location Label'}
-        value={location_lbl_txt}
-        onChange={handleLocationLabelChange}
-        colorValue={location_lbl_txt_color}
-        onColorChange={(c) => handleColorChange('location_lbl_txt_color', c)}
-      />
-      <ColorTextField
-        label={'Location Data'}
-        value={location_data_txt}
-        onChange={handleLocationDataChange}
-        colorValue={location_data_txt_color}
-        onColorChange={(c) => handleColorChange('location_data_txt_color', c)}
+      <OutlinedTextField label={'Text2'} value={time_text} onChange={handleTimeDataChange} />
+      <ImageAutocomplete
+        aria-label="Icon"
+        data-testid="time_icon"
+        label="Icon"
+        value={time_icon}
+        data={icons}
+        onChange={(value) => handletimeIconChange(value, 0)}
       />
     </ToolContainer>
   );
