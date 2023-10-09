@@ -8,7 +8,6 @@ const EventInfoComponent = (props: EventInfoComponentProps) => {
     __ui_id__: id,
     data: { location_text, time_text, location_icon, time_icon },
   } = props;
-  console.log('porps', props);
 
   return (
     <BasicContainer id={id}>

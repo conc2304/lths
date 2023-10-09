@@ -214,6 +214,28 @@ export const useToolbarChange = () => {
     handlePropChange('source_type', value, index, keys);
   };
 
+  const handleEventInfo1Change = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('location_text', event.target.value, index, keys);
+  };
+  const handleEventInfo2Change = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index?: number,
+    keys?: string[]
+  ) => {
+    handlePropChange('time_text', event.target.value, index, keys);
+  };
+  const handlelocationIconChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('location_icon', value, index, keys);
+  };
+
+  const handletimeIconChange = (value: string, index?: number, keys?: string[]) => {
+    handlePropChange('time_icon', value, index, keys);
+  };
+
   return {
     selectedComponent,
     generateUniqueId,
@@ -241,5 +263,9 @@ export const useToolbarChange = () => {
     handleIconValueChange,
     handleMaxSizeChange,
     handleSourceTypeChange,
+    handleEventInfo1Change,
+    handleEventInfo2Change,
+    handlelocationIconChange,
+    handletimeIconChange,
   };
 };

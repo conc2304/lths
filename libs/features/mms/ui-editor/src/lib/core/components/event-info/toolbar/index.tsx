@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   ToolContainer,
@@ -27,44 +27,29 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
 
   useEffect(() => fetchData(), []);
 
-  const { updateComponentProp } = useToolbarChange();
-
-  const handleLocationDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('location_text', event.target.value);
-  };
-
-  const handleTimeDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateComponentProp('time_text', event.target.value);
-  };
-
-  const handlelocationIconChange = (value: string) => {
-    updateComponentProp('location_icon', value);
-  };
-
-  const handletimeIconChange = (value: string) => {
-    updateComponentProp('time_icon', value);
-  };
+  const { handlelocationIconChange, handleEventInfo1Change, handleEventInfo2Change, handletimeIconChange } =
+    useToolbarChange();
 
   return (
     <ToolContainer id={id} aria-label="Event Info Button Toolbar">
       <ToolbarLabel label={'Event Info'} />
-      <OutlinedTextField label={'Text1'} value={location_text} onChange={handleLocationDataChange} />
+      <OutlinedTextField label={'Text1'} value={location_text} onChange={handleEventInfo1Change} />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="location_text_icon"
         label="Icon"
         value={location_icon}
         data={icons}
-        onChange={(value) => handlelocationIconChange(value)}
+        onChange={handlelocationIconChange}
       />
-      <OutlinedTextField label={'Text2'} value={time_text} onChange={handleTimeDataChange} />
+      <OutlinedTextField label={'Text2'} value={time_text} onChange={handleEventInfo2Change} />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="time_icon"
         label="Icon"
         value={time_icon}
         data={icons}
-        onChange={(value) => handletimeIconChange(value)}
+        onChange={handletimeIconChange}
       />
     </ToolContainer>
   );
