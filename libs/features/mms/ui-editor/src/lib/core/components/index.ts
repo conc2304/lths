@@ -137,6 +137,9 @@ export { default as DividerToolbar } from './divider/toolbar';
 export { default as FullHeightImageComponent } from './full-height-image/component';
 export { default as FullHeightImageToolbar } from './full-height-image/toolbar';
 
+export { default as HalfWidthTextComponent } from './half-width-text-component/component';
+export { default as HalfWidthTextToolbar } from './half-width-text-component/toolbar';
+
 export { default as CenterHeadlineText } from './center-headline-text/component';
 export { default as CenterHeadlineTextToolbar } from './center-headline-text/toolbar';
 
@@ -156,7 +159,9 @@ export { default as FullHeightEventComponent } from './full-height-event/compone
 export { default as FullHeightEventToolbar } from './full-height-event/toolbar';
 
 export { default as FullHeightEventFloatingTextComponent } from './full-height-event-floating-text/component';
-
 export { default as FullHeightEventFloatingTextToolbar } from './full-height-event-floating-text/toolbar';
+
+export { default as TitleTextComponent } from './title-text-block/component';
+export { default as TitleTextToolbar } from './title-text-block/toolbar';
 
 export * from './types';

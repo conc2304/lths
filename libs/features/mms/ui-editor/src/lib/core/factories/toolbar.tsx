@@ -95,6 +95,8 @@ import {
   DividerProps,
   FullHeightImageToolbar,
   FullHeightImageComponentProps,
+  HalfWidthTextToolbar,
+  HalfWidthTextComponentProps,
   CenterHeadlineTextToolbar,
   CenterHeadlineTextProps,
   CenterBodyTextBlockToolbar,
@@ -109,6 +111,8 @@ import {
   HalfHeightMatchUpToolbar,
   FullHeightEventFloatingTextToolbar,
   FullHeightEventFloatingTextComponentProps,
+  TitleTextToolbar,
+  TitleTextComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -229,6 +233,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <DividerToolbar {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageToolbar {...(props as FullHeightImageComponentProps)} />;
+    case Component.HalfWidthText:
+      return <HalfWidthTextToolbar {...(props as HalfWidthTextComponentProps)} />;
     case Component.CenterHeadlineTextBlock:
       return <CenterHeadlineTextToolbar {...(props as CenterHeadlineTextProps)} />;
     case Component.CenterBodyTextBlock:
@@ -237,6 +243,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
     case Component.CardViewCarousel:
       return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
+    case Component.TitleTextBlock:
+      return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

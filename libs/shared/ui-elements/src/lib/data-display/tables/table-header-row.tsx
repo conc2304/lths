@@ -19,6 +19,7 @@ export const TableHeaderRow = ({
           key={head.id}
           sx={{
             fontWeight: 600,
+            width: head.width,
           }}
         >
           {head.sortable ? (

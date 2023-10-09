@@ -39,6 +39,22 @@ const colors = {
     boxShadow: '0px 8px 12px -2px #0000004D, 0px 2px 6px -2px #0000004D',
     text: '#D8BA90',
   },
+  halfWidthText: {
+    background: '#242526',
+    titleText: '#FFFFFF',
+    subTitleText: '#ABABAC',
+    sectionText: '#ABABAC',
+    descriptionText: '#E2E2E3',
+    button: {
+      border: '#636364',
+      text: '#FFFFFF',
+    },
+  },
+  componentLibrary: {
+    background: '#1A1B1E',
+    title: 'rgb(158, 158, 158)',
+    category: 'rgba(0, 0, 0, 0.6)',
+  },
 };
 
 export default colors;

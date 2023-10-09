@@ -16,9 +16,26 @@ const ImageAutocomplete = (props: ImageAutocompleteProps) => {
 
   const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option:  AutocompleteOptionProps) => (
     <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
-      <Avatar sx={{ width: 20, height: 20 }} variant="square" alt={option.label + "_image"} src={option.value} />
+      <Avatar variant="square" alt={`${option.label}_image`} src={option.value} 
+        sx={{ 
+          width: 20, height: 20,
+          '& img': { objectFit: 'contain' },
+        }}
+      />
       <Box sx={{ paddingLeft: 2 }}>{option.label}</Box>
     </Box>
+  );
+
+  const handleRenderStartAdornment = (value: string, label?: string) => (
+    <Avatar variant="square" alt={`${label || 'unnamed'}_image`} src={value} 
+      sx={{ 
+        width: 20, height: 20,
+        visibility: value ? 'visible' : 'hidden',
+        '& img': {
+          objectFit: 'contain',
+        },
+      }} 
+    />
   );
 
   return (
@@ -28,6 +45,7 @@ const ImageAutocomplete = (props: ImageAutocompleteProps) => {
         data={data}
         onChange={onChange}
         renderOption={handleRenderOption}
+        renderStartAdornment={handleRenderStartAdornment}
         {...rest}
     />
   );

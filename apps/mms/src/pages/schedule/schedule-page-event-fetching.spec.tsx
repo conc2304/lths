@@ -11,7 +11,7 @@ import {
   useCreateEventMutation,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
-import { getNewEvent } from '@lths/features/mms/ui-event-schedule';
+import { FlagsProviderMock, getNewEvent } from '@lths/features/mms/ui-event-schedule';
 
 import SchedulePage from './schedule-page'; // Replace with your component's path
 import { constructRange } from './utils';
@@ -75,7 +75,15 @@ describe('SchedulePage', () => {
     (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([getEnumListMock]);
 
     // Render the component
-    render(RBThemeProvider({ children: <SchedulePage /> }));
+    render(
+      RBThemeProvider({
+        children: (
+          <FlagsProviderMock>
+            <SchedulePage />
+          </FlagsProviderMock>
+        ),
+      })
+    );
     // Verify we had an on init data fetch
     expect(getEventsDataMock).toHaveBeenCalled();
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 
 import { EditEventModal, EditEventModalProps } from './index';
+import { EVENT_TYPE } from '../../../constants';
 import { eventTypesMock, getNewEvent } from '../../../mock-events';
 
 import type { Meta, StoryFn } from '@storybook/react';
@@ -42,5 +43,5 @@ const Template: StoryFn<typeof EditEventModal> = (args: EditEventModalProps) => 
 
 export const Default = Template.bind({});
 Default.args = {
-  event: getNewEvent({ eventTypeID: 'promotion' }),
+  event: getNewEvent({ eventTypeID: EVENT_TYPE.COMEDY }),
 };

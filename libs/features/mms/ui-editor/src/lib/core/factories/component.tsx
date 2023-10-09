@@ -48,6 +48,7 @@ import {
   TextwithIcon,
   DividerComponent,
   FullHeightImageComponent,
+  HalfWidthTextComponent,
   CenterHeadlineText,
   CenterBodyTextBlock,
   ImageHeaderComponent,
@@ -55,6 +56,7 @@ import {
   FullHeightEventComponent,
   HalfHeightMatchupComponent,
   FullHeightEventFloatingTextComponent,
+  TitleTextComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -104,6 +106,7 @@ import {
   TextWithIconProps,
   DividerProps,
   FullHeightImageComponentProps,
+  HalfWidthTextComponentProps,
   CenterHeadlineTextProps,
   CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
@@ -111,6 +114,7 @@ import {
   FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
   FullHeightEventFloatingTextComponentProps,
+  TitleTextComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -232,6 +236,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <DividerComponent {...(props as DividerProps)} />;
     case Component.FullHeightImage:
       return <FullHeightImageComponent {...(props as FullHeightImageComponentProps)} />;
+    case Component.HalfWidthText:
+      return <HalfWidthTextComponent {...(props as HalfWidthTextComponentProps)} />;
     case Component.CenterHeadlineTextBlock:
       return <CenterHeadlineText {...(props as CenterHeadlineTextProps)} />;
     case Component.CenterBodyTextBlock:
@@ -240,6 +246,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
     case Component.CardViewCarousel:
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
+    case Component.TitleTextBlock:
+      return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

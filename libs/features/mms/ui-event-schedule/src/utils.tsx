@@ -42,10 +42,11 @@ export const EventStateUIMap = (eventStateID: EventStateID): EventStateUI => {
 };
 
 export const sortByEventState = (a: EventState, b: EventState) => {
-  const aVal = EVENT_STATE_SORT_ORDER[a.state] || -10;
-  const bVal = EVENT_STATE_SORT_ORDER[b.state] || -10;
+  const aVal = EVENT_STATE_SORT_ORDER[a.state] !== undefined ? EVENT_STATE_SORT_ORDER[a.state] : 10;
+  const bVal = EVENT_STATE_SORT_ORDER[b.state] !== undefined ? EVENT_STATE_SORT_ORDER[b.state] : 10;
+
   if (aVal === bVal) return 0;
-  return bVal < aVal ? -1 : 1;
+  return bVal > aVal ? -1 : 1;
 };
 
 /**

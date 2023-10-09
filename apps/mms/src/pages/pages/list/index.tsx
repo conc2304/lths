@@ -35,6 +35,7 @@ const headers = [
     id: 'constraints',
     label: 'CONSTRAINTS',
     sortable: false,
+    width: '20%',
   },
 
   {
