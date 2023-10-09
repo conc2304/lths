@@ -37,8 +37,8 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
     updateComponentProp('time_text', event.target.value);
   };
 
-  const handleIconChange = (value: string) => {
-    updateComponentProp('location_text_icon', value);
+  const handlelocationIconChange = (value: string) => {
+    updateComponentProp('location_icon', value);
   };
 
   const handletimeIconChange = (value: string) => {
@@ -55,7 +55,7 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
         label="Icon"
         value={location_icon}
         data={icons}
-        onChange={(value) => handleIconChange(value)}
+        onChange={(value) => handlelocationIconChange(value)}
       />
       <OutlinedTextField label={'Text2'} value={time_text} onChange={handleTimeDataChange} />
       <ImageAutocomplete
