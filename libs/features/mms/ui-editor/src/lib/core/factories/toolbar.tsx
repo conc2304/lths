@@ -103,6 +103,8 @@ import {
   CenterBodyTextBlockProps,
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
+  CardViewCarouselToolbar,
+  CardViewCarouselComponentProps,
   FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
   FullHeightEventToolbar,
@@ -239,6 +241,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CenterBodyTextBlockToolbar {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
+    case Component.CardViewCarousel:
+      return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
     default:

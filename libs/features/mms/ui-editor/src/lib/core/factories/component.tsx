@@ -52,6 +52,7 @@ import {
   CenterHeadlineText,
   CenterBodyTextBlock,
   ImageHeaderComponent,
+  CardViewCarouselComponent,
   FullHeightEventComponent,
   HalfHeightMatchupComponent,
   FullHeightEventFloatingTextComponent,
@@ -109,6 +110,7 @@ import {
   CenterHeadlineTextProps,
   CenterBodyTextBlockProps,
   ImageHeaderComponentProps,
+  CardViewCarouselComponentProps,
   FullHeightEventComponentProps,
   HalfHeightMatchUpComponentProps,
   FullHeightEventFloatingTextComponentProps,
@@ -242,6 +244,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CenterBodyTextBlock {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderComponent {...(props as ImageHeaderComponentProps)} />;
+    case Component.CardViewCarousel:
+      return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
     default:
