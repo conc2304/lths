@@ -506,6 +506,17 @@ export type HalfWidthCarouselFloatingTextComponentProps = ComponentProps & {
   };
 };
 
+export type CardViewCarouselProps = CarouselProps & {
+  image: string;
+  action: ActionProps;
+};
+
+export type CardViewCarouselComponentProps = ComponentProps & {
+  data: {
+    sub_component_data: CardViewCarouselProps[];
+  };
+};
+
 export type FullWidthButtonComponentProps = ComponentProps & {
   data: {
     btn_text: string;

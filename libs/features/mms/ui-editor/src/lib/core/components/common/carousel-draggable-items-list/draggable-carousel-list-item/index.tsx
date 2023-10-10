@@ -35,7 +35,7 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
       onDrag={onDrag} 
       typeName={ItemTypes.LISTITEM}
     >
-      <ListItem dense={true} sx={{ paddingLeft: 0, paddingRight: 7, gap: 1 }}>
+      <ListItem aria-label={`carousel-item-${index}`} dense={true} sx={{ paddingLeft: 0, paddingRight: 7, gap: 1 }}>
         <ListItemAvatar sx={{ minWidth: 0 }}>
           <DragHandleIcon sx={{ paddingTop: '4px' }} />
         </ListItemAvatar>
