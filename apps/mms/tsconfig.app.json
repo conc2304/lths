@@ -28,6 +28,7 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../libs/shared/mocks/src/lib/services/insights/overview/analytics-filter-form-schema.ts"
-  ]
+    "../../libs/shared/mocks/src/lib/services/insights/overview/analytics-filter-form-schema.ts",
+    "../../libs/features/mms/ui-components/src/lib/assets-manager/table/utils.ts"
+, "../../libs/features/mms/ui-components/src/lib/assets-manager/drawer/file-info.tsx"  ]
 }

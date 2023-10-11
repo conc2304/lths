@@ -1,10 +1,16 @@
 import { api } from '@lths/shared/data-access';
 
 import { transformAssetResponse } from './transformer';
-import { AssetsResponse, AssetsRequest, Asset } from './types';
+import {
+  AssetListResponse,
+  AssetsRequestProps,
+  ArchiveAssetsResponse,
+  UpdateAssetResponse,
+  CreateAssetResponse,
+} from './types';
 import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl, searchAssetsUrl } from './urls';
 
-const createAssetQuery = (request: AssetsRequest, queryString?: string) => ({
+const createAssetQuery = (request: AssetsRequestProps, queryString?: string) => ({
   url: queryString ? searchAssetsUrl(request) : getAssetsUrl(request),
   method: 'POST',
   body: {
@@ -18,15 +24,15 @@ const createAssetQuery = (request: AssetsRequest, queryString?: string) => ({
 
 export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
   endpoints: (builder) => ({
-    getAssetsItems: builder.query<AssetsResponse, AssetsRequest>({
-      query: (request: AssetsRequest) => createAssetQuery(request),
+    getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({
+      query: (request: AssetsRequestProps) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
     }),
-    searchAssets: builder.query<AssetsResponse, AssetsRequest>({
-      query: (request: AssetsRequest) => createAssetQuery(request, request.queryString),
+    searchAssets: builder.query<AssetListResponse, AssetsRequestProps>({
+      query: (request: AssetsRequestProps) => createAssetQuery(request, request.queryString),
       transformResponse: transformAssetResponse,
     }),
-    addResource: builder.mutation<Asset, { newAsset: File; user: string }>({
+    addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
       query: (prop) => {
         const requestBody = new FormData();
         requestBody.append('file', prop.newAsset);
@@ -38,14 +44,14 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         };
       },
     }),
-    editResource: builder.mutation<Asset, { id: string; original_file_name: string }>({
+    editResource: builder.mutation<UpdateAssetResponse, { id: string; original_file_name: string }>({
       query: (prop) => ({
         url: getUpdateAssetUrl(prop.id),
         method: 'PATCH',
         body: prop,
       }),
     }),
-    deleteResource: builder.mutation<Asset, { id: string }>({
+    deleteResource: builder.mutation<ArchiveAssetsResponse, { id: string }>({
       query: (prop) => ({
         url: getUpdateAssetUrl(prop.id),
         method: 'DELETE',

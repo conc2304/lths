@@ -4,14 +4,14 @@ import { Visibility, Download, Edit, Delete } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
-import { AssetExtended } from '@lths/features/mms/data-access';
+import { AssetExtendedListProps } from '@lths/features/mms/data-access';
 
 import { FileInfo } from './file-info';
-import { cleanUrl } from './utils';
+import { cleanUrl } from '../table/utils';
 
 export type PreviewDrawerContentProps = {
-  openModal: (modalName: string, row: AssetExtended) => void;
-  data: AssetExtended;
+  openModal: (modalName: string, row: AssetExtendedListProps) => void;
+  data: AssetExtendedListProps;
 };
 
 const height = 215;
@@ -33,12 +33,18 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
     const previewUrl = (data.media_files.length > 0 && cleanUrl(data.media_files[0]?.url)) || '';
     if (previewUrl) {
       const imageWindow = window.open('', '_blank');
-      imageWindow.document.write('<html><head><title>Preview</title></head><body>');
-      imageWindow.document.write(
-        '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
-      );
-      imageWindow.document.write('</body></html>');
-      imageWindow.document.close();
+      if (imageWindow) {
+        imageWindow.document.write('<html><head><title>Preview</title></head><body>');
+        imageWindow.document.write(
+          '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
+        );
+        imageWindow.document.write('</body></html>');
+        imageWindow.document.close();
+      } else {
+        console.error('Failed to open preview window');
+      }
+    } else {
+      console.error('Preview URL is empty');
     }
   };
   const cleanName =

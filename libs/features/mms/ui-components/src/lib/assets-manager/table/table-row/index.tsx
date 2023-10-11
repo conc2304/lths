@@ -2,20 +2,20 @@ import React from 'react';
 import { TableRow, TableCell, IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import { AssetExtended } from '@lths/features/mms/data-access';
+import { AssetExtendedListProps, PreviewAssetRowProps } from '@lths/features/mms/data-access';
 
-import { cleanUrl } from '../../components/assets/utils';
+import { cleanUrl } from '../utils';
 
 type TableFileInfoRowProps = {
-  row: AssetExtended;
+  row: AssetExtendedListProps;
   index: number;
   handleSelectFile: () => void;
   handleOpenMenu: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  selectedPreviewRow: any;
+  selectedPreviewRow: PreviewAssetRowProps;
   theme: any;
   anchorEl: HTMLElement | null;
   handleClose: () => void;
-  handleOpenModal: (action: string, row: AssetExtended) => void;
+  handleOpenModal: (action: string, row: AssetExtendedListProps) => void;
   handlePreview: () => void;
   selectedRowIndex: number;
   handleDownload: () => void;
@@ -35,10 +35,12 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
   handlePreview,
   handleDownload,
 }) => {
-  const withStopPropagation = (callback) => (event) => {
-    event.stopPropagation();
-    callback(event);
-  };
+  const withStopPropagation =
+    (callback: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void) =>
+    (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+      event.stopPropagation();
+      callback(event);
+    };
   const cleanName = row.original_file_name.slice(0, row.original_file_name.lastIndexOf('.')) || row.original_file_name;
   return (
     <TableRow
@@ -82,4 +84,4 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
   );
 };
 
-export default TableFileInfoRow;
+export { TableFileInfoRow };

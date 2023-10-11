@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { AssetsRequest, useLazyGetAssetsItemsQuery, useLazySearchAssetsQuery } from '@lths/features/mms/data-access';
+import {
+  AssetsRequestProps,
+  useLazyGetAssetsItemsQuery,
+  useLazySearchAssetsQuery,
+} from '@lths/features/mms/data-access';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 import AssetsModal from './modal';
@@ -15,7 +19,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
   const [search, setSearch] = useState('');
 
   const onFetch = async (pagination: TablePaginationProps, sorting: TableSortingProps, search = '') => {
-    const req: AssetsRequest = {};
+    const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
       req.page_size = pagination.pageSize;
@@ -29,12 +33,16 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     }
 
     await getData(req);
-    setLocalData(data);
   };
 
   useEffect(() => {
-    onFetch(null, undefined);
+    onFetch({ page: 1, pageSize: 10 }, { column: 'defaultColumn', order: 'asc' });
   }, []);
+  useEffect(() => {
+    if (data) {
+      setLocalData(data);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (search !== '') {
@@ -49,6 +57,12 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       onFetch(null, undefined);
     }
   }, [search]);
+
+  useEffect(() => {
+    if (searchResult) {
+      setLocalData(searchResult);
+    }
+  }, [searchResult]);
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,

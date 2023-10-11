@@ -1,4 +1,4 @@
-export type PaginationRequestAssets = {
+export type PaginationRequestAssetsProps = {
   page?: number;
   page_size?: number;
   sort_order?: string;
@@ -7,15 +7,13 @@ export type PaginationRequestAssets = {
   queryString?: string;
 };
 
-export type PaginationAssets = {
+export type PaginationAssetsProps = {
   page: number;
   page_size: number;
   total: number;
 };
 
-export type AssetsRequest = PaginationRequestAssets & Record<string, unknown>;
-
-export type MediaFile = {
+export type MediaFileProps = {
   url: string;
   format_label: string;
   file_extension: string;
@@ -25,7 +23,9 @@ export type MediaFile = {
   is_finalized: boolean;
 };
 
-export type Asset = {
+export type AssetsRequestProps = PaginationRequestAssetsProps & Record<string, unknown>;
+
+export type AssetProps = {
   id: string;
   album_id: string[];
   updated_at: string;
@@ -39,7 +39,7 @@ export type Asset = {
   file_extension: string;
   mime_type: string;
   media_type: string;
-  media_files: MediaFile[];
+  media_files: MediaFileProps[];
   created_at: string;
   is_active: boolean;
   is_finalized: boolean;
@@ -48,8 +48,8 @@ export type Asset = {
   is_published: boolean;
   __v: number;
 };
-export type AssetExtended = Asset & {
+export type PreviewAssetRowProps = { asset: AssetProps; rowIndex: number };
+
+export type AssetExtendedListProps = AssetProps & {
   created_at_formatted?: string;
 };
-
-export type AssetsResponse = { data: Asset[]; meta: PaginationAssets };

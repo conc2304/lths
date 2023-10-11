@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
 
-import { DeleteModal } from './index';
+import { ArchiveModal } from './index';
 
 import type { StoryFn, Meta } from '@storybook/react';
 
-const Story: Meta<typeof DeleteModal> = {
-  component: DeleteModal,
+const Story: Meta<typeof ArchiveModal> = {
+  component: ArchiveModal,
   title: 'Inputs/ Modal/ Delete Modal',
 };
 export default Story;
 
-const Template: StoryFn<typeof DeleteModal> = (args) => {
+const Template: StoryFn<typeof ArchiveModal> = (args) => {
   const [open, setOpen] = useState(false);
 
   args.open = open;
@@ -23,7 +23,7 @@ const Template: StoryFn<typeof DeleteModal> = (args) => {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Modal</Button>,
-      <DeleteModal {...args} />
+      <ArchiveModal {...args} />
     </>
   );
 };

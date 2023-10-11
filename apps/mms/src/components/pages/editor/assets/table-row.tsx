@@ -1,12 +1,11 @@
 import React from 'react';
 import { TableRow, TableCell, Button } from '@mui/material';
 
-import { AssetExtended } from '@lths/features/mms/data-access';
-
-import { cleanUrl } from '../../../assets/utils';
+import { AssetExtendedListProps } from '@lths/features/mms/data-access';
+import { cleanUrl } from '@lths/features/mms/ui-components';
 
 interface TableFileInfoRowProps {
-  row: AssetExtended;
+  row: AssetExtendedListProps;
   onSelect: (url: string) => void;
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTheme, Button, Stack, InputLabel, OutlinedInput, InputAdornment } from '@mui/material';
 import { Clear } from '@mui/icons-material';
 
-import { SimpleModal } from '../simple-modal';
+import { SimpleModal } from '../simple';
 
 export type RenameModalProps = {
   open: boolean;
@@ -13,7 +13,7 @@ export type RenameModalProps = {
 
 export const RenameModal: React.FC<RenameModalProps> = (props) => {
   const { open, itemToRename, onClickCancelButton, onClickOkButton } = props;
-  const [newName, setNewName] = useState(itemToRename.slice(0, itemToRename.lastIndexOf('.')) || '');
+  const [newName, setNewName] = useState(itemToRename?.slice(0, itemToRename?.lastIndexOf('.')) || '');
   const [disableOk, setDisableOk] = useState(true);
 
   const theme = useTheme();
@@ -30,7 +30,7 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
 
   const OkButton = () => {
     const handleOkButtonClick = () => {
-      const extension = itemToRename.split('.').pop();
+      const extension = itemToRename?.split('.').pop();
       const nameWithExtension = `${newName}.${extension}`;
       onClickOkButton?.(nameWithExtension);
     };
