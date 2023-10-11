@@ -2,6 +2,10 @@ import { Middleware, MiddlewareAPI, PayloadAction, isRejectedWithValue } from '@
 
 import { authActions } from '@lths/shared/data-access';
 
+export const JWT_EXPIRED_MSG = 'ERR_JWT_EXPIRED';
+export const JWT_INVALID_MSG = 'ERR_JWT_INVALID';
+export const INVALID_JWT_MSGS = [JWT_EXPIRED_MSG, JWT_INVALID_MSG];
+
 export const unauthorizedHandlerMiddleware: Middleware =
   (api: MiddlewareAPI) =>
   (next) =>
@@ -17,7 +21,7 @@ export const unauthorizedHandlerMiddleware: Middleware =
         const statusCode = Number(error?.statusCode || status);
 
         // if any call returns unauthorized of forbidden + auth token error message : then the user needs to log back in
-        if (statusCode === 401 || (statusCode === 403 && ['ERR_JWT_EXPIRED', 'ERR_JWT_INVALID'].includes(message))) {
+        if (statusCode === 401 || (statusCode === 403 && INVALID_JWT_MSGS.includes(message))) {
           // logging a user out will automatically trigger a redirect to the login page
           api.dispatch(authActions.logout());
         }

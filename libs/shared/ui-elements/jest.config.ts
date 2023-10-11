@@ -7,5 +7,7 @@ export default {
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/react/babel'] }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  setupFilesAfterEnv: ['<rootDir>/../../../setupTests.js'],
+
   coverageDirectory: '../../../coverage/libs/shared/ui-elements',
 };
