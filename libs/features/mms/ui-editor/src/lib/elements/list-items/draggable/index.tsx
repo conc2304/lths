@@ -79,7 +79,7 @@ export const DraggableCard = ({ id, boxStyle, index, onDrag, typeName, children 
   drag(drop(ref));
 
   return (
-    <Box ref={ref} sx={{ ...boxStyle, opacity }} data-handler-id={handlerId}>
+    <Box ref={ref} sx={{ ...boxStyle, opacity }} data-handler-id={handlerId} id={`navigator-component-${id}`}>
       {children}
     </Box>
   );

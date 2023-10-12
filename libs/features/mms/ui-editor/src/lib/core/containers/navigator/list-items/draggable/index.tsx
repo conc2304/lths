@@ -20,13 +20,9 @@ export const Card = ({ id, text, index, onDrag, onClick, onRename, onMenuClick, 
   const handleClick = () => {
     onClick && onClick(index, id);
   };
-  const listItemSx = { background: selected ? Colors.editor.background : Colors.sidebar.background };
+  const listItemSx = { background: selected ? Colors.editor.background : Colors.sidebar.background, paddingX: 3 };
   return (
-    <DraggableCard id={id} index={index}
-      boxStyle={style}
-      onDrag={onDrag} 
-      typeName={ItemTypes.CARD}
-    >
+    <DraggableCard id={id} index={index} boxStyle={style} onDrag={onDrag} typeName={ItemTypes.CARD}>
       <ListItem onClick={handleClick} sx={listItemSx}>
         <EditableListItemText text={text} onSave={(value) => handleRename(id, value)} />
         <ListItemIcon sx={{ justifyContent: 'flex-end' }}>

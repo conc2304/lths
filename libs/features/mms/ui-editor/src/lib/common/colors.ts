@@ -8,6 +8,9 @@ const colors = {
     subText: '#ABABAC',
     smallText: '#E2E2E3',
   },
+  navigator: {
+    title: 'rgba(0, 0, 0, 0.60)',
+  },
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },
   simpleImagePicker: {
@@ -54,6 +57,9 @@ const colors = {
     background: '#1A1B1E',
     title: 'rgb(158, 158, 158)',
     category: 'rgba(0, 0, 0, 0.6)',
+  },
+  saveButton: {
+    color: '#007882',
   },
 };
 
