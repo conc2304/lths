@@ -33,20 +33,20 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
   return (
     <ToolContainer id={id} aria-label="Event Info Button Toolbar">
       <ToolbarLabel label={'Event Info'} />
-      <OutlinedTextField label={'Text1'} value={location_text} onChange={handleEventInfo1Change} />
+      <OutlinedTextField label={'Location Text'} value={location_text} onChange={handleEventInfo1Change} />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="location_text_icon"
-        label="Icon"
+        label="Location Icon"
         value={location_icon}
         data={icons}
         onChange={handlelocationIconChange}
       />
-      <OutlinedTextField label={'Text2'} value={time_text} onChange={handleEventInfo2Change} />
+      <OutlinedTextField label={'Time Text'} value={time_text} onChange={handleEventInfo2Change} />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="time_icon"
-        label="Icon"
+        label="Time Icon"
         value={time_icon}
         data={icons}
         onChange={handletimeIconChange}
