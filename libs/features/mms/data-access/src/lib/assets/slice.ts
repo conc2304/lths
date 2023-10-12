@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { assetsApi } from './api';
-import { AssetsResponse, Asset } from './types';
+import { AssetListResponse, Asset } from './types';
 
 type AssetsState = {
-  assets: AssetsResponse;
+  assets: AssetListResponse;
   newAsset: Asset | null;
 };
 

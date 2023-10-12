@@ -1,44 +1,62 @@
-import { Box, Button, Stack } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { useEffect } from 'react';
+import { Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useContainerScroll } from '@lths-mui/shared/ui-hooks';
 
+import { scrollToAnElementInAContainer } from '@lths/shared/ui-elements';
+
+import {
+  PAGE_EDITOR_CONTAINER,
+  PAGE_EDITOR_CONTAINER_SCROLL,
+  PAGE_EDITOR_NAVIGATOR_CONTAINER,
+  PAGE_EDITOR_WYSIWYG_CONTAINER,
+} from './constants';
 import Navigator from './navigator';
 import { NavigatorProps } from './navigator/container';
 import { Toolbar } from './toolbar';
 import { Wysiwyg } from './wysiwyg';
 import colors from '../../common/colors';
-import { ToolbarProps } from '../../context';
+import { ToolbarProps, useEditorActions } from '../../context';
+
+import './index.scss';
 
 type EditorProps = NavigatorProps & {
   onPropChange: ToolbarProps['onPropChange'];
-  onUpdate: () => void;
 };
 
-const BlockEditor = ({ onAddComponent, onPropChange, onUpdate }: EditorProps) => {
+const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
+  useContainerScroll([`.${PAGE_EDITOR_CONTAINER}`], [PAGE_EDITOR_CONTAINER_SCROLL]);
+
+  const { selectedComponent } = useEditorActions();
+
+  useEffect(() => {
+    if (selectedComponent) {
+      const { __ui_id__ } = selectedComponent;
+      scrollToAnElementInAContainer(`#${PAGE_EDITOR_WYSIWYG_CONTAINER}`, `#editor-component-${__ui_id__}`);
+      scrollToAnElementInAContainer(`#${PAGE_EDITOR_NAVIGATOR_CONTAINER}`, `#navigator-component-${__ui_id__}`);
+    }
+  }, [selectedComponent]);
+
   return (
     <Box>
-      <Grid container direction="row" justifyContent="space-between" alignItems="stretch" sx={{ height: '90vh' }}>
-        <Grid item xs sx={{ backgroundColor: colors.sidebar.background }}>
+      <Grid container>
+        <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar.background }}>
           <Navigator onAddComponent={onAddComponent} />
         </Grid>
 
-        <Grid item xs={6} sx={{ backgroundColor: colors.editor.background }}>
-          <Stack justifyContent={'center'} flexDirection={'row'} flex={1} marginTop={5}>
+        <Grid item xs={5} sx={{ backgroundColor: colors.editor.background }}>
+          <Stack
+            justifyContent={'center'}
+            flexDirection={'row'}
+            flex={1}
+            className={PAGE_EDITOR_CONTAINER}
+            id={PAGE_EDITOR_WYSIWYG_CONTAINER}
+          >
             <Wysiwyg />
           </Stack>
         </Grid>
-        <Grid item xs sx={{ backgroundColor: colors.sidebar, padding: 2 }}>
+        <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar, padding: 2 }}>
           <Toolbar onPropChange={onPropChange} />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack direction="row" justifyContent={'flex-end'} padding={2}>
-            <Button variant="outlined" sx={{ marginRight: 2 }}>
-              CANCEL
-            </Button>
-            <LoadingButton variant="contained" loading={false} onClick={onUpdate}>
-              SAVE
-            </LoadingButton>
-          </Stack>
         </Grid>
       </Grid>
     </Box>

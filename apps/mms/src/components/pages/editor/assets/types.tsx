@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
-import { Asset } from '@lths/features/mms/data-access';
+import { AssetProps } from '@lths/features/mms/data-access';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 type onSelectProp = { onSelect: (url: string) => void };
 type fetchDataProps = (pagination: TablePaginationProps, sorting: TableSortingProps, search?: string) => Promise<void>;
 type assetsProps = {
-  data: Asset[];
+  data: AssetProps[];
   isFetching: boolean;
   total: number;
   isLoading: boolean;

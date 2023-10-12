@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, TextField, InputAdornment } from '@mui/material';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 
 import {
-  AssetsRequest,
-  Asset,
+  AssetsRequestProps,
+  AssetProps,
+  PreviewAssetRowProps,
   useAddResourceMutation,
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
@@ -14,13 +14,16 @@ import {
   useAppSelector,
   useLazySearchAssetsQuery,
 } from '@lths/features/mms/data-access';
+import {
+  cleanUrl,
+  AssetSearchBar,
+  TableFileInfoRow,
+  AssetModals,
+  PreviewDrawerContent,
+} from '@lths/features/mms/ui-components';
 import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
-
-import TableFileInfoRow from './table-row';
-import { PreviewDrawerContent, RenameModal, DeleteModal } from '../../components/assets';
-import { cleanUrl } from '../../components/assets/utils';
 
 const headers = [
   {
@@ -59,8 +62,8 @@ export default function AssetsPage() {
   const user = useAppSelector((state) => state.auth);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
-  const [selectedRow, setSelectedRow] = useState<Asset>(null);
-  const [selectedPreviewRow, setSelectedPreviewRow] = useState<{ asset: Asset; rowIndex: number }>(null);
+  const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
+  const [selectedPreviewRow, setSelectedPreviewRow] = useState<PreviewAssetRowProps>(null);
   const [selectedRowIndex, setSelectedRowIndex] = useState<number>(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -100,7 +103,7 @@ export default function AssetsPage() {
   }, [data]);
 
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
-    const req: AssetsRequest = {};
+    const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
       req.page_size = pagination.pageSize;
@@ -130,7 +133,7 @@ export default function AssetsPage() {
     fetchData(pagination, sorting);
   };
 
-  const handleOpenModal = (modalName: string, row: Asset) => {
+  const handleOpenModal = (modalName: string, row: AssetProps) => {
     setSelectedRow(row);
     setIsRowModalOpen(modalName);
     handleClose();
@@ -197,7 +200,7 @@ export default function AssetsPage() {
       handleClose();
     };
 
-    const handleOpenModal = (action: string, row: Asset) => {
+    const handleOpenModal = (action: string, row: AssetProps) => {
       setSelectedRow(row);
       setIsRowModalOpen(action);
       handleClose();
@@ -331,36 +334,14 @@ export default function AssetsPage() {
         }
         sx={{ mt: 2 }}
       />
-      <Grid container spacing={2} marginTop={'1vw'}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            onChange={handleSearchChange}
-            value={search}
-            label="Search"
-            variant="outlined"
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            InputLabelProps={{
-              shrink: isFocused,
-              style: isFocused
-                ? {
-                    marginLeft: '10px',
-                    backgroundColor: '#fff',
-                    paddingRight: '10px',
-                  }
-                : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
-      </Grid>
+
+      <AssetSearchBar
+        handleSearchChange={handleSearchChange}
+        search={search}
+        isFocused={isFocused}
+        handleFocus={handleFocus}
+        handleBlur={handleBlur}
+      />
       <Table
         loading={isLoading}
         fetching={isFetching}
@@ -375,22 +356,13 @@ export default function AssetsPage() {
         }}
       />
 
-      {isRowModalOpen === 'Delete' && (
-        <DeleteModal
-          open={true}
-          itemToDelete={selectedRow?.original_file_name}
-          onClickKeepButton={() => setIsRowModalOpen('')}
-          onClickDeleteButton={handleDeleteRow}
-        />
-      )}
-      {isRowModalOpen === 'Rename' && (
-        <RenameModal
-          open={true}
-          itemToRename={selectedRow?.original_file_name}
-          onClickCancelButton={() => setIsRowModalOpen('')}
-          onClickOkButton={handlRenameRow}
-        />
-      )}
+      <AssetModals
+        isRowModalOpen={isRowModalOpen}
+        selectedRow={selectedRow}
+        handleDeleteRow={handleDeleteRow}
+        handlRenameRow={handlRenameRow}
+        setIsRowModalOpen={setIsRowModalOpen}
+      />
     </PageContentWithRightDrawer>
   );
 }

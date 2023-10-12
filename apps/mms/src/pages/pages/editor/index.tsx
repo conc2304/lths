@@ -58,7 +58,7 @@ export function PageEditorTabs() {
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
-  const [updatePageDetails] = useUpdatePageDetailsMutation();
+  const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
 
   //state
@@ -236,6 +236,8 @@ export function PageEditorTabs() {
         status={page_data?.status}
         onStatusChange={handleMenuItemSelect}
         onActionClick={handleActionClick}
+        onUpdate={handleEditorUpdate}
+        isPageUpdating={isPageUpdating}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
@@ -246,11 +248,7 @@ export function PageEditorTabs() {
       </Box>
       <Box>
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
-          <BlockEditor
-            onAddComponent={handleAddComponent}
-            onPropChange={handlePropChange}
-            onUpdate={handleEditorUpdate}
-          />
+          <BlockEditor onAddComponent={handleAddComponent} onPropChange={handlePropChange} />
           <ComponentModal
             open={compModalOpen}
             onClose={handleCloseCompModal}

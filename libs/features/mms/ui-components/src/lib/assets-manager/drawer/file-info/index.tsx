@@ -3,8 +3,8 @@ import { Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 interface FileInfoProps {
-  infoType: string;
-  infoData: string;
+  infoType?: string;
+  infoData?: string;
 }
 
 export const FileInfo: React.FC<FileInfoProps> = ({ infoType, infoData }) => {

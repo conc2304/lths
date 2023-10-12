@@ -1,16 +1,15 @@
-import { useCallback, useState } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useCallback } from 'react';
+import { Divider } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { Accordion, AccordionSummary } from './accordion';
-import AccordionDetails from './accordion/details';
 import Card from './list-items/draggable';
+import colors from '../../../common/colors';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
-import { StickyContainer } from '../../../elements';
 import { areEqual } from '../../utils';
+import { PAGE_EDITOR_CONTAINER, PAGE_EDITOR_NAVIGATOR_CONTAINER } from '../constants';
 
 export type NavigatorProps = {
   onAddComponent: () => void;
@@ -26,22 +25,12 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
     selectedComponent,
   } = useEditorActions();
 
-  const [expanded, setExpanded] = useState(true);
-
-  const handleChange = () => setExpanded(!expanded);
-
   const handleDrag = useCallback((dragIndex: number, hoverIndex: number) => {
     orderComponent(dragIndex, hoverIndex);
   }, []);
 
   //TODO: work in progress
   const handleClick = (index: number, id: string) => {
-    // scroll to the corresponding component in the editor
-    document.getElementById(`editor-component-${index}`)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    });
     const component = components.find((o) => o.__ui_id__ === id);
 
     if (component) {
@@ -80,22 +69,25 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
   };
 
   return (
-    <StickyContainer>
-      <Accordion expanded={expanded} onChange={handleChange}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography fontSize={'.85rem'} fontWeight={500} textTransform={'uppercase'}>
-            Component Navigator
-          </Typography>
-        </AccordionSummary>
-        {components && (
-          <AccordionDetails>{components.map((component, i) => renderCard(component, i))}</AccordionDetails>
-        )}
-      </Accordion>
+    <Box className={PAGE_EDITOR_CONTAINER} id={PAGE_EDITOR_NAVIGATOR_CONTAINER}>
+      <Typography
+        fontSize={'.875rem'}
+        fontWeight={500}
+        textTransform={'uppercase'}
+        paddingX={3}
+        paddingY={2}
+        color={colors.navigator.title}
+        letterSpacing="0.17px"
+      >
+        Page Components
+      </Typography>
+      <Divider />
+      {components.map((component, i) => renderCard(component, i))}
       <Box sx={{ margin: 5 }}>
         <Button variant="outlined" onClick={onAddComponent} fullWidth>
           Add Component
         </Button>
       </Box>
-    </StickyContainer>
+    </Box>
   );
 };

@@ -15,28 +15,27 @@ export type Props = {
 export default function Container() {
   const { components } = useEditorActions();
   return (
-    <div className="wysiwyg-container">
+    <Box
+      sx={{
+        boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
+        minHeight: MOBILE_SCREEN_HEIGHT,
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: colors.editor.mobile.background,
+      }}
+      className="wysiwyg-container"
+    >
       <Box
         sx={{
-          boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
-          minHeight: MOBILE_SCREEN_HEIGHT,
-          display: 'flex',
-          flexDirection: 'column',
+          width: MOBILE_SCREEN_WIDTH,
           backgroundColor: colors.editor.mobile.background,
+          borderTopWidth: 0,
         }}
       >
-        <Box
-          sx={{
-            width: MOBILE_SCREEN_WIDTH,
-            backgroundColor: colors.editor.mobile.background,
-            borderTopWidth: 0,
-          }}
-        >
-          <MobileBar.Status />
-          <Editor components={components} />
-        </Box>
-        <MobileBar.Bottom />
+        <MobileBar.Status />
+        <Editor components={components} />
       </Box>
-    </div>
+      <MobileBar.Bottom />
+    </Box>
   );
 }

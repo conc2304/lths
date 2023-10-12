@@ -3,10 +3,10 @@ import { Button } from '@mui/material';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
 
-import { DeleteModal, DeleteModalProps } from '.';
+import { ArchiveModal, ArchiveModalProps } from '.';
 
-describe('DeleteModal Component', () => {
-  let props: DeleteModalProps;
+describe('ArchiveModal Component', () => {
+  let props: ArchiveModalProps;
   let onClickKeepButtonMock: jest.Mock;
   let onClickDeleteButtonMock: jest.Mock;
   beforeEach(() => {
@@ -37,13 +37,13 @@ describe('DeleteModal Component', () => {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open Modal</Button>
-        <DeleteModal {...props} />
+        <ArchiveModal {...props} />
       </>
     );
   };
 
-  test('should render DeleteModal component with correct values', () => {
-    render(<DeleteModal {...props} />);
+  test('should render ArchiveModal component with correct values', () => {
+    render(<ArchiveModal {...props} />);
 
     // Assert that the expected elements are rendered with the correct values
     expect(screen.getByText('Are you Sure you want to delete?')).toBeInTheDocument();
@@ -52,14 +52,14 @@ describe('DeleteModal Component', () => {
     expect(screen.getByText('deleteThisItemName')).toBeInTheDocument();
   });
 
-  test('should render DeleteModal component with palcehholder title', () => {
+  test('should render ArchiveModal component with palcehholder title', () => {
     props.itemToDelete = undefined;
-    render(<DeleteModal {...props} />);
+    render(<ArchiveModal {...props} />);
 
     expect(screen.getByText('Placeholder_File_Name')).toBeInTheDocument();
   });
 
-  test('should render DeleteModal on open', () => {
+  test('should render ArchiveModal on open', () => {
     render(<ModalWrapper />);
 
     // Assert
@@ -79,8 +79,8 @@ describe('DeleteModal Component', () => {
     expect(screen.getByText('deleteThisItemName')).toBeInTheDocument();
   });
 
-  test('DeleteModal calls correct function on keep', () => {
-    render(<DeleteModal {...props} />);
+  test('ArchiveModal calls correct function on keep', () => {
+    render(<ArchiveModal {...props} />);
 
     // Act
     const cancelButton = screen.getByText('KEEP');
@@ -90,8 +90,8 @@ describe('DeleteModal Component', () => {
     expect(onClickKeepButtonMock).toHaveBeenCalledTimes(1);
   });
 
-  test('DeleteModal calls correct function on Delete', () => {
-    render(<DeleteModal {...props} />);
+  test('ArchiveModal calls correct function on Delete', () => {
+    render(<ArchiveModal {...props} />);
 
     // Act
     const deleteButton = screen.getByText('DELETE');
