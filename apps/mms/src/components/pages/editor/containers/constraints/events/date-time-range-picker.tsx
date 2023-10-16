@@ -143,7 +143,12 @@ const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
           minDate={today}
           onChange={(value) => handleChange('startDate', value)}
         />
-        <TimePicker label="Select time" value={startTime} onChange={(value) => handleChange('startTime', value)} />
+        <TimePicker
+          label="Select time"
+          value={startTime}
+          onChange={(value) => handleChange('startTime', value)}
+          disabled={Boolean(!startDate)}
+        />
       </Grid>
       <Grid marginTop={2}>
         <Typography>END DATE/TIME</Typography>
@@ -153,7 +158,12 @@ const DateTimeRangePicker = ({ onDateRangeSelect }: Props) => {
           value={endDate}
           onChange={(value) => handleChange('endDate', value)}
         />
-        <TimePicker label="Select time" value={endTime} onChange={(value) => handleChange('endTime', value)} />
+        <TimePicker
+          label="Select time"
+          value={endTime}
+          onChange={(value) => handleChange('endTime', value)}
+          disabled={Boolean(!endDate)}
+        />
       </Grid>
       <Typography variant="body2" sx={{ fontStyle: 'italic', color: '#6D7278' }} marginTop={2}>
         Do not enter an end date to keep this page published until otherwise noted.

@@ -1,3 +1,5 @@
+import { isValid } from 'date-fns';
+
 import { EventItem } from './types';
 
 export const findEventConstraintType = (eventConstraints: Record<string, any>) => {
@@ -35,15 +37,32 @@ export const constructEventConstraint = (
   }
 };
 
-const formatDateTimeToISO = (d) => {
-  return d ? new Date(d).toISOString() : '';
+const formatDateTimeToISO = (d: Date) => {
+  return isValid(d) ? new Date(d).toISOString() : '';
+};
+
+const mergeDateAndTime = (date: Date, time: Date) => {
+  if (isValid(date) && isValid(time)) {
+    const newDate = new Date(date);
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
+    newDate.setSeconds(seconds);
+    return newDate;
+  } else {
+    return null;
+  }
 };
 
 export const constructDateTime = (dateTime) => {
   return {
     start_date_time: dateTime?.startTime
-      ? formatDateTimeToISO(dateTime?.startTime)
+      ? formatDateTimeToISO(mergeDateAndTime(dateTime?.startDate, dateTime?.startTime))
       : formatDateTimeToISO(dateTime?.startDate),
-    end_date_time: dateTime?.end_time ? formatDateTimeToISO(dateTime?.endTime) : formatDateTimeToISO(dateTime?.endDate),
+    end_date_time: dateTime?.endTime
+      ? formatDateTimeToISO(mergeDateAndTime(dateTime?.endDate, dateTime?.endTime))
+      : formatDateTimeToISO(dateTime?.endDate),
   };
 };
