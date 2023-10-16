@@ -35,12 +35,12 @@ export const PageHeader = ({
     {
       id: PageStatus.PUBLISHED,
       label: 'PUBLISH NOW',
-      action: setNotificationStatusSent,
+      action: () => onStatusChange(PageStatus.PUBLISHED),
     },
     {
       id: PageStatus.UNPUBLISHED,
       label: 'UNPUBLISH',
-      action: setNotificationStatusSent,
+      action: () => onStatusChange(PageStatus.UNPUBLISHED),
     },
   ];
 
