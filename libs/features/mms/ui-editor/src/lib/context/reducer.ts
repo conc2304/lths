@@ -55,13 +55,13 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
     case EditorActionType.ADD_COMPONENT: {
       const { component } = action;
       const components = addNewComponent(state.components, component);
-      return { ...state, components };
+      return { ...state, components, selectedComponent: components[components.length - 1] };
     }
     case EditorActionType.RENAME_COMPONENT: {
       const { id, name } = action;
       return {
         ...state,
-        selectedComponent: renameComponent(state.selectedComponent ,name),
+        selectedComponent: renameComponent(state.selectedComponent, name),
         components: state.components.map((o) => (o.__ui_id__ === id ? renameComponent(o, name) : o)),
       };
     }
