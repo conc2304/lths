@@ -27,29 +27,50 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
 
   useEffect(() => fetchData(), []);
 
-  const { handlelocationIconChange, handleEventInfo1Change, handleEventInfo2Change, handletimeIconChange } =
-    useToolbarChange();
+  const { updateComponentProp } = useToolbarChange();
+
+  const handleEventInfo1Change = (value: string) => {
+    updateComponentProp('location_text', value);
+  };
+  const handleEventInfo2Change = (value: string) => {
+    updateComponentProp('time_text', value);
+  };
+  const handlelocationIconChange = (value: string) => {
+    updateComponentProp('location_icon', value);
+  };
+
+  const handletimeIconChange = (value: string) => {
+    updateComponentProp('time_icon', value);
+  };
 
   return (
     <ToolContainer id={id} aria-label="Event Info Button Toolbar">
       <ToolbarLabel label={'Event Info'} />
-      <OutlinedTextField label={'Location Text'} value={location_text} onChange={handleEventInfo1Change} />
+      <OutlinedTextField
+        label={'Location Text'}
+        value={location_text}
+        onChange={(e) => handleEventInfo1Change(e.target.value)}
+      />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="location_text_icon"
         label="Location Icon"
         value={location_icon}
         data={icons}
-        onChange={handlelocationIconChange}
+        onChange={(e) => handlelocationIconChange(e)}
       />
-      <OutlinedTextField label={'Time Text'} value={time_text} onChange={handleEventInfo2Change} />
+      <OutlinedTextField
+        label={'Time Text'}
+        value={time_text}
+        onChange={(e) => handleEventInfo2Change(e.target.value)}
+      />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="time_icon"
         label="Time Icon"
         value={time_icon}
         data={icons}
-        onChange={handletimeIconChange}
+        onChange={(e) => handletimeIconChange(e)}
       />
     </ToolContainer>
   );
