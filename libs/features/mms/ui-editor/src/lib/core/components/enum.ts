@@ -75,5 +75,6 @@ export enum Component {
   CenterHeadlineTextBlock = 'cCenterHeadlineTextBlock',
   CenterBodyTextBlock = 'cCenterBodyTextBlock',
   ImageHeader = 'cImageHeader',
+  SegmentGroup = 'cSegmentGroup',
   TitleTextBlock = 'cTitleTextBlock',
 }

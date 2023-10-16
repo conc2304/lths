@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 import { Component } from '@lths/features/mms/ui-editor';
 import { convertISOStringToDateTimeFormat } from '@lths/shared/utils';
 
@@ -28,13 +30,15 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
   const data = transformToObject(schema);
   if (payload.component_id === Component.SocialIconButton && data.sub_component_data.length > 0) {
     data.sub_component_data = Array(4).fill(data.sub_component_data[0]);
-  }
-
-  if (payload.component_id === Component.QuicklinkButtonGroup) {
-    const quickLinkButton = data.sub_component_data[0];
-    if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'web')
-      quickLinkButton.action.type = '';
-    data.sub_component_data = Array(2).fill(data.sub_component_data[0]);
+  } else if (data.sub_component_data.length > 0) {
+    if (payload.component_id === Component.QuicklinkButtonGroup) {
+      const quickLinkButton = data.sub_component_data[0];
+      if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'web')
+        quickLinkButton.action.type = '';
+      data.sub_component_data = Array(2).fill(data.sub_component_data[0]);
+    } else if (payload.component_id === Component.SegmentGroup) {
+      data.sub_component_data = [...Array(3)].map(() => ({ ...data.sub_component_data[0], segment_id: uuid() }));
+    }
   }
 
   payload.constraints = constraints || [];
