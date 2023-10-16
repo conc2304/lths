@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
+import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common/index';
@@ -31,7 +32,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   };
 
   useEffect(() => {
-    onClose ();
+    onClose();
   }, [id]);
 
   const onAdd = () => {
@@ -42,7 +43,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
           ...sub_component_data,
           {
             _ui_id_: uuid(),
-            image: "",
+            image: '',
             action: { type: 'native' },
           },
         ],
@@ -53,14 +54,13 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
+      <FlexibleTransition
+        minWidth={FLEXIBLE_TRANSITION_MIN_WIDTH}
+        displayRightItem={selectedIndex >= 0}
         leftItem={
           <ToolContainer id={`Carousel_${id}`} aria-label="Card View Carousel Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
-            <CarouselDraggableItemsList
-              props={props}
-              onEdit={onEdit}
-            />
+            <CarouselDraggableItemsList props={props} onEdit={onEdit} />
             <div>
               <Button
                 data-testid={'Add Carousel Item'}

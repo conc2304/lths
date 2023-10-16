@@ -103,6 +103,8 @@ import {
   CenterBodyTextBlockProps,
   ImageHeaderToolbar,
   ImageHeaderComponentProps,
+  SegmentGroupProps,
+  SegmentGroupToolbar,
   CardViewCarouselToolbar,
   CardViewCarouselComponentProps,
   FullHeightEventComponentProps,
@@ -241,6 +243,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CenterBodyTextBlockToolbar {...(props as CenterBodyTextBlockProps)} />;
     case Component.ImageHeader:
       return <ImageHeaderToolbar {...(props as ImageHeaderComponentProps)} />;
+    case Component.SegmentGroup:
+      return <SegmentGroupToolbar {...(props as SegmentGroupProps)} />;
     case Component.CardViewCarousel:
       return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:

@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
+import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common';
@@ -41,7 +42,11 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
       data: {
         sub_component_data: [
           ...sub_component_data,
-          {  _ui_id_: uuid(), title: 'New Card', description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod' },
+          {
+            _ui_id_: uuid(),
+            title: 'New Card',
+            description: 'Lorem ipsum dolor sit amet, consecteur adipiscing elit,sed do eiusmod',
+          },
         ],
       },
     };
@@ -50,14 +55,13 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
+      <FlexibleTransition
+        minWidth={FLEXIBLE_TRANSITION_MIN_WIDTH}
+        displayRightItem={selectedIndex >= 0}
         leftItem={
           <ToolContainer id={`Carousel_${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
-            <CarouselDraggableItemsList
-              props={props}
-              onEdit={onEdit}
-            />
+            <CarouselDraggableItemsList props={props} onEdit={onEdit} />
             <div>
               <Button
                 data-testid={'Add Carousel Item'}

@@ -7,6 +7,7 @@ const colors = {
     text: '#FFFFFF',
     subText: '#ABABAC',
     smallText: '#E2E2E3',
+    divider: '#BA9765',
   },
   navigator: {
     title: 'rgba(0, 0, 0, 0.60)',

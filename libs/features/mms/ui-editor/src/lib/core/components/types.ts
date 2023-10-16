@@ -410,6 +410,19 @@ export type SegmentControlComponentProps = ComponentProps & {
   };
 };
 
+export type SegmentProps = {
+  title: string;
+  description: string;
+  segment_id: string;
+  action: ActionProps;
+};
+
+export type SegmentGroupProps = ComponentProps & {
+  data: {
+    sub_component_data: SegmentProps[];
+  };
+};
+
 export type DescriptionComponentProps = ComponentProps & {
   data: {
     title: string;

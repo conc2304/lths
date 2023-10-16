@@ -71,6 +71,9 @@ export { default as CenterBodyTextBlockToolbar } from './center-body-text-block/
 export { default as ImageHeaderComponent } from './image-header/component';
 export { default as ImageHeaderToolbar } from './image-header/toolbar';
 
+export { default as SegmentGroupComponent } from './segment-group/component';
+export { default as SegmentGroupToolbar } from './segment-group/toolbar';
+
 export { default as CardViewCarouselComponent } from './card-view-carousel/component';
 export { default as CardViewCarouselToolbar } from './card-view-carousel/toolbar';
 

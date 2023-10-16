@@ -6,6 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
+import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common';
@@ -19,7 +20,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
   } = props;
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
-  
+
   const { selectComponent } = useEditorActions();
 
   const handleEdit = (index: number) => {
@@ -54,14 +55,13 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <FlexibleTransition minWidth={352} displayRightItem={selectedIndex >= 0}
+      <FlexibleTransition
+        minWidth={FLEXIBLE_TRANSITION_MIN_WIDTH}
+        displayRightItem={selectedIndex >= 0}
         leftItem={
           <ToolContainer id={`Carousel_${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
-            <CarouselDraggableItemsList
-              props={props}
-              onEdit={handleEdit}
-            />
+            <CarouselDraggableItemsList props={props} onEdit={handleEdit} />
             <div>
               <Button
                 data-testid={'Add Carousel Item'}
@@ -76,7 +76,10 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer id={`Carousel_Item${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item">
+          <ToolContainer
+            id={`Carousel_Item${id}`}
+            aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item"
+          >
             <CarouselItemEditor
               item={sub_component_data[selectedIndex]}
               onClose={handleCloseItem}
