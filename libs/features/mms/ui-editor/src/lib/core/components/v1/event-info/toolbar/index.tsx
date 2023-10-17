@@ -27,20 +27,20 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
 
   useEffect(() => fetchData(), []);
 
-  const { updateComponentProp } = useToolbarChange();
+  const { handlePropChange } = useToolbarChange();
 
   const handleEventInfo1Change = (value: string) => {
-    updateComponentProp('location_text', value);
+    handlePropChange('location_text', value, undefined, undefined);
   };
   const handleEventInfo2Change = (value: string) => {
-    updateComponentProp('time_text', value);
+    handlePropChange('time_text', value, undefined, undefined);
   };
   const handlelocationIconChange = (value: string) => {
-    updateComponentProp('location_icon', value);
+    handlePropChange('location_icon', value, undefined, undefined);
   };
 
   const handletimeIconChange = (value: string) => {
-    updateComponentProp('time_icon', value);
+    handlePropChange('time_icon', value, undefined, undefined);
   };
 
   return (
