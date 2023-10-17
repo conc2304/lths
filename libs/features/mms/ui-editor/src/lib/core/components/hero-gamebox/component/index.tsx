@@ -18,9 +18,9 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
   const {
     __ui_id__: id,
     data: {
-      pregame: { show_at_text, show_date_text, show_time_text },
-      ingame: { show_period_text, show_time_remain_text, show_stats_btn, btn_text: ingame_btn_text },
-      postgame: { show_final_text, show_highlights_btn, btn_text_play_icon, btn_text: postgame_btn_text },
+      pregame: { show_at_text, show_date_text, show_time_text } = {},
+      ingame: { show_period_text, show_time_remain_text, show_stats_btn, btn_text: ingame_btn_text } = {},
+      postgame: { show_final_text, show_highlights_btn, btn_text_play_icon, btn_text: postgame_btn_text } = {},
       image,
       editor_meta_data,
     },
