@@ -89,6 +89,9 @@ export { default as FullHeightEventFloatingTextToolbar } from './full-height-eve
 export { default as TitleTextComponent } from './title-text-block/component';
 export { default as TitleTextToolbar } from './title-text-block/toolbar';
 
+export { default as HeroGameboxComponent } from './hero-gamebox/component';
+export { default as HeroGameboxToolbar } from './hero-gamebox/toolbar';
+
 export * from './types';
 
 export * from './v1';

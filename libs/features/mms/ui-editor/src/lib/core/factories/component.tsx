@@ -58,6 +58,7 @@ import {
   HalfHeightMatchupComponent,
   FullHeightEventFloatingTextComponent,
   TitleTextComponent,
+  HeroGameboxComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -117,6 +118,7 @@ import {
   HalfHeightMatchUpComponentProps,
   FullHeightEventFloatingTextComponentProps,
   TitleTextComponentProps,
+  HeroGameboxComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -214,14 +216,7 @@ export const componentFactory = (props: ComponentProps) => {
         />
       );
     case Component.HeroGameBox:
-      return (
-        <ExternalDataComponent
-          img_alt="Hero GameBox"
-          id={props.__ui_id__}
-          image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroGameBox.svg'}
-          sx={{ margin: 0 }}
-        />
-      );
+      return <HeroGameboxComponent {...(props as HeroGameboxComponentProps)} />;
     case Component.HalfHeightMatchup:
       return <HalfHeightMatchupComponent {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:

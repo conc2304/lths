@@ -8,4 +8,5 @@ export const MOBILE_CAROUSEL_WIDTH = 300;
 export const SEGMENT_WIDTH = 100;
 export const VALUE = 0;
 export const MOBILE_CAROUSEL_HALF_WIDTH = 144;
+export const HERO_GAMEBOX_HEIGHT = 420;
 export const FLEXIBLE_TRANSITION_MIN_WIDTH = 200;

@@ -54,7 +54,7 @@ export function updateNestedProp(
   propName: string,
   value: number | string | object | undefined | null,
   index: number,
-  keys: string[]
+  keys: string[] = []
 ) {
   const updatedObject = { ...data };
 

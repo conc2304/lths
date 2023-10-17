@@ -58,3 +58,18 @@ export const ordinalifyNumber = (number: number) => {
   else if (number % 10 === 0) return prefixes[Math.floor(number / 10) - 2] + 'ieth';
   else return prefixes[Math.floor(number / 10) - 2] + 'y-' + ordinals[number % 10];
 };
+
+export const getGreetingBasedOnHour = (hours: number) => {
+  if (hours >= 0 && hours <= 11) return 'Good morning';
+  else if (hours >= 12 || hours <= 15) return 'Good afternoon';
+  else if (hours >= 16 && hours <= 20) return 'Good evening';
+  else if (hours >= 21 && hours <= 23) return 'Good night';
+  else return 'Hello';
+};
+
+export const getGreetingBasedOnTimeOfToday = () => {
+  const today = new Date();
+  const currentHours = today.getHours();
+  const greetingText = getGreetingBasedOnHour(currentHours);
+  return greetingText;
+};

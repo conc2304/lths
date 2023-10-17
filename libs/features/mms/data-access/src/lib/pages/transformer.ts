@@ -30,7 +30,7 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
   const data = transformToObject(schema);
   if (payload.component_id === Component.SocialIconButton && data.sub_component_data.length > 0) {
     data.sub_component_data = Array(4).fill(data.sub_component_data[0]);
-  } else if (data.sub_component_data.length > 0) {
+  } else if (data.sub_component_data && data.sub_component_data.length > 0) {
     if (payload.component_id === Component.QuicklinkButtonGroup) {
       const quickLinkButton = data.sub_component_data[0];
       if (quickLinkButton.action.type !== 'native' && quickLinkButton.action.type !== 'web')

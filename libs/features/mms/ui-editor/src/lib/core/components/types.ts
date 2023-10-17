@@ -14,6 +14,12 @@ export enum SourceType {
   NHL_NEWS = 'NHL_News',
 }
 
+export enum GameEventState {
+  PRE_GAME = 'Pre_Game',
+  IN_GAME = 'In_Game',
+  POST_GAME = 'Post_Game',
+}
+
 export type AutocompleteItemProps = {
   label: string;
   value: string;
@@ -589,3 +595,57 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
 };
 
 export type FullHeightEventFloatingTextComponentProps = ComponentProps;
+
+export type HeroGameBoxPreGameProps = {
+  show_date_text: boolean;
+  show_time_text: boolean;
+  show_at_text: boolean;
+};
+
+export type HeroGameBoxInGameProps = {
+  show_period_text: boolean;
+  show_time_remain_text: boolean;
+  show_stats_btn: boolean;
+  btn_text: string;
+  btn_text_color: string;
+  btn_action: ActionProps;
+};
+
+export type HeroGameBoxPostGameProps = {
+  show_final_text: boolean;
+  show_highlights_btn: boolean;
+  btn_text_play_icon: boolean;
+  btn_text: string;
+  btn_text_color: string;
+  btn_action: ActionProps;
+};
+
+export type HeroGameboxComponentProps = ComponentProps & {
+  data: {
+    away_team_name: string;
+    away_team_logo: string;
+    home_team_name: string;
+    home_team_logo: string;
+    show_game: string;
+    date: string;
+    time: string;
+    at: string;
+    period: string;
+    time_remain: string;
+    final: string;
+    home_team_text_color: string;
+    away_team_text_color: string;
+    date_text_color: string;
+    time_text_color: string;
+    at_text_color: string;
+    final_text_color: string;
+    pregame: HeroGameBoxPreGameProps;
+    ingame: HeroGameBoxInGameProps;
+    postgame: HeroGameBoxPostGameProps;
+    image: string;
+    action: ActionProps;
+    editor_meta_data?: {
+      game_event_state: GameEventState;
+    };
+  };
+};

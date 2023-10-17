@@ -115,6 +115,8 @@ import {
   FullHeightEventFloatingTextComponentProps,
   TitleTextToolbar,
   TitleTextComponentProps,
+  HeroGameboxToolbar,
+  HeroGameboxComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -211,14 +213,7 @@ export const toolbarFactory = (props: ComponentProps) => {
         />
       );
     case Component.HeroGameBox:
-      return (
-        <ExternalDataToolbar
-          component_id={props.component_id}
-          id={props.__ui_id__}
-          title="Gamebox"
-          desc="Content and data from NHL.com."
-        />
-      );
+      return <HeroGameboxToolbar {...(props as HeroGameboxComponentProps)} />;
     case Component.HalfHeightMatchup:
       return <HalfHeightMatchUpToolbar {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:
