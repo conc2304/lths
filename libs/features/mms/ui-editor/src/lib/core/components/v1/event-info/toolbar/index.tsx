@@ -29,18 +29,18 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
 
   const { handlePropChange } = useToolbarChange();
 
-  const handleEventInfo1Change = (value: string) => {
-    handlePropChange('location_text', value, undefined, undefined);
+  const handlelocationtextChange = (value: string) => {
+    handlePropChange('location_text', value);
   };
-  const handleEventInfo2Change = (value: string) => {
-    handlePropChange('time_text', value, undefined, undefined);
+  const handletimetextChange = (value: string) => {
+    handlePropChange('time_text', value);
   };
   const handlelocationIconChange = (value: string) => {
-    handlePropChange('location_icon', value, undefined, undefined);
+    handlePropChange('location_icon', value);
   };
 
   const handletimeIconChange = (value: string) => {
-    handlePropChange('time_icon', value, undefined, undefined);
+    handlePropChange('time_icon', value);
   };
 
   return (
@@ -49,7 +49,7 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
       <OutlinedTextField
         label={'Location Text'}
         value={location_text}
-        onChange={(e) => handleEventInfo1Change(e.target.value)}
+        onChange={(e) => handlelocationtextChange(e.target.value)}
       />
       <ImageAutocomplete
         aria-label="Icon"
@@ -59,11 +59,7 @@ const EventInfoToolbar = (props: EventInfoComponentProps) => {
         data={icons}
         onChange={(e) => handlelocationIconChange(e)}
       />
-      <OutlinedTextField
-        label={'Time Text'}
-        value={time_text}
-        onChange={(e) => handleEventInfo2Change(e.target.value)}
-      />
+      <OutlinedTextField label={'Time Text'} value={time_text} onChange={(e) => handletimetextChange(e.target.value)} />
       <ImageAutocomplete
         aria-label="Icon"
         data-testid="time_icon"
