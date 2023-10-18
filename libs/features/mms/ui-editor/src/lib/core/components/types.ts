@@ -139,16 +139,10 @@ export type PhoneInquiryComponentProps = ComponentProps & {
 
 export type EventInfoComponentProps = ComponentProps & {
   data: {
-    title: string;
-    desc: string;
-    date_lbl_txt: string;
-    date_lbl_txt_color: string;
-    date_data_txt: string;
-    date_data_txt_color: string;
-    location_lbl_txt: string;
-    location_lbl_txt_color: string;
-    location_data_txt: string;
-    location_data_txt_color: string;
+    location_text: string;
+    time_text: string;
+    location_icon: string;
+    time_icon: string;
   };
 };
 
