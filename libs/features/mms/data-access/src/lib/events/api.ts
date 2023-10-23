@@ -4,13 +4,14 @@ import { getEventsResponseTransformer } from './response-transformer';
 import {
   CreateEventPayload,
   CreateEventResponse,
-  GetEventsResponse,
+  GetEventsEvent,
   TransormedGetEventsResponse,
   UpdateEventArgs,
   UpdateEventResponse,
 } from './types';
 import { createEventUrl, getEventsUrl, updateEventUrl } from './urls';
 import { QueryParams } from '../../types';
+import { ApiResponse } from '../types';
 
 const EVENTS_TAG = 'EVENTS';
 const VIRTUAL_ID = 'EVENTS_CACHE';
@@ -45,7 +46,7 @@ export const eventsApi = api.injectEndpoints({
             ]
           : onErrorTags;
       },
-      transformResponse: (response: GetEventsResponse): TransormedGetEventsResponse => {
+      transformResponse: (response: ApiResponse<GetEventsEvent[]>): TransormedGetEventsResponse => {
         return getEventsResponseTransformer(response);
       },
     }),
