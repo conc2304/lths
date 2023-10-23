@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { Link } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 
@@ -17,6 +16,7 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
         .map((props, index) => <BreadcrumbLink key={`breadcrumb_link_${index}`} {...props} />)
     );
   }, []);
+
   const renderActivePath = useCallback((paths: BreadcrumbPathProps[], activePageTitle?: string) => {
     return activePageTitle != null ? (
       <BreadcrumbTitle title={activePageTitle} />
@@ -24,6 +24,7 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
       paths.length > 0 && <BreadcrumbTitle title={paths[paths.length - 1].title} />
     );
   }, []);
+
   return (
     <Breadcrumbs
       separator="/"
@@ -33,9 +34,9 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
         '& .MuiBreadcrumbs-separator': { marginRight: '.3rem', marginLeft: '.3rem' },
       }}
     >
-      <Link href={'/'} underline="none" aria-label={`Navigate to Home`} color={'inherit'}>
-        <HomeIcon sx={{ padding: '0', margin: 0 }} />
-      </Link>
+      <BreadcrumbLink path="/" title="Home">
+        <HomeIcon sx={{ padding: '0', margin: 0 }} color="primary" />
+      </BreadcrumbLink>
 
       {renderInactivePaths(paths)}
       {renderActivePath(paths, activePageTitle)}

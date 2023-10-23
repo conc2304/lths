@@ -45,6 +45,9 @@ export const DashboardLayout = ({
     setPaths(paths);
     if (paths.length > 0) {
       setPageTitle(paths[paths.length - 1].title);
+    } else {
+      // if there are no paths then that means we are at "/" aka Home
+      setPageTitle('Home');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sections, breadcrumbs, location.pathname]);
