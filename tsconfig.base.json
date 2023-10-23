@@ -36,6 +36,5 @@
       "@lths/shared/utils": ["libs/shared/utils/src/index.ts"]
     }
   },
-  "files": ["./libs/shared/themes/src/createPalette.d.ts", "./libs/shared/themes/src/Button.d.ts"],
   "exclude": ["node_modules", "tmp"]
 }

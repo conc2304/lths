@@ -1,6 +1,7 @@
 import { Theme } from '@mui/material';
 import { Components } from '@mui/material/styles';
 
+import AppBar from './app-bar';
 import Chip from './chip';
 import DatePicker from './date-picker';
 import DateTimePicker from './date-time-picker';
@@ -16,6 +17,7 @@ import Toolbar from './toolbar';
 
 export default function getComponentOverrides(theme: Theme): Components {
   return {
+    ...AppBar(theme),
     ...Chip(theme),
     ...DatePicker(theme),
     ...DateTimePicker(theme),
