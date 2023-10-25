@@ -178,7 +178,7 @@ export function PageEditorTabs() {
   const handleUpdatePageStatus = async () => {
     await updatePageStatus({ page_id: pageId, status: modalData.status });
     setOpenModal(false);
-    navigate('/pages');
+    navigate(`/pages/editor/${pageId}`);
   };
   const handleEditorUpdate = async () => {
     handleUpdatePageDetails();
