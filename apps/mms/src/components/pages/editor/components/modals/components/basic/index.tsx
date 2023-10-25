@@ -42,7 +42,7 @@ const ComponentModal = ({
 
   const theme = useTheme();
 
-  const searchProps = ['component_id', 'component_name', 'component_type'];
+  const searchProps = ['component_id', 'name', 'component_type'];
 
   const fetchCategories = async () => {
     try {

@@ -9,38 +9,38 @@ const DesktopDrawer = styled(Drawer, {
 })<LayoutDrawerStateProps>(({ theme, open }) => {
   if (open) {
     const styles = {
+      backgroundColor: theme.palette.sideBar.background,
       width: DRAWER_WIDTH,
       borderRight: `1px solid ${theme.palette.divider}`,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      'overflow-x': 'hidden', //styles not letting me use overflowX
+
       boxShadow: 'none',
     };
     return {
       flexShrink: 0,
       whiteSpace: 'nowrap',
       boxSizing: 'border-box',
-
+      overflowX: 'hidden',
       ...styles,
       '& .MuiDrawer-paper': styles,
     };
   } else {
     const styles = {
+      backgroundColor: theme.palette.sideBar.background,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      'overflow-x': 'hidden',
       width: 0,
       borderRight: 'none',
     };
     return {
       flexShrink: 0,
       whiteSpace: 'nowrap',
-      boxSizing: 'border-box', //TODO:this is not needed
-
+      overflowX: 'hidden',
       ...styles,
       '& .MuiDrawer-paper': styles,
     };

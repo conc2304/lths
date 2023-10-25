@@ -12,7 +12,10 @@ const DrawerSectionList = ({ header, children }: Props) => {
   ) : null;
   return (
     <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      sx={{
+        width: '100%',
+        maxWidth: 360,
+      }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={subheader}

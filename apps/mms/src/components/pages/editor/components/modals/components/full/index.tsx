@@ -16,7 +16,7 @@ export const ComponentModal = ({ open, onClose, components, onSelect }: Componen
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
 
-  const searchProps = ['component_id', 'component_name', 'component_type'];
+  const searchProps = ['component_id', 'name', 'component_type'];
 
   useEffect(() => {
     if (!components) setFiltered([]);

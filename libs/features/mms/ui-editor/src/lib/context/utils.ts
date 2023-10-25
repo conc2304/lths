@@ -36,7 +36,7 @@ export function sortAndPopulateDisplayOrder(components: ComponentProps[]): Compo
   return populateDisplayOrder(sort(components));
 }
 
-export const initComponents = (components: ComponentProps[]) => {
+export const initComponents = (components: ComponentProps[] = []) => {
   return sortAndPopulateDisplayOrder(components.map((component) => fillUuid(component)));
 };
 export const addNewComponent = (components: ComponentProps[], component: ComponentProps) => {

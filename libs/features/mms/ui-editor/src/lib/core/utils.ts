@@ -29,3 +29,7 @@ export const getImageDimensions = (url: string): Promise<{ width: number; height
 
 export const areEqual = (str1: string, str2: string) =>
   str1 && str2 ? str1.toLowerCase() === str2.toLowerCase() : str1 === str2;
+
+export const escapeRegExp = (string: string) => {
+  return string?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};

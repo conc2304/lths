@@ -14,7 +14,7 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
     onPropChange,
   } = props;
 
-  const { handleTitleChange, updateComponentProp } = useToolbarChange();
+  const { handleTitleChange, updateComponentProp, handleImageAltChange } = useToolbarChange();
   const handleDescChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
     updateComponentProp('description', event.target.value, index);
   };
@@ -27,7 +27,7 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
           onChange={(value) => updateComponentProp('image', value)}
           onReplace={onPropChange}
         />
-        <OutlinedTextField label={'Image alt text'} onChange={(e) => updateComponentProp('image', e.target.value)} />
+        <OutlinedTextField label={'Image alt text'} onChange={handleImageAltChange} />
         <GroupLabel label={'Text'} />
         <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
         <OutlinedTextField label={'Description'} value={description} onChange={handleDescChange} />

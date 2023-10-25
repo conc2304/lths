@@ -6,9 +6,7 @@
   },
   "files": [
     "../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nx/react/typings/image.d.ts",
-    "../themes/src/createPalette.d.ts",
-    "../themes/src/Button.d.ts"
+    "../../../node_modules/@nx/react/typings/image.d.ts"
   ],
   "exclude": [
     "jest.config.ts",
@@ -26,6 +24,7 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "../../../declaration-files/*.d.ts",
     "../ui-elements/src/lib/inputs/drag-drop-file/index.tsx",
     "../../../apps/mms/src/components/schedule/index.tsx",
     "../../../apps/mms/src/components/schedule/toolbar/event-type-filter.tsx"

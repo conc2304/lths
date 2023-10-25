@@ -46,7 +46,6 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
     position: 'fixed',
     open: drawerVisible === true ? drawerVisible : false,
     fixedHeader,
-    color: 'primary',
     elevation: 0,
     sx: {
       borderBottom: `1px solid ${theme.palette.divider}`,

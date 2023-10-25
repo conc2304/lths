@@ -10,9 +10,10 @@ import {
   FOREGROUND_EVENT_STATES,
 } from '@lths/features/mms/ui-event-schedule';
 
-import { GetEventsEvent, GetEventsResponse, SerializableMMSEvent, TransormedGetEventsResponse } from './types';
+import { GetEventsEvent, SerializableMMSEvent, TransormedGetEventsResponse } from './types';
+import { ApiResponse } from '../types';
 
-export const getEventsResponseTransformer = (response: GetEventsResponse): TransormedGetEventsResponse => {
+export const getEventsResponseTransformer = (response: ApiResponse<GetEventsEvent[]>): TransormedGetEventsResponse => {
   //  We need to extract all of the event types by parsing through every event and grabbing each unique one
   //  We need to split all "Event State" events into their own array so that they can be passed in as background events
   //  We need to grab all of the data for events and format it into what the calendar component expects

@@ -39,13 +39,6 @@ export type CreateEventResponse = {
   };
 };
 
-export type GetEventsResponse = {
-  success: boolean;
-  message: string;
-  pagination: Record<string, unknown>;
-  data: GetEventsEvent[];
-};
-
 export type GetEventsEvent = {
   _id: string;
   event_id: string;

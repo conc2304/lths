@@ -6,11 +6,7 @@
   },
   "files": [
     "../../../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../../../node_modules/@nx/react/typings/image.d.ts",
-    "../../../../declaration-files/react-feature-flags.d.ts",
-    "../../../../libs/shared/themes/src/createPalette.d.ts",
-    "../../../../libs/shared/themes/src/Button.d.ts",
-    "../../../../libs/shared/ui-calendar-scheduler/src/rbc.d.ts"
+    "../../../../node_modules/@nx/react/typings/image.d.ts"
   ],
   "exclude": [
     "jest.config.ts",
@@ -23,5 +19,5 @@
     "src/**/*.spec.jsx",
     "src/**/*.test.jsx"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx", "../../../../declaration-files/*.d.ts"]
 }

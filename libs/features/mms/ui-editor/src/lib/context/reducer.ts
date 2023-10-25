@@ -44,11 +44,12 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
       const {
         data: { components, ...rest },
       } = action;
-
+      const initialComponents = initComponents(components);
       return {
         ...state,
         ...rest,
-        components: initComponents(components),
+        components: initialComponents,
+        selectedComponent: initialComponents?.length > 0 ? initialComponents[0] : null,
       };
     }
 

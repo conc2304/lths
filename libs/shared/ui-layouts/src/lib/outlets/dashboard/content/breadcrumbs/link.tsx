@@ -1,19 +1,21 @@
-import { Link } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { BreadcrumbTitle } from './title';
 import { BreadcrumbPathProps } from './types';
 
-export const BreadcrumbLink = ({ title, path }: BreadcrumbPathProps) => {
-  const navigate = useNavigate();
-
-  const onClick = () => {
-    navigate(path);
-  }
-
+export const BreadcrumbLink = ({ title, path, children }: BreadcrumbPathProps) => {
   return (
-    <Link onClick={onClick} sx={{ cursor: 'pointer' }} role="link" underline="none" aria-label={`Navigate to ${title}`}>
-      <BreadcrumbTitle title={title} />
+    <Link
+      component={RouterLink}
+      to={path}
+      sx={{ cursor: 'pointer' }}
+      role="link"
+      underline="none"
+      aria-label={`Navigate to ${title}`}
+    >
+      {!!children && children}
+      {!children && !!title && <BreadcrumbTitle title={title} />}
     </Link>
   );
 };
