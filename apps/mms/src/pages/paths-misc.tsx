@@ -5,8 +5,7 @@ const Home = {
     {
       title: 'Home',
       icon: <HomeIcon />,
-      path: '/pages/list',
-      file: '/pages/list',
+      path: '/',
     },
   ],
 };
@@ -15,5 +14,4 @@ const Themes = {
   items: [],
 };
 
-
-export { Home, Themes};
+export { Home, Themes };

@@ -5,8 +5,7 @@ import {
   useLazyGetInsightOverviewKpiQuery,
   useLazyGetInsightOverviewSegmentationQuery,
 } from '@lths/features/mms/data-access';
-import { VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/shared/ui-elements';
+import { FilterSettingsQueryParams, VStack } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { HistogramContainer } from '../../components/insights/overview';
@@ -27,12 +26,12 @@ export default function UsersPage() {
     { isFetching: isSegmentationFetching, isLoading: isSegmentationLoading, data: segmentationData },
   ] = useLazyGetInsightOverviewSegmentationQuery();
 
-  async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+  async function handleFilterUpdate(filterSettings: FilterSettingsQueryParams) {
     const {
-      date_range: { start_date, end_date },
-      metrics,
+      date_range: [start_date, end_date],
+      filters,
     } = filterSettings;
-    if (!filterSettings || !start_date || !end_date || !metrics) return;
+    if (!filterSettings || !start_date || !end_date || !filters) return;
 
     await Promise.all([
       getKpiData(filterSettings),
@@ -45,7 +44,7 @@ export default function UsersPage() {
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
         <ConnectedUiFilter
-          onFiltersUpdate={(filters: FilterSettingsPayload) => {
+          onFiltersUpdate={(filters: FilterSettingsQueryParams) => {
             handleFilterUpdate(filters);
           }}
         />

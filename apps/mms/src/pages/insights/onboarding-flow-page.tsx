@@ -7,8 +7,7 @@ import {
   useLazyGetInsightOnboardingHistogramQuery,
   useLazyGetInsightOnboardingKpiQuery,
 } from '@lths/features/mms/data-access';
-import { VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/shared/ui-elements';
+import { FilterSettingsQueryParams, VStack } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { KpiAndColumnContainer } from '../../components/insights/flows/onboarding-flow';
@@ -33,12 +32,12 @@ const OnboardingFlowPage = (): JSX.Element => {
   const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
     useLazyGetInsightOnboardingHistogramQuery();
 
-  async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+  async function handleFilterUpdate(filterSettings: FilterSettingsQueryParams) {
     const {
-      date_range: { start_date, end_date },
-      metrics,
+      date_range: [start_date, end_date],
+      filters,
     } = filterSettings;
-    if (!filterSettings || !start_date || !end_date || !metrics) return;
+    if (!filterSettings || !start_date || !end_date || !filters) return;
 
     await Promise.all([
       getKpiColumnCardData(filterSettings),
@@ -52,9 +51,7 @@ const OnboardingFlowPage = (): JSX.Element => {
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
         <ConnectedUiFilter
-          onFiltersUpdate={(filters: FilterSettingsPayload) => {
-            console.log('---- onFiltersUpdate');
-            console.log(filters);
+          onFiltersUpdate={(filters: FilterSettingsQueryParams) => {
             handleFilterUpdate(filters);
           }}
         />

@@ -1,11 +1,11 @@
 import Divider from '@mui/material/Divider';
 import { useTheme } from '@mui/material/styles';
 
-import { InsightKpiResponse, KPI } from '@lths/features/mms/data-access';
+import { KPI } from '@lths/features/mms/data-access';
 import { HStack, KpiCard } from '@lths/shared/ui-elements';
 
 type Props = {
-  data: InsightKpiResponse;
+  data: KPI[];
 };
 
 const DURATION_SEVEN = 7;
@@ -24,7 +24,7 @@ const KpiItem = ({ data }: { data: KPI }) => {
 
 export const KpiList = ({ data }: Props) => {
   const theme = useTheme();
-  if (!data || !data.data) return null;
+  if (!data) return null;
 
   return (
     <>
@@ -32,7 +32,7 @@ export const KpiList = ({ data }: Props) => {
         sx={{ paddingLeft: theme.spacing(3.125), paddingRight: theme.spacing(5) }}
         divider={<Divider sx={{}} orientation="vertical" flexItem />}
       >
-        {data.data.map((o, i) => {
+        {data.map((o, i) => {
           return <KpiItem key={`kpi_card_${i}`} data={o} />;
         })}
       </HStack>

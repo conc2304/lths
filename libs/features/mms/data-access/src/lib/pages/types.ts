@@ -1,6 +1,6 @@
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
-import { CommonResponse, PaginationRequest } from '../types';
+import { ApiResponse, PaginationRequest } from '../types';
 
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
@@ -51,12 +51,10 @@ export type CreatePageRequest = {
   description?: string;
 };
 
-export type CreatePageResponse = CommonResponse & {
-  data: {
-    page_id: string;
-    name: string;
-  };
-};
+export type CreatePageResponse = ApiResponse<{
+  page_id: string;
+  name: string;
+}>;
 
 export type PageType = 'Pre-Defined' | 'User-Defined';
 
@@ -120,13 +118,9 @@ export type PageDetail = EditorProps & {
   constraints_formatted?: string;
 };
 
-export type PageItemsResponse = CommonResponse & {
-  data: PageDetail[];
-};
+export type PageItemsResponse = ApiResponse<PageDetail[]>;
 
-export type PageDetailResponse = CommonResponse & {
-  data: PageDetail;
-};
+export type PageDetailResponse = ApiResponse<PageDetail>;
 
 export type EnumValue = {
   display_order: number;
@@ -134,13 +128,11 @@ export type EnumValue = {
   value: string;
 };
 
-export type EnumListResponse = CommonResponse & {
-  data: {
-    _id: string;
-    enum_group: string;
-    enum_values: EnumValue[];
-  };
-};
+export type EnumListResponse = ApiResponse<{
+  _id: string;
+  enum_group: string;
+  enum_values: EnumValue[];
+}>;
 
 export type LocationItem = {
   _id: string;
@@ -156,9 +148,7 @@ export type LocationItem = {
   display_order: number;
 };
 
-export type LocationListResponse = CommonResponse & {
-  data: LocationItem[];
-};
+export type LocationListResponse = ApiResponse<LocationItem[]>;
 
 export type UserSegment = {
   _id: string;
@@ -172,9 +162,7 @@ export type UserSegment = {
   display_order?: number;
 };
 
-export type UserSegmentListResponse = CommonResponse & {
-  data: UserSegment[];
-};
+export type UserSegmentListResponse = ApiResponse<UserSegment[]>;
 
 export type EventItem = {
   _id: string;
@@ -207,15 +195,11 @@ export type UpdatePageStatusRequest = {
   status: string;
 };
 
-export type UpdatePageStatusResponse = CommonResponse & {
-  data: PageDetail;
-};
+export type UpdatePageStatusResponse = ApiResponse<PageDetail>;
 
 export type UpdatePageDetailRequest = PageDetail;
 
-export type UpdatePageDetailResponse = CommonResponse & {
-  data: PageDetail;
-};
+export type UpdatePageDetailResponse = ApiResponse<PageDetail>;
 
 export type UpdatePageNameRequest = {
   name: string;
@@ -226,9 +210,7 @@ export type DeletePageRequest = {
   page_id: string;
 };
 
-export type DeletePageResponse = CommonResponse & {
-  data: PageDetail;
-};
+export type DeletePageResponse = ApiResponse<PageDetail>;
 
 export type ComponentsListRequest = {
   category?: string;
@@ -240,6 +222,4 @@ export type DuplicatePageDetailRequest = {
   page_id: string;
 };
 
-export type DuplicatePageDetailResponse = CommonResponse & {
-  data: PageDetail;
-};
+export type DuplicatePageDetailResponse = ApiResponse<PageDetail>;

@@ -4,6 +4,7 @@ import {
   endOfMonth,
   endOfQuarter,
   endOfYear,
+  format,
   getQuarter,
   isLastDayOfMonth,
   isSameDay,
@@ -171,4 +172,8 @@ export const convertISOStringToDateTimeFormat = (isoString: string) => {
   const date = new Date(isoString);
   const formattedDate = date.toLocaleString('en-US', options).replace(',', ' -');
   return formattedDate;
+};
+export const dateToApiQueryString = (date: Date | string): string => {
+  const f = 'yyyy-MM-dd';
+  return format(new Date(date), f);
 };

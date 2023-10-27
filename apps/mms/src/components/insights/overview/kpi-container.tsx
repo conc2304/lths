@@ -15,6 +15,7 @@ const CardItem = ({ data }: { data: KPI }) => {
 };
 export const KpiContainer = ({ data }: Props) => {
   if (!data || !data.data) return null;
+  if (!data) return null;
   return (
     <HStack>
       {data.data.map((o, i) => {
