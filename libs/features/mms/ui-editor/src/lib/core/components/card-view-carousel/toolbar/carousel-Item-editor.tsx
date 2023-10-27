@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, Stack } from '@mui/material';
 
 import { ToolbarProps } from '../../../../context';
 import { SimpleImagePicker, EditableListItemTextWithClose } from '../../../../elements';
@@ -33,11 +32,6 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, o
       <EditableListItemTextWithClose text={name || 'Carousel Item'} onSave={_handleNameChange} onClose={onClose} />
       <SimpleImagePicker value={image} onChange={_handleImageChange} onReplace={onPropChange} />
       <ActionToolbar action={action} keys={parentKeys} onPropChange={onPropChange} index={index} />
-      <Stack direction="row" justifyContent="flex-end" spacing={2}>
-        <Button variant="outlined" onClick={onClose} sx={{ padding: '8px 22px', fontSize: 15 }}>
-          BACK
-        </Button>
-      </Stack>
     </>
   );
 };
