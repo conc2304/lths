@@ -7,8 +7,6 @@ import {
   CardContent,
   ClickAwayListener,
   Fade,
-  Grid,
-  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -21,7 +19,7 @@ import {
 import { LogoutOutlined, EditAttributes } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
-import { useAppSelector, selectUserId } from '@lths/features/mms/data-access';
+import { useAppSelector, selectUserId, selectUserDisplayName } from '@lths/features/mms/data-access';
 import { useLogoutMutation } from '@lths/shared/data-access';
 const ProfileTab = ({ handleLogout }) => {
   const theme = useTheme();
@@ -34,6 +32,7 @@ const ProfileTab = ({ handleLogout }) => {
   return (
     <List
       component="nav"
+      aria-label="User Profile and Logout Menu"
       sx={{
         p: 0,
         '& .MuiListItemIcon-root': {
@@ -62,6 +61,7 @@ const ProfileTab = ({ handleLogout }) => {
 const Profile = () => {
   const [logout] = useLogoutMutation();
   const userId = useAppSelector((state) => selectUserId(state));
+  const userName = useAppSelector(selectUserDisplayName);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -94,22 +94,13 @@ const Profile = () => {
               <ClickAwayListener onClickAway={handleClose}>
                 <Card elevation={0} sx={{ mt: 1, p: 0, minWidth: 150 }}>
                   <CardContent sx={{ px: 1, pt: 1, py: 1 }}>
-                    <Grid container justifyContent="space-between" alignItems="center">
-                      <Grid item>
-                        <Stack direction="row" spacing={1.25} alignItems="center">
-                          <Avatar alt="profile user" sx={{ width: 32, height: 32 }} />
-                          <Stack>
-                            <Typography variant="h6">User Name</Typography>
-                            <Typography variant="body2" color="textSecondary"></Typography>
-                          </Stack>
-                        </Stack>
-                      </Grid>
-                      <Grid item>
-                        <IconButton size="large" color="secondary" onClick={handleLogout}>
-                          <LogoutOutlined />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
+                    <Stack direction="row" spacing={1.25} py={1} alignItems="center">
+                      <Avatar alt="profile user" sx={{ width: 32, height: 32 }} />
+                      <Stack>
+                        <Typography variant="h6">{userName}</Typography>
+                        <Typography variant="body2" color="textSecondary"></Typography>
+                      </Stack>
+                    </Stack>
                     <ProfileTab handleLogout={handleLogout} />
                   </CardContent>
                 </Card>
@@ -125,6 +116,8 @@ const Profile = () => {
           borderRadius: 1,
           '&:hover': { bgcolor: 'secondary.lighter' },
         }}
+        role="button"
+        aria-label="User Profile Settings"
         onClick={handleClick}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>

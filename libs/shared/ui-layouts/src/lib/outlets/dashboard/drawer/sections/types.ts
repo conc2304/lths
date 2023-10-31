@@ -47,6 +47,7 @@ export type DrawerSectionSubListProps = {
   onListItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
   items: DrawerSectionItemProps[];
   sectionId: string;
+  sectionTitle: string;
   selectedItemId: string;
 };
 export type DrawerSectionListItemProps = {

@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { List } from '@mui/material';
 
 import DrawerSectionListItem from './section-item';
 import DrawerSectionList from './section-list';
@@ -10,7 +11,7 @@ import { useLayoutActions } from '../../../../context';
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   const [open, setSelectedSection] = useState<string | null>(null);
 
-  const { setDrawerSelectedItem, drawerCurrentItem } = useLayoutActions();
+  const { setDrawerSelectedItem, drawerCurrentItem, pageTitle } = useLayoutActions();
   const handleListItemClick = (id: string) => {
     setDrawerSelectedItem(id);
   };
@@ -24,19 +25,18 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   };
 
   return (
-    <>
+    <List data-testid="Dashboard-drawer--list-content" aria-label="Dashboard Navigation Menu" role="tree">
       {sections.map((section, s) => {
         const { items, header } = section;
         if (!items) return null;
         return (
           <DrawerSectionList key={`list_section_${s}`} header={header}>
             {items.map((item, i) => {
-              const { items: subitems } = item;
+              const { items: subitems, title } = item;
               const hasAccordion = !!subitems && subitems.length > 0;
               const itemId = `panel_${s}_${i}`;
               const visible = open === itemId;
-
-              const selected = drawerCurrentItem === itemId;
+              const selected = drawerCurrentItem === itemId || pageTitle === title;
 
               return (
                 <Fragment key={`drawer_section_${s}_${i}`}>
@@ -53,6 +53,7 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
                     selectedItemId={drawerCurrentItem}
                     items={subitems}
                     sectionId={itemId}
+                    sectionTitle={item.title}
                     onListItemClick={handleListItemClick}
                   />
                 </Fragment>
@@ -61,6 +62,6 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
           </DrawerSectionList>
         );
       })}
-    </>
+    </List>
   );
 }

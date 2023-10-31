@@ -8,13 +8,21 @@ const DrawerSectionSubList = ({
   visible,
   items,
   sectionId,
+  sectionTitle,
   onListItemClick,
   selectedItemId,
 }: DrawerSectionSubListProps) => {
   if (!!items && items.length > 0)
     return (
       <Collapse in={visible} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List
+          component="ul"
+          role="group"
+          disablePadding
+          aria-label={`${sectionTitle} Submenu`}
+          id={`${sectionTitle}-submenu`}
+          data-testid="Dashboard-drawer--section-sub-list"
+        >
           {items
             .filter((subitem) => !subitem.hidden)
             .map((subitem, b) => {

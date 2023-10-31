@@ -43,10 +43,28 @@ const DrawerSectionListItem = ({
   };
 
   return (
-    <SectionItemButton onClick={handleListItemClick} selected={selected} sx={sx}>
+    <SectionItemButton
+      data-testid="Dashboard-drawer--section-item-button"
+      onClick={handleListItemClick}
+      selected={selected}
+      sx={sx}
+      role="treeitem"
+      aria-label={`${title} Page`}
+      aria-current={selected ? 'page' : undefined}
+      aria-haspopup={showAccordion ? 'true' : 'false'}
+      tabIndex={selected ? 0 : undefined}
+    >
       {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
       <ListItemText primary={title} />
-      {showAccordion && <ChevronRight sx={arrowStyle} onClick={handleListItemArrowClick} />}
+      {showAccordion && (
+        <ChevronRight
+          sx={arrowStyle}
+          onClick={handleListItemArrowClick}
+          role="checkbox"
+          aria-expanded={accordionExpanded ? 'true' : 'false'}
+          aria-controls={showAccordion ? `${title}-submenu` : undefined}
+        />
+      )}
     </SectionItemButton>
   );
 };
