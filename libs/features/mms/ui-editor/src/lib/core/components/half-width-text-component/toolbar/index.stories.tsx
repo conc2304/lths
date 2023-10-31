@@ -29,27 +29,27 @@ const Template: StoryFn<StoryArgs> = (args) => {
     if (propName === 'quickLinkIcons') {
       callback(args.mock_quickLinkIcons);
     }
-  };
+  }
 
   return (
     <EditorProvider initialValue={initialState}>
-      <Box sx={{padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
+      <Box sx={{ padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
         <HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />
       </Box>
     </EditorProvider>
-  )
-}
+  );
+};
 
 export const Primary = Template.bind({});
 Primary.args = {
   ...mockComponent,
-  __ui_id__ : "3333333",
+  __ui_id__: '3333333',
   component_id: Component.HalfWidthText,
-  data: {    
+  data: {
     btn_text: 'Map',
     description: 'Test description pizza tastes good',
-    icon: "icon url",
-    image: "iamge url",
+    icon: 'icon url',
+    image: 'iamge url',
     section: 'Section 206',
     sub_title: 'Pizza, Drinks',
     text_color: 'string',
@@ -61,11 +61,11 @@ Primary.args = {
     },
   },
   mock_quickLinkIcons: [
-    { label: "iconOne", value: "icon.one.link" },
-    { label: "iconTwo", value: "icon.two.link" },
-    { label: "iconThree", value: "icon.three.link" }
-  ]
-}
+    { label: 'iconOne', value: 'icon.one.link' },
+    { label: 'iconTwo', value: 'icon.two.link' },
+    { label: 'iconThree', value: 'icon.three.link' },
+  ],
+};
 
 Primary.argTypes = {
   __ui_id__: { table: { disable: true } },

@@ -3,12 +3,24 @@ import { addHours, addMonths, endOfDay, startOfDay, subHours, subMonths } from '
 import { upperFirst } from 'lodash';
 import { Event } from 'react-big-calendar';
 
-type GetNewEventProps = { completed?: boolean; isToday?: boolean; isAllDay?: boolean };
+type GetNewEventProps = {
+  completed?: boolean;
+  isToday?: boolean;
+  isAllDay?: boolean;
+  minEventDate?: Date | string;
+  maxEventDate?: Date | string;
+};
 
-export const getNewEvent = ({ completed = false, isToday = false, isAllDay = undefined }: GetNewEventProps): Event => {
+export const getNewEvent = ({
+  completed = false,
+  isToday = false,
+  isAllDay = undefined,
+  minEventDate,
+  maxEventDate,
+}: GetNewEventProps): Event => {
   const today = new Date();
-  const minRange = isToday ? startOfDay(today) : subMonths(today, 2);
-  const maxRange = isToday ? endOfDay(today) : addMonths(today, 2);
+  const minRange = minEventDate ? minEventDate : isToday ? startOfDay(today) : subMonths(today, 2);
+  const maxRange = maxEventDate ? maxEventDate : isToday ? endOfDay(today) : addMonths(today, 2);
 
   const start = completed
     ? faker.date.between({ from: minRange, to: subHours(today, 48) })
@@ -33,3 +45,7 @@ export const eventsMock: Event[] = Array.from(
   },
   () => getNewEvent({})
 );
+
+export const generateEvents = (totalEvents = 10, eventconfig: GetNewEventProps = {}): Event[] => {
+  return Array.from({ length: totalEvents }, () => getNewEvent(eventconfig));
+};

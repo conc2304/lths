@@ -13,4 +13,5 @@ export default {
   transformIgnorePatterns: [
     '/node_modules/(?!swiper|ssr-window|dom7|react-dnd|core-dnd|@react-dnd|dnd-core|react-dnd-html5-backend)',
   ],
+  setupFilesAfterEnv: ['../../../../setupTests.js'],
 };

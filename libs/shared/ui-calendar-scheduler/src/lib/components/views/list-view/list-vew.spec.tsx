@@ -68,7 +68,7 @@ describe('ListView', () => {
   };
 
   it('renders without crashing', () => {
-    renderComponent();
+    renderComponent({ events: undefined });
   });
 
   it('renders header cells properly', () => {

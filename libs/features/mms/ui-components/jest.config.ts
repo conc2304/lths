@@ -8,4 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/libs/features/mms/ui-components',
+  setupFilesAfterEnv: ['../../../../setupTests.js'],
 };

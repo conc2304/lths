@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
-import { format, getDay, parse, startOfWeek } from 'date-fns';
+import { endOfDay, format, getDay, parse, startOfDay, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Navigate, NavigateAction, ViewStatic, dateFnsLocalizer } from 'react-big-calendar';
 
@@ -28,7 +28,6 @@ const props: ListViewProps & ViewStatic = {
   headerCells: DEFAULT_LIST_VIEW_COL_HEADER,
   headerToEventValueMap: BaseColumnValue,
   navigate: NavigateDay,
-  range: RangeDay,
   title: TitleDay,
 };
 
@@ -37,6 +36,7 @@ describe('DayList', () => {
   const realError = console.error;
   afterEach(() => {
     console.error = realError;
+    jest.clearAllMocks();
   });
 
   it('renders without crashing', () => {
@@ -48,7 +48,7 @@ describe('DayList', () => {
           headerToEventValueMap: props.headerToEventValueMap,
         }}
       >
-        <DayList {...props} />
+        <DayList {...props} events={undefined} />
       </ListViewContextProvider>
     );
     expect(container).toBeInTheDocument();
@@ -68,6 +68,7 @@ describe('DayList', () => {
     const testEvents = [
       { start: new Date(2023, 7, 10, 9, 0), title: 'Event 1' },
       { start: new Date(2023, 7, 11, 10, 0), title: 'Event 2' },
+      { start: undefined, title: 'Event 3' },
     ];
 
     const { getByText, queryByText } = render(
@@ -119,5 +120,32 @@ describe('DayList', () => {
     });
 
     expect(sameDate).toEqual(testDate);
+  });
+
+  it('should return the stand and end of day for the range function', () => {
+    // Arrange
+    const mockLocalizer = localizer;
+
+    const date = new Date('2023-10-15');
+    const expectedStart = startOfDay(date);
+    const expectedEnd = endOfDay(date);
+
+    // Mock the startOf and endOf functions
+    mockLocalizer.startOf = jest.fn();
+    mockLocalizer.endOf = jest.fn();
+    (mockLocalizer.startOf as jest.Mock).mockReturnValue(expectedStart);
+    (mockLocalizer.endOf as jest.Mock).mockReturnValue(expectedEnd);
+
+    // Act
+    const result = RangeDay(date, { localizer: mockLocalizer });
+
+    // Assert
+    expect(result).toEqual({ start: expectedStart, end: expectedEnd });
+    expect(mockLocalizer.startOf).toHaveBeenCalledWith(date, 'day');
+    expect(mockLocalizer.endOf).toHaveBeenCalledWith(date, 'day');
+  });
+
+  it('should return an empty string for the title', () => {
+    expect(TitleDay()).toBe('');
   });
 });
