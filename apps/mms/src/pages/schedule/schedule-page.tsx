@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
 import { NavigateAction } from 'react-big-calendar';
 import { Flags } from 'react-feature-flags';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   useLazyGetEventsQuery,
@@ -28,15 +28,9 @@ import {
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import { constructRange, convertEventDates, getCalendarStateFromPath } from './utils';
+import { buildCalendarPath, constructRange, convertEventDates, getCalendarStateFromPath } from './utils';
 
 const SchedulePage = () => {
-  const location = useLocation();
-  console.log(location);
-  // get route
-  // vm/${viewMode}/v/${view}/${year}/${month}/${day}
-  // vm/{viewMode}/v/{view}/{year}/{month}/{day}
-
   // Api Calls
   const [getEnumList] = useLazyGetEnumListQuery();
   const [getEventsData, { data }] = useLazyGetEventsQuery();
@@ -48,10 +42,13 @@ const SchedulePage = () => {
   const [exportModalOpen, setExportModelOpen] = useState(false);
   const [newEventModalOpen, setNewEventModalOpen] = useState(false);
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
+  const [view, setView] = useState<LTHSView>('month');
+  const [viewMode, setViewMode] = useState<ViewMode>('calendar');
+  const [calendarDate, setCalendarDate] = useState<Date>(new Date());
 
-  const { view, viewMode, year, month, day } = getCalendarStateFromPath(location.pathname);
-  const date = new Date(year, month - 1, day);
-  console.log(view, viewMode, date);
+  // State from Path
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { events: unformattedEvents = [], eventStates: unformattedBackgroundEvents = [] } = data || {};
 
@@ -68,8 +65,8 @@ const SchedulePage = () => {
 
   // Initialization
   const init = async () => {
-    const now = new Date();
-    const { start, end } = constructRange(now, monthsBeforeAndAfter);
+    const date = calendarDate || new Date();
+    const { start, end } = constructRange(date, monthsBeforeAndAfter);
 
     getEventsData({
       start_date_time: start,
@@ -89,6 +86,21 @@ const SchedulePage = () => {
   };
 
   useEffect(() => {
+    const { matched, view, viewMode, year, month, day } = getCalendarStateFromPath(location.pathname);
+    if (!matched) {
+      const date = new Date();
+      const newPath = buildCalendarPath({ year: date.getFullYear(), month: date.getMonth(), day: date.getDay() });
+      console.log('replace path', newPath);
+      navigate(newPath, { replace: true });
+    } else {
+      const date = new Date(year, month - 1, day);
+      console.log('DATE', date);
+
+      setView(view);
+      setViewMode(viewMode);
+      setCalendarDate(date);
+    }
+
     init();
   }, []);
 
@@ -187,14 +199,32 @@ const SchedulePage = () => {
 
   const handleOnNavigate = (newDate: Date, view: LTHSView, action: NavigateAction) => {
     console.log(newDate, view, action);
+    // build path and update route
+    const year = newDate.getFullYear();
+    const month = newDate.getMonth() - 1;
+    const day = newDate.getDate();
+    const newPath = buildCalendarPath({ view, viewMode, year, month, day });
+    navigate(newPath);
   };
 
   const handleOnSetView = (newView: LTHSView) => {
     console.log(newView);
+    // build path and update route
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth() - 1;
+    const day = calendarDate.getDate();
+    const newPath = buildCalendarPath({ view: newView, viewMode, year, month, day });
+    navigate(newPath);
   };
 
   const handleOnSetViewMode = (newViewMode: ViewMode) => {
     console.log(newViewMode);
+    // build path and update route
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth() - 1;
+    const day = calendarDate.getDate();
+    const newPath = buildCalendarPath({ view, viewMode: newViewMode, year, month, day });
+    navigate(newPath);
   };
 
   const handleImportedEvents = (files: FileList) => {
@@ -207,6 +237,7 @@ const SchedulePage = () => {
     console.log('handleExportEvents', values);
   };
 
+  console.log({ calendarDate, view, viewMode });
   return (
     <Box
       className="MMS-Schedule-Page--root"
@@ -251,7 +282,7 @@ const SchedulePage = () => {
         {eventTypes && events && backgroundEvents && (
           <EventScheduler
             events={events}
-            date={date}
+            date={calendarDate}
             view={view}
             viewMode={viewMode}
             eventTypes={eventTypes}

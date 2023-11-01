@@ -64,6 +64,7 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
 export const getCalendarStateFromPath = (
   path: string
 ): {
+  matched: boolean;
   viewMode: ViewMode;
   view: LTHSView;
   year: number;
@@ -76,6 +77,7 @@ export const getCalendarStateFromPath = (
   if (match) {
     const [, viewMode, view, year, month, day] = match;
     return {
+      matched: true,
       viewMode: viewMode as ViewMode,
       view: view as LTHSView,
       year: parseInt(year, 10),
@@ -85,6 +87,7 @@ export const getCalendarStateFromPath = (
   } else {
     const today = new Date();
     return {
+      matched: false,
       viewMode: 'calendar',
       view: 'month',
       year: today.getFullYear(),
@@ -92,4 +95,20 @@ export const getCalendarStateFromPath = (
       day: today.getDay(),
     };
   }
+};
+
+export const buildCalendarPath = ({
+  view = 'month',
+  viewMode = 'calendar',
+  year,
+  month,
+  day,
+}: {
+  viewMode?: ViewMode;
+  view?: LTHSView;
+  year: number;
+  month: number;
+  day: number;
+}) => {
+  return `vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
 };
