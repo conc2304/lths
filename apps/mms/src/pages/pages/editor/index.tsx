@@ -37,7 +37,7 @@ const StatusChangeModalData = {
     description: 'Once you publish this page, it will be accessible by app users',
     action: 'PUBLISH NOW',
     error: 'Failed to publish the page',
-    success: 'Page has been published successfully.',
+    success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
@@ -45,7 +45,7 @@ const StatusChangeModalData = {
     description: 'This page will no longer appear on the app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
     error: 'Failed to unpublish the page',
-    success: 'Page has been unpublished successfully',
+    success: 'Page has been Unpublished Successfully',
     status: PageStatus.UNPUBLISHED,
   },
 };
