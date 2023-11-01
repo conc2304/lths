@@ -1,11 +1,12 @@
 import { isArray } from 'lodash';
 
+import { dateToApiQueryString } from '@lths/shared/utils';
+
 import {
-  DateFilter,
   DateFilterOption,
   DateFilterOptions,
   DateRange,
-  FilterSettingsPayload,
+  FilterSettingsQueryParams,
   FormSchema,
   FormState,
 } from '../../ui-filters';
@@ -64,16 +65,32 @@ type TransformArgs = {
   dateRange: DateRangeArg;
 };
 
-export const transformFilterOptions = ({ formState, dateRange }: TransformArgs): FilterSettingsPayload => {
+export const transformFilterOptions = ({ formState, dateRange }: TransformArgs): FilterSettingsQueryParams => {
+  const filtersSelected = transformFormState(formState);
+  const filterIds = Object.values(filtersSelected).flatMap((ids) => ids);
+  const [startDate, endDate] = transformDateRange(dateRange);
   return {
-    metrics: transformFormState(formState),
-    date_range: transformDateRange(dateRange),
+    filters: [...filterIds],
+    date_range: [dateToApiQueryString(startDate), dateToApiQueryString(endDate)],
   };
 };
 
-export const transformDateRange = (dateRange: DateRangeArg): DateFilter => {
-  return {
-    start_date: dateRange.start_date?.toString() || '',
-    end_date: dateRange.end_date?.toString() || '',
-  };
+export const transformDateRange = (dateRange: DateRangeArg): [string, string] => {
+  return [dateRange.start_date?.toString() || '', dateRange.end_date?.toString() || ''];
+};
+
+export const gatherIds = (data: FormSchema[], result: string[] = []): string[] => {
+  for (const item of data) {
+    if (item.type !== undefined && isArray(item.data)) {
+      item.data.forEach(({ id }) => {
+        if (typeof id === 'string') {
+          result.push(id);
+        }
+      });
+    }
+    if (item.data) {
+      gatherIds(item.data, result);
+    }
+  }
+  return result;
 };

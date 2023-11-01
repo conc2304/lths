@@ -13,6 +13,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { isEqual } from 'lodash';
+import { Views } from 'react-big-calendar';
 
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 import { IOSSwitch, InfoTooltip } from '@lths/shared/ui-elements';
@@ -207,7 +208,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
         )}
       </Box>
 
-      {viewMode === 'calendar' && view !== 'month' && (
+      {viewMode === 'calendar' && [Views.DAY.toString(), Views.WEEK.toString()].includes(view) && (
         <Box className="EventTypeFilter--toggle-states" display="flex" alignItems={'center'}>
           <Box display="flex" alignContent={'center'} sx={{ mr: theme.spacing(2.25) }}>
             <Box>

@@ -170,12 +170,6 @@ describe('CardViewCarousel Toolbar', () => {
                 const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
                 expect(pageIDInput?.value).toContain(pageIDValue);
             }
-
-            // Act
-            const backButton = screen.getByText('BACK');
-            expect(backButton).toHaveAttribute('type', 'button');
-            fireEvent.click(backButton);
-
         });
 
     });

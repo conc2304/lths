@@ -14,6 +14,7 @@ import {
   EventProps,
   Event,
   NavigateAction,
+  Views,
 } from 'react-big-calendar';
 
 import { pxToRem } from '@lths/shared/utils';
@@ -32,7 +33,7 @@ import {
 } from '../../types';
 import { DateCellWrapper, TimeGutterHeader, TimeGutterWrapper, TimeSlotWrapper } from '../calendar-components';
 import { ToolbarHeader } from '../toolbar-header';
-import { DayList, WeekList, MonthList, MonthDateHeader, MonthHeader, WeekHeader } from '../views';
+import { DayList, WeekList, MonthList, MonthDateHeader, MonthHeader, WeekHeader, YearList, YearView } from '../views';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
 import { BaseRowBuilder } from '../views/list-view/row-builder';
 
@@ -41,6 +42,7 @@ import './calendar.scss';
 export type LTHSCalendarProps<TEvent extends object = Event> = {
   events: TEvent[];
   view?: LTHSView;
+  views?: LTHSView[];
   viewMode?: ViewMode;
   onSetViewMode?: (viewMode: ViewMode) => void;
   onSetView?: (view: View) => void;
@@ -64,6 +66,7 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
   const {
     events,
     view: viewProp = 'month',
+    views: availableViews = [Views.DAY, Views.WEEK, Views.MONTH, 'year'],
     viewMode: viewModeProp = 'calendar',
     onSetViewMode,
     onSetView,
@@ -106,6 +109,7 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
     footer = undefined;
   }
 
+  const [date, setDate] = useState(new Date());
   const [view, setView] = useState<LTHSView>(viewProp || 'month');
   const [viewMode, setViewMode] = useState<ViewMode>(viewModeProp || 'calendar');
 
@@ -135,6 +139,11 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
   const handleOnView = (newView: View) => {
     setView(newView);
     onSetView && onSetView(newView);
+  };
+
+  const handleOnNavigate = (date: Date, view: View, action: NavigateAction) => {
+    setDate(date);
+    onNavigate && onNavigate(date, view, action);
   };
 
   const handleOnViewMode = (viewMode: ViewMode) => {
@@ -184,14 +193,15 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
         },
       },
 
-      // We can only pass in the views as a referent and not an implemented component as below
+      // We can only pass in the views as a reference and not as an implemented component as below
       // We pass in our custom list rendering definitions to the list view via context
       // We use these views as HOC's around the <ListView /> component so that
       // we can assign our custom navigation actions for each view
       views: {
-        day: viewMode === 'calendar' ? true : DayList,
-        week: viewMode === 'calendar' ? true : WeekList,
-        month: viewMode === 'calendar' ? true : MonthList,
+        day: availableViews.includes(Views.DAY) ? (viewMode === 'calendar' ? true : DayList) : undefined,
+        week: availableViews.includes(Views.DAY) ? (viewMode === 'calendar' ? true : WeekList) : undefined,
+        month: availableViews.includes(Views.DAY) ? (viewMode === 'calendar' ? true : MonthList) : undefined,
+        year: availableViews.includes(Views.DAY) ? (viewMode === 'calendar' ? YearView : YearList) : undefined,
       },
       defaultDate: new Date(),
     };
@@ -228,10 +238,11 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
             backgroundEvents={backgroundEvents}
             style={{ height: '100%' }}
             messages={CALENDAR_MESSAGES}
+            date={date}
             onView={handleOnView}
             view={view as View}
             views={views}
-            onNavigate={onNavigate}
+            onNavigate={handleOnNavigate}
             onRangeChange={onRangeChange}
             // TODO figure out how to make the overlap look not crappy
             dayLayoutAlgorithm="overlap"

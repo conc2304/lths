@@ -1,20 +1,21 @@
 import { api } from '@lths/shared/data-access';
-import { FilterAPIResponse, FilterFormResponse } from '@lths/shared/ui-elements';
+import { FormSchema, FilterGroupResponse } from '@lths/shared/ui-elements';
 
 import { convertFilterResponse } from './response-transform';
 import { getAnalyticFiltersUrl } from './urls';
+import { ApiResponse } from '../types';
 
 export const filterApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getAppFilters: builder.query<FilterFormResponse, void>({
+    getAppFilters: builder.query<FormSchema[], void>({
       query: () => ({
         url: getAnalyticFiltersUrl(),
         method: 'GET',
       }),
-      transformResponse: (response: FilterAPIResponse): FilterFormResponse => {
-        if (!response.data || response.data.length === 0) return { data: [] };
+      transformResponse: (response: ApiResponse<FilterGroupResponse[]>): FormSchema[] => {
+        if (!response.data || response.data.length === 0) return [];
         const convertedResponse = convertFilterResponse(response.data);
-        return { data: convertedResponse };
+        return convertedResponse;
       },
     }),
   }),

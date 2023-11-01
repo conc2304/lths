@@ -188,14 +188,14 @@ export const EventScheduler = (props: EventSchedulerProps) => {
         onSetViewMode={handleSetViewMode}
         onSetView={handleSetView}
         cssVariableOverrides={cssVariables}
+        onNavigate={onNavigate}
+        onRangeChange={onRangeChange}
         // Context Values
         headerCells={columns}
         rowBuilder={RowBuilder({
           eventTypes,
           onEventClick: handleEventClick,
         })}
-        onNavigate={onNavigate}
-        onRangeChange={onRangeChange}
         headerToEventValueMap={getColumnValue}
       />
       {!!popperEvent && (

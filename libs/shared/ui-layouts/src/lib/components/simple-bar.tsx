@@ -20,9 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+import { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
-import PropTypes from 'prop-types';
+import { SxProps, Theme, alpha, styled } from '@mui/material/styles';
 import { BrowserView, MobileView } from 'react-device-detect';
 import SimpleBar from 'simplebar-react';
 
@@ -38,6 +38,7 @@ const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
   '& .simplebar-scrollbar': {
     '&:before': {
       backgroundColor: alpha(theme.palette.grey[500], 0.48),
+      transitionDelay: '500ms',
     },
     '&.simplebar-visible:before': {
       opacity: 1,
@@ -54,11 +55,15 @@ const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
   },
 }));
 
-export default function SimpleBarScroll({ children, sx, ...other }) {
+type SimpleBarScrollProps = {
+  children: ReactNode;
+  sx: SxProps<Theme>;
+};
+export const SimpleBarScroll = ({ children, sx, ...other }: SimpleBarScrollProps) => {
   return (
     <>
       <RootStyle>
-        <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
+        <SimpleBarStyle clickOnTrack={false} id="Simple-Bar--root" sx={sx} {...other}>
           {children}
         </SimpleBarStyle>
       </RootStyle>
@@ -69,9 +74,4 @@ export default function SimpleBarScroll({ children, sx, ...other }) {
       </MobileView>
     </>
   );
-}
-
-SimpleBarScroll.propTypes = {
-  children: PropTypes.node,
-  sx: PropTypes.object,
 };

@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react';
-import { Button, Stack } from '@mui/material';
 
 import { ToolbarProps } from '../../../../context';
 import { OutlinedTextField, GroupLabel, SimpleImagePicker, EditableListItemTextWithClose } from '../../../../elements';
@@ -48,11 +47,6 @@ const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, o
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={_handleTitleChange} />
       <ActionToolbar action={action} onPropChange={onPropChange} keys={parentKeys} index={index} />
-      <Stack direction="row" justifyContent="flex-end" spacing={2}>
-        <Button variant="outlined" onClick={onClose} sx={{ padding: '8px 22px', fontSize: 15 }}>
-          BACK
-        </Button>
-      </Stack>
     </>
   );
 };

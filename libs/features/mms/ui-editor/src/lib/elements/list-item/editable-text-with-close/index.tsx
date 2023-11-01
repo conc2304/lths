@@ -1,6 +1,6 @@
 import {CSSProperties } from 'react';
-import { IconButton } from '@mui/material';
-import {ChevronLeft, ChevronRight} from '@mui/icons-material';
+import { IconButton, Stack } from '@mui/material';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
 import EditableListItemText from '../editable-text';
@@ -9,19 +9,24 @@ const EditableListItemTextWithClose = ({ text = 'New Item', sx, textStyle, onSav
   const theme = useTheme();
 
   return (
-    <div style={{ position: 'relative' }} >
-      <EditableListItemText text={text} 
-        sx={{ height: 30, paddingRight: theme.spacing(6),  margin: 0, display: "flex", alignItems: "center", ...sx }} 
-        textStyle={{ fontSize: '1.25rem', fontWeight: 600, color: "text.secondary", whiteSpace: 'nowrap', ...textStyle}}
-        onSave={onSave} 
-      />
+    <Stack
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="center"
+      spacing={1}
+    >
       <IconButton aria-label="Close Carousel Item" 
         onClick={onClose}
-        style={{ position: 'absolute', top: '50%', right: '0', transform: 'translate(0, -50%)' }}
+        sx={{ margin: theme.spacing(-1), padding: theme.spacing(1) }}
       >
-        {theme.direction === 'rtl' ? <ChevronLeft sx={{ fontSize: theme.spacing(4) }}/> : <ChevronRight sx={{ fontSize: theme.spacing(4) }}/>}
+        {theme.direction === 'rtl' ? <ArrowForward sx={{ fontSize: theme.spacing(3) }}/> : <ArrowBack sx={{ fontSize: theme.spacing(3) }}/>}
       </IconButton>
-    </div>
+      <EditableListItemText text={text} 
+        sx={{ height: 32,  margin: 0, display: "flex", alignItems: "center", ...sx }} 
+        textStyle={{ fontSize: theme.spacing(2.5), fontWeight: 500, color: "text.secondary", whiteSpace: 'nowrap', ...textStyle}}
+        onSave={onSave} 
+      />
+    </Stack>
   );
 };
 

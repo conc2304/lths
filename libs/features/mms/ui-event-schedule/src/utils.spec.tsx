@@ -14,7 +14,7 @@ import {
 
 describe('eventColorMap', () => {
   it('should return the correct color for known event type IDs', () => {
-    expect(eventColorMap('GAME')).toBe('#FDD58C');
+    expect(eventColorMap('GAME')).toBe('#F47A38');
     expect(eventColorMap('CONCERT')).toBe('#ECABBB');
     expect(eventColorMap('COMEDY')).toBe('#CED0E9');
     expect(eventColorMap('ARTS_OTHER')).toBe('#D1EBD2');

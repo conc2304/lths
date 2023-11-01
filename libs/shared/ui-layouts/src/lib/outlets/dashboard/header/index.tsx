@@ -24,11 +24,13 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
     transform: `rotate(${!drawerVisible ? '0deg' : '180deg'})`,
     transition: '.3s all',
   };
+
   const icon = drawerIcon || <DrawerIcon />;
+
   const mainHeader = (
-    <Toolbar variant="dense" id="test" disableGutters={false}>
+    <Toolbar variant="dense" id="Main-Header--root" disableGutters={false}>
       <IconButton
-        aria-label="open drawer"
+        aria-label={`${!drawerVisible ? 'Open' : 'Close'} Navigation Menu`}
         onClick={onToggleDrawer}
         edge="start"
         color="secondary"
@@ -55,9 +57,13 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
   const { fixedHeader: _, ...appBarProps } = headerProps;
 
   return !isMobileOrTablet ? (
-    <HeaderFullScreenStyled {...headerProps}>{mainHeader}</HeaderFullScreenStyled>
+    <HeaderFullScreenStyled {...headerProps} data-testid="Dashboard-header--root">
+      {mainHeader}
+    </HeaderFullScreenStyled>
   ) : (
-    <AppBar {...appBarProps}>{mainHeader}</AppBar>
+    <AppBar {...appBarProps} data-testid="Dashboard-header--root" role="menubar" aria-orientation="horizontal">
+      {mainHeader}
+    </AppBar>
   );
 };
 

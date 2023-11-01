@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { FlagsProvider } from 'react-feature-flags';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import { store } from '@lths/features/mms/data-access';
+import { store, persistor } from '@lths/features/mms/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 
 import { MMS_FEATURE_FLAGS } from './feature-flags';
@@ -30,14 +31,16 @@ function App() {
 
   return (
     <Provider store={store}>
-      <FlagsProvider value={MMS_FEATURE_FLAGS}>
-        <HashRouter>
-          <LayoutThemeProvider>
-            <Routes />
-            <LayoutToaster />
-          </LayoutThemeProvider>
-        </HashRouter>
-      </FlagsProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <FlagsProvider value={MMS_FEATURE_FLAGS}>
+          <HashRouter>
+            <LayoutThemeProvider>
+              <Routes />
+              <LayoutToaster />
+            </LayoutThemeProvider>
+          </HashRouter>
+        </FlagsProvider>
+      </PersistGate>
     </Provider>
   );
 }

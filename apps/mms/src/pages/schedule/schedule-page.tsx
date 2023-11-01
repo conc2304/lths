@@ -103,8 +103,6 @@ const SchedulePage = () => {
     }
   };
 
-  console.log({ events, backgroundEvents });
-
   const handleSaveEventStates = (updatedEventStates: EventState[]) => {
     updatedEventStates.forEach((eventState) => {
       const eventPayload = {

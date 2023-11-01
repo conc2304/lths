@@ -1,4 +1,5 @@
 import { api } from '@lths/shared/data-access';
+import { FilterSettingsQueryParams } from '@lths/shared/ui-elements';
 
 import { PagesHistogramResponse, PagesKpiResponse, PagesRequest, PagesResponse, PagesPreviewResponse } from '../types';
 import {
@@ -20,28 +21,32 @@ export const insightPagesApi = api.enhanceEndpoints({ addTagTypes: ['insight-pag
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: ['insight-pages'],
     }),
-    getInsightPagesKpi: builder.query<PagesKpiResponse, PagesRequest>({
-      query: () => ({
+    getInsightPagesKpi: builder.query<PagesKpiResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightPagesKpiUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightPagesHistogram: builder.query<PagesHistogramResponse, PagesRequest>({
-      query: () => ({
+    getInsightPagesHistogram: builder.query<PagesHistogramResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightPagesHistogramUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightPagesHistogram2: builder.query<PagesHistogramResponse, PagesRequest>({
-      query: () => ({
+    getInsightPagesHistogram2: builder.query<PagesHistogramResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightPagesHistogram2Url(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightPagesPreview: builder.query<PagesPreviewResponse, PagesRequest>({
-      query: () => ({
+    getInsightPagesPreview: builder.query<PagesPreviewResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightPagesPagePreviewUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
     //TODO need to add table

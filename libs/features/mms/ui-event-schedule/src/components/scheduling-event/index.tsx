@@ -1,15 +1,16 @@
 import { MouseEventHandler, useRef, useState } from 'react';
-import { ClickAwayListener, PopperPlacementType, Typography } from '@mui/material';
+import { ClickAwayListener, PopperPlacementType, Typography, lighten } from '@mui/material';
 import { Box, useTheme } from '@mui/material';
+import { FlightTakeoff, Home } from '@mui/icons-material';
 import { addHours, format, getMinutes, isDate, isSameDay, isWithinInterval } from 'date-fns';
-import { Event, EventProps } from 'react-big-calendar';
+import { Event, EventProps, Views } from 'react-big-calendar';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
 import { LTHSView } from '@lths/shared/ui-calendar-scheduler';
 import { pxToRem } from '@lths/shared/utils';
 
 import { AllDayBanner } from './all-day-banner';
-import { EVENT_STATE } from '../../constants';
+import { EVENT_STATE, EVENT_TYPE } from '../../constants';
 import { EventFormValues, EventState, EventStateID, EventType, MMSEvent } from '../../types';
 import { EventStateUIMap, eventColorMap } from '../../utils';
 
@@ -27,19 +28,12 @@ type EventComponentProps<TEvent extends object = Event> = {
   }) => void;
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
-  // eventsEditable?: boolean;
-  // eventStatesEditable?: boolean;
 } & EventProps<TEvent>;
 
 type SchedulingEventProps = EventComponentProps<MMSEvent>;
 
 export const SchedulingEvent = (props: SchedulingEventProps) => {
-  const {
-    event,
-    view,
-    onEventClick,
-    // eventStatesEditable = true, eventsEditable = true
-  } = props;
+  const { event, view, onEventClick } = props;
 
   const { title, allDay, start, end, eventType, createdOn, eventState, isBackgroundEvent } = event;
 
@@ -67,7 +61,17 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
 
   const showNewEventBanner = isNewEvent && (view === 'day' || view === 'week');
 
-  const hanldeClickAway = (event: MouseEvent | TouchEvent) => {
+  const getGameLocation = (title: string) => {
+    if (title.includes('Anaheim @')) {
+      return 'Away';
+    } else if (title.includes('@ Anaheim')) {
+      return 'Home';
+    } else {
+      return false;
+    }
+  };
+
+  const handleClickAway = (event: MouseEvent | TouchEvent) => {
     const target = event.target as HTMLElement;
     const clickedInDetailsPopper = !!target.closest('.Popper-with-arrow--root');
     const closedPopper = target.classList.contains('Close-Button--root');
@@ -122,9 +126,13 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
         backgroundColor: !isBackgroundEvent ? eventColorMap(eventType?.id || '') : '#dfdfdfDD',
         borderRadius: '6px',
         border: eventBorder,
+        transition: 'background-color 0.3s ease',
+        '&:hover': {
+          backgroundColor: !isBackgroundEvent ? lighten(eventColorMap(eventType?.id || ''), 0.25) : undefined,
+        },
       }}
     >
-      <ClickAwayListener onClickAway={hanldeClickAway}>
+      <ClickAwayListener onClickAway={handleClickAway}>
         <Box
           onClick={handleEventClick}
           data-testid="CalendarEvent--click-handler"
@@ -173,7 +181,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                   justifyContent: view === 'month' || isInAllDayRow ? 'center' : 'start',
                 }}
               >
-                {view !== 'month' && !isInAllDayRow && start && end && (
+                {[Views.WEEK.toString(), Views.DAY.toString()].includes(view) && !isInAllDayRow && start && end && (
                   <Typography
                     data-testid="CalendarEvent--event-time"
                     sx={{
@@ -208,8 +216,24 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                   }}
                 >
                   {
-                    <Box component={'span'} sx={{ maxWidth: '100%' }} ref={popperTargetShortRef}>
-                      {title as string}
+                    <Box
+                      component={'span'}
+                      sx={{
+                        maxWidth: '100%',
+                        display: 'flex',
+                        justifyContent: view === 'day' ? 'flex-start' : 'space-between',
+                        alignItems: 'center',
+                      }}
+                      ref={popperTargetShortRef}
+                    >
+                      <Box component={'span'}>{title as string}</Box>
+                      {eventType?.id === EVENT_TYPE.GAME.toString() &&
+                        eventState === EVENT_STATE.IN_EVENT.toString() && (
+                          <Box component={'span'} px={1}>
+                            {getGameLocation(title as string) === 'Home' && <Home fontSize="small" />}
+                            {getGameLocation(title as string) === 'Away' && <FlightTakeoff fontSize="small" />}
+                          </Box>
+                        )}
                     </Box>
                   }
                 </Typography>

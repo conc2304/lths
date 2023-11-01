@@ -2,7 +2,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
-import { LTHSCalendar, LTHSCalendarProps } from './index';
+import { LTHSCalendar, LTHSCalendarProps } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { EventComponentProps, ToolbarHeaderProps } from '../../types';
 import { getNewEvent } from '../mock-events'; // Sample events for testing

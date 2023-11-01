@@ -32,6 +32,11 @@ const headers = [
     sortable: true,
   },
   {
+    id: 'default_page_id',
+    label: 'DEFAULT PAGE',
+    sortable: true,
+  },
+  {
     id: 'constraints',
     label: 'CONSTRAINTS',
     sortable: false,
@@ -139,7 +144,7 @@ const Page = (): JSX.Element => {
   };
 
   const tableRows = data?.data?.map((row) => {
-    const { _id, page_id, name, type, status, updated_on, constraints_formatted } = row;
+    const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = row;
     return (
       <TableRow key={`row_${_id}`}>
         <TableCell>
@@ -157,6 +162,11 @@ const Page = (): JSX.Element => {
         </TableCell>
         <TableCell>{updated_on}</TableCell>
         <TableCell>{type}</TableCell>
+        <TableCell>
+          <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
+            {default_page_id}
+          </Link>
+        </TableCell>
         <TableCell>{constraints_formatted}</TableCell>
         <TableCell>
           <ActionMenu options={menuOptions(row)} />

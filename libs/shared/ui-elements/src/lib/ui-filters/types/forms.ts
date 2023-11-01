@@ -1,5 +1,3 @@
-export type FilterFormResponse = { data: FormSchema[] };
-
 export type FormDataType = 'checkbox' | 'range' | 'textfield' | 'textarea' | 'select' | 'radio' | null;
 
 export type Seq = number | [number, number] | undefined;

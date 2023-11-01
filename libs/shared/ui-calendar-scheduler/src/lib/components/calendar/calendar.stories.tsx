@@ -1,4 +1,4 @@
-import { LTHSCalendar } from './index';
+import { LTHSCalendar } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { eventsMock } from '../mock-events';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';

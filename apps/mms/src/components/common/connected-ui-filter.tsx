@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
   addFilterGroupItems,
@@ -21,17 +21,19 @@ import {
   getInitialFormState,
   transformDateRange,
   transformFilterOptions,
-  transformFormState,
   FilterFormState,
   FilterSettingsPayload,
   SelectedUiFilters,
+  FilterSettingsQueryParams,
+  transformFormState,
+  gatherIds,
 } from '@lths/shared/ui-elements';
-import { dateToUTCString } from '@lths/shared/utils';
+import { dateToApiQueryString, dateToUTCString } from '@lths/shared/utils';
 
 import { DateRangeFilterOptions } from '../../fixtures/date-range-filter-options';
 
 type ConnectedUiFilterProps = {
-  onFiltersUpdate: (filters: FilterSettingsPayload) => void;
+  onFiltersUpdate: (filters: FilterSettingsQueryParams) => void;
   onChange?: (filters: FilterSettingsPayload) => void;
 };
 export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
@@ -42,6 +44,11 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
   const dateRange = useAppSelector(selectFilterDateRange);
   const dispatch = useAppDispatch();
 
+  // we can not send an empty list of filts.
+  // So if no filters are selected in the UI,
+  // that is the same as every available filter selected in the UI
+  const availableFilters = useRef<string[]>([]);
+
   const isLoading = !formSchema || !formState || !dateRange || !dateRange.end_date || !dateRange.start_date;
 
   const init = async () => {
@@ -49,8 +56,11 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
     let initializedDateRange = dateRange;
     if (!formSchema || !formState) {
       const response = await getFilterFormData();
-      if (!response?.data?.data) return;
-      initializedFormState = getInitialFormState(response.data.data);
+      if (!response?.data) return;
+      const formData = response.data;
+
+      availableFilters.current = gatherIds(formData);
+      initializedFormState = getInitialFormState(formData);
     }
 
     if (!dateRange.start_date || !dateRange.end_date) {
@@ -61,9 +71,16 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
       if (!start_date || !end_date) return;
     }
 
-    const filterOptions: FilterSettingsPayload = {
-      metrics: transformFormState(initializedFormState),
-      date_range: initializedDateRange,
+    const initialFilters = transformFormState(initializedFormState);
+    const filterIds = Object.values(initialFilters).flatMap((ids) => ids);
+
+    const filterOptions: FilterSettingsQueryParams = {
+      // if no filters are selected in the UI, that is the same as every filter selected in the UI
+      filters: filterIds.length > 0 ? filterIds : availableFilters.current,
+      date_range: [
+        dateToApiQueryString(initializedDateRange.start_date),
+        dateToApiQueryString(initializedDateRange.end_date),
+      ],
     };
 
     dispatch(setDateRange(initializedDateRange));
@@ -76,7 +93,9 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
 
   const handleUpdateRedux = ({ filters, dateRange }: SelectedUiFilters) => {
     // Data that is for UI needs
-    dispatch(setDateRange(transformDateRange(dateRange))); // make the Date data serializable for Redux
+    const [start_date, end_date] = transformDateRange(dateRange);
+
+    dispatch(setDateRange({ start_date, end_date })); // make the Date data serializable for Redux
     dispatch(setFormState({ formState: filters }));
   };
 
@@ -95,6 +114,11 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
         handleUpdateRedux({ filters, dateRange });
         // transform the filters for the request payload
         const formattedFilters = transformFilterOptions({ formState: filters, dateRange: dateRange });
+        if (!formattedFilters.filters || formattedFilters.filters.length <= 0) {
+          // if no filters are selected in the UI, that is the same as every filter selected in the UI
+          formattedFilters.filters = availableFilters.current;
+        }
+
         updateFilters(formattedFilters);
       }}
       setDateRange={(dateRangeOption) => {
@@ -119,7 +143,7 @@ export const ConnectedUiFilter = (props: ConnectedUiFilterProps) => {
       }}
       clearForm={async () => {
         const nextState = await dispatch(clearFiltersAndGetUpdatedState());
-        if (nextState?.payload) nextState.payload as FilterFormState;
+        if (nextState?.payload) return nextState.payload as FilterFormState;
       }}
     />
   );

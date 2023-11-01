@@ -78,8 +78,8 @@ const filtersSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addMatcher(filterApi.endpoints.getAppFilters.matchFulfilled, (state, { payload }) => {
-      state.formSchema = payload.data;
-      state.formState = getInitialFormState(payload.data);
+      state.formSchema = payload;
+      state.formState = getInitialFormState(payload);
     });
   },
 });

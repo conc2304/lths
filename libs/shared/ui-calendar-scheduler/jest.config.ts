@@ -8,4 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../coverage/libs/shared/ui-calendar-scheduler',
+  setupFilesAfterEnv: ['./../../../setupTests.js'],
 };

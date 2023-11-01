@@ -41,3 +41,12 @@ export default SamplePage;
 ```
 
 ```
+
+### Updating the Homepage
+
+1. The home page is configured via the transformer.tsx file through a relative file path as a string literal (string variables won't work).
+
+   1. `const HomePage = LazyLoader(lazy(() => import('../relative/path/to/your/homepage/component/file')));`
+
+2. It is expected that the Home config in `apps/mms/src/pages/paths-misc.tsx` not declare a component file via the `file` property. [So should not need to ever change that.]
+   1. You should only need the path set to "/"

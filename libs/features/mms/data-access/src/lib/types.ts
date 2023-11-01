@@ -5,18 +5,6 @@ export type Pagination = {
   totalItems: number;
 };
 
-export type CommonResponse = {
-  success: boolean;
-  message: string;
-  error?: {
-    statusCode: number;
-    type: string;
-    timestamp: string;
-    path: string;
-  };
-  pagination?: Pagination;
-};
-
 export type PaginationRequest = {
   page?: number;
   page_size?: number;

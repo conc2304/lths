@@ -84,7 +84,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   };
 
   return (
-    <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}}>
+    <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}} className="EditEventStates--root">
       <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '23rem' }}>
         <CalendarDialogTitle
           title="Edit Event States"

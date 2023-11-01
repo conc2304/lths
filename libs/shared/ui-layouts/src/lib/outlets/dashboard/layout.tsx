@@ -53,7 +53,7 @@ export const DashboardLayout = ({
   }, [sections, breadcrumbs, location.pathname]);
 
   return (
-    <Box sx={{ display: 'flex', width: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%' }} data-testid="Dashboard-layout--root">
       <Header headerLeft={headerLeft} headerRight={headerRight} fixedHeader={fixedHeader} />
       <Drawer sections={sections} drawerHeader={drawerHeader} fixedHeader={fixedHeader} />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 1, sm: 2 } }}>

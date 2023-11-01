@@ -65,7 +65,7 @@ export const sortByEventState = (a: EventState, b: EventState) => {
  */
 export const eventColorMap = (eventTypID: string): Property.Color => {
   const eventTypeToColor = {
-    GAME: '#FDD58C',
+    GAME: '#F47A38', // Ananehiem Orange
     CONCERT: '#ECABBB',
     COMEDY: '#CED0E9',
     ARTS_OTHER: '#D1EBD2',

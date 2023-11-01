@@ -1,5 +1,7 @@
 import { FilterSettingsPayload } from '@lths/shared/ui-elements';
 
+import { ApiResponse } from '../types';
+
 export type InsightRequest = FilterSettingsPayload;
 export type InsightItem = {
   kpi: Array<KPI>;
@@ -27,18 +29,18 @@ export type InsightKpiColumnCardResponse = {
   };
 };
 
-export type InsightKpiResponse = { data: Array<KPI> };
-export type InsightHistogramResponse = { data: Array<Histogram> };
-export type InsightSegmentationResponse = { data: DonutChartData };
-export type InsightTabularResponse = { data: TableData };
+export type InsightKpiResponse = ApiResponse<Array<KPI>>;
+export type InsightHistogramResponse = ApiResponse<Array<Histogram>>;
+export type InsightSegmentationResponse = ApiResponse<DonutChartData>;
+export type InsightTabularResponse = ApiResponse<TableData>;
 
 export type PagesResponse = {
   data: PagesItem;
 };
 
-export type PagesKpiResponse = { data: Array<KPI> };
-export type PagesHistogramResponse = { data: Array<Histogram> };
-export type PagesPreviewResponse = { data: Preview };
+export type PagesKpiResponse = ApiResponse<Array<KPI>>;
+export type PagesHistogramResponse = ApiResponse<Array<Histogram>>;
+export type PagesPreviewResponse = ApiResponse<Preview>;
 
 export type BarData = {
   title: string;

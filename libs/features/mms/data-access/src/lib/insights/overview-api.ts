@@ -1,4 +1,5 @@
 import { api } from '@lths/shared/data-access';
+import { FilterSettingsQueryParams } from '@lths/shared/ui-elements';
 
 import {
   InsightHistogramResponse,
@@ -27,28 +28,32 @@ export const insightOverviewApi = api.enhanceEndpoints({ addTagTypes: ['insight-
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: ['insight-overview'],
     }),
-    getInsightOverviewKpi: builder.query<InsightKpiResponse, InsightRequest>({
-      query: () => ({
+    getInsightOverviewKpi: builder.query<InsightKpiResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightKpiUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightOverviewHistogram: builder.query<InsightHistogramResponse, InsightRequest>({
-      query: () => ({
+    getInsightOverviewHistogram: builder.query<InsightHistogramResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightOverviewHistogramUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightOverviewSegmentation: builder.query<InsightSegmentationResponse, InsightRequest>({
-      query: () => ({
+    getInsightOverviewSegmentation: builder.query<InsightSegmentationResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightOverviewSegmentationUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
-    getInsightOverviewTabular: builder.query<InsightTabularResponse, InsightRequest>({
-      query: () => ({
+    getInsightOverviewTabular: builder.query<InsightTabularResponse, FilterSettingsQueryParams>({
+      query: (queryStringParams) => ({
         url: getInsightOverviewTabularUrl(),
         method: 'GET',
+        params: queryStringParams,
       }),
     }),
   }),

@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
-import { format, getDay, parse, startOfWeek } from 'date-fns';
+import { endOfWeek, format, getDay, parse, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Navigate, NavigateAction, ViewStatic, dateFnsLocalizer } from 'react-big-calendar';
 
@@ -28,7 +28,6 @@ const props: ListViewProps & ViewStatic = {
   headerCells: DEFAULT_LIST_VIEW_COL_HEADER,
   headerToEventValueMap: BaseColumnValue,
   navigate: NavigateWeek,
-  range: RangeWeek,
   title: TitleWeek,
 };
 
@@ -48,7 +47,7 @@ describe('WeekList', () => {
           headerToEventValueMap: props.headerToEventValueMap,
         }}
       >
-        <WeekList {...props} />
+        <WeekList {...props} events={undefined} />
       </ListViewContextProvider>
     );
     expect(container).toBeInTheDocument();
@@ -68,6 +67,7 @@ describe('WeekList', () => {
     const testEvents = [
       { start: new Date(2023, 7, 10, 9, 0), title: 'Event 1' },
       { start: new Date(2023, 7, 18, 10, 0), title: 'Event 2' },
+      { start: undefined, title: 'Event 3' },
     ];
 
     const { getByText, queryByText } = render(
@@ -85,9 +85,11 @@ describe('WeekList', () => {
     const event1Title = getByText('Event 1');
     // Should not be in the document (not in day range)
     const event2Title = queryByText('Event 2');
+    const event3Title = queryByText('Event 3');
 
     expect(event1Title).toBeInTheDocument();
     expect(event2Title).toBeNull();
+    expect(event3Title).toBeNull();
   });
 
   it('navigates to previous week correctly', () => {
@@ -119,5 +121,21 @@ describe('WeekList', () => {
     });
 
     expect(sameDate).toEqual(testDate);
+  });
+
+  it('returns the start and end of week for a given date', () => {
+    const date = new Date('2023-10-15');
+    const expectedStart = startOfWeek(date);
+    const expectedEnd = endOfWeek(date);
+
+    // Act
+    const result = RangeWeek(date);
+
+    // Assert
+    expect(result).toEqual({ start: expectedStart, end: expectedEnd });
+  });
+
+  it('returns empty string for title method', () => {
+    expect(TitleWeek()).toBe('');
   });
 });

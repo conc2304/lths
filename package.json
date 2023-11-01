@@ -109,6 +109,7 @@
     "react-router-dom": "^6.9.0",
     "react-string-replace": "^1.1.1",
     "recharts": "^2.5.0",
+    "redux-persist": "^6.0.0",
     "simplebar-react": "^3.2.1",
     "swiper": "^9.3.1",
     "tslib": "^2.3.0",

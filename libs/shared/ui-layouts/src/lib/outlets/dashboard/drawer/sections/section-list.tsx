@@ -6,10 +6,11 @@ type Props = { header?: string; children: React.ReactNode };
 
 const DrawerSectionList = ({ header, children }: Props) => {
   const subheader = header ? (
-    <ListSubheader component="div" id="nested-list-subheader">
+    <ListSubheader component="div" id="nested-list-subheader" data-testid="Dashoard-drawer--list-subheader">
       {header}
     </ListSubheader>
   ) : null;
+
   return (
     <List
       sx={{

@@ -6,8 +6,7 @@ import {
   useLazyGetInsightOverviewSegmentationQuery,
   useLazyGetInsightOverviewTabularQuery,
 } from '@lths/features/mms/data-access';
-import { HStack, VStack } from '@lths/shared/ui-elements';
-import { FilterSettingsPayload } from '@lths/shared/ui-elements';
+import { FilterSettingsQueryParams, HStack, VStack } from '@lths/shared/ui-elements';
 
 import { ConnectedUiFilter } from '../../components/common/connected-ui-filter';
 import { DonutContainer, TabularContainer, KpiContainer, HistogramContainer } from '../../components/insights/overview';
@@ -16,26 +15,36 @@ import { DonutContainer, TabularContainer, KpiContainer, HistogramContainer } fr
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 const OverviewPage = (): JSX.Element => {
-  const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, data: kpiData }] =
+  console.log('OverviewPage');
+  const [getKpiData, { isFetching: isKpiFetching, isLoading: isKpiLoading, isError: kpiError, data: kpiData }] =
     useLazyGetInsightOverviewKpiQuery();
 
-  const [getTabularData, { isFetching: isTabularFetching, isLoading: isTabularLoading, data: tabularData }] =
-    useLazyGetInsightOverviewTabularQuery();
+  const [
+    getTabularData,
+    { isFetching: isTabularFetching, isLoading: isTabularLoading, isError: tabulardataError, data: tabularData },
+  ] = useLazyGetInsightOverviewTabularQuery();
 
-  const [getHistogramData, { isFetching: isHistogramFetching, isLoading: isHistogramLoading, data: histogramData }] =
-    useLazyGetInsightOverviewHistogramQuery();
+  const [
+    getHistogramData,
+    { isFetching: isHistogramFetching, isLoading: isHistogramLoading, isError: histogramError, data: histogramData },
+  ] = useLazyGetInsightOverviewHistogramQuery();
 
   const [
     getSegmentationData,
-    { isFetching: isSegmentationFetching, isLoading: isSegmentationLoading, data: segmentationData },
+    {
+      isFetching: isSegmentationFetching,
+      isLoading: isSegmentationLoading,
+      isError: segmenationError,
+      data: segmentationData,
+    },
   ] = useLazyGetInsightOverviewSegmentationQuery();
 
-  async function handleFilterUpdate(filterSettings: FilterSettingsPayload) {
+  async function handleFilterUpdate(filterSettings: FilterSettingsQueryParams) {
     const {
-      date_range: { start_date, end_date },
-      metrics,
+      date_range: [start_date, end_date],
+      filters,
     } = filterSettings;
-    if (!filterSettings || !start_date || !end_date || !metrics) return;
+    if (!filterSettings || !start_date || !end_date || !filters) return;
 
     await Promise.all([
       getKpiData(filterSettings),
@@ -49,17 +58,17 @@ const OverviewPage = (): JSX.Element => {
     <VStack spacing={2}>
       <Stack direction="row" justifyContent="space-between" spacing={2}>
         <ConnectedUiFilter
-          onFiltersUpdate={(filters: FilterSettingsPayload) => {
+          onFiltersUpdate={(filters: FilterSettingsQueryParams) => {
             handleFilterUpdate(filters);
           }}
         />
       </Stack>
 
-      <KpiContainer data={kpiData} />
-      <HistogramContainer data={histogramData} />
+      {!kpiError && kpiData && <KpiContainer data={kpiData} />}
+      {!histogramError && histogramData && <HistogramContainer data={histogramData} />}
       <HStack>
-        <DonutContainer data={segmentationData} />
-        <TabularContainer data={tabularData} />
+        {!segmenationError && segmentationData && <DonutContainer data={segmentationData} />}
+        {!tabulardataError && tabularData && <TabularContainer data={tabularData} />}
       </HStack>
     </VStack>
   );
