@@ -2,6 +2,7 @@ import { addMonths, subMonths } from 'date-fns';
 
 import { SerializableMMSEvent } from '@lths/features/mms/data-access';
 import { EventStateID, MMSEvent } from '@lths/features/mms/ui-event-schedule';
+import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 
 /**
  * Constructs a range based on a center date and a specified padding in months.
@@ -58,4 +59,37 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
   }));
 
   return datedEvents;
+};
+
+export const getCalendarStateFromPath = (
+  path: string
+): {
+  viewMode: ViewMode;
+  view: LTHSView;
+  year: number;
+  month: number;
+  day: number;
+} => {
+  const regex = /vm\/([^/]+)\/v\/([^/]+)\/(\d{4})\/(\d{1,2})\/(\d{1,2})/;
+  const match = path.match(regex);
+
+  if (match) {
+    const [, viewMode, view, year, month, day] = match;
+    return {
+      viewMode: viewMode as ViewMode,
+      view: view as LTHSView,
+      year: parseInt(year, 10),
+      month: parseInt(month, 10),
+      day: parseInt(day, 10),
+    };
+  } else {
+    const today = new Date();
+    return {
+      viewMode: 'calendar',
+      view: 'month',
+      year: today.getFullYear(),
+      month: today.getMonth(),
+      day: today.getDay(),
+    };
+  }
 };

@@ -7,7 +7,7 @@ const section: SectionItemProps = {
     {
       title: 'Schedule',
       icon: <Today />,
-      path: '/schedule',
+      path: '/schedule/*',
       file: '/schedule/schedule-page',
       items: [],
     },

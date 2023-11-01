@@ -13,6 +13,7 @@ const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/log
 const ForgotPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/forgot-password')));
 // eslint-disable-next-line @nx/enforce-module-boundaries
 const ResetPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/reset-password')));
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const AuthenticationRoutes = (authenticated: boolean) => {
   return {

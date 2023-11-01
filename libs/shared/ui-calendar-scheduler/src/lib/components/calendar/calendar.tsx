@@ -40,6 +40,7 @@ import { BaseRowBuilder } from '../views/list-view/row-builder';
 import './calendar.scss';
 
 export type LTHSCalendarProps<TEvent extends object = Event> = {
+  date?: Date;
   events: TEvent[];
   view?: LTHSView;
   views?: LTHSView[];
@@ -64,6 +65,7 @@ export type LTHSCalendarProps<TEvent extends object = Event> = {
 
 export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarProps<TEvent>) => {
   const {
+    date: dateProp,
     events,
     view: viewProp = 'month',
     views: availableViews = [Views.DAY, Views.WEEK, Views.MONTH, 'year'],
@@ -109,7 +111,7 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
     footer = undefined;
   }
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dateProp || new Date());
   const [view, setView] = useState<LTHSView>(viewProp || 'month');
   const [viewMode, setViewMode] = useState<ViewMode>(viewModeProp || 'calendar');
 

@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
+import { NavigateAction } from 'react-big-calendar';
 import { Flags } from 'react-feature-flags';
+import { useLocation } from 'react-router-dom';
 
 import {
   useLazyGetEventsQuery,
@@ -23,11 +25,18 @@ import {
   EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
   EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
 } from '@lths/features/mms/ui-event-schedule';
+import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import { constructRange, convertEventDates } from './utils';
+import { constructRange, convertEventDates, getCalendarStateFromPath } from './utils';
 
 const SchedulePage = () => {
+  const location = useLocation();
+  console.log(location);
+  // get route
+  // vm/${viewMode}/v/${view}/${year}/${month}/${day}
+  // vm/{viewMode}/v/{view}/{year}/{month}/{day}
+
   // Api Calls
   const [getEnumList] = useLazyGetEnumListQuery();
   const [getEventsData, { data }] = useLazyGetEventsQuery();
@@ -39,6 +48,10 @@ const SchedulePage = () => {
   const [exportModalOpen, setExportModelOpen] = useState(false);
   const [newEventModalOpen, setNewEventModalOpen] = useState(false);
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
+
+  const { view, viewMode, year, month, day } = getCalendarStateFromPath(location.pathname);
+  const date = new Date(year, month - 1, day);
+  console.log(view, viewMode, date);
 
   const { events: unformattedEvents = [], eventStates: unformattedBackgroundEvents = [] } = data || {};
 
@@ -172,6 +185,18 @@ const SchedulePage = () => {
     }
   };
 
+  const handleOnNavigate = (newDate: Date, view: LTHSView, action: NavigateAction) => {
+    console.log(newDate, view, action);
+  };
+
+  const handleOnSetView = (newView: LTHSView) => {
+    console.log(newView);
+  };
+
+  const handleOnSetViewMode = (newViewMode: ViewMode) => {
+    console.log(newViewMode);
+  };
+
   const handleImportedEvents = (files: FileList) => {
     // TODO do the implementation
     console.log('handleImportedEvents', files);
@@ -226,11 +251,17 @@ const SchedulePage = () => {
         {eventTypes && events && backgroundEvents && (
           <EventScheduler
             events={events}
+            date={date}
+            view={view}
+            viewMode={viewMode}
             eventTypes={eventTypes}
             backgroundEvents={backgroundEvents}
             onSaveEvent={handleSaveEvent}
             onSaveEventStates={handleSaveEventStates}
             onRangeChange={handleOnRangeChange}
+            onNavigate={handleOnNavigate}
+            onSetView={handleOnSetView}
+            onSetViewMode={handleOnSetViewMode}
           />
         )}
       </Box>

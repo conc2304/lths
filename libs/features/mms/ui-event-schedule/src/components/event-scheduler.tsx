@@ -24,11 +24,16 @@ import { EventFormValues, EventState, EventType, MMSEvent } from '../types';
 type EventSchedulerProps = {
   events: MMSEvent[];
   eventTypes: EventType[];
+  date?: Date;
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
   backgroundEvents?: MMSEvent[];
+  viewMode?: ViewMode;
   defaultViewMode?: ViewMode;
+  view?: LTHSView;
   defaultView?: LTHSView;
+  onSetView?: (view: LTHSView) => void;
+  onSetViewMode?: (viewMode: ViewMode) => void;
   onRangeChange?: (range: Date[] | { start: Date; end: Date }, view?: LTHSView) => void | undefined;
   onNavigate?: ((newDate: Date, view: LTHSView, action: NavigateAction) => void) | undefined;
   eventsEditable?: boolean;
@@ -39,6 +44,9 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   const {
     events,
     eventTypes,
+    date,
+    view: viewProp,
+    viewMode: viewModeProp,
     backgroundEvents: bEvents = [],
     defaultViewMode = 'calendar',
     defaultView = 'month',
@@ -46,6 +54,8 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     onSaveEventStates,
     onNavigate,
     onRangeChange,
+    onSetView,
+    onSetViewMode,
   } = props;
 
   const [popperEvent, setPopperEvent] = useState<MMSEvent>();
@@ -55,8 +65,8 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   const [filters, setFilters] = useState<string[]>([]);
-  const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode);
-  const [view, setView] = useState<LTHSView>(defaultView);
+  const [viewMode, setViewMode] = useState<ViewMode>(viewModeProp || defaultViewMode);
+  const [view, setView] = useState<LTHSView>(viewProp || defaultView);
   const [eventStatesVisible, setEventStatesVisible] = useState(false);
   const theme = useTheme();
 
@@ -90,6 +100,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     setPopperAnchor(undefined);
     setPopperOpen(false);
 
+    onSetViewMode && onSetViewMode(viewMode);
     setViewMode(viewMode);
   };
 
@@ -98,6 +109,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     setPopperAnchor(undefined);
     setPopperOpen(false);
 
+    onSetView && onSetView(view);
     setView(view);
   };
 
@@ -180,8 +192,9 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   return (
     <>
       <LTHSCalendar
+        date={date}
         events={visibileEvents}
-        view={defaultView}
+        view={view}
         customComponents={components}
         backgroundEvents={backgroundEvents}
         viewMode={viewMode}
