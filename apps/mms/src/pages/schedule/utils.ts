@@ -61,47 +61,6 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
   return datedEvents;
 };
 
-export const getCalendarStateFromPath = (
-  path: string
-): {
-  isIndex: boolean;
-  matched: boolean;
-  viewMode: ViewMode;
-  view: LTHSView;
-  year: number;
-  month: number;
-  day: number;
-} => {
-  const regex = /vm\/([^/]+)\/v\/([^/]+)\/(\d{4})\/(\d{1,2})\/(\d{1,2})/;
-  console.log(path);
-  const isIndex = Boolean(path.indexOf('schedule'));
-  const match = path.match(regex);
-
-  if (match) {
-    const [, viewMode, view, year, month, day] = match;
-    return {
-      isIndex,
-      matched: true,
-      viewMode: viewMode as ViewMode,
-      view: view as LTHSView,
-      year: parseInt(year, 10),
-      month: parseInt(month, 10),
-      day: parseInt(day, 10),
-    };
-  } else {
-    const today = new Date();
-    return {
-      isIndex,
-      matched: false,
-      viewMode: 'calendar',
-      view: 'month',
-      year: today.getFullYear(),
-      month: today.getMonth(),
-      day: today.getDay(),
-    };
-  }
-};
-
 export const buildCalendarPath = ({
   view = 'month',
   viewMode = 'calendar',
@@ -111,9 +70,9 @@ export const buildCalendarPath = ({
   view?: LTHSView;
   date: Date;
 }) => {
-  if (isToday(date)) return `vm/${viewMode}/v/${view}`;
+  if (isToday(date)) return `/schedule/vm/${viewMode}/v/${view}`;
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  return `vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
+  return `/schedule/vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
 };

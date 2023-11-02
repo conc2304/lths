@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
 import { NavigateAction } from 'react-big-calendar';
 import { Flags } from 'react-feature-flags';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   useLazyGetEventsQuery,
@@ -28,7 +28,8 @@ import {
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import { buildCalendarPath, constructRange, convertEventDates, getCalendarStateFromPath } from './utils';
+import { RouteParams } from './types';
+import { buildCalendarPath, constructRange, convertEventDates } from './utils';
 
 const SchedulePage = () => {
   // Api Calls
@@ -37,20 +38,25 @@ const SchedulePage = () => {
   const [createEvent] = useCreateEventMutation();
   const [updateEvent] = useUpdateEventMutation();
 
+  // State from Path / Routing
+  const navigate = useNavigate();
+  const { viewMode: viewModeParam, view: viewParam, year, month, day } = useParams<RouteParams>();
+
+  let date: Date;
+  if (year && month && day) {
+    date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
+  } else {
+    date = new Date();
+  }
+
   // State
   const [importModalOpen, setImportModelOpen] = useState(false);
   const [exportModalOpen, setExportModelOpen] = useState(false);
   const [newEventModalOpen, setNewEventModalOpen] = useState(false);
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
-  const [view, setView] = useState<LTHSView>();
-  const [viewMode, setViewMode] = useState<ViewMode>();
-  const [calendarDate, setCalendarDate] = useState<Date>(new Date());
-
-  // State from Path
-  const location = useLocation();
-  const navigate = useNavigate();
-  console.log({ location });
-  // const isSchedulePage = location.pathname
+  const [view, setView] = useState<LTHSView>(viewParam);
+  const [viewMode, setViewMode] = useState<ViewMode>(viewModeParam);
+  const [calendarDate, setCalendarDate] = useState<Date>(date);
 
   const { events: unformattedEvents = [], eventStates: unformattedBackgroundEvents = [] } = data || {};
 
@@ -89,24 +95,6 @@ const SchedulePage = () => {
 
   useEffect(() => {
     console.log('----INIT SCHEDULE-----');
-
-    const { matched, view, viewMode, year, month, day } = getCalendarStateFromPath(location.pathname);
-    if (!matched) {
-      const date = new Date();
-      const newPath = buildCalendarPath({ date });
-      console.log('replace path', newPath);
-      setView('month');
-      setViewMode('calendar');
-      setCalendarDate(date);
-      // navigate(newPath, { replace: true });
-    } else {
-      const date = new Date(year, month, day);
-      console.log('DATE', date);
-
-      setView(view);
-      setViewMode(viewMode);
-      setCalendarDate(date);
-    }
 
     init();
   }, []);
@@ -204,30 +192,20 @@ const SchedulePage = () => {
     }
   };
 
-  const handleOnNavigate = (newDate: Date, view: LTHSView, action: NavigateAction) => {
-    console.log('HANDLE NAV');
-    console.log(newDate, view, action);
-    // build path and update route
+  const handleOnNavigate = (newDate: Date, view: LTHSView) => {
     const newPath = buildCalendarPath({ view, viewMode, date: new Date(newDate) });
-    // navigate(newPath);
-    console.log({ newPath });
+    navigate(newPath);
   };
 
   const handleOnSetView = (newView: LTHSView) => {
-    console.log(newView);
-    // build path and update route
     const newPath = buildCalendarPath({ view: newView, viewMode, date: new Date(calendarDate) });
-    // navigate(newPath);
-    console.log({ newPath });
+    navigate(newPath);
   };
 
   const handleOnSetViewMode = (newViewMode: ViewMode) => {
-    console.log(newViewMode);
     // build path and update route
     const newPath = buildCalendarPath({ view, viewMode: newViewMode, date: new Date(calendarDate) });
-    // navigate(newPath);
-    // navigate(newPath, {} as NavigateOptions);
-    console.log({ newPath });
+    navigate(newPath);
   };
 
   const handleImportedEvents = (files: FileList) => {
@@ -240,7 +218,6 @@ const SchedulePage = () => {
     console.log('handleExportEvents', values);
   };
 
-  console.log({ calendarDate, view, viewMode });
   return (
     <Box
       className="MMS-Schedule-Page--root"

@@ -11,15 +11,11 @@ const section: SectionItemProps = {
       file: '/schedule/schedule-page',
       items: [
         {
-          title: 'BANANA',
-          icon: null,
           path: '/schedule/vm/:viewMode/v/:view',
           file: '/schedule/schedule-page',
           hidden: true,
         },
         {
-          title: 'BANANA',
-          icon: null,
           path: '/schedule/vm/:viewMode/v/:view/:year/:month/:day',
           file: '/schedule/schedule-page',
           hidden: true,
