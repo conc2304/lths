@@ -192,6 +192,8 @@ export function PageEditorTabs() {
       if (response.success && response?.data) {
         initEditor(response.data);
         toast.success(modalData.success);
+      } else {
+        toast.error(modalData.error);
       }
     } catch (error) {
       console.error('Error in updating the page', error);
@@ -303,7 +305,7 @@ export function PageEditorTabs() {
           <LoadingButton
             sx={{ float: 'right', ml: 1, mt: 2 }}
             variant="contained"
-            onClick={() => handleUpdatePageStatus()}
+            onClick={handleUpdatePageStatus}
             loading={isLoading}
           >
             {modalData.action}
