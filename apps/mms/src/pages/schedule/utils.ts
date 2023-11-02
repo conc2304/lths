@@ -1,4 +1,4 @@
-import { addMonths, subMonths } from 'date-fns';
+import { addMonths, isToday, subMonths } from 'date-fns';
 
 import { SerializableMMSEvent } from '@lths/features/mms/data-access';
 import { EventStateID, MMSEvent } from '@lths/features/mms/ui-event-schedule';
@@ -64,6 +64,7 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
 export const getCalendarStateFromPath = (
   path: string
 ): {
+  isIndex: boolean;
   matched: boolean;
   viewMode: ViewMode;
   view: LTHSView;
@@ -72,11 +73,14 @@ export const getCalendarStateFromPath = (
   day: number;
 } => {
   const regex = /vm\/([^/]+)\/v\/([^/]+)\/(\d{4})\/(\d{1,2})\/(\d{1,2})/;
+  console.log(path);
+  const isIndex = Boolean(path.indexOf('schedule'));
   const match = path.match(regex);
 
   if (match) {
     const [, viewMode, view, year, month, day] = match;
     return {
+      isIndex,
       matched: true,
       viewMode: viewMode as ViewMode,
       view: view as LTHSView,
@@ -87,6 +91,7 @@ export const getCalendarStateFromPath = (
   } else {
     const today = new Date();
     return {
+      isIndex,
       matched: false,
       viewMode: 'calendar',
       view: 'month',
@@ -100,15 +105,15 @@ export const getCalendarStateFromPath = (
 export const buildCalendarPath = ({
   view = 'month',
   viewMode = 'calendar',
-  year,
-  month,
-  day,
+  date,
 }: {
   viewMode?: ViewMode;
   view?: LTHSView;
-  year: number;
-  month: number;
-  day: number;
+  date: Date;
 }) => {
+  if (isToday(date)) return `vm/${viewMode}/v/${view}`;
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
   return `vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
 };

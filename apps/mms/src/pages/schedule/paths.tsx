@@ -7,9 +7,24 @@ const section: SectionItemProps = {
     {
       title: 'Schedule',
       icon: <Today />,
-      path: '/schedule/*',
+      path: '/schedule',
       file: '/schedule/schedule-page',
-      items: [],
+      items: [
+        {
+          title: 'BANANA',
+          icon: null,
+          path: '/schedule/vm/:viewMode/v/:view',
+          file: '/schedule/schedule-page',
+          hidden: true,
+        },
+        {
+          title: 'BANANA',
+          icon: null,
+          path: '/schedule/vm/:viewMode/v/:view/:year/:month/:day',
+          file: '/schedule/schedule-page',
+          hidden: true,
+        },
+      ],
     },
   ],
 };
