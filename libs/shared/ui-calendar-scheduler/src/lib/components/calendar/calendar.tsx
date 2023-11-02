@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { isTuesday, format, getDay, parse, startOfWeek } from 'date-fns';
@@ -111,8 +111,10 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
     footer = undefined;
   }
 
+  console.log({ viewProp });
   const [date, setDate] = useState(dateProp || new Date());
   const [view, setView] = useState<LTHSView>(viewProp || 'month');
+  const viewRef = useRef(view);
   const [viewMode, setViewMode] = useState<ViewMode>(viewModeProp || 'calendar');
 
   const theme = useTheme();
@@ -139,16 +141,27 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
   };
 
   const handleOnView = (newView: View) => {
+    console.log('handleOnView | ', newView);
+
     setView(newView);
+    viewRef.current = newView;
     onSetView && onSetView(newView);
   };
 
-  const handleOnNavigate = (date: Date, view: View, action: NavigateAction) => {
+  const handleOnNavigate = (date: Date, newView: View, action: NavigateAction) => {
+    console.log('handleOnNavigate C |', { date, newView, action });
+
     setDate(date);
-    onNavigate && onNavigate(date, view, action);
+    // !! Hack Warning
+    // !! we are using viewRef here bc when we click on a date onView gets called
+    // !! and this has the previous view instead of the next vies
+    // !! and we have handleOnView set the ref that his reads
+    onNavigate && onNavigate(date, viewRef.current, action);
   };
 
   const handleOnViewMode = (viewMode: ViewMode) => {
+    console.log('handleOnViewMode | ', viewMode);
+
     setViewMode(viewMode);
     onSetViewMode && onSetViewMode(viewMode);
   };

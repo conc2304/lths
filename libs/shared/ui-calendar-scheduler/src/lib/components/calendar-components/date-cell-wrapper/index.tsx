@@ -27,6 +27,7 @@ export const DateCellWrapper = (props: DateCellProps) => {
 
   return (
     <Box
+      data-testid="Calendar--date-cell-wrapper"
       sx={{
         borderRight: '1px solid var(--cell-border-color, #D8D8D8)',
         backgroundColor: getBackgroundColor(),

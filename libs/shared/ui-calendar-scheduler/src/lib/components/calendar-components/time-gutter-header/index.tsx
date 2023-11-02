@@ -24,7 +24,7 @@ export const TimeGutterHeader = (props: TimeGutterHeaderProps) => {
   if (view === 'day') return <div data-testid="empty-gutter-header" />;
   else
     return (
-      <Box height={'100%'} display={'flex'} flexDirection={'column'}>
+      <Box height={'100%'} display={'flex'} flexDirection={'column'} data-testid="Calendar--time-gutter-header">
         <Box
           sx={{
             width: gutterWidth,

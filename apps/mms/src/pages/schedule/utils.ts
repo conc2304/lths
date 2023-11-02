@@ -72,7 +72,7 @@ export const buildCalendarPath = ({
 }) => {
   if (isToday(date)) return `/schedule/vm/${viewMode}/v/${view}`;
   const year = date.getFullYear();
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const day = date.getDate();
   return `/schedule/vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
 };

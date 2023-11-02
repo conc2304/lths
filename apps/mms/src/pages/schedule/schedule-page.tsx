@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
-import { NavigateAction } from 'react-big-calendar';
 import { Flags } from 'react-feature-flags';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -193,16 +192,21 @@ const SchedulePage = () => {
   };
 
   const handleOnNavigate = (newDate: Date, view: LTHSView) => {
+    console.log('handleOnNavigate', view);
     const newPath = buildCalendarPath({ view, viewMode, date: new Date(newDate) });
     navigate(newPath);
   };
 
   const handleOnSetView = (newView: LTHSView) => {
+    console.log('handleOnSetView', newView);
+
     const newPath = buildCalendarPath({ view: newView, viewMode, date: new Date(calendarDate) });
     navigate(newPath);
   };
 
   const handleOnSetViewMode = (newViewMode: ViewMode) => {
+    console.log('handleOnSetViewMode', viewMode);
+
     // build path and update route
     const newPath = buildCalendarPath({ view, viewMode: newViewMode, date: new Date(calendarDate) });
     navigate(newPath);
