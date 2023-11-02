@@ -4,6 +4,8 @@ import { SerializableMMSEvent } from '@lths/features/mms/data-access';
 import { EventStateID, MMSEvent } from '@lths/features/mms/ui-event-schedule';
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 
+import { BasePath } from './paths';
+
 /**
  * Constructs a range based on a center date and a specified padding in months.
  *
@@ -61,6 +63,47 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
   return datedEvents;
 };
 
+export const getCalendarStateFromPath = (
+  path: string
+): {
+  isIndex: boolean;
+  matched: boolean;
+  viewMode: ViewMode;
+  view: LTHSView;
+  year: number;
+  month: number;
+  day: number;
+} => {
+  const regex = /vm\/([^/]+)\/v\/([^/]+)\/(\d{4})\/(\d{1,2})\/(\d{1,2})/;
+  console.log(path);
+  const isIndex = Boolean(path.indexOf('schedule'));
+  const match = path.match(regex);
+
+  if (match) {
+    const [, viewMode, view, year, month, day] = match;
+    return {
+      isIndex,
+      matched: true,
+      viewMode: viewMode as ViewMode,
+      view: view as LTHSView,
+      year: parseInt(year, 10),
+      month: parseInt(month, 10) - 1,
+      day: parseInt(day, 10),
+    };
+  } else {
+    const today = new Date();
+    return {
+      isIndex,
+      matched: false,
+      viewMode: 'calendar',
+      view: 'month',
+      year: today.getFullYear(),
+      month: today.getMonth() - 1,
+      day: today.getDay(),
+    };
+  }
+};
+
 export const buildCalendarPath = ({
   view = 'month',
   viewMode = 'calendar',
@@ -70,9 +113,9 @@ export const buildCalendarPath = ({
   view?: LTHSView;
   date: Date;
 }) => {
-  if (isToday(date)) return `/schedule/vm/${viewMode}/v/${view}`;
+  if (isToday(date)) return `${BasePath}/vm/${viewMode}/v/${view}`;
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;
+  const month = date.getMonth();
   const day = date.getDate();
-  return `/schedule/vm/${viewMode}/v/${view}/${year}/${month}/${day}`;
+  return `${BasePath}/vm/${viewMode}/v/${view}/${year}/${month + 1}/${day}`;
 };

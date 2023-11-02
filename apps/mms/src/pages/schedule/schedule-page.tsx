@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
 import { Flags } from 'react-feature-flags';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import {
   useLazyGetEventsQuery,
@@ -27,8 +27,7 @@ import {
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
-import { RouteParams } from './types';
-import { buildCalendarPath, constructRange, convertEventDates } from './utils';
+import { buildCalendarPath, constructRange, convertEventDates, getCalendarStateFromPath } from './utils';
 
 const SchedulePage = () => {
   // Api Calls
@@ -38,12 +37,12 @@ const SchedulePage = () => {
   const [updateEvent] = useUpdateEventMutation();
 
   // State from Path / Routing
-  const navigate = useNavigate();
-  const { viewMode: viewModeParam, view: viewParam, year, month, day } = useParams<RouteParams>();
+  const location = useLocation();
+  const { viewMode: viewModeParam, view: viewParam, year, month, day } = getCalendarStateFromPath(location.pathname);
 
   let date: Date;
   if (year && month && day) {
-    date = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
+    date = new Date(year, month, day);
   } else {
     date = new Date();
   }
@@ -93,8 +92,6 @@ const SchedulePage = () => {
   };
 
   useEffect(() => {
-    console.log('----INIT SCHEDULE-----');
-
     init();
   }, []);
 
@@ -139,6 +136,10 @@ const SchedulePage = () => {
 
       updateEvent({ id: eventState.id, payload: eventPayload });
     });
+  };
+
+  const doNavigate = (path: string) => {
+    window.history.pushState({}, '', `/#${path}`);
   };
 
   const handleOnRangeChange = (range: Date[] | { start: Date; end: Date }) => {
@@ -192,24 +193,23 @@ const SchedulePage = () => {
   };
 
   const handleOnNavigate = (newDate: Date, view: LTHSView) => {
-    console.log('handleOnNavigate', view);
     const newPath = buildCalendarPath({ view, viewMode, date: new Date(newDate) });
-    navigate(newPath);
+    setCalendarDate(newDate);
+    setView(view);
+    doNavigate(newPath);
   };
 
   const handleOnSetView = (newView: LTHSView) => {
-    console.log('handleOnSetView', newView);
-
     const newPath = buildCalendarPath({ view: newView, viewMode, date: new Date(calendarDate) });
-    navigate(newPath);
+    doNavigate(newPath);
+    setView(newView);
   };
 
   const handleOnSetViewMode = (newViewMode: ViewMode) => {
-    console.log('handleOnSetViewMode', viewMode);
-
     // build path and update route
     const newPath = buildCalendarPath({ view, viewMode: newViewMode, date: new Date(calendarDate) });
-    navigate(newPath);
+    doNavigate(newPath);
+    setViewMode(newViewMode);
   };
 
   const handleImportedEvents = (files: FileList) => {

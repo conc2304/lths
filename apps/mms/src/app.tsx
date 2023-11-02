@@ -14,7 +14,9 @@ import { RBThemeProvider as LayoutThemeProvider } from './themes';
 function App() {
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
+
   useEffect(() => {
+    console.log('APP LOAD');
     async function prepareMocks() {
       const { initMocks } = await import('@lths/shared/mocks');
       await initMocks();

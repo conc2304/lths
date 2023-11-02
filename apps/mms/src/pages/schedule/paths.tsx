@@ -2,21 +2,23 @@ import Today from '@mui/icons-material/Today';
 
 import { SectionItemProps } from '../../routes/types';
 
+export const BasePath = '/schedule';
+
 const section: SectionItemProps = {
   items: [
     {
       title: 'Schedule',
       icon: <Today />,
-      path: '/schedule',
+      path: BasePath,
       file: '/schedule/schedule-page',
       items: [
         {
-          path: '/schedule/vm/:viewMode/v/:view',
+          path: `${BasePath}/vm/:viewMode/v/:view`,
           file: '/schedule/schedule-page',
           hidden: true,
         },
         {
-          path: '/schedule/vm/:viewMode/v/:view/:year/:month/:day',
+          path: `${BasePath}/schedule/vm/:viewMode/v/:view/:year/:month/:day`,
           file: '/schedule/schedule-page',
           hidden: true,
         },
