@@ -47,11 +47,13 @@ export const CalendarDate = (props: CalendarDateProps) => {
   const fullDate = format(dateToRender, 'yyyy-MM-dd');
 
   const getDateColor = (theme: Theme): Property.Color => {
-    if (isActive) return '#FFF';
-    if (dateIsToday) return theme.palette.secondaryButton.main;
-    if (outOfMonth) return theme.palette.grey[400];
+    let color: Property.Color = '#000';
+
+    if (isActive) color = '#FFF';
+    if (dateIsToday) color = theme.palette.secondaryButton.main;
+    if (outOfMonth) color = theme.palette.grey[400];
     if (differentiateWeekends && isWeekend && !outOfMonth) return lighten(theme.palette.primary.main, 0.3);
-    return '#000';
+    return color;
   };
 
   const getBackgroundColor = (theme: Theme): Property.BackgroundColor | undefined => {
