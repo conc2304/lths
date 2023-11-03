@@ -26,6 +26,7 @@ const baseThemeOptions: ThemeOptions = {
   mixins: {
     // layout header settings
     toolbar: {
+      height: '3.5rem',
       minHeight: 50,
       paddingTop: 4,
       paddingBottom: 4,

@@ -1,1 +1,1 @@
-export {default as Profile} from './profile-item'
+export { UserActionMenu } from './user-action-menu';

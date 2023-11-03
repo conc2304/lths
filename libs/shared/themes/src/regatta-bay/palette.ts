@@ -30,7 +30,7 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
       contrastText: '#0091FF',
     },
     appBar: {
-      background: '#3D4752',
+      background: '#110922',
     },
     sideBar: {
       background: '#f4f4f4',

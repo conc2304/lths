@@ -1,5 +1,5 @@
 import { AppBar, IconButton, Toolbar, useMediaQuery } from '@mui/material';
-import DrawerIcon from '@mui/icons-material/Apps';
+import { Menu } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
 import HeaderContent from './header-content';
@@ -25,16 +25,21 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
     transition: '.3s all',
   };
 
-  const icon = drawerIcon || <DrawerIcon />;
+  const icon = drawerIcon || <Menu />;
 
   const mainHeader = (
-    <Toolbar variant="dense" id="Main-Header--root" disableGutters={false}>
+    <Toolbar
+      data-testid="Dashboard-Header--root"
+      disableGutters={false}
+      // toolbar height is set via the theme mixins
+    >
       <IconButton
+        data-testid="Dashboard-Header--drawer-toggle-btn"
         aria-label={`${!drawerVisible ? 'Open' : 'Close'} Navigation Menu`}
         onClick={onToggleDrawer}
         edge="start"
         color="secondary"
-        sx={anchorStyles}
+        sx={!drawerIcon ? anchorStyles : undefined}
         size="small"
       >
         {icon}
