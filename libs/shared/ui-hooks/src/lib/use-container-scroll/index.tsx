@@ -13,6 +13,13 @@ export const useContainerScroll = (selectors: string[], classNames: string[]) =>
   const { windowHeight } = useWindowHeight();
 
   useEffect(() => {
+    return () => {
+      const bodyElement = document.querySelector('body');
+      if (bodyElement) bodyElement.style.overflow = 'auto';
+    };
+  }, []);
+
+  useEffect(() => {
     if (document) {
       // Find and adjust the document body's overflow property
       const bodyElement = document.querySelector('body');

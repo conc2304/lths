@@ -17,7 +17,7 @@ const TitleTextToolbar = (props: TitleTextComponentProps) => {
   } = props;
 
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('text_size', event.target.value);
@@ -33,7 +33,7 @@ const TitleTextToolbar = (props: TitleTextComponentProps) => {
         linked_text: [...linked_text, { link_value: 'New link' }],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleRemove = (link_id: string) => {
@@ -46,7 +46,7 @@ const TitleTextToolbar = (props: TitleTextComponentProps) => {
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

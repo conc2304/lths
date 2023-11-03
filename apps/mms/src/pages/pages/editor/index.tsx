@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -14,7 +15,15 @@ import {
   EnumValue,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
-import { PageAdapterProvider, PageHeader, PageStatus, useAlertActions } from '@lths/features/mms/ui-components';
+import {
+  PageAdapterProvider,
+  PageConstraints,
+  PageHeader,
+  PageSettings,
+  PageStatus,
+  UnSavedPageAlert,
+  useAlertActions,
+} from '@lths/features/mms/ui-components';
 import {
   BlockEditor,
   useEditorActions,
@@ -28,7 +37,6 @@ import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { ComponentModal } from '../../../components/pages/editor';
 import AssetsModal from '../../../components/pages/editor/assets/connected-modal';
-import { Constraints, Settings } from '../../../components/pages/editor/containers';
 import TabPanel from '../tab-panel';
 
 const StatusChangeModalData = {
@@ -52,7 +60,7 @@ const TabItems = {
 };
 export function PageEditorTabs() {
   //api
-  const { initEditor, addComponent, components, data } = useEditorActions();
+  const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
   const [getPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
@@ -73,6 +81,8 @@ export function PageEditorTabs() {
   const { pageId } = useParams();
 
   const navigate = useNavigate();
+
+  const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
   //fetch params
   const page_data = data as PageDetail;
@@ -180,26 +190,21 @@ export function PageEditorTabs() {
     setOpenModal(false);
     navigate('/pages');
   };
-  const handleEditorUpdate = async () => {
-    handleUpdatePageDetails();
-  };
 
-  const handleUpdatePageDetails = async (updatedData?: PageDetail) => {
+  const handleUpdatePageDetails = async () => {
     try {
-      updatedData = updatedData
-        ? {
-            ...page_data,
-            ...updatedData,
-          }
-        : { ...page_data, components };
+      const updatedData = { ...page_data, components };
 
       const response = await updatePageDetails(updatedData).unwrap();
 
       if (response?.success) {
         toast.success('Page details has been updated successfully');
         initEditor(response?.data);
+      } else {
+        toast.error('Failed to update the page details');
       }
     } catch (error) {
+      toast.error('Failed to update the page details');
       console.error('Error in updating page details', error.message);
     }
   };
@@ -229,6 +234,16 @@ export function PageEditorTabs() {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      await handleUpdatePageDetails();
+      cancelNavigation();
+    } catch (error) {
+      toast.error('Error in saving page details');
+      console.error('Error in saving page details', error);
+    }
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <PageHeader
@@ -236,7 +251,7 @@ export function PageEditorTabs() {
         status={page_data?.status}
         onStatusChange={handleMenuItemSelect}
         onActionClick={handleActionClick}
-        onUpdate={handleEditorUpdate}
+        onUpdate={handleUpdatePageDetails}
         isPageUpdating={isPageUpdating}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -258,10 +273,10 @@ export function PageEditorTabs() {
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
         <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
-          <Constraints onUpdate={handleUpdatePageDetails} />
+          <PageConstraints />
         </TabPanel>
         <TabPanel value={TabItems.settings.value} currentTab={currentTab}>
-          <Settings onUpdate={handleUpdatePageDetails} />
+          <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>
       </Box>
       <Modal open={openModal} onClose={handleCloseModal}>
@@ -296,6 +311,12 @@ export function PageEditorTabs() {
       <Backdrop open={isFetchingComponentDetail}>
         <CircularProgress />
       </Backdrop>
+      <UnSavedPageAlert
+        isOpen={showPrompt}
+        onCancel={confirmNavigation}
+        onSave={handleSave}
+        isLoading={isPageUpdating}
+      />
     </Box>
   );
 }

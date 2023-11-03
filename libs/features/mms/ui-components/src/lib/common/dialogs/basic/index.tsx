@@ -9,7 +9,7 @@ type AlertDialogProps = {
   description: string;
   cancelText: string;
   confirmText: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 export const AlertDialog = ({
@@ -34,7 +34,7 @@ export const AlertDialog = ({
         <Button onClick={handleClose} sx={{ fontWeight: 600 }}>
           {cancelText}
         </Button>
-        <LoadingButton loading={isLoading} onClick={handleConfirm} sx={{ fontWeight: 600 }}>
+        <LoadingButton disabled={isLoading} loading={isLoading} onClick={handleConfirm} sx={{ fontWeight: 600 }}>
           {confirmText}
         </LoadingButton>
       </DialogActions>

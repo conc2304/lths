@@ -1,7 +1,7 @@
 import { Box, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
 
-import editorTheme from '../core/theme';
+import { colors } from '../../../common';
 
 type TitleProps = {
   title: string;
@@ -22,7 +22,7 @@ export const HeaderContainer = (props: TitleProps) => {
           <InfoOutlined sx={{ color: theme.palette.grey[500], fontSize: theme.spacing(2.55) }} />
         </Tooltip>
       </Stack>
-      <Typography variant="body2" color={editorTheme.header.color} marginTop={1}>
+      <Typography variant="body2" color={colors.header.color} marginTop={1}>
         {description}
       </Typography>
     </Box>
