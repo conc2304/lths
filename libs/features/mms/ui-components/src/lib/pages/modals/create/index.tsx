@@ -145,6 +145,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
                     return (
                       <TextField
                         {...params}
+                        error={touched.default_page_id && Boolean(errors.default_page_id)}
                         label="Variant default"
                         InputProps={{
                           ...params.InputProps,
