@@ -3,7 +3,7 @@ import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/
 import { LoadingButton } from '@mui/lab';
 import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
@@ -81,6 +81,7 @@ export function PageEditorTabs() {
   const { pageId } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
@@ -120,8 +121,24 @@ export function PageEditorTabs() {
       console.log('Failed to find component');
     }
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+    if (
+      Object.values(TabItems)
+        .map((tab) => tab.value)
+        .includes(tabParam)
+    ) {
+      setCurrentTab(tabParam);
+    } else {
+      setCurrentTab(TabItems.page_design.value);
+    }
+  }, [location]);
+
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
+    const tabURL = `${location.pathname}?tab=${newValue}`;
+    navigate(tabURL);
   };
 
   const handleCloseCompModal = () => {
