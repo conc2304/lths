@@ -14,7 +14,7 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange, handleDescChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -33,7 +33,7 @@ const ExpandCollapseViewToolbar = (props: ExpandCollapseViewComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

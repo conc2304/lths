@@ -14,7 +14,7 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -33,7 +33,7 @@ const ButtonHCarouselToolbar = (props: ButtonHCarouselComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

@@ -21,7 +21,7 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
@@ -50,7 +50,7 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

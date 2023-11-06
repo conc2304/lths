@@ -16,7 +16,7 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -30,7 +30,7 @@ const SegmentControlToolbar = (props: SegmentControlComponentProps) => {
       ...props,
       data: { sub_component_data: [...sub_component_data, { title: 'New Segment' }] },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>

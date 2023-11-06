@@ -17,7 +17,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { updateComponentProp } = useToolbarChange();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,7 +37,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
         linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleRemove = (link_id: string) => {
@@ -50,7 +50,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

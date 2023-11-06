@@ -23,7 +23,7 @@ const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange, handleDescChange, handleImageChange, updateComponentProp } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -45,7 +45,7 @@ const CarouselVendorToolbar = (props: CarouselVendorComponentProps) => {
       ...props,
       data: { sub_component_data: [...sub_component_data, { title: 'New Card' }] },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
   return (
     <ToolContainer id={id} aria-label="Button Toolbar" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
