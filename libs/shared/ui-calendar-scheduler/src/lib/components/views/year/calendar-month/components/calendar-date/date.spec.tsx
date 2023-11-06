@@ -12,7 +12,7 @@ const renderWithTheme = (component: JSX.Element) => {
 
 describe('CalendarDate', () => {
   it('renders without crashing', () => {
-    const mockDate = addDays(new Date(), -3);
+    const mockDate = new Date(2023, 10, 9);
     const mockToday = addDays(mockDate, 3);
     const mockOnClick = jest.fn();
 
@@ -20,7 +20,7 @@ describe('CalendarDate', () => {
       <CalendarDate
         dateToRender={mockDate}
         currentDate={mockToday}
-        dateId="1"
+        dateId=""
         onClick={mockOnClick}
         events={[]}
         isActive={false}
@@ -36,7 +36,7 @@ describe('CalendarDate', () => {
   });
 
   it('triggers onClick when clicked', () => {
-    const mockDate = new Date();
+    const mockDate = new Date(2023, 10, 15);
     const mockOnClick = jest.fn();
 
     const { getByLabelText } = renderWithTheme(
@@ -48,7 +48,7 @@ describe('CalendarDate', () => {
   });
 
   it('shows the badge with events count on mouse hover', async () => {
-    const mockDate = new Date();
+    const mockDate = new Date(2023, 8, 11);
     const mockEvents = [{ title: 'Event 1' }, { title: 'Event 2' }];
     const mockOnClick = jest.fn();
 
@@ -75,7 +75,7 @@ describe('CalendarDate', () => {
   });
 
   it('renders with active styles when isActive is true', () => {
-    const mockDate = new Date();
+    const mockDate = new Date(2023, 8, 11);
     const mockOnClick = jest.fn();
 
     const { getByLabelText } = renderWithTheme(
@@ -96,7 +96,7 @@ describe('CalendarDate', () => {
   });
 
   it('renders with weekend styles when isWeekend is true and differentiateWeekends is true', () => {
-    const mockDate = new Date('2023-10-15');
+    const mockDate = new Date(2023, 10, 15);
     const renderDate = mockDate.getDate();
     const mockOnClick = jest.fn();
 
@@ -133,7 +133,7 @@ describe('CalendarDate', () => {
   });
 
   it('renders with large size styles when size is set to "large"', () => {
-    const mockDate = new Date();
+    const mockDate = new Date(2023, 8, 11);
     const mockOnClick = jest.fn();
 
     const { getByLabelText } = renderWithTheme(

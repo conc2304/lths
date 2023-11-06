@@ -16,6 +16,7 @@ export const DashboardLayout = ({
   headerLeft,
   headerRight,
   fixedHeader,
+  drawerIcon,
 }: LayoutExtendedProps) => {
   const theme = useTheme();
   const isMiniScreen = useMediaQuery(theme.breakpoints.down('xl'));
@@ -54,7 +55,7 @@ export const DashboardLayout = ({
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }} data-testid="Dashboard-layout--root">
-      <Header headerLeft={headerLeft} headerRight={headerRight} fixedHeader={fixedHeader} />
+      <Header headerLeft={headerLeft} headerRight={headerRight} fixedHeader={fixedHeader} drawerIcon={drawerIcon} />
       <Drawer sections={sections} drawerHeader={drawerHeader} fixedHeader={fixedHeader} />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 1, sm: 2 } }}>
         <Toolbar />

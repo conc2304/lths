@@ -21,7 +21,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange, handleDescChange, handleImageChange } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -41,7 +41,7 @@ const ButtonsViewToolbar = (props: ButtonsViewComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

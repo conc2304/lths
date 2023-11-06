@@ -1,13 +1,14 @@
-import { useRoutes } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import { useAppSelector } from '@lths/features/mms/data-access';
-import { LayoutProvider } from '@lths/shared/ui-layouts';
 
 import { DashRoutes, AuthenticationRoutes } from './configs';
 
-export default function ThemeRoutes() {
+export default function Routes() {
   const auth = useAppSelector((state) => state.auth);
   const { authenticated } = auth;
-  const routes = useRoutes([DashRoutes(authenticated), AuthenticationRoutes(authenticated)]);
-  return <LayoutProvider>{routes}</LayoutProvider>;
+  const routes = [DashRoutes(authenticated), AuthenticationRoutes(authenticated)];
+  const hashRoutes = createHashRouter(routes);
+
+  return <RouterProvider router={hashRoutes} />;
 }

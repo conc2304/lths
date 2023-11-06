@@ -5,7 +5,7 @@ import { mergeKeys, updateNestedProp } from './utils';
 import { useEditorActions } from '../../../context';
 
 export const useToolbarChange = () => {
-  const { selectComponent, selectedComponent } = useEditorActions();
+  const { updateComponent, selectComponent, selectedComponent } = useEditorActions();
 
   /**
    * @deprecated This function is deprecated. Use handlePropChange instead.
@@ -18,7 +18,7 @@ export const useToolbarChange = () => {
   ) => {
     if (index === undefined) {
       const data = { ...selectedComponent, data: { ...selectedComponent.data, [key]: value } };
-      selectComponent(data);
+      updateComponent(data);
     } else {
       const updatedComponentData = selectedComponent.data[parent_key].map((component, i) =>
         i === index ? { ...component, [key]: value } : component
@@ -28,13 +28,13 @@ export const useToolbarChange = () => {
         ...selectedComponent,
         data: { ...selectedComponent.data, [parent_key]: updatedComponentData },
       };
-      selectComponent(data);
+      updateComponent(data);
     }
   };
 
   function handlePropChange(propName: string, value: string | object, index?: number, keys?: string[]) {
     const data = updateNestedProp(selectedComponent, propName, value, index, mergeKeys(keys));
-    selectComponent(data);
+    updateComponent(data);
   }
 
   const generateUniqueId = (objectKey = 'sub_component_data') => {

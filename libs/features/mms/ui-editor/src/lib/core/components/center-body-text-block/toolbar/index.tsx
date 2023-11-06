@@ -18,7 +18,7 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
     onPropChange,
   } = props;
   const { handleTitleChange, updateComponentProp } = useToolbarChange();
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('text_size', event.target.value);
   };
@@ -32,7 +32,7 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
         linked_text: [...linked_text, { link_key: '', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleRemove = (link_id: string) => {
@@ -45,7 +45,7 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

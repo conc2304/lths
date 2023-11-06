@@ -13,7 +13,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
     data: { sub_component_data },
     onPropChange,
   } = props;
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const handleAdd = () => {
     const data = {
@@ -25,7 +25,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleRemove = (segment_id: string) => {
@@ -35,7 +35,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
         sub_component_data: sub_component_data.filter((l) => l.segment_id !== segment_id),
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

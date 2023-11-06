@@ -37,6 +37,7 @@ export const useEditorActions = () => {
     renameComponent: useMemo(() => renameComponent(dispatch), [dispatch]),
     components: state.components,
     selectedComponent: state.selectedComponent,
+    hasUnsavedEdits: state.hasUnsavedEdits,
     data: state,
   };
 };

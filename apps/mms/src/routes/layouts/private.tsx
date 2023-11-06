@@ -1,26 +1,49 @@
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { Twirl as Hamburger } from 'hamburger-react';
 
-import { DashboardLayout } from '@lths/shared/ui-layouts';
+import { DashboardLayout, useLayoutActions } from '@lths/shared/ui-layouts';
 
-import { Profile } from '../../components/layouts';
+import { LitehouseLogoIcon, LitehouseLogoText } from '../../assets/icon';
+import { UserActionMenu } from '../../components/layouts';
 import sections from '../../pages/paths';
 
 const headerLeft = (
-  <Typography
-    variant="h6"
-    sx={{ pl: 1, color: '#fff', fontSize: '1.15rem', fontWeight: 500, lineHeight: '160%', letterSpacing: '0.00938rem' }}
+  <Box
+    data-testid="Toolbar-HeaderLeft--root"
+    sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
   >
-    Mobile Management System
-  </Typography>
+    <LitehouseLogoIcon scale={1} />
+    <LitehouseLogoText fill="#FFF" scale={1} wrapperSx={{ ml: 2 }} />
+    <Typography
+      variant="body1"
+      sx={{
+        pl: 2,
+        color: (theme) => theme.palette.grey[400],
+        fontSize: '0.875rem',
+        fontWeight: 'bold',
+        lineHeight: '160%',
+        letterSpacing: '0.00625rem;',
+      }}
+    >
+      Mobile Management System
+    </Typography>
+  </Box>
 );
 
 const drawerHeader = (
-  <Typography variant="h6" align="center">
+  <Typography variant="h6" align="center" sx={{ height: (theme) => theme.mixins.toolbar.height }}>
     MMS 1.0
   </Typography>
 );
 
-const headerRight = <Profile />;
+const DrawerIcon = () => {
+  const { drawerVisible } = useLayoutActions();
+
+  return <Hamburger direction="right" size={18} toggled={drawerVisible} />;
+};
+
+const headerRight = <UserActionMenu />;
 
 export const PrivateLayout = (
   <DashboardLayout
@@ -29,5 +52,6 @@ export const PrivateLayout = (
     headerRight={headerRight}
     drawerHeader={drawerHeader}
     fixedHeader={true}
+    drawerIcon={<DrawerIcon />}
   />
 );
