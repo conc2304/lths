@@ -167,7 +167,6 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
                   gutterBottom
                   paddingBottom={'8px'}
                   paddingRight={'8px'}
-                  paddingLeft={'16px'}
                   fontSize={'0.8rem'}
                 >
                   Cannot be changed once the page is created.
