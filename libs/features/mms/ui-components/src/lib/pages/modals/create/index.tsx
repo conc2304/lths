@@ -16,7 +16,6 @@ import {
   TextField,
   Autocomplete,
   Box,
-  FormHelperText,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
@@ -88,27 +87,25 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} paddingTop={'24px'}>
+          <Grid container spacing={2} paddingTop={1}>
             <Grid item xs={12}>
               <TextField
                 id="name"
                 label="Page name"
                 variant="outlined"
                 fullWidth
+                helperText={touched.name && errors.name}
                 error={touched.name && Boolean(errors.name)}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.name}
               />
-              {touched.name && errors.name && (
-                <FormHelperText error id="name_helper_text">
-                  {errors.name}
-                </FormHelperText>
-              )}
             </Grid>
             <Grid item xs={12}>
               <Stack spacing={1}>
-                <FormLabel id="is_variant">Is this a variant?</FormLabel>
+                <FormLabel id="is_variant" sx={{ fontWeight: '500' }}>
+                  Is this a variant?
+                </FormLabel>
                 <RadioGroup
                   name="is_variant"
                   aria-labelledby="is_variant"
@@ -131,7 +128,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
                 <Autocomplete
                   id="page_id"
                   fullWidth
-                  sx={{ width: '396px', paddingY: '8px' }}
+                  sx={{ paddingY: 1 }}
                   options={defaultPages}
                   getOptionLabel={(option) => (option ? `${option.name}` : '')}
                   renderOption={(props: HTMLAttributes<HTMLLIElement>, data) => {
@@ -147,28 +144,26 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
                         {...params}
                         error={touched.default_page_id && Boolean(errors.default_page_id)}
                         label="Variant default"
+                        helperText={touched.default_page_id && errors.default_page_id}
                         InputProps={{
                           ...params.InputProps,
-                          autoComplete: 'off', // disable autofill
+                          autoComplete: 'off',
                         }}
                       />
                     );
                   }}
                 />
               )}
-              {touched.default_page_id && errors.default_page_id && (
-                <FormHelperText error id="name_helper_text">
-                  {errors.default_page_id}
-                </FormHelperText>
-              )}
               {values.is_variant === 'yes' && (
                 <Typography
                   variant="caption"
                   display="block"
                   gutterBottom
-                  paddingBottom={'8px'}
-                  paddingRight={'8px'}
+                  paddingBottom={1}
+                  paddingRight={1}
                   fontSize={'0.8rem'}
+                  paddingLeft={1.5}
+                  marginTop={'-0.2rem'}
                 >
                   Cannot be changed once the page is created.
                 </Typography>
