@@ -22,6 +22,7 @@ import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
+import { PageDetail } from '@lths/features/mms/data-access';
 import { CreatePageRequest, useLazyGetDefaultPagesQuery } from '@lths/features/mms/data-access';
 
 type CreatePageModalProps = {
@@ -53,7 +54,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
     handleCreate(requestData);
   };
 
-  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
+  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
     initialValues: {
       name: '',
       is_variant: 'yes',
@@ -63,6 +64,15 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
     validationSchema: validationSchema,
     onSubmit: onSubmit,
   });
+
+  const getOptionLabel = (option: PageDetail) => (option ? `${option.name}` : '');
+  const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
+    return (
+      <Box component="li" {...props}>
+        <Typography>{data.name}</Typography>
+      </Box>
+    );
+  };
 
   useEffect(() => {
     getDefaultPage();
@@ -126,18 +136,12 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
             <Grid item xs={12}>
               {values.is_variant === 'yes' && (
                 <Autocomplete
-                  id="page_id"
+                  id="default_page_id"
                   fullWidth
                   sx={{ paddingY: 1 }}
                   options={defaultPages}
-                  getOptionLabel={(option) => (option ? `${option.name}` : '')}
-                  renderOption={(props: HTMLAttributes<HTMLLIElement>, data) => {
-                    return (
-                      <Box component="li" {...props}>
-                        <Typography>{data.name}</Typography>
-                      </Box>
-                    );
-                  }}
+                  getOptionLabel={getOptionLabel}
+                  renderOption={renderOption}
                   renderInput={(params) => {
                     return (
                       <TextField
@@ -152,6 +156,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
                       />
                     );
                   }}
+                  onChange={(e, item) => setFieldValue('default_page_id', item?.page_id)}
                 />
               )}
               {values.is_variant === 'yes' && (
