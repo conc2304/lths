@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, HTMLAttributes } from 'react';
 import {
   Button,
   Dialog,
@@ -6,23 +6,23 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
-  FormHelperText,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
+  FormLabel,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   Typography,
+  TextField,
+  Autocomplete,
+  Box,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
+import { PageDetail } from '@lths/features/mms/data-access';
 import { CreatePageRequest, useLazyGetDefaultPagesQuery } from '@lths/features/mms/data-access';
 
 type CreatePageModalProps = {
@@ -54,7 +54,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
     handleCreate(requestData);
   };
 
-  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting } = useFormik({
+  const { values, handleChange, handleBlur, handleSubmit, errors, touched, isSubmitting, setFieldValue } = useFormik({
     initialValues: {
       name: '',
       is_variant: 'yes',
@@ -65,6 +65,15 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
     onSubmit: onSubmit,
   });
 
+  const getOptionLabel = (option: PageDetail) => (option ? `${option.name}` : '');
+  const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
+    return (
+      <Box component="li" {...props}>
+        <Typography>{data.name}</Typography>
+      </Box>
+    );
+  };
+
   useEffect(() => {
     getDefaultPage();
   }, []);
@@ -72,8 +81,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
   return (
     <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
       <DialogTitle>
-        <Typography variant="h2">Create new page</Typography>
-        <Typography variant="body2">All text fields required unless noted.</Typography>
+        <Typography variant="h2">Create page</Typography>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -89,83 +97,94 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
       </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} paddingTop={1}>
             <Grid item xs={12}>
-              <Stack spacing={1}>
-                <InputLabel htmlFor="name">PAGE NAME</InputLabel>
-                <OutlinedInput
-                  error={touched.name && Boolean(errors.name)}
-                  fullWidth
-                  id="name"
-                  name="name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  value={values.name}
-                />
-                {touched.name && errors.name && (
-                  <FormHelperText error id="name_helper_text">
-                    {errors.name}
-                  </FormHelperText>
-                )}
-              </Stack>
+              <TextField
+                id="name"
+                label="Page name"
+                variant="outlined"
+                fullWidth
+                helperText={touched.name && errors.name}
+                error={touched.name && Boolean(errors.name)}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+              />
             </Grid>
             <Grid item xs={12}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="is_variant">IS THIS A VARIANT?</InputLabel>
-                <RadioGroup name="is_variant" id="is_variant" row value={values.is_variant} onChange={handleChange}>
+                <FormLabel id="is_variant" sx={{ fontWeight: '500' }}>
+                  Is this a variant?
+                </FormLabel>
+                <RadioGroup
+                  name="is_variant"
+                  aria-labelledby="is_variant"
+                  row
+                  value={values.is_variant}
+                  onChange={handleChange}
+                >
                   <FormControlLabel
                     value="yes"
                     control={<Radio color="primary" />}
-                    label="YES"
+                    label="Yes"
                     sx={{ marginRight: 12 }}
                   />
-                  <FormControlLabel value="no" control={<Radio color="primary" />} label="NO" />
+                  <FormControlLabel value="no" control={<Radio color="primary" />} label="No" />
                 </RadioGroup>
               </Stack>
             </Grid>
-            {values.is_variant === 'yes' && (
-              <Grid item xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor="default_page_id">VARIANT DEFAULT</InputLabel>
-                  <Select
-                    error={touched.default_page_id && Boolean(errors.default_page_id)}
-                    id="default_page_id"
-                    name="default_page_id"
-                    onChange={handleChange}
-                    value={values.default_page_id}
-                    displayEmpty
-                  >
-                    <MenuItem value="">Page selector dropdown</MenuItem>
-                    {defaultPages.map(({ page_id, name }) => (
-                      <MenuItem id={page_id} value={page_id} key={`page_${page_id}`}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {touched.default_page_id && errors.default_page_id && (
-                    <FormHelperText error id="is_variant_helper_text">
-                      {errors.default_page_id}
-                    </FormHelperText>
-                  )}
-                </Stack>
-              </Grid>
-            )}
             <Grid item xs={12}>
-              <Stack spacing={1}>
-                <InputLabel htmlFor="description">DESCRIPTION (optional)</InputLabel>
-                <OutlinedInput
+              {values.is_variant === 'yes' && (
+                <Autocomplete
+                  id="default_page_id"
                   fullWidth
-                  type="text"
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  id="description"
-                  name="description"
-                  multiline
-                  rows={4}
+                  sx={{ paddingY: 1 }}
+                  options={defaultPages}
+                  getOptionLabel={getOptionLabel}
+                  renderOption={renderOption}
+                  renderInput={(params) => {
+                    return (
+                      <TextField
+                        {...params}
+                        error={touched.default_page_id && Boolean(errors.default_page_id)}
+                        label="Variant default"
+                        helperText={touched.default_page_id && errors.default_page_id}
+                        InputProps={{
+                          ...params.InputProps,
+                          autoComplete: 'off',
+                        }}
+                      />
+                    );
+                  }}
+                  onChange={(e, item) => setFieldValue('default_page_id', item?.page_id)}
                 />
-              </Stack>
+              )}
+              {values.is_variant === 'yes' && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  gutterBottom
+                  paddingBottom={1}
+                  paddingRight={1}
+                  fontSize={'0.8rem'}
+                  paddingLeft={1.5}
+                  marginTop={'-0.2rem'}
+                >
+                  Cannot be changed once the page is created.
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="description"
+                label="Description (optional)"
+                variant="outlined"
+                fullWidth
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                rows={4}
+              />
             </Grid>
           </Grid>
         </form>
@@ -179,6 +198,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
           disabled={isSubmitting}
           variant="contained"
           type="submit"
+          color="primaryButton"
           onClick={() => handleSubmit()}
         >
           CREATE PAGE
