@@ -48,6 +48,7 @@ const HalfHeightMatchupComponent = (props: HalfHeightMatchUpComponentProps) => {
           '&:hover': {
             color: colors.editor.text,
           },
+          textTransform: 'none',
         }}
         fullWidth
         variant="outlined"

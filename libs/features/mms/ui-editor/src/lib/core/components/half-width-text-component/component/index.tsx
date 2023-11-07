@@ -8,15 +8,7 @@ import { HalfWidthTextComponentProps } from '../../types';
 const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
   const {
     __ui_id__: id,
-    data: {
-      btn_text,
-      description,
-      icon,
-      image,
-      section,
-      sub_title,
-      title,
-    },
+    data: { btn_text, description, icon, image, section, sub_title, title },
   } = props;
 
   const aspectRatio = 2 / 3;
@@ -27,17 +19,26 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
       <Stack direction="column" alignItems="center" spacing={1.5}>
         <Card sx={{ maxWidth: HALF_WIDTH_COMPONENT_WIDTH, bgcolor: colors.halfWidthText.background }}>
           <CardMedia
-            component="img" data-testid="card_image"
+            component="img"
+            data-testid="card_image"
             sx={{ width: HALF_WIDTH_COMPONENT_WIDTH, height: calculatedHeight, objectFit: 'cover' }}
             image={image}
           />
-          <CardContent sx={{ bgcolor: colors.halfWidthText.background, padding: '16px', borderColor: colors.halfWidthText.background }}>
-            <Typography sx={{ fontSize: 20, lineHeight: 1.2, fontWeight: 450, color: colors.halfWidthText.titleText }} >
+          <CardContent
+            sx={{
+              bgcolor: colors.halfWidthText.background,
+              padding: '16px',
+              borderColor: colors.halfWidthText.background,
+            }}
+          >
+            <Typography sx={{ fontSize: 20, lineHeight: 1.2, fontWeight: 450, color: colors.halfWidthText.titleText }}>
               {title}
             </Typography>
-            <Typography 
+            <Typography
               sx={{
-                fontSize: 14, lineHeight: 1.4, fontWeight: 400,
+                fontSize: 14,
+                lineHeight: 1.4,
+                fontWeight: 400,
                 marginBottom: 1,
                 color: colors.halfWidthText.subTitleText,
               }}
@@ -46,10 +47,12 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
             </Typography>
             <Typography
               variant="body2"
-              sx={{ 
-                fontSize: 14, lineHeight: 1.4, fontWeight: 400, 
+              sx={{
+                fontSize: 14,
+                lineHeight: 1.4,
+                fontWeight: 400,
                 marginBottom: 2,
-                color: colors.halfWidthText.descriptionText 
+                color: colors.halfWidthText.descriptionText,
               }}
             >
               {description}
@@ -57,14 +60,17 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0.5}>
               <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0.5}>
                 <CardMedia
-                  component="img" data-testid="section_icon"
+                  component="img"
+                  data-testid="section_icon"
                   image={icon}
                   sx={{ height: '12px', width: '12px', objectFit: 'contain' }}
                 />
                 <Typography
                   gutterBottom
                   sx={{
-                    fontSize: 14, lineHeight: 1.4, fontWeight: 400,
+                    fontSize: 14,
+                    lineHeight: 1.4,
+                    fontWeight: 400,
                     color: colors.halfWidthText.sectionText,
                   }}
                 >
@@ -79,6 +85,7 @@ const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
                   color: colors.halfWidthText.button.text,
                   padding: '10px 20px',
                   minWidth: 0,
+                  textTransform: 'none',
                 }}
               >
                 <Typography sx={{ fontSize: 14, lineHeight: 1.4, fontWeight: 500 }}>{btn_text}</Typography>
