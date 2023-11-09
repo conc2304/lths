@@ -7,7 +7,7 @@ type AlertDialogProps = {
   handleConfirm: () => void;
   title: string;
   description: string;
-  cancelText: string;
+  cancelText?: string;
   confirmText: string;
   isLoading?: boolean;
 };
@@ -31,9 +31,11 @@ export const AlertDialog = ({
         {description}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} sx={{ fontWeight: 600 }}>
-          {cancelText}
-        </Button>
+        {cancelText && (
+          <Button onClick={handleClose} sx={{ fontWeight: 600 }}>
+            {cancelText}
+          </Button>
+        )}
         <LoadingButton disabled={isLoading} loading={isLoading} onClick={handleConfirm} sx={{ fontWeight: 600 }}>
           {confirmText}
         </LoadingButton>

@@ -3,7 +3,7 @@ import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/
 import { LoadingButton } from '@mui/lab';
 import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
   PageDetail,
@@ -22,6 +22,7 @@ import {
   PageSettings,
   PageStatus,
   UnSavedPageAlert,
+  NoConstraintAlert,
   useAlertActions,
 } from '@lths/features/mms/ui-components';
 import {
@@ -44,12 +45,16 @@ const StatusChangeModalData = {
     title: 'Are you sure you want to publish this page?',
     description: 'Once you publish this page, it will be accessible by app users',
     action: 'PUBLISH NOW',
+    error: 'Failed to publish the page',
+    success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
     title: 'Are you sure you want to unpublish this page?',
     description: 'This page will no longer appear on the app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
+    error: 'Failed to unpublish the page',
+    success: 'Page has been Unpublished Successfully',
     status: PageStatus.UNPUBLISHED,
   },
 };
@@ -75,12 +80,18 @@ export function PageEditorTabs() {
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+  const [modalData, setModalData] = useState({
+    title: '',
+    description: '',
+    action: '',
+    status: '',
+    error: '',
+    success: '',
+  });
+  const [isConstraintAlertOpen, setIsConstraintAlertOpen] = useState(false);
 
   //route params
   const { pageId } = useParams();
-
-  const navigate = useNavigate();
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
@@ -184,11 +195,27 @@ export function PageEditorTabs() {
     setOpenModal(false);
   };
 
-  //api events
   const handleUpdatePageStatus = async () => {
-    await updatePageStatus({ page_id: pageId, status: modalData.status });
+    try {
+      if (modalData.status === PageStatus.PUBLISHED && page_data.default_page_id) {
+        const { events, locations, user_segments } = page_data.constraints;
+        const isConstraintsAdded = events.length > 0 || locations.length > 0 || user_segments.length > 0;
+        if (!isConstraintsAdded) {
+          setIsConstraintAlertOpen(true);
+        }
+      } else {
+        const response = await updatePageStatus({
+          page_id: pageId,
+          status: modalData.status,
+        }).unwrap();
+        initEditor(response.data);
+        toast.success(modalData.success);
+      }
+    } catch (error) {
+      console.error('Error in updating the page', error);
+      toast.error(modalData.error);
+    }
     setOpenModal(false);
-    navigate('/pages');
   };
 
   const handleUpdatePageDetails = async () => {
@@ -242,6 +269,10 @@ export function PageEditorTabs() {
       toast.error('Error in saving page details');
       console.error('Error in saving page details', error);
     }
+  };
+
+  const handleNoConstraintAlertClose = () => {
+    setIsConstraintAlertOpen(false);
   };
 
   return (
@@ -316,6 +347,11 @@ export function PageEditorTabs() {
         onCancel={confirmNavigation}
         onSave={handleSave}
         isLoading={isPageUpdating}
+      />
+      <NoConstraintAlert
+        isOpen={isConstraintAlertOpen}
+        handleConfirm={handleNoConstraintAlertClose}
+        handleClose={handleNoConstraintAlertClose}
       />
     </Box>
   );
