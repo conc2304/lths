@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FlagsProvider } from 'react-feature-flags';
 import { Provider } from 'react-redux';
-import { HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from '@lths/features/mms/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
+import { LayoutProvider } from '@lths/shared/ui-layouts';
 
 import { MMS_FEATURE_FLAGS } from './feature-flags';
 import Routes from './routes';
@@ -33,12 +33,12 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <FlagsProvider value={MMS_FEATURE_FLAGS}>
-          <HashRouter>
-            <LayoutThemeProvider>
+          <LayoutThemeProvider>
+            <LayoutProvider>
               <Routes />
-              <LayoutToaster />
-            </LayoutThemeProvider>
-          </HashRouter>
+            </LayoutProvider>
+            <LayoutToaster />
+          </LayoutThemeProvider>
         </FlagsProvider>
       </PersistGate>
     </Provider>

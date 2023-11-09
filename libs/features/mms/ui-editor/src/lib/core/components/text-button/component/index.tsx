@@ -20,6 +20,7 @@ export function TextButtonComponent(props: TextButtonProps) {
           color: colors.editor.text,
           textDecoration: 'underline',
           padding: 0,
+          textTransform: 'none',
         }}
         variant="text"
         href={btn_text}

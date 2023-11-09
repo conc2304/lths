@@ -19,7 +19,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
   const handleAccordionChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const handleAdd = () => {
     const data = {
       ...props,
@@ -30,7 +30,7 @@ export default function QuickLinksToolbar(props: QuickLinksProps) {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

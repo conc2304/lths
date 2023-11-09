@@ -39,9 +39,46 @@ export type EditorProviderProps = {
   children: ReactNode;
 };
 
+export type Location = {
+  _id: string;
+  name: string;
+  location: {
+    type: string;
+    lat: number;
+    long: number;
+    radius: number;
+    unit: string;
+    area_type: string;
+  };
+};
+
+export type UserSegment = {
+  _id: string;
+  segment_id: string;
+  name: string;
+  description: string;
+  properties: {
+    type: string;
+    value: string;
+  };
+  display_order?: number;
+};
+export type EventConstraint = Record<string, string | string[]>;
+
+export type PageConstraints = {
+  _id: string;
+  events: EventConstraint[];
+  locations: Location[];
+  user_segments: UserSegment[];
+};
+
 export type EditorProps = {
+  name?: string;
+  description?: string;
+  constraints?: PageConstraints;
   components: ComponentProps[];
   selectedComponent?: ComponentProps | null;
+  hasUnsavedEdits?: boolean;
 };
 
 export type EditorDispathProps = {

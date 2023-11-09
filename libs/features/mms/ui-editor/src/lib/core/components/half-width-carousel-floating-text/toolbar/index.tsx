@@ -19,7 +19,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
@@ -40,7 +40,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
       ...props,
       data: { sub_component_data: [...sub_component_data, { _ui_id_: uuid(), title: 'New Card' }] },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

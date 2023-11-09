@@ -9,7 +9,7 @@ export const initEditor =
   };
 export const updateExtended =
   <T extends EditorProps = EditorProps>(dispatch: Dispatch<EditorActionProps>) =>
-  (data: T) => {
+  (data: Partial<T>) => {
     dispatch({ type: EditorActionType.UPDATE_EXTENDED, data });
   };
 

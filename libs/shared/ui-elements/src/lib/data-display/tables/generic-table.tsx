@@ -6,7 +6,6 @@ import { formatCell } from './utils';
 import type { GenericTableProps } from './types';
 
 const GenericTable = ({ headers, data }: GenericTableProps) => {
-  console.log('🚀 ~ file: generic-table.tsx:9 ~ GenericTable ~ headers:', headers);
   return (
     <Table>
       <React.Fragment>

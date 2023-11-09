@@ -18,7 +18,7 @@ const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
     onPropChange,
   } = props;
   const { updateComponentProp, handleTitleChange } = useToolbarChange();
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const handleStyleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     updateComponentProp('text_size', event.target.value);
   };
@@ -33,7 +33,7 @@ const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
         linked_text: [...linked_text, { link_key: 'New Link', link_id: uuid(), action: { type: ActionType.NATIVE } }],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleRemove = (link_id: string) => {
@@ -46,7 +46,7 @@ const CenterHeadlineTextToolbar = (props: CenterHeadlineTextProps) => {
         linked_text: linked_text.filter((l) => l.link_id !== link_id),
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

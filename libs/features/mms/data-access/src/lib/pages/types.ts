@@ -81,9 +81,11 @@ export type Location = {
   };
 };
 
+export type EventConstraint = Record<string, string | string[]>;
+
 export type PageConstraints = {
   _id: string;
-  events: Array<Record<string, string>>;
+  events: EventConstraint[];
   locations: Location[];
   user_segments: UserSegment[];
 };
@@ -186,9 +188,7 @@ export type EventItem = {
   visibility: string;
 };
 
-export type EventListResponse = {
-  data: EventItem[];
-};
+export type EventListResponse = ApiResponse<EventItem[]>;
 
 export type UpdatePageStatusRequest = {
   page_id: string;

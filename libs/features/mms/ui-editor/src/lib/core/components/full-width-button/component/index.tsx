@@ -48,6 +48,7 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
             backgroundColor: { background },
             color: { color },
           },
+          textTransform: 'none',
         }}
         fullWidth
         variant={variantStyle}

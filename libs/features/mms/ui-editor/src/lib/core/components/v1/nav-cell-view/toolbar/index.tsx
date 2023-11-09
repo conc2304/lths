@@ -14,7 +14,7 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange, updateComponentProp } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -37,7 +37,7 @@ const NavCellViewToolbar = (props: NavCellViewComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   const handleIconChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {

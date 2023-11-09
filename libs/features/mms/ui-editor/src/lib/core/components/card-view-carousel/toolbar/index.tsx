@@ -19,7 +19,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
     onPropChange,
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
@@ -49,7 +49,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

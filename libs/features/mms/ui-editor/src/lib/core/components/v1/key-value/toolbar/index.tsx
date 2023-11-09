@@ -13,7 +13,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
     data: { title, desc, sub_component_data },
   } = props;
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
   const { handleTitleChange, handleDescChange, updateComponentProp } = useToolbarChange();
 
   const [expanded, setExpanded] = useState<string | false>('panel0');
@@ -38,7 +38,7 @@ const KeyValueToolbar = (props: KeyValueComponentProps) => {
         sub_component_data: [...sub_component_data, { key: 'New Key', value: 'New Value' }],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (

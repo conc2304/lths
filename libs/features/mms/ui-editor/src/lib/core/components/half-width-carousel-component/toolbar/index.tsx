@@ -21,7 +21,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
-  const { selectComponent } = useEditorActions();
+  const { updateComponent } = useEditorActions();
 
   const handleEdit = (index: number) => {
     setSelectedIndex(index);
@@ -50,7 +50,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
         ],
       },
     };
-    selectComponent(data);
+    updateComponent(data);
   };
 
   return (
