@@ -8,7 +8,7 @@ const payload = {
     style: '',
     action: {
       type: 'native',
-      page_id: 'webview',
+      page_id: 'web',
       page_url: 'https://map.com',
     },
   },
