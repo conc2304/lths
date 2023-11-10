@@ -153,7 +153,7 @@ describe('CardViewCarousel Toolbar', () => {
       const imageElement = screen.getByRole('img');
       expect(imageElement).toHaveAttribute('src', sub_component_data[index].image);
 
-      if (sub_component_data[index].action.type === 'webview') {
+      if (sub_component_data[index].action.type === 'web') {
         const actionType = screen.getByText('weblink');
         expect(actionType).toBeInTheDocument();
 

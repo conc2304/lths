@@ -60,7 +60,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
         leftItem={
           <ToolContainer id={`Carousel_${id}`} aria-label="Card View Carousel Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
-            <CarouselDraggableItemsList key={id} props={props} onEdit={onEdit} />
+            <CarouselDraggableItemsList props={props} onEdit={onEdit} />
             <div>
               <Button
                 data-testid={'Add Carousel Item'}
