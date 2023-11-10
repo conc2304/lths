@@ -44,12 +44,16 @@ const StatusChangeModalData = {
     title: 'Are you sure you want to publish this page?',
     description: 'Once you publish this page, it will be accessible by app users',
     action: 'PUBLISH NOW',
+    error: 'Failed to publish the page',
+    success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
     title: 'Are you sure you want to unpublish this page?',
     description: 'This page will no longer appear on the app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
+    error: 'Failed to unpublish the page',
+    success: 'Page has been Unpublished Successfully',
     status: PageStatus.UNPUBLISHED,
   },
 };
@@ -75,7 +79,14 @@ export function PageEditorTabs() {
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+  const [modalData, setModalData] = useState({
+    title: '',
+    description: '',
+    action: '',
+    status: '',
+    error: '',
+    success: '',
+  });
 
   //route params
   const { pageId } = useParams();
@@ -100,7 +111,6 @@ export function PageEditorTabs() {
     const response = await getPageDetail(pageId);
     if (response.isSuccess) {
       const payload = response.data;
-
       if (payload?.success && payload?.data) initEditor(payload.data);
       else toast.success('Page details could not be found');
     }
@@ -203,9 +213,22 @@ export function PageEditorTabs() {
 
   //api events
   const handleUpdatePageStatus = async () => {
-    await updatePageStatus({ page_id: pageId, status: modalData.status });
+    try {
+      const response = await updatePageStatus({
+        page_id: pageId,
+        status: modalData.status,
+      }).unwrap();
+      if (response.success && response?.data) {
+        initEditor(response.data);
+        toast.success(modalData.success);
+      } else {
+        toast.error(modalData.error);
+      }
+    } catch (error) {
+      console.error('Error in updating the page', error);
+      toast.error(modalData.error);
+    }
     setOpenModal(false);
-    navigate('/pages');
   };
 
   const handleUpdatePageDetails = async () => {

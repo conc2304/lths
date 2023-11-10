@@ -36,10 +36,10 @@ describe('Action', () => {
     expect(queryByLabelText('Page Link')).not.toBeInTheDocument();
   });
 
-  it('should render page_link when type is "webview"', () => {
+  it('should render page_link when type is "web"', () => {
     const { getByTestId, getByDisplayValue, queryByLabelText } = renderAction({
       ...mockAction,
-      type: 'webview',
+      type: 'web',
     });
 
     const typeInput = getByTestId('Action--type');
@@ -47,7 +47,7 @@ describe('Action', () => {
     fireEvent.mouseDown(typeInput);
 
     // Select native from the menu
-    const menuItem = getByDisplayValue('webview');
+    const menuItem = getByDisplayValue('web');
     fireEvent.click(menuItem);
 
     expect(queryByLabelText('Page ID')).not.toBeInTheDocument();

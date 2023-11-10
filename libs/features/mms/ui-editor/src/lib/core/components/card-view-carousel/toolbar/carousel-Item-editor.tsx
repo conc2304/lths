@@ -13,17 +13,17 @@ type CarouselItemProps = ToolbarProps & {
 };
 
 const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, onClose, index }) => {
-  const { name, image = '', action = { type: 'webview', page_id: '', page_link: '' } } = item || {};
+  const { name, image = '', action = { type: 'web', page_id: '', page_link: '' } } = item || {};
   const parentKeys = ['sub_component_data'];
   const { handleImageChange, handleNameValueChange } = useToolbarChange();
 
   const _handleNameChange = (value: string) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleNameValueChange(value, index, parentKeys);
   };
 
   const _handleImageChange = (value: string) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleImageChange(value, index, parentKeys);
   };
 

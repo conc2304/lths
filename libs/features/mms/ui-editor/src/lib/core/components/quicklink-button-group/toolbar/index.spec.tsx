@@ -26,7 +26,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
             text_color: '',
             title: 'LABEL',
             action: {
-              type: 'webview',
+              type: 'web',
               page_id: 'medical page',
               page_link: 'first aid link',
             },
@@ -37,7 +37,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
             text_color: '',
             title: 'LABEL2',
             action: {
-              type: 'webview',
+              type: 'web',
               page_id: 'report crime',
               page_link: 'local police department link',
             },
@@ -186,7 +186,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
 
   xdescribe('Test Page Link and Page Id', () => {
     test('renders QuicklinkButtonGroup Toolbar with Correct Action Option for type', () => {
-      component.data.sub_component_data[0].action.type = 'webview';
+      component.data.sub_component_data[0].action.type = 'web';
       component.data.sub_component_data[1].action.type = 'native';
 
       render(

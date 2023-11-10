@@ -6,7 +6,7 @@ export type ComponentProps = BaseProps & {
   onPropChange?: ToolbarProps['onPropChange'];
 };
 
-export type ComponentType = 'native' | 'webview';
+export type ComponentType = 'native' | 'web';
 
 export enum SourceType {
   NHL_SCHEDULE = 'NHL_Schedule',
