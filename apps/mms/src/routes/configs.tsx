@@ -7,13 +7,9 @@ import { PrivateLayout, PublicLayout } from './layouts';
 import { generateRouteConfig } from './transformer';
 import pages from '../pages/paths';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/login')));
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const ForgotPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/forgot-password')));
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const ResetPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/reset-password')));
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LoginPage = LazyLoader(lazy(() => import('../pages/auth/login-page')));
+const ForgotPasswordPage = LazyLoader(lazy(() => import('../pages/auth/forgot-password')));
+const ResetPasswordPage = LazyLoader(lazy(() => import('../pages/auth/reset-password')));
 
 export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
   return {
@@ -24,12 +20,9 @@ export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
         path: '/login',
         element: <LoginPage />,
         loader: () => {
-          console.log('redirect Auth', authenticated);
-
           return authenticated ? redirect('/') : null;
         },
       },
-      // ToDO dose this do anything
       {
         path: '/forgot-password',
         element: <ForgotPasswordPage />,
