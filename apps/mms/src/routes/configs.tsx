@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Navigate, RouteObject, redirect } from 'react-router-dom';
+import { RouteObject, redirect } from 'react-router-dom';
 
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -23,6 +23,9 @@ export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
       {
         path: '/login',
         element: <LoginPage />,
+        loader: () => {
+          return authenticated ? redirect('/') : null;
+        },
       },
       // ToDO dose this do anything
       {
