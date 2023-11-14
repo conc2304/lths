@@ -7,3 +7,4 @@ export * from './form-builder';
 export * from './form-children';
 export * from './switch';
 export * from './vertical-form-group';
+export * from './search-bar';
