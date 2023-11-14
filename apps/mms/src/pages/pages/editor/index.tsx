@@ -216,19 +216,21 @@ export function PageEditorTabs() {
   const handleUpdatePageStatus = async () => {
     try {
       if (modalData.status === PageStatus.PUBLISHED && page_data.default_page_id) {
+        console.log('modaldata.status', modalData.status);
         const { events, locations, user_segments } = page_data.constraints;
         const isConstraintsAdded = events.length > 0 || locations.length > 0 || user_segments.length > 0;
         if (!isConstraintsAdded) {
           setIsConstraintAlertOpen(true);
+          setOpenModal(false);
+          return;
         }
-      } else {
-        const response = await updatePageStatus({
-          page_id: pageId,
-          status: modalData.status,
-        }).unwrap();
-        initEditor(response.data);
-        toast.success(modalData.success);
       }
+      const response = await updatePageStatus({
+        page_id: pageId,
+        status: modalData.status,
+      }).unwrap();
+      initEditor(response.data);
+      toast.success(modalData.success);
     } catch (error) {
       console.error('Error in updating the page', error);
       toast.error(modalData.error);
