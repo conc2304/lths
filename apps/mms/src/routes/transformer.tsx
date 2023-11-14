@@ -53,6 +53,5 @@ const flattenRouteConfig = (
     }
   });
 
-  console.log({ routeConfigs });
   return routeConfigs;
 };

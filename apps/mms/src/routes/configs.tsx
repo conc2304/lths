@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject, redirect } from 'react-router-dom';
 
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -24,6 +24,8 @@ export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
         path: '/login',
         element: <LoginPage />,
         loader: () => {
+          console.log('redirect Auth', authenticated);
+
           return authenticated ? redirect('/') : null;
         },
       },
@@ -45,10 +47,7 @@ export const DashRoutes = (authenticated: boolean): RouteObject => {
 
   return {
     path: '/',
-    element: PrivateLayout,
-    loader: () => {
-      return authenticated ? null : redirect('/login');
-    },
+    element: authenticated ? PrivateLayout : <Navigate to="/login" />,
     children,
   };
 };
