@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
 
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
+import { Table, TablePaginationProps, TableSortingProps, ActionMenu, SearchBar } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
+
+type SearchParam = Record<string, string | number | null | undefined>;
 
 const headers = [
   {
@@ -51,48 +53,54 @@ const headers = [
 ];
 //TODO: Add a response type for RTK queries
 const Page = (): JSX.Element => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryParams = Object.fromEntries(searchParams.entries());
+
+  const { name, limit, offset, sort_field, sort_by } = queryParams;
+
   const navigate = useNavigate();
 
   const { openAlert } = useAlertActions();
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const req: PageItemsRequest = {};
-    if (pagination != null) {
-      req.page = pagination.page;
-      req.page_size = pagination.pageSize;
-    }
-    if (sorting != null) {
-      req.sort_key = sorting.column;
-      req.sort_order = sorting.order;
-    }
-
-    getData(req);
-  }
-
   useEffect(() => {
-    fetchData(null, undefined);
-  }, []);
+    const req: PageItemsRequest = { name, limit, offset, sort_field, sort_by };
+    getData(req);
+  }, [name, limit, offset, sort_field, sort_by]);
+
+  const updateSearchParams = (params: SearchParam) => {
+    setSearchParams((searchParams) => {
+      for (const name in params) {
+        const value = params[name];
+        if (value === null || value === undefined || value === '') searchParams.delete(name);
+        else searchParams.set(name, value.toString());
+      }
+      return searchParams;
+    });
+  };
+
+  const handleSearch = (value: string) => {
+    updateSearchParams({ name: value });
+  };
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     pagination: TablePaginationProps,
     sorting: TableSortingProps
   ) => {
-    fetchData(pagination, sorting);
-  };
-
-  const onRowsPerPageChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    fetchData(pagination, sorting);
-  };
-
-  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
-    fetchData(pagination, sorting);
+    const { column, order } = sorting;
+    const { page, pageSize } = pagination;
+    const params: SearchParam = {
+      limit: pageSize,
+      offset: page * pageSize,
+    };
+    if (column && order) {
+      params['sort_field'] = column;
+      params['sort_by'] = order;
+    }
+    updateSearchParams(params);
   };
 
   const menuOptions = (page: PageDetail) => {
@@ -194,6 +202,7 @@ const Page = (): JSX.Element => {
         sx={{ mt: 2, mb: 2 }}
       />
       <Divider />
+      <SearchBar value={name} onSearch={handleSearch} sx={{ marginY: 2 }} />
       <Table
         loading={isLoading}
         fetching={isFetching}
@@ -202,8 +211,6 @@ const Page = (): JSX.Element => {
         headerCells={headers}
         tableRows={tableRows}
         onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        onSortClick={onSortClick}
         sx={{
           mt: 4,
         }}

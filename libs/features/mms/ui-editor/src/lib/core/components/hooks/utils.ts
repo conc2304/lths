@@ -36,8 +36,8 @@ export const mergeKeys = (keys: string[]) => {
  * const updatedData1 = updateRecursive('link_key', 'data.link_text', 'abc', data, 1);
  * console.log(updatedData1.data.link_text[1].link_key === 'abc'); // Output: true
  *
- * const updatedData2 = updateRecursive('action', 'data.link_text', { type: 'webview' }, data, 1);
- * console.log(updatedData2.data.link_text[1].action.type === 'webview'); // Output: true
+ * const updatedData2 = updateRecursive('action', 'data.link_text', { type: 'web' }, data, 1);
+ * console.log(updatedData2.data.link_text[1].action.type === 'web'); // Output: true
  *
  * const updatedData3 = updateRecursive('title', 'data', 'Test Title++', data);
  * console.log(updatedData3.data.title === 'Test Title++'); // Output: true

@@ -1,7 +1,9 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, ReactNode } from 'react';
 import { Box, Button, Divider, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+
+import { colors } from '../common';
 
 type Menu = {
   id: string;
@@ -15,9 +17,13 @@ type Props = {
   buttonAction: () => void;
   items: Menu[];
   isDisabled?: boolean;
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
 };
 
-const MenuButton = ({ buttonText, buttonAction, items, isDisabled = false }: Props) => {
+const MenuButton = (props: Props) => {
+  const { buttonText, buttonAction, items, isDisabled = false, startIcon, endIcon } = props;
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -30,7 +36,7 @@ const MenuButton = ({ buttonText, buttonAction, items, isDisabled = false }: Pro
   };
 
   const stackSXProps = {
-    backgroundColor: '#007882',
+    backgroundColor: colors.menuButton.background,
     borderBottomLeftRadius: open ? 0 : 4,
     borderBottomRightRadius: open ? 0 : 4,
   };
@@ -39,6 +45,8 @@ const MenuButton = ({ buttonText, buttonAction, items, isDisabled = false }: Pro
     <Box>
       <Stack sx={stackSXProps} direction="row" borderRadius={1} alignItems="center">
         <Button
+          startIcon={startIcon}
+          endIcon={endIcon}
           onClick={() => buttonAction()}
           sx={{
             color: 'white',
@@ -63,7 +71,7 @@ const MenuButton = ({ buttonText, buttonAction, items, isDisabled = false }: Pro
         PaperProps={{
           elevation: 0,
           sx: {
-            backgroundColor: '#006169',
+            backgroundColor: colors.menuButton.paper.background,
             color: 'white',
             overflow: 'visible',
             '& .MuiList-root': {

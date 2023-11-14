@@ -1,6 +1,6 @@
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
-import { ApiResponse, PaginationRequest } from '../types';
+import { ApiResponse } from '../types';
 
 export type ComponentProps = {
   __ui_id__: string; // need to be replaced with _id or component_id in all the places
@@ -42,7 +42,13 @@ export type File = {
   domain: string;
 };
 
-export type PageItemsRequest = PaginationRequest;
+export type PageItemsRequest = {
+  name?: string;
+  limit?: string;
+  offset?: string;
+  sort_field?: string;
+  sort_by?: string;
+};
 
 export type CreatePageRequest = {
   name: string;

@@ -8,6 +8,7 @@ import { PageHeader as Header } from '@lths/shared/ui-layouts';
 
 import { PageActions } from './actions';
 import { PagesStatus } from './status';
+import PublishIcon from '../../assets/Publish.svg';
 import { PageStatus } from '../types';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   status: string;
   title: string;
   isPageUpdating: boolean;
+  lastUpdatedOn: string;
 };
 
 export const PageHeader = ({
@@ -26,6 +28,7 @@ export const PageHeader = ({
   status,
   onUpdate,
   isPageUpdating = false,
+  lastUpdatedOn,
 }: Props) => {
   const setNotificationStatusSent = () => {
     onStatusChange(PageStatus.PUBLISHED);
@@ -45,6 +48,8 @@ export const PageHeader = ({
   ];
 
   const saveBtnColor = Colors.saveButton.color;
+
+  const statusInfoText = lastUpdatedOn ? new Date(lastUpdatedOn).toLocaleDateString() : '';
 
   return (
     <Header
@@ -74,8 +79,13 @@ export const PageHeader = ({
       }
       rightContent={
         <Stack direction="row" alignItems="center" spacing={2}>
-          <PagesStatus status={status} />
-          <MenuButton buttonText="PUBLISH" buttonAction={setNotificationStatusSent} items={menuItems} />
+          <PagesStatus status={status} statusInfo={statusInfoText} />
+          <MenuButton
+            startIcon={<img src={PublishIcon} alt="publish icon" width={24} height={24} />}
+            buttonText="PUBLISH"
+            buttonAction={setNotificationStatusSent}
+            items={menuItems}
+          />
         </Stack>
       }
     />

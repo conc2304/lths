@@ -8,9 +8,10 @@ import { PageStatus } from '../../types';
 
 type Props = {
   status: string;
+  statusInfo?: string;
 };
 
-export const PagesStatus = ({ status }: Props) => {
+export const PagesStatus = ({ status, statusInfo }: Props) => {
   let src = '',
     icon: ReactNode,
     color = '';
@@ -30,5 +31,5 @@ export const PagesStatus = ({ status }: Props) => {
       break;
   }
 
-  return <Status status={status} color={color} icon={icon} imgSrc={src} />;
+  return <Status status={status} statusInfo={statusInfo} color={color} icon={icon} imgSrc={src} />;
 };

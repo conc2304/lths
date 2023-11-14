@@ -3,7 +3,7 @@ import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/
 import { LoadingButton } from '@mui/lab';
 import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
@@ -44,12 +44,16 @@ const StatusChangeModalData = {
     title: 'Are you sure you want to publish this page?',
     description: 'Once you publish this page, it will be accessible by app users',
     action: 'PUBLISH NOW',
+    error: 'Failed to publish the page',
+    success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
     title: 'Are you sure you want to unpublish this page?',
     description: 'This page will no longer appear on the app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
+    error: 'Failed to unpublish the page',
+    success: 'Page has been Unpublished Successfully',
     status: PageStatus.UNPUBLISHED,
   },
 };
@@ -75,17 +79,27 @@ export function PageEditorTabs() {
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+  const [modalData, setModalData] = useState({
+    title: '',
+    description: '',
+    action: '',
+    status: '',
+    error: '',
+    success: '',
+  });
 
   //route params
   const { pageId } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
   //fetch params
   const page_data = data as PageDetail;
+
+  const isVariantPage = page_data && page_data.default_page_id;
 
   // Breadcrumbs title
   const { setPageTitle } = useLayoutActions();
@@ -99,7 +113,6 @@ export function PageEditorTabs() {
     const response = await getPageDetail(pageId);
     if (response.isSuccess) {
       const payload = response.data;
-
       if (payload?.success && payload?.data) initEditor(payload.data);
       else toast.success('Page details could not be found');
     }
@@ -120,8 +133,24 @@ export function PageEditorTabs() {
       console.log('Failed to find component');
     }
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+    if (
+      Object.values(TabItems)
+        .map((tab) => tab.value)
+        .includes(tabParam)
+    ) {
+      setCurrentTab(tabParam);
+    } else {
+      setCurrentTab(TabItems.page_design.value);
+    }
+  }, [location]);
+
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
+    const tabURL = `${location.pathname}?tab=${newValue}`;
+    navigate(tabURL);
   };
 
   const handleCloseCompModal = () => {
@@ -186,9 +215,22 @@ export function PageEditorTabs() {
 
   //api events
   const handleUpdatePageStatus = async () => {
-    await updatePageStatus({ page_id: pageId, status: modalData.status });
+    try {
+      const response = await updatePageStatus({
+        page_id: pageId,
+        status: modalData.status,
+      }).unwrap();
+      if (response.success && response?.data) {
+        initEditor(response.data);
+        toast.success(modalData.success);
+      } else {
+        toast.error(modalData.error);
+      }
+    } catch (error) {
+      console.error('Error in updating the page', error);
+      toast.error(modalData.error);
+    }
     setOpenModal(false);
-    navigate('/pages');
   };
 
   const handleUpdatePageDetails = async () => {
@@ -253,11 +295,12 @@ export function PageEditorTabs() {
         onActionClick={handleActionClick}
         onUpdate={handleUpdatePageDetails}
         isPageUpdating={isPageUpdating}
+        lastUpdatedOn={page_data?.created_on || page_data?.updated_on}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />
+          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
           <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
@@ -272,9 +315,12 @@ export function PageEditorTabs() {
           />
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
-        <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
-          <PageConstraints />
-        </TabPanel>
+        {isVariantPage && (
+          <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
+            <PageConstraints />
+          </TabPanel>
+        )}
+
         <TabPanel value={TabItems.settings.value} currentTab={currentTab}>
           <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>
