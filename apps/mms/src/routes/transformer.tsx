@@ -15,7 +15,7 @@ export type RouteConfig = {
 export const generateRouteConfig = (pages: DrawerSectionProps[]): RouteConfig[] => {
   const routeConfigs: RouteConfig[] = [];
   //home page
-  const HomePage = LazyLoader(lazy(() => import('../pages/schedule/schedule-page')));
+  const HomePage = LazyLoader(lazy(() => import('../pages/home/index')));
   routeConfigs.push({ path: '/', element: <HomePage /> });
 
   //dynamic partial imports
@@ -53,5 +53,6 @@ const flattenRouteConfig = (
     }
   });
 
+  console.log({ routeConfigs });
   return routeConfigs;
 };

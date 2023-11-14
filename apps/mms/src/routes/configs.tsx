@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -14,7 +14,8 @@ const ForgotPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/sr
 // eslint-disable-next-line @nx/enforce-module-boundaries
 const ResetPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/reset-password')));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const AuthenticationRoutes = (authenticated: boolean) => {
+
+export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
   return {
     path: '/',
     element: PublicLayout,
@@ -36,7 +37,7 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
   };
 };
 
-export const DashRoutes = (authenticated: boolean) => {
+export const DashRoutes = (authenticated: boolean): RouteObject => {
   const children = generateRouteConfig(pages);
 
   return {
