@@ -590,6 +590,8 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
 
 export type FullHeightEventFloatingTextComponentProps = ComponentProps;
 
+export type HeroEventComponentProps = ComponentProps;
+
 export type HeroGameBoxPreGameProps = {
   show_date_text: boolean;
   show_time_text: boolean;
