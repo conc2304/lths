@@ -1,9 +1,6 @@
 export { default as UnsupportedComponent } from './unsupported/component';
 export { default as UnsupportedToolbar } from './unsupported/toolbar';
 
-export { default as ExternalDataComponent } from './external-data/component';
-export { default as ExternalDataToolbar } from './external-data/toolbar';
-
 export { default as GenericToolbar } from './generic/toolbar';
 
 export * from './hero-promotion';

@@ -15,9 +15,9 @@ const HeroEventComponent = (props: HeroEventComponentProps) => {
         <Typography sx={{ color: colors.editor.text, fontWeight: 450, textAlign: 'center' }} marginTop={1.5}>
           Title
         </Typography>
-        <Grid container justifyContent={'center'} spacing={0.5}>
+        <Grid container justifyContent={'center'} alignItems={'center'} gap={0.5}>
           <Typography sx={{ color: colors.editor.subText }}>Sat,Jan 10</Typography>
-          <FiberManualRecordIcon sx={{ color: colors.editor.subText, fontSize: '0.5rem', height: '3em' }} />
+          <FiberManualRecordIcon sx={{ color: colors.editor.subText, fontSize: '0.5rem' }} />
           <Typography sx={{ color: colors.editor.subText }}>7:00PM</Typography>
         </Grid>
       </Box>
