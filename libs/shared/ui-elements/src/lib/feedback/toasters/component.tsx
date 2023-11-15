@@ -27,16 +27,10 @@ export const LayoutToaster: React.FC = () => {
     <Toaster
       position="bottom-center"
       containerStyle={{
-        inset: '1.5rem',
+        inset: '1.5rem', // this controls the edge padding
       }}
       toastOptions={{
         duration: 4000,
-        style: {
-          maxWidth: '100%',
-          minWidth: '100%',
-          background: theme.palette.snackBar?.main || '#dfdfdf',
-          color: theme.palette.snackBar?.contrastText || '#FFF',
-        },
       }}
     >
       {(t: Toast) => (
@@ -47,9 +41,15 @@ export const LayoutToaster: React.FC = () => {
             toast={t}
             style={{
               ...t.style,
+              maxWidth: '100%',
+              minWidth: '100%',
+              background: theme.palette.snackBar?.main || '#dfdfdf',
+              color: theme.palette.snackBar?.contrastText || '#FFF',
               borderRadius: '0.25rem',
               padding: '0.375rem 1rem ',
-              animation: t.visible ? `${animEnterName} ${animTime} ease` : `${animExitName} ${animTime} ease forwards`,
+              boxShadow:
+                '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
+              animation: t.visible ? `${animEnterName} ${animTime} ease` : `${animExitName} ${animTime} ease forwards`, // forwards is needed to prevent animation end flickering
             }}
           >
             {() => {
