@@ -87,7 +87,7 @@ describe('GenericAutocomplete', () => {
                 data={options}
                 onChange={mockOnChange}
                 renderStartAdornment={
-                    (value, label) => (<div data-testId={testId}>{label}</div>)
+                    (value, label) => (<div data-testid={testId}>{label}</div>)
                 }
             />
         );
