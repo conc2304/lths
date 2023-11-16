@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { resolveValue, toast, useToaster } from 'react-hot-toast';
@@ -9,17 +9,12 @@ export const LayoutToaster = () => {
   const theme = useTheme();
   const { handlers, toasts } = useToaster();
   const { startPause, endPause, calculateOffset, updateHeight } = handlers;
+
+  // Toast Animation State
   const renderedToastsRef = useRef(new Map());
   const firstRenderTimestampRef = useRef(new Map());
   const animationCompletedRef = useRef(new Map());
-
-  const prevToastsCountRef = useRef(toasts.length);
   const previousIndicesRef = useRef(new Map());
-
-  useEffect(() => {
-    // At the end of the effect, update the previous count to the current count
-    prevToastsCountRef.current = toasts.length;
-  }, [toasts.length]);
 
   // Animation Settings
   const animEnterName = `toastEnter${Math.round(Math.random() * 100)}`;
@@ -74,12 +69,14 @@ export const LayoutToaster = () => {
           const indexToZero = isIndexDecreased && i === 0;
           previousIndicesRef.current.set(t.id, i);
 
-          const animTimeMillis = parseFloat(animTime) * (animTime.endsWith('ms') ? 1 : 1000); // Convert to milliseconds
+          // Allow the animation to finish before updating it to the next state
+          const animTimeMillis = parseFloat(animTime) * (animTime.endsWith('ms') ? 1 : 1000);
           const firstRenderTime = firstRenderTimestampRef.current.get(t.id) || 0;
           const isWithinAnimTime = millis - firstRenderTime < animTimeMillis;
           const shouldAnimateEnter =
             t.visible && isWithinAnimTime && !indexToZero && !animationCompletedRef.current.get(t.id);
 
+          // If the toast has ever completed its enter animation, it should never do it again
           // If the animation is starting, set a timeout to mark it as completed
           if (shouldAnimateEnter) {
             setTimeout(() => {
@@ -87,9 +84,9 @@ export const LayoutToaster = () => {
             }, parseFloat(animTime));
           }
           const animation =
-            i !== 0 // only 0 index has enter animation
+            i !== 0 // only first should have enter animation
               ? undefined // toast is not first - so we use the transform translateY to the next spot
-              : t.visible // is toast visible
+              : t.visible
               ? shouldAnimateEnter //  when should we stop using animation enter
                 ? `${animEnterName} ${animTime} ease`
                 : undefined // use the transform translateY
@@ -104,7 +101,7 @@ export const LayoutToaster = () => {
               sx={{
                 maxWidth: '100%',
                 minWidth: '100%',
-                background: (t.type as string) === 'important' ? 'red' : theme.palette.snackBar?.main || '#dfdfdf',
+                background: theme.palette.snackBar?.main || '#dfdfdf',
                 color: theme.palette.snackBar?.contrastText || '#FFF',
                 borderRadius: '0.25rem',
                 padding: '0.375rem 1rem ',

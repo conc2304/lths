@@ -1,6 +1,6 @@
 import toast, { ToastOptions, ValueOrFunction, Renderable, Toast } from 'react-hot-toast';
 
-type LTHSToastOptions = ToastOptions & { type?: string };
+type LTHSToastOptions = ToastOptions & { type?: 'important' | 'error' | 'success' | 'default' };
 type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: LTHSToastOptions };
 
 const queue: ToastArgs[] = [];

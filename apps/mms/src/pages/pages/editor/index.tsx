@@ -2,7 +2,6 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
-import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
@@ -33,6 +32,7 @@ import {
   AutocompleteOptionProps,
   PageAction,
 } from '@lths/features/mms/ui-editor';
+import { toastQueueService } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { ComponentModal } from '../../../components/pages/editor';
@@ -114,7 +114,7 @@ export function PageEditorTabs() {
     if (response.isSuccess) {
       const payload = response.data;
       if (payload?.success && payload?.data) initEditor(payload.data);
-      else toast.success('Page details could not be found');
+      else toastQueueService.addToastToQueue('Page details could not be found', { type: 'success' });
     }
   };
 
@@ -222,13 +222,13 @@ export function PageEditorTabs() {
       }).unwrap();
       if (response.success && response?.data) {
         initEditor(response.data);
-        toast.success(modalData.success);
+        toastQueueService.addToastToQueue(modalData.success, { type: 'success' });
       } else {
-        toast.error(modalData.error);
+        toastQueueService.addToastToQueue(modalData.error, { type: 'error' });
       }
     } catch (error) {
       console.error('Error in updating the page', error);
-      toast.error(modalData.error);
+      toastQueueService.addToastToQueue(modalData.error, { type: 'error' });
     }
     setOpenModal(false);
   };
@@ -240,13 +240,13 @@ export function PageEditorTabs() {
       const response = await updatePageDetails(updatedData).unwrap();
 
       if (response?.success) {
-        toast.success('Page details has been updated successfully');
+        toastQueueService.addToastToQueue('Page details has been updated successfully', { type: 'success' });
         initEditor(response?.data);
       } else {
-        toast.error('Failed to update the page details');
+        toastQueueService.addToastToQueue('Failed to update the page details', { type: 'error' });
       }
     } catch (error) {
-      toast.error('Failed to update the page details');
+      toastQueueService.addToastToQueue('Failed to update the page details', { type: 'error' });
       console.error('Error in updating page details', error.message);
     }
   };
@@ -281,7 +281,7 @@ export function PageEditorTabs() {
       await handleUpdatePageDetails();
       cancelNavigation();
     } catch (error) {
-      toast.error('Error in saving page details');
+      toastQueueService.addToastToQueue('Error in saving page details', { type: 'error' });
       console.error('Error in saving page details', error);
     }
   };
