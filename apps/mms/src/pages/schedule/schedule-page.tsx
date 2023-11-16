@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
+import { toastQueueService } from 'libs/shared/ui-elements/src/lib/feedback/toasters/toast-service';
 import { useToastQueue } from 'libs/shared/ui-elements/src/lib/feedback/toasters/useToastQueue';
 import { Flags } from 'react-feature-flags';
 // import toast from 'react-hot-toast';
@@ -228,7 +229,9 @@ const SchedulePage = () => {
       />
       <Button
         onClick={() => {
-          addToastToQueue(`BANANA ${clickCount}`, { id: 'banan' });
+          // addToastToQueue(`BANANA ${clickCount}`, {});
+          toastQueueService.addToastToQueue(`BANANA ${clickCount}`, {});
+
           setClickCount(clickCount + 1);
         }}
       >
