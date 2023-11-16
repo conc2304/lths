@@ -1,13 +1,15 @@
 import { Dispatch } from 'react';
 import { AnyAction, MiddlewareAPI, PayloadAction } from '@reduxjs/toolkit';
+// eslint-disable-next-line
 import toast from 'react-hot-toast';
 
+import { TOAST_DURATION } from '@lths/shared/ui-elements';
 import { hashString } from '@lths/shared/utils';
 
 import { errorToasterMiddleware } from './error-toaster-middleware'; // Replace with the actual import path
 import { MockRejectedAction, MockFulfilledAction } from './mockActions';
-
 jest.mock('react-hot-toast');
+// jest.mock('react-hot-toast');
 
 describe('errorToasterMiddleware', () => {
   let next;
@@ -27,10 +29,10 @@ describe('errorToasterMiddleware', () => {
     action = MockFulfilledAction;
     invokeMiddleware(action);
     expect(next).toHaveBeenCalledWith(action);
-    expect(toast.error).not.toHaveBeenCalled();
+    expect(toast).not.toHaveBeenCalled();
   });
 
-  it('should call toast.error with the correct id when status is 401, 403, 500', () => {
+  it('should call toast with the correct id when status is 401, 403, 500', () => {
     const errorMsgMap = {
       401: {
         id: 'unauthorized',
@@ -57,13 +59,17 @@ describe('errorToasterMiddleware', () => {
 
       const messageMatcher = new RegExp(`${msgPre}.*${errorMsg}`);
 
-      expect(toast.error).toHaveBeenCalledTimes(1);
-      expect(toast.error).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), { id: expectedId });
+      expect(toast).toHaveBeenCalledTimes(1);
+      expect(toast).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), {
+        id: expectedId,
+        type: 'important',
+        duration: TOAST_DURATION,
+      });
       jest.clearAllMocks();
     }
   });
 
-  it('should call toast.error with NO ID when the status codes are 400, 404, or fallback', () => {
+  it('should call toast with NO ID when the status codes are 400, 404, or fallback', () => {
     for (const statusCode of [400, 404, 302]) {
       const errorMsg = 'No Bueno';
       const rejectedAction = MockRejectedAction(statusCode, errorMsg);
@@ -71,8 +77,12 @@ describe('errorToasterMiddleware', () => {
 
       const messageMatcher = new RegExp(`${errorMsg}`);
 
-      expect(toast.error).toHaveBeenCalledTimes(1);
-      expect(toast.error).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), { id: undefined });
+      expect(toast).toHaveBeenCalledTimes(1);
+      expect(toast).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), {
+        id: undefined,
+        type: 'important',
+        duration: TOAST_DURATION,
+      });
       jest.clearAllMocks();
     }
   });
@@ -115,7 +125,7 @@ describe('errorToasterMiddleware', () => {
 
     const messageMatcher = new RegExp(`${errorMsg}`);
 
-    expect(toast.error).toHaveBeenCalledTimes(1);
-    expect(toast.error).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), { id: expectedId });
+    expect(toast).toHaveBeenCalledTimes(1);
+    expect(toast).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), { id: expectedId });
   });
 });
