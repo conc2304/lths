@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
+import { useToastQueue } from 'libs/shared/ui-elements/src/lib/feedback/toasters/useToastQueue';
 import { Flags } from 'react-feature-flags';
+// import toast from 'react-hot-toast';
 
 import {
   useLazyGetEventsQuery,
@@ -182,6 +184,8 @@ const SchedulePage = () => {
     console.log('handleExportEvents', values);
   };
 
+  const { addToastToQueue } = useToastQueue();
+  const [clickCount, setClickCount] = useState(0);
   return (
     <Box
       className="MMS-Schedule-Page--root"
@@ -222,6 +226,15 @@ const SchedulePage = () => {
           </Box>
         }
       />
+      <Button
+        onClick={() => {
+          addToastToQueue(`BANANA ${clickCount}`, {});
+          setClickCount(clickCount + 1);
+        }}
+      >
+        BANANA
+      </Button>
+
       <Box mb={4} width={'100%'}>
         {eventTypes && events && backgroundEvents && (
           <EventScheduler

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import { Toast, ToastBar, Toaster, resolveValue, toast } from 'react-hot-toast';
+import { Toast, ToastBar, Toaster, resolveValue, toast, useToaster } from 'react-hot-toast';
 
-export const LayoutToaster: React.FC = () => {
+export const LayoutToaster = () => {
+  const { handlers, toasts } = useToaster();
+  const { startPause, endPause, calculateOffset, updateHeight } = handlers;
+
+  const animTime = '900ms';
+
+  const TOAST_LIMIT = 1;
+  // const [visibleToasts, setVisibleToasts] = useState<Toast[]>(toasts);
+
   const theme = useTheme();
-
   const animEnterName = `toastEnter${Math.round(Math.random() * 100)}`;
   const animExitName = `toastExit${Math.round(Math.random() * 100)}`;
 
@@ -21,26 +28,39 @@ export const LayoutToaster: React.FC = () => {
       to { opacity: 0; transform: translateY(150%); }
   }`;
 
-  const animTime = '300ms';
-
   return (
-    <Toaster
-      position="bottom-center"
-      containerStyle={{
-        inset: '1.5rem', // this controls the edge padding
-      }}
-      toastOptions={{
-        duration: 4000,
+    <Box
+      data-testid="LayoutToaster--root"
+      sx={{
+        position: 'fixed',
+        zIndex: 9999,
+        inset: '1.5rem',
+        pointerEvents: 'none',
       }}
     >
-      {(t: Toast) => (
-        <Box width="100%">
-          <style>{fadeInKeyframes}</style>
-          <style>{fadeOutKeyframes}</style>
-          <ToastBar
-            toast={t}
-            style={{
-              ...t.style,
+      <style>{fadeInKeyframes}</style>
+      <style>{fadeOutKeyframes}</style>
+      {toasts.map((t, i) => {
+        const offset = calculateOffset(t, {
+          reverseOrder: false,
+          gutter: 8,
+          defaultPosition: 'top-center',
+        });
+
+        const ref = (el) => {
+          if (el && typeof t.height !== 'number') {
+            const height = el.getBoundingClientRect().height;
+            updateHeight(t.id, height);
+          }
+        };
+
+        return (
+          <Box
+            data-testid="TOASTER"
+            data-class={t.visible ? 'visible' : 'invisible'}
+            key={t.id}
+            ref={ref}
+            sx={{
               maxWidth: '100%',
               minWidth: '100%',
               background: theme.palette.snackBar?.main || '#dfdfdf',
@@ -49,44 +69,60 @@ export const LayoutToaster: React.FC = () => {
               padding: '0.375rem 1rem ',
               boxShadow:
                 '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)',
-              animation: t.visible ? `${animEnterName} ${animTime} ease` : `${animExitName} ${animTime} ease forwards`, // forwards is needed to prevent animation end flickering
+              transition: 'all 0.5s ease-out',
+              // opacity: t.visible ? 1 : 0,
+              animation:
+                i !== 0
+                  ? undefined
+                  : t.visible
+                  ? `${animEnterName} ${animTime} ease`
+                  : `${animExitName} ${animTime} ease forwards`, // forwards is needed to prevent animation end flickering
+              left: '0px',
+              right: '0px',
+              display: 'flex',
+              position: 'absolute',
+              transform: `translateY(${-offset}px)`,
+              bottom: '0px',
+              pointerEvents: 'initial',
             }}
+            // onMouseOver={() => {
+            //   startPause();
+            // }}
+            // onMouseLeave={() => {
+            //   endPause();
+            // }}
           >
-            {() => {
-              return (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="body1"
+                  sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '143%', letterSpacing: '0.01063rem' }}
                 >
-                  <Box>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '143%', letterSpacing: '0.01063rem' }}
-                    >
-                      {resolveValue(t.message, t)}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    {t.type !== 'loading' && (
-                      <IconButton
-                        onClick={() => {
-                          toast.dismiss(t.id);
-                        }}
-                      >
-                        <Close fontSize="small" htmlColor="#C4C4C4" />
-                      </IconButton>
-                    )}
-                  </Box>
-                </Box>
-              );
-            }}
-          </ToastBar>
-        </Box>
-      )}
-    </Toaster>
+                  {resolveValue(t.message, t)}
+                </Typography>
+              </Box>
+              <Box>
+                {t.type !== 'loading' && (
+                  <IconButton
+                    onClick={() => {
+                      toast.dismiss(t.id);
+                    }}
+                  >
+                    <Close fontSize="small" htmlColor="#C4C4C4" />
+                  </IconButton>
+                )}
+              </Box>
+            </Box>
+          </Box>
+        );
+      })}
+    </Box>
   );
 };
