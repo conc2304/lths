@@ -228,7 +228,7 @@ const SchedulePage = () => {
       />
       <Button
         onClick={() => {
-          addToastToQueue(`BANANA ${clickCount}`, {});
+          addToastToQueue(`BANANA ${clickCount}`, { id: 'banan' });
           setClickCount(clickCount + 1);
         }}
       >
