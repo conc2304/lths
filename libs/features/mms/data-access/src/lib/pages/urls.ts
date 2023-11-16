@@ -14,11 +14,12 @@ export const getComponentDetailUrl = (id) => {
 
 export const getPagesUrl = (req: PageItemsRequest) => {
   const params = [];
-  const { page = 0, page_size = 25, sort_key, sort_order } = req;
-  if (page != null) params.push(`offset=${page * page_size}`);
-  if (page_size != null) params.push(`limit=${page_size}`);
-  if (sort_key != null) params.push(`sort_field=${sort_key}`);
-  if (sort_order != null) params.push(`sort_by=${sort_order}`);
+  const { name, limit = 25, offset = 0, sort_field, sort_by } = req;
+  if (offset != null) params.push(`offset=${offset}`);
+  if (limit != null) params.push(`limit=${limit}`);
+  if (sort_field != null) params.push(`sort_field=${sort_field}`);
+  if (sort_by != null) params.push(`sort_by=${sort_by}`);
+  if (name != null) params.push(`name=${name}`);
 
   return `/mms/pages?${params.join('&')}`;
 };
@@ -48,6 +49,5 @@ export const getUpatePageStatusUrl = (req: UpdatePageStatusRequest) => `/mms/pag
 export const getUpdatePageDetailsUrl = (page_id: string) => `/mms/pages/${page_id}`;
 
 export const getDeletePageUrl = (req: DeletePageRequest) => `/mms/pages/${req.page_id}`;
-
 
 export const getDuplicatePageUrl = () => `/mms/pages/duplicate`;

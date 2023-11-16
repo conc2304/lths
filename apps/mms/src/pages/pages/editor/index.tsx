@@ -99,6 +99,8 @@ export function PageEditorTabs() {
   //fetch params
   const page_data = data as PageDetail;
 
+  const isVariantPage = page_data && page_data.default_page_id;
+
   // Breadcrumbs title
   const { setPageTitle } = useLayoutActions();
 
@@ -293,11 +295,12 @@ export function PageEditorTabs() {
         onActionClick={handleActionClick}
         onUpdate={handleUpdatePageDetails}
         isPageUpdating={isPageUpdating}
+        lastUpdatedOn={page_data?.created_on || page_data?.updated_on}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />
+          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
           <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
@@ -312,9 +315,12 @@ export function PageEditorTabs() {
           />
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
-        <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
-          <PageConstraints />
-        </TabPanel>
+        {isVariantPage && (
+          <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
+            <PageConstraints />
+          </TabPanel>
+        )}
+
         <TabPanel value={TabItems.settings.value} currentTab={currentTab}>
           <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>

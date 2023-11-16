@@ -5,7 +5,7 @@ import { TableTitleSkeleton } from '../../feedback/skeletons';
 import { formatString } from '../../utils/string-utils';
 
 export const TableTitleRow = (props: TableTitleProps) => {
-  const { total = 0, loading, title, onExportClick } = props;
+  const { total = 0, loading, title = '', onExportClick } = props;
 
   return loading ? (
     <TableTitleSkeleton loading={loading} />

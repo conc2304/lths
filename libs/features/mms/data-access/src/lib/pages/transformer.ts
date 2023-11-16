@@ -52,16 +52,18 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
 
 export const transformPageListResponse = (response: PageItemsResponse) => {
   const payload = response.data;
-  const transformedPayload = payload.map((item) => {
-    const { updated_on, constraints } = item;
-    const updated_on_formatted = updated_on ? convertISOStringToDateTimeFormat(updated_on) : null;
-    const constraints_formatted = formatConstraintsToReadable(constraints);
-    return {
-      ...item,
-      updated_on: updated_on_formatted,
-      constraints_formatted,
-    };
-  });
+  const transformedPayload = Array.isArray(payload)
+    ? payload.map((item) => {
+        const { updated_on, constraints } = item;
+        const updated_on_formatted = updated_on ? convertISOStringToDateTimeFormat(updated_on) : null;
+        const constraints_formatted = formatConstraintsToReadable(constraints);
+        return {
+          ...item,
+          updated_on: updated_on_formatted,
+          constraints_formatted,
+        };
+      })
+    : [];
   return {
     ...response,
     data: transformedPayload,

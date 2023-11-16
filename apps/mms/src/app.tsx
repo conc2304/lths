@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FlagsProvider } from 'react-feature-flags';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -35,7 +37,9 @@ function App() {
         <FlagsProvider value={MMS_FEATURE_FLAGS}>
           <LayoutThemeProvider>
             <LayoutProvider>
-              <Routes />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Routes />
+              </LocalizationProvider>
             </LayoutProvider>
             <LayoutToaster />
           </LayoutThemeProvider>

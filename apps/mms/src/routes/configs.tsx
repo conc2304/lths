@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteObject, redirect } from 'react-router-dom';
 
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -7,14 +7,11 @@ import { PrivateLayout, PublicLayout } from './layouts';
 import { generateRouteConfig } from './transformer';
 import pages from '../pages/paths';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const LoginPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/login')));
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const ForgotPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/forgot-password')));
-// eslint-disable-next-line @nx/enforce-module-boundaries
-const ResetPasswordPage = LazyLoader(lazy(() => import('libs/shared/ui-login/src/lib/reset-password')));
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const AuthenticationRoutes = (authenticated: boolean) => {
+const LoginPage = LazyLoader(lazy(() => import('../pages/auth/login-page')));
+const ForgotPasswordPage = LazyLoader(lazy(() => import('../pages/auth/forgot-password')));
+const ResetPasswordPage = LazyLoader(lazy(() => import('../pages/auth/reset-password')));
+
+export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
   return {
     path: '/',
     element: PublicLayout,
@@ -22,8 +19,10 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
       {
         path: '/login',
         element: <LoginPage />,
+        loader: () => {
+          return authenticated ? redirect('/') : null;
+        },
       },
-      // ToDO dose this do anything
       {
         path: '/forgot-password',
         element: <ForgotPasswordPage />,
@@ -36,7 +35,7 @@ export const AuthenticationRoutes = (authenticated: boolean) => {
   };
 };
 
-export const DashRoutes = (authenticated: boolean) => {
+export const DashRoutes = (authenticated: boolean): RouteObject => {
   const children = generateRouteConfig(pages);
 
   return {

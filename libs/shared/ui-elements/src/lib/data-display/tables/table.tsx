@@ -91,7 +91,7 @@ export const Table = (props: TableProps) => {
           width: '100%',
         }}
       >
-        {title && total && (
+        {total !== 0 && title && (
           <TableTitleRow title={title} loading={loading} total={total} onExportClick={onExportClick} />
         )}
 

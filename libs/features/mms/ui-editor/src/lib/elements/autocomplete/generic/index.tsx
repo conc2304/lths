@@ -46,7 +46,7 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
   };
 
   const selectedOption = data.find((a) => a.value === value);
-  const selectedAutocompleteOptionProps = selectedOption || { value: value };
+  const selectedAutocompleteOptionProps = selectedOption || (value ? { value: value } : null);
   return (
     <Autocomplete
       value={selectedAutocompleteOptionProps}
