@@ -1,4 +1,4 @@
-import toast, { ToastOptions, ValueOrFunction, Renderable, Toast } from 'react-hot-toast';
+import { ToastOptions, ValueOrFunction, Renderable, Toast, toast } from 'react-hot-toast';
 
 type LTHSToastOptions = ToastOptions & { type?: 'important' | 'error' | 'success' | 'default' };
 type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: LTHSToastOptions };
