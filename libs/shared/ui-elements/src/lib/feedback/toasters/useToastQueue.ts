@@ -4,6 +4,7 @@ import toast, { ToastOptions, ValueOrFunction, Renderable, Toast, useToasterStor
 type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: ToastOptions };
 export const useToastQueue = () => {
   const MAX_CONCURRENT_TOASTS = 4;
+  const DURATION = 4000;
   const [queue, setQueue] = useState<ToastArgs[]>([]);
   const { toasts } = useToasterStore();
 
@@ -20,7 +21,7 @@ export const useToastQueue = () => {
 
       setTimeout(() => {
         toastsToShow.forEach((toastItem) => {
-          toast(toastItem.message, { duration: 4000 * 3, ...toastItem.options });
+          toast(toastItem.message, { duration: DURATION, ...toastItem.options });
         });
         setQueue(remainingToasts);
       }, 1); // break the race condition of useEffect

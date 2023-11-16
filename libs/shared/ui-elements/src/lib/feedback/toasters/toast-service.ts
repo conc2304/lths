@@ -1,10 +1,11 @@
 import toast, { ToastOptions, ValueOrFunction, Renderable, Toast } from 'react-hot-toast';
 
-type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: ToastOptions };
+type LTHSToastOptions = ToastOptions & { type?: string };
+type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: LTHSToastOptions };
 
 const queue: ToastArgs[] = [];
 const activeToasts = new Set();
-const MAX_CONCURRENT_TOASTS = 4;
+const MAX_CONCURRENT_TOASTS = 3;
 const DURATION = 4000;
 
 const processQueue = () => {
@@ -27,8 +28,13 @@ const processQueue = () => {
   }, options.duration || DURATION + 1000);
 };
 
-const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: ToastOptions = {}) => {
-  queue.push({ message, options });
+const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: LTHSToastOptions = {}) => {
+  const { type } = options;
+  if (type === 'important') {
+    queue.unshift({ message, options });
+  } else {
+    queue.push({ message, options });
+  }
   processQueue();
 };
 

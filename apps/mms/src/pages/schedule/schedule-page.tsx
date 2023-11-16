@@ -237,7 +237,16 @@ const SchedulePage = () => {
       >
         BANANA
       </Button>
+      <Button
+        onClick={() => {
+          // addToastToQueue(`BANANA ${clickCount}`, {});
+          toastQueueService.addToastToQueue(`BANANA ${clickCount}`, { type: 'important' });
 
+          setClickCount(clickCount + 1);
+        }}
+      >
+        IMPORTANT
+      </Button>
       <Box mb={4} width={'100%'}>
         {eventTypes && events && backgroundEvents && (
           <EventScheduler
