@@ -22,6 +22,7 @@ import {
   PageSettings,
   PageStatus,
   UnSavedPageAlert,
+  NoConstraintAlert,
   useAlertActions,
 } from '@lths/features/mms/ui-components';
 import {
@@ -87,6 +88,7 @@ export function PageEditorTabs() {
     error: '',
     success: '',
   });
+  const [isConstraintAlertOpen, setIsConstraintAlertOpen] = useState(false);
 
   //route params
   const { pageId } = useParams();
@@ -213,19 +215,23 @@ export function PageEditorTabs() {
     setOpenModal(false);
   };
 
-  //api events
   const handleUpdatePageStatus = async () => {
     try {
+      if (modalData.status === PageStatus.PUBLISHED && page_data.default_page_id) {
+        const { events, locations, user_segments } = page_data.constraints;
+        const isConstraintsAdded = events.length > 0 || locations.length > 0 || user_segments.length > 0;
+        if (!isConstraintsAdded) {
+          setIsConstraintAlertOpen(true);
+          setOpenModal(false);
+          return;
+        }
+      }
       const response = await updatePageStatus({
         page_id: pageId,
         status: modalData.status,
       }).unwrap();
-      if (response.success && response?.data) {
-        initEditor(response.data);
-        toast.success(modalData.success);
-      } else {
-        toast.error(modalData.error);
-      }
+      initEditor(response.data);
+      toast.success(modalData.success);
     } catch (error) {
       console.error('Error in updating the page', error);
       toast.error(modalData.error);
@@ -284,6 +290,10 @@ export function PageEditorTabs() {
       toast.error('Error in saving page details');
       console.error('Error in saving page details', error);
     }
+  };
+
+  const handleNoConstraintAlertClose = () => {
+    setIsConstraintAlertOpen(false);
   };
 
   return (
@@ -362,6 +372,11 @@ export function PageEditorTabs() {
         onCancel={confirmNavigation}
         onSave={handleSave}
         isLoading={isPageUpdating}
+      />
+      <NoConstraintAlert
+        isOpen={isConstraintAlertOpen}
+        handleConfirm={handleNoConstraintAlertClose}
+        handleClose={handleNoConstraintAlertClose}
       />
     </Box>
   );
