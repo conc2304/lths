@@ -216,7 +216,6 @@ export function PageEditorTabs() {
   const handleUpdatePageStatus = async () => {
     try {
       if (modalData.status === PageStatus.PUBLISHED && page_data.default_page_id) {
-        console.log('modaldata.status', modalData.status);
         const { events, locations, user_segments } = page_data.constraints;
         const isConstraintsAdded = events.length > 0 || locations.length > 0 || user_segments.length > 0;
         if (!isConstraintsAdded) {
