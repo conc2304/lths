@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Backdrop, Box, CircularProgress } from '@mui/material';
-import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
 import {
