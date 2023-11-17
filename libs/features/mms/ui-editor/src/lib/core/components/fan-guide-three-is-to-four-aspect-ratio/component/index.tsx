@@ -1,7 +1,7 @@
-import { Typography, Card, CardMedia, Button, Stack } from '@mui/material';
+import { Typography, Card, CardMedia, Stack } from '@mui/material';
 
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import { FanGuideThreeIsToFourAspectRatioComponentProps } from '../../types';
 
 const FanGuideThreeIsToFourAspectRatioComponent = (props: FanGuideThreeIsToFourAspectRatioComponentProps) => {

@@ -1,7 +1,7 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import { PromotionOneIsToOneAspectRatioComponentProps } from '../../types';
 
 const PromotionOneIsToOneAspectRatioComponent = (props: PromotionOneIsToOneAspectRatioComponentProps) => {

@@ -1,8 +1,8 @@
-import { Typography, Card, CardContent, CardMedia, Stack, Button } from '@mui/material';
+import { Typography, Card, CardContent, CardMedia, Stack } from '@mui/material';
 
 import { HALF_WIDTH_COMPONENT_WIDTH } from '../../../../common';
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements/containers';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import { HalfWidthTextComponentProps } from '../../types';
 
 const HalfWidthTextComponent = (props: HalfWidthTextComponentProps) => {
