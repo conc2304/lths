@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { AnyAction, MiddlewareAPI, PayloadAction } from '@reduxjs/toolkit';
-// eslint-disable-next-line
+// eslint-disable-next-line no-restricted-imports
 import toast from 'react-hot-toast';
 
 import { TOAST_DURATION } from '@lths/shared/ui-elements';
@@ -9,7 +9,6 @@ import { hashString } from '@lths/shared/utils';
 import { errorToasterMiddleware } from './error-toaster-middleware'; // Replace with the actual import path
 import { MockRejectedAction, MockFulfilledAction } from './mockActions';
 jest.mock('react-hot-toast');
-// jest.mock('react-hot-toast');
 
 describe('errorToasterMiddleware', () => {
   let next;
@@ -87,7 +86,7 @@ describe('errorToasterMiddleware', () => {
     }
   });
 
-  it('should call toast.error with ID when there is a generic action error', () => {
+  it('should call toast with ID when there is a generic action error', () => {
     const errorMsg = 'No Bueno';
     const errorStatus = 'MASS FAILURE';
     const rejectedAction = {
@@ -126,6 +125,10 @@ describe('errorToasterMiddleware', () => {
     const messageMatcher = new RegExp(`${errorMsg}`);
 
     expect(toast).toHaveBeenCalledTimes(1);
-    expect(toast).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), { id: expectedId });
+    expect(toast).toHaveBeenCalledWith(expect.stringMatching(messageMatcher), {
+      id: expectedId,
+      type: 'important',
+      duration: TOAST_DURATION,
+    });
   });
 });
