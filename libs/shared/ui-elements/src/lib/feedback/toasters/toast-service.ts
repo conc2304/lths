@@ -10,6 +10,7 @@ const activeToasts = new Set();
 
 const processQueue = () => {
   if (queue.length === 0 || activeToasts.size >= MAX_CONCURRENT_TOASTS) {
+    console.log('TOO MANY TOAST');
     return;
   }
 
@@ -18,13 +19,14 @@ const processQueue = () => {
 
   const { message, options } = toastConf;
   const toastId = toast(message, { duration: TOAST_DURATION, ...options });
-
+  console.log({toastId})
   activeToasts.add(toastId);
 
   // Set a timeout to automatically remove the toast from activeToasts
   setTimeout(() => {
+    console.log('TO', message, activeToasts.size);
     activeToasts.delete(toastId);
-    processQueue(); 
+    processQueue();
   }, options.duration || TOAST_DURATION + 1000);
 };
 
@@ -46,5 +48,5 @@ export const toastQueueService = {
   addToastToQueue,
   processQueue,
   _testonly_getQueue,
-  _testonly_getActiveToasts
+  _testonly_getActiveToasts,
 };
