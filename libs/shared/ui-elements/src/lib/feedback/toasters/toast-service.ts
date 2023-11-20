@@ -19,15 +19,15 @@ const processQueue = () => {
 
   const { message, options } = toastConf;
   const toastId = toast(message, { duration: TOAST_DURATION, ...options });
-  console.log({toastId})
   activeToasts.add(toastId);
 
   // Set a timeout to automatically remove the toast from activeToasts
   setTimeout(() => {
-    console.log('TO', message, activeToasts.size);
     activeToasts.delete(toastId);
     processQueue();
-  }, options.duration || TOAST_DURATION + 1000);
+  // We add 1s bc that is how long ReactHotToast internally delays transitioning 
+  // a toast from visible to not visible to removed
+  }, options.duration || TOAST_DURATION + 1000); 
 };
 
 const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: LTHSToastOptions = {}) => {

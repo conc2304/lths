@@ -138,12 +138,13 @@ export const LayoutToaster = () => {
                     variant="body1"
                     sx={{ fontSize: '0.875rem', fontWeight: 400, lineHeight: '143%', letterSpacing: '0.01063rem' }}
                   >
-                    {resolveValue(t.message, t)}
+                    {resolveValue(t.message, t) || (t.message as string)}
                   </Typography>
                 </Box>
                 <Box>
                   {t.type !== 'loading' && (
                     <IconButton
+                      data-testid="LayoutToaster--close-btn"
                       onClick={() => {
                         toast.dismiss(t.id);
                         toastQueueService.processQueue();
