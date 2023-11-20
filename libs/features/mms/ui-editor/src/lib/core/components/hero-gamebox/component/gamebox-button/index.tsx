@@ -1,6 +1,7 @@
-import { Button, Icon, SxProps } from '@mui/material';
+import { Icon, SxProps } from '@mui/material';
 
 import { Colors } from '../../../../../common';
+import { ReadOnlyButton as Button } from '../../../../../elements'
 
 type Props = {
   btnText: string;
