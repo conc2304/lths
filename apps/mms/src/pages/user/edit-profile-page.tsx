@@ -20,7 +20,7 @@ import * as Yup from 'yup';
 
 import { selectUserId, selectUserProfileData, useAppSelector } from '@lths/features/mms/data-access';
 import { UserProfileData, useUpdateUserMutation } from '@lths/shared/data-access';
-import { CountrySelect } from '@lths/shared/ui-elements';
+import { CountrySelect, toastQueueService } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { getCountryData, validatePostalCode } from '@lths/shared/utils';
 
@@ -96,11 +96,11 @@ const EditProfilePage = () => {
     },
   });
 
-  const handleUpdateUser = (values: Partial<UserProfileData>) => {
+  const handleUpdateUser = async (values: Partial<UserProfileData>) => {
     const cleanedValues: Partial<UserProfileData> = {};
 
     Object.keys(values).forEach((key) => {
-      if (values[key] !== null && values[key] !== undefined && values[key] !== '') {
+      if (values[key] !== null && values[key] !== undefined) {
         cleanedValues[key] = values[key];
       }
     });
@@ -114,7 +114,11 @@ const EditProfilePage = () => {
       zip_code: cleanedValues.zip_code ? cleanedValues.zip_code.toString().trim() : undefined,
     };
 
-    updateUser({ userId, ...formattedValues });
+    const response = await updateUser({ userId, ...formattedValues }).unwrap();
+
+    if (response.success) {
+      toastQueueService.addToastToQueue('Profile successfully updated', { type: 'success' });
+    }
   };
 
   return (

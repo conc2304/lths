@@ -1,3 +1,5 @@
+// import { ApiResponse } from '@lths/features/mms/data-access';
+
 export type LoginResponse = {
   accessToken: string;
   user: User;
@@ -94,8 +96,4 @@ export type UserProfileData = {
   zip_code: string;
 };
 
-export type UserResponse = {
-  data: User;
-  status: string;
-  message: string;
-};
+// export type UserResponse = ApiResponse<User>;
