@@ -100,9 +100,7 @@ const EditProfilePage = () => {
     const cleanedValues: Partial<UserProfileData> = {};
 
     Object.keys(values).forEach((key) => {
-      if (values[key] !== null && values[key] !== undefined) {
-        cleanedValues[key] = values[key];
-      }
+      cleanedValues[key] = values[key] || '';
     });
 
     const formattedValues = {
