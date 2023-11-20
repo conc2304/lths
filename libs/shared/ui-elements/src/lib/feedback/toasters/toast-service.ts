@@ -24,7 +24,7 @@ const processQueue = () => {
   // Set a timeout to automatically remove the toast from activeToasts
   setTimeout(() => {
     activeToasts.delete(toastId);
-    processQueue(); // Process the next toast in the queue
+    processQueue(); 
   }, options.duration || TOAST_DURATION + 1000);
 };
 
@@ -38,7 +38,13 @@ const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: L
   processQueue();
 };
 
+// Additional functions for testing
+const _testonly_getQueue = () => queue;
+const _testonly_getActiveToasts = () => activeToasts;
+
 export const toastQueueService = {
   addToastToQueue,
   processQueue,
+  _testonly_getQueue,
+  _testonly_getActiveToasts
 };

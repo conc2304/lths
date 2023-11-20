@@ -41,7 +41,7 @@ describe('LayoutToaster', () => {
     });
   };
 
-  it('should render an toasts and dismisses them from view', () => {
+  it('should render a toasts and dismisses them from view', () => {
     const { container } = render(<LayoutToaster />);
 
     expect(container).toBeTruthy();
