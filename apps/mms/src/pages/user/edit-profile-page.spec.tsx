@@ -12,6 +12,7 @@ import thunk from 'redux-thunk';
 import * as Mms_DA from '@lths/features/mms/data-access';
 import * as Shared_DA from '@lths/shared/data-access';
 import { api } from '@lths/shared/data-access';
+import * as toastServiceModule from '@lths/shared/ui-elements';
 import { getCountryData } from '@lths/shared/utils';
 
 import EditProfilePage from './edit-profile-page';
@@ -39,9 +40,20 @@ jest.mock('mui-tel-input', () => ({
 }));
 
 describe('EditProfilePage ', () => {
+  // Module and Method mocking
   const useUpdateUserMutationMock = jest.spyOn(Shared_DA, 'useUpdateUserMutation');
   const useAppSelectorMock = jest.spyOn(Mms_DA, 'useAppSelector');
   const selectUserIdMock = jest.spyOn(Mms_DA, 'selectUserId');
+
+  const userUpdateMock = jest.fn();
+  userUpdateMock.mockImplementation(() => ({
+    unwrap: jest.fn().mockResolvedValue({ success: true }),
+  }));
+  // @ts-expect-error - this is expected
+  useUpdateUserMutationMock.mockReturnValue([userUpdateMock]);
+
+  toastServiceModule.toastQueueService.addToastToQueue = jest.fn();
+
   let store: MockStoreEnhanced;
 
   const userIdMock = '123';
@@ -116,9 +128,7 @@ describe('EditProfilePage ', () => {
 
   it('fills and submits the form correctly', async () => {
     // Arrange
-    const userUpdateMock = jest.fn();
-    // @ts-expect-error - this is expected
-    useUpdateUserMutationMock.mockReturnValue([userUpdateMock]);
+
     const user = userEvent.setup();
     const { getByLabelText, getByText, getByTestId } = renderWithWrappers(<EditProfilePage />);
 
@@ -191,6 +201,17 @@ describe('EditProfilePage ', () => {
       username: mockUsername,
       userId: userIdMock,
     });
+
+    await waitFor(() => {
+      expect(toastServiceModule.toastQueueService.addToastToQueue).toHaveBeenCalledWith(
+        'Profile successfully updated',
+        {
+          type: 'success',
+        }
+      );
+      expect(cancelButton).toBeDisabled();
+      expect(submitButton).toBeDisabled();
+    }, {});
   });
 
   describe('EditProfilePage Form Validation', () => {
