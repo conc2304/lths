@@ -73,7 +73,6 @@ const EditProfilePage = () => {
   const {
     values,
     handleChange,
-    handleReset,
     handleSubmit,
     handleBlur,
     dirty,
@@ -84,6 +83,7 @@ const EditProfilePage = () => {
     setFieldValue,
     setFieldTouched,
     validateField,
+    resetForm,
   } = useFormik({
     initialValues,
     validationSchema,
@@ -96,7 +96,7 @@ const EditProfilePage = () => {
     },
   });
 
-  const handleUpdateUser = async (values: Partial<UserProfileData>) => {
+  const handleUpdateUser = async (values: UserProfileData) => {
     const cleanedValues: Partial<UserProfileData> = {};
 
     Object.keys(values).forEach((key) => {
@@ -116,6 +116,9 @@ const EditProfilePage = () => {
 
     if (response.success) {
       toastQueueService.addToastToQueue('Profile successfully updated', { type: 'success' });
+      resetForm({ values });
+    } else {
+      // response error should be caught by the middleware
     }
   };
 
@@ -356,12 +359,7 @@ const EditProfilePage = () => {
             </Grid>
           </CardContent>
           <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-            <Button
-              sx={{ mr: 4 }}
-              disabled={!dirty}
-              onClick={() => handleReset(initialValues)}
-              aria-label="Cancel Editing"
-            >
+            <Button sx={{ mr: 4 }} disabled={!dirty} onClick={() => resetForm()} aria-label="Cancel Editing">
               CANCEL
             </Button>
             <LoadingButton
