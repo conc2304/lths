@@ -114,7 +114,6 @@ const EditProfilePage = () => {
 
     const response = await updateUser({ userId, ...formattedValues }).unwrap();
 
-    console.log({ s: response.success });
     if (response.success) {
       toastQueueService.addToastToQueue('Profile successfully updated', { type: 'success' });
       resetForm({ values });
