@@ -306,6 +306,7 @@ export function PageEditorTabs() {
         onUpdate={handleUpdatePageDetails}
         isPageUpdating={isPageUpdating}
         lastUpdatedOn={page_data?.created_on || page_data?.updated_on}
+        type={page_data?.type}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>

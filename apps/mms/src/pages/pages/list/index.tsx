@@ -104,7 +104,7 @@ const Page = (): JSX.Element => {
   };
 
   const menuOptions = (page: PageDetail) => {
-    const { page_id, name } = page;
+    const { page_id, name, type } = page;
     return [
       {
         id: PageAction.RENAME,
@@ -147,6 +147,7 @@ const Page = (): JSX.Element => {
         action: () => {
           openAlert(PageAction.DELETE, { page_id });
         },
+        hide: type === 'Pre-Defined',
       },
     ];
   };

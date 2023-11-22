@@ -7,6 +7,7 @@ type ActionMenuItem = {
   label: string;
   action: () => void;
   isDisabled?: boolean;
+  hide?: boolean;
 };
 
 type ActionMenuProps = {
@@ -31,18 +32,20 @@ const ActionMenu = ({ options }: ActionMenuProps) => {
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         {options.map((option) => {
-          const { id, label, action, isDisabled = false } = option;
+          const { id, label, action, isDisabled = false, hide = false } = option;
           return (
-            <MenuItem
-              key={id}
-              onClick={() => {
-                action();
-                handleClose();
-              }}
-              disabled={isDisabled}
-            >
-              {label}
-            </MenuItem>
+            !hide && (
+              <MenuItem
+                key={id}
+                onClick={() => {
+                  action();
+                  handleClose();
+                }}
+                disabled={isDisabled}
+              >
+                {label}
+              </MenuItem>
+            )
           );
         })}
       </Menu>

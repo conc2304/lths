@@ -62,7 +62,10 @@ export type CreatePageResponse = ApiResponse<{
   name: string;
 }>;
 
-export type PageType = 'Pre-Defined' | 'User-Defined';
+export enum PageType {
+  PreDefined = 'Pre-Defined',
+  UserDefined = 'User-Defined',
+}
 
 export type PageStatus = 'DRAFT' | 'REJECTED' | 'APPROVED' | 'PUBLISHED' | 'UNPUBLISHED';
 
