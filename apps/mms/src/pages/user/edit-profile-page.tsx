@@ -65,7 +65,8 @@ const EditProfilePage = () => {
       'valid-postal-code',
       () => `Invalid ${countryCode} Zip Code`,
       (value) => {
-        return validatePostalCode(countryCode, value);
+        // allow zipcode to be removed entirely
+        return !value || value === '' ? true : validatePostalCode(countryCode, value);
       }
     ),
   });
@@ -318,7 +319,11 @@ const EditProfilePage = () => {
                   placeholder="Zip Code"
                   inputProps={{ maxLength: 10, minLength: 5 }}
                   value={values.zip_code}
-                  onChange={handleChange}
+                  onChange={async (e) => {
+                    await setFieldValue('zip_code', e.target.value || '');
+                    await setFieldTouched('zip_code');
+                    await validateField('zip_code');
+                  }}
                   onBlur={handleBlur}
                   helperText={(touched.zip_code && errors.zip_code) || ' '}
                   color={touched.zip_code && Boolean(errors.zip_code) ? 'error' : 'primary'}
