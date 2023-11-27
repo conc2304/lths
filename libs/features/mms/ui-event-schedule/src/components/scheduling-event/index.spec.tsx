@@ -125,7 +125,7 @@ describe('SchedulingEvent', () => {
     await waitFor(() => {
       expect(mockOnEventClick).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          event: mockEvent,
+          eventId: mockEvent.id,
           popperPlacement: expect.any(String),
           anchorEl: expect.any(HTMLElement),
         })
