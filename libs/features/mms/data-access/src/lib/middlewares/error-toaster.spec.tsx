@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { TOAST_DURATION } from '@lths/shared/ui-elements';
 import { hashString } from '@lths/shared/utils';
 
-import { errorToasterMiddleware } from './error-toaster-middleware'; // Replace with the actual import path
+import { errorToasterMiddleware } from './error-toaster';
 import { MockRejectedAction, MockFulfilledAction } from './mockActions';
 jest.mock('react-hot-toast');
 
