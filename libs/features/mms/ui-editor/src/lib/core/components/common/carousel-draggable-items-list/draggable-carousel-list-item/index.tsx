@@ -26,8 +26,12 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
     onDelete && onDelete(index);
   };
 
-  const handleOnEdit = () => {
+  const handleEdit = () => {
     onEdit && onEdit(index);
+  };
+
+  const handleSave = (value: string) => {
+    handleNameValueChange(value, index, parentKeys);
   };
 
   return (
@@ -40,13 +44,13 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
           text={text || 'Carousel Item'}
           sx={{ margin: 0 }}
           textStyle={{ fontSize: 14, lineHeight: 1.43, textTransform: 'capitalize' }}
-          onSave={(value) => handleNameValueChange(value, index, parentKeys)}
+          onSave={handleSave}
         />
         <ListItemSecondaryAction sx={{ right: 0 }}>
           <IconButton onClick={handleOnDelete} size="small" aria-label="delete" data-testid={'delete_' + index}>
             <DeleteIcon sx={{ width: '20px', height: '20px' }} />
           </IconButton>
-          <IconButton data-testid={'edit_' + index} onClick={handleOnEdit} size="small" edge="end" aria-label="edit">
+          <IconButton data-testid={'edit_' + index} onClick={handleEdit} size="small" edge="end" aria-label="edit">
             <SettingsIcon sx={{ width: '20px', height: '20px' }} />
           </IconButton>
         </ListItemSecondaryAction>
