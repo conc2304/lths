@@ -48,7 +48,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     onRangeChange,
   } = props;
 
-  const [popperEvent, setPopperEvent] = useState<MMSEvent>();
+  const [popperEventId, setPopperEventId] = useState<MMSEvent | string>();
   const [popperOpen, setPopperOpen] = useState(false);
   const [popperAnchor, setPopperAnchor] = useState<HTMLElement>();
   const [popperPlacement, setPopperPlacement] = useState<PopperPlacementType>('auto');
@@ -67,6 +67,13 @@ export const EventScheduler = (props: EventSchedulerProps) => {
         : events.filter((event) => !!event.eventType && filters.includes(event.eventType.id)),
     [filters, events]
   );
+
+  const eventDetailsEvent =
+    !!popperEventId && typeof popperEventId !== 'string'
+      ? popperEventId
+      : visibileEvents.find((event) => event.id === popperEventId);
+
+  console.log({ eventDetailsEvent });
 
   const backgroundEvents = useMemo(() => {
     return !eventStatesVisible
@@ -102,15 +109,15 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   const handleEventClick = ({
-    event,
+    eventId,
     anchorEl,
     popperPlacement,
   }: {
-    event: MMSEvent;
+    eventId: string;
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
   }) => {
-    setPopperEvent(event);
+    setPopperEventId(eventId);
     setPopperPlacement(popperPlacement);
     setPopperAnchor(anchorEl);
     setPopperOpen(true);
@@ -198,7 +205,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
         })}
         headerToEventValueMap={getColumnValue}
       />
-      {!!popperEvent && (
+      {!!eventDetailsEvent && (
         <PopperWithArrow
           open={popperOpen}
           anchorEl={popperAnchor}
@@ -209,12 +216,12 @@ export const EventScheduler = (props: EventSchedulerProps) => {
             if (clickedInEvent) return;
             if (!editModalOpen) {
               setPopperOpen(false);
-              setPopperEvent(undefined);
+              setPopperEventId(undefined);
             }
           }}
         >
           <EventDetailsPopper
-            event={popperEvent}
+            event={eventDetailsEvent}
             onClose={() => setPopperOpen(false)}
             editModalOpen={editModalOpen}
             onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}

@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Navigate, RouteObject, redirect } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import { LazyLoader } from '@lths/shared/ui-layouts';
 
@@ -11,7 +11,7 @@ const LoginPage = LazyLoader(lazy(() => import('../pages/auth/login-page')));
 const ForgotPasswordPage = LazyLoader(lazy(() => import('../pages/auth/forgot-password')));
 const ResetPasswordPage = LazyLoader(lazy(() => import('../pages/auth/reset-password')));
 
-export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
+export const AuthenticationRoutes = (): RouteObject => {
   return {
     path: '/',
     element: PublicLayout,
@@ -19,9 +19,6 @@ export const AuthenticationRoutes = (authenticated: boolean): RouteObject => {
       {
         path: '/login',
         element: <LoginPage />,
-        loader: () => {
-          return authenticated ? redirect('/') : null;
-        },
       },
       {
         path: '/forgot-password',

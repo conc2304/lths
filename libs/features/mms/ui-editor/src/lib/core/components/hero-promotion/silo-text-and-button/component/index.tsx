@@ -1,7 +1,7 @@
-import { Box, Typography, CardMedia, Button, Stack } from '@mui/material';
+import { Box, Typography, CardMedia, Stack } from '@mui/material';
 
 import colors from '../../../../../common/colors';
-import { BasicContainer } from '../../../../../elements';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../../elements';
 import { SiloTextAndButtonComponentProps } from '../../../types';
 
 const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {

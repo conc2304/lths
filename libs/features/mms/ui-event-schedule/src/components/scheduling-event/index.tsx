@@ -18,11 +18,11 @@ type EventComponentProps<TEvent extends object = Event> = {
   view: LTHSView;
   eventTypes: EventType[];
   onEventClick: ({
-    event,
+    eventId,
     anchorEl,
     popperPlacement,
   }: {
-    event: MMSEvent;
+    eventId: string;
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
   }) => void;
@@ -40,6 +40,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
   const theme = useTheme();
 
   const containerRef = useRef<HTMLElement>(null);
+  const popperTargetDayRef = useRef<HTMLElement>(null);
   const popperTargetShortRef = useRef<HTMLElement>(null);
   const popperTargetOverflowRef = useRef<HTMLElement>(null);
   const popperTargetOverflows = useRef(false);
@@ -101,12 +102,17 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
     const yPos = clientY > clientHeight / 2 ? 'end' : 'start';
     const placement: PopperPlacementType = `${xPos}-${yPos}`;
 
-    onEventClick({
-      event,
-      popperPlacement: placement,
-      anchorEl: popperTargetOverflows.current
+    const anchorEl: HTMLElement =
+      view === 'day'
+        ? (popperTargetDayRef.current as HTMLElement)
+        : popperTargetOverflows.current
         ? (popperTargetOverflowRef.current as HTMLElement)
-        : (popperTargetShortRef.current as HTMLElement),
+        : (popperTargetShortRef.current as HTMLElement);
+
+    onEventClick({
+      eventId: event.id,
+      popperPlacement: placement,
+      anchorEl,
     });
   };
 
@@ -226,14 +232,20 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                       }}
                       ref={popperTargetShortRef}
                     >
-                      <Box component={'span'}>{title as string}</Box>
-                      {eventType?.id === EVENT_TYPE.GAME.toString() &&
-                        eventState === EVENT_STATE.IN_EVENT.toString() && (
-                          <Box component={'span'} px={1}>
-                            {getGameLocation(title as string) === 'Home' && <Home fontSize="small" />}
-                            {getGameLocation(title as string) === 'Away' && <FlightTakeoff fontSize="small" />}
-                          </Box>
-                        )}
+                      <Box
+                        component={'span'}
+                        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                        ref={popperTargetDayRef}
+                      >
+                        {title as string}
+                        {eventType?.id === EVENT_TYPE.GAME.toString() &&
+                          eventState === EVENT_STATE.IN_EVENT.toString() && (
+                            <Box component={'span'} px={1}>
+                              {getGameLocation(title as string) === 'Home' && <Home fontSize="small" />}
+                              {getGameLocation(title as string) === 'Away' && <FlightTakeoff fontSize="small" />}
+                            </Box>
+                          )}
+                      </Box>
                     </Box>
                   }
                 </Typography>
