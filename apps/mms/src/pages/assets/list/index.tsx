@@ -142,8 +142,8 @@ export default function AssetsPage() {
   const [search, setSearch] = React.useState('');
 
   const [triggerSearch, { data: searchResult }] = useLazySearchAssetsQuery();
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
+  const handleSearch = (value: string) => {
+    setSearch(value);
   };
 
   useEffect(() => {
@@ -336,7 +336,7 @@ export default function AssetsPage() {
       />
 
       <AssetSearchBar
-        handleSearchChange={handleSearchChange}
+        onSearch={handleSearch}
         search={search}
         isFocused={isFocused}
         handleFocus={handleFocus}

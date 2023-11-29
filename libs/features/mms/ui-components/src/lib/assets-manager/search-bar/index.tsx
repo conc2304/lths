@@ -1,34 +1,53 @@
-import React from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Grid, TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 export function AssetSearchBar({
-  handleSearchChange,
+  onSearch,
   search,
   isFocused,
   handleFocus,
   handleBlur,
+  debounceTime = 250,
 }: {
-  handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (value: string) => void;
   search: string;
   isFocused: boolean;
   handleFocus: () => void;
   handleBlur: () => void;
+  debounceTime?: number;
 }) {
+  const [inputValue, setInputValue] = useState(search || '');
+
+  useEffect(() => {
+    const debounceChangeHandler = setTimeout(() => {
+      onSearch(inputValue);
+    }, debounceTime);
+    return () => clearTimeout(debounceChangeHandler);
+  }, [inputValue]);
+
+  useEffect(() => {
+    setInputValue(search);
+  }, [search]);
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Grid container spacing={2} marginTop={'1vw'}>
       <Grid item xs={12}>
         <TextField
           fullWidth
-          onChange={handleSearchChange}
-          value={search}
+          onChange={handleChange}
+          value={inputValue}
           label="Search"
           variant="outlined"
           onFocus={handleFocus}
           onBlur={handleBlur}
           InputLabelProps={{
-            shrink: isFocused,
-            style: isFocused
+            shrink: (isFocused || !!inputValue),
+            style: (isFocused || !!inputValue)
               ? {
                   marginLeft: '10px',
                   backgroundColor: '#fff',
