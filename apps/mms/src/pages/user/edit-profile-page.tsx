@@ -41,7 +41,7 @@ const EditProfilePage = () => {
     phone_number: phone_number || '',
     date_of_birth: date_of_birth
       ? format(new Date(date_of_birth).setDate(new Date(date_of_birth).getUTCDate()), 'MM/dd/yyyy')
-      : '',
+      : null,
     city: city || '',
     country: country || null,
     zip_code: zip_code || '',
@@ -51,8 +51,8 @@ const EditProfilePage = () => {
   const maxDob = new Date();
 
   const validationSchema = Yup.object().shape({
-    first_name: Yup.string().min(2, 'Too short').required('Required'),
-    last_name: Yup.string().min(2, 'Too short').required('Required'),
+    // first_name: Yup.string().min(2, 'Too short').required('Required'),
+    // last_name: Yup.string().min(2, 'Too short').required('Required'),
     email: Yup.string().email('Invalid Email').required('Required'),
     username: Yup.string().min(6, 'Username is too short'),
     phone_number: Yup.string().test('valid-phone-number', 'Phone number is not valid', (value: string) => {
@@ -96,6 +96,8 @@ const EditProfilePage = () => {
       setSubmitting(false);
     },
   });
+
+  console.log(errors);
 
   const handleUpdateUser = async (values: UserProfileData) => {
     const cleanedValues: Partial<UserProfileData> = {};
@@ -146,7 +148,9 @@ const EditProfilePage = () => {
                     mr: '3rem',
                   }}
                 >
-                  <Typography variant="h2">{first_name.charAt(0) + ' ' + last_name.charAt(0)}</Typography>
+                  <Typography variant="h2">
+                    {first_name || last_name ? first_name.charAt(0) + ' ' + last_name.charAt(0) : '?'}
+                  </Typography>
                 </Avatar>
               </Grid>
               <Grid item xs={12} sm={12} md={9}>
@@ -237,11 +241,11 @@ const EditProfilePage = () => {
                 <DateField
                   name="date_of_birth"
                   aria-label="Date of Birth"
-                  value={new Date(values.date_of_birth)}
+                  value={values.date_of_birth ? new Date(values.date_of_birth) : null}
                   onChange={async (value) => {
                     await setFieldValue('date_of_birth', value);
-                    await setFieldTouched('date_of_birth', true);
                   }}
+                  onBlur={handleBlur}
                   fullWidth
                   slotProps={{
                     textField: {
