@@ -59,6 +59,7 @@ import {
   FullHeightEventFloatingTextComponent,
   TitleTextComponent,
   HeroGameboxComponent,
+  HorizontalSmallComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -119,6 +120,7 @@ import {
   FullHeightEventFloatingTextComponentProps,
   TitleTextComponentProps,
   HeroGameboxComponentProps,
+  HorizontalSmallComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -247,6 +249,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalSmall:
+      return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }
