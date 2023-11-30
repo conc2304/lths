@@ -34,8 +34,8 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
             {items
               .filter((item) => !item.hidden)
               .map((item, i) => {
-                const { items: subitems, title } = item;
-                const hasAccordion = !!subitems && subitems.length > 0;
+                const { items: subitems = [], title } = item;
+                const hasAccordion = subitems.filter((item) => !item.hidden).length > 0;
                 const itemId = `panel_${s}_${i}`;
                 const visible = open === itemId;
                 const selected = drawerCurrentItem === itemId || pageTitle === title;
