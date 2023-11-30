@@ -59,6 +59,7 @@ import {
   FullHeightEventFloatingTextComponent,
   TitleTextComponent,
   HeroGameboxComponent,
+  HorizontalMediumComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -119,6 +120,7 @@ import {
   FullHeightEventFloatingTextComponentProps,
   TitleTextComponentProps,
   HeroGameboxComponentProps,
+  HorizontalMediumProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -247,6 +249,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

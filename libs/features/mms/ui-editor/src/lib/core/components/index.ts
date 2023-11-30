@@ -92,6 +92,9 @@ export { default as TitleTextToolbar } from './title-text-block/toolbar';
 export { default as HeroGameboxComponent } from './hero-gamebox/component';
 export { default as HeroGameboxToolbar } from './hero-gamebox/toolbar';
 
+export { default as HorizontalMediumComponent } from './horizontal-medium/component';
+export { default as HorizontalMediumToolbar } from './horizontal-medium/toolbar';
+
 export * from './types';
 
 export * from './v1';

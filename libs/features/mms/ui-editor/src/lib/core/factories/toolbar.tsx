@@ -117,6 +117,8 @@ import {
   TitleTextComponentProps,
   HeroGameboxToolbar,
   HeroGameboxComponentProps,
+  HorizontalMediumToolbar,
+  HorizontalMediumProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -244,6 +246,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumToolbar {...(props as HorizontalMediumProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

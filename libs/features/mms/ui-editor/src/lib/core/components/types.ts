@@ -588,6 +588,14 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
   };
 };
 
+export type HorizontalMediumProps = ComponentProps & {
+  data: {
+    title: string;
+    file: string;
+    action: ActionProps;
+  };
+};
+
 export type FullHeightEventFloatingTextComponentProps = ComponentProps;
 
 export type HeroGameBoxPreGameProps = {

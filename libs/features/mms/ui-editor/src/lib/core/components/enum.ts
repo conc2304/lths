@@ -77,4 +77,5 @@ export enum Component {
   ImageHeader = 'cImageHeader',
   SegmentGroup = 'cSegmentGroup',
   TitleTextBlock = 'cTitleTextBlock',
+  HorizontalMedium = 'cHorizontalMedium',
 }
