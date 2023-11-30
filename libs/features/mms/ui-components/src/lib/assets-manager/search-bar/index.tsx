@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Grid, TextField, InputAdornment } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 export function AssetSearchBar({
@@ -35,35 +35,31 @@ export function AssetSearchBar({
   };
 
   return (
-    <Grid container spacing={2} marginTop={'1vw'}>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          onChange={handleChange}
-          value={inputValue}
-          label="Search"
-          variant="outlined"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          InputLabelProps={{
-            shrink: (isFocused || !!inputValue),
-            style: (isFocused || !!inputValue)
-              ? {
-                  marginLeft: '10px',
-                  backgroundColor: '#fff',
-                  paddingRight: '10px',
-                }
-              : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
-    </Grid>
+    <TextField
+      fullWidth
+      onChange={handleChange}
+      value={inputValue}
+      label="Search"
+      variant="outlined"
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      InputLabelProps={{
+        shrink: (isFocused || !!inputValue),
+        style: (isFocused || !!inputValue)
+          ? {
+              marginLeft: '10px',
+              backgroundColor: '#fff',
+              paddingRight: '10px',
+            }
+          : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
+      }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+    />
   );
 }

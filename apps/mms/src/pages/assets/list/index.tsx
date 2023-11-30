@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 
@@ -334,14 +334,17 @@ export default function AssetsPage() {
         }
         sx={{ mt: 2 }}
       />
-
-      <AssetSearchBar
-        onSearch={handleSearch}
-        search={search}
-        isFocused={isFocused}
-        handleFocus={handleFocus}
-        handleBlur={handleBlur}
-      />
+      <Grid container spacing={2} marginTop={'1vw'}>
+        <Grid item xs={12}>
+          <AssetSearchBar
+            onSearch={handleSearch}
+            search={search}
+            isFocused={isFocused}
+            handleFocus={handleFocus}
+            handleBlur={handleBlur}
+          />
+        </Grid>
+      </Grid>
       <Table
         loading={isLoading}
         fetching={isFetching}
