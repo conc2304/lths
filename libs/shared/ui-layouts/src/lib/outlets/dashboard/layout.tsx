@@ -36,7 +36,9 @@ export const DashboardLayout = ({
   const [paths, setPaths] = useState<BreadcrumbPathProps[]>([]);
 
   useEffect(() => {
-    setDrawerVisibility(!isMiniScreen);
+    // TODO - sets initial drawer visibility
+    // if (isMiniScreen)
+    // setDrawerVisibility(!isMiniScreen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMiniScreen]);
 

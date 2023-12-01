@@ -34,7 +34,6 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   };
 
   const handleListSectionClick = (sectionId: string, path: string) => {
-    console.log('handleListSectionClick', sectionId);
     setSelectedSection(sectionId === selectedSection ? null : sectionId);
     if (path) setDrawerSelectedItem(sectionId);
   };

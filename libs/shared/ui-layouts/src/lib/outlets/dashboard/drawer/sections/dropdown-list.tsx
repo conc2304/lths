@@ -20,19 +20,21 @@ export const NavMenuDropDownList = ({
   const visible = selectedSection === itemId;
   const selected = drawerCurrentItem === itemId || pageTitle === title;
 
-  const [componentIdGlobal, parentIdGlobal] = drawerCurrentItem.split('_');
-  const [componentIdThis, parentIdThis] = itemId.split('_');
+  const [componentIdGlobal, parentIdGlobal] = drawerCurrentItem ? drawerCurrentItem.split('_') : [null, null];
+  const [componentIdThis, parentIdThis] = itemId ? itemId.split('_') : [null, null];
 
   const [submenuOpen, setSubmenuOpen] = useState(visible);
   const [childItemIsSelected, setChildItemIsSelected] = useState(parentIdGlobal === parentIdThis);
   const { drawerVisible } = useLayoutActions();
-  console.log({ drawerCurrentItem, selected, parentIdGlobal, parentIdThis });
-  console.log({ childItemSelected: childItemIsSelected, selectedBool: parentIdGlobal === parentIdThis });
 
   useEffect(() => {
     // open the submenu everytime the drawer is reopened
     setSubmenuOpen(drawerVisible);
   }, [drawerVisible]);
+
+  useEffect(() => {
+    setChildItemIsSelected(parentIdGlobal === parentIdThis);
+  }, [drawerCurrentItem]);
 
   const handleSubmenuOpened = () => {
     setSubmenuOpen(!submenuOpen);

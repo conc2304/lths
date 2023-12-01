@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -40,7 +40,7 @@ const DrawerSectionListItem = ({
     }
   };
 
-  const handleListItemArrowClick = (event: React.MouseEvent<SVGSVGElement>) => {
+  const handleListItemArrowClick = (event: React.MouseEvent<HTMLElement>) => {
     onAccordionChange && onAccordionChange(itemId, showAccordion);
     event.stopPropagation();
     event.preventDefault();
@@ -76,13 +76,14 @@ const DrawerSectionListItem = ({
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <ListItemText primary={title} />
             {showAccordion && (
-              <ChevronRight
-                onClick={handleListItemArrowClick}
-                sx={arrowStyle}
-                role="checkbox"
-                aria-expanded={accordionExpanded ? 'true' : 'false'}
-                aria-controls={showAccordion ? `${title}-submenu` : undefined}
-              />
+              <IconButton color="inherit" onClick={handleListItemArrowClick}>
+                <ChevronRight
+                  sx={{ ...arrowStyle }}
+                  role="checkbox"
+                  aria-expanded={accordionExpanded ? 'true' : 'false'}
+                  aria-controls={showAccordion ? `${title}-submenu` : undefined}
+                />
+              </IconButton>
             )}
           </Box>
         )}
