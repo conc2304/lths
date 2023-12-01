@@ -78,4 +78,5 @@ export enum Component {
   SegmentGroup = 'cSegmentGroup',
   TitleTextBlock = 'cTitleTextBlock',
   HorizontalMedium = 'cHorizontalMedium',
+  HorizontalSmall = 'cHorizontalSmall',
 }

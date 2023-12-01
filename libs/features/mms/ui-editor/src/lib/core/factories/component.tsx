@@ -60,6 +60,7 @@ import {
   TitleTextComponent,
   HeroGameboxComponent,
   HorizontalMediumComponent,
+  HorizontalSmallComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -121,6 +122,7 @@ import {
   TitleTextComponentProps,
   HeroGameboxComponentProps,
   HorizontalMediumProps,
+  HorizontalSmallComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -251,6 +253,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
     case Component.HorizontalMedium:
       return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
+    case Component.HorizontalSmall:
+      return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

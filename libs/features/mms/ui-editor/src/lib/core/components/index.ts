@@ -95,6 +95,8 @@ export { default as HeroGameboxToolbar } from './hero-gamebox/toolbar';
 export { default as HorizontalMediumComponent } from './horizontal-medium/component';
 export { default as HorizontalMediumToolbar } from './horizontal-medium/toolbar';
 
+export { default as HorizontalSmallComponent } from './horizontal-small/component';
+export { default as HorizontalSmallToolbar } from './horizontal-small/toolbar';
 export * from './types';
 
 export * from './v1';

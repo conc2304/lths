@@ -10,7 +10,7 @@ import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common';
-import { FullHeightCarouselComponentProps } from '../../types';
+import { FullHeightCarouselComponentProps, FullHeightCarouselProps } from '../../types';
 
 //TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
 
@@ -24,17 +24,21 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
   const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedItem, setSelectedItem] = useState<FullHeightCarouselProps>();
 
   const onEdit = (index: number) => {
     setSelectedIndex(index);
+    setSelectedItem(sub_component_data[index]);
   };
+
+  useEffect(() => {
+    if(selectedIndex >= 0) setSelectedItem(sub_component_data[selectedIndex]);
+  }, [sub_component_data]);
+
   const onClose = () => {
     setSelectedIndex(-1);
   };
 
-  useEffect(() => {
-    onClose();
-  }, [id]);
 
   const onAdd = () => {
     const data = {
@@ -78,7 +82,7 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
         rightItem={
           <ToolContainer id={`Carousel_Item${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel Item">
             <CarouselItemEditor
-              item={sub_component_data[selectedIndex]}
+              item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}
