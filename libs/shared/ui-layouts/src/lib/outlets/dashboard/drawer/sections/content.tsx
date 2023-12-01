@@ -19,7 +19,7 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
     if (!drawerCurrentItem || drawerCurrentItem === '/') return;
     if (!drawerVisible) {
       prevDrawerItem.current = drawerCurrentItem;
-      const [componentId, parentId] = drawerCurrentItem.split('_');
+      const [componentId, parentId] = drawerCurrentItem.split('_'); // ie panel_1_0_2
       const newCurrentItem = `${componentId}_${parentId}_0`;
       setSelectedSection(newCurrentItem);
       setDrawerSelectedItem(newCurrentItem);
@@ -56,10 +56,8 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
                 return (
                   <NavMenuDropDownList
                     item={item}
-                    // TODO we need to make this reusable
                     itemId={`panel_${s}_${i}`}
                     pageTitle={pageTitle}
-                    // drawerCurrentItem={drawerCurrentItem}
                     selectedSection={selectedSection}
                     onItemClick={handleListItemOrSectionClick}
                     onSubSectionClick={handleListItemClick}

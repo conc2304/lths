@@ -2,30 +2,37 @@ import { useEffect, useState } from 'react';
 
 import DrawerSectionListItem from './section-item';
 import DrawerSectionSubList from './section-sub-list';
+import { DrawerSectionItemProps } from './types';
 import { useLayoutActions } from '../../../../context';
+
+type NavMenuDropDownListProps = {
+  item: DrawerSectionItemProps;
+  itemId: string;
+  pageTitle: string;
+  selectedSection: string;
+  onItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
+  onSubSectionClick: (itemId: string, collapsible: boolean, path?: string) => void;
+};
 
 export const NavMenuDropDownList = ({
   item,
   itemId,
   pageTitle,
-  // drawerCurrentItem,
   selectedSection,
   onItemClick,
   onSubSectionClick,
-}) => {
-  const { drawerCurrentItem } = useLayoutActions();
+}: NavMenuDropDownListProps) => {
+  const { drawerCurrentItem, drawerVisible } = useLayoutActions();
 
   const { items: subitems = [], title } = item;
   const hasAccordion = subitems.filter((item) => !item.hidden).length > 0;
   const visible = selectedSection === itemId;
   const selected = drawerCurrentItem === itemId || pageTitle === title;
-
-  const [componentIdGlobal, parentIdGlobal] = drawerCurrentItem ? drawerCurrentItem.split('_') : [null, null];
-  const [componentIdThis, parentIdThis] = itemId ? itemId.split('_') : [null, null];
+  const [_componentIdGlobal, parentIdGlobal] = drawerCurrentItem ? drawerCurrentItem.split('_') : [null, null];
+  const [_componentIdThis, parentIdThis] = itemId ? itemId.split('_') : [null, null];
 
   const [submenuOpen, setSubmenuOpen] = useState(visible);
   const [childItemIsSelected, setChildItemIsSelected] = useState(parentIdGlobal === parentIdThis);
-  const { drawerVisible } = useLayoutActions();
 
   useEffect(() => {
     // open the submenu everytime the drawer is reopened
