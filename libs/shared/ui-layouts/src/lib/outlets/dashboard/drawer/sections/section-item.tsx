@@ -32,7 +32,6 @@ const DrawerSectionListItem = ({
     : null;
 
   const handleListItemClick = () => {
-    console.log('handleListItemClick');
     onListItemClick(itemId, showAccordion, path);
     //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
     if (path) {
@@ -42,8 +41,6 @@ const DrawerSectionListItem = ({
   };
 
   const handleListItemArrowClick = (event: React.MouseEvent<SVGSVGElement>) => {
-    console.log('handleListItemArrowClick');
-
     onAccordionChange && onAccordionChange(itemId, showAccordion);
     event.stopPropagation();
     event.preventDefault();
@@ -80,8 +77,8 @@ const DrawerSectionListItem = ({
             <ListItemText primary={title} />
             {showAccordion && (
               <ChevronRight
-                sx={arrowStyle}
                 onClick={handleListItemArrowClick}
+                sx={arrowStyle}
                 role="checkbox"
                 aria-expanded={accordionExpanded ? 'true' : 'false'}
                 aria-controls={showAccordion ? `${title}-submenu` : undefined}
