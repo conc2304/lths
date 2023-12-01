@@ -39,7 +39,6 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   };
 
   const handleListItemOrSectionClick = (sectionId: string, collapsible: boolean, path: string) => {
-    console.log('handleListItemOrSectionClick', sectionId);
     return collapsible ? handleListSectionClick(sectionId, path) : handleListItemClick(sectionId);
   };
 

@@ -36,7 +36,6 @@ const DrawerSectionSubList = ({
                   item={subitem}
                   itemId={subitemId}
                   onListItemClick={onListItemClick}
-                  // onAccordionChange={(item, status) => console.log({ item, status })}
                   selected={selected}
                 />
               );

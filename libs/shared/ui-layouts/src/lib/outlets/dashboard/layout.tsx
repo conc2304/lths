@@ -35,13 +35,6 @@ export const DashboardLayout = ({
 
   const [paths, setPaths] = useState<BreadcrumbPathProps[]>([]);
 
-  useEffect(() => {
-    // TODO - sets initial drawer visibility
-    // if (isMiniScreen)
-    // setDrawerVisibility(!isMiniScreen);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMiniScreen]);
-
   // set media wise responsive drawer
   useEffect(() => {
     const paths = checkManualPaths(breadcrumbs, location.pathname, sections);
