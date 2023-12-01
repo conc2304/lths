@@ -118,6 +118,8 @@ import {
   HeroGameboxComponentProps,
   HeroEventToolbar,
   HeroEventComponentProps,
+  HorizontalSmallToolbar,
+  HorizontalSmallComponentProps,
 } from '../components';
 
 export const toolbarFactory = (props: ComponentProps) => {
@@ -187,7 +189,12 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.QuicklinkButtonGroup:
       return <QuicklinkButtonGroupToolbar {...(props as QuicklinkButtonGroupComponentProps)} />;
     case Component.HalfWidthCarouselFloatingText:
-      return <HalfWidthCarouselFloatingTextToolbar {...(props as HalfWidthCarouselFloatingTextComponentProps)} />;
+      return (
+        <HalfWidthCarouselFloatingTextToolbar
+          key={props.__ui_id__}
+          {...(props as HalfWidthCarouselFloatingTextComponentProps)}
+        />
+      );
     case Component.FullWidthButton:
       return <FullWidthButtonToolbar {...(props as FullWidthButtonComponentProps)} />;
     case Component.FullHeightFloatingText:
@@ -203,7 +210,7 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.FullHeightEvent:
       return <FullHeightEventToolbar {...(props as FullHeightEventComponentProps)} />;
     case Component.HalfWidthCarousel:
-      return <HalfWidthCarouselToolbar {...(props as HalfWidthCarouselComponentProps)} />;
+      return <HalfWidthCarouselToolbar key={props.__ui_id__} {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
       return <HeroEventToolbar {...(props as HeroEventComponentProps)} />;
     case Component.HeroGameBox:
@@ -211,7 +218,7 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.HalfHeightMatchup:
       return <HalfHeightMatchUpToolbar {...(props as HalfHeightMatchUpComponentProps)} />;
     case Component.FullHeightCarousel:
-      return <FullHeightCarouselToolbar {...(props as FullHeightCarouselComponentProps)} />;
+      return <FullHeightCarouselToolbar key={props.__ui_id__} {...(props as FullHeightCarouselComponentProps)} />;
     case Component.TextButton:
       return <TextButtonToolbar {...(props as TextButtonProps)} />;
     case Component.SocialIconButton:
@@ -235,9 +242,11 @@ export const toolbarFactory = (props: ComponentProps) => {
     case Component.SegmentGroup:
       return <SegmentGroupToolbar {...(props as SegmentGroupProps)} />;
     case Component.CardViewCarousel:
-      return <CardViewCarouselToolbar {...(props as CardViewCarouselComponentProps)} />;
+      return <CardViewCarouselToolbar key={props.__ui_id__} {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalSmall:
+      return <HorizontalSmallToolbar {...(props as HorizontalSmallComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

@@ -570,6 +570,13 @@ export type BodyTextComponentProps = ComponentProps & {
   };
 };
 
+export type HorizontalSmallComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    image: string;
+    action: ActionProps;
+  };
+};
 export type FullHeightEventComponentProps = ComponentProps & {
   data: {
     max_size: string;

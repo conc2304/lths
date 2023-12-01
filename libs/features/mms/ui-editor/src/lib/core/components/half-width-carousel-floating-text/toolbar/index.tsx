@@ -10,7 +10,7 @@ import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common';
-import { HalfWidthCarouselFloatingTextComponentProps } from '../../types';
+import { HalfWidthCarouselFloatingTextComponentProps, HalfWidthCarouselFloatingTextProps } from '../../types';
 
 const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTextComponentProps) => {
   const {
@@ -22,18 +22,21 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
   const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedItem, setSelectedItem] = useState<HalfWidthCarouselFloatingTextProps>();
 
   const onEdit = (index: number) => {
     setSelectedIndex(index);
+    setSelectedItem(sub_component_data[index]);
   };
+
+  useEffect(() => {
+    if(selectedIndex >= 0) setSelectedItem(sub_component_data[selectedIndex]);
+  }, [sub_component_data]);
 
   const onClose = () => {
     setSelectedIndex(-1);
   };
 
-  useEffect(() => {
-    onClose();
-  }, [id]);
 
   const onAdd = () => {
     const data = {
@@ -71,7 +74,7 @@ const HalfWidthCarouselFloatingTextToolbar = (props: HalfWidthCarouselFloatingTe
             aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item"
           >
             <CarouselItemEditor
-              item={sub_component_data[selectedIndex]}
+              item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}

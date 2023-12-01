@@ -92,6 +92,8 @@ export { default as HeroGameboxToolbar } from './hero-gamebox/toolbar';
 export { default as HeroEventComponent } from './hero-event/component';
 export { default as HeroEventToolbar } from './hero-event/toolbar';
 
+export { default as HorizontalSmallComponent } from './horizontal-small/component';
+export { default as HorizontalSmallToolbar } from './horizontal-small/toolbar';
 export * from './types';
 
 export * from './v1';
