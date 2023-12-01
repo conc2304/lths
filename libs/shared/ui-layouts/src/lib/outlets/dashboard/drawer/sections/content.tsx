@@ -7,7 +7,6 @@ import DrawerSectionSubList from './section-sub-list';
 import { LayoutDrawerContentProps } from './types';
 import { useLayoutActions } from '../../../../context';
 
-//TODO: item selection login is not solid, needs to switch it to route path
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
   const [open, setSelectedSection] = useState<string | null>(null);
 

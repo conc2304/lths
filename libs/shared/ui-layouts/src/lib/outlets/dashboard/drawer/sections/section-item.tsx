@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { Box } from '@mui/material';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useLayoutActions } from 'libs/shared/ui-layouts/src/lib/context';
 import { useNavigate } from 'react-router-dom';
 
 import SectionItemButton from './section-item-button';
@@ -17,6 +19,7 @@ const DrawerSectionListItem = ({
   sx,
 }: DrawerSectionListItemProps) => {
   const navigate = useNavigate();
+  const { drawerVisible } = useLayoutActions();
 
   const { title, icon, path } = item;
 
@@ -54,17 +57,34 @@ const DrawerSectionListItem = ({
       aria-haspopup={showAccordion ? 'true' : 'false'}
       tabIndex={selected ? 0 : undefined}
     >
-      {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
-      <ListItemText primary={title} />
-      {showAccordion && (
-        <ChevronRight
-          sx={arrowStyle}
-          onClick={handleListItemArrowClick}
-          role="checkbox"
-          aria-expanded={accordionExpanded ? 'true' : 'false'}
-          aria-controls={showAccordion ? `${title}-submenu` : undefined}
-        />
-      )}
+      <Box
+        sx={{
+          height: '32px',
+          display: 'flex',
+          justifyContent: drawerVisible ? 'initial' : 'center',
+          alignItems: 'center',
+        }}
+      >
+        {icon && (
+          <ListItemIcon sx={{ minWidth: 24, paddingRight: 1, display: 'flex', alignItems: 'center' }}>
+            {icon}
+          </ListItemIcon>
+        )}
+        {drawerVisible && (
+          <Box sx={{}}>
+            <ListItemText primary={title} />
+            {showAccordion && (
+              <ChevronRight
+                sx={arrowStyle}
+                onClick={handleListItemArrowClick}
+                role="checkbox"
+                aria-expanded={accordionExpanded ? 'true' : 'false'}
+                aria-controls={showAccordion ? `${title}-submenu` : undefined}
+              />
+            )}
+          </Box>
+        )}
+      </Box>
     </SectionItemButton>
   );
 };
