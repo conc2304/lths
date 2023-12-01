@@ -6,7 +6,7 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   '&.Mui-selected': {
-    borderRight: `2px solid ${theme.palette.secondary.contrastText}`,
+    borderRight: `2px solid ${theme.palette.primary.main}`,
     backgroundColor: theme.palette.secondary.main,
     '&:hover': {
       color: theme.palette.primary.dark,
