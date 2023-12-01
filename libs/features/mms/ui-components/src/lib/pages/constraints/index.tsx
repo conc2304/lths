@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useContainerScroll } from '@lths-mui/shared/ui-hooks';
 
 import { EventConstraint, PageDetail } from '@lths/features/mms/data-access';
 import { useEditorActions } from '@lths/features/mms/ui-editor';
@@ -7,7 +8,10 @@ import EventConstraints from './events';
 import LocationConstraints from './locations';
 import UserConstraints from './users';
 import { useEventStates, useLocations, useUpcomingEvents, useUserSegments } from '../../hooks';
+import { PAGE_CONSTRAINTS_CONTAINER, PAGE_CONTAINER_SCROLL } from '../constants';
 import { BaseContainer, InfoContainer } from '../container';
+
+import '../index.scss';
 
 export const PageConstraints = () => {
   const { data, updateExtended } = useEditorActions();
@@ -21,6 +25,8 @@ export const PageConstraints = () => {
   const { userSegments } = useUserSegments();
   const { eventStates } = useEventStates();
   const { upcomingEvents } = useUpcomingEvents();
+
+  useContainerScroll([`.${PAGE_CONSTRAINTS_CONTAINER}`], [PAGE_CONTAINER_SCROLL]);
 
   const handleSelectAllUserSegments = () => {
     updateExtended({ constraints: { ...constraints, user_segments: [] } });
@@ -57,7 +63,7 @@ export const PageConstraints = () => {
   };
 
   return (
-    <BaseContainer>
+    <BaseContainer className="page-constraints-container">
       <InfoContainer>
         This information is only required when you want the page to only display for specific event states, locations,
         and/or users.

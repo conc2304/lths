@@ -1,11 +1,15 @@
 import { ChangeEvent } from 'react';
 import { Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import { useContainerScroll } from '@lths-mui/shared/ui-hooks';
 
 import { PageDetail } from '@lths/features/mms/data-access';
 import { EditorProps } from '@lths/features/mms/ui-editor';
 
+import { PAGE_CONTAINER_SCROLL, PAGE_SETTINGS_CONTAINER } from '../constants';
 import { BaseContainer, HeaderContainer } from '../container';
 import { PageStatus } from '../types';
+
+import '../index.scss';
 
 const labelStyles = {
   color: 'black',
@@ -22,6 +26,8 @@ export const PageSettings = (props: Props) => {
   const { data, onUpdateSettings } = props;
   const { page_id, name, description, status, default_page_name } = data;
 
+  useContainerScroll([`.${PAGE_SETTINGS_CONTAINER}`], [PAGE_CONTAINER_SCROLL]);
+
   const isPublished = status === PageStatus.PUBLISHED;
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,7 +39,7 @@ export const PageSettings = (props: Props) => {
   };
 
   return (
-    <BaseContainer>
+    <BaseContainer className="page-settings-container">
       <Grid container direction="row" alignItems="stretch" marginY={3} sx={{ minHeight: '250px', gap: 15 }}>
         <Grid item xs={3}>
           <HeaderContainer
