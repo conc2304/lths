@@ -22,7 +22,6 @@ const HeaderFullScreenStyled = styled(AppBar, {
       marginLeft: fixedHeader ? 0 : DRAWER_WIDTH,
       width: fixedHeader ? '100%' : `calc(100% - ${DRAWER_WIDTH}px)`,
     }),
-    // width: 'auto',
   };
 });
 

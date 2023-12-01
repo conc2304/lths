@@ -3,16 +3,17 @@ import { Box } from '@mui/material';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useLayoutActions } from 'libs/shared/ui-layouts/src/lib/context';
 import { useNavigate } from 'react-router-dom';
 
 import SectionItemButton from './section-item-button';
 import { DrawerSectionListItemProps } from './types';
+import { useLayoutActions } from '../../../../context';
 
 const DrawerSectionListItem = ({
   item,
   selected,
   onListItemClick,
+  onAccordionChange,
   itemId,
   showAccordion,
   accordionExpanded,
@@ -31,6 +32,7 @@ const DrawerSectionListItem = ({
     : null;
 
   const handleListItemClick = () => {
+    console.log('handleListItemClick');
     onListItemClick(itemId, showAccordion, path);
     //TODO: Wrapping Link tag around icon preventing from triggering tranform styles, so the workaround is to manually navigate
     if (path) {
@@ -40,7 +42,9 @@ const DrawerSectionListItem = ({
   };
 
   const handleListItemArrowClick = (event: React.MouseEvent<SVGSVGElement>) => {
-    onListItemClick(itemId, showAccordion, path);
+    console.log('handleListItemArrowClick');
+
+    onAccordionChange && onAccordionChange(itemId, showAccordion);
     event.stopPropagation();
     event.preventDefault();
   };
@@ -59,6 +63,7 @@ const DrawerSectionListItem = ({
     >
       <Box
         sx={{
+          width: '100%',
           height: '32px',
           display: 'flex',
           justifyContent: drawerVisible ? 'initial' : 'center',
@@ -71,7 +76,7 @@ const DrawerSectionListItem = ({
           </ListItemIcon>
         )}
         {drawerVisible && (
-          <Box sx={{}}>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <ListItemText primary={title} />
             {showAccordion && (
               <ChevronRight

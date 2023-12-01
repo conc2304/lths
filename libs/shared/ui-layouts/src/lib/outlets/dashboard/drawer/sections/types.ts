@@ -53,6 +53,7 @@ export type DrawerSectionListItemProps = {
   item: DrawerSectionItemProps;
   selected: boolean;
   onListItemClick: (itemId: string, collapsible: boolean, path?: string) => void;
+  onAccordionChange?: (itemId: string, collapsible: boolean) => void;
   itemId: string;
   showAccordion?: boolean;
   accordionExpanded?: boolean;

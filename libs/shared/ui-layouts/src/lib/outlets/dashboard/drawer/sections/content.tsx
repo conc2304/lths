@@ -1,24 +1,25 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { List } from '@mui/material';
 
-import DrawerSectionListItem from './section-item';
+import { NavMenuDropDownList } from './dropdown-list';
 import DrawerSectionList from './section-list';
-import DrawerSectionSubList from './section-sub-list';
 import { LayoutDrawerContentProps } from './types';
 import { useLayoutActions } from '../../../../context';
 
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
-  const [open, setSelectedSection] = useState<string | null>(null);
-
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const { setDrawerSelectedItem, drawerCurrentItem, pageTitle } = useLayoutActions();
+
+  // on drawer close, if subsection is selected, select its parent as the highlight
   const handleListItemClick = (id: string) => {
     setDrawerSelectedItem(id);
   };
 
   const handleListSectionClick = (sectionId: string, path: string) => {
-    setSelectedSection(sectionId === open ? null : sectionId);
+    setSelectedSection(sectionId === selectedSection ? null : sectionId);
     if (path) setDrawerSelectedItem(sectionId);
   };
+
   const handleListItemOrSectionClick = (sectionId: string, collapsible: boolean, path: string) => {
     return collapsible ? handleListSectionClick(sectionId, path) : handleListItemClick(sectionId);
   };
@@ -32,34 +33,18 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
           <DrawerSectionList key={`list_section_${s}`} header={header}>
             {items
               .filter((item) => !item.hidden)
-              .map((item, i) => {
-                const { items: subitems = [], title } = item;
-                const hasAccordion = subitems.filter((item) => !item.hidden).length > 0;
-                const itemId = `panel_${s}_${i}`;
-                const visible = open === itemId;
-                const selected = drawerCurrentItem === itemId || pageTitle === title;
-
-                return (
-                  <Fragment key={`drawer_section_${s}_${i}`}>
-                    <DrawerSectionListItem
-                      item={item}
-                      itemId={itemId}
-                      onListItemClick={handleListItemOrSectionClick}
-                      selected={selected}
-                      showAccordion={hasAccordion}
-                      accordionExpanded={visible}
-                    />
-                    <DrawerSectionSubList
-                      visible={visible}
-                      selectedItemId={drawerCurrentItem}
-                      items={subitems}
-                      sectionId={itemId}
-                      sectionTitle={item.title}
-                      onListItemClick={handleListItemClick}
-                    />
-                  </Fragment>
-                );
-              })}
+              .map((item, i) => (
+                <NavMenuDropDownList
+                  item={item}
+                  itemId={`panel_${s}_${i}`}
+                  pageTitle={pageTitle}
+                  drawerCurrentItem={drawerCurrentItem}
+                  selectedSection={selectedSection}
+                  onItemClick={handleListItemOrSectionClick}
+                  onSubSectionClick={handleListItemClick}
+                  key={`drawer_section_${s}_${i}`}
+                />
+              ))}
           </DrawerSectionList>
         );
       })}
