@@ -241,6 +241,9 @@ export default function AssetsPage() {
         console.error('Invalid file type:', file.type);
       }
     }
+    // This small change resets the file input after each upload,
+    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
+    event.target.value = '';
   };
   const [getUser] = useLazyGetUserQuery();
 
