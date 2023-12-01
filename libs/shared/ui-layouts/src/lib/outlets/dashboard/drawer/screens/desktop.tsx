@@ -6,7 +6,7 @@ import { DRAWER_WIDTH } from '../../config';
 
 export const OpenedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
-
+  backgroundColor: theme.palette.sideBar.background,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -15,6 +15,7 @@ export const OpenedMixin = (theme: Theme): CSSObject => ({
 });
 
 export const ClosedMixin = (theme: Theme): CSSObject => ({
+  backgroundColor: theme.palette.sideBar.background,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -29,8 +30,11 @@ export const ClosedMixin = (theme: Theme): CSSObject => ({
 const DesktopDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
   width: DRAWER_WIDTH,
   flexShrink: 0,
+  backgroundColor: theme.palette.sideBar.background,
+  borderRight: `1px solid ${theme.palette.divider}`,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
+  boxShadow: 'none',
   ...(open && {
     ...OpenedMixin(theme),
     '& .MuiDrawer-paper': OpenedMixin(theme),
