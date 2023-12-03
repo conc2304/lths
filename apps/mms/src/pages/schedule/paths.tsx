@@ -1,4 +1,3 @@
-import { FloodSharp, SaveAlt, TocRounded } from '@mui/icons-material';
 import Today from '@mui/icons-material/Today';
 
 import { SectionItemProps } from '../../routes/types';
