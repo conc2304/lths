@@ -6,15 +6,13 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  InputAdornment,
-  TextField,
   Typography,
   useTheme,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
 
+import { AssetSearchBar } from '@lths/features/mms/ui-components';
 import { Table } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
@@ -75,8 +73,8 @@ const AssetsModal = ({
     setIsFocused(false);
   };
 
-  const handleAssetSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value);
+  const handleSearch = (value: string) => {
+    onSearch(value);
   };
 
 
@@ -106,31 +104,12 @@ const AssetsModal = ({
         </IconButton>
         <Grid container flexWrap="nowrap" marginTop={'1vw'} justifyContent="space-evenly" sx={{ padding: 1 }}>
           <Grid item xs={10}>
-            <TextField
-              fullWidth
-              onChange={handleAssetSearch}
-              value={search}
-              label="Search"
-              variant="outlined"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              InputLabelProps={{
-                shrink: isFocused,
-                style: isFocused
-                  ? {
-                      marginLeft: '10px',
-                      backgroundColor: '#fff',
-                      paddingRight: '10px',
-                    }
-                  : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
+            <AssetSearchBar
+              onSearch={handleSearch}
+              search={search}
+              isFocused={isFocused}
+              handleFocus={handleFocus}
+              handleBlur={handleBlur}
             />
           </Grid>
 

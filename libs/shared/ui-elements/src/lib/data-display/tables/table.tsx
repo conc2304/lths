@@ -17,7 +17,7 @@ import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } f
 import { TablePaginationSkeleton, TableRowSkeleton } from '../../feedback/skeletons';
 
 const DEFAULT_TABLE_PAGE_SIZE = 25;
-const DEFAULT_TABLE_PAGE = 1;
+const DEFAULT_TABLE_PAGE = 0;
 const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [25, 50, 100];
 
 export const Table = (props: TableProps) => {

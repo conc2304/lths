@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 
@@ -134,11 +134,11 @@ export default function AssetsPage() {
     handleClose();
   };
 
-  const handleSearchChange = (event) => {
+  const handleSearch = (value: string) => {
     if (currPagination) {
       setCurrPagination({ ...currPagination, page: 0 });
     }
-    setSearch({ queryString: event.target.value });
+    setSearch({ queryString: value });
   };
 
   const tableRows = data?.data?.map((row, index) => {
@@ -311,14 +311,18 @@ export default function AssetsPage() {
         }
         sx={{ mt: 2 }}
       />
+      <Grid container spacing={2} marginTop={'1vw'}>
+        <Grid item xs={12}>
+          <AssetSearchBar
+            onSearch={handleSearch}
+            search={search.queryString}
+            isFocused={isFocused}
+            handleFocus={handleFocus}
+            handleBlur={handleBlur}
+          />
+        </Grid>
+      </Grid>
 
-      <AssetSearchBar
-        handleSearchChange={handleSearchChange}
-        search={search.queryString}
-        isFocused={isFocused}
-        handleFocus={handleFocus}
-        handleBlur={handleBlur}
-      />
       <Table
         loading={isLoading}
         fetching={isFetching}
