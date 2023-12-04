@@ -15,8 +15,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useAddResourceMutation, useAppSelector } from '@lths/features/mms/data-access';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
@@ -58,14 +56,14 @@ const AssetsModal = ({
   isFetching,
   isLoading,
   total,
+  pagination,
+  sorting,
   onPageChange,
-  onFetch,
+  onUpload,
   search,
   onSearch,
 }: AssetModalProps) => {
-  const user = useAppSelector((state) => state.auth);
   const theme = useTheme();
-  const [addResource] = useAddResourceMutation();
 
   const [isFocused, setIsFocused] = React.useState(false);
 
@@ -81,32 +79,6 @@ const AssetsModal = ({
     onSearch(event.target.value);
   };
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
-
-  const handleAssetsUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
-        await handleAddAsset(file);
-        await onFetch(null, undefined);
-      } else {
-        console.error('Invalid file type:', file.type);
-      }
-    }
-  };
-
-  const [getUser] = useLazyGetUserQuery();
-
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
-
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
-    }
-  };
 
   const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
 
@@ -167,7 +139,7 @@ const AssetsModal = ({
               type="file"
               id="assets-modal-file-upload"
               style={{ display: 'none' }}
-              onChange={handleAssetsUpload}
+              onChange={onUpload}
               accept=".jpg,.jpeg,.png"
             />
             <Button
@@ -193,6 +165,8 @@ const AssetsModal = ({
             title="{0} Assets"
             headerCells={headers}
             tableRows={tableRows}
+            pagination={pagination}
+            sorting={sorting}
             onPageChange={onPageChange}
             noDataMessage="No assets"
             sx={{

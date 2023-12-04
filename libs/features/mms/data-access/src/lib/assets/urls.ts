@@ -8,8 +8,6 @@ export const getAssetsUrl = (req: AssetsRequestProps) => {
   return `/media/query?${params.join('&')}`;
 };
 
-export const searchAssetsUrl = getAssetsUrl;
-
 export const getAddAssetUrl = () => {
   return `/media`;
 };
