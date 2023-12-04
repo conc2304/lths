@@ -51,8 +51,8 @@ const EditProfilePage = () => {
   const maxDob = new Date();
 
   const validationSchema = Yup.object().shape({
-    // first_name: Yup.string().min(2, 'Too short').required('Required'),
-    // last_name: Yup.string().min(2, 'Too short').required('Required'),
+    first_name: Yup.string().min(2, 'Too short').required('Required'),
+    last_name: Yup.string().min(2, 'Too short').required('Required'),
     email: Yup.string().email('Invalid Email').required('Required'),
     username: Yup.string().min(6, 'Username is too short'),
     phone_number: Yup.string().test('valid-phone-number', 'Phone number is not valid', (value: string) => {
@@ -96,8 +96,6 @@ const EditProfilePage = () => {
       setSubmitting(false);
     },
   });
-
-  console.log(errors);
 
   const handleUpdateUser = async (values: UserProfileData) => {
     const cleanedValues: Partial<UserProfileData> = {};
