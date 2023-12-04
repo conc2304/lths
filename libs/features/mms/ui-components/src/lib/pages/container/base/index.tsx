@@ -5,10 +5,15 @@ import { colors } from '../../../common';
 
 type Props = {
   children?: ReactNode;
+  className?: string;
 };
 
 const containerStyle = { backgroundColor: colors.container.backgroundColor, padding: 16 };
 
-export const BaseContainer = ({ children }: Props) => {
-  return <Box style={containerStyle}>{children}</Box>;
+export const BaseContainer = ({ children, className }: Props) => {
+  return (
+    <Box style={containerStyle} className={className}>
+      {children}
+    </Box>
+  );
 };

@@ -111,11 +111,13 @@ const ComponentModal = ({
                   onChange={handleChange}
                 ></TextField>
               </Box>
-              <CategorySection
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-              />
+              <Box sx={{ maxHeight: 'calc(80vh - 120px)', overflowY: 'auto' }}>
+                <CategorySection
+                  categories={categories}
+                  selectedCategory={selectedCategory}
+                  onSelectCategory={setSelectedCategory}
+                />
+              </Box>
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ height: '40rem', padding: 0 }} />

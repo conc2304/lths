@@ -570,6 +570,13 @@ export type BodyTextComponentProps = ComponentProps & {
   };
 };
 
+export type HorizontalSmallComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    image: string;
+    action: ActionProps;
+  };
+};
 export type FullHeightEventComponentProps = ComponentProps & {
   data: {
     max_size: string;
@@ -585,6 +592,14 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
     title: string;
     btn_text: string;
     source_type: SourceType;
+  };
+};
+
+export type HorizontalMediumProps = ComponentProps & {
+  data: {
+    title: string;
+    file: string;
+    action: ActionProps;
   };
 };
 

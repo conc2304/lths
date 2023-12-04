@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   LinearProgress,
@@ -17,7 +17,7 @@ import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } f
 import { TablePaginationSkeleton, TableRowSkeleton } from '../../feedback/skeletons';
 
 const DEFAULT_TABLE_PAGE_SIZE = 25;
-const DEFAULT_TABLE_PAGE = 1;
+const DEFAULT_TABLE_PAGE = 0;
 const DEFAULT_TABLE_PAGE_SIZE_OPTIONS = [25, 50, 100];
 
 export const Table = (props: TableProps) => {
@@ -42,10 +42,28 @@ export const Table = (props: TableProps) => {
     pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
   });
 
+  useEffect(() => {
+    if(page){
+      setPagination({
+        page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
+        pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
+      })
+    }
+  }, [page]);
+
   const [sorting, setSorting] = useState<TableSortingProps>({
     column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
     order: (sort != null && sort.order) || 'desc',
   });
+
+  useEffect(() => {
+    if(sort) {
+      setSorting({
+        column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
+        order: (sort != null && sort.order) || 'desc',
+      })
+    }
+  }, [sort]);
 
   const handleSortClick = (column: string) => {
     const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'desc';

@@ -46,12 +46,17 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
       const {
         data: { components, ...rest },
       } = action;
+
+      const selectedIndex = state.selectedComponent
+        ? state.components.findIndex((o) => o.__ui_id__ === state.selectedComponent.__ui_id__)
+        : -1;
       const initialComponents = initComponents(components);
+      const activeComponent = selectedIndex !== -1 ? initialComponents[selectedIndex] : initialComponents[0];
       return {
         ...state,
         ...rest,
         components: initialComponents,
-        selectedComponent: initialComponents?.length > 0 ? initialComponents[0] : null,
+        selectedComponent: { ...activeComponent },
         hasUnsavedEdits: false,
       };
     }
