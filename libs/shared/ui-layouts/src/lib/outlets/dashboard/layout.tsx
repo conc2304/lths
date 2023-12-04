@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -18,10 +18,7 @@ export const DashboardLayout = ({
   fixedHeader,
   drawerIcon,
 }: LayoutExtendedProps) => {
-  const theme = useTheme();
-  const isMiniScreen = useMediaQuery(theme.breakpoints.down('xl'));
-
-  const { setDrawerVisibility, setPageTitle, breadcrumbs, pageTitle } = useLayoutActions();
+  const { setPageTitle, breadcrumbs, pageTitle } = useLayoutActions();
   const location = useLocation();
 
   const checkManualPaths = (
