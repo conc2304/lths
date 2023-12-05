@@ -1,10 +1,9 @@
-import HomeIcon from '@mui/icons-material/Home';
-
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 const Home = {
   items: [
     {
       title: 'Home',
-      icon: <HomeIcon />,
+      icon: <HomeOutlinedIcon />,
       path: '/',
     },
   ],

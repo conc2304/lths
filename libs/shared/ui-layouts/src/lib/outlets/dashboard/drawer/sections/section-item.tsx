@@ -63,18 +63,19 @@ const DrawerSectionListItem = ({
           width: '100%',
           height: '32px',
           display: 'flex',
-          justifyContent: drawerVisible ? 'initial' : 'center',
+          justifyContent: 'start',
           alignItems: 'center',
         }}
       >
         {icon && (
-          <ListItemIcon sx={{ minWidth: 24, paddingRight: 1, display: 'flex', alignItems: 'center' }}>
+          <ListItemIcon color="red" sx={{ minWidth: 24, display: 'flex', alignItems: 'center' }}>
             {icon}
           </ListItemIcon>
         )}
+
         {drawerVisible && (
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <ListItemText primary={title} />
+            <ListItemText primary={title} sx={{ paddingLeft: 1 }} />
             {showAccordion && (
               <IconButton color="inherit" onClick={handleListItemArrowClick}>
                 <ChevronRight

@@ -1,4 +1,4 @@
-import PagesIcon from '@mui/icons-material/DocumentScanner';
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import FlowIcon from '@mui/icons-material/Schema';
 
 import { SectionItemProps } from '../../routes/types';
@@ -7,7 +7,7 @@ const section: SectionItemProps = {
   items: [
     {
       title: 'Pages',
-      icon: <PagesIcon />,
+      icon: <InsertDriveFileOutlinedIcon />,
       path: '/pages',
       file: '/pages/list',
       items: [

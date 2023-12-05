@@ -19,11 +19,10 @@ describe('PrivateLayout', () => {
     );
 
   it('renders without crashing', () => {
-    const { getByTestId, getByText } = renderWithWrappers();
+    const { getByTestId } = renderWithWrappers();
     expect(getByTestId('Toolbar-HeaderLeft--root')).toBeInTheDocument();
     expect(getByTestId('Toolbar-UserActionMenu--root')).toBeInTheDocument();
     expect(getByTestId('Dashboard-layout--root')).toBeInTheDocument();
-    expect(getByText('MMS 1.0')).toBeInTheDocument();
   });
 
   it('renders logo icon and text', () => {

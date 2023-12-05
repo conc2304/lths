@@ -1,4 +1,4 @@
-import Today from '@mui/icons-material/Today';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 import { SectionItemProps } from '../../routes/types';
 
@@ -6,7 +6,7 @@ const section: SectionItemProps = {
   items: [
     {
       title: 'Schedule',
-      icon: <Today />,
+      icon: <CalendarTodayIcon />,
       path: '/schedule',
       file: '/schedule/schedule-page',
       hidden: false,

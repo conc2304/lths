@@ -1,5 +1,4 @@
-import { AppBar, IconButton, Toolbar, useMediaQuery } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { IconButton, Toolbar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import HeaderContent from './header-content';
@@ -11,7 +10,6 @@ type Props = LayoutHeaderContentProps & LayoutCommonProps;
 
 const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => {
   const theme = useTheme();
-  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'));
 
   const { setDrawerVisibility, drawerVisible } = useLayoutActions();
 
@@ -25,25 +23,25 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
     transition: '.3s all',
   };
 
-  const icon = drawerIcon || <Menu />;
-
   const mainHeader = (
     <Toolbar
       data-testid="Dashboard-Header--root"
       disableGutters={false}
       // toolbar height is set via the theme mixins
     >
-      <IconButton
-        data-testid="Dashboard-Header--drawer-toggle-btn"
-        aria-label={`${!drawerVisible ? 'Open' : 'Close'} Navigation Menu`}
-        onClick={onToggleDrawer}
-        edge="start"
-        color="secondary"
-        sx={!drawerIcon ? anchorStyles : undefined}
-        size="small"
-      >
-        {icon}
-      </IconButton>
+      {drawerIcon && (
+        <IconButton
+          data-testid="Dashboard-Header--drawer-toggle-btn"
+          aria-label={`${!drawerVisible ? 'Open' : 'Close'} Navigation Menu`}
+          onClick={onToggleDrawer}
+          edge="start"
+          color="secondary"
+          sx={!drawerIcon ? anchorStyles : undefined}
+          size="small"
+        >
+          {drawerIcon}
+        </IconButton>
+      )}
       <HeaderContent headerLeft={headerLeft} headerRight={headerRight} />
     </Toolbar>
   );
@@ -59,16 +57,11 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
       borderRadius: 0,
     },
   };
-  const { fixedHeader: _, ...appBarProps } = headerProps;
 
-  return !isMobileOrTablet ? (
+  return (
     <HeaderFullScreenStyled {...headerProps} data-testid="Dashboard-header--root">
       {mainHeader}
     </HeaderFullScreenStyled>
-  ) : (
-    <AppBar {...appBarProps} data-testid="Dashboard-header--root" role="menubar" aria-orientation="horizontal">
-      {mainHeader}
-    </AppBar>
   );
 };
 

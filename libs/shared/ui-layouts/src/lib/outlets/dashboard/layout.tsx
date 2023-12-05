@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Box, Toolbar } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { BreadcrumbPathProps, BreadcrumbTrail } from './content';

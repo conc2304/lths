@@ -1,16 +1,19 @@
 import ListItemButton from '@mui/material/ListItemButton';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  'svg path': {
+    fill: theme.palette.text.secondary,
+  },
   '&:hover': {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: alpha(theme.palette.primary.main, 0.03),
   },
   '&.Mui-selected': {
-    borderRight: `2px solid ${theme.palette.primary.main}`,
-    backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      color: theme.palette.primary.dark,
-      backgroundColor: theme.palette.secondary.main,
+    backgroundColor: alpha(theme.palette.primary.main, 0.05),
+    color: theme.palette.text.primary,
+    'svg path': {
+      fill: theme.palette.text.primary,
     },
   },
 }));

@@ -1,10 +1,10 @@
-import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
 const Assets = {
   items: [
     {
       title: 'Assets',
-      icon: <CloudUploadRoundedIcon />,
+      icon: <CloudUploadOutlinedIcon />,
       path: '/assets',
       file: '/assets/list',
     },

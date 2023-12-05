@@ -1,6 +1,6 @@
 import PagesIcon from '@mui/icons-material/DocumentScanner';
 import GridViewIcon from '@mui/icons-material/GridView';
-import InsightsIcon from '@mui/icons-material/Insights';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -13,7 +13,7 @@ const sections: SectionItemProps = {
   items: [
     {
       title: 'Insights',
-      icon: <InsightsIcon />,
+      icon: <InsightsOutlinedIcon />,
       path: '/insights/overview',
       file: '/insights/overview-page',
       items: [
