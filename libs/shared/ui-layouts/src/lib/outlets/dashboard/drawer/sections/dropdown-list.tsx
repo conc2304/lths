@@ -61,9 +61,11 @@ export const NavMenuDropDownList = ({
         sx={{
           // if childItem is selected, then use secondary text color
           '&.Mui-selected': {
-            color: (theme) => (!selected && childItemIsSelected ? theme.palette.text.secondary : undefined),
+            color: (theme) =>
+              !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
             'svg path': {
-              fill: (theme) => (!selected && childItemIsSelected ? theme.palette.text.secondary : undefined),
+              fill: (theme) =>
+                !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
             },
           },
         }}
