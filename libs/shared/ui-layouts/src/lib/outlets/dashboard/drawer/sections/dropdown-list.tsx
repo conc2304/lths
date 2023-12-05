@@ -63,9 +63,19 @@ export const NavMenuDropDownList = ({
           // if child is selected, then use secondary text color
           // if child is selected when submenu is closed, apply regular selected styles
           '&.Mui-selected': {
+            transition: (theme) =>
+              theme.transitions.create('color', {
+                easing: theme.transitions.easing.easeInOut,
+                duration: theme.transitions.duration.standard,
+              }),
             color: (theme) =>
               !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
             'svg path': {
+              transition: (theme) =>
+                theme.transitions.create('fill', {
+                  easing: theme.transitions.easing.easeInOut,
+                  duration: theme.transitions.duration.standard,
+                }),
               fill: (theme) =>
                 !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
             },

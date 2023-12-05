@@ -3,6 +3,10 @@ import { alpha, styled } from '@mui/material/styles';
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.text.secondary,
+  transition: theme.transitions.create(['color', 'background-color'], {
+    easing: theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.standard,
+  }),
   'svg path': {
     fill: theme.palette.text.secondary,
   },
