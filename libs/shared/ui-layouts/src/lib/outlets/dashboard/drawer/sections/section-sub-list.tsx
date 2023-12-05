@@ -1,5 +1,6 @@
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
+import { alpha } from '@mui/system';
 
 import DrawerSectionListItem from './section-item';
 import { DrawerSectionSubListProps } from './types';
@@ -31,7 +32,12 @@ const DrawerSectionSubList = ({
 
               return (
                 <DrawerSectionListItem
-                  sx={{ pl: 4 }}
+                  sx={{
+                    pl: 4,
+                    '&.Mui-selected': {
+                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.03),
+                    },
+                  }}
                   key={subitemId}
                   item={subitem}
                   itemId={subitemId}

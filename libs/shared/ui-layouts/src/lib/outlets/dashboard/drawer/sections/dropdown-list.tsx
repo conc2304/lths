@@ -57,7 +57,16 @@ export const NavMenuDropDownList = ({
         itemId={itemId}
         onListItemClick={onItemClick}
         onAccordionChange={handleSubmenuOpened}
-        selected={selected || (childItemIsSelected && !submenuOpen)}
+        selected={selected || childItemIsSelected}
+        sx={{
+          // if childItem is selected, then use secondary text color
+          '&.Mui-selected': {
+            color: (theme) => (!selected && childItemIsSelected ? theme.palette.text.secondary : undefined),
+            'svg path': {
+              fill: (theme) => (!selected && childItemIsSelected ? theme.palette.text.secondary : undefined),
+            },
+          },
+        }}
         showAccordion={hasAccordion}
         accordionExpanded={submenuOpen}
       />

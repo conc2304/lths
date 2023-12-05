@@ -33,7 +33,7 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
       background: '#110922',
     },
     sideBar: {
-      background: '#f4f4f4',
+      background: '#FFFFFF',
     },
   };
 };
