@@ -59,7 +59,9 @@ export const NavMenuDropDownList = ({
         onAccordionChange={handleSubmenuOpened}
         selected={selected || childItemIsSelected}
         sx={{
-          // if childItem is selected, then use secondary text color
+          // Override 'selected' styles for styled(ListItemButton)
+          // if child is selected, then use secondary text color
+          // if child is selected when submenu is closed, apply regular selected styles
           '&.Mui-selected': {
             color: (theme) =>
               !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
