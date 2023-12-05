@@ -5,6 +5,7 @@ import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 import getComponentOverrides from './overrides/index';
 import getPalette from './palette';
+import { shadows } from './shadows';
 import getTypography from './typography';
 
 import '../fonts/index.css';
@@ -34,6 +35,10 @@ const baseThemeOptions: ThemeOptions = {
   },
   palette,
   typography,
+  shape: {
+    borderRadius: 4,
+  },
+  shadows,
 };
 
 const theme = createTheme(baseThemeOptions, enUS, coreEnUs);
