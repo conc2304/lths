@@ -22,7 +22,15 @@ const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) 
   const zIndex = !fixedHeader ? theme.zIndex.drawer : theme.zIndex.appBar;
   return (
     <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex }} aria-label="mailbox folders">
-      <DrawerFullScreenStyled variant="permanent" open={drawerVisible}>
+      <DrawerFullScreenStyled
+        variant="permanent"
+        open={drawerVisible}
+        // elevation={0}
+        PaperProps={{
+          elevation: 0,
+          square: true,
+        }}
+      >
         {header}
         {drawerContent}
       </DrawerFullScreenStyled>
