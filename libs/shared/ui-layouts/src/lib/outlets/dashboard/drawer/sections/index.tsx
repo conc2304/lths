@@ -42,7 +42,11 @@ const DrawerScrollBarContent = ({ sections }: LayoutDrawerContentProps) => {
           display="flex"
           justifyContent={'start'}
         >
-          <IconButton color="inherit" onClick={() => setDrawerOpen(!drawerOpen)} data-testid="Dashboard--drawer-toggle">
+          <IconButton
+            color="inherit"
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            data-testid="Dashboard-Drawer--drawer-toggle"
+          >
             {drawerOpen ? <MenuOpen /> : <Menu />}
           </IconButton>
         </Box>

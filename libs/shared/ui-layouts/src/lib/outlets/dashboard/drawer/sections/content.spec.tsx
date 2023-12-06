@@ -6,7 +6,6 @@ import { MemoryRouter } from 'react-router-dom';
 import DrawerContent from './content';
 import * as CTX from '../../../../context';
 
-// Mock the context
 const useLayoutActionsMock = jest.spyOn(CTX, 'useLayoutActions');
 
 const mockSections = [
