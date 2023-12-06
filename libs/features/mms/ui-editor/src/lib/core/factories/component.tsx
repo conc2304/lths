@@ -59,6 +59,7 @@ import {
   TitleTextComponent,
   HeroGameboxComponent,
   HeroEventComponent,
+  HorizontalMediumComponent,
   HorizontalSmallComponent,
 } from '../components';
 import {
@@ -121,6 +122,7 @@ import {
   TitleTextComponentProps,
   HeroGameboxComponentProps,
   HeroEventComponentProps,
+  HorizontalMediumProps,
   HorizontalSmallComponentProps,
 } from '../components/types';
 
@@ -244,6 +246,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
     case Component.HorizontalSmall:
       return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     default:

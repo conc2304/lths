@@ -1,9 +1,7 @@
-import { AssetProps, PaginationAssetsProps } from './index';
+import { AssetProps } from './index';
 import { ApiResponse } from '../../types';
 
-type AssetList = { data: AssetProps[]; meta: PaginationAssetsProps };
-
-export type AssetListResponse = ApiResponse<AssetList>;
+export type AssetListResponse = ApiResponse<AssetProps[]>;
 
 export type ArchiveAssetsResponse = ApiResponse<AssetProps>;
 

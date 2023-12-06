@@ -118,6 +118,8 @@ import {
   HeroGameboxComponentProps,
   HeroEventToolbar,
   HeroEventComponentProps,
+  HorizontalMediumToolbar,
+  HorizontalMediumProps,
   HorizontalSmallToolbar,
   HorizontalSmallComponentProps,
 } from '../components';
@@ -245,6 +247,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CardViewCarouselToolbar key={props.__ui_id__} {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextToolbar {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumToolbar {...(props as HorizontalMediumProps)} />;
     case Component.HorizontalSmall:
       return <HorizontalSmallToolbar {...(props as HorizontalSmallComponentProps)} />;
     default:
