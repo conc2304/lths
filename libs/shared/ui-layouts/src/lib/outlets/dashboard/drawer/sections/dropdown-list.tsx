@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 
 import DrawerSectionListItem from './section-item';
 import DrawerSectionSubList from './section-sub-list';
@@ -50,24 +51,26 @@ export const NavMenuDropDownList = ({
   };
 
   return (
-    <>
+    <Box data-testid="Dashboard-Drawer--nav-menu-dropdown-list">
       {/* the main parent nav item */}
       <DrawerSectionListItem
         item={item}
         itemId={itemId}
         onListItemClick={onItemClick}
         onAccordionChange={handleSubmenuOpened}
+        showAccordion={hasAccordion}
+        accordionExpanded={submenuOpen}
         selected={selected || childItemIsSelected}
         sx={{
           // Override 'selected' styles for styled(ListItemButton)
           // if child is selected, then use secondary text color
           // if child is selected when submenu is closed, apply regular selected styles
+          transition: (theme) =>
+            theme.transitions.create('color', {
+              easing: theme.transitions.easing.easeInOut,
+              duration: theme.transitions.duration.standard,
+            }),
           '&.Mui-selected': {
-            transition: (theme) =>
-              theme.transitions.create('color', {
-                easing: theme.transitions.easing.easeInOut,
-                duration: theme.transitions.duration.standard,
-              }),
             color: (theme) =>
               !selected && childItemIsSelected && submenuOpen ? theme.palette.text.secondary : undefined,
             'svg path': {
@@ -81,8 +84,6 @@ export const NavMenuDropDownList = ({
             },
           },
         }}
-        showAccordion={hasAccordion}
-        accordionExpanded={submenuOpen}
       />
       {/* the nested child nav items */}
       <DrawerSectionSubList
@@ -92,7 +93,8 @@ export const NavMenuDropDownList = ({
         sectionId={itemId}
         sectionTitle={item.title}
         onListItemClick={onSubSectionClick}
+        data-testid="Dashboard-Drawer--section-sublist"
       />
-    </>
+    </Box>
   );
 };

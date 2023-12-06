@@ -22,6 +22,8 @@ const DrawerSectionListItem = ({
   const navigate = useNavigate();
   const { drawerOpen } = useLayoutActions();
 
+  console.log({ itemId });
+
   const { title, icon, path } = item;
 
   const arrowStyle = showAccordion
@@ -77,7 +79,11 @@ const DrawerSectionListItem = ({
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <ListItemText primary={title} sx={{ paddingLeft: 1 }} />
             {showAccordion && (
-              <IconButton color="inherit" onClick={handleListItemArrowClick}>
+              <IconButton
+                color="inherit"
+                onClick={handleListItemArrowClick}
+                data-testid="Dashboard-Drawer--section-accordion-btn"
+              >
                 <ChevronRight
                   sx={{ ...arrowStyle }}
                   role="checkbox"
