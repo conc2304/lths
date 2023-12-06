@@ -75,8 +75,12 @@ describe('NavMenuDropDownList', () => {
         itemId={mockItemId}
         pageTitle={mockPageTitle}
         selectedSection={mockSelectedSection}
-        onItemClick={() => {}}
-        onSubSectionClick={() => {}}
+        onItemClick={() => {
+          // do nothing
+        }}
+        onSubSectionClick={() => {
+          // do nothing
+        }}
       />
     );
     expect(getByText(mockItem.items[0].title)).toBeInTheDocument();
