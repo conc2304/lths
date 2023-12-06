@@ -1,4 +1,3 @@
-import { Box, Button, ThemeProvider, Typography } from '@mui/material';
 import {
   CalendarTodayOutlined,
   EditAttributesOutlined,
@@ -11,10 +10,10 @@ import {
   UploadFileOutlined,
   VerifiedUserOutlined,
 } from '@mui/icons-material';
-import { LayoutProvider, useLayoutActions } from 'libs/shared/ui-layouts/src/lib/context';
 import { MemoryRouter } from 'react-router-dom';
 
 import MainDrawer from './index';
+import { LayoutProvider } from '../../../context';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
