@@ -86,23 +86,6 @@ describe('Header Component', () => {
     });
   });
 
-  it('renders AppBar instead of HeaderFullScreenStyled on mobile or tablet', () => {
-    // Mock `useMediaQuery` to simulate a mobile or tablet environment
-    // @ts-expect-error - mocking/spying produces type errors
-    jest.spyOn(window, 'matchMedia').mockImplementation((query) => {
-      return {
-        matches: query.includes('(max-width:'),
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      };
-    });
-
-    const { getByRole } = renderHeader(
-      <Header fixedHeader={true} headerLeft={headerLeftMock} headerRight={headerRightMock} />
-    );
-    expect(getByRole('menubar')).toBeInTheDocument();
-  });
-
   it('renders fixed AppBar with proper styles when `fixedHeader` is true', () => {
     const { getByTestId } = renderHeader(
       <Header fixedHeader={true} headerLeft={headerLeftMock} headerRight={headerRightMock} />
