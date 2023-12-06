@@ -16,6 +16,9 @@ const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
   '&.Mui-selected': {
     backgroundColor: alpha(theme.palette.primary.main, 0.05),
     color: theme.palette.text.primary,
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.primary.main, 0.07),
+    },
     'svg path': {
       fill: theme.palette.text.primary,
     },
