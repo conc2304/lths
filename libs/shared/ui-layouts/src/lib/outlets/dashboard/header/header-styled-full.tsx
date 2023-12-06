@@ -2,7 +2,6 @@ import AppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 
 import { shouldForwardProp } from '../../utils/mui-utils';
-import { DRAWER_WIDTH } from '../config';
 import { LayoutCommonProps, LayoutDrawerStateProps } from '../drawer/sections/types';
 
 type Props = LayoutDrawerStateProps & LayoutCommonProps;
@@ -19,8 +18,8 @@ const HeaderFullScreenStyled = styled(AppBar, {
       duration: !open ? theme.transitions.duration.leavingScreen : theme.transitions.duration.enteringScreen,
     }),
     ...(open && {
-      marginLeft: fixedHeader ? 0 : DRAWER_WIDTH,
-      width: fixedHeader ? '100%' : `calc(100% - ${DRAWER_WIDTH}px)`,
+      marginLeft: fixedHeader ? 0 : theme.palette.sideBar.width || 260,
+      width: fixedHeader ? '100%' : `calc(100% - ${theme.palette.sideBar.width || 260}px)`,
     }),
   };
 });

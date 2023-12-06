@@ -25,7 +25,6 @@ const MainDrawer = ({ sections, drawerHeader, fixedHeader }: LayoutDrawerProps) 
       <DrawerFullScreenStyled
         variant="permanent"
         open={drawerVisible}
-        // elevation={0}
         PaperProps={{
           elevation: 0,
           square: true,

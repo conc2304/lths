@@ -9,6 +9,7 @@ declare module '@mui/material/styles/createPalette' {
       background?: Property.BackgroundColor;
     };
     sideBar?: {
+      width?: Property.Width<TLength>;
       background?: Property.BackgroundColor;
       iconColor?: Property.Color;
     };
@@ -21,6 +22,7 @@ declare module '@mui/material/styles/createPalette' {
     };
     sideBar?: {
       background?: Property.BackgroundColor;
+      width?: Property.Width<TLength>;
       iconColor?: Property.Color;
     };
   }

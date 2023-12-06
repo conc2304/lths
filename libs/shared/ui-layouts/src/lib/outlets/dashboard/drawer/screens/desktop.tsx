@@ -2,10 +2,8 @@ import Drawer from '@mui/material/Drawer';
 import { styled } from '@mui/material/styles';
 import { Theme, CSSObject } from '@mui/material/styles';
 
-import { DRAWER_WIDTH } from '../../config';
-
 export const OpenedMixin = (theme: Theme): CSSObject => ({
-  width: DRAWER_WIDTH,
+  width: theme.palette.sideBar.width || 260,
   backgroundColor: theme.palette.sideBar.background,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -25,7 +23,7 @@ export const ClosedMixin = (theme: Theme): CSSObject => ({
 });
 
 const DesktopDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
-  width: DRAWER_WIDTH,
+  width: theme.palette.sideBar.width || 260,
   flexShrink: 0,
   backgroundColor: theme.palette.sideBar.background,
   borderRight: `1px solid ${theme.palette.divider}`,

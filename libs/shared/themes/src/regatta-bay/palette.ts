@@ -34,6 +34,7 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
     },
     sideBar: {
       background: '#FFFFFF',
+      width: 260,
     },
   };
 };
