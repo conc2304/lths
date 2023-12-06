@@ -79,22 +79,25 @@ describe('DrawerContent', () => {
 
   it('updates selected section and drawer item on drawer close', () => {
     // Set initial state
+    const current = 'panel_0_1';
     useLayoutActionsMock.mockReturnValue({
       ...mockReturnValues,
       drawerOpen: false,
-      drawerCurrentItem: 'panel_0_1',
+      drawerCurrentItem: current,
       pageTitle: 'Page Title',
     });
 
     // On close, if a child item is selected it should set the parent item as selected
     const { rerender } = renderWithWrappers(<DrawerContent sections={mockSections} />);
-    expect(setDrawerSelectedItemMock).toHaveBeenCalledWith('panel_0_0');
+    const [componentId, parentId] = current.split('_');
+    const newCurrentItem = `${componentId}_${parentId}_0`;
+    expect(setDrawerSelectedItemMock).toHaveBeenCalledWith(newCurrentItem);
 
     // Rerender with drawer open
     useLayoutActionsMock.mockReturnValue({
       ...mockReturnValues,
       drawerOpen: true,
-      drawerCurrentItem: 'panel_0_1',
+      drawerCurrentItem: current,
       pageTitle: 'Page Title',
     });
 
@@ -102,6 +105,6 @@ describe('DrawerContent', () => {
 
     // On reopen it should set the original child item as selected
     // Verify that setDrawerSelectedItem is called with the previous item
-    expect(setDrawerSelectedItemMock).toHaveBeenCalledWith('panel_0_1');
+    expect(setDrawerSelectedItemMock).toHaveBeenCalledWith(current);
   });
 });
