@@ -3,7 +3,7 @@ import { Box, Toolbar } from '@mui/material';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { BreadcrumbPathProps, BreadcrumbTrail } from './content';
-import Drawer from './drawer';
+import Drawer from './drawer/side-nav-menu';
 import { DrawerSectionProps, LayoutExtendedProps } from './drawer/sections/types';
 import Header from './header';
 import { useLayoutActions } from '../../context';

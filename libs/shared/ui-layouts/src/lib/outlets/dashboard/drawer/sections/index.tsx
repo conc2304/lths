@@ -9,9 +9,10 @@ import { useLayoutActions } from '../../../../context';
 import 'simplebar-react/dist/simplebar.min.css';
 
 const DrawerScrollBarContent = ({ sections }: LayoutDrawerContentProps) => {
-  const { drawerVisible, setDrawerVisibility } = useLayoutActions();
+  const { drawerOpen, setDrawerOpen } = useLayoutActions();
   return (
     <SimpleBar
+      data-testid="Dashboard-Drawer--content"
       sx={{
         '& .simplebar-content': {
           display: 'flex',
@@ -41,12 +42,8 @@ const DrawerScrollBarContent = ({ sections }: LayoutDrawerContentProps) => {
           display="flex"
           justifyContent={'start'}
         >
-          <IconButton
-            color="inherit"
-            onClick={() => setDrawerVisibility(!drawerVisible)}
-            data-testid="Dashboard--drawer-toggle"
-          >
-            {drawerVisible ? <MenuOpen /> : <Menu />}
+          <IconButton color="inherit" onClick={() => setDrawerOpen(!drawerOpen)} data-testid="Dashboard--drawer-toggle">
+            {drawerOpen ? <MenuOpen /> : <Menu />}
           </IconButton>
         </Box>
       </Box>

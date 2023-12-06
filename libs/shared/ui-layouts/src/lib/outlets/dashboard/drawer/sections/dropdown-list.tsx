@@ -22,7 +22,7 @@ export const NavMenuDropDownList = ({
   onItemClick,
   onSubSectionClick,
 }: NavMenuDropDownListProps) => {
-  const { drawerCurrentItem, drawerVisible } = useLayoutActions();
+  const { drawerCurrentItem, drawerOpen } = useLayoutActions();
 
   const { items: subitems = [], title } = item;
   const hasAccordion = subitems.filter((item) => !item.hidden).length > 0;
@@ -36,8 +36,8 @@ export const NavMenuDropDownList = ({
 
   useEffect(() => {
     // open the submenu everytime the drawer is reopened
-    setSubmenuOpen(drawerVisible);
-  }, [drawerVisible]);
+    setSubmenuOpen(drawerOpen);
+  }, [drawerOpen]);
 
   useEffect(() => {
     setChildItemIsSelected(parentIdGlobal === parentIdThis);

@@ -3,7 +3,7 @@ import { Dispatch, ReactNode } from 'react';
 import { BreadcrumbPathProps } from '../outlets/dashboard/content';
 
 export type LayoutStateType = {
-  drawerVisible?: boolean;
+  drawerOpen?: boolean;
   drawerCurrentItem?: string;
   pageTitle?: string;
   breadcrumbs?: BreadcrumbPathProps[];

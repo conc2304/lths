@@ -7,7 +7,7 @@ import { LayoutDrawerContentProps } from './types';
 import { useLayoutActions } from '../../../../context';
 
 export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
-  const { drawerVisible } = useLayoutActions();
+  const { drawerOpen } = useLayoutActions();
 
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const { setDrawerSelectedItem, drawerCurrentItem, pageTitle } = useLayoutActions();
@@ -17,7 +17,7 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
     // on drawer close, if subsection is selected, select its parent as the highlight
     // store the previous selection and set back on reopening
     if (!drawerCurrentItem || drawerCurrentItem === '/') return;
-    if (!drawerVisible) {
+    if (!drawerOpen) {
       prevDrawerItem.current = drawerCurrentItem;
       const [componentId, parentId] = drawerCurrentItem.split('_'); // ie panel_1_0_2
       const newCurrentItem = `${componentId}_${parentId}_0`;
@@ -27,7 +27,7 @@ export default function DrawerContent({ sections }: LayoutDrawerContentProps) {
       setSelectedSection(prevDrawerItem.current);
       setDrawerSelectedItem(prevDrawerItem.current);
     }
-  }, [drawerVisible]);
+  }, [drawerOpen]);
 
   const handleListItemClick = (id: string) => {
     setDrawerSelectedItem(id);

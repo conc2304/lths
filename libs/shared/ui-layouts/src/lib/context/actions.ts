@@ -11,8 +11,8 @@ export const setBreadcrumbs =
     const type: LayoutProviderActionType = LayoutProviderActionType.LAYOUT_ACTION_SET_BREADCRUMBS;
     return dispatch({ type, payload });
   };
-export const setDrawerVisibility = (dispatch: Dispatch<LayoutContextActionProps>) => (drawerVisible: boolean) => {
-  const payload: LayoutStateType = { drawerVisible };
+export const setDrawerOpen = (dispatch: Dispatch<LayoutContextActionProps>) => (drawerOpen: boolean) => {
+  const payload: LayoutStateType = { drawerOpen };
   const type: LayoutProviderActionType = LayoutProviderActionType.LAYOUT_ACTION_OPEN_DRAWER;
   return dispatch({ type, payload });
 };

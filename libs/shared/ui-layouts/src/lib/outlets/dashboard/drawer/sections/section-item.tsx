@@ -20,7 +20,7 @@ const DrawerSectionListItem = ({
   sx,
 }: DrawerSectionListItemProps) => {
   const navigate = useNavigate();
-  const { drawerVisible } = useLayoutActions();
+  const { drawerOpen } = useLayoutActions();
 
   const { title, icon, path } = item;
 
@@ -73,7 +73,7 @@ const DrawerSectionListItem = ({
           </ListItemIcon>
         )}
 
-        {drawerVisible && (
+        {drawerOpen && (
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <ListItemText primary={title} sx={{ paddingLeft: 1 }} />
             {showAccordion && (

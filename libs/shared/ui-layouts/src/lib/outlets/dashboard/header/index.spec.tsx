@@ -39,12 +39,12 @@ describe('Header Component', () => {
   });
 
   it('toggles drawer visibility on icon button click', async () => {
-    const drawerVisible = false;
-    const setDrawerVisibilityMock = jest.fn();
+    const drawerOpen = false;
+    const setDrawerOpenMock = jest.fn();
     // @ts-expect-error - we dont need to pass in the rest
     useLayoutActionsMock.mockReturnValue({
-      drawerVisible,
-      setDrawerVisibility: setDrawerVisibilityMock,
+      drawerOpen,
+      setDrawerOpen: setDrawerOpenMock,
     });
 
     const { getByTestId, getByLabelText } = renderHeader(
@@ -56,19 +56,19 @@ describe('Header Component', () => {
 
     fireEvent.click(drawerButton);
 
-    expect(setDrawerVisibilityMock).toHaveBeenCalled();
-    expect(setDrawerVisibilityMock).toHaveBeenCalledWith(!drawerVisible);
+    expect(setDrawerOpenMock).toHaveBeenCalled();
+    expect(setDrawerOpenMock).toHaveBeenCalledWith(!drawerOpen);
     waitFor(() => {
       expect(getByLabelText('Close Navigation Menu')).toBeInTheDocument();
     });
   });
 
   it('applies rotation style to the icon when drawer is visible', () => {
-    const setDrawerVisibilityMock = jest.fn();
+    const setDrawerOpenMock = jest.fn();
     // @ts-expect-error - we dont need to pass in the rest
     useLayoutActionsMock.mockReturnValue({
-      drawerVisible: false,
-      setDrawerVisibility: setDrawerVisibilityMock,
+      drawerOpen: false,
+      setDrawerOpen: setDrawerOpenMock,
     });
 
     const { getByTestId } = renderHeader(

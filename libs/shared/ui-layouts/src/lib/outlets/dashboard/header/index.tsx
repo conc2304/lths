@@ -11,15 +11,15 @@ type Props = LayoutHeaderContentProps & LayoutCommonProps;
 const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => {
   const theme = useTheme();
 
-  const { setDrawerVisibility, drawerVisible } = useLayoutActions();
+  const { setDrawerOpen, drawerOpen } = useLayoutActions();
 
   const onToggleDrawer = () => {
-    setDrawerVisibility(!drawerVisible);
+    setDrawerOpen(!drawerOpen);
   };
 
   const anchorStyles = {
     color: 'text.contrastText',
-    transform: `rotate(${!drawerVisible ? '0deg' : '180deg'})`,
+    transform: `rotate(${!drawerOpen ? '0deg' : '180deg'})`,
     transition: '.3s all',
   };
 
@@ -32,7 +32,7 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
       {drawerIcon && (
         <IconButton
           data-testid="Dashboard-Header--drawer-toggle-btn"
-          aria-label={`${!drawerVisible ? 'Open' : 'Close'} Navigation Menu`}
+          aria-label={`${!drawerOpen ? 'Open' : 'Close'} Navigation Menu`}
           onClick={onToggleDrawer}
           edge="start"
           color="secondary"
@@ -49,7 +49,7 @@ const Header = ({ drawerIcon, headerLeft, headerRight, fixedHeader }: Props) => 
   // bar props
   const headerProps: LayoutHeaderProps = {
     position: 'fixed',
-    open: drawerVisible === true ? drawerVisible : false,
+    open: drawerOpen === true ? drawerOpen : false,
     fixedHeader,
     elevation: 0,
     sx: {

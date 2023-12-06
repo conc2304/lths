@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Theme, CSSObject } from '@mui/material/styles';
 
 export const OpenedMixin = (theme: Theme): CSSObject => ({
-  width: theme.palette.sideBar.width || 260,
+  width: theme.palette.sideBar.width ? `${theme.palette.sideBar.width}px` : 260,
   backgroundColor: theme.palette.sideBar.background,
   overflowX: 'hidden',
   transition: theme.transitions.create('width', {

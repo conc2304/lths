@@ -2,7 +2,7 @@ import { LayoutStateType, LayoutContextActionProps, LayoutProviderActionType } f
 
 export const initialState: LayoutStateType = {
   drawerCurrentItem: '/',
-  drawerVisible: false,
+  drawerOpen: false,
 };
 
 const layoutReducer = (state: LayoutStateType, action: LayoutContextActionProps) => {
@@ -13,8 +13,8 @@ const layoutReducer = (state: LayoutStateType, action: LayoutContextActionProps)
     }
 
     case LayoutProviderActionType.LAYOUT_ACTION_OPEN_DRAWER: {
-      const drawerVisible = action.payload?.drawerVisible;
-      return { ...state, drawerVisible };
+      const drawerOpen = action.payload?.drawerOpen;
+      return { ...state, drawerOpen };
     }
     case LayoutProviderActionType.LAYOUT_ACTION_SET_BREADCRUMBS: {
       const breadcrumbs = action.payload?.breadcrumbs;
