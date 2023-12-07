@@ -183,7 +183,7 @@ export function PageEditorTabs() {
   };
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
-    const response = await getEnumList('Icons').unwrap();
+    const response = await getEnumList('ActionIcons').unwrap();
     if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
   };
 
