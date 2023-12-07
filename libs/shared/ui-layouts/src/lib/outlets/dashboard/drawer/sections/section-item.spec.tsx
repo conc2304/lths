@@ -20,7 +20,6 @@ const mockItem = {
   icon: <div>{mockIcon}</div>,
   path: '/item-path',
 };
-
 const mockOnListItemClick = jest.fn();
 const mockOnAccordionChange = jest.fn();
 
@@ -117,9 +116,6 @@ describe('DrawerSectionListItem', () => {
 
   it('toggles accordion on accordion button click', async () => {
     const mockId = 'item-id';
-    mockUseLayoutActions.mockImplementation(() => ({
-      drawerOpen: true,
-    }));
 
     render(
       <MemoryRouter>
