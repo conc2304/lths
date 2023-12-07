@@ -55,6 +55,7 @@ export type CreatePageRequest = {
   is_variant: boolean | string;
   default_page_id?: string | null;
   description?: string;
+  page_id: string;
 };
 
 export type CreatePageResponse = ApiResponse<{

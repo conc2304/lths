@@ -60,12 +60,13 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
       is_variant: 'yes',
       default_page_id: '',
       description: '',
+      page_id: '',
     },
     validationSchema: validationSchema,
     onSubmit: onSubmit,
   });
 
-  const getOptionLabel = (option: PageDetail) => (option ? `${option.name}` : '');
+  const getOptionLabel = (option: PageDetail) => (option ? `${option.page_id}` : '');
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
     return (
       <Box component="li" {...props}>
