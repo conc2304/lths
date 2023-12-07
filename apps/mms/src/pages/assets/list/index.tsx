@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
@@ -12,6 +12,7 @@ import {
   useEditResourceMutation,
   useDeleteResourceMutation,
   useAppSelector,
+  useLazySecureUrlQuery,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -95,13 +96,17 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
-  const [search, setSearch] = React.useState({ queryString: ''});
+  const [search, setSearch] = React.useState({ queryString: '' });
 
   useEffect(() => {
     fetchData(currPagination, currSorting, search);
   }, [currPagination, currSorting, search]);
 
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search: { queryString: string }) {
+  async function fetchData(
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -117,7 +122,6 @@ export default function AssetsPage() {
 
     getData(req);
   }
-
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -207,20 +211,58 @@ export default function AssetsPage() {
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 
-  const handleUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
+  const [fetchSecureUrl, { data: secureUrl, isUninitialized }] = useLazySecureUrlQuery();
+
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      console.error('Invalid file type:', file?.type);
+      return;
+    }
+    // Trigger fetch for secure URL only when file is selected for upload
+    if (isUninitialized || !secureUrl) {
+      const result = await fetchSecureUrl(file.name);
+      console.log('Secure URL:', result);
+    }
+    // console.log('Secure URL:', secureUrl);
+    if (secureUrl) {
+      const uploadSuccess = await uploadFileToBlob(file, secureUrl);
+      if (uploadSuccess) {
         await handleAddAsset(file);
-        fetchData(currPagination, currSorting, search);
-      } else {
-        console.error('Invalid file type:', file.type);
+        // Fetch updated data
+        await fetchData(currPagination, currSorting, search);
       }
+    } else {
+      console.log('No secure url found');
     }
     // This small change resets the file input after each upload,
     // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
     event.target.value = '';
   };
+
+  const uploadFileToBlob = async (file: File, signedUrl: string): Promise<boolean> => {
+    try {
+      const response = await fetch(signedUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': file.type,
+          'x-ms-blob-type': 'BlockBlob', // Required for Azure Blob Storage
+        },
+        body: file,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to upload file: ${response.statusText}`);
+      }
+
+      console.log('File uploaded to Azure Blob storage.');
+      return true; // Return true if upload is successful
+    } catch (error) {
+      console.error('Error uploading to Blob storage:', error);
+      return false; // Return false if there is an error
+    }
+  };
+
   const [getUser] = useLazyGetUserQuery();
 
   const handleAddAsset = async (file) => {

@@ -8,11 +8,11 @@ import {
   UpdateAssetResponse,
   CreateAssetResponse,
 } from './types';
-import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl } from './urls';
+import { getAddAssetUrl, getAssetsUrl, getSecureUrl, getUpdateAssetUrl } from './urls';
 
 const createAssetQuery = (request: AssetsRequestProps) => {
-  const queryString = request?.queryString
-  return ({
+  const queryString = request?.queryString;
+  return {
     url: getAssetsUrl(request),
     method: 'POST',
     body: {
@@ -22,15 +22,15 @@ const createAssetQuery = (request: AssetsRequestProps) => {
         field: request.sort_key ?? 'created_at',
       },
     },
-  })
+  };
 };
 
 export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
   endpoints: (builder) => ({
-    getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({ 
+    getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({
       query: (request: AssetsRequestProps) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
-    }), 
+    }),
     addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
       query: (prop) => {
         const requestBody = new FormData();
@@ -42,6 +42,13 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
           body: requestBody,
         };
       },
+    }),
+    secureUrl: builder.query<string, string>({
+      query: (fileName) => ({
+        url: getSecureUrl(fileName),
+        method: 'GET',
+      }),
+      transformResponse: (response: any) => response.signedUploadUrl,
     }),
     editResource: builder.mutation<UpdateAssetResponse, { id: string; original_file_name: string }>({
       query: (prop) => ({
@@ -64,6 +71,7 @@ export const {
   useGetAssetsItemsQuery,
   useLazyGetAssetsItemsQuery,
   useAddResourceMutation,
+  useLazySecureUrlQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
 } = assetsApi;

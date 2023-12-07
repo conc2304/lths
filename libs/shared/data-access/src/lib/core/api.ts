@@ -10,6 +10,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('x-api-key', process.env.NX_PUBLIC_API_KEY);
+    headers.set('x-api-version', '2');
 
     const token = localStorage.getItem(AUTH_TOKEN);
     if (token) {
