@@ -44,8 +44,9 @@ export const NavMenuDropDownList = ({
     setChildItemIsSelected(parentIdGlobal === parentIdThis);
   }, [drawerCurrentItem]);
 
-  const handleSubmenuOpened = () => {
-    setSubmenuOpen(!submenuOpen);
+  const handleSubmenuOpened = (itemId: string, collapsed: boolean) => {
+    console.log(collapsed);
+    setSubmenuOpen(collapsed);
     // if a submenu item is selected, then the parent should be selected when the menu is closed
     setChildItemIsSelected(parentIdGlobal === parentIdThis);
   };

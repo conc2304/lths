@@ -16,13 +16,12 @@ const DrawerSectionListItem = ({
   onAccordionChange,
   itemId,
   showAccordion,
-  accordionExpanded,
+  accordionExpanded: accordionExpandedProp,
   sx,
 }: DrawerSectionListItemProps) => {
   const navigate = useNavigate();
   const { drawerOpen } = useLayoutActions();
-
-  console.log({ itemId });
+  const [accordionExpanded, setAccordionExpanded] = React.useState(accordionExpandedProp);
 
   const { title, icon, path } = item;
 
@@ -43,7 +42,8 @@ const DrawerSectionListItem = ({
   };
 
   const handleListItemArrowClick = (event: React.MouseEvent<HTMLElement>) => {
-    onAccordionChange && onAccordionChange(itemId, showAccordion);
+    setAccordionExpanded(!accordionExpanded);
+    onAccordionChange && onAccordionChange(itemId, !accordionExpanded);
     event.stopPropagation();
     event.preventDefault();
   };

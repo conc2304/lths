@@ -4,7 +4,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import DrawerScrollBarContent from './index';
 import * as layoutContext from '../../../../context';
 
-// Mock the context and SimpleBar
 jest.mock('../../../../context', () => ({
   useLayoutActions: jest.fn(),
 }));
