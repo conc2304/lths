@@ -29,7 +29,8 @@ describe('DrawerSectionListItem', () => {
 
   beforeEach(() => {
     mockUseNavigate.mockImplementation(() => jest.fn());
-    mockUseLayoutActions.mockImplementation(() => ({
+
+    (mockUseLayoutActions as jest.Mock).mockImplementation(() => ({
       drawerOpen: true,
     }));
     jest.clearAllMocks();
@@ -73,7 +74,7 @@ describe('DrawerSectionListItem', () => {
   });
 
   it('only renders the icon when the drawer is closed', () => {
-    mockUseLayoutActions.mockImplementation(() => ({
+    (mockUseLayoutActions as jest.Mock).mockImplementation(() => ({
       drawerOpen: false,
     }));
 
