@@ -16,7 +16,6 @@ const HalfHeightMatchUpToolbar = (props: HalfHeightMatchUpComponentProps) => {
       <Stack spacing={2}>
         <ToolbarLabel label="Scheduled matchups" />
         <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-        <GroupLabel label="Games" />
         <GroupLabel label="Button" />
         <OutlinedTextField label={'Label'} value={btn_text} onChange={handleButtonTextChange} multiline={false} />
         <GroupLabel label="Source Type" />
