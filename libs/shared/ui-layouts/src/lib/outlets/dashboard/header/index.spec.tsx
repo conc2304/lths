@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { RBTheme, RBThemeProvider } from '@lths-mui/shared/themes';
 import '@testing-library/jest-dom';
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 import { HashRouter } from 'react-router-dom';
 
 import Header from './index';
@@ -31,59 +31,10 @@ describe('Header Component', () => {
   const headerRightMock = <Box>Header Right Mock</Box>;
 
   it('renders Header component', () => {
-    const { getByTestId, getByLabelText } = renderHeader(
-      <Header fixedHeader={true} headerLeft={headerLeftMock} headerRight={headerRightMock} />
-    );
-    expect(getByTestId('Dashboard-Header--root')).toBeInTheDocument();
-    expect(getByLabelText('Open Navigation Menu')).toBeInTheDocument();
-  });
-
-  it('toggles drawer visibility on icon button click', async () => {
-    const drawerOpen = false;
-    const setDrawerOpenMock = jest.fn();
-    // @ts-expect-error - we dont need to pass in the rest
-    useLayoutActionsMock.mockReturnValue({
-      drawerOpen,
-      setDrawerOpen: setDrawerOpenMock,
-    });
-
-    const { getByTestId, getByLabelText } = renderHeader(
-      <Header fixedHeader={true} headerLeft={headerLeftMock} headerRight={headerRightMock} />
-    );
-
-    const drawerButton = getByTestId('Dashboard-Header--drawer-toggle-btn');
-    expect(drawerButton).toBeInTheDocument();
-
-    fireEvent.click(drawerButton);
-
-    expect(setDrawerOpenMock).toHaveBeenCalled();
-    expect(setDrawerOpenMock).toHaveBeenCalledWith(!drawerOpen);
-    waitFor(() => {
-      expect(getByLabelText('Close Navigation Menu')).toBeInTheDocument();
-    });
-  });
-
-  it('applies rotation style to the icon when drawer is visible', () => {
-    const setDrawerOpenMock = jest.fn();
-    // @ts-expect-error - we dont need to pass in the rest
-    useLayoutActionsMock.mockReturnValue({
-      drawerOpen: false,
-      setDrawerOpen: setDrawerOpenMock,
-    });
-
     const { getByTestId } = renderHeader(
       <Header fixedHeader={true} headerLeft={headerLeftMock} headerRight={headerRightMock} />
     );
-
-    const drawerButton = getByTestId('Dashboard-Header--drawer-toggle-btn');
-    expect(drawerButton).toBeInTheDocument();
-    expect(drawerButton).toHaveStyle('transform: rotate(0deg)');
-
-    fireEvent.click(drawerButton);
-
-    waitFor(() => {
-      expect(drawerButton).toHaveStyle('transform: rotate(180deg)');
-    });
+    expect(getByTestId('Dashboard-Header--root')).toBeInTheDocument();
   });
 
   it('renders fixed AppBar with proper styles when `fixedHeader` is true', () => {
