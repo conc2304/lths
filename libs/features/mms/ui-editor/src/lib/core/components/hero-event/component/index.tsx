@@ -3,6 +3,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 import placeholder from '../../../../../assets/placeholder_3_2.svg';
 import colors from '../../../../common/colors';
+import { EVENT_HEIGHT, ICON_HEIGHT, ICON_WIDTH } from '../../../../common/constants';
 import { BasicContainer } from '../../../../elements';
 import { HeroEventComponentProps } from '../../types';
 
@@ -11,7 +12,13 @@ const HeroEventComponent = (props: HeroEventComponentProps) => {
   return (
     <BasicContainer id={id}>
       <Box>
-        <CardMedia component="img" height="192" image={placeholder} alt={'placeholder'} sx={{ borderRadius: 2.5 }} />
+        <CardMedia
+          component="img"
+          height={EVENT_HEIGHT}
+          image={placeholder}
+          alt={'placeholder'}
+          sx={{ borderRadius: 2.5 }}
+        />
         <Box paddingY={'0.75rem'}>
           <Typography sx={{ color: colors.editor.text, fontWeight: 450, textAlign: 'center' }} marginTop={1.5}>
             Title
@@ -21,7 +28,12 @@ const HeroEventComponent = (props: HeroEventComponentProps) => {
               Sat,Jan 10
             </Typography>
             <FiberManualRecordIcon
-              sx={{ color: colors.editor.subText, fontSize: '0.5rem', width: '0.25rem', height: '0.25rem' }}
+              sx={{
+                color: colors.editor.subText,
+                fontSize: '0.5rem',
+                width: `${ICON_WIDTH}rem`,
+                height: `${ICON_HEIGHT}rem`,
+              }}
             />
             <Typography sx={{ color: colors.editor.subText, fontSize: '0.875rem', lineHeight: '1.25rem' }}>
               7:00PM
