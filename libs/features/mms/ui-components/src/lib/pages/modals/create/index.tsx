@@ -70,7 +70,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
     return (
       <Box component="li" {...props}>
-        <Typography>{data.name}</Typography>
+        <Typography key={data._id}>{data.name}</Typography>
       </Box>
     );
   };
