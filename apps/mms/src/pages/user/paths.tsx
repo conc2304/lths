@@ -1,15 +1,15 @@
-import Person from '@mui/icons-material/Person';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 import { SectionItemProps } from '../../routes/types';
 
 const section: SectionItemProps = {
   items: [
     {
-      title: 'User',
-      icon: <Person />,
+      title: 'Users',
+      icon: <PersonOutlineOutlinedIcon />,
       path: '/user',
-      file: '/user/edit-profile-page',
-      hidden: true,
+      file: '/user/users-management-page',
+      hidden: false,
       items: [{ title: 'Profile', path: '/user/profile', file: '/user/edit-profile-page', hidden: true }],
     },
   ],
