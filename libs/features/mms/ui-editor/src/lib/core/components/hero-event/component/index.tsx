@@ -3,7 +3,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 import placeholder from '../../../../../assets/placeholder_3_2.svg';
 import colors from '../../../../common/colors';
-import { EVENT_HEIGHT, ICON_HEIGHT, ICON_WIDTH } from '../../../../common/constants';
+import { EVENT_HEIGHT, RECORD_ICON_HEIGHT, RECORD_ICON_WIDTH } from '../../../../common/constants';
 import { BasicContainer } from '../../../../elements';
 import { HeroEventComponentProps } from '../../types';
 
@@ -30,9 +30,8 @@ const HeroEventComponent = (props: HeroEventComponentProps) => {
             <FiberManualRecordIcon
               sx={{
                 color: colors.editor.subText,
-                fontSize: '0.5rem',
-                width: `${ICON_WIDTH}rem`,
-                height: `${ICON_HEIGHT}rem`,
+                width: { RECORD_ICON_WIDTH },
+                height: { RECORD_ICON_HEIGHT },
               }}
             />
             <Typography sx={{ color: colors.editor.subText, fontSize: '0.875rem', lineHeight: '1.25rem' }}>
