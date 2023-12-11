@@ -6,7 +6,7 @@ import {
   AssetsRequestProps,
   ArchiveAssetsResponse,
   UpdateAssetResponse,
-  CreateAssetResponse,
+  // CreateAssetResponse,
 } from './types';
 import { getAddAssetUrl, getAssetsUrl, getSecureUrl, getUpdateAssetUrl } from './urls';
 
@@ -31,24 +31,31 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
       query: (request: AssetsRequestProps) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
     }),
-    addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
-      query: (prop) => {
-        const requestBody = new FormData();
-        requestBody.append('file', prop.newAsset);
-        requestBody.append('created_by', prop.user);
-        return {
-          url: getAddAssetUrl(),
-          method: 'POST',
-          body: requestBody,
-        };
-      },
+    // addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
+    //   query: (prop) => {
+    //     const requestBody = new FormData();
+    //     requestBody.append('file', prop.newAsset);
+    //     requestBody.append('created_by', prop.user);
+    //     return {
+    //       url: getAddAssetUrl(),
+    //       method: 'POST',
+    //       body: requestBody,
+    //     };
+    //   },
+    // }),
+    createMedia: builder.mutation({
+      query: (mediaData) => ({
+        url: getAddAssetUrl(),
+        method: 'POST',
+        body: mediaData,
+      }),
     }),
-    secureUrl: builder.query<string, string>({
+    secureUrlFetch: builder.query({
       query: (fileName) => ({
         url: getSecureUrl(fileName),
         method: 'GET',
       }),
-      transformResponse: (response: any) => response.signedUploadUrl,
+      transformResponse: (response: any) => response.data.signedUploadUrl,
     }),
     editResource: builder.mutation<UpdateAssetResponse, { id: string; original_file_name: string }>({
       query: (prop) => ({
@@ -70,8 +77,9 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
 export const {
   useGetAssetsItemsQuery,
   useLazyGetAssetsItemsQuery,
-  useAddResourceMutation,
-  useLazySecureUrlQuery,
+  // useAddResourceMutation,
+  useLazySecureUrlFetchQuery,
+  useCreateMediaMutation,
   useEditResourceMutation,
   useDeleteResourceMutation,
 } = assetsApi;

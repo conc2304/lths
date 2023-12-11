@@ -7,12 +7,11 @@ import {
   AssetsRequestProps,
   AssetProps,
   PreviewAssetRowProps,
-  useAddResourceMutation,
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
-  useAppSelector,
-  useLazySecureUrlQuery,
+  useCreateMediaMutation,
+  useLazySecureUrlFetchQuery,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -21,7 +20,6 @@ import {
   AssetModals,
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -59,7 +57,6 @@ const headers = [
 ];
 
 export default function AssetsPage() {
-  const user = useAppSelector((state) => state.auth);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
@@ -207,46 +204,70 @@ export default function AssetsPage() {
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource] = useAddResourceMutation();
-
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 
-  const [fetchSecureUrl, { data: secureUrl, isUninitialized }] = useLazySecureUrlQuery();
+  const [getSecureUrl] = useLazySecureUrlFetchQuery();
+  const [createMedia] = useCreateMediaMutation();
+  function getFileExtension(filename) {
+    return filename.split('.').pop();
+  }
 
+  function generateRandomString() {
+    return Math.random().toString(36).slice(2);
+  }
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !allowedFileTypes.includes(file.type)) {
-      console.error('Invalid file type:', file?.type);
+    if (!file) {
       return;
     }
-    // Trigger fetch for secure URL only when file is selected for upload
-    if (isUninitialized || !secureUrl) {
-      const result = await fetchSecureUrl(file.name);
-      console.log('Secure URL:', result);
+    if (!allowedFileTypes.includes(file.type)) {
+      console.error('Invalid file type:', file.type);
+      return;
     }
-    // console.log('Secure URL:', secureUrl);
-    if (secureUrl) {
-      const uploadSuccess = await uploadFileToBlob(file, secureUrl);
-      if (uploadSuccess) {
-        await handleAddAsset(file);
-        // Fetch updated data
-        await fetchData(currPagination, currSorting, search);
-      }
-    } else {
-      console.log('No secure url found');
+
+    // Fetch secure URL
+    const signedUrl = await getSecureUrl(file.name).unwrap();
+    if (!signedUrl) {
+      console.error('Failed to obtain signed URL');
+      return;
     }
-    // This small change resets the file input after each upload,
-    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
-    event.target.value = '';
+
+    // Upload file to Azure Blob Storage
+    const uploadSuccess = await uploadFileToBlob(file, signedUrl);
+    if (!uploadSuccess) {
+      console.error('Failed to upload file to Blob storage');
+      return;
+    }
+
+    // Create media entry in your backend
+    const randomString = generateRandomString();
+    const mediaData = {
+      mime_type: file.type,
+      original_file_name: file.name,
+      unique_file_name: `${randomString}-${file.name}`,
+      file_extension: getFileExtension(file.name),
+      media_files: [
+        {
+          url: signedUrl, // Assuming this is the URL you want to associate with the media file
+          mime_type: file.type,
+          is_finalized: false,
+          file_extension: getFileExtension(file.name),
+        },
+      ],
+    };
+    const createdMedia = await createMedia(mediaData).unwrap();
+    console.log('Media created:', createdMedia);
+
+    event.target.value = ''; // Reset the file input after upload
   };
 
-  const uploadFileToBlob = async (file: File, signedUrl: string): Promise<boolean> => {
+  const uploadFileToBlob = async (file, signedUrl) => {
     try {
       const response = await fetch(signedUrl, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': file.type,
-          'x-ms-blob-type': 'BlockBlob', // Required for Azure Blob Storage
+          'x-ms-blob-type': 'BlockBlob',
         },
         body: file,
       });
@@ -256,23 +277,10 @@ export default function AssetsPage() {
       }
 
       console.log('File uploaded to Azure Blob storage.');
-      return true; // Return true if upload is successful
+      return true;
     } catch (error) {
       console.error('Error uploading to Blob storage:', error);
-      return false; // Return false if there is an error
-    }
-  };
-
-  const [getUser] = useLazyGetUserQuery();
-
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
-
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
+      return false;
     }
   };
 
