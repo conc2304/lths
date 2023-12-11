@@ -11,8 +11,8 @@ import {
 import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl } from './urls';
 
 const createAssetQuery = (request: AssetsRequestProps) => {
-  const queryString = request?.queryString
-  return ({
+  const queryString = request?.queryString;
+  return {
     url: getAssetsUrl(request),
     method: 'POST',
     body: {
@@ -22,15 +22,15 @@ const createAssetQuery = (request: AssetsRequestProps) => {
         field: request.sort_key ?? 'created_at',
       },
     },
-  })
+  };
 };
 
 export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
   endpoints: (builder) => ({
-    getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({ 
+    getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({
       query: (request: AssetsRequestProps) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
-    }), 
+    }),
     addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
       query: (prop) => {
         const requestBody = new FormData();
@@ -40,6 +40,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
           url: getAddAssetUrl(),
           method: 'POST',
           body: requestBody,
+          headers: { 'x-api-version': '1' },
         };
       },
     }),
