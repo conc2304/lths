@@ -4,8 +4,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
 
-import { ICON_WIDTH } from '@lths/features/mms/ui-editor';
-
 import SectionItemButton from './section-item-button';
 import { DrawerSectionListItemProps } from './types';
 
@@ -56,7 +54,7 @@ const DrawerSectionListItem = ({
       aria-haspopup={showAccordion ? 'true' : 'false'}
       tabIndex={selected ? 0 : undefined}
     >
-      {icon && <ListItemIcon sx={{ minWidth: ICON_WIDTH, paddingRight: 1 }}>{icon}</ListItemIcon>}
+      {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
       <ListItemText primary={title} />
       {showAccordion && (
         <ChevronRight

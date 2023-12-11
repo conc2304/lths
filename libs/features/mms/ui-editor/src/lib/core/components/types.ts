@@ -605,8 +605,6 @@ export type HorizontalMediumProps = ComponentProps & {
 
 export type FullHeightEventFloatingTextComponentProps = ComponentProps;
 
-export type HeroEventComponentProps = ComponentProps;
-
 export type HeroGameBoxPreGameProps = {
   show_date_text: boolean;
   show_time_text: boolean;
@@ -660,3 +658,5 @@ export type HeroGameboxComponentProps = ComponentProps & {
     };
   };
 };
+
+export type HeroEventComponentProps = ComponentProps;
