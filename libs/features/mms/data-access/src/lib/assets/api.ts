@@ -6,6 +6,7 @@ import {
   AssetsRequestProps,
   ArchiveAssetsResponse,
   UpdateAssetResponse,
+  CreateAssetResponse,
   // CreateAssetResponse,
 } from './types';
 import { getAddAssetUrl, getAssetsUrl, getSecureUrl, getUpdateAssetUrl } from './urls';
@@ -31,18 +32,18 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
       query: (request: AssetsRequestProps) => createAssetQuery(request),
       transformResponse: transformAssetResponse,
     }),
-    // addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
-    //   query: (prop) => {
-    //     const requestBody = new FormData();
-    //     requestBody.append('file', prop.newAsset);
-    //     requestBody.append('created_by', prop.user);
-    //     return {
-    //       url: getAddAssetUrl(),
-    //       method: 'POST',
-    //       body: requestBody,
-    //     };
-    //   },
-    // }),
+    addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
+      query: (prop) => {
+        const requestBody = new FormData();
+        requestBody.append('file', prop.newAsset);
+        requestBody.append('created_by', prop.user);
+        return {
+          url: getAddAssetUrl(),
+          method: 'POST',
+          body: requestBody,
+        };
+      },
+    }),
     createMedia: builder.mutation({
       query: (mediaData) => ({
         url: getAddAssetUrl(),
@@ -77,7 +78,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
 export const {
   useGetAssetsItemsQuery,
   useLazyGetAssetsItemsQuery,
-  // useAddResourceMutation,
+  useAddResourceMutation,
   useLazySecureUrlFetchQuery,
   useCreateMediaMutation,
   useEditResourceMutation,
