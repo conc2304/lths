@@ -658,3 +658,5 @@ export type HeroGameboxComponentProps = ComponentProps & {
     };
   };
 };
+
+export type HeroEventComponentProps = ComponentProps;
