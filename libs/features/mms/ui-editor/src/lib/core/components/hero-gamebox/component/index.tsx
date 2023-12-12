@@ -23,8 +23,11 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
       postgame: { show_final_text, show_highlights_btn, btn_text_play_icon, btn_text: postgame_btn_text } = {},
       image,
       editor_meta_data,
+      show_greetings,
+      title,
     },
   } = props;
+  console.log('show_greetings,title', show_greetings, title);
 
   const { PRE_GAME, IN_GAME, POST_GAME } = GameEventState;
 
@@ -59,7 +62,7 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
           textAlign: 'center',
         }}
       >
-        <Header headerText={greetingText} />
+        <Header headerText={greetingText} show_greetings={show_greetings} title={title} />
         <Matchup
           away_team_logo={PucksPanthersIcon}
           home_team_logo={PucksDucksIcon}

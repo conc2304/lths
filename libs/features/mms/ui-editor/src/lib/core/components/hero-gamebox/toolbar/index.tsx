@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import React from 'react';
 import { MenuItem, TextField } from '@mui/material';
 
+import SwitchToggle from './general';
 import InGameToolbar from './in-game';
 import PostGameToolbar from './post-game';
 import PreGameToolbar from './pre-game';
@@ -20,8 +21,8 @@ const HeroGameboxToolbar = (props: HeroGameboxComponentProps) => {
 
   const { handlePropChange, handleTitleChange } = useToolbarChange();
 
-  const handleShowGreetingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGreetingChecked(event.target.checked);
+  const handleOnGamePropchange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    handlePropChange('show_greetings', event.target.checked);
   };
 
   const handleImageChange = (value: string) => {
@@ -53,7 +54,7 @@ const HeroGameboxToolbar = (props: HeroGameboxComponentProps) => {
       <ToolbarLabel label="Gamebox" />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <TextField value={title} onChange={handleTitleChange} label="Title" fullWidth />
-      <SwitchButton isChecked={greetingChecked} onChange={handleShowGreetingChange} label="Show Greetings" />
+      <SwitchToggle onGamePropChange={handleOnGamePropchange} />
       <GroupLabel label="Game Events" />
       <TextField value={eventState} onChange={handleEventStateChange} label="Event State" select fullWidth>
         <MenuItem value={PRE_GAME}>Pre Game</MenuItem>
