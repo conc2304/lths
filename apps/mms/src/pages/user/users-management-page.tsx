@@ -204,7 +204,7 @@ const UserManagementPage = () => {
           loading={isLoading}
           fetching={isFetching}
           total={totalUsers}
-          title="{0} Assets"
+          title="{0} Users"
           headerCells={headers}
           tableRows={tableRows}
           pagination={currPagination}
