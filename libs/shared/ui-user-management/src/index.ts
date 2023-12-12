@@ -1,1 +1,1 @@
-export * from './lib/shared-ui-user-management';
+export * from './lib';
