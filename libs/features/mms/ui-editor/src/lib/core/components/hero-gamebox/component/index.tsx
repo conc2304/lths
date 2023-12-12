@@ -27,7 +27,6 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
       title,
     },
   } = props;
-  console.log('show_greetings,title', show_greetings, title);
 
   const { PRE_GAME, IN_GAME, POST_GAME } = GameEventState;
 
@@ -42,6 +41,8 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
   const btnIconSrc = eventState === POST_GAME && btn_text_play_icon ? PlayArrowIcon : null;
 
   const greetingText = getGreetingBasedOnTimeOfToday();
+
+  const headerText = show_greetings ? greetingText : title;
 
   const showTeamScore = eventState === IN_GAME || eventState === POST_GAME;
 
@@ -62,7 +63,7 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
           textAlign: 'center',
         }}
       >
-        <Header greetings={greetingText} showGeetings={show_greetings} title={title} />
+        <Header headerText={headerText} />
         <Matchup
           away_team_logo={PucksPanthersIcon}
           home_team_logo={PucksDucksIcon}

@@ -5,16 +5,12 @@ import { Colors } from '../../../../../common';
 import { ICON_WIDTH, ICON_HEIGHT } from '../../../../../common';
 
 type Props = {
-  greetings: string;
-  showGeetings: boolean;
-  title: string;
+  headerText: string;
   sx?: SxProps;
 };
 
 const Header = (props: Props) => {
-  const { greetings, sx = {}, showGeetings = true, title } = props;
-
-  const headerText = showGeetings ? greetings : title;
+  const { headerText, sx = {} } = props;
 
   return (
     <Stack direction="row" justifyContent="space-between" sx={sx}>
