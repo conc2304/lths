@@ -1,9 +1,10 @@
 import { useEffect, useState, MouseEvent as MouseEventReact } from 'react';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 
-import { User, useLazyGetUsersQuery } from '@lths/shared/data-access';
-import { Table, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { QueryParams } from '@lths/features/mms/data-access';
+import { useLazyGetUsersQuery } from '@lths/shared/data-access';
+import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { UserManagementList } from '@lths/shared/ui-user-management';
 
@@ -15,14 +16,31 @@ const UserManagementPage = () => {
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
   const [search, setSearch] = useState({ queryString: '' });
 
-  const init = async () => {
-    console.log('fetch users');
-
-    getUsers();
-  };
   useEffect(() => {
-    init();
-  }, []);
+    fetchUsers(currPagination, currSorting, search);
+  }, [currPagination, currSorting, search]);
+
+  async function fetchUsers(
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) {
+    const req: QueryParams = {};
+    if (pagination != null) {
+      req.page = pagination.page;
+      req.page_size = pagination.pageSize;
+    }
+    if (sorting != null) {
+      req.sort_key = sorting.column;
+      req.sort_order = sorting.order;
+    }
+    if (search != null && search.queryString !== '') {
+      req.queryString = search.queryString;
+    }
+
+    console.log({ req });
+    getUsers(req);
+  }
 
   // console.log({ users });
   const totalUsers = pagination?.totalItems || 0;
@@ -40,6 +58,7 @@ const UserManagementPage = () => {
     pagination: TablePaginationProps,
     sorting: TableSortingProps
   ) => {
+    console.log({ pagination, sorting });
     setCurrPagination(pagination);
     setCurrSorting(sorting);
   };
@@ -48,12 +67,12 @@ const UserManagementPage = () => {
     console.log('handleSorting', pagination, sorting);
   };
 
-  const handleSearch = (value: string) => {
-    if (currPagination) {
-      setCurrPagination({ ...currPagination, page: 0 });
-    }
-    setSearch({ queryString: value });
-  };
+  // const handleSearch = (value: string) => {
+  //   if (currPagination) {
+  //     setCurrPagination({ ...currPagination, page: 0 });
+  //   }
+  //   setSearch({ queryString: value });
+  // };
 
   return (
     <Box

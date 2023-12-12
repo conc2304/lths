@@ -29,10 +29,10 @@ type Props = {
 
 export const UserManagementList = (props: Props) => {
   const { users = [] } = props;
-  console.log({ users });
   const {
     totalUsers = users.length,
     headerCells,
+    tableRows: tableRowsProp,
     pagination,
     loading = false,
     sorting,
@@ -43,7 +43,7 @@ export const UserManagementList = (props: Props) => {
 
   const headers = headerCells || [
     {
-      id: 'name',
+      id: 'first_name',
       label: 'User Details',
       sortable: true,
     },
@@ -74,7 +74,11 @@ export const UserManagementList = (props: Props) => {
     },
   ];
 
-  const tableRows = !users?.length ? [] : users.map((userData) => <UserRow key={userData._id} user={userData} />);
+  const tableRows = tableRowsProp
+    ? tableRowsProp
+    : !users?.length
+    ? []
+    : users.map((userData) => <UserRow key={userData._id} user={userData} />);
 
   return (
     <Table
