@@ -50,7 +50,7 @@ export type User = {
   is_deleted: boolean;
   last_name: string;
   password_hash: string;
-  roles: unknown[];
+  roles: string[];
   user_type: unknown;
   username: string;
   phone_number: string;

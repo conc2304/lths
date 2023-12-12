@@ -11,10 +11,14 @@ import {
   IconButton,
   Stack,
   useTheme,
+  SvgIconTypeMap,
+  Chip,
 } from '@mui/material';
-import { PersonAdd } from '@mui/icons-material';
+import { NotInterested, CheckCircle, RadioButtonUnchecked } from '@mui/icons-material';
+import { PersonAdd, SvgIconComponent } from '@mui/icons-material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SearchIcon from '@mui/icons-material/Search';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { Property } from 'csstype';
 import { first } from 'lodash';
 
@@ -38,7 +42,6 @@ const UserManagementPage = () => {
     init();
   }, []);
 
-  console.log({ data });
   const totalUsers = data?.pagination?.totalItems || 0;
 
   const headers = [
@@ -48,9 +51,9 @@ const UserManagementPage = () => {
       sortable: true,
     },
     {
-      id: 'username',
-      label: 'Username',
-      sortable: true,
+      id: 'roles',
+      label: 'Roles',
+      sortable: false,
     },
     {
       id: 'country',
@@ -125,7 +128,7 @@ const UserManagementPage = () => {
     console.log('handleSorting', pagination, sorting);
   };
 
-  const UserRow = ({ first_name, last_name, is_active, is_deleted, city, country, email, username }: User) => {
+  const UserRow = ({ first_name, last_name, is_active, is_deleted, city, country, email, username, roles }: User) => {
     const initials = `${first_name ? first_name.charAt(0) : ''}${
       last_name ? (first_name ? ' ' : '') + last_name.charAt(0) : ''
     }`;
@@ -135,9 +138,17 @@ const UserManagementPage = () => {
     const status = is_active ? 'Active' : !is_deleted ? 'Inactive' : 'Deleted';
     const statusColorMap: Record<typeof status, Property.Color> = {
       Active: theme.palette.success.main,
-      Inactive: theme.palette.action.disabled,
+      Inactive: theme.palette.grey[600],
       Deleted: theme.palette.warning.dark,
     };
+
+    const statusIconMap: Record<typeof status, OverridableComponent<SvgIconTypeMap<Record<string, unknown>, 'svg'>>> = {
+      Active: CheckCircle,
+      Inactive: RadioButtonUnchecked,
+      Deleted: NotInterested,
+    };
+
+    const StatusIcon = statusIconMap[status];
 
     return (
       <TableRow>
@@ -162,15 +173,31 @@ const UserManagementPage = () => {
             <Stack>
               <Typography variant="h4">{displayName}</Typography>
               <Typography variant="h6">{email}</Typography>
+              {username !== email && <Typography variant="caption">{username}</Typography>}
             </Stack>
           </Box>
         </TableCell>
 
-        <TableCell>{username}</TableCell>
+        <TableCell>
+          {!roles.length ? (
+            <Typography variant="caption">N/A</Typography>
+          ) : (
+            roles.map((role) => (
+              <Typography key={role} variant="body2">
+                {role}
+              </Typography>
+            ))
+          )}
+        </TableCell>
         <TableCell>{country}</TableCell>
         <TableCell>{city}</TableCell>
         <TableCell>
-          <Typography color={statusColorMap[status]}>{status}</Typography>
+          <Stack direction="row">
+            <StatusIcon htmlColor={statusColorMap[status]} sx={{ mr: 1 }} />
+            <Typography variant="body1" color={statusColorMap[status]}>
+              {status}
+            </Typography>
+          </Stack>
         </TableCell>
         <TableCell>
           <IconButton size="medium">
