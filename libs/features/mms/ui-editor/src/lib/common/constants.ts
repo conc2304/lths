@@ -12,3 +12,6 @@ export const HERO_GAMEBOX_HEIGHT = 420;
 export const FLEXIBLE_TRANSITION_MIN_WIDTH = 200;
 export const HORIZONTAL_MEDIUM_ASPECT_RATIO = 1.2;
 export const HORIZONTAL_SMALL_ASPECT_RATIO = 6.4;
+export const CARD_HEIGHT = 192;
+export const ICON_HEIGHT = 24;
+export const ICON_WIDTH = 24;
