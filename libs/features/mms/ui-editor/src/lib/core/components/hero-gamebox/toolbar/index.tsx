@@ -1,8 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import React from 'react';
 import { MenuItem, TextField } from '@mui/material';
 
-import SwitchToggle from './general';
 import InGameToolbar from './in-game';
 import PostGameToolbar from './post-game';
 import PreGameToolbar from './pre-game';
@@ -13,15 +12,13 @@ import { GameEventState, HeroGameboxComponentProps } from '../../types';
 const HeroGameboxToolbar = (props: HeroGameboxComponentProps) => {
   const {
     __ui_id__: id,
-    data: { pregame, ingame, postgame, image, editor_meta_data, title, show_greetings },
+    data: { pregame, ingame, postgame, image, editor_meta_data, title, show_greetings = false },
     onPropChange,
   } = props;
 
-  const [greetingChecked, setGreetingChecked] = useState(show_greetings);
-
   const { handlePropChange, handleTitleChange } = useToolbarChange();
 
-  const handleOnGamePropchange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleShowGreetingsPropchange = (event: ChangeEvent<HTMLInputElement>) => {
     handlePropChange('show_greetings', event.target.checked);
   };
 
@@ -54,7 +51,7 @@ const HeroGameboxToolbar = (props: HeroGameboxComponentProps) => {
       <ToolbarLabel label="Gamebox" />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <TextField value={title} onChange={handleTitleChange} label="Title" fullWidth />
-      <SwitchToggle onGamePropChange={handleOnGamePropchange} />
+      <SwitchButton isChecked={show_greetings} onChange={handleShowGreetingsPropchange} label="Show Greetings" />
       <GroupLabel label="Game Events" />
       <TextField value={eventState} onChange={handleEventStateChange} label="Event State" select fullWidth>
         <MenuItem value={PRE_GAME}>Pre Game</MenuItem>

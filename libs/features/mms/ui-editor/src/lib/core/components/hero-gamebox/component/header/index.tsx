@@ -4,23 +4,20 @@ import AvatarIcon from './../../../../../../assets/avatar-icon.svg';
 import { Colors } from '../../../../../common';
 
 type Props = {
-  headerText: string;
-  show_greetings: boolean;
+  greetings: string;
+  showGeetings: boolean;
   title: string;
   sx?: SxProps;
 };
 
 const Header = (props: Props) => {
-  const { headerText, sx = {}, show_greetings = true, title } = props;
+  const { greetings, sx = {}, showGeetings = true, title } = props;
+
+  const headerText = showGeetings ? greetings : title;
 
   return (
     <Stack direction="row" justifyContent="space-between" sx={sx}>
-      {show_greetings ? (
-        <Typography color={Colors.editor.text}>{headerText}</Typography>
-      ) : (
-        <Typography color={Colors.editor.text}>{title}</Typography>
-      )}
-
+      <Typography color={Colors.editor.text}>{headerText}</Typography>
       <img src={AvatarIcon} alt="avatar icon" width={24} height={24} />
     </Stack>
   );

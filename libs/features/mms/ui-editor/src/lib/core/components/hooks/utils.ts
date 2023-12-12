@@ -2,7 +2,7 @@ import { ComponentProps } from '../../../context';
 
 export const rootKey = 'data';
 
-export function getValue(data: object, name: string, value: number | string | object | undefined | null) {
+export function getValue(data: object, name: string, value: number | string | boolean | object | undefined | null) {
   return typeof value === 'object' ? { ...(data[name] || {}), ...value } : value;
 }
 
@@ -52,7 +52,7 @@ export const mergeKeys = (keys: string[]) => {
 export function updateNestedProp(
   data: ComponentProps,
   propName: string,
-  value: number | string | object | undefined | null,
+  value: number | string | boolean | object | undefined | null,
   index: number,
   keys: string[] = []
 ) {

@@ -62,7 +62,7 @@ const HeroGameboxComponent = (props: HeroGameboxComponentProps) => {
           textAlign: 'center',
         }}
       >
-        <Header headerText={greetingText} show_greetings={show_greetings} title={title} />
+        <Header greetings={greetingText} showGeetings={show_greetings} title={title} />
         <Matchup
           away_team_logo={PucksPanthersIcon}
           home_team_logo={PucksDucksIcon}
