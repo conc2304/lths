@@ -8,6 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { LoadingButton } from '@mui/lab';
 
+import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
 import { Colors, PageAction } from '@lths/features/mms/ui-editor';
 import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
@@ -119,7 +120,7 @@ export const PageHeader = ({
         <Stack direction="row" alignItems="center" spacing={2}>
           <PagesStatus status={status} statusInfo={statusInfoText} />
           <MenuButton
-            startIcon={<img src={PublishIcon} alt="publish icon" width={24} height={24} />}
+            startIcon={<img src={PublishIcon} alt="publish icon" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             buttonText="PUBLISH"
             buttonAction={setNotificationStatusSent}
             items={menuItems}

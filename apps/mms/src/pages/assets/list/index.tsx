@@ -59,7 +59,7 @@ const headers = [
 
 export default function AssetsPage() {
   const user = useAppSelector((state) => state.auth);
-  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
+  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<PreviewAssetRowProps>(null);
@@ -95,13 +95,17 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
-  const [search, setSearch] = React.useState({ queryString: ''});
+  const [search, setSearch] = React.useState({ queryString: '' });
 
   useEffect(() => {
     fetchData(currPagination, currSorting, search);
   }, [currPagination, currSorting, search]);
 
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search: { queryString: string }) {
+  async function fetchData(
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -117,7 +121,6 @@ export default function AssetsPage() {
 
     getData(req);
   }
-
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -205,7 +208,7 @@ export default function AssetsPage() {
 
   const [addResource] = useAddResourceMutation();
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];

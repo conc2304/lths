@@ -3,15 +3,15 @@ import { Box, Chip, Stack } from '@mui/material';
 import TMLogo from '../../../../../assets/tm-logo.svg';
 import { ICON_HEIGHT, ICON_WIDTH } from '../../../../common';
 import { GroupLabel, ToolContainer, ToolbarLabel } from '../../../../elements';
-import { FullHeightEventFloatingTextComponentProps } from '../../types';
+import { HeroEventComponentProps } from '../../types';
 
-const FullHeightEventFloatingTextToolbar = (props: FullHeightEventFloatingTextComponentProps) => {
+const HeroEventToolbar = (props: HeroEventComponentProps) => {
   const { __ui_id__: id } = props;
 
   return (
     <ToolContainer id={id}>
       <Stack spacing={2}>
-        <ToolbarLabel label="Full Height Event Floating Text" />
+        <ToolbarLabel label="Hero Event" />
         <GroupLabel label="Source Type" />
         <Box>
           <Chip
@@ -28,4 +28,4 @@ const FullHeightEventFloatingTextToolbar = (props: FullHeightEventFloatingTextCo
   );
 };
 
-export default FullHeightEventFloatingTextToolbar;
+export default HeroEventToolbar;

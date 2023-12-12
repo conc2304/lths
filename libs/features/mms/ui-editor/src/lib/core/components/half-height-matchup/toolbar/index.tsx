@@ -1,6 +1,7 @@
 import { Box, Chip, Stack } from '@mui/material';
 
 import NHLLogo from '../../../../../assets/NHL-logo.svg';
+import { ICON_WIDTH, ICON_HEIGHT } from '../../../../common';
 import { GroupLabel, OutlinedTextField, ToolContainer, ToolbarLabel } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { HalfHeightMatchUpComponentProps } from '../../types';
@@ -23,7 +24,7 @@ const HalfHeightMatchUpToolbar = (props: HalfHeightMatchUpComponentProps) => {
           <Chip
             label={source_type}
             variant="filled"
-            icon={<img src={NHLLogo} alt="NHL Logo" width={24} height={24} />}
+            icon={<img src={NHLLogo} alt="NHL Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             sx={{
               '& .MuiChip-label': { textTransform: 'none' },
             }}
