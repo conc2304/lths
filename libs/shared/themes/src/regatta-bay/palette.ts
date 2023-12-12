@@ -32,6 +32,9 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
     appBar: {
       background: '#110922',
     },
+    snackBar: {
+      main: '#2A2F34',
+    },
     sideBar: {
       background: '#f4f4f4',
     },

@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -11,6 +10,7 @@ import {
   useUpdatePageNameMutation,
 } from '@lths/features/mms/data-access';
 import { PageAction } from '@lths/features/mms/ui-editor';
+import { toastQueueService } from '@lths/shared/ui-elements';
 
 import { AlertProvider, useAlertActions } from '../../context';
 import { DeletePageAlert, DuplicatePageAlert } from '../dialogs';
@@ -41,14 +41,14 @@ const PageAdapter = ({ children }: Props) => {
       const response = await deletePage({ page_id }).unwrap();
       if (response.success) {
         closeAlert();
-        toast.success('Page has been deleted successfully');
+        toastQueueService.addToastToQueue('Page has been deleted successfully', { type: 'success' });
         if (response.data) navigate('/pages');
       } else {
-        toast.error('Failed to delete the page');
+        toastQueueService.addToastToQueue('Failed to delete the page', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in deleting the page', error);
-      toast.error('Failed to delete the page');
+      toastQueueService.addToastToQueue('Failed to delete the page', { type: 'error' });
     }
   };
 
@@ -57,14 +57,14 @@ const PageAdapter = ({ children }: Props) => {
       const response = await duplicatePage({ page_id }).unwrap();
       if (response.success) {
         closeAlert();
-        toast.success('Page has been duplicated successfully');
+        toastQueueService.addToastToQueue('Page has been duplicated successfully', { type: 'success' });
         if (response.data) navigate(`/pages/editor/${response.data.page_id}`);
       } else {
-        toast.error('Failed to duplicate the page');
+        toastQueueService.addToastToQueue('Failed to duplicate the page', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in duplicating the page', error);
-      toast.error('Failed to duplicate the page');
+      toastQueueService.addToastToQueue('Failed to duplicate the page', { type: 'error' });
     }
   };
 
@@ -73,14 +73,14 @@ const PageAdapter = ({ children }: Props) => {
       const response = await createPage(data).unwrap();
       if (response.success) {
         closeAlert();
-        toast.success('Page has been created successfully');
+        toastQueueService.addToastToQueue('Page has been created successfully', { type: 'success' });
         if (response.data) navigate(`/pages/editor/${response.data.page_id}`);
       } else {
-        toast.error('Failed to create the page');
+        toastQueueService.addToastToQueue('Failed to create the page', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in creating the page', error);
-      toast.error('Failed to create the page');
+      toastQueueService.addToastToQueue('Failed to create the page', { type: 'error' });
     }
   };
 
@@ -93,14 +93,14 @@ const PageAdapter = ({ children }: Props) => {
       const response = await renamePage(requestData).unwrap();
       if (response.success) {
         closeAlert();
-        toast.success('Page has been renamed successfully');
+        toastQueueService.addToastToQueue('Page has been renamed successfully', { type: 'success' });
         if (response.data) navigate(`/pages/editor/${response.data.page_id}`);
       } else {
-        toast.error('Failed to rename the page');
+        toastQueueService.addToastToQueue('Failed to rename the page', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in renaming the page', error);
-      toast.error('Failed to rename the page');
+      toastQueueService.addToastToQueue('Failed to rename the page', { type: 'error' });
     }
   };
 

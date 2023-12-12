@@ -1,9 +1,10 @@
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
+import { toastQueueService } from '@lths/shared/ui-elements';
 import { hashString } from '@lths/shared/utils';
 
 export const errorToasterMiddleware: Middleware = () => (next) => (action) => {
+  // const { addToastToQueue } = useToastQueue();
   // RTK Query uses `createAsyncThunk` from RTK under the hood, so we can use these to match the action creators!
   if (isRejectedWithValue(action)) {
     let msg: JSX.Element | string | null = 'Something went wrong. Please try logging in again.';
@@ -49,7 +50,7 @@ export const errorToasterMiddleware: Middleware = () => (next) => (action) => {
     // this allows us to dedupe errors of the same type AND same message and not just the same type
     id = id ? `${id}_${hashString(msg.toString())}` : undefined;
 
-    toast.error(msg, { id });
+    toastQueueService.addToastToQueue(msg, { id, type: 'important' });
     console.warn('ERROR : ', msg, ` id: ${id}`, action);
   }
   return next(action);

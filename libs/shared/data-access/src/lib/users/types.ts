@@ -77,7 +77,8 @@ export type UserProfileData = {
 };
 
 export type UserResponse = {
-  data: User;
-  status: string;
+  success: boolean;
   message: string;
+  data: User;
+  error?: Error;
 };

@@ -20,7 +20,7 @@ import * as Yup from 'yup';
 
 import { selectUserId, selectUserProfileData, useAppSelector } from '@lths/features/mms/data-access';
 import { UserProfileData, useUpdateUserMutation } from '@lths/shared/data-access';
-import { CountrySelect } from '@lths/shared/ui-elements';
+import { CountrySelect, toastQueueService } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { getCountryData, validatePostalCode } from '@lths/shared/utils';
 
@@ -74,7 +74,6 @@ const EditProfilePage = () => {
   const {
     values,
     handleChange,
-    handleReset,
     handleSubmit,
     handleBlur,
     dirty,
@@ -85,6 +84,7 @@ const EditProfilePage = () => {
     setFieldValue,
     setFieldTouched,
     validateField,
+    resetForm,
   } = useFormik({
     initialValues,
     validationSchema,
@@ -113,7 +113,14 @@ const EditProfilePage = () => {
       zip_code: cleanedValues.zip_code ? cleanedValues.zip_code.toString().trim() : undefined,
     };
 
-    updateUser({ userId, ...formattedValues });
+    const response = await updateUser({ userId, ...formattedValues }).unwrap();
+
+    if (response.success) {
+      toastQueueService.addToastToQueue('Profile successfully updated', { type: 'success' });
+      resetForm({ values });
+    } else {
+      // response error should be caught by the middleware
+    }
   };
 
   return (
@@ -359,12 +366,7 @@ const EditProfilePage = () => {
             </Grid>
           </CardContent>
           <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-            <Button
-              sx={{ mr: 4 }}
-              disabled={!dirty}
-              onClick={() => handleReset(initialValues)}
-              aria-label="Cancel Editing"
-            >
+            <Button sx={{ mr: 4 }} disabled={!dirty} onClick={() => resetForm()} aria-label="Cancel Editing">
               CANCEL
             </Button>
             <LoadingButton
