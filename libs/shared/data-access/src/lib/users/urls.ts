@@ -6,3 +6,4 @@ export const AUTH_FORGOT_PASSWORD_URL = `${BASE_AUTH_PATH}/forgot-password`;
 export const AUTH_RESET_PASSWORD_URL = `${BASE_AUTH_PATH}/reset-password`;
 export const getAuthUserByIdUrl = (userId) => `${BASE_USER_PATH}/${userId}`;
 export const updateUserByIdUrl = (userId: string | number) => `${BASE_USER_PATH}/${userId}`;
+export const getAllUsersUrl = BASE_USER_PATH;

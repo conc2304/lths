@@ -4,7 +4,7 @@ import { authApi } from './auth-api';
 import { User } from './types';
 import { userApi } from './user-api';
 
-const initialState = { user: {} as User };
+const initialState = { user: {} as User, users: [] as User[] };
 const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -17,6 +17,9 @@ const userSlice = createSlice({
         state.user = payload.data;
       }
     );
+    builder.addMatcher(userApi.endpoints.getUsers.matchFulfilled, (state, { payload }) => {
+      state.users = payload.data;
+    });
     builder.addMatcher(
       isAnyOf(authApi.endpoints.logout.matchFulfilled, authApi.endpoints.logout.matchRejected),
       (state) => {
