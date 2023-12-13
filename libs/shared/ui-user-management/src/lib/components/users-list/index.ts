@@ -1,1 +1,1 @@
-export * from './users-management- list';
+export * from './users-management-list';

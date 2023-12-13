@@ -8,6 +8,7 @@ type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: LTHSToa
 const queue: ToastArgs[] = [];
 const activeToasts = new Set();
 
+console.log({ queue: queue.length, activeToasts });
 const processQueue = () => {
   if (queue.length === 0 || activeToasts.size >= MAX_CONCURRENT_TOASTS) {
     console.log('TOO MANY TOAST');
@@ -25,9 +26,9 @@ const processQueue = () => {
   setTimeout(() => {
     activeToasts.delete(toastId);
     processQueue();
-  // We add 1s bc that is how long ReactHotToast internally delays transitioning 
-  // a toast from visible to not visible to removed
-  }, options.duration || TOAST_DURATION + 1000); 
+    // We add 1s bc that is how long ReactHotToast internally delays transitioning
+    // a toast from visible to not visible to removed
+  }, options.duration || TOAST_DURATION + 1000);
 };
 
 const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: LTHSToastOptions = {}) => {

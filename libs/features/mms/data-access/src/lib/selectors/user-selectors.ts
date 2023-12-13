@@ -1,4 +1,4 @@
-import { UserProfileData } from '@lths/shared/data-access';
+import { User } from '@lths/shared/data-access';
 
 import { RootState } from '../store';
 
@@ -17,18 +17,6 @@ export const selectUserDisplayName = (state: RootState): string => {
   return displayName;
 };
 
-export const selectUserProfileData = (state: RootState): UserProfileData => {
-  const {
-    email = '',
-    first_name = '',
-    last_name = '',
-    username = '',
-    phone_number = '',
-    date_of_birth = null,
-    city = '',
-    country = '',
-    zip_code = '',
-  } = state.users.user;
-
-  return { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code };
+export const selectUser = (state: RootState): User => {
+  return state.users.user;
 };

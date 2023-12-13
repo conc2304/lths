@@ -51,7 +51,7 @@ export type User = {
   last_name: string;
   password_hash: string;
   roles: string[];
-  user_type: unknown;
+  user_type: string;
   username: string;
   phone_number: string;
   // TODO - find out what format that backend has decided on
@@ -60,20 +60,8 @@ export type User = {
   city: string;
   country: string;
   zip_code: string;
-  __v: number;
+  __v: string;
   _id: string;
-};
-
-export type UserProfileData = {
-  email: string;
-  first_name: string;
-  last_name: string;
-  username: string;
-  phone_number: string;
-  date_of_birth: string;
-  city: string;
-  country: string;
-  zip_code: string;
 };
 
 export type UserResponse = {

@@ -4,7 +4,7 @@ import { PersonAdd } from '@mui/icons-material';
 
 import { QueryParams } from '@lths/features/mms/data-access';
 import { useLazyGetUsersQuery } from '@lths/shared/data-access';
-import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { SearchBar, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { UserManagementList } from '@lths/shared/ui-user-management';
 
@@ -45,14 +45,6 @@ const UserManagementPage = () => {
   // console.log({ users });
   const totalUsers = pagination?.totalItems || 0;
 
-  const headerActions = (
-    <Box>
-      <Button variant="contained" color="primary" startIcon={<PersonAdd />}>
-        Add User
-      </Button>
-    </Box>
-  );
-
   const handlePageChange = (
     event: MouseEventReact<HTMLButtonElement, MouseEvent> | null,
     pagination: TablePaginationProps,
@@ -67,12 +59,20 @@ const UserManagementPage = () => {
     console.log('handleSorting', pagination, sorting);
   };
 
-  // const handleSearch = (value: string) => {
-  //   if (currPagination) {
-  //     setCurrPagination({ ...currPagination, page: 0 });
-  //   }
-  //   setSearch({ queryString: value });
-  // };
+  const handleSearch = (value: string) => {
+    if (currPagination) {
+      setCurrPagination({ ...currPagination, page: 0 });
+    }
+    setSearch({ queryString: value });
+  };
+
+  const headerActions = (
+    <Box>
+      <Button variant="contained" color="primary" startIcon={<PersonAdd />}>
+        Add User
+      </Button>
+    </Box>
+  );
 
   return (
     <Box
@@ -83,6 +83,10 @@ const UserManagementPage = () => {
     >
       <PageHeader title="Manage Users" sx={{ mt: '1rem', mb: '3.5rem' }} rightContent={headerActions} />
       <Box>
+        <Box>
+          <SearchBar value={search.queryString} onSearch={handleSearch} sx={{ mb: 2 }} />
+          {/* Filter stuff */}
+        </Box>
         <UserManagementList
           users={users}
           totalUsers={totalUsers}

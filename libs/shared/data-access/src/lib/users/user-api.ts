@@ -1,4 +1,4 @@
-import { User, UserProfileData, UserResponse } from './types';
+import { User, UserResponse } from './types';
 import { getAllUsersUrl, getAuthUserByIdUrl, updateUserByIdUrl } from './urls';
 import { api } from '../core/api';
 import { QueryParams, ApiResponse } from '../types';
@@ -25,7 +25,7 @@ export const userApi = api.enhanceEndpoints({ addTagTypes: ['User', 'Users'] }).
       invalidatesTags: ['Users'],
     }),
 
-    updateUser: builder.mutation<UserResponse, { userId: string } & Partial<UserProfileData>>({
+    updateUser: builder.mutation<UserResponse, { userId: string } & Partial<User>>({
       query: ({ userId, ...body }) => ({
         url: updateUserByIdUrl(userId),
         method: 'PUT',
