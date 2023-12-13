@@ -21,5 +21,5 @@ jobs:
       - name: Check PR Title
         uses: clowdhaus/actions/pr-title@v0.1.0
         with:
-          title-regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])* ([A-Z]{3}-[0-9]+)'
+          title-regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])* ([A-Z]+-[0-9]+)'
           github-token: ${{ secrets.GITHUB_TOKEN }}
