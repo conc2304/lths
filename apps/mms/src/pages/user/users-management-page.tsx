@@ -1,17 +1,19 @@
 import { useEffect, useState, MouseEvent as MouseEventReact } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Dialog } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 
 import { QueryParams } from '@lths/features/mms/data-access';
-import { useLazyGetUsersQuery } from '@lths/shared/data-access';
+import { User, useLazyGetUsersQuery } from '@lths/shared/data-access';
 import { SearchBar, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
-import { UserManagementList } from '@lths/shared/ui-user-management';
+import { UserForm, UserManagementList } from '@lths/shared/ui-user-management';
 
 const UserManagementPage = () => {
   const [getUsers, { data = { pagination: null, data: [] }, isFetching, isLoading }] = useLazyGetUsersQuery();
   const { data: users = [], pagination } = data;
 
+  const [userFormOpen, setUserFormOpen] = useState(false);
+  const [userFormUser, setUserFormUser] = useState<User>(null);
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
   const [search, setSearch] = useState({ queryString: '' });
@@ -42,7 +44,6 @@ const UserManagementPage = () => {
     getUsers(req);
   }
 
-  // console.log({ users });
   const totalUsers = pagination?.totalItems || 0;
 
   const handlePageChange = (
@@ -50,13 +51,8 @@ const UserManagementPage = () => {
     pagination: TablePaginationProps,
     sorting: TableSortingProps
   ) => {
-    console.log({ pagination, sorting });
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-  };
-
-  const handleSortingCLick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
-    console.log('handleSorting', pagination, sorting);
   };
 
   const handleSearch = (value: string) => {
@@ -66,13 +62,9 @@ const UserManagementPage = () => {
     setSearch({ queryString: value });
   };
 
-  const headerActions = (
-    <Box>
-      <Button variant="contained" color="primary" startIcon={<PersonAdd />}>
-        Add User
-      </Button>
-    </Box>
-  );
+  const handleAddUser = async (userFormValues: Partial<User>) => {
+    console.log('do stuff', userFormValues);
+  };
 
   return (
     <Box
@@ -81,7 +73,17 @@ const UserManagementPage = () => {
         width: '-webkit-fill-available',
       }}
     >
-      <PageHeader title="Manage Users" sx={{ mt: '1rem', mb: '3.5rem' }} rightContent={headerActions} />
+      <PageHeader
+        title="Manage Users"
+        sx={{ mt: '1rem', mb: '3.5rem' }}
+        rightContent={
+          <Box>
+            <Button variant="contained" color="primary" startIcon={<PersonAdd />} onClick={() => setUserFormOpen(true)}>
+              Add User
+            </Button>
+          </Box>
+        }
+      />
       <Box>
         <Box>
           <SearchBar value={search.queryString} onSearch={handleSearch} sx={{ mb: 2 }} />
@@ -95,9 +97,11 @@ const UserManagementPage = () => {
           pagination={currPagination}
           sorting={currSorting}
           onPageChange={handlePageChange}
-          onSortClick={handleSortingCLick}
         />
       </Box>
+      <Dialog open={userFormOpen} onClose={() => setUserFormOpen(false)}>
+        <UserForm user={{} as User} onConfirm={handleAddUser} confirmText="Create User" cancelText="Cancel" />
+      </Dialog>
     </Box>
   );
 };

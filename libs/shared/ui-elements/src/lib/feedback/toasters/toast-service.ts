@@ -8,7 +8,6 @@ type ToastArgs = { message: ValueOrFunction<Renderable, Toast>; options: LTHSToa
 const queue: ToastArgs[] = [];
 const activeToasts = new Set();
 
-console.log({ queue: queue.length, activeToasts });
 const processQueue = () => {
   if (queue.length === 0 || activeToasts.size >= MAX_CONCURRENT_TOASTS) {
     console.log('TOO MANY TOAST');

@@ -1,5 +1,5 @@
 import { User, UserResponse } from './types';
-import { getAllUsersUrl, getAuthUserByIdUrl, updateUserByIdUrl } from './urls';
+import { createUserUrl, getAllUsersUrl, getAuthUserByIdUrl, updateUserByIdUrl } from './urls';
 import { api } from '../core/api';
 import { QueryParams, ApiResponse } from '../types';
 
@@ -21,7 +21,14 @@ export const userApi = api.enhanceEndpoints({ addTagTypes: ['User', 'Users'] }).
         method: 'GET',
         params: params || undefined,
       }),
-      // @ts-expect-error: type definition doesn't reflect with injectEndpoints method
+    }),
+
+    createUser: builder.mutation<UserResponse, Partial<User>>({
+      query: (body) => ({
+        url: createUserUrl,
+        method: 'POST',
+        body,
+      }),
       invalidatesTags: ['Users'],
     }),
 

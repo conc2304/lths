@@ -22,11 +22,12 @@ type Props = {
 export const UserForm = (props: Props) => {
   const { user = {} as User, onConfirm, confirmText = 'Update', onCancel, cancelText = 'Cancel' } = props;
   const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, _id } = user;
+  const isNewUser = !user._id;
 
   const foundCode = getCountryData({ country })?.code || undefined;
   const [countryCode, setCountryCode] = useState(foundCode);
 
-  const initialValues: Partial<User> = {
+  const initialValues: Partial<User> & { password?: string; confirmPassword?: string } = {
     email: email || '',
     first_name: first_name || '',
     last_name: last_name || '',
@@ -38,17 +39,23 @@ export const UserForm = (props: Props) => {
     city: city || '',
     country: country || '',
     zip_code: zip_code || '',
+    password: '',
+    confirmPassword: '',
   };
 
   const minDob = subYears(new Date(), 150);
   const maxDob = new Date();
+
+  const minLength = 8;
+  const passwordRules = new RegExp(`^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{${minLength},}$`);
+  // min 8 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit.
 
   const validationSchema = Yup.object().shape({
     first_name: Yup.string().min(2, 'Too short').required('Required'),
     last_name: Yup.string().min(2, 'Too short').required('Required'),
     email: Yup.string().email('Invalid Email').required('Required'),
     username: Yup.string().min(6, 'Username is too short'),
-    phone_number: Yup.string().test('valid-phone-number', 'Phone number is not valid', (value: string) => {
+    phone_number: Yup.string().test('valid-phone-number', 'Phone number is not valid', (value: string | undefined) => {
       return value === '' || value === undefined || matchIsValidTel(value);
     }),
     date_of_birth: Yup.date().min(minDob, "You're not that old!").max(maxDob, 'Are you from the future?!?'),
@@ -62,6 +69,17 @@ export const UserForm = (props: Props) => {
         return !value || value === '' ? true : validatePostalCode(countryCode, value);
       }
     ),
+    password: !isNewUser
+      ? Yup.string().notRequired()
+      : Yup.string()
+          .required('Required')
+          .min(minLength, 'Password should be at least 8 chars minimum')
+          .matches(passwordRules, { message: 'Please create a stronger password' }),
+    confirmPassword: !isNewUser
+      ? Yup.string().notRequired()
+      : Yup.string()
+          .required('Required')
+          .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
   });
 
   const {
@@ -96,6 +114,7 @@ export const UserForm = (props: Props) => {
 
     Object.keys(values).forEach((key) => {
       const typedKey = key as keyof User;
+      // TODO FIX THIS TYPING ISSUE
       // @ts-expect-error - i just want this to go away
       cleanedValues[typedKey] = values[typedKey] !== undefined ? values[typedKey] : '';
     });
@@ -350,6 +369,56 @@ export const UserForm = (props: Props) => {
             />
           </Grid>
         </Grid>
+        {/*  */}
+        {isNewUser && (
+          <>
+            <Divider sx={{ mb: 2 }} />
+            <Grid
+              container
+              justifyContent={'space-between'}
+              alignItems={'flex-start'}
+              rowSpacing={0}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            >
+              <Grid item xs={12} sm={6} md={6}>
+                <Typography variant="h5" pb={0.5}>
+                  Password
+                </Typography>
+                <TextField
+                  name="password"
+                  aria-label="Password"
+                  placeholder="Password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={(touched.password && errors.password) || ' '}
+                  color={touched.password && Boolean(errors.password) ? 'error' : 'primary'}
+                  error={touched.password && Boolean(errors.password)}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <Typography variant="h5" pb={0.5}>
+                  Confirm Password
+                </Typography>
+                <TextField
+                  name="confirmPassword"
+                  aria-label="Confirm Password"
+                  placeholder="Confirm Password"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={(touched.confirmPassword && errors.confirmPassword) || ' '}
+                  color={touched.confirmPassword && Boolean(errors.confirmPassword) ? 'error' : 'primary'}
+                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+            </Grid>
+          </>
+        )}
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
         <Button
