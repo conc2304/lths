@@ -75,16 +75,6 @@ export const UserRolesFormGroup = (props: Props) => {
     // onChange ? onChange(nextValue) : setUserRoles(nextValue);
   };
 
-  const temp: FormState = {
-    testId: {
-      testIdNested: {
-        id: 'thirdId',
-        value: 'testIdNested__VALUE',
-        title: 'testIdNested__TITLE',
-      },
-    },
-  };
-
   const rolesFormState: FormState = {};
   userRoles.forEach((role) => {
     rolesFormState[role] = {
