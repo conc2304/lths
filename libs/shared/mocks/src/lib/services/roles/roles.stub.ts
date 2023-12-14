@@ -99,13 +99,11 @@ export const userRolesStub: UserRole[] = [
     description: 'Responsible for software development and maintenance',
     permissions: [developmentPermission, editPermission],
   },
-
   {
     name: 'Product Manager',
     description: 'Oversees product features and development roadmaps',
     permissions: [productManagementPermission, editPermission],
   },
-
   {
     name: 'Support',
     description: 'Provides customer support and handles queries',

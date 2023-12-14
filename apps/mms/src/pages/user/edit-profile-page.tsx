@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { Box, Card } from '@mui/material';
 
-import { selectUserId, selectUser, useAppSelector } from '@lths/features/mms/data-access';
+import { selectUserId, selectUser, useAppSelector, useLazyGetRolesQuery } from '@lths/features/mms/data-access';
 import { User, useUpdateUserMutation } from '@lths/shared/data-access';
 import { toastQueueService } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -10,6 +11,14 @@ const EditProfilePage = () => {
 
   const userId = useAppSelector(selectUserId);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [getAllRoles, { data: RolesList = [], isLoading: isLoadingRoles }] = useLazyGetRolesQuery();
+
+  // TODO - this should come from user permissions
+  const userCanEditRole = true;
+
+  useEffect(() => {
+    getAllRoles();
+  }, []);
 
   const handleUpdateUser = async (values: Partial<User>) => {
     const response = await updateUser({ userId, ...values }).unwrap();
@@ -23,6 +32,8 @@ const EditProfilePage = () => {
     }
   };
 
+  console.log({ RolesList });
+
   return (
     <Box>
       <PageHeader title="Edit User Profile" sx={{ mt: '1rem', mb: '3.5rem' }} />
@@ -33,6 +44,8 @@ const EditProfilePage = () => {
           isSubmitting={isLoading}
           confirmText="Update"
           cancelText="Cancel"
+          rolesAvailable={RolesList}
+          rolesEditable={userCanEditRole}
         />
       </Card>
     </Box>

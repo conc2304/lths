@@ -23,6 +23,8 @@ export * from './lib/insights/types';
 export * from './lib/pages/api';
 export * from './lib/pages/types';
 
+export * from './lib/roles/api';
+
 export * from './lib/insights/flows/onboarding-api';
 export * from './lib/insights/flows/onboarding-slice';
 

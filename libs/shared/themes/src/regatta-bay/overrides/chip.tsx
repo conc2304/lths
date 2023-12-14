@@ -17,8 +17,8 @@ export default function Chip(theme: Theme): Components {
 
           '& .MuiChip-label': {
             paddingTop: '1px', // tweak to center better
-            paddingRight: theme.spacing(4),
-            paddingLeft: theme.spacing(2.25),
+            // paddingRight: theme.spacing(4),
+            // paddingLeft: theme.spacing(2.25),
             textTransform: 'uppercase',
             fontWeight: 400,
             fontSize: '0.75rem',
@@ -28,6 +28,7 @@ export default function Chip(theme: Theme): Components {
 
           '& .MuiSvgIcon-root': {
             fontSize: '1.25rem',
+
             marginRight: theme.spacing(1),
           },
         },

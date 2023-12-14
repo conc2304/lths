@@ -11,6 +11,9 @@ import { User } from '@lths/shared/data-access';
 import { CountrySelect, toastQueueService } from '@lths/shared/ui-elements';
 import { getCountryData, validatePostalCode } from '@lths/shared/utils';
 
+import { UserRolesFormGroup } from './user-roles-group';
+import { UserRole } from '../../types';
+
 type Props = {
   user?: User;
   onConfirm: (formValues: Partial<User>) => Promise<void>;
@@ -18,10 +21,21 @@ type Props = {
   onCancel?: () => void;
   cancelText?: string;
   isSubmitting?: boolean;
+  rolesEditable?: boolean;
+  rolesAvailable?: UserRole[];
 };
 export const UserForm = (props: Props) => {
-  const { user = {} as User, onConfirm, confirmText = 'Update', onCancel, cancelText = 'Cancel' } = props;
-  const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, _id } = user;
+  const {
+    user = {} as User,
+    onConfirm,
+    confirmText = 'Update',
+    onCancel,
+    cancelText = 'Cancel',
+    rolesEditable = false,
+    rolesAvailable = [],
+  } = props;
+  const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, roles, _id } =
+    user;
   const isNewUser = !user._id;
   // TODO - this is fake
   const canEditRoles = true;
@@ -41,6 +55,7 @@ export const UserForm = (props: Props) => {
     city: city || '',
     country: country || '',
     zip_code: zip_code || '',
+    roles: roles || [],
     password: '',
     confirmPassword: '',
   };
@@ -71,6 +86,7 @@ export const UserForm = (props: Props) => {
         return !value || value === '' ? true : validatePostalCode(countryCode, value);
       }
     ),
+    roles: Yup.array().of(Yup.string()),
     password: !isNewUser
       ? Yup.string().notRequired()
       : Yup.string()
@@ -269,6 +285,22 @@ export const UserForm = (props: Props) => {
               maxDate={maxDob}
               size="small"
               color={touched.date_of_birth && Boolean(errors.date_of_birth) ? 'error' : 'primary'}
+            />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={12}>
+            <Typography variant="h5" pb={0.5}>
+              User Roles
+            </Typography>
+            <UserRolesFormGroup
+              rolesAvailable={rolesAvailable}
+              rolesEditable={rolesEditable}
+              userRoles={values.roles}
+              onChange={(newRoles: string[]) => {
+                console.log({ newRoles });
+                setFieldValue('roles', newRoles);
+              }}
             />
           </Grid>
         </Grid>
