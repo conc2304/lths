@@ -23,6 +23,8 @@ export const UserForm = (props: Props) => {
   const { user = {} as User, onConfirm, confirmText = 'Update', onCancel, cancelText = 'Cancel' } = props;
   const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, _id } = user;
   const isNewUser = !user._id;
+  // TODO - this is fake
+  const canEditRoles = true;
 
   const foundCode = getCountryData({ country })?.code || undefined;
   const [countryCode, setCountryCode] = useState(foundCode);

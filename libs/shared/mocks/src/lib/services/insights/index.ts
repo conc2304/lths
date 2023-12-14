@@ -6,9 +6,10 @@ import Pages from './pages';
 import Assets from '../assets';
 import Enums from '../enums';
 import Filters from '../filters';
+import Roles from '../roles';
 import { MSWPathConf } from '../types';
 
-const generics: MSWPathConf[] = [...Overview, ...Onboarding, ...Components, ...Pages, ...Filters, ...Enums];
+const generics: MSWPathConf[] = [...Overview, ...Onboarding, ...Components, ...Pages, ...Filters, ...Enums, ...Roles];
 export const CustomServices = [Notifications, ...Assets];
 
 export default generics;
