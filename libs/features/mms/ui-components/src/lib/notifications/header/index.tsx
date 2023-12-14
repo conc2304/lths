@@ -24,7 +24,7 @@ export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Not
       id: NotificationStatusProps.SENT,
       label: 'PUSH NOW',
       action: setNotificationStatusSent,
-      isDisabled: true,
+      isDisabled: false,
     },
   ];
 
