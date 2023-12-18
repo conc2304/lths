@@ -22,7 +22,7 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
   const { handleNameValueChange } = useToolbarChange();
   const parentKeys = ['sub_component_data'];
 
-  const handleOnDelete = () => {
+  const handleDeleteClick = () => {
     onDelete && onDelete(index);
   };
 
@@ -43,11 +43,12 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
         <EditableListItemText
           text={text || 'Carousel Item'}
           sx={{ margin: 0 }}
-          textStyle={{ fontSize: 14, lineHeight: 1.43, textTransform: 'capitalize' }}
+          textStyle={{ fontSize: 14, lineHeight: 1.43 }}
+          onLabelClick={handleEdit}
           onSave={handleSave}
         />
         <ListItemSecondaryAction sx={{ right: 0 }}>
-          <IconButton onClick={handleOnDelete} size="small" aria-label="delete" data-testid={'delete_' + index}>
+          <IconButton onClick={handleDeleteClick} size="small" aria-label="delete" data-testid={'delete_' + index}>
             <DeleteIcon sx={{ width: '20px', height: '20px' }} />
           </IconButton>
           <IconButton data-testid={'edit_' + index} onClick={handleEdit} size="small" edge="end" aria-label="edit">
