@@ -95,6 +95,9 @@ export const duplicateComponent = (components: ComponentProps[], uuid: string) =
   if (index !== -1) {
     const duplicate = { ...clearExternalIds(components[index]) };
     duplicate.name = getNextDuplicateName(components, duplicate);
-    return populateDisplayOrder([...components.slice(0, index + 1), duplicate, ...components.slice(index + 1)]);
+    return {
+      components: populateDisplayOrder([...components.slice(0, index + 1), duplicate, ...components.slice(index + 1)]),
+      selectedComponent: duplicate,
+    };
   }
 };

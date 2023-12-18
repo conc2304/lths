@@ -176,7 +176,7 @@ describe('Component Navigator', () => {
     ]);
     const currentUuid = components[currentIndex].__ui_id__;
 
-    const duplicatedComponents = duplicateComponent(components, currentUuid);
+    const duplicatedComponents = duplicateComponent(components, currentUuid).components;
 
     const duplicatedIndex = currentIndex + 1;
     expect(duplicatedComponents.find((o) => o.__ui_id__ === currentUuid).display_order).toBe(2);
@@ -196,7 +196,7 @@ describe('Component Navigator', () => {
       { ...defaultProps, component_id: 'componentB', name: 'Component B 3', display_order: 1 },
     ]);
     const currentUuid = components[currentIndex].__ui_id__;
-    const duplicatedComponents = duplicateComponent(components, currentUuid);
+    const duplicatedComponents = duplicateComponent(components, currentUuid).components;
     const duplicatedName = `Component B 4`;
     const duplicatedIndex = currentIndex + 1;
     expect(duplicatedComponents[duplicatedIndex].name).toBe(duplicatedName);
