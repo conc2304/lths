@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TableRow, TableCell, IconButton, Menu, MenuItem, Typography, Box } from '@mui/material';
+import { TableRow, TableCell, IconButton, Menu, MenuItem, Box } from '@mui/material';
 import { BrokenImage } from '@mui/icons-material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
