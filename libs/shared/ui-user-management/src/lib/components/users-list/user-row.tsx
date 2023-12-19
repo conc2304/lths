@@ -28,6 +28,7 @@ export const UserRow = (props: Props) => {
     last_name ? (first_name ? ' ' : '') + last_name.charAt(0) : ''
   }`;
   const fullName = `${first_name ? first_name : ''}${last_name ? (first_name ? ' ' : '') + last_name : ''}`.trim();
+  const location = formatLocation(country, city);
   const displayName = fullName.length ? fullName : 'N/A';
 
   const status = is_active ? 'Active' : !is_deleted ? 'Inactive' : 'Deleted';
@@ -84,8 +85,7 @@ export const UserRow = (props: Props) => {
           ))
         )}
       </TableCell>
-      <TableCell>{country}</TableCell>
-      <TableCell>{city}</TableCell>
+      <TableCell>{location}</TableCell>
       <TableCell>
         <Stack direction="row">
           <StatusIcon htmlColor={statusColorMap[status]} sx={{ mr: 1 }} />
@@ -102,3 +102,20 @@ export const UserRow = (props: Props) => {
     </TableRow>
   );
 };
+
+function formatLocation(country?: string, city?: string) {
+  if (country && city) {
+    return (
+      <>
+        {country},<br />
+        {city}
+      </>
+    );
+  } else if (country) {
+    return country;
+  } else if (city) {
+    return city;
+  } else {
+    return 'N/A';
+  }
+}

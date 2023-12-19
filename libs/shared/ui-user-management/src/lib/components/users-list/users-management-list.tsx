@@ -54,14 +54,14 @@ export const UserManagementList = (props: Props) => {
     },
     {
       id: 'country',
-      label: 'Country',
+      label: 'Location',
       sortable: true,
     },
-    {
-      id: 'city',
-      label: 'City',
-      sortable: true,
-    },
+    // {
+    //   id: 'city',
+    //   label: 'City',
+    //   sortable: true,
+    // },
     {
       id: 'status',
       label: 'Status',

@@ -38,7 +38,6 @@ export const UserForm = (props: Props) => {
     user;
   const isNewUser = !user._id;
   // TODO - this is fake
-  const canEditRoles = true;
 
   const foundCode = getCountryData({ country })?.code || undefined;
   const [countryCode, setCountryCode] = useState(foundCode);
@@ -155,6 +154,10 @@ export const UserForm = (props: Props) => {
       });
   };
 
+  const avatarInitials =
+    `${(first_name || values.first_name || ' ').charAt(0)}${(last_name || values.last_name || ' ').charAt(0)}`.trim() ||
+    '?';
+
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <CardContent>
@@ -176,9 +179,7 @@ export const UserForm = (props: Props) => {
                 mr: '3rem',
               }}
             >
-              <Typography variant="h2">
-                {first_name || last_name ? first_name.charAt(0) + ' ' + last_name.charAt(0) : '?'}
-              </Typography>
+              <Typography variant="h2">{avatarInitials.toUpperCase()}</Typography>
             </Avatar>
           </Grid>
           <Grid item xs={12} sm={12} md={9}>

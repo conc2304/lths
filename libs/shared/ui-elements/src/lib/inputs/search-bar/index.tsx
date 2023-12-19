@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { InputAdornment, SxProps, TextField } from '@mui/material';
+import { InputAdornment, SxProps, TextField, TextFieldProps } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 type Props = {
@@ -7,10 +7,11 @@ type Props = {
   onSearch: (value: string) => void;
   sx?: SxProps;
   debounceTime?: number;
+  textFieldProps?: TextFieldProps;
 };
 
 export const SearchBar = (props: Props) => {
-  const { value = '', onSearch, sx, debounceTime = 250 } = props;
+  const { value = '', onSearch, sx, debounceTime = 250, textFieldProps = {} } = props;
 
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -43,6 +44,7 @@ export const SearchBar = (props: Props) => {
           </InputAdornment>
         ),
       }}
+      {...textFieldProps}
     />
   );
 };

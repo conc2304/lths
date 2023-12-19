@@ -1,16 +1,15 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
+  Button,
   Checkbox,
-  Chip,
-  InputLabel,
   ListItemText,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
+  Typography,
 } from '@mui/material';
-import { HighlightOffOutlined, RemoveCircleOutline } from '@mui/icons-material';
 
 import { ChipContainer, FormState } from '@lths/shared/ui-elements';
 
@@ -22,6 +21,8 @@ type Props = {
   userRoles?: string[];
   onChange?: (userRoles: string[]) => void;
   onBlur?: () => void;
+  size?: 'small' | 'medium';
+  placeholder?: string;
 };
 
 const ITEM_HEIGHT = 48;
@@ -37,17 +38,18 @@ const MenuProps = {
 };
 
 export const UserRolesFormGroup = (props: Props) => {
-  const { rolesEditable = false, userRoles: userRolesProp = [], rolesAvailable = [], onChange, onBlur } = props;
-  console.log({ userRolesProp });
+  const {
+    rolesEditable = false,
+    userRoles: userRolesProp = [],
+    rolesAvailable = [],
+    onChange,
+    onBlur,
+    size = 'medium',
+    placeholder,
+  } = props;
+
   const [userRoles, setUserRoles] = useState<string[]>(userRolesProp);
-
-  useEffect(() => {
-    setUserRoles(userRolesProp);
-  }, [userRolesProp]);
-
   const availableRolesList = rolesAvailable.map((role) => role.name);
-
-  console.log({ availableRolesList, userRoles });
 
   const handleChange = (event: SelectChangeEvent<typeof userRolesProp>) => {
     const {
@@ -57,22 +59,21 @@ export const UserRolesFormGroup = (props: Props) => {
     // On autofill we get a stringified value.
     const nextValue = typeof value === 'string' ? value.split(',') : value;
 
-    onChange ? onChange(nextValue) : setUserRoles(nextValue);
+    onChange && onChange(nextValue);
+    setUserRoles(nextValue);
   };
 
-  const handleDelete = (event: MouseEvent) => {
-    event.stopPropagation();
-    console.log(event);
-    // const {
-    //   target: { value },
-    // } = event;
-
-    console.log({ event });
-
+  const handleDelete = (roleRemoved: string) => {
     // On autofill we get a stringified value.
     // const nextValue = typeof value === 'string' ? value.split(',') : value;
+    const nextValue = userRoles.filter((selectedRole) => roleRemoved !== selectedRole);
+    onChange && onChange(nextValue);
+    setUserRoles(nextValue);
+  };
 
-    // onChange ? onChange(nextValue) : setUserRoles(nextValue);
+  const handleClearAll = () => {
+    onChange && onChange([]);
+    setUserRoles([]);
   };
 
   const rolesFormState: FormState = {};
@@ -88,38 +89,64 @@ export const UserRolesFormGroup = (props: Props) => {
 
   return (
     <Box>
-      <Select
-        labelId="demo-multiple-checkbox-label"
-        id="demo-multiple-checkbox"
-        fullWidth
-        multiple
-        readOnly={!rolesEditable}
-        value={userRoles}
-        onChange={handleChange}
-        input={<OutlinedInput label="Tag" />}
-        renderValue={(selected) => selected.join(', ')}
-        // renderValue={(selected) => selected.join(', ')}
-        MenuProps={MenuProps}
-      >
-        {availableRolesList.map((name) => (
-          <MenuItem key={name} value={name}>
-            <Checkbox checked={userRoles.indexOf(name) > -1} />
-            <ListItemText primary={name} />
-          </MenuItem>
-        ))}
-      </Select>
-      <Box>
-        <ChipContainer
-          variant="inline"
-          title="User Roles"
-          selectedFilters={rolesFormState}
-          onDelete={({ parentID, itemID }: { parentID: string; itemID: string }) => {
-            console.log('onDelete', { parentID, itemID });
+      {rolesEditable && (
+        <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          fullWidth
+          multiple
+          displayEmpty
+          readOnly={!rolesEditable}
+          value={userRoles}
+          onChange={handleChange}
+          input={<OutlinedInput size={size} />}
+          renderValue={(selected) => {
+            if (selected.length === 0 && placeholder) {
+              return <Typography sx={{ color: (theme) => theme.palette.grey[500] }}>{placeholder}</Typography>;
+            }
+
+            return selected.join(', ');
           }}
-          openModal={() => {
-            console.log('open modal');
-          }}
-        />
+          MenuProps={MenuProps}
+        >
+          {placeholder && (
+            <MenuItem disabled value="">
+              <Typography sx={{}}>{placeholder}</Typography>
+            </MenuItem>
+          )}
+
+          {availableRolesList.map((name) => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={userRoles.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))}
+        </Select>
+      )}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <ChipContainer
+            variant="inline"
+            title="User Roles"
+            selectedFilters={rolesFormState}
+            onDelete={
+              !rolesEditable
+                ? undefined
+                : ({ parentID, itemID }: { parentID: string; itemID: string }) => {
+                    handleDelete(itemID);
+                  }
+            }
+            openModal={() => {
+              console.log('open modal');
+            }}
+          />
+        </Box>
+
+        {userRoles.length > 0 && (
+          <Button variant="text" onClick={handleClearAll} sx={{ minWidth: '70px' }}>
+            Clear All
+          </Button>
+        )}
       </Box>
     </Box>
   );
