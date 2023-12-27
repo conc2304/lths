@@ -69,8 +69,8 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
   const getOptionLabel = (option: PageDetail) => (option ? `${option.page_id}` : '');
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
     return (
-      <Box component="li" {...props}>
-        <Typography key={data._id}>{data.name}</Typography>
+      <Box component="li" {...props} key={data.page_id}>
+        <Typography>{data.name}</Typography>
       </Box>
     );
   };
