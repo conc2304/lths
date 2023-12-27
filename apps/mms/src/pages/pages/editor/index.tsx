@@ -80,6 +80,8 @@ export function PageEditorTabs() {
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
+  const [isPageSaved, setIsPageSaved] = useState(false);
   const [modalData, setModalData] = useState({
     title: '',
     description: '',
@@ -204,13 +206,24 @@ export function PageEditorTabs() {
     setImageModalOpen(false);
   };
 
-  const handleMenuItemSelect = (status: string) => {
+  const handleMenuItemSelect = async (status: string) => {
+    if (hasUnsavedChanges) {
+      try {
+        await handleUpdatePageDetails();
+        setHasUnsavedChanges(false);
+      } catch (error) {
+        toast.error('Error in saving page details');
+        console.error('Error in saving page details', error);
+        return;
+      }
+    }
     const data = StatusChangeModalData[status];
     if (data) {
       setModalData(data);
       setOpenModal(true);
     }
   };
+
   const handleCloseModal = () => {
     setOpenModal(false);
   };
@@ -246,14 +259,19 @@ export function PageEditorTabs() {
       const response = await updatePageDetails(updatedData).unwrap();
 
       if (response?.success) {
-        toast.success('Page details has been updated successfully');
+        if (!isPageSaved) {
+          toast.success('Page details has been updated successfully');
+        }
         initEditor(response?.data);
+        setIsPageSaved(true);
       } else {
         toast.error('Failed to update the page details');
+        setIsPageSaved(false);
       }
     } catch (error) {
       toast.error('Failed to update the page details');
       console.error('Error in updating page details', error.message);
+      setIsPageSaved(false);
     }
   };
 
@@ -285,6 +303,7 @@ export function PageEditorTabs() {
   const handleSave = async () => {
     try {
       await handleUpdatePageDetails();
+      setHasUnsavedChanges(false);
       cancelNavigation();
     } catch (error) {
       toast.error('Error in saving page details');

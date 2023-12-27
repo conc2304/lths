@@ -22,35 +22,36 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
   const { handleNameValueChange } = useToolbarChange();
   const parentKeys = ['sub_component_data'];
 
-  const handleOnDelete = () => {
+  const handleDeleteClick = () => {
     onDelete && onDelete(index);
   };
 
-  const handleOnEdit= () => {
+  const handleEdit = () => {
     onEdit && onEdit(index);
   };
 
+  const handleSave = (value: string) => {
+    handleNameValueChange(value, index, parentKeys);
+  };
+
   return (
-    <DraggableCard id={id} index={index} 
-      onDrag={onDrag} 
-      typeName={ItemTypes.LISTITEM}
-    >
+    <DraggableCard id={id} index={index} onDrag={onDrag} typeName={ItemTypes.LISTITEM}>
       <ListItem aria-label={`carousel-item-${index}`} dense={true} sx={{ paddingLeft: 0, paddingRight: 7, gap: 1 }}>
         <ListItemAvatar sx={{ minWidth: 0 }}>
           <DragHandleIcon sx={{ paddingTop: '4px' }} />
         </ListItemAvatar>
-        <EditableListItemText text={text || 'Carousel Item'} sx={{ margin: 0 }} textStyle={{ fontSize: 14, lineHeight: 1.43 }} onSave={(value)=> (handleNameValueChange(value, index, parentKeys))} />
+        <EditableListItemText
+          text={text || 'Carousel Item'}
+          sx={{ margin: 0 }}
+          textStyle={{ fontSize: 14, lineHeight: 1.43 }}
+          onLabelClick={handleEdit}
+          onSave={handleSave}
+        />
         <ListItemSecondaryAction sx={{ right: 0 }}>
-          <IconButton onClick={handleOnDelete} size="small" aria-label="delete" data-testid={'delete_' + index}>
+          <IconButton onClick={handleDeleteClick} size="small" aria-label="delete" data-testid={'delete_' + index}>
             <DeleteIcon sx={{ width: '20px', height: '20px' }} />
           </IconButton>
-          <IconButton
-            data-testid={'edit_' + index}
-            onClick={handleOnEdit}
-            size="small"
-            edge="end"
-            aria-label="edit"
-          >
+          <IconButton data-testid={'edit_' + index} onClick={handleEdit} size="small" edge="end" aria-label="edit">
             <SettingsIcon sx={{ width: '20px', height: '20px' }} />
           </IconButton>
         </ListItemSecondaryAction>

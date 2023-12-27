@@ -24,7 +24,7 @@ export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Not
       id: NotificationStatusProps.SENT,
       label: 'PUSH NOW',
       action: setNotificationStatusSent,
-      isDisabled: true,
+      isDisabled: false,
     },
   ];
 
@@ -36,7 +36,7 @@ export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Not
       rightContent={
         <Stack direction="row" alignItems="center" spacing={2}>
           <NotificationStatus status={status} />
-          <MenuButton buttonText="PUSH" buttonAction={setNotificationStatusSent} items={menuItems} isDisabled />
+          <MenuButton buttonText="PUSH" buttonAction={setNotificationStatusSent} items={menuItems} />
         </Stack>
       }
     />

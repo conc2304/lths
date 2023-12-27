@@ -641,6 +641,8 @@ export type HeroGameboxComponentProps = ComponentProps & {
     at: string;
     period: string;
     time_remain: string;
+    title: string;
+    show_greetings: boolean;
     final: string;
     home_team_text_color: string;
     away_team_text_color: string;
