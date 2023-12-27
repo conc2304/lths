@@ -66,7 +66,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
     onSubmit: onSubmit,
   });
 
-  const getOptionLabel = (option: PageDetail) => (option ? `${option.page_id}` : '');
+  const getOptionLabel = (option: PageDetail) => (option ? `${option.name}` : '');
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, data: PageDetail) => {
     return (
       <Box component="li" {...props} key={data.page_id}>
