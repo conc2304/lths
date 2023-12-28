@@ -82,6 +82,7 @@ export const CountrySelect = (props: CountrySelectProps) => {
           component="li"
           sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
           {...props}
+          key={option.phone}
         >
           {showCountryFlag && (
             <img

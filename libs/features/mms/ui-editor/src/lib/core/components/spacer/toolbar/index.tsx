@@ -80,7 +80,7 @@ const SpacerToolbar = (props: SpacerProps) => {
   };
   const getOptionLabel = (option) => option.label;
   const renderOption = (props, option) => (
-    <Box component="li" {...props}>
+    <Box component="li" {...props} key={option.index}>
       {option.label}
     </Box>
   );

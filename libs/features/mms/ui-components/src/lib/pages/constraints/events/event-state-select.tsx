@@ -30,6 +30,7 @@ const EventStateSelect = (props: Props) => {
         <Chip
           label={label}
           {...getTagProps({ index })}
+          key={option._id}
           sx={{ borderRadius: '4px', backgroundColor: colors.chip.color }}
         />
       );

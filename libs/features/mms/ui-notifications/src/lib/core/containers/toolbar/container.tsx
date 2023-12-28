@@ -84,7 +84,7 @@ const Container = ({
 
   const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
     return (
-      <Box component="li" {...props}>
+      <Box component="li" {...props} key={option.display_order}>
         <Typography>{option.name}</Typography>
       </Box>
     );

@@ -31,7 +31,7 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   const getOptionLabel = (option: AutocompleteItemProps) => (option ? `${option.label}(${option.value})` : '');
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteItemProps) => {
     return (
-      <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
+      <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props} key={option.label}>
         <PageTypeIcon type={option.type} />
         <Box>
           <Box>{option.label}</Box>
