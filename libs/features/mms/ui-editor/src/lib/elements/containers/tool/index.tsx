@@ -8,7 +8,7 @@ const ToolContainer = ({ id, children, ...rest }: BoxProps) => {
         display: 'flex',
         flexDirection: 'column',
         gap: 3,
-        margin: 2,
+        margin: 4,
         borderRadius: 1,
         background: '#ffffff',
         padding: 3,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import {
   Checkbox,
   FormControlLabel,
@@ -18,6 +18,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Formik } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
+import { useAppSelector } from '@lths/features/mms/data-access';
 import { LoginRequest, removeAuthTokenFromStorage } from '@lths/shared/data-access';
 import { useLoginMutation, useLazyGetUserQuery } from '@lths/shared/data-access';
 
@@ -26,20 +27,32 @@ import CenterCard from './center-card';
 const LoginForm: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
+  const auth = useAppSelector((state) => state.auth);
+  const { authenticated } = auth;
+
+  const [login, { isLoading }] = useLoginMutation();
+  const [getUser] = useLazyGetUserQuery();
+
+  useLayoutEffect(() => {
+    if (authenticated) {
+      // the async on submit screws with the render cycle of useNavigate
+      // so we we navigate syncronously once authenticated
+      navigate('/');
+    }
+  }, [authenticated]);
+
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
   };
+
   const LoginDefaultValues: LoginRequest = {
     email: '',
     password: '',
   };
+
   const onMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const [login, { isLoading }] = useLoginMutation();
-
-  const [getUser] = useLazyGetUserQuery();
 
   const onSubmit = async (values: LoginRequest) => {
     try {
@@ -50,8 +63,6 @@ const LoginForm: React.FC = (): JSX.Element => {
       const uid = data.user._id;
 
       await getUser(uid);
-
-      navigate('/');
     } catch (e) {
       console.log(e);
     }

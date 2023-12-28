@@ -3,7 +3,7 @@ import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/
 import { LoadingButton } from '@mui/lab';
 import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
@@ -22,6 +22,7 @@ import {
   PageSettings,
   PageStatus,
   UnSavedPageAlert,
+  NoConstraintAlert,
   useAlertActions,
 } from '@lths/features/mms/ui-components';
 import {
@@ -44,12 +45,16 @@ const StatusChangeModalData = {
     title: 'Are you sure you want to publish this page?',
     description: 'Once you publish this page, it will be accessible by app users',
     action: 'PUBLISH NOW',
+    error: 'Failed to publish the page',
+    success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
     title: 'Are you sure you want to unpublish this page?',
     description: 'This page will no longer appear on the app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
+    error: 'Failed to unpublish the page',
+    success: 'Page has been Unpublished Successfully',
     status: PageStatus.UNPUBLISHED,
   },
 };
@@ -75,17 +80,30 @@ export function PageEditorTabs() {
   const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
-  const [modalData, setModalData] = useState({ title: '', description: '', action: '', status: '' });
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
+  const [isPageSaved, setIsPageSaved] = useState(false);
+  const [modalData, setModalData] = useState({
+    title: '',
+    description: '',
+    action: '',
+    status: '',
+    error: '',
+    success: '',
+  });
+  const [isConstraintAlertOpen, setIsConstraintAlertOpen] = useState(false);
 
   //route params
   const { pageId } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
   //fetch params
   const page_data = data as PageDetail;
+
+  const isVariantPage = page_data && page_data.default_page_id;
 
   // Breadcrumbs title
   const { setPageTitle } = useLayoutActions();
@@ -99,7 +117,6 @@ export function PageEditorTabs() {
     const response = await getPageDetail(pageId);
     if (response.isSuccess) {
       const payload = response.data;
-
       if (payload?.success && payload?.data) initEditor(payload.data);
       else toast.success('Page details could not be found');
     }
@@ -120,8 +137,24 @@ export function PageEditorTabs() {
       console.log('Failed to find component');
     }
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get('tab');
+    if (
+      Object.values(TabItems)
+        .map((tab) => tab.value)
+        .includes(tabParam)
+    ) {
+      setCurrentTab(tabParam);
+    } else {
+      setCurrentTab(TabItems.page_design.value);
+    }
+  }, [location]);
+
   const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
-    setCurrentTab(newValue);
+    const tabURL = `${location.pathname}?tab=${newValue}`;
+    navigate(tabURL);
   };
 
   const handleCloseCompModal = () => {
@@ -152,7 +185,7 @@ export function PageEditorTabs() {
   };
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
-    const response = await getEnumList('Icons').unwrap();
+    const response = await getEnumList('ActionIcons').unwrap();
     if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
   };
 
@@ -173,22 +206,50 @@ export function PageEditorTabs() {
     setImageModalOpen(false);
   };
 
-  const handleMenuItemSelect = (status: string) => {
+  const handleMenuItemSelect = async (status: string) => {
+    if (hasUnsavedChanges) {
+      try {
+        await handleUpdatePageDetails();
+        setHasUnsavedChanges(false);
+      } catch (error) {
+        toast.error('Error in saving page details');
+        console.error('Error in saving page details', error);
+        return;
+      }
+    }
     const data = StatusChangeModalData[status];
     if (data) {
       setModalData(data);
       setOpenModal(true);
     }
   };
+
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
-  //api events
   const handleUpdatePageStatus = async () => {
-    await updatePageStatus({ page_id: pageId, status: modalData.status });
+    try {
+      if (modalData.status === PageStatus.PUBLISHED && page_data.default_page_id) {
+        const { events, locations, user_segments } = page_data.constraints;
+        const isConstraintsAdded = events.length > 0 || locations.length > 0 || user_segments.length > 0;
+        if (!isConstraintsAdded) {
+          setIsConstraintAlertOpen(true);
+          setOpenModal(false);
+          return;
+        }
+      }
+      const response = await updatePageStatus({
+        page_id: pageId,
+        status: modalData.status,
+      }).unwrap();
+      initEditor(response.data);
+      toast.success(modalData.success);
+    } catch (error) {
+      console.error('Error in updating the page', error);
+      toast.error(modalData.error);
+    }
     setOpenModal(false);
-    navigate('/pages');
   };
 
   const handleUpdatePageDetails = async () => {
@@ -198,14 +259,19 @@ export function PageEditorTabs() {
       const response = await updatePageDetails(updatedData).unwrap();
 
       if (response?.success) {
-        toast.success('Page details has been updated successfully');
+        if (!isPageSaved) {
+          toast.success('Page details has been updated successfully');
+        }
         initEditor(response?.data);
+        setIsPageSaved(true);
       } else {
         toast.error('Failed to update the page details');
+        setIsPageSaved(false);
       }
     } catch (error) {
       toast.error('Failed to update the page details');
       console.error('Error in updating page details', error.message);
+      setIsPageSaved(false);
     }
   };
 
@@ -237,11 +303,16 @@ export function PageEditorTabs() {
   const handleSave = async () => {
     try {
       await handleUpdatePageDetails();
+      setHasUnsavedChanges(false);
       cancelNavigation();
     } catch (error) {
       toast.error('Error in saving page details');
       console.error('Error in saving page details', error);
     }
+  };
+
+  const handleNoConstraintAlertClose = () => {
+    setIsConstraintAlertOpen(false);
   };
 
   return (
@@ -253,11 +324,13 @@ export function PageEditorTabs() {
         onActionClick={handleActionClick}
         onUpdate={handleUpdatePageDetails}
         isPageUpdating={isPageUpdating}
+        lastUpdatedOn={page_data?.created_on || page_data?.updated_on}
+        type={page_data?.type}
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />
+          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
           <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
@@ -272,9 +345,12 @@ export function PageEditorTabs() {
           />
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
-        <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
-          <PageConstraints />
-        </TabPanel>
+        {isVariantPage && (
+          <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
+            <PageConstraints />
+          </TabPanel>
+        )}
+
         <TabPanel value={TabItems.settings.value} currentTab={currentTab}>
           <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>
@@ -316,6 +392,11 @@ export function PageEditorTabs() {
         onCancel={confirmNavigation}
         onSave={handleSave}
         isLoading={isPageUpdating}
+      />
+      <NoConstraintAlert
+        isOpen={isConstraintAlertOpen}
+        handleConfirm={handleNoConstraintAlertClose}
+        handleClose={handleNoConstraintAlertClose}
       />
     </Box>
   );

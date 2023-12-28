@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Twirl as Hamburger } from 'hamburger-react';
 
-import { DashboardLayout } from '@lths/shared/ui-layouts';
+import { DashboardLayout, useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { LitehouseLogoIcon, LitehouseLogoText } from '../../assets/icon';
 import { UserActionMenu } from '../../components/layouts';
@@ -37,6 +37,12 @@ const drawerHeader = (
   </Typography>
 );
 
+const DrawerIcon = () => {
+  const { drawerVisible } = useLayoutActions();
+
+  return <Hamburger direction="right" size={18} toggled={drawerVisible} />;
+};
+
 const headerRight = <UserActionMenu />;
 
 export const PrivateLayout = (
@@ -46,6 +52,6 @@ export const PrivateLayout = (
     headerRight={headerRight}
     drawerHeader={drawerHeader}
     fixedHeader={true}
-    drawerIcon={<Hamburger direction="right" size={18} />}
+    drawerIcon={<DrawerIcon />}
   />
 );

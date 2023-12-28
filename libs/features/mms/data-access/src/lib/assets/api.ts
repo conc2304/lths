@@ -8,28 +8,27 @@ import {
   UpdateAssetResponse,
   CreateAssetResponse,
 } from './types';
-import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl, searchAssetsUrl } from './urls';
+import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl } from './urls';
 
-const createAssetQuery = (request: AssetsRequestProps, queryString?: string) => ({
-  url: queryString ? searchAssetsUrl(request) : getAssetsUrl(request),
-  method: 'POST',
-  body: {
-    ...(queryString && { queryString }),
-    sort: {
-      direction: request.sort_order ?? 'desc',
-      field: request.sort_key ?? 'created_at',
+const createAssetQuery = (request: AssetsRequestProps) => {
+  const queryString = request?.queryString;
+  return {
+    url: getAssetsUrl(request),
+    method: 'POST',
+    body: {
+      ...(queryString && { queryString: queryString }),
+      sort: {
+        direction: request.sort_order ?? 'desc',
+        field: request.sort_key ?? 'created_at',
+      },
     },
-  },
-});
+  };
+};
 
 export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
   endpoints: (builder) => ({
     getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({
       query: (request: AssetsRequestProps) => createAssetQuery(request),
-      transformResponse: transformAssetResponse,
-    }),
-    searchAssets: builder.query<AssetListResponse, AssetsRequestProps>({
-      query: (request: AssetsRequestProps) => createAssetQuery(request, request.queryString),
       transformResponse: transformAssetResponse,
     }),
     addResource: builder.mutation<CreateAssetResponse, { newAsset: File; user: string }>({
@@ -41,6 +40,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
           url: getAddAssetUrl(),
           method: 'POST',
           body: requestBody,
+          headers: { 'x-api-version': '1' },
         };
       },
     }),
@@ -64,7 +64,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
 export const {
   useGetAssetsItemsQuery,
   useLazyGetAssetsItemsQuery,
-  useLazySearchAssetsQuery,
   useAddResourceMutation,
   useEditResourceMutation,
   useDeleteResourceMutation,

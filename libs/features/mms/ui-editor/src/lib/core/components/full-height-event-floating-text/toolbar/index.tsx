@@ -1,6 +1,7 @@
 import { Box, Chip, Stack } from '@mui/material';
 
 import TMLogo from '../../../../../assets/tm-logo.svg';
+import { ICON_HEIGHT, ICON_WIDTH } from '../../../../common';
 import { GroupLabel, ToolContainer, ToolbarLabel } from '../../../../elements';
 import { FullHeightEventFloatingTextComponentProps } from '../../types';
 
@@ -16,7 +17,7 @@ const FullHeightEventFloatingTextToolbar = (props: FullHeightEventFloatingTextCo
           <Chip
             label={'Ticketmaster'}
             variant="filled"
-            icon={<img src={TMLogo} alt="ticketmaster Logo" width={24} height={24} />}
+            icon={<img src={TMLogo} alt="ticketmaster Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             sx={{
               '& .MuiChip-label': { textTransform: 'none' },
             }}

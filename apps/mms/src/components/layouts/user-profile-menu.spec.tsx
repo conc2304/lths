@@ -1,11 +1,14 @@
 import React, { ReactNode } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import mockConfigureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import * as MMS_DA from '@lths/features/mms/data-access';
+import * as Mms_DA from '@lths/features/mms/data-access';
 import * as Shared_DA from '@lths/shared/data-access';
 import { api } from '@lths/shared/data-access';
 
@@ -16,8 +19,8 @@ const mockStore = mockConfigureStore(middlewares);
 
 describe('UserProfileMenu', () => {
   const useLogoutMutationMock = jest.spyOn(Shared_DA, 'useLogoutMutation');
-  const useAppSelectorMock = jest.spyOn(MMS_DA, 'useAppSelector');
-  const selectUserIdMock = jest.spyOn(MMS_DA, 'selectUserId');
+  const useAppSelectorMock = jest.spyOn(Mms_DA, 'useAppSelector');
+  const selectUserIdMock = jest.spyOn(Mms_DA, 'selectUserId');
   let store: MockStoreEnhanced;
 
   const userIdMock = '123';
@@ -26,15 +29,18 @@ describe('UserProfileMenu', () => {
     useLogoutMutationMock.mockClear();
     useAppSelectorMock.mockClear();
     selectUserIdMock.mockClear();
+    selectUserIdMock.mockReturnValue(userIdMock);
 
     store = mockStore({
       api: api.reducer,
-      user: {
-        email: 'mock@email.com',
-        first_name: 'John',
-        last_name: 'Doe',
-        username: 'JonnyD',
-        _id: userIdMock,
+      users: {
+        user: {
+          email: 'mock@email.com',
+          first_name: 'John',
+          last_name: 'Doe',
+          username: 'JonnyD',
+          _id: userIdMock,
+        },
       },
     });
   });
@@ -43,9 +49,16 @@ describe('UserProfileMenu', () => {
     cleanup();
   });
 
-  const renderWithWrappers = (component: ReactNode) =>
-    render(<Provider store={store}>{component}</Provider>, { wrapper: RBThemeProvider });
-
+  const renderWithWrappers = (component: ReactNode) => {
+    return render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>{component}</LocalizationProvider>
+        </MemoryRouter>
+      </Provider>,
+      { wrapper: RBThemeProvider }
+    );
+  };
   it('renders UserProfileMenu', async () => {
     selectUserIdMock.mockReturnValue(userIdMock);
     const logoutMock = jest.fn();

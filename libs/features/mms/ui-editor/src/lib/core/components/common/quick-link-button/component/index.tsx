@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 
+import { ICON_HEIGHT, ICON_WIDTH } from '../../../../../common';
 import colors from '../../../../../common/colors';
 
 const QuickLinkButtonComponent = ({ title = 'link', icon }: { title: string; icon: string }) => {
@@ -17,7 +18,7 @@ const QuickLinkButtonComponent = ({ title = 'link', icon }: { title: string; ico
       }}
     >
       <Stack direction="column" alignItems="center" spacing={1}>
-        {icon && <img src={icon} alt={'Icon'} style={{ width: 24, height: 24 }} />}
+        {icon && <img src={icon} alt={'Icon'} style={{ width: ICON_WIDTH, height: ICON_HEIGHT }} />}
         <Typography
           sx={{
             letterSpacing: '2.24px',

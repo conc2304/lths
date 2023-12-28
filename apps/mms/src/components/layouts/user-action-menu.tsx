@@ -35,7 +35,7 @@ export const UserActionMenu = () => {
 
   return (
     <Box pr={2} data-testid="Toolbar-UserActionMenu--root">
-      <Popper open={open} anchorEl={anchorEl} placement={'bottom'} transition>
+      <Popper open={open} anchorEl={anchorEl} placement={'bottom'} transition disablePortal>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper

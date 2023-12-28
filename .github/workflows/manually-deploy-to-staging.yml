@@ -1,0 +1,97 @@
+# Build and push docker image to ACR, and deploy staging branch to Azure App Service.
+name: Manually Deploy MMS to Staging
+
+# run only when manually triggered
+on:
+  workflow_dispatch:
+
+jobs:
+  manually-deploy-mms-staging:
+    runs-on: ubuntu-22.04
+
+    steps:
+
+      - name: Deploy to environment
+        run: echo "Deploying to staging..."
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Setting environment variables
+        id: set-env-vars-step
+        run: |
+          echo "image_tag_name=latest" >> $GITHUB_OUTPUT
+          echo "acr_registry=${{ secrets.ACR_REGISTRY }}" >> $GITHUB_OUTPUT
+          echo "mms_full_image_name=${{ secrets.ACR_REGISTRY }}/mms-staging" >> $GITHUB_OUTPUT
+          echo "mok_api_key=${{ secrets.MMS_DEV_API_KEY }}" >> $GITHUB_OUTPUT
+
+      - name: Show environment variables
+        run: |
+          echo ${{ steps.set-env-vars-step.outputs.image_tag_name }}
+          echo ${{ steps.set-env-vars-step.outputs.acr_registry }}
+          echo ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
+          echo ${{ steps.set-env-vars-step.outputs.mok_api_key }}
+
+      - name: Get current date in ISO format
+        id: date
+        run: echo "::set-output name=date::$(date -u +'utc-%Y%m%d-%H%M')"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: staging
+
+      - name: Show Azure CLI version
+        run: az -v
+
+      - name: Docker login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Renaming the "latest" image to "${{ steps.date.outputs.date }}"
+        continue-on-error: true
+        run: |
+          docker pull ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.set-env-vars-step.outputs.image_tag_name }}
+          docker tag ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.set-env-vars-step.outputs.image_tag_name }} ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.date.outputs.date }}
+          docker push ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.date.outputs.date }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker BuildX
+        uses: docker/setup-buildx-action@v2
+
+      # Important: The building arguments "build-args" below need to be declared in the Dockerfile as both ARG and ENV
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64  #,linux/arm64
+          file: apps/mms/docker/Dockerfile_app_service
+          push: true
+          tags: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.set-env-vars-step.outputs.image_tag_name }}
+          no-cache: true
+          build-args: |
+            "NX_PUBLIC_HOST_PROTOCOL=https"
+            "NX_PUBLIC_API_HOST_DOMAIN=mok-staging.briteliteimmersive.io"
+            "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
+            "BASIC_AUTH_USER=${{ secrets.BASIC_AUTH_USER_STAGING }}"
+            "BASIC_AUTH_PASS=${{ secrets.BASIC_AUTH_PASS_STAGING }}"
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'lwa-staging-westus3-mms'
+          publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_STAGING }}
+          images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
+
+      - name: Post a message to Slack - lths-deployments
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"The STAGING environment is being updated with the latest version of the MMS staging branch. Commit ID: ${{ github.sha }}"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL_DEPLOYMENTS_CH}}

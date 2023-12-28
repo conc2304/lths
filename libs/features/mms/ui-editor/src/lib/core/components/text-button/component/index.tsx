@@ -1,8 +1,7 @@
-import { Button } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements/containers';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import { TextButtonProps } from '../../types';
 import { sizes } from '../utils';
 
@@ -20,6 +19,7 @@ export function TextButtonComponent(props: TextButtonProps) {
           color: colors.editor.text,
           textDecoration: 'underline',
           padding: 0,
+          textTransform: 'none',
         }}
         variant="text"
         href={btn_text}

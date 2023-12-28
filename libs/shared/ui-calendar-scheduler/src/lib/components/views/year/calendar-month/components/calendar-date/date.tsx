@@ -4,18 +4,18 @@ import { Property } from 'csstype';
 import { format, isToday } from 'date-fns';
 import { Event } from 'react-big-calendar';
 
-type CalendarDateProps = {
+type CalendarDateProps<TEvent extends object = Event & { id?: string }> = {
   dateToRender: Date;
   currentDate: Date;
   dateId: number | string;
   onClick: (
     date: Date,
-    events: Event[],
+    eventIds: string[],
     anchorEl: HTMLElement,
     popperPlacement: PopperPlacementType,
     dateId: string | number
   ) => void;
-  events: Event[];
+  events: TEvent[];
   isActive?: boolean;
   size?: 'small' | 'large';
   isWeekend?: boolean;
@@ -86,7 +86,8 @@ export const CalendarDate = (props: CalendarDateProps) => {
         aria-label={fullDate}
         role="button"
         onClick={(e: MouseEvent) => {
-          wrapperElem.current && onClick(dateToRender, events, wrapperElem.current, getPopperPlacement(e), dateId);
+          const eventIds = events.map((event) => event.id || event.title?.toString() || '');
+          wrapperElem.current && onClick(dateToRender, eventIds, wrapperElem.current, getPopperPlacement(e), dateId);
         }}
         size={size}
         onMouseOver={() => {

@@ -34,7 +34,6 @@ import {
   FanGuideThreeIsToFourAspectRatioComponent,
   QuicklinkButtonGroupComponent,
   HalfWidthCarouselFloatingTextComponent,
-  ExternalDataComponent,
   FullHeightFloatingTextComponent,
   HalfHeightWithIconComponent,
   HeadlineTextBlockComponent,
@@ -59,6 +58,9 @@ import {
   FullHeightEventFloatingTextComponent,
   TitleTextComponent,
   HeroGameboxComponent,
+  HeroEventComponent,
+  HorizontalMediumComponent,
+  HorizontalSmallComponent,
 } from '../components';
 import {
   ButtonComponentProps,
@@ -119,6 +121,9 @@ import {
   FullHeightEventFloatingTextComponentProps,
   TitleTextComponentProps,
   HeroGameboxComponentProps,
+  HeroEventComponentProps,
+  HorizontalMediumProps,
+  HorizontalSmallComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -208,13 +213,7 @@ export const componentFactory = (props: ComponentProps) => {
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselComponent {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
-      return (
-        <ExternalDataComponent
-          img_alt="Hero Event"
-          id={props.__ui_id__}
-          image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.svg'}
-        />
-      );
+      return <HeroEventComponent {...(props as HeroEventComponentProps)} />;
     case Component.HeroGameBox:
       return <HeroGameboxComponent {...(props as HeroGameboxComponentProps)} />;
     case Component.HalfHeightMatchup:
@@ -247,6 +246,10 @@ export const componentFactory = (props: ComponentProps) => {
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
+    case Component.HorizontalSmall:
+      return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

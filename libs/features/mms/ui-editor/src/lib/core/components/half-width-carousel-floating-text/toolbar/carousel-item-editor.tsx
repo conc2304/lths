@@ -14,27 +14,33 @@ type CarouselItemProps = ToolbarProps & {
 };
 
 const CarouselItemEditor: React.FC<CarouselItemProps> = ({ item, onPropChange, onClose, index }) => {
-  const { name, image = '', img_alt_text = '', title = '', action = {type: 'webview', page_id: '', page_link: '' } } = item || {};
+  const {
+    name,
+    image = '',
+    img_alt_text = '',
+    title = '',
+    action = { type: 'web', page_id: '', page_link: '' },
+  } = item || {};
   const parentKeys = ['sub_component_data'];
   const { handleTitleChange, handleImageChange, handleImageAltChange, handleNameValueChange } = useToolbarChange();
 
   const _handleNameChange = (value: string) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleNameValueChange(value, index, parentKeys);
   };
 
   const _handleTitleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleTitleChange(e, index, parentKeys);
   };
 
   const _handleImageChange = (value: string) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleImageChange(value, index, parentKeys);
   };
 
   const _handleImageAltChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if(index < 0) return;
+    if (index < 0) return;
     handleImageAltChange(e, index, parentKeys);
   };
 

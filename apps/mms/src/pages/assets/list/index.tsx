@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 
@@ -12,7 +12,6 @@ import {
   useEditResourceMutation,
   useDeleteResourceMutation,
   useAppSelector,
-  useLazySearchAssetsQuery,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -60,7 +59,8 @@ const headers = [
 
 export default function AssetsPage() {
   const user = useAppSelector((state) => state.auth);
-  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg';
+  const fileInputRef = useRef(null);
+  const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<PreviewAssetRowProps>(null);
@@ -96,13 +96,17 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
-  const [localData, setLocalData] = useState(null);
+  const [search, setSearch] = React.useState({ queryString: '' });
 
   useEffect(() => {
-    setLocalData(data);
-  }, [data]);
+    fetchData(currPagination, currSorting, search);
+  }, [currPagination, currSorting, search]);
 
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps, search = '') {
+  async function fetchData(
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -112,16 +116,12 @@ export default function AssetsPage() {
       req.sort_key = sorting.column;
       req.sort_order = sorting.order;
     }
-    if (search !== '') {
-      req.search = search;
+    if (search != null && search.queryString !== '') {
+      req.queryString = search.queryString;
     }
 
     getData(req);
   }
-
-  useEffect(() => {
-    fetchData(null, undefined);
-  }, []);
 
   const onPageChange = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -130,7 +130,6 @@ export default function AssetsPage() {
   ) => {
     setCurrPagination(pagination);
     setCurrSorting(sorting);
-    fetchData(pagination, sorting);
   };
 
   const handleOpenModal = (modalName: string, row: AssetProps) => {
@@ -139,33 +138,14 @@ export default function AssetsPage() {
     handleClose();
   };
 
-  const [search, setSearch] = React.useState('');
-
-  const [triggerSearch, { data: searchResult }] = useLazySearchAssetsQuery();
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
+  const handleSearch = (value: string) => {
+    if (currPagination) {
+      setCurrPagination({ ...currPagination, page: 0 });
+    }
+    setSearch({ queryString: value });
   };
 
-  useEffect(() => {
-    if (search !== '') {
-      const searchParams = {
-        queryString: search,
-        page: 0,
-        page_size: localData?.meta?.total,
-      };
-      triggerSearch(searchParams);
-    } else {
-      fetchData(null, undefined);
-    }
-  }, [search, triggerSearch]);
-
-  useEffect(() => {
-    if (searchResult) {
-      setLocalData(searchResult);
-    }
-  }, [searchResult]);
-
-  const tableRows = localData?.data?.map((row, index) => {
+  const tableRows = data?.data?.map((row, index) => {
     const handleSelectFile = () => {
       setSelectedPreviewRow({ asset: row, rowIndex: index });
       handleDrawerOpen();
@@ -225,22 +205,25 @@ export default function AssetsPage() {
     );
   });
 
-  const total = localData?.meta?.total || 0;
+  const total = data?.pagination?.totalItems || 0;
 
   const [addResource] = useAddResourceMutation();
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
+  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       if (allowedFileTypes.includes(file.type)) {
         await handleAddAsset(file);
-        fetchData(currPagination, currSorting);
+        fetchData(currPagination, currSorting, search);
       } else {
         console.error('Invalid file type:', file.type);
       }
     }
+    // This small change resets the file input after each upload,
+    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
+    event.target.value = '';
   };
   const [getUser] = useLazyGetUserQuery();
 
@@ -270,11 +253,10 @@ export default function AssetsPage() {
           rowIndex: null,
         });
       }
-      setSearch('');
+      setSearch({ queryString: '' });
     } catch (error) {
       console.error('Failed to edit asset:', error);
     }
-    fetchData(currPagination, currSorting);
     setIsRowModalOpen('');
   };
 
@@ -287,19 +269,18 @@ export default function AssetsPage() {
         if (nextRow < 0) {
           handleDrawerClose();
         }
-        setSelectedPreviewRow({ asset: localData?.data[nextRow], rowIndex: nextRow });
-        setSearch('');
+        setSelectedPreviewRow({ asset: data?.data[nextRow], rowIndex: nextRow });
+        setSearch({ queryString: '' });
       }
     } catch (error) {
       console.error('Failed to delete asset:', error);
     }
-    fetchData(currPagination, currSorting);
     setIsRowModalOpen('');
   };
 
-  const cleanDrawerTitle = localData?.data[selectedPreviewRow?.rowIndex]?.original_file_name.slice(
+  const cleanDrawerTitle = data?.data[selectedPreviewRow?.rowIndex]?.original_file_name.slice(
     0,
-    localData?.data[selectedPreviewRow?.rowIndex]?.original_file_name.lastIndexOf('.')
+    data?.data[selectedPreviewRow?.rowIndex]?.original_file_name.lastIndexOf('.')
   );
 
   return (
@@ -308,7 +289,7 @@ export default function AssetsPage() {
       title={cleanDrawerTitle}
       handleDrawerClose={handleDrawerClose}
       drawerContent={
-        <PreviewDrawerContent data={localData?.data[selectedPreviewRow?.rowIndex]} openModal={handleOpenModal} />
+        <PreviewDrawerContent data={data?.data[selectedPreviewRow?.rowIndex]} openModal={handleOpenModal} />
       }
     >
       <PageHeader
@@ -317,7 +298,7 @@ export default function AssetsPage() {
           <div>
             <input
               type="file"
-              id="file-upload"
+              ref={fileInputRef}
               style={{ display: 'none' }}
               onChange={handleUpload}
               accept={acceptedFileTypes}
@@ -325,7 +306,7 @@ export default function AssetsPage() {
             <Button
               variant="contained"
               onClick={() => {
-                document.getElementById('file-upload').click();
+                fileInputRef.current.click();
               }}
             >
               <AddIcon /> ADD ASSET
@@ -334,14 +315,18 @@ export default function AssetsPage() {
         }
         sx={{ mt: 2 }}
       />
+      <Grid container spacing={2} marginTop={'1vw'}>
+        <Grid item xs={12}>
+          <AssetSearchBar
+            onSearch={handleSearch}
+            search={search.queryString}
+            isFocused={isFocused}
+            handleFocus={handleFocus}
+            handleBlur={handleBlur}
+          />
+        </Grid>
+      </Grid>
 
-      <AssetSearchBar
-        handleSearchChange={handleSearchChange}
-        search={search}
-        isFocused={isFocused}
-        handleFocus={handleFocus}
-        handleBlur={handleBlur}
-      />
       <Table
         loading={isLoading}
         fetching={isFetching}
@@ -349,6 +334,8 @@ export default function AssetsPage() {
         title="{0} Assets"
         headerCells={headers}
         tableRows={tableRows}
+        pagination={currPagination}
+        sorting={currSorting}
         onPageChange={onPageChange}
         noDataMessage="No assets"
         sx={{

@@ -10,11 +10,11 @@ type MMSEventListRow = {
   onSaveEvent?: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates?: (updatedEventStates: EventState[]) => void;
   onEventClick?: ({
-    event,
+    eventId,
     anchorEl,
     popperPlacement,
   }: {
-    event: MMSEvent;
+    eventId: string;
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
   }) => void;
@@ -25,15 +25,6 @@ export const RowBuilder = ({ eventTypes, onEventClick }: MMSEventListRow): RowBu
     const { headerCells } = props;
     const event = props.event as MMSEvent;
 
-    return (
-      <Row
-        headerCells={headerCells}
-        event={event}
-        eventTypes={eventTypes}
-        onEventClick={onEventClick}
-        // onSaveEvent={onSaveEvent}
-        // onSaveEventStates={onSaveEventStates}
-      />
-    );
+    return <Row headerCells={headerCells} event={event} eventTypes={eventTypes} onEventClick={onEventClick} />;
   };
 };

@@ -6,13 +6,22 @@ type Props = {
   color: string;
   icon?: ReactNode;
   imgSrc?: string;
+  statusInfo?: string;
 };
 
-export const Status = ({ status, color, icon, imgSrc }: Props) => {
+export const Status = (props: Props) => {
+  const { status, color, icon, imgSrc, statusInfo } = props;
   return (
-    <Stack direction="row" spacing={0.5}>
+    <Stack direction="row">
       {icon ? icon : <img src={imgSrc} alt={status} />}
-      <Typography color={color}>{status}</Typography>
+      <Typography color={color} marginLeft={0.5}>
+        {status}
+      </Typography>
+      {statusInfo && (
+        <Typography color={color} marginLeft={1}>
+          {statusInfo}
+        </Typography>
+      )}
     </Stack>
   );
 };

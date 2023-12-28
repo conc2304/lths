@@ -6,7 +6,7 @@ export type ComponentProps = BaseProps & {
   onPropChange?: ToolbarProps['onPropChange'];
 };
 
-export type ComponentType = 'native' | 'webview';
+export type ComponentType = 'native' | 'web';
 
 export enum SourceType {
   NHL_SCHEDULE = 'NHL_Schedule',
@@ -570,6 +570,13 @@ export type BodyTextComponentProps = ComponentProps & {
   };
 };
 
+export type HorizontalSmallComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    image: string;
+    action: ActionProps;
+  };
+};
 export type FullHeightEventComponentProps = ComponentProps & {
   data: {
     max_size: string;
@@ -585,6 +592,14 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
     title: string;
     btn_text: string;
     source_type: SourceType;
+  };
+};
+
+export type HorizontalMediumProps = ComponentProps & {
+  data: {
+    title: string;
+    file: string;
+    action: ActionProps;
   };
 };
 
@@ -626,6 +641,8 @@ export type HeroGameboxComponentProps = ComponentProps & {
     at: string;
     period: string;
     time_remain: string;
+    title: string;
+    show_greetings: boolean;
     final: string;
     home_team_text_color: string;
     away_team_text_color: string;
@@ -643,3 +660,5 @@ export type HeroGameboxComponentProps = ComponentProps & {
     };
   };
 };
+
+export type HeroEventComponentProps = ComponentProps;

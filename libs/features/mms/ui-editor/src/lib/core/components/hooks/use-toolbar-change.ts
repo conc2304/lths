@@ -32,7 +32,7 @@ export const useToolbarChange = () => {
     }
   };
 
-  function handlePropChange(propName: string, value: string | object, index?: number, keys?: string[]) {
+  function handlePropChange(propName: string, value: string | boolean | object, index?: number, keys?: string[]) {
     const data = updateNestedProp(selectedComponent, propName, value, index, mergeKeys(keys));
     updateComponent(data);
   }

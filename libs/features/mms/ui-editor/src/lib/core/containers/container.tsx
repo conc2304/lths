@@ -55,7 +55,7 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
             <Wysiwyg />
           </Stack>
         </Grid>
-        <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar, padding: 2 }}>
+        <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar }}>
           <Toolbar onPropChange={onPropChange} />
         </Grid>
       </Grid>

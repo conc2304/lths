@@ -14,6 +14,13 @@ describe('QuicklinkButtonGroup Toolbar', () => {
   let mockCallbackData: AutocompleteOptionProps[];
 
   beforeEach(() => {
+    mockCallbackData = [
+      { label: 'iconOne', value: 'icon.one.link' },
+      { label: 'iconTwo', value: 'icon.two.link' },
+      { label: 'iconThree', value: 'icon.three.link' },
+      { label: 'iconFour', value: 'icon.four.link' },
+    ];
+
     component = {
       ...mockComponentProps,
       __ui_id__: '3333333',
@@ -22,22 +29,22 @@ describe('QuicklinkButtonGroup Toolbar', () => {
         sub_component_data: [
           {
             card_background_color: '',
-            icon: 'nonexistent png',
+            icon: mockCallbackData[0].value,
             text_color: '',
             title: 'LABEL',
             action: {
-              type: 'webview',
+              type: 'web',
               page_id: 'medical page',
               page_link: 'first aid link',
             },
           },
           {
             card_background_color: '',
-            icon: 'nonexistent png 2',
+            icon: mockCallbackData[1].value,
             text_color: '',
             title: 'LABEL2',
             action: {
-              type: 'webview',
+              type: 'web',
               page_id: 'report crime',
               page_link: 'local police department link',
             },
@@ -50,12 +57,6 @@ describe('QuicklinkButtonGroup Toolbar', () => {
       components: [],
       selectedComponent: component,
     };
-
-    mockCallbackData = [
-      { label: 'iconOne', value: 'icon.one.link' },
-      { label: 'iconTwo', value: 'icon.two.link' },
-      { label: 'iconThree', value: 'icon.three.link' },
-    ];
   });
 
   function createMockOnPropChange(callbackData) {
@@ -103,6 +104,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
   });
 
   test('should render QuicklinkButtonGroup toolbar with text props', () => {
+    component.data.sub_component_data[0].icon = mockCallbackData[0].value;
+    component.data.sub_component_data[1].icon = mockCallbackData[1].value;
+
     const container = render(
       <EditorProvider initialValue={initialState}>
         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
@@ -114,14 +118,16 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     // Assert
     // test quicklink 1
     expect(container.innerHTML).toContain(sub_component_data[0].title);
-    expect(container.innerHTML).toContain(sub_component_data[0].icon);
+    expect(container.innerHTML).toContain(mockCallbackData[0].label);
 
     // test quicklink 2
     expect(container.innerHTML).toContain(sub_component_data[1].title);
-    expect(container.innerHTML).toContain(sub_component_data[1].icon);
+    expect(container.innerHTML).toContain(mockCallbackData[1].label);
   });
 
   test('should render QuicklinkButtonGroup toolbar with correct Labels', async () => {
+    component.data.sub_component_data[0].icon = mockCallbackData[0].value;
+    component.data.sub_component_data[1].icon = mockCallbackData[1].value;
     render(
       <EditorProvider initialValue={initialState}>
         <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
@@ -137,7 +143,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     // Test First Icon Input
     const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
-    expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
+    expect(firstIconInput.querySelector('input').value).toBe(mockCallbackData[0].label);
 
     // Test Second Label TextArea
     const secondLabelInput = await screen.findByTestId('second_button_label');
@@ -147,14 +153,14 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     // Test Second Icon Input
     const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
-    expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
+    expect(secondIconInput.querySelector('input').value).toBe(mockCallbackData[1].label);
   });
 
   test('should render QuicklinkButtonGroup toolbar with correct diffrent initial Labels', async () => {
     component.data.sub_component_data[0].title = 'Cool title 1';
     component.data.sub_component_data[1].title = 'Cool title 2';
-    component.data.sub_component_data[0].icon = 'Cool icon 1';
-    component.data.sub_component_data[1].icon = 'Cool icon 2';
+    component.data.sub_component_data[0].icon = mockCallbackData[2].value;
+    component.data.sub_component_data[1].icon = mockCallbackData[3].value;
 
     render(
       <EditorProvider initialValue={initialState}>
@@ -171,7 +177,7 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     // Test First Icon Input
     const firstIconInput = await screen.findByTestId('first_button_icon');
     expect(firstIconInput.querySelector('label').textContent).toContain('Icon');
-    expect(firstIconInput.querySelector('input').value).toBe(sub_component_data[0].icon);
+    expect(firstIconInput.querySelector('input').value).toBe(mockCallbackData[2].label);
 
     // Test Second Label TextArea
     const secondLabelInput = await screen.findByTestId('second_button_label');
@@ -181,12 +187,12 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     // Test Second Icon Input
     const secondIconInput = await screen.findByTestId('second_button_icon');
     expect(secondIconInput.querySelector('label').textContent).toContain('Icon');
-    expect(secondIconInput.querySelector('input').value).toBe(sub_component_data[1].icon);
+    expect(secondIconInput.querySelector('input').value).toBe(mockCallbackData[3].label);
   });
 
   xdescribe('Test Page Link and Page Id', () => {
     test('renders QuicklinkButtonGroup Toolbar with Correct Action Option for type', () => {
-      component.data.sub_component_data[0].action.type = 'webview';
+      component.data.sub_component_data[0].action.type = 'web';
       component.data.sub_component_data[1].action.type = 'native';
 
       render(

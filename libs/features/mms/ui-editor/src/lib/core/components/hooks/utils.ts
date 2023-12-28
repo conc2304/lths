@@ -2,7 +2,7 @@ import { ComponentProps } from '../../../context';
 
 export const rootKey = 'data';
 
-export function getValue(data: object, name: string, value: number | string | object | undefined | null) {
+export function getValue(data: object, name: string, value: number | string | boolean | object | undefined | null) {
   return typeof value === 'object' ? { ...(data[name] || {}), ...value } : value;
 }
 
@@ -36,8 +36,8 @@ export const mergeKeys = (keys: string[]) => {
  * const updatedData1 = updateRecursive('link_key', 'data.link_text', 'abc', data, 1);
  * console.log(updatedData1.data.link_text[1].link_key === 'abc'); // Output: true
  *
- * const updatedData2 = updateRecursive('action', 'data.link_text', { type: 'webview' }, data, 1);
- * console.log(updatedData2.data.link_text[1].action.type === 'webview'); // Output: true
+ * const updatedData2 = updateRecursive('action', 'data.link_text', { type: 'web' }, data, 1);
+ * console.log(updatedData2.data.link_text[1].action.type === 'web'); // Output: true
  *
  * const updatedData3 = updateRecursive('title', 'data', 'Test Title++', data);
  * console.log(updatedData3.data.title === 'Test Title++'); // Output: true
@@ -52,7 +52,7 @@ export const mergeKeys = (keys: string[]) => {
 export function updateNestedProp(
   data: ComponentProps,
   propName: string,
-  value: number | string | object | undefined | null,
+  value: number | string | boolean | object | undefined | null,
   index: number,
   keys: string[] = []
 ) {

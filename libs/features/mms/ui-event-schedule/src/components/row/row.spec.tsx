@@ -40,23 +40,21 @@ describe('Row', () => {
   const mockOnEventClick = jest.fn();
 
   const renderComponent = () => {
-    component = RBThemeProvider({
-      children: (
-        <Table>
-          <TableBody>
-            <Row
-              headerCells={mockHeaderCells}
-              event={mockEvent}
-              eventTypes={mockEventTypes}
-              onSaveEvent={mockOnSaveEvent}
-              onSaveEventStates={mockOnSaveEventStates}
-              onEventClick={mockOnEventClick}
-            />
-          </TableBody>
-        </Table>
-      ),
-    });
-    return render(component);
+    return render(
+      <Table>
+        <TableBody>
+          <Row
+            headerCells={mockHeaderCells}
+            event={mockEvent}
+            eventTypes={mockEventTypes}
+            onSaveEvent={mockOnSaveEvent}
+            onSaveEventStates={mockOnSaveEventStates}
+            onEventClick={mockOnEventClick}
+          />
+        </TableBody>
+      </Table>,
+      { wrapper: RBThemeProvider }
+    );
   };
 
   it('renders the row with cells', async () => {
@@ -95,7 +93,7 @@ describe('Row', () => {
     await waitFor(() => {
       expect(mockOnEventClick).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          event: mockEvent,
+          eventId: mockEvent.id,
           popperPlacement: expect.any(String),
           anchorEl: expect.any(HTMLElement),
         })

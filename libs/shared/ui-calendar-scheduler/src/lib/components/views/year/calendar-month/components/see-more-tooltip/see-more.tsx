@@ -51,7 +51,7 @@ export const SeeMore = (props: SeeMoreProps<Event>) => {
           {weekDay}
         </Typography>
         <IconButton
-          data-testid={'SeeMore--dateButton'}
+          data-testid="SeeMore--dateButton"
           aria-label={format(selectedDate, 'EEEE, MMMM dd')}
           size="large"
           sx={{ width: '3rem', height: '3rem', textAlign: 'center', verticalAlign: 'baseline' }}

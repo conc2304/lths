@@ -11,9 +11,12 @@ const userSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addMatcher(userApi.endpoints.getUser.matchFulfilled, (state, { payload }) => {
-      state.user = payload.data;
-    });
+    builder.addMatcher(
+      isAnyOf(userApi.endpoints.getUser.matchFulfilled, userApi.endpoints.updateUser.matchFulfilled),
+      (state, { payload }) => {
+        state.user = payload.data;
+      }
+    );
     builder.addMatcher(
       isAnyOf(authApi.endpoints.logout.matchFulfilled, authApi.endpoints.logout.matchRejected),
       (state) => {
