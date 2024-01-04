@@ -87,7 +87,6 @@ export function PageEditorTabs() {
     defaultCategory: null,
     showCategories: true,
   });
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
   const [isPageSaved, setIsPageSaved] = useState(false);
   const [modalData, setModalData] = useState({
     title: '',
@@ -271,16 +270,6 @@ export function PageEditorTabs() {
   };
 
   const handleMenuItemSelect = async (status: string) => {
-    if (hasUnsavedChanges) {
-      try {
-        await handleUpdatePageDetails();
-        setHasUnsavedChanges(false);
-      } catch (error) {
-        toast.error('Error in saving page details');
-        console.error('Error in saving page details', error);
-        return;
-      }
-    }
     const data = StatusChangeModalData[status];
     if (data) {
       setModalData(data);
@@ -300,6 +289,15 @@ export function PageEditorTabs() {
         if (!isConstraintsAdded) {
           setIsConstraintAlertOpen(true);
           setOpenModal(false);
+          return;
+        }
+      }
+      if (hasUnsavedEdits) {
+        try {
+          await handleUpdatePageDetails();
+        } catch (error) {
+          toast.error('Error in saving page details');
+          console.error('Error in saving page details', error);
           return;
         }
       }
@@ -373,7 +371,6 @@ export function PageEditorTabs() {
   const handleSave = async () => {
     try {
       await handleUpdatePageDetails();
-      setHasUnsavedChanges(false);
       cancelNavigation();
     } catch (error) {
       toast.error('Error in saving page details');
