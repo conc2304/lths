@@ -14,10 +14,18 @@ export enum PageAction {
 }
 
 export type ToolbarProps = {
-  onPropChange: <T>(propName: string, callback: Callback<T>) => void;
+  onPropChange: <T>(propName: string, callback: Callback<T>, args?: unknown) => void;
 };
+
+export type ValidationErrorProps = Record<
+  string,
+  {
+    message: string;
+  }
+>;
+
 export type ComponentProps = {
-  __ui_id__: string; // need to be replaced with _id or component_id in all the places
+  __ui_id__?: string; // need to be replaced with _id or component_id in all the places
   _id: string;
   component_id: string;
   name: string;
@@ -28,12 +36,13 @@ export type ComponentProps = {
   data: Record<string, any>;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: { [key: string]: any };
+  schema?: { [key: string]: any };
 
   //TBD: remove these props
   display_order: number;
   category?: string;
   variation_id: string;
+  errors?: ValidationErrorProps | null;
 };
 export type EditorProviderProps = {
   children: ReactNode;

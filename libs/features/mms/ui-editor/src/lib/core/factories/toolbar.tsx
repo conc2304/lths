@@ -122,7 +122,9 @@ import {
   HorizontalMediumProps,
   HorizontalSmallToolbar,
   HorizontalSmallComponentProps,
+  HeroCarouselComponentProps,
 } from '../components';
+import HeroCarouselToolbar from '../components/hero-carousel/toolbar';
 
 export const toolbarFactory = (props: ComponentProps) => {
   switch (props.component_id) {
@@ -251,6 +253,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <HorizontalMediumToolbar {...(props as HorizontalMediumProps)} />;
     case Component.HorizontalSmall:
       return <HorizontalSmallToolbar {...(props as HorizontalSmallComponentProps)} />;
+    case Component.HeroCarousel:
+      return <HeroCarouselToolbar {...(props as HeroCarouselComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

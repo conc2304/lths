@@ -73,8 +73,6 @@ export const EventScheduler = (props: EventSchedulerProps) => {
       ? popperEventId
       : visibileEvents.find((event) => event.id === popperEventId);
 
-  console.log({ eventDetailsEvent });
-
   const backgroundEvents = useMemo(() => {
     return !eventStatesVisible
       ? []

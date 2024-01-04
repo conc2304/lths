@@ -14,6 +14,8 @@ import {
   useUpdatePageStatusMutation,
   EnumValue,
   useLazyGetEnumListQuery,
+  ComponentProps,
+  transformUpdatePageDetailRequest,
 } from '@lths/features/mms/data-access';
 import {
   PageAdapterProvider,
@@ -77,9 +79,14 @@ export function PageEditorTabs() {
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
   const [openModal, setOpenModal] = useState(false);
-  const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
+  const [compCallback, setCompCallback] = useState(null);
+  const [compModal, setCompModal] = useState({
+    open: false,
+    defaultCategory: null,
+    showCategories: true,
+  });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
   const [isPageSaved, setIsPageSaved] = useState(false);
   const [modalData, setModalData] = useState({
@@ -114,11 +121,16 @@ export function PageEditorTabs() {
 
   //fetch
   const fetchPageDetail = async (pageId: string) => {
-    const response = await getPageDetail(pageId);
-    if (response.isSuccess) {
-      const payload = response.data;
-      if (payload?.success && payload?.data) initEditor(payload.data);
-      else toast.success('Page details could not be found');
+    try {
+      const response = await getPageDetail(pageId).unwrap();
+      if (response && response.success && response.data) {
+        initEditor(response.data);
+      } else {
+        toast.error('Page details could not be found');
+      }
+    } catch (error) {
+      console.error('Error in fetching the page details', error);
+      toast.error('Page details could not be found');
     }
   };
 
@@ -129,12 +141,18 @@ export function PageEditorTabs() {
 
   //modal events
   const handleSelectComponent = async (componentId: string) => {
-    setCompModalOpen(false);
-    const detail = await getDetail(componentId);
-    if (detail?.isSuccess && detail?.data?.data) {
-      addComponent(detail.data.data);
-    } else {
-      console.log('Failed to find component');
+    handleCloseCompModal();
+    try {
+      const response = await getDetail(componentId).unwrap();
+      if (response && response.success && response.data) {
+        if (compCallback) compCallback(response.data);
+        else addComponent(response.data);
+      } else {
+        toast.error('Component details could not be found');
+      }
+    } catch (error) {
+      console.error('Error in fetching the component details', error);
+      toast.error('Component details could not be found');
     }
   };
 
@@ -158,13 +176,21 @@ export function PageEditorTabs() {
   };
 
   const handleCloseCompModal = () => {
-    setCompModalOpen(false);
+    setCompModal((prevState) => ({
+      ...prevState,
+      open: false,
+    }));
+    setCompCallback(null);
   };
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
   const handleAddComponent = () => {
-    setCompModalOpen(true);
+    setCompModal({
+      open: true,
+      defaultCategory: null,
+      showCategories: true,
+    });
   };
   const handleAddImage = (callback: (url: string) => void) => {
     setImageCallback(() => callback);
@@ -173,20 +199,56 @@ export function PageEditorTabs() {
 
   //TODO: API is not typed yet, so using any for now
   const handlAddAction = async (callback: (data) => void) => {
-    const response = await getDefaultPage();
-    if (response.data?.data)
-      return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
+    try {
+      const response = await getDefaultPage().unwrap();
+      if (response && response.success && response.data) {
+        return callback(response.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
+      } else {
+        toast.error('Default page list could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the default page list', error);
+      toast.error('Default page list could not be found.');
+    }
   };
 
   const handleAddSocialIcon = async (callback: (data) => void) => {
-    const response = await getEnumList('socialIcons').unwrap();
-    if (response && response.success && response.data) return callback(response.data.enum_values);
-    else return callback([]);
+    try {
+      const response = await getEnumList('socialIcons').unwrap();
+      if (response && response.success && response.data) return callback(response.data.enum_values);
+      else {
+        toast.error('Social icon list could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the social icon list', error);
+      toast.error('Social icon list could not be found.');
+    }
   };
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
-    const response = await getEnumList('ActionIcons').unwrap();
-    if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+    try {
+      const response = await getEnumList('ActionIcons').unwrap();
+      if (response && response.success && response.data)
+        return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+      else {
+        toast.error('Icon list could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the icon list', error);
+      toast.error('Icon list could not be found.');
+    }
+  };
+
+  const handleAddHeroCarouselComponent = async (callback: (data: ComponentProps) => void) => {
+    setCompCallback(() => callback);
+    setCompModal({
+      open: true,
+      defaultCategory: 'HERO',
+      showCategories: false,
+    });
   };
 
   function handlePropChange<T>(propName: string, callback: Callback<T>): void {
@@ -198,6 +260,8 @@ export function PageEditorTabs() {
       handleAddSocialIcon(callback as Callback<EnumValue>);
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
+    } else if (propName === 'hero_carousel_component_modal') {
+      handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
     }
   }
 
@@ -243,8 +307,12 @@ export function PageEditorTabs() {
         page_id: pageId,
         status: modalData.status,
       }).unwrap();
-      initEditor(response.data);
-      toast.success(modalData.success);
+      if (response && response.success && response.data) {
+        initEditor(response.data);
+        toast.success(modalData.success);
+      } else {
+        toast.error(modalData.error);
+      }
     } catch (error) {
       console.error('Error in updating the page', error);
       toast.error(modalData.error);
@@ -256,7 +324,9 @@ export function PageEditorTabs() {
     try {
       const updatedData = { ...page_data, components };
 
-      const response = await updatePageDetails(updatedData).unwrap();
+      const payload = transformUpdatePageDetailRequest(updatedData);
+
+      const response = await updatePageDetails(payload).unwrap();
 
       if (response?.success) {
         if (!isPageSaved) {
@@ -338,10 +408,10 @@ export function PageEditorTabs() {
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
           <BlockEditor onAddComponent={handleAddComponent} onPropChange={handlePropChange} />
           <ComponentModal
-            open={compModalOpen}
             onClose={handleCloseCompModal}
             variant="basic"
             onSelect={handleSelectComponent}
+            {...compModal}
           />
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>

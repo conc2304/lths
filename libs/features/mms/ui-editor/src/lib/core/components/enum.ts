@@ -79,4 +79,5 @@ export enum Component {
   TitleTextBlock = 'cTitleTextBlock',
   HorizontalMedium = 'cHorizontalMedium',
   HorizontalSmall = 'cHorizontalSmall',
+  HeroCarousel = 'cHeroCarousel',
 }

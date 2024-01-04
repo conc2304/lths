@@ -1,14 +1,26 @@
-import { List, ListItemText } from '@mui/material';
+import { CircularProgress, List, ListItemText, Stack } from '@mui/material';
 
 import { Colors } from '@lths/features/mms/ui-editor';
 
 import SectionItemButton from '../../list-item';
 import { CatergorySectionProps } from '../../types';
 
-const CategorySection = ({ categories, onSelectCategory, selectedCategory }: CatergorySectionProps) => {
+const CategorySection = ({
+  categories = [],
+  onSelectCategory,
+  selectedCategory,
+  isCategoryListLoading = false,
+}: CatergorySectionProps) => {
   const handleListItemClick = (category: string) => {
     onSelectCategory(category);
   };
+
+  if (isCategoryListLoading)
+    return (
+      <Stack justifyContent="center" alignItems="center">
+        <CircularProgress color="primary" />
+      </Stack>
+    );
 
   return (
     <List component="nav" aria-label="component category list" disablePadding>

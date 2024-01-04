@@ -16,7 +16,6 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { EnumValue, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
 import { Colors } from '@lths/features/mms/ui-editor';
 import { filter } from '@lths/shared/utils';
 
@@ -29,33 +28,24 @@ const ComponentModal = ({
   open,
   onClose,
   components,
+  categories,
   onSelect,
   onSelectCategory,
   isComponentListLoading,
+  isCategoryListLoading,
+  showCategories = true,
 }: ComponentModalProps) => {
-  const [getEnumList] = useLazyGetEnumListQuery();
-
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [categories, setCategories] = useState<EnumValue[]>([]);
 
   const theme = useTheme();
 
   const searchProps = ['component_id', 'name', 'component_type'];
 
-  const fetchCategories = async () => {
-    try {
-      const response = await getEnumList('ComponentCategories').unwrap();
-      if (response?.success) setCategories(response?.data?.enum_values);
-    } catch (error) {
-      console.error('Error in fetching the component categories');
-    }
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setSearch(event.target.value);
   };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     if (!components) setFiltered([]);
@@ -68,9 +58,9 @@ const ComponentModal = ({
     onSelectCategory(selectedCategory !== 'all' ? selectedCategory : '');
   }, [selectedCategory]);
 
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
+  useEffect(() => {
+    if (!open) setSearch('');
+  }, [open]);
 
   return (
     <Dialog fullWidth={true} maxWidth={'xl'} open={open} onClose={onClose} TransitionComponent={Transition}>
@@ -111,13 +101,16 @@ const ComponentModal = ({
                   onChange={handleChange}
                 ></TextField>
               </Box>
-              <Box sx={{ maxHeight: 'calc(80vh - 120px)', overflowY: 'auto' }}>
-                <CategorySection
-                  categories={categories}
-                  selectedCategory={selectedCategory}
-                  onSelectCategory={setSelectedCategory}
-                />
-              </Box>
+              {showCategories && (
+                <Box sx={{ maxHeight: 'calc(80vh - 120px)', overflowY: 'auto' }}>
+                  <CategorySection
+                    categories={categories}
+                    isCategoryListLoading={isCategoryListLoading}
+                    selectedCategory={selectedCategory}
+                    onSelectCategory={setSelectedCategory}
+                  />
+                </Box>
+              )}
             </Box>
           </Grid>
           <Divider orientation="vertical" flexItem sx={{ height: '40rem', padding: 0 }} />
