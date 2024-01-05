@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { EventsCard, EventsCardProps } from '../../cards';
 
-import './index.css';
+import '../index.css';
 // core version + navigation, pagination modules:
 
 type EventsCarouselProps = {

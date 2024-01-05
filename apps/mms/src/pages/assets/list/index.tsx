@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
@@ -59,6 +59,7 @@ const headers = [
 
 export default function AssetsPage() {
   const user = useAppSelector((state) => state.auth);
+  const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [isRowModalOpen, setIsRowModalOpen] = useState('');
   const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
@@ -297,7 +298,7 @@ export default function AssetsPage() {
           <div>
             <input
               type="file"
-              id="file-upload"
+              ref={fileInputRef}
               style={{ display: 'none' }}
               onChange={handleUpload}
               accept={acceptedFileTypes}
@@ -305,7 +306,7 @@ export default function AssetsPage() {
             <Button
               variant="contained"
               onClick={() => {
-                document.getElementById('file-upload').click();
+                fileInputRef.current.click();
               }}
             >
               <AddIcon /> ADD ASSET

@@ -19,13 +19,10 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 };
 
-export type ComponentDetailResponse = {
-  data: ComponentProps;
-};
+export type ComponentDetailResponse = ApiResponse<ComponentProps>;
 
-export type ComponentListResponse = {
-  data: ComponentProps[];
-};
+export type ComponentListResponse = ApiResponse<ComponentProps[]>;
+
 export type File = {
   _id: string;
   id: string;

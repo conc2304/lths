@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { NewsCard, NewsCardProps } from '../../cards';
 
-import './index.css';
+import '../index.css';
 
 type CarouselProps = {
   items: NewsCardProps[];

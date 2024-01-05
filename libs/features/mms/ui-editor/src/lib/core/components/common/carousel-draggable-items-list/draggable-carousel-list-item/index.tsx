@@ -43,7 +43,7 @@ const DraggableCarouselListItem = ({ id, index, text, onDrag, onDelete, onEdit }
         <EditableListItemText
           text={text || 'Carousel Item'}
           sx={{ margin: 0 }}
-          textStyle={{ fontSize: 14, lineHeight: 1.43 }}
+          textStyle={{ fontSize: 14, lineHeight: 1.43, textTransform: 'capitalize' }}
           onLabelClick={handleEdit}
           onSave={handleSave}
         />

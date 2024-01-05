@@ -30,7 +30,11 @@ export enum ActionType {
   NATIVE = 'native',
   WEBVIEW = 'web',
 }
-
+export type ItemPositionalProps = {
+  keys?: string[] | undefined; //parentKeys
+  index?: number;
+  childKeys?: string[] | undefined;
+};
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
@@ -659,6 +663,25 @@ export type HeroGameboxComponentProps = ComponentProps & {
       game_event_state: GameEventState;
     };
   };
+  showHeader?: boolean;
 };
 
 export type HeroEventComponentProps = ComponentProps;
+
+export type HeroCarouselProps =
+  | HeroGameboxComponentProps
+  | HeroEventComponentProps
+  | SiloTextAndButtonComponentProps
+  | CardTextComponentProps
+  | CardTextOverlayAndButtonComponentProps;
+
+export type HeroCarouselComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    show_greetings: boolean;
+    component_data: HeroCarouselProps[];
+    editor_meta_data?: {
+      selectedSlideIndex: number;
+    };
+  };
+};

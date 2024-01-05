@@ -62,6 +62,7 @@ import {
   HorizontalMediumComponent,
   HorizontalSmallComponent,
 } from '../components';
+import HeroCarouselComponent from '../components/hero-carousel/component';
 import {
   ButtonComponentProps,
   CardComponentProps,
@@ -124,6 +125,7 @@ import {
   HeroEventComponentProps,
   HorizontalMediumProps,
   HorizontalSmallComponentProps,
+  HeroCarouselComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -250,6 +252,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
     case Component.HorizontalSmall:
       return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
+    case Component.HeroCarousel:
+      return <HeroCarouselComponent {...(props as HeroCarouselComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

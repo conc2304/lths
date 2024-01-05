@@ -1,0 +1,266 @@
+{
+  "success": true,
+  "message": "Success",
+  "data": {
+    "_id": "65708c4b8fb0690ce47c0e7c",
+    "page_id": "dev_page_v6",
+    "default_page_id": "dev_page",
+    "version_no": null,
+    "type": "User-Defined",
+    "target_platform": "MOBILE",
+    "name": "Dev Page V6",
+    "description": "",
+    "constraints": {
+      "_id": "65708c4b8fb0690ce47c0e79",
+      "events": [],
+      "locations": [],
+      "user_segments": []
+    },
+    "components": [
+      {
+        "_id": "658125f01b555b0d6ee8fd8d",
+        "approved_by": null,
+        "approved_on": null,
+        "component_id": "cHeroCarousel",
+        "component_type": "Native",
+        "constraints": [],
+        "created_by": null,
+        "created_on": "2023-12-12T12:36:53.119Z",
+        "data": {
+          "sub_component_data": [
+            {
+              "_id": "",
+              "component_id": "cHeroGameBox",
+              "type": "PRE_DEFINED",
+              "component_type": "Native",
+              "target_platform": "MOBILE",
+              "name": "Hero Gamebox",
+              "description": "",
+
+              "image_url": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroGameBox.svg",
+              "created_by": null,
+              "created_on": "2023-12-12T12:36:53.119Z",
+              "updated_by": null,
+              "updated_on": null,
+              "deleted_by": null,
+              "deleted_on": null,
+              "is_deleted": false,
+              "constraints": [],
+              "data": {
+                "away_team_name": "",
+                "away_team_logo": "",
+                "home_team_name": "",
+                "home_team_logo": "",
+                "show_game": "ANA",
+                "date": "",
+                "time": "",
+                "at": "",
+                "period": "",
+                "time_remain": "",
+                "final": "",
+                "home_team_text_color": "",
+                "away_team_text_color": "",
+                "date_text_color": "",
+                "time_text_color": "",
+                "at_text_color": "",
+                "final_text_color": "",
+                "pregame": {
+                  "show_date_text": true,
+                  "show_time_text": true,
+                  "show_at_text": true
+                },
+                "ingame": {
+                  "show_period_text": true,
+                  "show_time_remain_text": true,
+                  "show_stats_btn": true,
+                  "btn_text": "View real-time stats",
+                  "btn_text_color": "",
+                  "btn_action": {
+                    "type": "native",
+                    "page_id": "stats",
+                    "page_link": ""
+                  }
+                },
+                "postgame": {
+                  "show_final_text": true,
+                  "show_highlights_btn": true,
+                  "btn_text_play_icon": true,
+                  "btn_text": "Game Highlights",
+                  "btn_text_color": "",
+                  "btn_action": {
+                    "type": "native",
+                    "page_id": "morehighlights",
+                    "page_link": ""
+                  }
+                },
+                "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/original/images/Gradient_background.png",
+                "title": "Ducks",
+                "show_greetings": true,
+                "action": {
+                  "type": "",
+                  "page_id": "",
+                  "page_link": ""
+                }
+              },
+              "variation_id": "",
+              "__ui_id__": "c140a24f-77f2-4fd9-ae21-273d7013a52e"
+            },
+            {
+              "_id": "",
+              "component_id": "cHeroPromotionSiloTextAndButton",
+              "type": "PRE_DEFINED",
+              "component_type": "Native",
+              "target_platform": "MOBILE",
+              "name": "Hero Promotion Component: Silo_Text_and_Button",
+              "description": "",
+
+              "image_url": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroPromotionSiloTextAndButton.svg",
+              "created_by": null,
+              "created_on": "2023-12-12T12:36:53.119Z",
+              "updated_by": null,
+              "updated_on": null,
+              "deleted_by": null,
+              "deleted_on": null,
+              "is_deleted": false,
+              "constraints": [],
+              "data": {
+                "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/ducks_fan3.jpg",
+                "title": "Promo headline",
+                "description": "Short promo descriptive text",
+                "btn_text": "Label",
+                "gradient_back_ground": "",
+                "aspect_ratio": "",
+                "text_color": "",
+                "btn_text_color": "",
+                "btn_background_color": "",
+                "action": {
+                  "type": "web",
+                  "page_id": "",
+                  "page_link": "https://www.hondacenter.com/arena-info/about-us/"
+                }
+              },
+              "variation_id": "",
+              "__ui_id__": "12d57cf9-8b66-47b3-88a4-162fc26f0f14"
+            },
+            {
+              "_id": "",
+              "component_id": "cHeroPromotionCardText",
+              "type": "PRE_DEFINED",
+              "component_type": "Native",
+              "target_platform": "MOBILE",
+              "name": "Hero Promotion Component: Card_Text",
+              "description": "",
+
+              "image_url": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroPromotionCardText.svg",
+              "created_by": null,
+              "created_on": "2023-12-12T12:36:53.119Z",
+              "updated_by": null,
+              "updated_on": null,
+              "deleted_by": null,
+              "deleted_on": null,
+              "is_deleted": false,
+              "constraints": [],
+              "data": {
+                "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/ducks_fan11.jpg",
+                "title": "Title",
+                "description": "Sat, Jan 10 7:00PM",
+                "date": "Sat, Jan 10",
+                "time": "7:00PM",
+                "gradient_back_ground": "",
+                "aspect_ratio": "",
+                "text_color": "",
+                "desc_text_color": "",
+                "action": {
+                  "type": "web",
+                  "page_id": "",
+                  "page_link": "https://www.hondacenter.com/arena-info/about-us/"
+                }
+              },
+              "variation_id": "",
+              "__ui_id__": "e2ec69cf-54c2-4dae-aa22-dff4b7ec6c44"
+            },
+            {
+              "_id": "",
+              "component_id": "cHeroPromotionCardTextOverlayAndButton",
+              "type": "PRE_DEFINED",
+              "component_type": "Native",
+              "target_platform": "MOBILE",
+              "name": "Hero Promotion Component: Card_Text_Overlay_and_Button",
+              "description": "",
+
+              "image_url": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroPromotionCardTextOverlayAndButton.svg",
+              "created_by": null,
+              "created_on": "2023-12-12T12:36:53.119Z",
+              "updated_by": null,
+              "updated_on": null,
+              "deleted_by": null,
+              "deleted_on": null,
+              "is_deleted": false,
+              "constraints": [],
+              "data": {
+                "image": "https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/ducks_fan11.jpg",
+                "title": "Title",
+                "description": "Supporting text",
+                "btn_text": "Label",
+                "gradient_back_ground": "",
+                "aspect_ratio": "",
+                "text_color": "",
+                "desc_text_color": "",
+                "btn_text_color": "",
+                "action": {
+                  "type": "web",
+                  "page_id": "",
+                  "page_link": "https://www.hondacenter.com/arena-info/about-us/"
+                }
+              },
+              "variation_id": "",
+              "__ui_id__": "9b6fc56a-4ebf-487a-8003-8cce6734073a"
+            }
+          ]
+        },
+        "deleted_by": null,
+        "deleted_on": null,
+        "description": "",
+        "display_order": 1,
+        "is_deleted": false,
+        "name": "Hero Carousel",
+        "published_by": null,
+        "published_on": null,
+        "rejected_by": null,
+        "rejected_on": null,
+        "unpublished_on": null,
+        "updated_by": null,
+        "updated_on": null,
+        "variation_id": "udc_dev_page_v6_cherocarousel",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "sub_properties": {
+              "type": "array",
+              "min": 2
+            }
+          }
+        }
+      }
+    ],
+    "is_variant": true,
+    "status": "DRAFT",
+    "approved_by": null,
+    "approved_on": null,
+    "rejected_by": null,
+    "rejected_on": null,
+    "published_by": null,
+    "published_on": null,
+    "unpublished_by": null,
+    "unpublished_on": null,
+    "created_by": "645a72711161514a8eeea5b0",
+    "updated_by": "645a72711161514a8eeea5b0",
+    "updated_on": "2023-12-19T05:11:12.916Z",
+    "deleted_by": null,
+    "deleted_on": null,
+    "is_deleted": false,
+    "created_on": "2023-12-06T14:59:23.782Z",
+    "__v": 0,
+    "default_page_name": "Dev Page"
+  }
+}

@@ -1,0 +1,21 @@
+.swiper-wrapper {
+  box-sizing: border-box;
+
+  .swiper-slide {
+    display: block;
+    background: #d9d9d9;
+  }
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 0;
+}
+
+.swiper-pagination-bullet {
+  background: #f6f6f6;
+
+  &.swiper-pagination-bullet-active {
+    background: #ffffff;
+  }
+}
