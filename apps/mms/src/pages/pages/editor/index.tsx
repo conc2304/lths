@@ -147,11 +147,11 @@ export function PageEditorTabs() {
         if (compCallback) compCallback(response.data);
         else addComponent(response.data);
       } else {
-        toast.error('Component details could not be found');
+        toastQueueService.addToastToQueue('Component details could not be found', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in fetching the component details', error);
-      toast.error('Component details could not be found');
+      toastQueueService.addToastToQueue('Component details could not be found', { type: 'error' });
     }
   };
 
@@ -203,12 +203,12 @@ export function PageEditorTabs() {
       if (response && response.success && response.data) {
         return callback(response.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
       } else {
-        toast.error('Default page list could not be found.');
+        toastQueueService.addToastToQueue('Default page list could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the default page list', error);
-      toast.error('Default page list could not be found.');
+      toastQueueService.addToastToQueue('Default page list could not be found.', { type: 'error' });
     }
   };
 
@@ -217,12 +217,12 @@ export function PageEditorTabs() {
       const response = await getEnumList('socialIcons').unwrap();
       if (response && response.success && response.data) return callback(response.data.enum_values);
       else {
-        toast.error('Social icon list could not be found.');
+        toastQueueService.addToastToQueue('Social icon list could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the social icon list', error);
-      toast.error('Social icon list could not be found.');
+      toastQueueService.addToastToQueue('Social icon list could not be found.', { type: 'error' });
     }
   };
 
@@ -232,12 +232,12 @@ export function PageEditorTabs() {
       if (response && response.success && response.data)
         return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
       else {
-        toast.error('Icon list could not be found.');
+        toastQueueService.addToastToQueue('Icon list could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the icon list', error);
-      toast.error('Icon list could not be found.');
+      toastQueueService.addToastToQueue('Icon list could not be found.', { type: 'error' });
     }
   };
 
@@ -296,7 +296,8 @@ export function PageEditorTabs() {
         try {
           await handleUpdatePageDetails();
         } catch (error) {
-          toast.error('Error in saving page details');
+          toastQueueService.addToastToQueue('Error in saving page details', { type: 'error' });
+
           console.error('Error in saving page details', error);
           return;
         }
