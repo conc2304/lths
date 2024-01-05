@@ -1,4 +1,4 @@
-export type AbacPredicate<User = any, Data = any> = (
+export type ABACAction<User = any, Data = any> = (
   data: Data | undefined,
   user: User | undefined
 ) => boolean | undefined;
@@ -11,4 +11,4 @@ export type PermissionMap<Permission extends string, User> = {
   [P in Permission]?: Rule<User, any>;
 };
 
-export type Rule<User, Data> = boolean | AbacPredicate<User, Data>;
+export type Rule<User, Data> = boolean | ABACAction<User, Data>;

@@ -1,4 +1,4 @@
-import { AbacPredicate, Rule, Rules } from '../types';
+import { ABACAction, Rule, Rules } from '../types';
 
 export const ensureArray = <T>(v: T | T[]): T[] => (Array.isArray(v) ? v : [v]);
 
@@ -55,7 +55,7 @@ export const rolesHavePermissions = <Role extends string, Permission extends str
         permissions.includes(permission)
           ? typeof rules[permission] === 'function'
             ? // is abac permission
-              (rules[permission] as AbacPredicate<User, Data>)(data, user)
+              (rules[permission] as ABACAction<User, Data>)(data, user)
             : // permission doesn't need a predicate
               true
           : // permission not included

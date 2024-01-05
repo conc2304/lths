@@ -25,7 +25,7 @@
       "@lths/features/mms/ui-editor": ["libs/features/mms/ui-editor/src/index.ts"],
       "@lths/features/mms/ui-event-schedule": ["libs/features/mms/ui-event-schedule/src/index.ts"],
       "@lths/features/mms/ui-notifications": ["libs/features/mms/ui-notifications/src/index.ts"],
-      "@lths/shared-user-roles-permissions": ["libs/shared/user-roles-permissions/src/index.ts"],
+      "@lths/shared-user-access-control": ["libs/shared/user-access-control/src/index.ts"],
       "@lths/shared/data-access": ["libs/shared/data-access/src/index.ts"],
       "@lths/shared/mocks": ["libs/shared/mocks/src/index.ts"],
       "@lths/shared/ui-calendar-scheduler": ["libs/shared/ui-calendar-scheduler/src/index.ts"],

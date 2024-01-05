@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactNode, createContext, useContext } from 'react';
+import { ComponentType, ReactNode, createContext, useContext } from 'react';
 
 import { Rules } from '../types';
 import { ensureArray, rolesHavePermissions } from '../utils';
