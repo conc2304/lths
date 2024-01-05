@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
 
 import createABACContext from './create-context';
 import { AccessCheckFunction } from '../types';
@@ -45,37 +46,37 @@ describe('ABACContext', () => {
       return <div>{userHasPermissions(Permissions.READ_POST) ? 'Has Access' : 'No Access'}</div>;
     };
 
-    render(
+    const { getByText } = render(
       <ABACProvider rules={rules} roles={roles} permissions={permissions} user={user}>
         <TestComponent />
       </ABACProvider>
     );
 
-    expect(screen.getByText('Has Access')).toBeInTheDocument();
+    expect(getByText('Has Access')).toBeTruthy();
   });
 
   it('AllowedTo renders yes component when permission is met', () => {
     const YesComponent = () => <div>Access Granted</div>;
 
-    render(
+    const { getByText } = render(
       <ABACProvider rules={rules} roles={roles} permissions={permissions} user={user}>
         <AllowedTo perform={Permissions.READ_POST} yes={YesComponent} />
       </ABACProvider>
     );
 
-    expect(screen.getByText('Access Granted')).toBeInTheDocument();
+    expect(getByText('Access Granted')).toBeInTheDocument();
   });
 
   it('NotAllowedTo renders yes component when permission is not met', () => {
     const YesComponent = () => <div>No Access</div>;
 
-    render(
+    const { getByText } = render(
       <ABACProvider rules={rules} roles={[Roles.USER]} permissions={permissions} user={user}>
         <NotAllowedTo perform={Permissions.EDIT_POST} yes={YesComponent} data={{ owner_id: '2' }} />
       </ABACProvider>
     );
 
-    expect(screen.getByText('No Access')).toBeInTheDocument();
+    expect(getByText('No Access')).toBeInTheDocument();
   });
 
   // Additional tests for different scenarios, like rendering `no` components, using `AllowedTo` and `NotAllowedTo` without `ABACProvider`, etc.
