@@ -2,6 +2,7 @@ import { Box, CardMedia, Typography } from '@mui/material';
 
 import placeholder from '../../../../../assets/placeholder_3_2.svg';
 import colors from '../../../../common/colors';
+import { CARD_HEIGHT } from '../../../../common/constants';
 import { BasicContainer } from '../../../../elements';
 import { FullHeightEventFloatingTextComponentProps } from '../../types';
 
@@ -10,7 +11,13 @@ const FloatingHeightEventFloatingTextcomponent = (props: FullHeightEventFloating
   return (
     <BasicContainer id={id}>
       <Box>
-        <CardMedia component="img" height="192" image={placeholder} alt={'placeholder'} sx={{ borderRadius: 2.5 }} />
+        <CardMedia
+          component="img"
+          height={CARD_HEIGHT}
+          image={placeholder}
+          alt={'placeholder'}
+          sx={{ borderRadius: 2.5 }}
+        />
         <Typography sx={{ color: colors.editor.text, fontWeight: 450 }} marginTop={1.5}>
           Event Title
         </Typography>

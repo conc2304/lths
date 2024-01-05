@@ -7,11 +7,6 @@ export type PaginationRequestAssetsProps = {
   queryString?: string;
 };
 
-export type PaginationAssetsProps = {
-  page: number;
-  page_size: number;
-  total: number;
-};
 
 export type MediaFileProps = {
   url: string;

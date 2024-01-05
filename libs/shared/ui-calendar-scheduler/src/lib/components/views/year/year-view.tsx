@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, useState } from 'react';
 import { Box, PopperPlacementType } from '@mui/material';
 import { addMonths, isSameDay, isSameYear, startOfYear } from 'date-fns';
-import { CalendarProps, Navigate, ViewStatic, Views } from 'react-big-calendar';
+import { CalendarProps, Event, Navigate, ViewStatic, Views } from 'react-big-calendar';
 
 import { PopperWithArrow } from '@lths/shared/ui-elements';
 
@@ -10,7 +10,11 @@ import { SeeMore } from './calendar-month/components/see-more-tooltip/see-more';
 import { NavigateYear, RangeYear, TitleYear } from './utils/methods';
 import { EventComponentProps } from '../../../types';
 
-export const YearView: FunctionComponent<CalendarProps> & ViewStatic = (props): JSX.Element => {
+// type EventWithId =   <TEvent extends object = Event &{id: string}>
+
+export const YearView: FunctionComponent<CalendarProps<Event & { id?: string }>> & ViewStatic = (
+  props
+): JSX.Element => {
   const { date = new Date(), events = [], onView, onNavigate, components, localizer } = props;
 
   let EventComponent: ((args: EventComponentProps) => JSX.Element) | null;
@@ -25,7 +29,7 @@ export const YearView: FunctionComponent<CalendarProps> & ViewStatic = (props): 
   const [selectedDateId, setSelectedDateId] = useState<string | number>();
   const [popperDate, setPopperDate] = useState<Date>(new Date(date));
   const [popperOpen, setPopperOpen] = useState(false);
-  const [popperEvents, setPopperEvents] = useState<typeof events>();
+  const [popperEventIds, setPopperEventIds] = useState<string[]>();
   const [popperAnchor, setPopperAnchor] = useState<HTMLElement>();
   const [popperPlacement, setPopperPlacement] = useState<PopperPlacementType>('auto');
 
@@ -38,16 +42,18 @@ export const YearView: FunctionComponent<CalendarProps> & ViewStatic = (props): 
     [date, events]
   );
 
+  const seeMoreEvents = eventsInScope.filter((event) => event.id && popperEventIds?.includes(event.id));
+
   const firstMonth = startOfYear(new Date(date));
 
   const handleDateClick = ({
-    events,
+    eventIds,
     anchorEl,
     popperPlacement,
     date,
     dateId,
   }: {
-    events: typeof props.events;
+    eventIds: string[];
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
     date: Date;
@@ -58,7 +64,7 @@ export const YearView: FunctionComponent<CalendarProps> & ViewStatic = (props): 
       handleDateNavigate(date);
     } else {
       // otherwise release the popper
-      setPopperEvents(events);
+      setPopperEventIds(eventIds);
       setPopperPlacement(popperPlacement);
       setPopperAnchor(anchorEl);
       setPopperOpen(true);
@@ -128,12 +134,12 @@ export const YearView: FunctionComponent<CalendarProps> & ViewStatic = (props): 
           if (clickedInDate || clickedInPopper) return;
 
           setPopperOpen(false);
-          setPopperEvents(undefined);
+          setPopperEventIds(undefined);
         }}
       >
         <Box>
           <SeeMore
-            events={popperEvents || []}
+            events={seeMoreEvents || []}
             localizer={localizer}
             eventRenderer={EventComponent}
             selectedDate={popperDate}

@@ -10,7 +10,7 @@ import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
 import { CarouselDraggableItemsList } from '../../common/index';
-import { CardViewCarouselComponentProps } from '../../types';
+import { CardViewCarouselComponentProps,CardViewCarouselProps } from '../../types';
 
 const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   const {
@@ -22,6 +22,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedItem, setSelectedItem] = useState<CardViewCarouselProps>();
 
   const onClose = () => {
     setSelectedIndex(-1);
@@ -29,11 +30,12 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
 
   const onEdit = (index: number) => {
     setSelectedIndex(index);
+    setSelectedItem(sub_component_data[index]);
   };
 
   useEffect(() => {
-    onClose();
-  }, [id]);
+    if(selectedIndex >= 0) setSelectedItem(sub_component_data[selectedIndex]);
+  }, [sub_component_data]);
 
   const onAdd = () => {
     const data = {
@@ -77,7 +79,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
         rightItem={
           <ToolContainer id={`Carousel_Item${id}`} aria-label="Card View Carousel Toolbar: Carousel Item">
             <CarouselItemEditor
-              item={sub_component_data[selectedIndex]}
+              item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}

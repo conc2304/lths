@@ -5,22 +5,24 @@ import PageAutocomplete from './autocomplete';
 import { ToolbarProps } from '../../../../context';
 import { GroupLabel, OutlinedTextField } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
-import { ActionProps, AutocompleteItemProps, ActionType } from '../../types';
+import { ActionProps, AutocompleteItemProps, ActionType, ItemPositionalProps } from '../../types';
 
-type ActionExtendedProps = {
+type ActionExtendedProps = ItemPositionalProps & {
   action: ActionProps;
+  actionPropName?: string;
   onPropChange: ToolbarProps['onPropChange'];
-  index?: number;
-  keys?: string[] | undefined;
+
   isRadioButton?: boolean;
 };
 
 const Action = (props: ActionExtendedProps) => {
   const {
     action: { type = ActionType.NATIVE, page_id, page_link } = {},
+    actionPropName = 'action',
     onPropChange,
+    keys: parentKeys,
     index,
-    keys,
+    childKeys,
     isRadioButton = false,
   } = props;
 
@@ -43,15 +45,15 @@ const Action = (props: ActionExtendedProps) => {
   useEffect(() => fetchData(type), [type]);
 
   const handleActionTypeChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'type', index, keys);
+    handleActionChange(event, 'type', index, parentKeys, childKeys, actionPropName);
   };
 
   const handleActionPageIdChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_id', index, keys);
+    handleActionChange(event, 'page_id', index, parentKeys, childKeys, actionPropName);
   };
 
   const handleActionPageLinkChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handleActionChange(event, 'page_link', index, keys);
+    handleActionChange(event, 'page_link', index, parentKeys, childKeys, actionPropName);
   };
 
   return (

@@ -1,28 +1,15 @@
-import { OutlinedTextField, GroupLabel, ToolbarLabel, SimpleImagePicker } from '../../../../../elements';
+import CardTextEditor from './editor';
+import { ToolbarLabel } from '../../../../../elements';
 import { ToolContainer } from '../../../../../elements/containers';
-import { ActionToolbar } from '../../../common';
-import { useToolbarChange } from '../../../hooks';
 import { CardTextComponentProps } from '../../../types';
 
 const CardTextToolbar = (props: CardTextComponentProps) => {
-  const {
-    __ui_id__: id,
-    data: { image, img_alt_text, title, description, action },
-    onPropChange,
-  } = props;
-
-  const { handleTitleChange, handleDescriptionChange, handleImageChange, handleImageAltChange } = useToolbarChange();
+  const { __ui_id__: id } = props;
 
   return (
     <ToolContainer id={id} aria-label={'Card Text Toolbar'}>
       <ToolbarLabel label={'Hero Promotion'} />
-      <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
-      <OutlinedTextField label={'Image alt-text'} value={img_alt_text} onChange={handleImageAltChange} />
-
-      <GroupLabel label={'Text'} />
-      <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <OutlinedTextField label={'Description'} value={description} onChange={handleDescriptionChange} />
-      <ActionToolbar action={action} onPropChange={onPropChange} />
+      <CardTextEditor {...props} />
     </ToolContainer>
   );
 };

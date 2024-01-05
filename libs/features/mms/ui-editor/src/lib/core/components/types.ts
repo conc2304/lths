@@ -30,7 +30,11 @@ export enum ActionType {
   NATIVE = 'native',
   WEBVIEW = 'web',
 }
-
+export type ItemPositionalProps = {
+  keys?: string[] | undefined; //parentKeys
+  index?: number;
+  childKeys?: string[] | undefined;
+};
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
@@ -570,6 +574,13 @@ export type BodyTextComponentProps = ComponentProps & {
   };
 };
 
+export type HorizontalSmallComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    image: string;
+    action: ActionProps;
+  };
+};
 export type FullHeightEventComponentProps = ComponentProps & {
   data: {
     max_size: string;
@@ -585,6 +596,14 @@ export type HalfHeightMatchUpComponentProps = ComponentProps & {
     title: string;
     btn_text: string;
     source_type: SourceType;
+  };
+};
+
+export type HorizontalMediumProps = ComponentProps & {
+  data: {
+    title: string;
+    file: string;
+    action: ActionProps;
   };
 };
 
@@ -626,6 +645,8 @@ export type HeroGameboxComponentProps = ComponentProps & {
     at: string;
     period: string;
     time_remain: string;
+    title: string;
+    show_greetings: boolean;
     final: string;
     home_team_text_color: string;
     away_team_text_color: string;
@@ -640,6 +661,27 @@ export type HeroGameboxComponentProps = ComponentProps & {
     action: ActionProps;
     editor_meta_data?: {
       game_event_state: GameEventState;
+    };
+  };
+  showHeader?: boolean;
+};
+
+export type HeroEventComponentProps = ComponentProps;
+
+export type HeroCarouselProps =
+  | HeroGameboxComponentProps
+  | HeroEventComponentProps
+  | SiloTextAndButtonComponentProps
+  | CardTextComponentProps
+  | CardTextOverlayAndButtonComponentProps;
+
+export type HeroCarouselComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    show_greetings: boolean;
+    component_data: HeroCarouselProps[];
+    editor_meta_data?: {
+      selectedSlideIndex: number;
     };
   };
 };

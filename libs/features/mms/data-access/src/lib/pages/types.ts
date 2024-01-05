@@ -19,13 +19,10 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 };
 
-export type ComponentDetailResponse = {
-  data: ComponentProps;
-};
+export type ComponentDetailResponse = ApiResponse<ComponentProps>;
 
-export type ComponentListResponse = {
-  data: ComponentProps[];
-};
+export type ComponentListResponse = ApiResponse<ComponentProps[]>;
+
 export type File = {
   _id: string;
   id: string;
@@ -62,7 +59,10 @@ export type CreatePageResponse = ApiResponse<{
   name: string;
 }>;
 
-export type PageType = 'Pre-Defined' | 'User-Defined';
+export enum PageType {
+  PreDefined = 'Pre-Defined',
+  UserDefined = 'User-Defined',
+}
 
 export type PageStatus = 'DRAFT' | 'REJECTED' | 'APPROVED' | 'PUBLISHED' | 'UNPUBLISHED';
 

@@ -1,7 +1,14 @@
 import { Box, Typography, CardMedia, Stack } from '@mui/material';
 
+import heroBackground from '../../../../../../assets/hero-bg.png';
+import {
+  HERO_HEIGHT,
+  HERO_PADDING_TOP,
+  HERO_PROMO_SILO_IMAGE_HEIGHT,
+  HERO_PROMO_SILO_IMAGE_WIDTH,
+} from '../../../../../common';
 import colors from '../../../../../common/colors';
-import { BasicContainer, ReadOnlyButton as Button } from '../../../../../elements';
+import { ReadOnlyButton as Button, HeroCardContainer } from '../../../../../elements';
 import { SiloTextAndButtonComponentProps } from '../../../types';
 
 const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
@@ -10,15 +17,28 @@ const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
     __ui_id__: id,
   } = props;
   return (
-    <BasicContainer id={id} sx={{ background: colors.hero.background }}>
-      <Stack direction="column" justifyContent="center" alignItems="center" spacing={0} sx={{ padding: '32px 0' }}>
-        <CardMedia component="img" sx={{ width: '166px', paddingBottom: 1 }} image={image} alt={img_alt_text} />
+    <HeroCardContainer
+      id={id}
+      height={HERO_HEIGHT}
+      image={heroBackground}
+      sx={{ padding: 0, paddingTop: `${HERO_PADDING_TOP}px` }}
+    >
+      <Stack direction="column" justifyContent="center" alignItems="center">
+        <CardMedia
+          component="img"
+          sx={{
+            width: `${HERO_PROMO_SILO_IMAGE_WIDTH}px`,
+            height: `${HERO_PROMO_SILO_IMAGE_HEIGHT}px`,
+          }}
+          image={image}
+          alt={img_alt_text}
+        />
         <Box sx={{ paddingBottom: 2 }}>
           <Typography
             sx={{
-              fontSize: '16px',
+              fontSize: '1rem',
               color: colors.editor.text,
-              fontWeight: 400,
+              fontWeight: 450,
               wordWrap: 'break-word',
               textAlign: 'center',
             }}
@@ -26,7 +46,7 @@ const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
             {title}
           </Typography>
           <Typography
-            sx={{ fontSize: '14px', color: colors.editor.subText, wordWrap: 'break-word', textAlign: 'center' }}
+            sx={{ fontSize: '0.875rem', color: colors.editor.subText, wordWrap: 'break-word', textAlign: 'center' }}
           >
             {description}
           </Typography>
@@ -43,7 +63,7 @@ const SiloTextAndButtonComponent = (props: SiloTextAndButtonComponentProps) => {
           <Typography sx={{ fontSize: 14 }}>{btn_text}</Typography>
         </Button>
       </Stack>
-    </BasicContainer>
+    </HeroCardContainer>
   );
 };
 

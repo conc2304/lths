@@ -1,4 +1,4 @@
-import { differenceInHours, differenceInSeconds, endOfDay, startOfDay } from 'date-fns';
+import { differenceInMinutes, differenceInSeconds, endOfDay, startOfDay } from 'date-fns';
 
 import {
   BACKGROUND_EVENT_STATES,
@@ -108,10 +108,13 @@ export const getEventStatesByEventId = (events: GetEventsEvent[], eventId: strin
         //  offset is the difference between the start of the Current State and the start of the Dependant Event
         // if end
         //  offset is the difference between the end of the Depenedant Event and the end of the Current State
+        const roundToNearestQuarter = (num: number) => {
+          return Math.round(num * 4) / 4;
+        };
         timeOffset =
           dependentPoint === 'start'
-            ? differenceInHours(dependantTime, new Date(currentStateStart))
-            : differenceInHours(new Date(currentStateEnd), dependantTime);
+            ? roundToNearestQuarter(differenceInMinutes(dependantTime, new Date(currentStateStart)) / 60)
+            : roundToNearestQuarter(differenceInMinutes(new Date(currentStateEnd), dependantTime) / 60);
       }
     }
 

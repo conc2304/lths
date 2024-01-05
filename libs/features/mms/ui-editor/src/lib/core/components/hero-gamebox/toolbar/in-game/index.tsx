@@ -3,12 +3,14 @@ import { ChangeEvent } from 'react';
 import { ToolbarProps } from '../../../../../context';
 import { GroupLabel, OutlinedTextField, SwitchButton } from '../../../../../elements';
 import { ActionToolbar } from '../../../common';
-import { HeroGameBoxInGameProps } from '../../../types';
+import { mergeChildKeys } from '../../../hooks/utils';
+import { HeroGameBoxInGameProps, ItemPositionalProps } from '../../../types';
 
-type Props = HeroGameBoxInGameProps & {
-  onInGamePropChange: (key: string, value: string | boolean) => void;
-  onPropChange: ToolbarProps['onPropChange'];
-};
+type Props = HeroGameBoxInGameProps &
+  ItemPositionalProps & {
+    onInGamePropChange: (key: string, value: string | boolean) => void;
+    onPropChange: ToolbarProps['onPropChange'];
+  };
 
 const InGameToolbar = (props: Props) => {
   const {
@@ -19,7 +21,11 @@ const InGameToolbar = (props: Props) => {
     btn_action,
     onInGamePropChange,
     onPropChange,
+    index,
+    keys,
+    childKeys,
   } = props;
+  const mergedChildKeys = mergeChildKeys(childKeys, 'ingame');
 
   const handleButtonTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     onInGamePropChange('btn_text', e.target.value);
@@ -36,7 +42,6 @@ const InGameToolbar = (props: Props) => {
   const handleShowStatsBtnChange = (e: ChangeEvent<HTMLInputElement>) => {
     onInGamePropChange('show_stats_btn', e.target.checked);
   };
-
   return (
     <>
       <GroupLabel label="Toggle" />
@@ -49,7 +54,14 @@ const InGameToolbar = (props: Props) => {
       <SwitchButton isChecked={show_stats_btn} label="Show stats button" onChange={handleShowStatsBtnChange} />
       <GroupLabel label="Button" />
       <OutlinedTextField label={'Button Text'} value={btn_text} onChange={handleButtonTextChange} />
-      <ActionToolbar action={btn_action} onPropChange={onPropChange} />
+      <ActionToolbar
+        actionPropName="btn_action"
+        action={btn_action}
+        index={index}
+        keys={keys}
+        childKeys={mergedChildKeys}
+        onPropChange={onPropChange}
+      />
     </>
   );
 };

@@ -14,6 +14,7 @@ import {
 
 import { sources } from './utils';
 import NHLLogo from '../../../../../assets/NHL-logo.svg';
+import { ICON_HEIGHT, ICON_WIDTH } from '../../../../common';
 import { GroupLabel, OutlinedTextField, ToolContainer, ToolbarLabel } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { FullHeightEventComponentProps, SourceType } from '../../types';
@@ -31,7 +32,7 @@ const FullHeightEventToolbar = (props: FullHeightEventComponentProps) => {
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: SourceType) => {
     return (
       <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-        <img src={NHLLogo} alt="NHL Logo" width={24} height={24} />
+        <img src={NHLLogo} alt="NHL Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />
         <Typography sx={{ fontSize: 12 }}>{option}</Typography>
       </Box>
     );
@@ -75,7 +76,7 @@ const FullHeightEventToolbar = (props: FullHeightEventComponentProps) => {
                 autoComplete: 'off', // disable autofill
                 startAdornment: (
                   <InputAdornment position="start">
-                    <img src={NHLLogo} alt="NHL Logo" width={24} height={24} />
+                    <img src={NHLLogo} alt="NHL Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />
                   </InputAdornment>
                 ),
               }}

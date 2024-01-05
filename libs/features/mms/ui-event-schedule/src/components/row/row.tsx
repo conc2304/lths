@@ -11,11 +11,11 @@ export type RowProps = RowBuilderProps & {
   onSaveEvent?: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates?: (updatedEventStates: EventState[]) => void;
   onEventClick?: ({
-    event,
+    eventId,
     anchorEl,
     popperPlacement,
   }: {
-    event: MMSEvent;
+    eventId: string;
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
   }) => void;
@@ -46,7 +46,7 @@ export const Row = (props: RowProps) => {
     const placement: PopperPlacementType = `${xPos}-${yPos}`;
 
     onEventClick({
-      event,
+      eventId: event.id,
       popperPlacement: placement,
       anchorEl: popperTargetRef.current as HTMLElement,
     });

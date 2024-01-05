@@ -2,13 +2,39 @@ import { ComponentProps } from '../../../context';
 
 export const rootKey = 'data';
 
-export function getValue(data: object, name: string, value: number | string | object | undefined | null) {
+export function getValue(data: object, name: string, value: number | string | boolean | object | undefined | null) {
+  if (!data) return value;
   return typeof value === 'object' ? { ...(data[name] || {}), ...value } : value;
 }
 
-export const mergeKeys = (keys: string[]) => {
+function setNestedPropValue(obj: Record<string, any>, path: string[], value: any) {
+  if (!path || path.length === 0) return obj;
+  const updatedObj = { ...obj };
+
+  let currentLevel = updatedObj;
+  for (let i = 0; i < path.length - 1; i++) {
+    const key = path[i];
+    currentLevel[key] = { ...currentLevel[key] };
+    currentLevel = currentLevel[key];
+  }
+
+  const lastKey = path[path.length - 1];
+  //[key] = > if [key] is {} object and we may want to preserve other properties in the object
+  const extractedValue = getValue(currentLevel[lastKey], lastKey, value);
+  currentLevel[lastKey] =
+    typeof currentLevel[lastKey] === 'object' && typeof extractedValue === 'object'
+      ? { ...currentLevel[lastKey], ...extractedValue }
+      : extractedValue;
+
+  return updatedObj;
+}
+export const mergeChildKeys = (keys: string[], currKey: string) => {
+  return keys ? [...keys, currKey] : [currKey];
+};
+export const mergeParentKeys = (keys: string[]) => {
   return keys ? [rootKey, ...keys] : [rootKey];
 };
+
 /**
  * Update a nested property in an object using an array of keys with optional array index support.
  *
@@ -51,12 +77,13 @@ export const mergeKeys = (keys: string[]) => {
 
 export function updateNestedProp(
   data: ComponentProps,
-  propName: string,
-  value: number | string | object | undefined | null,
+  propName: string[] | string,
+  value: number | string | boolean | object | undefined | null,
   index: number,
   keys: string[] = []
 ) {
   const updatedObject = { ...data };
+  const paths = typeof propName === 'string' ? [propName] : propName;
 
   function updateRecursive(obj: any, keyIndex: number) {
     const key = keys[keyIndex];
@@ -69,16 +96,23 @@ export function updateNestedProp(
         index === undefined
           ? {
               ...obj[key],
-              [propName]: getValue(obj[key], propName, value),
+              ...setNestedPropValue(obj[key], paths, value),
             }
-          : obj[key].map((item: any, i: number) =>
-              i === index
+          : obj[key].map((item: any, i: number) => {
+              return i === index
                 ? {
                     ...item,
-                    [propName]: getValue(item, propName, value),
+                    [paths[0]]:
+                      paths.length === 1
+                        ? getValue(item, paths[0], value)
+                        : setNestedPropValue(
+                            item[paths[0]],
+                            paths.filter((o, ind) => ind > 0),
+                            value
+                          ),
                   }
-                : item
-            );
+                : item;
+            });
     } else {
       obj[key] = updateRecursive({ ...obj[key] }, keyIndex + 1);
     }

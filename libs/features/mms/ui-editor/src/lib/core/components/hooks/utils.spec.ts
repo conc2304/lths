@@ -1,6 +1,6 @@
 import { updateNestedProp } from './utils';
+import { HeroCarouselPagePayload } from './utils.sample';
 import { ComponentProps } from '../../../context';
-
 describe('updateNestedProp', () => {
   const data: ComponentProps = {
     data: {
@@ -42,6 +42,28 @@ describe('updateNestedProp', () => {
     const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text']);
     expect(updatedData).toEqual(data);
   });
+  it('should create an array when a non-existent prop is used', () => {
+    const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text2']);
+    expect(updatedData.data['link_text2'].length).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('updateHeroCarousel-NestedComponentsWithNestedProps', () => {
+  const data: ComponentProps = HeroCarouselPagePayload.data.components[0];
+
+  it('should update a nested property in nested carousel component', () => {
+    const updatedData = updateNestedProp(data, ['data', 'away_team_name'], 'New Title', 0, [
+      'data',
+      'sub_component_data',
+    ]);
+    expect(updatedData.data.sub_component_data[0].data.away_team_name).toEqual('New Title');
+  });
+
+  it('should update a nested property without index', () => {
+    const updatedData = updateNestedProp(data, 'title', 'New Title', undefined, ['data']);
+    expect(updatedData.data.title).toEqual('New Title');
+  });
+
   it('should create an array when a non-existent prop is used', () => {
     const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text2']);
     expect(updatedData.data['link_text2'].length).toBeGreaterThanOrEqual(0);

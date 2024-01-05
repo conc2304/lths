@@ -41,7 +41,7 @@ import {
 } from './urls';
 import { getPagesUrl } from './urls';
 //TOD: Typing is missing for few methods
-const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).injectEndpoints({
+const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages'] }).injectEndpoints({
   endpoints: (builder) => ({
     getComponentList: builder.query<ComponentListResponse, ComponentsListRequest>({
       query: (req) => ({
@@ -72,8 +72,7 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         method: 'GET',
       }),
       transformResponse: transformPageListResponse,
-      //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
-      invalidatesTags: ['Pages'],
+      providesTags: ['pages'],
     }),
     getDefaultPages: builder.query<PageItemsResponse, void>({
       query: () => ({
@@ -140,6 +139,7 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components'] }).inje
         url: getDeletePageUrl(req),
         method: 'DELETE',
       }),
+      invalidatesTags: ['pages'],
     }),
     duplicatePage: builder.mutation<DuplicatePageDetailResponse, DuplicatePageDetailRequest>({
       query: (req) => ({
