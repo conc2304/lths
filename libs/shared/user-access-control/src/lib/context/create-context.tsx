@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 
 import { Rules } from '../types';
+import { ensureArray } from '../utils/ensure-array';
 import { rolesHavePermissions } from '../utils/roles-have-permissions';
-import { ensureArray } from 'libs/shared/user-access-control/src/lib/utils';
 
 export interface ABACProviderProps<Role extends string, Permission extends string, User> {
   rules: Rules<Role, Permission, User>;
