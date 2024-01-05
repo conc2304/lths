@@ -1,8 +1,7 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 
-import createABACContext from './create-context';
+import { ABACProvider, AllowedTo, NotAllowedTo, useABAC } from './index';
 import { AccessCheckFunction } from '../types';
 
 enum Permissions {
@@ -16,10 +15,22 @@ enum Roles {
   ADMIN = 'ADMIN',
 }
 
+type MockPost = {
+  owner_id: string;
+  body: string;
+};
+
+type MockUser = {
+  id: string;
+  name: string;
+};
+
 const roles = [Roles.ADMIN, Roles.USER];
 const permissions = [Permissions.EDIT_POST, Permissions.READ_POST, Permissions.DELETE_POST];
 
-const editAccessCheck: AccessCheckFunction = (data: { owner_id: string }, user: { id: string; name: string }) => {
+const editAccessCheck: AccessCheckFunction<MockUser, MockPost> = (data, user) => {
+  if (!data || !user) return false;
+
   return data.owner_id === user.id;
 };
 
@@ -32,12 +43,11 @@ const rules = {
   [Roles.USER]: {
     [Permissions.READ_POST]: true,
     [Permissions.EDIT_POST]: editAccessCheck,
-    [Permissions.DELETE_POST]: false,
   },
+  [Permissions.DELETE_POST]: (post: MockPost, user?: MockUser) => user && post.owner_id === user.id,
 };
-const user = { name: 'John Doe', id: '1' };
 
-const { ABACProvider, AllowedTo, NotAllowedTo, useABAC } = createABACContext();
+const user = { name: 'John Doe', id: '1' };
 
 describe('ABACContext', () => {
   it('ABACProvider provides userHasPermissions function', () => {
@@ -52,32 +62,67 @@ describe('ABACContext', () => {
       </ABACProvider>
     );
 
-    expect(getByText('Has Access')).toBeTruthy();
+    expect(getByText('Has Access')).toBeInTheDocument();
   });
 
   it('AllowedTo renders yes component when permission is met', () => {
     const YesComponent = () => <div>Access Granted</div>;
+    const NoComponent = () => <div>Access Denied</div>;
 
-    const { getByText } = render(
+    const { getByText, queryByText } = render(
       <ABACProvider rules={rules} roles={roles} permissions={permissions} user={user}>
-        <AllowedTo perform={Permissions.READ_POST} yes={YesComponent} />
+        <AllowedTo perform={Permissions.READ_POST} yes={YesComponent} no={NoComponent} />
       </ABACProvider>
     );
 
     expect(getByText('Access Granted')).toBeInTheDocument();
+    expect(queryByText('Access Denied')).not.toBeInTheDocument();
+  });
+
+  it('AllowedTo renders no component when permission is not met', () => {
+    const YesComponent = () => <div>Access Granted</div>;
+    const NoComponent = () => <div>Access Denied</div>;
+
+    const { getByText, queryByText } = render(
+      <ABACProvider rules={rules} roles={[Roles.USER]} permissions={permissions}>
+        <AllowedTo perform={Permissions.DELETE_POST} yes={YesComponent} no={NoComponent} />
+      </ABACProvider>
+    );
+
+    expect(getByText('Access Denied')).toBeInTheDocument();
+    expect(queryByText('Access Granted')).not.toBeInTheDocument();
   });
 
   it('NotAllowedTo renders yes component when permission is not met', () => {
     const YesComponent = () => <div>No Access</div>;
+    const NoComponent = () => <div>Access Granted</div>;
 
-    const { getByText } = render(
+    const { getByText, queryByText } = render(
       <ABACProvider rules={rules} roles={[Roles.USER]} permissions={permissions} user={user}>
-        <NotAllowedTo perform={Permissions.EDIT_POST} yes={YesComponent} data={{ owner_id: '2' }} />
+        <NotAllowedTo
+          perform={Permissions.DELETE_POST}
+          yes={YesComponent}
+          no={NoComponent}
+          data={{ owner_id: 'NOBUENO' }}
+        />
       </ABACProvider>
     );
 
     expect(getByText('No Access')).toBeInTheDocument();
+    expect(queryByText('Access Granted')).not.toBeInTheDocument();
   });
 
-  // Additional tests for different scenarios, like rendering `no` components, using `AllowedTo` and `NotAllowedTo` without `ABACProvider`, etc.
+  it('NotAllowedTo renders no component when permission is met', () => {
+    const YesComponent = () => <div>No Access</div>;
+    const NoComponent = () => <div>Access Granted</div>;
+
+    const { getByText, queryByText } = render(
+      <ABACProvider rules={rules} roles={roles} permissions={permissions} user={user}>
+        <NotAllowedTo perform={Permissions.READ_POST} yes={YesComponent} no={NoComponent} />
+      </ABACProvider>
+    );
+
+    expect(getByText('Access Granted')).toBeInTheDocument();
+    expect(queryByText('No Access')).not.toBeInTheDocument();
+  });
 });

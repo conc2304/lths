@@ -1,27 +1,28 @@
-import { ComponentType, ReactNode, createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 import { Rules } from '../types';
-import { ensureArray, rolesHavePermissions } from '../utils';
+import { rolesHavePermissions } from '../utils/roles-have-permissions';
+import { ensureArray } from 'libs/shared/user-access-control/src/lib/utils';
 
-export type ABACProviderProps<Role extends string, Permission extends string, User> = {
+export interface ABACProviderProps<Role extends string, Permission extends string, User> {
   rules: Rules<Role, Permission, User>;
-  children?: ReactNode;
+  children?: React.ReactNode;
   user?: User;
   roles?: Role[];
   permissions?: Permission[];
-};
+}
 
-export type ABACContextProps<Permission extends string> = {
+export interface ABACContextProps<Permission extends string> {
   userHasPermissions: <Data>(permissions: Permission | Permission[], data?: Data) => boolean;
-};
+}
 
-export type AllowedToProps<Permission extends string> = {
+export interface AllowedToProps<Permission extends string> {
   perform?: Permission | Permission[];
-  yes?: ComponentType;
-  no?: ComponentType;
-  children?: ReactNode;
+  yes?: React.ComponentType;
+  no?: React.ComponentType;
+  children?: React.ReactNode;
   data?: any;
-};
+}
 
 const createABACContext = <Role extends string, Permission extends string, User>() => {
   const ABACContextDefaults = {
@@ -55,7 +56,7 @@ const createABACContext = <Role extends string, Permission extends string, User>
     }
 
     if (ctx.userHasPermissions(ensureArray(perform), data)) {
-      return Yes ? <Yes /> : <>{children}</>;
+      return Yes ? <Yes /> : <React.Fragment>{children}</React.Fragment>;
     }
 
     return No ? <No /> : null;
@@ -70,7 +71,7 @@ const createABACContext = <Role extends string, Permission extends string, User>
     }
 
     if (!ctx.userHasPermissions(ensureArray(perform), data)) {
-      return Yes ? <Yes /> : <>{children}</>;
+      return Yes ? <Yes /> : <React.Fragment>{children}</React.Fragment>;
     }
 
     return No ? <No /> : null;
