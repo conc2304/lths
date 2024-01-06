@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import { ComponentType, ReactNode, createContext, useContext } from 'react';
 
 import { Rules } from '../types';
 import { ensureArray } from '../utils/ensure-array';
@@ -6,7 +6,7 @@ import { rolesHavePermissions } from '../utils/roles-have-permissions';
 
 export interface ABACProviderProps<Role extends string, Permission extends string, User> {
   rules: Rules<Role, Permission, User>;
-  children?: React.ReactNode;
+  children?: ReactNode;
   user?: User;
   roles?: Role[];
   permissions?: Permission[];
@@ -18,9 +18,9 @@ export interface ABACContextProps<Permission extends string> {
 
 export interface AllowedToProps<Permission extends string> {
   perform?: Permission | Permission[];
-  yes?: React.ComponentType;
-  no?: React.ComponentType;
-  children?: React.ReactNode;
+  yes?: ComponentType;
+  no?: ComponentType;
+  children?: ReactNode;
   data?: any;
 }
 
@@ -56,7 +56,7 @@ const createABACContext = <Role extends string, Permission extends string, User>
     }
 
     if (ctx.userHasPermissions(ensureArray(perform), data)) {
-      return Yes ? <Yes /> : <React.Fragment>{children}</React.Fragment>;
+      return Yes ? <Yes /> : <>{children}</>;
     }
 
     return No ? <No /> : null;
@@ -71,7 +71,7 @@ const createABACContext = <Role extends string, Permission extends string, User>
     }
 
     if (!ctx.userHasPermissions(ensureArray(perform), data)) {
-      return Yes ? <Yes /> : <React.Fragment>{children}</React.Fragment>;
+      return Yes ? <Yes /> : <>{children}</>;
     }
 
     return No ? <No /> : null;
