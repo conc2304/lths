@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FlagsProvider } from 'react-feature-flags';
+import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -15,6 +16,7 @@ import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
+  const githashVersion = process.env.NX_PUBLIC_UI_VERSION || 'N/A - Development';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
   useEffect(() => {
     async function prepareMocks() {
@@ -38,6 +40,9 @@ function App() {
           <LayoutThemeProvider>
             <LayoutProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Helmet>
+                  <meta name="UI Version" content={githashVersion} />
+                </Helmet>
                 <Routes />
               </LocalizationProvider>
             </LayoutProvider>
