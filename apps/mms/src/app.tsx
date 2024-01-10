@@ -16,7 +16,7 @@ import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
-  const githashVersion = process.env.NX_PUBLIC_UI_VERSION || 'N/A - Development';
+  const githashVersion = process.env.NX_PUBLIC_UI_VERSION || 'No Version - Local Development';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
   useEffect(() => {
     async function prepareMocks() {
@@ -34,23 +34,25 @@ function App() {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <FlagsProvider value={MMS_FEATURE_FLAGS}>
-          <LayoutThemeProvider>
-            <LayoutProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Helmet>
-                  <meta name="UI Version" content={githashVersion} />
-                </Helmet>
-                <Routes />
-              </LocalizationProvider>
-            </LayoutProvider>
-            <LayoutToaster />
-          </LayoutThemeProvider>
-        </FlagsProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <Helmet>
+        <meta name="UI Version" content={githashVersion} />
+      </Helmet>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <FlagsProvider value={MMS_FEATURE_FLAGS}>
+            <LayoutThemeProvider>
+              <LayoutProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Routes />
+                </LocalizationProvider>
+              </LayoutProvider>
+              <LayoutToaster />
+            </LayoutThemeProvider>
+          </FlagsProvider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
 
