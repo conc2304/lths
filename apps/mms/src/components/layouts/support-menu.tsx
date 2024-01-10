@@ -16,7 +16,9 @@ const StyledLink = (props: LinkProps) => (
 
 // TODO - we have no idea where these links go - need to add href or internal routing depending on where they go
 export const SupportMenu = () => {
-  const githashVersion = process.env.NX_PUBLIC_UI_VERSION || 'N/A';
+  const githashVersion = process.env.NX_PUBLIC_UI_VERSION
+    ? process.env.NX_PUBLIC_UI_VERSION.toString().slice(0, 7)
+    : 'N/A';
 
   return (
     <Box data-testid="Support-Menu--root">
