@@ -16,7 +16,7 @@ const createAssetQuery = (request: AssetsRequestProps) => {
     url: getAssetsUrl(request),
     method: 'POST',
     body: {
-      ...(queryString && { queryString: queryString }),
+      ...(queryString && { queryString: { original_file_name: queryString } }),
       sort: {
         direction: request.sort_order ?? 'desc',
         field: request.sort_key ?? 'created_at',
