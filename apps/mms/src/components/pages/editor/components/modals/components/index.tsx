@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useLazyGetComponentListQuery, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
+import { EnumGroup, useLazyGetComponentListQuery, useLazyGetEnumListQuery } from '@lths/features/mms/data-access';
 
 import BasicModal from './basic';
 import FullModal from './full';
@@ -18,7 +18,7 @@ const ConnectedModal = (props: ConnectedComponentProps) => {
   };
 
   const fetchCategoryList = async () => {
-    await getEnumList('ComponentCategories');
+    await getEnumList(EnumGroup.COMPONENT_CATEGORIES);
   };
 
   useEffect(() => {

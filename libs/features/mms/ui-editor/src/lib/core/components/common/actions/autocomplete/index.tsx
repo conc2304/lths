@@ -44,8 +44,8 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     item: AutocompleteItemProps
   ) => {
-    event.target.value = item ? item.value : '';
-    onChange(event);
+    const updatedEvent = { ...event, target: { ...event.target, value: item ? item.value : '' } };
+    onChange(updatedEvent);
   };
 
   const selectedItem = data.find((a) => a.value === value) || null;

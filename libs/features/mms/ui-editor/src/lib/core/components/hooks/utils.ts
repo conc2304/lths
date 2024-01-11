@@ -122,3 +122,47 @@ export function updateNestedProp(
 
   return updateRecursive(updatedObject, 0);
 }
+
+/**
+ * Swap array items of a nested array property in an object using an array of keys.
+ *
+ * @param {ComponentProps} data - The object to modify.
+ * @param {number|array} index1 -  Index of item to replace array item at index2.
+ * @param {number|array} index2 - Index of item to replace array item at index1.
+ * @param {string[]} keys - An array of keys representing the nested path. Parent keys are before their child key.
+ * @returns {object} - The updated object with the modified property.
+ * 
+ */
+
+export function swapArrayItems(
+  data: ComponentProps,
+  index1: number,
+  index2: number,
+  keys: string[] = []
+) {
+  const updatedObject = { ...data };
+
+  function updateRecursive(obj: any, keyIndex: number) {
+    const key = keys[keyIndex];
+    if (!obj[key]) {
+      return obj; // Swap can not be made return before creating new key path.
+    }
+
+    if (keyIndex === keys.length - 1) {
+      if(Array.isArray(obj[key]) && (0 <= index1 && index1 < obj[key].length) && (0 <= index2 && index2 < obj[key].length)) {
+        const updatedArray = [...obj[key]];
+        const value1 = updatedArray[index1];
+        updatedArray[index1] = updatedArray[index2];
+        updatedArray[index2] = value1;
+        
+        obj[key] = updatedArray
+      }
+    } else {
+      obj[key] = updateRecursive({ ...obj[key] }, keyIndex + 1);
+    }
+
+    return obj;
+  }
+
+  return updateRecursive(updatedObject, 0);
+}
