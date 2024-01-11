@@ -13,7 +13,7 @@ import {
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
-import { EnumValue, NotificationDataProps, NotificationTargetType } from '@lths/features/mms/data-access';
+import { NotificationDataProps, NotificationTargetType, PageProps } from '@lths/features/mms/data-access';
 import { urlRegexPattern } from '@lths/shared/utils';
 
 import { usePageList } from '../../../hooks';
@@ -80,12 +80,12 @@ const Container = ({
     handleChange(e);
   };
 
-  const getPageOptionLabel = (option: EnumValue) => (option ? option.name : '');
+  const getPageOptionLabel = (option: PageProps) => (option ? option.label : '');
 
-  const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
+  const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: PageProps) => {
     return (
       <Box component="li" {...props}>
-        <Typography>{option.name}</Typography>
+        <Typography>{option.label}</Typography>
       </Box>
     );
   };

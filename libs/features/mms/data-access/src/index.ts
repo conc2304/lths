@@ -31,3 +31,5 @@ export * from './lib/insights/pages/pages-api';
 export * from './lib/insights/pages/pages-slice';
 
 export * from './lib/types';
+
+export * from './lib/hooks';
