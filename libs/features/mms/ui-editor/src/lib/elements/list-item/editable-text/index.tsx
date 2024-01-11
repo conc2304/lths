@@ -1,4 +1,4 @@
-import { MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties } from 'react';
+import { FocusEvent, MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties } from 'react';
 import { ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
@@ -34,15 +34,17 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
     }
   };
 
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEditedText(event.target.value);
   };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       handleClickOutside();
     }
   };
+
   const handleClickOutside = () => {
     setEditing(false);
     if (editedText) {
@@ -50,8 +52,12 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
     } else setEditedText(text);
   };
 
-  useClickOutside(inputRef, handleClickOutside);
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
+    event.currentTarget?.select();
+  }
 
+  useClickOutside(inputRef, handleClickOutside);
+  
   return (
     <ListItemText
       onDoubleClick={handleDoubleClick}
@@ -75,11 +81,13 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
             value={editedText}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
+            autoFocus={true}
           />
         ) : (
           <Typography 
             onClick={handleSingleClick}
-            sx={{ overflow: 'hidden', overflowWrap: "break-word", textOverflow: 'ellipsis', fontSize: '1rem', ...textStyle }} 
+            sx={{ overflow: 'hidden', overflowWrap: "break-word", textOverflow: 'ellipsis', fontSize: '1rem', userSelect: 'none', ...textStyle }} 
           >
             {editedText}
           </Typography>
