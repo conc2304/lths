@@ -3,7 +3,7 @@
 ##  export PORT=<your-port>
 ##  export BASE_PATH=<base-path>
 ##  cd <your-lths-mui-folder>
-##  docker build --no-cache [--build-arg BASE_PATH] [--build-arg GITHUB_BRANCH] -t lths-mui:<tag> . -f ./apps/mms/docker/Dockerfile
+##  docker build --no-cache [--build-arg BASE_PATH] -t lths-mui:<tag> . -f ./apps/mms/docker/Dockerfile_app_service
 
 # How to create and run the container:
 ##  docker run --name <lths-mui-container-name> -p $PORT:$PORT -d lths-mui:<tag>
@@ -18,6 +18,7 @@ ARG NX_PUBLIC_API_HOST_VERSION_PATH="/api"
 ARG NX_PUBLIC_API_KEY
 ARG BASIC_AUTH_USER
 ARG BASIC_AUTH_PASS
+ARG NX_PUBLIC_UI_VERSION
 
 ENV PORT $PORT
 ENV BASE_PATH $BASE_PATH
@@ -27,6 +28,7 @@ ENV NX_PUBLIC_API_HOST_VERSION_PATH $NX_PUBLIC_API_HOST_VERSION_PATH
 ENV NX_PUBLIC_API_KEY $NX_PUBLIC_API_KEY
 ENV BASIC_AUTH_USER $BASIC_AUTH_USER
 ENV BASIC_AUTH_PASS $BASIC_AUTH_PASS
+ENV NX_PUBLIC_UI_VERSION $NX_PUBLIC_UI_VERSION
 
 # Prevent dialog during apt install
 ENV DEBIAN_FRONTEND noninteractive
