@@ -40,6 +40,7 @@ export type TableProps = ProgressProps &
     sx?: SxProps;
     fixPagination?: boolean;
     noDataMessage?: string;
+    localStorageKey?: string;
   };
 
 /*

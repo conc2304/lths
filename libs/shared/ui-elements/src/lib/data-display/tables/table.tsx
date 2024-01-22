@@ -35,19 +35,22 @@ export const Table = (props: TableProps) => {
     sx = {},
     fixPagination = false,
     noDataMessage = 'No records found',
+    localStorageKey,
   } = props;
+
+  const persistantSettings = localStorageKey ? JSON.parse(localStorage.getItem(localStorageKey) ?? '{}') : {};
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
     page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
-    pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
+    pageSize: page != null ? page.pageSize : persistantSettings.rowsPerPage ?? DEFAULT_TABLE_PAGE_SIZE,
   });
 
   useEffect(() => {
-    if(page){
+    if (page) {
       setPagination({
         page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
-        pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
-      })
+        pageSize: page != null ? page.pageSize : persistantSettings.rowsPerPage ?? DEFAULT_TABLE_PAGE_SIZE,
+      });
     }
   }, [page]);
 
@@ -57,11 +60,11 @@ export const Table = (props: TableProps) => {
   });
 
   useEffect(() => {
-    if(sort) {
+    if (sort) {
       setSorting({
         column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
         order: (sort != null && sort.order) || 'desc',
-      })
+      });
     }
   }, [sort]);
 
@@ -81,6 +84,9 @@ export const Table = (props: TableProps) => {
   const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPageSize = parseInt(event.target.value, 10);
     const newPagination = { ...pagination, pageSize: newPageSize, page: 0 };
+
+    localStorageKey &&
+      localStorage.setItem(localStorageKey, JSON.stringify({ ...persistantSettings, rowsPerPage: newPageSize }));
     setPagination(newPagination);
     onPageChange && onPageChange(null, newPagination, sorting);
   };

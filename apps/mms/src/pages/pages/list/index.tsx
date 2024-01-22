@@ -65,8 +65,16 @@ const Page = (): JSX.Element => {
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
+  const persistantTableSettingsKey = 'persist:mms:pages-table-settings';
+  const persistantSettings = localStorage.getItem(persistantTableSettingsKey);
+  const { rowsPerPage } = persistantSettings ? JSON.parse(persistantSettings) : { rowsPerPage: undefined };
+
   useEffect(() => {
     const req: PageItemsRequest = { name, limit, offset, sort_field, sort_by };
+
+    // use query params if present, if not use persistantSettings
+    req.limit = !!req.limit && Number(req.limit) > 0 ? req.limit : rowsPerPage;
+
     getData(req);
   }, [name, limit, offset, sort_field, sort_by]);
 
@@ -100,6 +108,7 @@ const Page = (): JSX.Element => {
       params['sort_field'] = column;
       params['sort_by'] = order;
     }
+
     updateSearchParams(params);
   };
 
@@ -212,6 +221,7 @@ const Page = (): JSX.Element => {
         headerCells={headers}
         tableRows={tableRows}
         onPageChange={onPageChange}
+        localStorageKey={persistantTableSettingsKey}
         sx={{
           mt: 4,
         }}
