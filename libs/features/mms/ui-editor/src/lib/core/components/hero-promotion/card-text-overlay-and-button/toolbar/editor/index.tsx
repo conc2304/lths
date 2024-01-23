@@ -10,7 +10,6 @@ export type CardTextOverlayAndButtonEditorProps = CardTextOverlayAndButtonCompon
 const CardTextOverlayAndButtonEditor = (props: CardTextOverlayAndButtonEditorProps) => {
   const {
     data: { image, img_alt_text, title, description, btn_text, action },
-
     keys: parentKeys,
     index,
     childKeys,

@@ -16,6 +16,8 @@ import {
   useLazyGetEnumListQuery,
   ComponentProps,
   transformUpdatePageDetailRequest,
+  EnumGroup,
+  UseGetPageListQuery,
 } from '@lths/features/mms/data-access';
 import {
   PageAdapterProvider,
@@ -60,6 +62,7 @@ const StatusChangeModalData = {
     status: PageStatus.UNPUBLISHED,
   },
 };
+
 const TabItems = {
   page_design: { value: 'page_design', label: 'PAGE DESIGN' },
   constraints: { value: 'constraints', label: 'CONSTRAINTS' },
@@ -75,6 +78,7 @@ export function PageEditorTabs() {
   const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+  const getPageList = UseGetPageListQuery();
 
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
@@ -199,13 +203,8 @@ export function PageEditorTabs() {
   //TODO: API is not typed yet, so using any for now
   const handlAddAction = async (callback: (data) => void) => {
     try {
-      const response = await getDefaultPage().unwrap();
-      if (response && response.success && response.data) {
-        return callback(response.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
-      } else {
-        toast.error('Default page list could not be found.');
-        return callback([]);
-      }
+      const pageList = await getPageList();
+      return callback(pageList);
     } catch (error) {
       console.error('Error in fetching the default page list', error);
       toast.error('Default page list could not be found.');
@@ -228,7 +227,7 @@ export function PageEditorTabs() {
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
     try {
-      const response = await getEnumList('ActionIcons').unwrap();
+      const response = await getEnumList(EnumGroup.ACTION_ICONS).unwrap();
       if (response && response.success && response.data)
         return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
       else {

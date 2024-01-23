@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { validate, v4 as uuid } from 'uuid';
 
-import { mergeChildKeys, mergeParentKeys, updateNestedProp } from './utils';
+import { mergeChildKeys, mergeParentKeys, updateNestedProp, swapArrayItems } from './utils';
 import { useEditorActions } from '../../../context';
 
 export const useToolbarChange = () => {
@@ -64,17 +64,8 @@ export const useToolbarChange = () => {
     }
   };
 
-  //TODO: not generic enough
-  const swapComponentProps = (index: number, index2: number) => {
-    const updatedComponentData = [...selectedComponent.data.sub_component_data];
-    const component1 = updatedComponentData[index];
-    updatedComponentData[index] = updatedComponentData[index2];
-    updatedComponentData[index2] = component1;
-    const data = {
-      ...selectedComponent,
-      data: { ...selectedComponent.data, sub_component_data: updatedComponentData },
-    };
-
+  const handleSwapChange = (index1: number, index2: number, keys?: string[]) => {
+    const data = swapArrayItems(selectedComponent, index1, index2, mergeParentKeys(keys));
     updateComponent(data);
   };
 
@@ -247,7 +238,7 @@ export const useToolbarChange = () => {
   return {
     selectedComponent,
     generateUniqueId,
-    swapComponentProps,
+    handleSwapChange,
     updateComponentProp,
     handlePropChange,
     handleTitleChange,
