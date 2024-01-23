@@ -1,22 +1,13 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
-import { TableView } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
 
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import {
-  Table,
-  TablePaginationProps,
-  TableSortingProps,
-  ActionMenu,
-  SearchBar,
-  ListView,
-  RowBuilderFn,
-} from '@lths/shared/ui-elements';
+import { Table, TablePaginationProps, TableSortingProps, ActionMenu, SearchBar } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 type SearchParam = Record<string, string | number | null | undefined>;
@@ -161,90 +152,37 @@ const Page = (): JSX.Element => {
     ];
   };
 
-  const RowBuilder = (rowData: PageDetail): RowBuilderFn<PageDetail> => {
-    return (props) => {
-      const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = props.data;
-
-      return (
-        <TableRow key={`row_${_id}`}>
-          <TableCell>
-            <Stack>
-              <Link
-                component={RouterLink}
-                to={`/pages/editor/${page_id}`}
-                color="inherit"
-                underline="hover"
-                variant="h5"
-              >
-                {name}
-              </Link>
-              <Typography variant="subtitle1">{page_id}</Typography>
-            </Stack>
-          </TableCell>
-          <TableCell>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <PagesStatus status={status} />
-            </Stack>
-          </TableCell>
-          <TableCell>{updated_on}</TableCell>
-          <TableCell>{type}</TableCell>
-          <TableCell>
-            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
-              {default_page_id}
+  const tableRows = data?.data?.map((row) => {
+    const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = row;
+    return (
+      <TableRow key={`row_${_id}`}>
+        <TableCell>
+          <Stack>
+            <Link component={RouterLink} to={`/pages/editor/${page_id}`} color="inherit" underline="hover" variant="h5">
+              {name}
             </Link>
-          </TableCell>
-          <TableCell>{constraints_formatted}</TableCell>
-          <TableCell>
-            <ActionMenu options={menuOptions(rowData)} />
-          </TableCell>
-        </TableRow>
-      );
-    };
-  };
-
-  const RowBuilder2 = (): RowBuilderFn<PageDetail> => {
-    return (props) => {
-      const { headerCells, data } = props;
-      const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
-
-      console.log();
-
-      return (
-        <TableRow key={`row_${_id}`}>
-          <TableCell>
-            <Stack>
-              <Link
-                component={RouterLink}
-                to={`/pages/editor/${page_id}`}
-                color="inherit"
-                underline="hover"
-                variant="h5"
-              >
-                {name}
-              </Link>
-              <Typography variant="subtitle1">{page_id}</Typography>
-            </Stack>
-          </TableCell>
-          <TableCell>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <PagesStatus status={status} />
-            </Stack>
-          </TableCell>
-          <TableCell>{updated_on}</TableCell>
-          <TableCell>{type}</TableCell>
-          <TableCell>
-            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
-              {default_page_id}
-            </Link>
-          </TableCell>
-          <TableCell>{constraints_formatted}</TableCell>
-          <TableCell>
-            <ActionMenu options={menuOptions(data)} />
-          </TableCell>
-        </TableRow>
-      );
-    };
-  };
+            <Typography variant="subtitle1">{page_id}</Typography>
+          </Stack>
+        </TableCell>
+        <TableCell>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <PagesStatus status={status} />
+          </Stack>
+        </TableCell>
+        <TableCell>{updated_on}</TableCell>
+        <TableCell>{type}</TableCell>
+        <TableCell>
+          <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
+            {default_page_id}
+          </Link>
+        </TableCell>
+        <TableCell>{constraints_formatted}</TableCell>
+        <TableCell>
+          <ActionMenu options={menuOptions(row)} />
+        </TableCell>
+      </TableRow>
+    );
+  });
 
   const total = data?.pagination?.totalItems;
 
@@ -266,17 +204,7 @@ const Page = (): JSX.Element => {
       />
       <Divider />
       <SearchBar value={name} onSearch={handleSearch} sx={{ marginY: 2 }} />
-      <ListView
-        data={data?.data ?? []}
-        headerCells={headers}
-        // headerToCellValueMap={}
-        rowBuilder={RowBuilder2()}
-        loading={isLoading}
-        fetching={isFetching}
-        total={total}
-        title="{0} total pages"
-      />
-      {/* <Table
+      <Table
         loading={isLoading}
         fetching={isFetching}
         total={total}
@@ -287,7 +215,7 @@ const Page = (): JSX.Element => {
         sx={{
           mt: 4,
         }}
-      /> */}
+      />
     </Box>
   );
 };

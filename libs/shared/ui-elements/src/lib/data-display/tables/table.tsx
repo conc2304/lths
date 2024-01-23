@@ -28,8 +28,8 @@ export const Table = (props: TableProps) => {
     title,
     headerCells,
     tableRows,
-    pagination: page,
-    sorting: sort,
+    pagination: pageProp,
+    sorting: sortingProp,
     onExportClick,
     onPageChange,
     sx = {},
@@ -38,32 +38,42 @@ export const Table = (props: TableProps) => {
   } = props;
 
   const [pagination, setPagination] = useState<TablePaginationProps>({
-    page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
-    pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
+    page: total > 0 ? (pageProp != null ? pageProp.page : DEFAULT_TABLE_PAGE) : 0,
+    pageSize: pageProp != null ? pageProp.pageSize : DEFAULT_TABLE_PAGE_SIZE,
   });
 
   useEffect(() => {
-    if(page){
+    if (pageProp) {
       setPagination({
-        page: total > 0 ? (page != null ? page.page : DEFAULT_TABLE_PAGE) : 0,
-        pageSize: page != null ? page.pageSize : DEFAULT_TABLE_PAGE_SIZE,
-      })
+        page: total > 0 ? (pageProp != null ? pageProp.page : DEFAULT_TABLE_PAGE) : 0,
+        pageSize: pageProp != null ? pageProp.pageSize : DEFAULT_TABLE_PAGE_SIZE,
+      });
     }
-  }, [page]);
+  }, [pageProp]);
 
   const [sorting, setSorting] = useState<TableSortingProps>({
-    column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
-    order: (sort != null && sort.order) || 'desc',
+    column:
+      sortingProp != null
+        ? !sortingProp.column && headerCells?.length > 0
+          ? headerCells[0].id
+          : sortingProp.column
+        : null,
+    order: (sortingProp != null && sortingProp.order) || 'desc',
   });
 
   useEffect(() => {
-    if(sort) {
+    if (sortingProp) {
       setSorting({
-        column: sort != null ? (!sort.column && headerCells?.length > 0 ? headerCells[0].id : sort.column) : null,
-        order: (sort != null && sort.order) || 'desc',
-      })
+        column:
+          sortingProp != null
+            ? !sortingProp.column && headerCells?.length > 0
+              ? headerCells[0].id
+              : sortingProp.column
+            : null,
+        order: (sortingProp != null && sortingProp.order) || 'desc',
+      });
     }
-  }, [sort]);
+  }, [sortingProp]);
 
   const handleSortClick = (column: string) => {
     const order: TableOrderProp = column === sorting.column ? (sorting.order === 'desc' ? 'asc' : 'desc') : 'desc';

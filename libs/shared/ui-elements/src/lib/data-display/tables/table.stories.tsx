@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SampleHeaderCells } from './mocks';
+import { SampleHeaderCells, getGeckTableRows } from './mocks';
 import { Table } from './table';
 
 import type { StoryFn } from '@storybook/react';
@@ -18,7 +18,6 @@ Empty.args = {
 };
 export const Loading = Template.bind({});
 Loading.args = {
-  //headerCells: SampleHeaderCells,
   tableRows: [],
   loading: true,
 };
@@ -31,6 +30,6 @@ WithHeaders.args = {
 export const WithData = Template.bind({});
 WithData.args = {
   headerCells: SampleHeaderCells,
-  tableRows: [],
-  total: 10,
+  tableRows: getGeckTableRows(50),
+  total: 50,
 };
