@@ -7,12 +7,6 @@ export type Rules<Role extends string, Permission extends string, User> = {
   [R in Role]?: PermissionMap<Permission, User>;
 };
 
-// export type Rules<Role extends string, Permission extends string, User> =
-//   | {
-//       [R in Role]?: PermissionMap<Permission, User>;
-//     }
-//   | PermissionMap<Permission, User>;
-
 export type PermissionMap<Permission extends string, User> = {
   [P in Permission]?: Rule<User, any>;
 };
