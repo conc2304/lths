@@ -89,10 +89,14 @@ jobs:
           app-name: 'lwa-staging-westus3-mms'
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_STAGING }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
-          env: RESTART_APP_SERVICE=true
+          env: RESTART_APP_SERVICE=true 
+          
+      - name: Create Deployment Slot
+        run: az webapp deployment slot create --name lwa-staging-westus3-mms --resource-group rg-staging-westus3-base --slot staging
 
       - name: Post a message to Slack - lths-deployments
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"The STAGING environment is being updated with the latest version of the MMS staging branch. Commit ID: ${{ github.sha }}"}' \
             ${{ secrets.SLACK_WEBHOOK_URL_DEPLOYMENTS_CH}}
+    
