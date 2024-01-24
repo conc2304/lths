@@ -230,25 +230,11 @@ const Page = (): JSX.Element => {
         title="{0} total pages"
         onChange={handleOnChange}
         showRowNumber
-        // passing in these fields below controls the pagination and sorting
-        // if these are not passed in then it treats it as an uncontrolled component
         page={offset && limit ? parseInt(offset) / parseInt(limit) : undefined}
         rowsPerPage={limit ? parseInt(limit) : undefined}
         sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
         orderBy={sort_field ? sort_field : undefined}
       />
-      {/* <Table
-        loading={isLoading}
-        fetching={isFetching}
-        total={total}
-        title="{0} total pages"
-        headerCells={headers}
-        tableRows={tableRows}
-        onPageChange={onPageChange}
-        sx={{
-          mt: 4,
-        }}
-      /> */}
     </Box>
   );
 };

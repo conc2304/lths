@@ -39,6 +39,8 @@ export type ListViewProps<TData extends object = Record<any, any>> = {
   fetching?: boolean;
   onExport?: () => void;
   userSettingsStorageKey?: string;
+  showFirstButton?: boolean;
+  showLastButton?: boolean;
   showRowNumber?: boolean;
 };
 
@@ -46,6 +48,40 @@ const DEFAULT_ROWS_PER_PAGE = 25;
 const DEFAULT_TABLE_PAGE = 0;
 const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
+/**
+ * ListView component for displaying data in a paginated and sortable table format.
+ * The component is made to handle both data as a controlled and uncontrolled component.
+ * For server side data that handles pagination and sorting, pass in the page, rowsPerPage, sortOrder, and orderBy props.
+ * For client side data, leave those blank and the component will handle it internally.
+ *
+ * It is recommended to use the onChange prop to access global table change events.
+ * The more granular onXChanges are meant for when you need granal event listeners ie, reporting, storage, analytics
+ *
+ * @Component
+ * @param {ListViewColumnHeader[]} props.headerCells - An array of column header definitions.
+ * @param {RowBuilderFn} props.rowBuilder - A function that builds table rows from data.
+ * @param {Function} [props.headerToCellValueMap] - A function to map data to cell values.
+ * @param {string} [props.title] - The title to display above the table.
+ * @param {Function} [props.onChange] - A callback function called when table options change.
+ * @param {Array} props.data - The data to display in the table.
+ * @param {number} [props.page] - The current page number.
+ * @param {Function} [props.onPageChange] - A callback function called when the page changes.
+ * @param {number} [props.rowsPerPage] - The number of rows per page.
+ * @param {Function} [props.onRowsPerPageChange] - A callback function called when rows per page change.
+ * @param {number[]} [props.rowsPerPageOptions] - An array of available rows per page options.
+ * @param {string} [props.sortOrder] - The current sort order ('asc' or 'desc').
+ * @param {string} [props.orderBy] - The currently sorted column ID.
+ * @param {Function} [props.onSortChange] - A callback function called when sorting options change.
+ * @param {number} [props.total] - The total number of items in the dataset.
+ * @param {boolean} [props.loading] - Indicates whether data is loading.
+ * @param {boolean} [props.fetching] - Indicates whether data is being fetched.
+ * @param {Function} [props.onExport] - A callback function called when the export button is clicked.
+ * @param {string} [props.userSettingsStorageKey] - The key for storing user settings in local storage.
+ * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
+ * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
+ * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
+ * @returns {JSX.Element} - The rendered ListView component.
+ */
 export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element => {
   const {
     data = [],
@@ -53,6 +89,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     rowBuilder,
     headerToCellValueMap = BaseColumnValue,
     title,
+    onChange,
     page: pageProp,
     onPageChange,
     rowsPerPage: rowsPerPageProp,
@@ -66,11 +103,10 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     fetching,
     userSettingsStorageKey,
     onExport,
+    showFirstButton = false,
+    showLastButton = false,
     showRowNumber = false,
-    onChange,
   } = props;
-
-  console.log({ pageProp });
 
   const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
@@ -233,6 +269,8 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
         rowsPerPageOptions={rowsPerPageOptions}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleRowsPerPageChange}
+        showFirstButton={showFirstButton}
+        showLastButton={showLastButton}
       />
     </Box>
   );
