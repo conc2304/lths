@@ -16,6 +16,7 @@ import {
   SearchBar,
   ListView,
   RowBuilderFn,
+  SortDirection,
 } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
@@ -67,6 +68,7 @@ const Page = (): JSX.Element => {
   const queryParams = Object.fromEntries(searchParams.entries());
 
   const { name, limit, offset, sort_field, sort_by } = queryParams;
+  console.log({ queryParams });
 
   const navigate = useNavigate();
 
@@ -94,20 +96,15 @@ const Page = (): JSX.Element => {
     updateSearchParams({ name: value });
   };
 
-  const onPageChange = (
-    // event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    const { column, order } = sorting;
-    const { page, pageSize } = pagination;
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    console.log('PAGE - handleOnChange', { page, rowsPerPage, sortOrder, orderBy });
     const params: SearchParam = {
-      limit: pageSize,
-      offset: page * pageSize,
+      limit: rowsPerPage,
+      offset: page * rowsPerPage,
     };
-    if (column && order) {
-      params['sort_field'] = column;
-      params['sort_by'] = order;
+    if (orderBy && sortOrder) {
+      params['sort_field'] = orderBy;
+      params['sort_by'] = sortOrder;
     }
     updateSearchParams(params);
   };
@@ -164,7 +161,7 @@ const Page = (): JSX.Element => {
   const RowBuilder = (): RowBuilderFn<PageDetail> => {
     return (props) => {
       const { data } = props;
-      const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
+      const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
 
       return (
         <>
@@ -226,13 +223,19 @@ const Page = (): JSX.Element => {
       <ListView
         data={data?.data ?? []}
         headerCells={headers}
-        // headerToCellValueMap={}
         rowBuilder={RowBuilder()}
         loading={isLoading}
         fetching={isFetching}
         total={total}
         title="{0} total pages"
-        // onPageChange={onPageChange}
+        onChange={handleOnChange}
+        showRowNumber
+        // passing in these fields below controls the pagination and sorting
+        // if these are not passed in then it treats it as an uncontrolled component
+        page={offset && limit ? parseInt(offset) / parseInt(limit) : undefined}
+        rowsPerPage={limit ? parseInt(limit) : undefined}
+        sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
+        orderBy={sort_field ? sort_field : undefined}
       />
       {/* <Table
         loading={isLoading}

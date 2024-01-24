@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, MouseEvent, cloneElement, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, MouseEvent, cloneElement, useMemo, useState } from 'react';
 import {
   Box,
   LinearProgress,
@@ -14,25 +14,26 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
 
-import { ListViewColumnHeader, RowBuilderFn, SortDirection } from './types';
+import { ListViewColumnHeader, OnTableChangeOptions, RowBuilderFn, SortDirection } from './types';
 import { BaseColumnValue, getComparator } from './utils';
-import { TableTitleRow } from 'libs/shared/ui-elements/src/lib/data-display/tables/table-title-row';
-import { TableRowSkeleton } from 'libs/shared/ui-elements/src/lib/feedback';
+import { TableRowSkeleton } from '../../feedback';
+import { TableTitleRow } from '../tables/table-title-row';
 
 export type ListViewProps<TData extends object = Record<any, any>> = {
   headerCells: ListViewColumnHeader[];
   rowBuilder: RowBuilderFn<TData>;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
+  onChange?: (options: OnTableChangeOptions) => void;
   data: TData[];
   page?: number;
-  onPageChange?: (page: number) => void;
+  onPageChange?: (options: OnTableChangeOptions) => void;
   rowsPerPage?: number;
-  onRowsPerPageChange?: (rowsPerPage: number) => void;
+  onRowsPerPageChange?: (options: OnTableChangeOptions) => void;
   rowsPerPageOptions?: number[];
   sortOrder?: SortDirection;
   orderBy?: string;
-  onSortChange?: ({ sortOrder, orderBy }: { sortOrder: SortDirection; orderBy: string }) => void;
+  onSortChange?: (options: OnTableChangeOptions) => void;
   total?: number;
   loading?: boolean;
   fetching?: boolean;
@@ -43,7 +44,7 @@ export type ListViewProps<TData extends object = Record<any, any>> = {
 
 const DEFAULT_ROWS_PER_PAGE = 25;
 const DEFAULT_TABLE_PAGE = 0;
-const DEFAULT_ROWS_PER_PAGE_OPTIONS = [25, 50, 100];
+const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
 export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element => {
   const {
@@ -65,12 +66,15 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     fetching,
     userSettingsStorageKey,
     onExport,
-    showRowNumber = true,
+    showRowNumber = false,
+    onChange,
   } = props;
 
-  const [order, setOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
+  console.log({ pageProp });
+
+  const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
-  const [page, setPage] = useState(pageProp ?? 0);
+  const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE);
 
   const totalItems = total ?? data.length ?? 0;
@@ -78,18 +82,23 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
   const tableRows = useMemo(() => {
     if (!data) return [];
 
+    // controlled data is expected to come sorted and paginated directly from the server
+    // so we leave that alone
+
     const dataCopy = data.slice();
 
-    // if we have sortOrder & orderByProp then its a controlled/server side component
+    // if we have sortOrder & orderByProp then its a controlled / server-side-driven component
     // otherwise its an un(internally)controlled component
-    const sortingIsControlled = sortOrderProp && orderByProp;
+    const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
     const sortedData = sortingIsControlled
       ? dataCopy
       : dataCopy.sort((a, b) =>
-          getComparator(order)(headerToCellValueMap(a, orderBy), headerToCellValueMap(b, orderBy))
+          getComparator(sortOrder)(headerToCellValueMap(a, orderBy), headerToCellValueMap(b, orderBy))
         );
 
-    const paginationIsControlled = pageProp && rowsPerPageProp;
+    // if we have pageProp & rowsPerPageProp then its a controlled / server-side-driven component
+    // otherwise its an un(internally)controlled component
+    const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
     const paginatedData = paginationIsControlled
       ? sortedData
       : sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -109,35 +118,42 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
         })
       : [
           <TableRow key={0}>
-            <TableCell colSpan={headerCells.length}>No data found for selected time range and/or filters</TableCell>
+            <TableCell colSpan={headerCells.length}>No data available.</TableCell>
           </TableRow>,
         ];
-  }, [order, orderBy, page, rowsPerPage, data]);
+  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
 
   const handleSort = (columnId: string) => {
-    const isAsc = orderBy === columnId && order === 'asc';
+    const isAsc = orderBy === columnId && sortOrder === 'asc';
     const nextSortOrder = isAsc ? 'desc' : 'asc';
-    console.log('handleSort');
-    // controlled component
-    if (onSortChange) {
-      console.log('controlled sort');
-      onSortChange({ sortOrder: nextSortOrder, orderBy: columnId });
-      return;
-    }
 
-    console.log('UNcontrolled sort');
+    // controlled component
+    onChange && onChange({ sortOrder: nextSortOrder, orderBy: columnId, page, rowsPerPage });
+    onSortChange && onSortChange({ sortOrder: nextSortOrder, orderBy: columnId, page, rowsPerPage });
+    // if (onChange || onSortChange) return;
+
     // uncontrolled component
-    setOrder(nextSortOrder);
+    setSortOrder(nextSortOrder);
     setOrderBy(columnId);
   };
 
-  const handleChangePage = (_event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handlePageChange = (_event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    console.log({ newPage });
+    onPageChange && onPageChange({ sortOrder, orderBy, page: newPage, rowsPerPage });
+    onChange && onChange({ sortOrder, orderBy, page: newPage, rowsPerPage });
+
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const rowsPerPage = parseInt(event.target.value);
+    const page = 0;
+
+    onRowsPerPageChange && onRowsPerPageChange({ sortOrder, orderBy, page, rowsPerPage });
+    onChange && onChange({ sortOrder, orderBy, page, rowsPerPage });
+
+    setRowsPerPage(rowsPerPage);
+    setPage(page);
   };
 
   return (
@@ -174,7 +190,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
                   {column.sortable && (
                     <TableSortLabel
                       active={column.id === orderBy}
-                      direction={orderBy === column.id ? order : 'asc'}
+                      direction={orderBy === column.id ? sortOrder : 'asc'}
                       onClick={() => handleSort(column.id)}
                       IconComponent={KeyboardArrowDownIcon}
                       role="columnheader"
@@ -182,7 +198,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
                       {column.label.toUpperCase()}
                       {orderBy === column.id ? (
                         <Box component="span" sx={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
                         </Box>
                       ) : null}
                     </TableSortLabel>
@@ -210,13 +226,13 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={rowsPerPageOptions}
         component="div"
         count={totalItems}
-        rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        onPageChange={handlePageChange}
+        rowsPerPageOptions={rowsPerPageOptions}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleRowsPerPageChange}
       />
     </Box>
   );

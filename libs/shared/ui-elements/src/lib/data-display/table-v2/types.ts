@@ -1,14 +1,19 @@
 export type RowBuilderProps<TData extends object> = {
   data: TData;
   headerCells: ListViewColumnHeader[];
-  showRowNumber?: boolean;
 };
 
 export type RowBuilderFn<TData extends object = Record<any, any>> = ({
   data,
   headerCells,
-  showRowNumber,
 }: RowBuilderProps<TData>) => JSX.Element;
+
+export type OnTableChangeOptions = {
+  page: number;
+  rowsPerPage: number;
+  sortOrder: SortDirection;
+  orderBy: string;
+};
 
 export type HeaderToEventValueMapFn<TData extends object = Record<any, any>> = (
   data: TData,
@@ -16,6 +21,8 @@ export type HeaderToEventValueMapFn<TData extends object = Record<any, any>> = (
 ) => Date | string | number | undefined;
 
 export type SortDirection = 'asc' | 'desc';
+
+// export type
 
 export type ListViewColumnHeader = {
   id: string;
