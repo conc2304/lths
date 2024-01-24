@@ -1,23 +1,13 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, Button, Link, Stack, TableCell, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
-import { TableView } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
 
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import {
-  Table,
-  TablePaginationProps,
-  TableSortingProps,
-  ActionMenu,
-  SearchBar,
-  ListView,
-  RowBuilderFn,
-  SortDirection,
-} from '@lths/shared/ui-elements';
+import { ActionMenu, SearchBar, ListView, RowBuilderFn, SortDirection } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 type SearchParam = Record<string, string | number | null | undefined>;
@@ -61,14 +51,12 @@ const headers = [
     sortable: false,
   },
 ];
-//TODO: Add a response type for RTK queries
 const Page = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const queryParams = Object.fromEntries(searchParams.entries());
 
   const { name, limit, offset, sort_field, sort_by } = queryParams;
-  console.log({ queryParams });
 
   const navigate = useNavigate();
 
@@ -97,15 +85,16 @@ const Page = (): JSX.Element => {
   };
 
   const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
-    console.log('PAGE - handleOnChange', { page, rowsPerPage, sortOrder, orderBy });
     const params: SearchParam = {
       limit: rowsPerPage,
       offset: page * rowsPerPage,
+      ...(orderBy &&
+        sortOrder && {
+          sort_field: orderBy,
+          sort_by: sortOrder,
+        }),
     };
-    if (orderBy && sortOrder) {
-      params['sort_field'] = orderBy;
-      params['sort_by'] = sortOrder;
-    }
+
     updateSearchParams(params);
   };
 
