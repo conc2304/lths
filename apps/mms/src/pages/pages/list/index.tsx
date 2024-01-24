@@ -95,7 +95,7 @@ const Page = (): JSX.Element => {
   };
 
   const onPageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    // event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     pagination: TablePaginationProps,
     sorting: TableSortingProps
   ) => {
@@ -161,56 +161,13 @@ const Page = (): JSX.Element => {
     ];
   };
 
-  const RowBuilder = (rowData: PageDetail): RowBuilderFn<PageDetail> => {
+  const RowBuilder = (): RowBuilderFn<PageDetail> => {
     return (props) => {
-      const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = props.data;
-
-      return (
-        <TableRow key={`row_${_id}`}>
-          <TableCell>
-            <Stack>
-              <Link
-                component={RouterLink}
-                to={`/pages/editor/${page_id}`}
-                color="inherit"
-                underline="hover"
-                variant="h5"
-              >
-                {name}
-              </Link>
-              <Typography variant="subtitle1">{page_id}</Typography>
-            </Stack>
-          </TableCell>
-          <TableCell>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <PagesStatus status={status} />
-            </Stack>
-          </TableCell>
-          <TableCell>{updated_on}</TableCell>
-          <TableCell>{type}</TableCell>
-          <TableCell>
-            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
-              {default_page_id}
-            </Link>
-          </TableCell>
-          <TableCell>{constraints_formatted}</TableCell>
-          <TableCell>
-            <ActionMenu options={menuOptions(rowData)} />
-          </TableCell>
-        </TableRow>
-      );
-    };
-  };
-
-  const RowBuilder2 = (): RowBuilderFn<PageDetail> => {
-    return (props) => {
-      const { headerCells, data } = props;
+      const { data } = props;
       const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
 
-      console.log();
-
       return (
-        <TableRow key={`row_${_id}`}>
+        <>
           <TableCell>
             <Stack>
               <Link
@@ -241,7 +198,7 @@ const Page = (): JSX.Element => {
           <TableCell>
             <ActionMenu options={menuOptions(data)} />
           </TableCell>
-        </TableRow>
+        </>
       );
     };
   };
@@ -270,11 +227,12 @@ const Page = (): JSX.Element => {
         data={data?.data ?? []}
         headerCells={headers}
         // headerToCellValueMap={}
-        rowBuilder={RowBuilder2()}
+        rowBuilder={RowBuilder()}
         loading={isLoading}
         fetching={isFetching}
         total={total}
         title="{0} total pages"
+        // onPageChange={onPageChange}
       />
       {/* <Table
         loading={isLoading}

@@ -1,11 +1,13 @@
 export type RowBuilderProps<TData extends object> = {
   data: TData;
   headerCells: ListViewColumnHeader[];
+  showRowNumber?: boolean;
 };
 
 export type RowBuilderFn<TData extends object = Record<any, any>> = ({
   data,
   headerCells,
+  showRowNumber,
 }: RowBuilderProps<TData>) => JSX.Element;
 
 export type HeaderToEventValueMapFn<TData extends object = Record<any, any>> = (
