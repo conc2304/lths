@@ -108,10 +108,16 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     showRowNumber = false,
   } = props;
 
+  const persistantSettings = userSettingsStorageKey
+    ? JSON.parse(localStorage.getItem(userSettingsStorageKey) ?? '{}')
+    : {};
+
   const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    persistantSettings.rowsPerPage ?? rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE
+  );
 
   const totalItems = total ?? data.length ?? 0;
 
@@ -182,6 +188,9 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const rowsPerPage = parseInt(event.target.value);
     const page = 0;
+
+    userSettingsStorageKey &&
+      localStorage.setItem(userSettingsStorageKey, JSON.stringify({ ...persistantSettings, rowsPerPage }));
 
     onRowsPerPageChange && onRowsPerPageChange({ page, rowsPerPage });
     onChange && onChange({ sortOrder, orderBy, page, rowsPerPage });
