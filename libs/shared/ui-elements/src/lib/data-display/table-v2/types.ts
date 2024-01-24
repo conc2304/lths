@@ -8,7 +8,7 @@ export type RowBuilderFn<TData extends object = Record<any, any>> = ({
   headerCells,
 }: RowBuilderProps<TData>) => JSX.Element;
 
-export type OnTableChangeOptions = {
+export type TableChangeEvent = {
   page: number;
   rowsPerPage: number;
   sortOrder: SortDirection;

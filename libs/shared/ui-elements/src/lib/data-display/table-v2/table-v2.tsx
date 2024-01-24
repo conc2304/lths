@@ -14,7 +14,7 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
 
-import { ListViewColumnHeader, OnTableChangeOptions, RowBuilderFn, SortDirection } from './types';
+import { ListViewColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
 import { TableTitleRow } from '../tables/table-title-row';
@@ -24,16 +24,16 @@ export type ListViewProps<TData extends object = Record<any, any>> = {
   rowBuilder: RowBuilderFn<TData>;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
-  onChange?: (options: OnTableChangeOptions) => void;
+  onChange?: (options: TableChangeEvent) => void;
   data: TData[];
   page?: number;
-  onPageChange?: (options: OnTableChangeOptions) => void;
+  onPageChange?: ({ page, rowsPerPage }: { page: number; rowsPerPage: number }) => void;
   rowsPerPage?: number;
-  onRowsPerPageChange?: (options: OnTableChangeOptions) => void;
+  onRowsPerPageChange?: ({ page, rowsPerPage }: { page: number; rowsPerPage: number }) => void;
   rowsPerPageOptions?: number[];
   sortOrder?: SortDirection;
   orderBy?: string;
-  onSortChange?: (options: OnTableChangeOptions) => void;
+  onSortChange?: ({ sortOrder, orderBy }: { sortOrder: SortDirection; orderBy: string }) => void;
   total?: number;
   loading?: boolean;
   fetching?: boolean;
@@ -72,7 +72,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.sortOrder] - The current sort order ('asc' or 'desc').
  * @param {string} [props.orderBy] - The currently sorted column ID.
  * @param {Function} [props.onSortChange] - A callback function called when sorting options change.
- * @param {number} [props.total] - The total number of items in the dataset.
+ * @param {number} [props.total] - Leave Blank for clientside data. The total number of items in the serverside dataset.
  * @param {boolean} [props.loading] - Indicates whether data is loading.
  * @param {boolean} [props.fetching] - Indicates whether data is being fetched.
  * @param {Function} [props.onExport] - A callback function called when the export button is clicked.
@@ -165,8 +165,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
 
     // controlled component
     onChange && onChange({ sortOrder: nextSortOrder, orderBy: columnId, page, rowsPerPage });
-    onSortChange && onSortChange({ sortOrder: nextSortOrder, orderBy: columnId, page, rowsPerPage });
-    // if (onChange || onSortChange) return;
+    onSortChange && onSortChange({ sortOrder: nextSortOrder, orderBy: columnId });
 
     // uncontrolled component
     setSortOrder(nextSortOrder);
@@ -174,8 +173,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
   };
 
   const handlePageChange = (_event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    console.log({ newPage });
-    onPageChange && onPageChange({ sortOrder, orderBy, page: newPage, rowsPerPage });
+    onPageChange && onPageChange({ page: newPage, rowsPerPage });
     onChange && onChange({ sortOrder, orderBy, page: newPage, rowsPerPage });
 
     setPage(newPage);
@@ -185,7 +183,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     const rowsPerPage = parseInt(event.target.value);
     const page = 0;
 
-    onRowsPerPageChange && onRowsPerPageChange({ sortOrder, orderBy, page, rowsPerPage });
+    onRowsPerPageChange && onRowsPerPageChange({ page, rowsPerPage });
     onChange && onChange({ sortOrder, orderBy, page, rowsPerPage });
 
     setRowsPerPage(rowsPerPage);
