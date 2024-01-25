@@ -5,6 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { format } from 'date-fns';
+import { toast } from 'react-hot-toast';
 
 import { ordinalifyNumber } from '@lths/shared/ui-elements';
 
@@ -42,6 +43,41 @@ const DateTimeRangePicker = (props: Props) => {
   }, [selectedDateRange]);
 
   const addedRanges = selectedDateRange.length > 0 ? selectedDateRange.slice(0, -1) : [];
+
+  const validateAndSetEndTime = (endDateTime: Date) => {
+    if (startDate && startTime && endDate) {
+      const startDateTime = new Date(startDate);
+      startDateTime.setHours(startTime.getHours(), startTime.getMinutes());
+
+      if (startDateTime.toDateString() === endDateTime.toDateString() && endDateTime < startDateTime) {
+        toast.error('End time cannot be before start time on the same day.');
+        onDateRangeChange('endTime', new Date(startTime));
+      } else {
+        onDateRangeChange('endTime', endDateTime);
+      }
+    }
+  };
+
+  const handleEndTimeChange = (value: Date | null) => {
+    if (value && startDate && startTime && endDate) {
+      const endDateTime = new Date(endDate);
+      endDateTime.setHours(value.getHours(), value.getMinutes());
+      validateAndSetEndTime(endDateTime);
+    }
+  };
+
+  useEffect(() => {
+    if (startDate && startTime && endDate && endTime) {
+      const endDateTime = new Date(endDate);
+      endDateTime.setHours(endTime.getHours(), endTime.getMinutes());
+      validateAndSetEndTime(endDateTime);
+    }
+  }, [startDate, startTime, endDate, endTime, onDateRangeChange]);
+
+  const minTimeForEndTime =
+    startDate && endDate && startTime && startDate.toDateString() === endDate.toDateString()
+      ? new Date(startDate.setHours(startTime.getHours(), startTime.getMinutes()))
+      : undefined;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -96,8 +132,9 @@ const DateTimeRangePicker = (props: Props) => {
         <TimePicker
           label="Select time"
           value={endTime}
-          onChange={(value) => onDateRangeChange('endTime', value)}
+          onChange={handleEndTimeChange}
           disabled={Boolean(!endDate)}
+          minTime={minTimeForEndTime}
         />
       </Grid>
       <Typography variant="body2" sx={{ fontStyle: 'italic', color: colors.header }} marginTop={2}>
