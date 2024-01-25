@@ -675,13 +675,15 @@ export type HeroCarouselProps =
   | CardTextComponentProps
   | CardTextOverlayAndButtonComponentProps;
 
+export type HeroCarouselMetaDataProps = {
+  selectedSlideIndex: number;
+}
+
 export type HeroCarouselComponentProps = ComponentProps & {
   data: {
     title: string;
     show_greetings: boolean;
     component_data: HeroCarouselProps[];
-    editor_meta_data?: {
-      selectedSlideIndex: number;
-    };
+    editor_meta_data?: HeroCarouselMetaDataProps;
   };
 };

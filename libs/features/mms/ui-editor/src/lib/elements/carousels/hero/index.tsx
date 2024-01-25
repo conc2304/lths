@@ -8,21 +8,28 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { HeroCarouselProps } from '../../../core/components';
 import heroCarouselComponentFactory from '../../../core/components/hero-carousel/component/factory';
 import Header from '../../../core/components/hero-gamebox/component/header';
+import { HeroCarouselMetaDataProps } from '../../../core/components/types';
 
 import './index.scss';
 
 type CarouselProps = {
   items: HeroCarouselProps[];
   headerText: string;
-  selectedSlideIndex?: number;
+  metaData?: HeroCarouselMetaDataProps;
+  onSlideIndexChange?: (index: number) => void;
 };
 
-const HeroCarousel = ({ items, selectedSlideIndex = 0, headerText = '' }: CarouselProps) => {
+const HeroCarousel = ({ items, metaData, headerText = '', onSlideIndexChange }: CarouselProps) => {
   const swiperRef = useRef<SwiperProps>();
 
   useEffect(() => {
+    const selectedSlideIndex = metaData ? metaData.selectedSlideIndex : 0;
     swiperRef.current && swiperRef.current.slideTo(selectedSlideIndex);
-  }, [swiperRef, selectedSlideIndex]);
+  }, [swiperRef, metaData]);
+
+  const handleSlideChange = (swiper: SwiperProps) => {
+    (onSlideIndexChange && swiper?.activeIndex >= 0) && onSlideIndexChange(swiper.activeIndex);
+  };
 
   if (!Array.isArray(items)) return <Typography>Requires an array instead received an object</Typography>;
   else
@@ -37,6 +44,7 @@ const HeroCarousel = ({ items, selectedSlideIndex = 0, headerText = '' }: Carous
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
           }}
+          onSlideChange={handleSlideChange}
         >
           {items.map((item) => (
             <SwiperSlide key={item.__ui_id__} style={{ marginRight: '0' }}>

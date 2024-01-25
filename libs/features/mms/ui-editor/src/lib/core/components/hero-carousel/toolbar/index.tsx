@@ -16,22 +16,22 @@ import { ComponentProps, HeroCarouselComponentProps } from '../../types';
 const HeroCarouselToolbar = (props: HeroCarouselComponentProps) => {
   const {
     __ui_id__: id,
-    data: { sub_component_data = [], title, show_greetings },
+    data: { sub_component_data = [], editor_meta_data, title, show_greetings },
     data,
     onPropChange,
   } = props;
 
-  const [selectedIndex, setSelectedIndex] = useState<number>(null);
+  const [showEdit, setShowEdit] = useState<boolean>(false);
 
   const { handlePropChange } = useToolbarChange();
   const { updateComponent } = useEditorActions();
 
   const onClose = () => {
-    setSelectedIndex(null);
+    setShowEdit(false);
   };
 
   const onEdit = (index: number) => {
-    setSelectedIndex(index);
+    setShowEdit(true);
     handlePropChange('editor_meta_data', { selectedSlideIndex: index });
   };
 
@@ -59,13 +59,14 @@ const HeroCarouselToolbar = (props: HeroCarouselComponentProps) => {
     handlePropChange('show_greetings', event.target.checked);
   };
 
-  const selectedComponent = sub_component_data[selectedIndex];
+  const selectedSlideIndex = editor_meta_data ? editor_meta_data.selectedSlideIndex : 0;
+  const selectedComponent = sub_component_data[selectedSlideIndex];
 
   return (
     <DndProvider backend={HTML5Backend}>
       <FlexibleTransition
         minWidth={FLEXIBLE_TRANSITION_MIN_WIDTH}
-        displayRightItem={Boolean(selectedComponent)}
+        displayRightItem={showEdit && Boolean(selectedComponent)}
         leftItem={
           <ToolContainer id={`hero_carousel_${id}`} aria-label="Hero Carousel Toolbar: Carousel">
             <ToolbarLabel label="Hero Carousel Toolbar" />
@@ -85,7 +86,7 @@ const HeroCarouselToolbar = (props: HeroCarouselComponentProps) => {
           <ToolContainer id={`hero_carousel_item_${id}`} aria-label="Hero Carousel Toolbar: Carousel Item">
             <CarouselItemEditor
               item={selectedComponent}
-              index={selectedIndex}
+              index={selectedSlideIndex}
               onClose={onClose}
               onPropChange={onPropChange}
             />
