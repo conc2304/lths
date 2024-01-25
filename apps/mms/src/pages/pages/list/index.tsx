@@ -226,7 +226,6 @@ const Page = (): JSX.Element => {
         total={total}
         title="{0} total pages"
         onChange={handleOnChange}
-        showRowNumber
         page={offset && limit ? parseInt(offset) / parseInt(limit) : undefined}
         rowsPerPage={limit ? parseInt(limit) : undefined}
         sortOrder={sort_by ? (sort_by as SortDirection) : undefined}

@@ -1,6 +1,6 @@
 export type RowBuilderProps<TData extends object> = {
   data: TData;
-  headerCells: ListViewColumnHeader[];
+  headerCells: TableColumnHeader[];
 };
 
 export type RowBuilderFn<TData extends object = Record<any, any>> = ({
@@ -22,9 +22,7 @@ export type HeaderToEventValueMapFn<TData extends object = Record<any, any>> = (
 
 export type SortDirection = 'asc' | 'desc';
 
-// export type
-
-export type ListViewColumnHeader = {
+export type TableColumnHeader = {
   id: string;
   label: string;
   sortable: boolean;

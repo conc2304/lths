@@ -14,13 +14,13 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
 
-import { ListViewColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection } from './types';
+import { TableTitleRow } from './table-title-row';
+import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
-import { TableTitleRow } from '../tables/table-title-row';
 
 export type ListViewProps<TData extends object = Record<any, any>> = {
-  headerCells: ListViewColumnHeader[];
+  headerCells: TableColumnHeader[];
   rowBuilder: RowBuilderFn<TData>;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
@@ -59,7 +59,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * The more granular onXChanges are meant for when you need granal event listeners ie, reporting, storage, analytics
  *
  * @Component
- * @param {ListViewColumnHeader[]} props.headerCells - An array of column header definitions.
+ * @param {TableColumnHeader[]} props.headerCells - An array of column header definitions.
  * @param {RowBuilderFn} props.rowBuilder - A function that builds table rows from data.
  * @param {Function} [props.headerToCellValueMap] - A function to map data to cell values.
  * @param {string} [props.title] - The title to display above the table.

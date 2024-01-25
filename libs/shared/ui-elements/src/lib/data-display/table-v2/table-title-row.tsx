@@ -1,8 +1,8 @@
 import { Button, Stack, Typography } from '@mui/material';
 
-import { TableTitleProps } from './types';
 import { TableTitleSkeleton } from '../../feedback/skeletons';
 import { formatString } from '../../utils/string-utils';
+import { TableTitleProps } from '../tables/types';
 
 export const TableTitleRow = (props: TableTitleProps) => {
   const { total = 0, loading, title = '', onExportClick } = props;
