@@ -22,7 +22,7 @@ const HeroCarouselComponent = (props: HeroCarouselComponentProps) => {
   return (
     <BasicContainer id={id} sx={{ marginX: 0 }}>
       {sub_component_data.length === 0 ? (
-        <Box bgcolor={colors.editor.background} height={HERO_HEIGHT}></Box>
+        <Box bgcolor={colors.hero.background} height={HERO_HEIGHT}></Box>
       ) : (
         <HeroCarousel items={sub_component_data} selectedSlideIndex={selectedSlideIndex} headerText={headerText} />
       )}
