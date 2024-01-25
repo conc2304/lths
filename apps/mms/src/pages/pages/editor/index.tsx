@@ -1,14 +1,13 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
+import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
   useLazyGetComponentDetailQuery,
-  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
@@ -75,7 +74,6 @@ export function PageEditorTabs() {
   const [getPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
-  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
   const getPageList = UseGetPageListQuery();
@@ -109,6 +107,13 @@ export function PageEditorTabs() {
   const location = useLocation();
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
+
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+
+  useBeforeUnload(handleBeforeUnload, hasUnsavedEdits);
 
   //fetch params
   const page_data = data as PageDetail;
