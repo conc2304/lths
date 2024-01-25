@@ -71,7 +71,7 @@ export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
-  const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
@@ -127,25 +127,18 @@ export function PageEditorTabs() {
     if (page_data?.name) setPageTitle(page_data.name);
   }, [page_data?.name]);
 
-  //fetch
-  const fetchPageDetail = async (pageId: string) => {
-    try {
-      const response = await getPageDetail(pageId).unwrap();
-      if (response && response.success && response.data) {
-        initEditor(response.data);
-      } else {
-        toast.error('Page details could not be found');
-      }
-    } catch (error) {
-      console.error('Error in fetching the page details', error);
-      toast.error('Page details could not be found');
-    }
-  };
-
   //side effects
   useEffect(() => {
-    if (pageId) fetchPageDetail(pageId);
+    if (pageId) getPageDetail(pageId);
   }, [pageId]);
+
+  useEffect(() => {
+    if (pageDetailResponse) {
+      const { data, success } = pageDetailResponse;
+      if (success && data) initEditor(data);
+      else toast.error('Page details could not be found');
+    }
+  }, [pageDetailResponse]);
 
   //modal events
   const handleSelectComponent = async (componentId: string) => {
@@ -455,7 +448,7 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <Backdrop open={isFetchingComponentDetail}>
+      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail}>
         <CircularProgress />
       </Backdrop>
       <UnSavedPageAlert

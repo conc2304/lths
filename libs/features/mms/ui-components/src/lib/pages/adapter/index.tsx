@@ -94,7 +94,6 @@ const PageAdapter = ({ children }: Props) => {
       if (response.success) {
         closeAlert();
         toast.success('Page has been renamed successfully');
-        if (response.data) navigate(`/pages/editor/${response.data.page_id}`);
       } else {
         toast.error('Failed to rename the page');
       }
