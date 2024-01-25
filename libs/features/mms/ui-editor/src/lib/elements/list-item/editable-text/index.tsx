@@ -1,4 +1,4 @@
-import { FocusEvent, MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties } from 'react';
+import { FocusEvent, MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties, useCallback } from 'react';
 import { ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
@@ -45,12 +45,14 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
     }
   };
 
-  const handleClickOutside = () => {
+  const handleClickOutside = useCallback(() => {
     setEditing(false);
-    if (editedText) {
+    if (editedText && editedText.trim() !== '') {
       onSave(editedText);
-    } else setEditedText(text);
-  };
+    } else {
+      setEditedText(text);
+    }
+  }, [editedText]);
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     event.currentTarget?.select();
