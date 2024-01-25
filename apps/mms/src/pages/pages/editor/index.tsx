@@ -342,7 +342,7 @@ export function PageEditorTabs() {
 
   // handlers
   const handleActionClick = (action: PageAction) => {
-    const { page_id, name } = page_data;
+    const { page_id, name, default_page_id } = page_data;
     switch (action) {
       case PageAction.RENAME:
         openAlert(PageAction.RENAME, { page_id, name });
@@ -355,6 +355,9 @@ export function PageEditorTabs() {
         break;
       case PageAction.PREVIEW:
         console.log('Not implemented: preview');
+        break;
+      case PageAction.COMPARISON:
+        openAlert(PageAction.COMPARISON, { page_id, default_page_id });
         break;
       case PageAction.INSIGHTS:
         console.log('Not implemented: insights');

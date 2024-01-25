@@ -6,6 +6,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import VerticalSplitIcon from '@mui/icons-material/VerticalSplit';
 import { LoadingButton } from '@mui/lab';
 
 import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
@@ -47,6 +48,10 @@ const actions = (type: PageType) => {
     {
       icon: <PreviewOutlinedIcon />,
       action: PageAction.PREVIEW,
+    },
+    {
+      icon: <VerticalSplitIcon />,
+      action: PageAction.COMPARISON,
     },
     {
       icon: <ShowChartIcon />,

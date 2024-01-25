@@ -13,7 +13,7 @@ import {
 import { PageAction } from '@lths/features/mms/ui-editor';
 
 import { AlertProvider, useAlertActions } from '../../context';
-import { DeletePageAlert, DuplicatePageAlert } from '../dialogs';
+import { DeletePageAlert, ComparisonAlert, DuplicatePageAlert } from '../dialogs';
 import { CreatePageModal, RenameData, RenamePageModal } from '../modals';
 
 type Props = {
@@ -33,6 +33,7 @@ const PageAdapter = ({ children }: Props) => {
 
   const [duplicatePage, { isLoading: isDuplicating }] = useDuplicatePageMutation();
 
+  const default_page_id = alertPayload ? alertPayload.default_page_id : '';
   const page_id = alertPayload ? alertPayload.page_id : '';
   const name = alertPayload ? alertPayload.name : '';
 
@@ -130,6 +131,12 @@ const PageAdapter = ({ children }: Props) => {
         isOpen={selectedAlert === PageAction.DUPLICATE}
         handleClose={closeAlert}
         handleDuplicate={handleDuplicatePage}
+      />
+      <ComparisonAlert
+        isOpen={selectedAlert === PageAction.COMPARISON}
+        handleClose={closeAlert}
+        page_id={page_id}
+        default_page_id={default_page_id}
       />
     </Box>
   );
