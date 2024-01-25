@@ -39,6 +39,7 @@ export type ListViewProps<TData extends object = Record<any, any>> = {
   fetching?: boolean;
   onExport?: () => void;
   userSettingsStorageKey?: string;
+  noDataMessage?: string;
   showFirstButton?: boolean;
   showLastButton?: boolean;
   showRowNumber?: boolean;
@@ -77,6 +78,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {boolean} [props.fetching] - Indicates whether data is being fetched.
  * @param {Function} [props.onExport] - A callback function called when the export button is clicked.
  * @param {string} [props.userSettingsStorageKey] - The key for storing user settings in local storage.
+ * @param {string} [props.noDataMessage] - Message to show when the table is empty
  * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
  * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
  * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
@@ -84,7 +86,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  */
 export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element => {
   const {
-    data = [],
+    data,
     headerCells,
     rowBuilder,
     headerToCellValueMap = BaseColumnValue,
@@ -103,6 +105,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     fetching,
     userSettingsStorageKey,
     onExport,
+    noDataMessage = 'No records found',
     showFirstButton = false,
     showLastButton = false,
     showRowNumber = false,
@@ -160,7 +163,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
         })
       : [
           <TableRow key={0}>
-            <TableCell colSpan={headerCells.length}>No data available.</TableCell>
+            <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
           </TableRow>,
         ];
   }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
@@ -169,11 +172,9 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     const isAsc = orderBy === columnId && sortOrder === 'asc';
     const nextSortOrder = isAsc ? 'desc' : 'asc';
 
-    // controlled component
     onChange && onChange({ sortOrder: nextSortOrder, orderBy: columnId, page, rowsPerPage });
     onSortChange && onSortChange({ sortOrder: nextSortOrder, orderBy: columnId });
 
-    // uncontrolled component
     setSortOrder(nextSortOrder);
     setOrderBy(columnId);
   };
@@ -208,7 +209,6 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
         <Table>
           <TableHead>
             <TableRowSkeleton id="head" loading={!!loading} cells={headerCells?.length} />
-
             <TableRow>
               {showRowNumber && (
                 <TableCell
@@ -251,6 +251,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
               ))}
             </TableRow>
           </TableHead>
+          {/* Progress Loader */}
           {!loading && fetching && (
             <TableCell
               sx={{
@@ -261,10 +262,19 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
               <LinearProgress />
             </TableCell>
           )}
+
           <TableBody>
-            {tableRows.map((row, i) => {
-              return cloneElement(row, { key: `tr-${i}` });
-            })}
+            <TableRowSkeleton
+              id="body"
+              loading={Boolean(loading)}
+              cells={headerCells?.length}
+              rows={DEFAULT_ROWS_PER_PAGE}
+            />
+            {!loading &&
+              !!tableRows?.length &&
+              tableRows.map((row, i) => {
+                return cloneElement(row, { key: `tr-${i}` });
+              })}
           </TableBody>
         </Table>
       </TableContainer>

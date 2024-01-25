@@ -231,7 +231,9 @@ const Page = (): JSX.Element => {
         rowsPerPage={limit ? parseInt(limit) : undefined}
         sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
         orderBy={sort_field ? sort_field : undefined}
-        userSettingsStorageKey=
+        userSettingsStorageKey={persistantTableSettingsKey}
+        showFirstButton
+        showLastButton
       />
     </Box>
   );
