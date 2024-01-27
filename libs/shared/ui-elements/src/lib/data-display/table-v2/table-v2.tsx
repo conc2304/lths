@@ -18,14 +18,15 @@ import { TableTitleRow } from './table-title-row';
 import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
+import { BaseRowBuilder } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/row-builder';
 
-export type ListViewProps<TData extends object = Record<any, any>> = {
+export type TableV2Props<TData extends object = Record<any, any>> = {
   headerCells: TableColumnHeader[];
+  data: TData[];
   rowBuilder: RowBuilderFn<TData>;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
   onChange?: (options: TableChangeEvent) => void;
-  data: TData[];
   page?: number;
   onPageChange?: ({ page, rowsPerPage }: { page: number; rowsPerPage: number }) => void;
   rowsPerPage?: number;
@@ -84,11 +85,11 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
  * @returns {JSX.Element} - The rendered ListView component.
  */
-export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element => {
+export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
   const {
     data,
     headerCells,
-    rowBuilder,
+    rowBuilder = BaseRowBuilder,
     headerToCellValueMap = BaseColumnValue,
     title,
     onChange,
@@ -122,6 +123,7 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
     persistantSettings.rowsPerPage ?? rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE
   );
 
+  console.log({ rowsPerPage });
   const totalItems = total ?? data.length ?? 0;
 
   const tableRows = useMemo(() => {
@@ -156,7 +158,11 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
 
           return (
             <TableRow>
-              {showRowNumber && <TableCell>{page * rowsPerPage + i + 1}</TableCell>}
+              {showRowNumber && (
+                <TableCell sx={{ textAlign: 'center', color: (theme) => theme.palette.grey.A400 }}>
+                  {page * rowsPerPage + i + 1}
+                </TableCell>
+              )}
               {rowContent}
             </TableRow>
           );
@@ -166,7 +172,18 @@ export const ListView = (props: ListViewProps<Record<any, any>>): JSX.Element =>
             <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
           </TableRow>,
         ];
-  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
+  }, [
+    data,
+    sortOrder,
+    orderBy,
+    page,
+    rowsPerPage,
+    rowsPerPageProp,
+    sortOrderProp,
+    orderByProp,
+    pageProp,
+    showRowNumber,
+  ]);
 
   const handleSort = (columnId: string) => {
     const isAsc = orderBy === columnId && sortOrder === 'asc';

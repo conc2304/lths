@@ -5,7 +5,11 @@ import { slugify } from '@lths/shared/utils';
 import { RowBuilderProps } from './types';
 import { BaseColumnValue } from './utils';
 
-export const BaseRowBuilder = ({ data, headerCells = [] }: RowBuilderProps<Record<any, any>>) => {
+export const BaseRowBuilder = ({
+  data,
+  headerCells = [],
+  wrapWithTRElem = false,
+}: RowBuilderProps<Record<any, any>>) => {
   if (!data || typeof data == 'undefined') {
     return (
       <TableRow>
@@ -16,20 +20,24 @@ export const BaseRowBuilder = ({ data, headerCells = [] }: RowBuilderProps<Recor
 
   const title = (data.title ?? data.name ?? 'N/A') as string;
 
-  return (
-    <TableRow tabIndex={-1} key={`tr-${slugify(title)}`} sx={{ height: '5.6rem' }}>
-      {headerCells.map((col) => {
-        const value = BaseColumnValue(data, col.id).toString();
+  const rowContent = headerCells.map((col) => {
+    const value = BaseColumnValue(data, col.id).toString();
 
-        return (
-          <TableCell
-            key={`tc-${col.id}-${slugify(title).slice(-4)}`}
-            sx={{ fontSize: '0.75rem', color: (theme) => theme.palette.grey[600] }}
-          >
-            {value.toString()}
-          </TableCell>
-        );
-      })}
+    return (
+      <TableCell
+        key={`tc-${col.id}-${slugify(title).slice(-4)}`}
+        sx={{ fontSize: '0.75rem', color: (theme) => theme.palette.grey[600] }}
+      >
+        {value.toString()}
+      </TableCell>
+    );
+  });
+
+  return wrapWithTRElem ? (
+    <TableRow tabIndex={-1} key={`tr-${slugify(title)}`} sx={{ height: '5.6rem' }}>
+      {rowContent}
     </TableRow>
+  ) : (
+    <>{rowContent}</>
   );
 };

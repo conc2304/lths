@@ -1,11 +1,13 @@
 export type RowBuilderProps<TData extends object> = {
   data: TData;
   headerCells: TableColumnHeader[];
+  wrapWithTRElem?: boolean;
 };
 
 export type RowBuilderFn<TData extends object = Record<any, any>> = ({
   data,
   headerCells,
+  wrapWithTRElem,
 }: RowBuilderProps<TData>) => JSX.Element;
 
 export type TableChangeEvent = {
