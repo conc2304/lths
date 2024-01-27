@@ -123,7 +123,6 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
     persistantSettings.rowsPerPage ?? rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE
   );
 
-  console.log({ rowsPerPage });
   const totalItems = total ?? data.length ?? 0;
 
   const tableRows = useMemo(() => {

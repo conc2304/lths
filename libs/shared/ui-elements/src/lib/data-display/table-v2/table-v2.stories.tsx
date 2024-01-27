@@ -6,7 +6,7 @@ import { useArgs } from '@storybook/preview-api';
 
 import type { StoryFn } from '@storybook/react';
 import { BaseColumnValue, getComparator } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/utils';
-import { SortDirection } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
+import { SortDirection, TableChangeEvent } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
 export default {
   component: TableV2,
   title: 'Data Display/Table V2',
@@ -39,14 +39,10 @@ ControlledServerSide.decorators = [
   function Component(Story, ctx) {
     const [, setArgs] = useArgs<typeof ctx.args>();
 
-    console.log('DECORATOR');
-    // @ts-expect-error banana
-    const onChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
-      console.log('onChange Controlled');
+    const onChange = ({ page, rowsPerPage, sortOrder, orderBy }: TableChangeEvent) => {
       ctx.args.onChange?.({ page, rowsPerPage, sortOrder, orderBy });
       const data = getUpdatedServerData({ page, rowsPerPage, sortOrder, orderBy });
 
-      // Check if the component is controlled
       setArgs({ page, rowsPerPage, sortOrder, orderBy, data });
     };
 
@@ -88,13 +84,12 @@ ControlledServerSide.args = {
   data: getUpdatedServerData({
     page: DefaultArgs.page,
     rowsPerPage: DefaultArgs.rowsPerPage,
-    sortOrder: DefaultArgs.sortOrder,
+    sortOrder: DefaultArgs.sortOrder as SortDirection,
     orderBy: DefaultArgs.orderBy,
   }),
 };
-// @ts-expect-error banana
-function getUpdatedServerData({ page, rowsPerPage, sortOrder, orderBy }) {
-  console.log('getUpdatedServerData', { page, rowsPerPage, sortOrder, orderBy });
+
+function getUpdatedServerData({ page, rowsPerPage, sortOrder, orderBy }: TableChangeEvent) {
   const dataCopy = mockData.slice();
 
   const sortedData = dataCopy.sort((a, b) =>
@@ -103,6 +98,5 @@ function getUpdatedServerData({ page, rowsPerPage, sortOrder, orderBy }) {
   const paginatedData = sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   const visibleData = paginatedData;
-  console.log({ visibleData });
   return visibleData;
 }
