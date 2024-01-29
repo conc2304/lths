@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { TableV2 } from './table-v2'; // Update the import path as needed
 import { PersistantUserSettings } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
+import { SortDirection } from '@lths/shared/ui-calendar-scheduler';
 
 describe('TableV2', () => {
   // Mock localStorage
@@ -57,15 +58,23 @@ describe('TableV2', () => {
     expect(rows[3]).toHaveTextContent('Jack'); // Row 3
   });
 
-  it('handles sorting when a header cell is clicked', () => {
-    render(<TableV2 headerCells={headerCells} data={data} />);
+  it('handles sorting when a header cell is clicked', async () => {
+    const user = userEvent.setup();
+    const mockOnSortChange = jest.fn();
+    const mockOnChange = jest.fn();
+
+    render(<TableV2 headerCells={headerCells} data={data} onSortChange={mockOnSortChange} onChange={mockOnChange} />);
     const headerCell = screen.getByText('ID');
-    fireEvent.click(headerCell);
+
+    await user.click(headerCell);
 
     const rows = screen.getAllByRole('row');
     expect(rows[1]).toHaveTextContent('Jack'); // Row 1
     expect(rows[2]).toHaveTextContent('Jane'); // Row 2
     expect(rows[3]).toHaveTextContent('John'); // Row 3
+
+    expect(mockOnSortChange).toHaveBeenCalledWith({ sortOrder: 'desc', orderBy: 'id' });
+    expect(mockOnChange).toHaveBeenCalledWith({ orderBy: 'id', page: 0, rowsPerPage: 25, sortOrder: 'desc' });
   });
 
   it('should use rowsPerPage from localStorage if it exists', () => {
@@ -84,15 +93,25 @@ describe('TableV2', () => {
   it('should update localStorage when rowsPerPage is changed', async () => {
     const initialRPP = 10;
     const mockLSKey = 'mockLSKey';
+    const mockOnChange = jest.fn();
+    const mockOnRowsPerPageChange = jest.fn();
 
     const user = userEvent.setup();
+    const controlledProps = {
+      page: 0,
+      sortOrder: 'asc' as SortDirection,
+      orderBy: 'name',
+    };
     const { getByRole } = render(
       <TableV2
         headerCells={headerCells}
         data={data}
         rowsPerPage={initialRPP}
+        {...controlledProps}
         total={data.length}
         userSettingsStorageKey={mockLSKey}
+        onChange={mockOnChange}
+        onRowsPerPageChange={mockOnRowsPerPageChange}
       />
     );
 
@@ -120,5 +139,10 @@ describe('TableV2', () => {
     const persistantSettings: PersistantUserSettings = JSON.parse(localStorage.getItem(mockLSKey) ?? '{}') ?? {};
 
     expect(persistantSettings.rowsPerPage).toBe(selectOption);
+
+    expect(mockOnChange).toHaveBeenCalledTimes(1);
+    expect(mockOnChange).toHaveBeenCalledWith({ ...controlledProps, rowsPerPage: selectOption });
+    expect(mockOnRowsPerPageChange).toHaveBeenCalledTimes(1);
+    expect(mockOnRowsPerPageChange).toHaveBeenCalledWith({ page: controlledProps.page, rowsPerPage: selectOption });
   });
 });

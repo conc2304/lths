@@ -1,4 +1,4 @@
-import { BaseColumnValue } from './column-to-event-prop';
+import { BaseColumnValue } from './utils';
 
 describe('BaseColumnValue', () => {
   it('returns the value for a valid column', () => {

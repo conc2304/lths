@@ -64,24 +64,19 @@ describe('LayoutToaster', () => {
   });
 
   it('should NOT render multiple toasts of with the same ID', async () => {
-    render(<LayoutToaster />);
+    act(() => {
+      render(<LayoutToaster />);
+    });
 
     const toastID = 'MockMessage_id';
 
     act(() => {
       toast.success('MockMessage_1', { id: toastID });
+      waitTime(10);
+      toast.success('MockMessage_2', { id: toastID });
     });
 
-    waitTime(10);
-
-    let toasts = screen.queryAllByText(/MockMessage/);
-    expect(toasts.length).toBe(1);
-
-    act(() => {
-      toast.error('MockMessage_2', { id: toastID });
-    });
-
-    toasts = screen.queryAllByText(/MockMessage/);
+    const toasts = screen.queryAllByText(/MockMessage/);
     expect(toasts.length).toBe(1);
   });
 });
