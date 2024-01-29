@@ -9,13 +9,10 @@ export const BaseRowBuilder = ({
   data,
   headerCells = [],
   wrapWithTRElem = false,
+  noDataMessage = 'No data found for selection',
 }: RowBuilderProps<Record<any, any>>) => {
   if (!data || typeof data == 'undefined') {
-    return (
-      <TableRow>
-        <TableCell>Event Has No Data</TableCell>
-      </TableRow>
-    );
+    return <TableCell>{noDataMessage}</TableCell>;
   }
 
   const title = (data.title ?? data.name ?? 'N/A') as string;
@@ -34,7 +31,7 @@ export const BaseRowBuilder = ({
   });
 
   return wrapWithTRElem ? (
-    <TableRow tabIndex={-1} key={`tr-${slugify(title)}`} sx={{ height: '5.6rem' }}>
+    <TableRow tabIndex={-1} key={`tr-${slugify(title)}`} sx={{ height: '5.6rem' }} role="row">
       {rowContent}
     </TableRow>
   ) : (

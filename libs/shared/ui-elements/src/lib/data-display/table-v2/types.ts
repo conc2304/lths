@@ -1,13 +1,17 @@
+import { Property } from 'csstype';
+
 export type RowBuilderProps<TData extends object> = {
   data: TData;
   headerCells: TableColumnHeader[];
   wrapWithTRElem?: boolean;
+  noDataMessage?: string;
 };
 
 export type RowBuilderFn<TData extends object = Record<any, any>> = ({
   data,
   headerCells,
   wrapWithTRElem,
+  noDataMessage,
 }: RowBuilderProps<TData>) => JSX.Element;
 
 export type TableChangeEvent = {
@@ -28,6 +32,7 @@ export type TableColumnHeader = {
   id: string;
   label: string;
   sortable: boolean;
+  width?: Property.Width;
 };
 
 export type PersistantUserSettings = {

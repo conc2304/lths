@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
+import { TableHeaderRow } from './table-header-row';
 import { TableOrderProp, TablePaginationProps, TableProps, TableSortingProps } from './types';
 import { TablePaginationSkeleton, TableRowSkeleton } from '../../feedback/skeletons';
-import { TableHeaderRow } from '../table-v2/table-header-row';
 import { TableTitleRow } from '../table-v2/table-title-row';
 
 const DEFAULT_TABLE_PAGE_SIZE = 25;

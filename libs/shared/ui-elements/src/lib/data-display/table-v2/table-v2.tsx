@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, cloneElement, useMemo, useState } from 'react';
+import { ChangeEvent, Children, MouseEvent, cloneElement, isValidElement, useMemo, useState } from 'react';
 import {
   Box,
   LinearProgress,
@@ -24,7 +24,7 @@ import { findClosestNumber } from '@lths/shared/utils';
 export type TableV2Props<TData extends object = Record<any, any>> = {
   headerCells: TableColumnHeader[];
   data: TData[];
-  rowBuilder: RowBuilderFn<TData>;
+  rowBuilder?: RowBuilderFn<TData>;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
   onChange?: (options: TableChangeEvent) => void;
@@ -62,7 +62,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  *
  * @Component
  * @param {TableColumnHeader[]} props.headerCells - An array of column header definitions.
- * @param {RowBuilderFn} props.rowBuilder - A function that builds table rows from data.
+ * @param {RowBuilderFn} props.rowBuilder - A function that returns an react fragment containing only the table cells. DO NOT include the table row element.
  * @param {Function} [props.headerToCellValueMap] - A function to map data to cell values.
  * @param {string} [props.title] - The title to display above the table.
  * @param {Function} [props.onChange] - A callback function called when table options change.
@@ -162,8 +162,16 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
       ? visibleData.map((data, i) => {
           const rowContent = rowBuilder({ data, headerCells });
 
+          const firstContentChild = Children.toArray(rowContent.props.children)[0];
+          const isWrappedInTrElem = isValidElement(firstContentChild) && firstContentChild.type === TableRow;
+
+          if (isWrappedInTrElem)
+            console.error(
+              'RowBuilder function should be a React Fragment with all of the TableCell elements and not contain a TableRow wrapper.'
+            );
+
           return (
-            <TableRow>
+            <TableRow role="row">
               {showRowNumber && (
                 <TableCell sx={{ textAlign: 'center', color: (theme) => theme.palette.grey.A400 }}>
                   {page * rowsPerPage + i + 1}
@@ -252,6 +260,7 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
                     sx={{
                       color: (theme) => theme.palette.grey[500],
                       fontsize: '0.75rem',
+                      textDecoration: 'uppercase',
                     }}
                   >
                     {column.sortable && (
@@ -262,7 +271,7 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
                         IconComponent={KeyboardArrowDownIcon}
                         role="columnheader"
                       >
-                        {column.label.toUpperCase()}
+                        {column.label}
                         {orderBy === column.id ? (
                           <Box component="span" sx={visuallyHidden}>
                             {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -270,7 +279,7 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
                         ) : null}
                       </TableSortLabel>
                     )}
-                    {!column.sortable && column.label.toUpperCase()}
+                    {!column.sortable && column.label}
                   </TableCell>
                 ))}
             </TableRow>
