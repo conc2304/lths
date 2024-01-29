@@ -237,55 +237,53 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
                   #
                 </TableCell>
               )}
-              {headerCells.map((column) => (
-                <TableCell
-                  key={`th-${column.id}`}
-                  align="left"
-                  sx={{
-                    color: (theme) => theme.palette.grey[500],
-                    fontsize: '0.75rem',
-                  }}
-                >
-                  {column.sortable && (
-                    <TableSortLabel
-                      active={column.id === orderBy}
-                      direction={orderBy === column.id ? sortOrder : 'asc'}
-                      onClick={() => handleSort(column.id)}
-                      IconComponent={KeyboardArrowDownIcon}
-                      role="columnheader"
-                    >
-                      {column.label.toUpperCase()}
-                      {orderBy === column.id ? (
-                        <Box component="span" sx={visuallyHidden}>
-                          {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                        </Box>
-                      ) : null}
-                    </TableSortLabel>
-                  )}
-                  {!column.sortable && column.label.toUpperCase()}
-                </TableCell>
-              ))}
+              {!loading &&
+                headerCells.map((column) => (
+                  <TableCell
+                    key={`th-${column.id}`}
+                    align="left"
+                    sx={{
+                      color: (theme) => theme.palette.grey[500],
+                      fontsize: '0.75rem',
+                    }}
+                  >
+                    {column.sortable && (
+                      <TableSortLabel
+                        active={column.id === orderBy}
+                        direction={orderBy === column.id ? sortOrder : 'asc'}
+                        onClick={() => handleSort(column.id)}
+                        IconComponent={KeyboardArrowDownIcon}
+                        role="columnheader"
+                      >
+                        {column.label.toUpperCase()}
+                        {orderBy === column.id ? (
+                          <Box component="span" sx={visuallyHidden}>
+                            {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          </Box>
+                        ) : null}
+                      </TableSortLabel>
+                    )}
+                    {!column.sortable && column.label.toUpperCase()}
+                  </TableCell>
+                ))}
             </TableRow>
+            {/* Progress Loader */}
+            {!loading && fetching && (
+              <TableRow>
+                <TableCell
+                  sx={{
+                    p: 0,
+                  }}
+                  colSpan={headerCells.length}
+                >
+                  <LinearProgress />
+                </TableCell>
+              </TableRow>
+            )}
           </TableHead>
-          {/* Progress Loader */}
-          {!loading && fetching && (
-            <TableCell
-              sx={{
-                p: 0,
-              }}
-              colSpan={headerCells.length}
-            >
-              <LinearProgress />
-            </TableCell>
-          )}
 
           <TableBody>
-            <TableRowSkeleton
-              id="body"
-              loading={Boolean(loading)}
-              cells={headerCells?.length}
-              rows={DEFAULT_ROWS_PER_PAGE}
-            />
+            <TableRowSkeleton id="body" loading={Boolean(loading)} cells={headerCells?.length} rows={rowsPerPage} />
             {!loading &&
               !!tableRows?.length &&
               tableRows.map((row, i) => {
