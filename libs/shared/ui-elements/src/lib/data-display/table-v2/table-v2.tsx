@@ -15,10 +15,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
 
 import { TableTitleRow } from './table-title-row';
-import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection } from './types';
+import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection, PersistantUserSettings } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
 import { BaseRowBuilder } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/row-builder';
+import { findClosestNumber } from '@lths/shared/utils';
 
 export type TableV2Props<TData extends object = Record<any, any>> = {
   headerCells: TableColumnHeader[];
@@ -112,16 +113,22 @@ export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
     showRowNumber = false,
   } = props;
 
-  const persistantSettings = userSettingsStorageKey
+  const persistantSettings: PersistantUserSettings = userSettingsStorageKey
     ? JSON.parse(localStorage.getItem(userSettingsStorageKey) ?? '{}')
     : {};
+
+  const initialRowsPerPage =
+    persistantSettings.rowsPerPage !== undefined
+      ? parseInt(persistantSettings.rowsPerPage as string)
+      : typeof rowsPerPageProp === 'number'
+      ? // don't allow any value that is not an one of the options to be set for rowsPerPAge
+        findClosestNumber(rowsPerPageProp, rowsPerPageOptions)
+      : DEFAULT_ROWS_PER_PAGE;
 
   const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
-  const [rowsPerPage, setRowsPerPage] = useState(
-    persistantSettings.rowsPerPage ?? rowsPerPageProp ?? DEFAULT_ROWS_PER_PAGE
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
 
   const totalItems = total ?? data.length ?? 0;
 

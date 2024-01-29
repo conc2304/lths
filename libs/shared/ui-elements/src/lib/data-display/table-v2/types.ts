@@ -29,3 +29,7 @@ export type TableColumnHeader = {
   label: string;
   sortable: boolean;
 };
+
+export type PersistantUserSettings = {
+  rowsPerPage?: string | number;
+};
