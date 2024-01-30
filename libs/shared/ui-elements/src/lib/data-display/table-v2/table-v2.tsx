@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, cloneElement, useMemo, useState } from 'react';
+import { ChangeEvent, MouseEvent, cloneElement, useEffect, useMemo, useState } from 'react';
 import {
   Box,
   LinearProgress,
@@ -102,7 +102,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @returns {JSX.Element} - The rendered ListView component.
  */
 export const TableV2 = (
-  props: TableV2Props<Record<string, number | string | Date | boolean | undefined | unknown>>
+  props: TableV2Props<Record<any, number | string | Date | boolean | undefined | unknown>>
 ): JSX.Element => {
   const {
     data,
@@ -132,6 +132,8 @@ export const TableV2 = (
     columnLabelFormat = 'capitalize',
   } = props;
 
+  console.log({ pageProp });
+  console.log();
   const persistantSettings: PersistantUserSettings = userSettingsStorageKey
     ? JSON.parse(localStorage.getItem(userSettingsStorageKey) ?? '{}')
     : {};
@@ -148,6 +150,18 @@ export const TableV2 = (
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+
+  const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
+  const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
+  const isComponentUncontrolled = !sortingIsControlled && !paginationIsControlled;
+
+  useEffect(() => {
+    if (isComponentUncontrolled) {
+      // on an uncontrolled/client side table
+      // if the data changes go back to page 0
+      setPage(0);
+    }
+  }, [data]);
 
   const totalItems = total ?? data.length ?? 0;
 
@@ -168,7 +182,6 @@ export const TableV2 = (
 
     // if we have sortOrder & orderByProp then its a controlled / server-side-driven component
     // otherwise its an un(internally)controlled component
-    const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
     const sortedData = sortingIsControlled
       ? dataCopy
       : dataCopy.sort((a, b) =>
@@ -177,7 +190,6 @@ export const TableV2 = (
 
     // if we have pageProp & rowsPerPageProp then its a controlled / server-side-driven component
     // otherwise its an un(internally)controlled component
-    const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
     const paginatedData = paginationIsControlled
       ? sortedData
       : sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);

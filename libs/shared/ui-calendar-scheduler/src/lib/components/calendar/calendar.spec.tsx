@@ -2,12 +2,14 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
+import { BaseRowBuilder } from '@lths/shared/ui-elements';
+
 import { LTHSCalendar, LTHSCalendarProps } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { EventComponentProps, ToolbarHeaderProps } from '../../types';
 import { getNewEvent } from '../mock-events'; // Sample events for testing
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
-import { BaseRowBuilder } from '../views/list-view/row-builder';
+// import { BaseRowBuilder } from '../views/list-view/row-builder';
 
 describe('LTHSCalendar', () => {
   const props: LTHSCalendarProps = {
