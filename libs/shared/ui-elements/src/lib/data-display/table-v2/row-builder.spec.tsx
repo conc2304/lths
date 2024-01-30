@@ -38,7 +38,12 @@ describe('BaseRowBuilder', () => {
     const { getByText } = render(
       <Table>
         <TableBody>
-          <BaseRowBuilder {...props} data={undefined as unknown as Record<string, unknown>} noDataMessage={customMsg} />
+          <BaseRowBuilder
+            {...props}
+            data={undefined as unknown as Record<string, unknown>}
+            wrapWithTRElem={true}
+            noDataMessage={customMsg}
+          />
         </TableBody>
       </Table>
     );
