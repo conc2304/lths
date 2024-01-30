@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { AssetProps } from '@lths/features/mms/data-access';
 import { AssetSearchBar } from '@lths/features/mms/ui-components';
-import { Table } from '@lths/shared/ui-elements';
+import { TableSortingProps, TablePaginationProps, TableV2, RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
 import { AssetModalProps } from './types';
@@ -77,8 +69,27 @@ const AssetsModal = ({
     onSearch(value);
   };
 
+  const RowBuilder = (): RowBuilderFn<AssetProps> => {
+    return ({ data }) => {
+      return <TableFileInfoRow key={data.id} row={data} onSelect={onSelect} />;
+    };
+  };
 
-  const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
+  // const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
+
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const pagination: TablePaginationProps = {
+      page,
+      pageSize: rowsPerPage,
+    };
+
+    const sorting: TableSortingProps = {
+      order: sortOrder,
+      column: orderBy,
+    };
+
+    onPageChange({} as React.MouseEvent<HTMLButtonElement, MouseEvent>, pagination, sorting);
+  };
 
   React.useEffect(() => {
     if (open) {
@@ -137,7 +148,23 @@ const AssetsModal = ({
       </DialogTitle>
       <DialogContent sx={{ height: '40rem' }}>
         <Grid item xs={9} sx={{ padding: 1 }}>
-          <Table
+          <TableV2
+            loading={isLoading}
+            fetching={isFetching}
+            data={data}
+            total={total}
+            title="{0} Assets"
+            headerCells={headers}
+            onChange={handleOnChange}
+            noDataMessage="No assets"
+            page={pagination.page}
+            rowsPerPage={pagination.pageSize}
+            sortOrder={sorting.order}
+            orderBy={sorting.column}
+            rowBuilder={RowBuilder()}
+            sx={{ mt: 1 }}
+          />
+          {/* <Table
             loading={isLoading}
             fetching={isFetching}
             total={total}
@@ -152,7 +179,7 @@ const AssetsModal = ({
               mt: 1,
             }}
             fixPagination={true}
-          />
+          /> */}
         </Grid>
       </DialogContent>
     </Dialog>

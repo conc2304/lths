@@ -9,13 +9,13 @@ export const BaseRowBuilder = ({
   data,
   headerCells = [],
   wrapWithTRElem = false,
-  noDataMessage = 'No data found for selection',
+  noDataMessage = 'No records found',
 }: RowBuilderProps<Record<string, unknown>>) => {
   if (!data || typeof data == 'undefined') {
     return <TableCell>{noDataMessage}</TableCell>;
   }
 
-  const title = (data.title ?? data.name ?? 'N/A') as string;
+  const title = (data.title ?? data.name ?? data.id ?? 'N/A') as string;
 
   const rowContent = headerCells.map((col) => {
     const value = BaseColumnValue(data, col.id).toString();

@@ -2,6 +2,7 @@ import { ChangeEvent, Children, MouseEvent, cloneElement, isValidElement, useMem
 import {
   Box,
   LinearProgress,
+  SxProps,
   Table,
   TableBody,
   TableCell,
@@ -10,6 +11,7 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
+  Theme,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
@@ -46,6 +48,8 @@ export type TableV2Props<TData extends object = Record<string, unknown>> = {
   showFirstButton?: boolean;
   showLastButton?: boolean;
   showRowNumber?: boolean;
+  sx?: SxProps<Theme>;
+  tableRowSx?: SxProps<Theme>;
 };
 
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -85,6 +89,8 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
  * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
  * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
+ * @param {boolean} [props.sx] - Custom SX styles to be applied to the Box wrapper element.
+ * @param {boolean} [props.tableRowSx] - Custom SX styles to be applied to the TableRow element.
  * @returns {JSX.Element} - The rendered ListView component.
  */
 export const TableV2 = (
@@ -114,6 +120,8 @@ export const TableV2 = (
     showFirstButton = false,
     showLastButton = false,
     showRowNumber = false,
+    sx = {},
+    tableRowSx = {},
   } = props;
 
   const persistantSettings: PersistantUserSettings = userSettingsStorageKey
@@ -163,19 +171,19 @@ export const TableV2 = (
 
     return visibleData.length > 0
       ? visibleData.map((data, i) => {
-          const rowContent = rowBuilder({ data, headerCells });
+          const rowContent = rowBuilder({ data, headerCells, noDataMessage });
 
           const firstContentChild = Children.toArray(rowContent.props.children)[0];
           const isWrappedInTrElem = isValidElement(firstContentChild) && firstContentChild.type === TableRow;
 
-          if (isWrappedInTrElem)
+          if (isWrappedInTrElem && showRowNumber)
             console.error(
-              'RowBuilder function should be a React Fragment with all of the TableCell elements and not contain a TableRow wrapper.'
+              'RowBuilder function should return a React Fragment with all of the TableCell elements and not contain a TableRow wrapper in order to use the showRowNumberFeature.'
             );
 
           return (
-            <TableRow role="row">
-              {showRowNumber && (
+            <TableRow role="row" sx={tableRowSx}>
+              {showRowNumber && !isWrappedInTrElem && (
                 <TableCell sx={{ textAlign: 'center', color: (theme) => theme.palette.grey.A400 }}>
                   {page * rowsPerPage + i + 1}
                 </TableCell>
@@ -235,7 +243,7 @@ export const TableV2 = (
   };
 
   return (
-    <Box data-testid="Table-List-View--root">
+    <Box data-testid="Table-List-View--root" sx={sx}>
       {totalItems !== 0 && title && (
         <TableTitleRow title={title} loading={!!loading} total={totalItems} onExportClick={onExport} />
       )}
