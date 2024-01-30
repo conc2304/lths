@@ -132,8 +132,6 @@ export const TableV2 = (
     columnLabelFormat = 'capitalize',
   } = props;
 
-  console.log({ pageProp });
-  console.log();
   const persistantSettings: PersistantUserSettings = userSettingsStorageKey
     ? JSON.parse(localStorage.getItem(userSettingsStorageKey) ?? '{}')
     : {};

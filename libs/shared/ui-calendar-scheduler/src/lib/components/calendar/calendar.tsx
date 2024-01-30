@@ -227,7 +227,9 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
           ...cssVariables,
         }}
       >
-        <ListViewContextProvider values={{ headerCells, rowBuilder, headerToEventValueMap }}>
+        <ListViewContextProvider
+          values={{ headerCells, rowBuilder: rowBuilder as RowBuilderFn<Event>, headerToEventValueMap }}
+        >
           <Calendar
             components={components}
             defaultDate={defaultDate}
