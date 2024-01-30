@@ -16,6 +16,6 @@ export const descendingComparator = <T>(a: T, b: T) => {
   return 0;
 };
 
-export const BaseColumnValue = (data: Record<any, any>, column: string) => {
+export const BaseColumnValue = (data: Record<string, unknown>, column: string) => {
   return data[column] || false;
 };

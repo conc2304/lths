@@ -87,7 +87,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
  * @returns {JSX.Element} - The rendered ListView component.
  */
-export const TableV2 = (props: TableV2Props<Record<any, any>>): JSX.Element => {
+export const TableV2 = (props: TableV2Props<Record<string, unknown>>): JSX.Element => {
   const {
     data,
     headerCells,

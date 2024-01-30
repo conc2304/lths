@@ -7,7 +7,7 @@ export type RowBuilderProps<TData extends object> = {
   noDataMessage?: string;
 };
 
-export type RowBuilderFn<TData extends object = Record<any, any>> = ({
+export type RowBuilderFn<TData extends object = Record<string, unknown>> = ({
   data,
   headerCells,
   wrapWithTRElem,
@@ -21,7 +21,7 @@ export type TableChangeEvent = {
   orderBy: string;
 };
 
-export type HeaderToEventValueMapFn<TData extends object = Record<any, any>> = (
+export type HeaderToEventValueMapFn<TData extends object = Record<string, unknown>> = (
   data: TData,
   column: string
 ) => Date | string | number | undefined;
