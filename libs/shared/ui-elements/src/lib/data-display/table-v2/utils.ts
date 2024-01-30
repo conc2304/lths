@@ -1,8 +1,8 @@
 import { SortDirection } from './types';
 
-export const getComparator = (
-  order: SortDirection
-): ((a: number | string | Date | undefined, b: number | string | Date | undefined) => number) => {
+type ComparatorValueType = number | string | Date | boolean | undefined | unknown;
+
+export const getComparator = (order: SortDirection): ((a: ComparatorValueType, b: ComparatorValueType) => number) => {
   return order === 'desc' ? (a, b) => descendingComparator(a, b) : (a, b) => -descendingComparator(a, b);
 };
 
@@ -16,6 +16,6 @@ export const descendingComparator = <T>(a: T, b: T) => {
   return 0;
 };
 
-export const BaseColumnValue = (data: Record<string, unknown>, column: string) => {
+export const BaseColumnValue = (data: Record<string, ComparatorValueType>, column: string) => {
   return data[column] || false;
 };
