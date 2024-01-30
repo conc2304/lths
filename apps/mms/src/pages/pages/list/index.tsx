@@ -162,7 +162,17 @@ const Page = (): JSX.Element => {
 
       return (
         <TableRow key={`row_${page_id}`}>
-          {!!showRowNumber && <TableCell>{rowNumber}</TableCell>}
+          {!!showRowNumber && (
+            <TableCell
+              align="center"
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+                fontsize: '0.75rem',
+              }}
+            >
+              {rowNumber}
+            </TableCell>
+          )}
 
           <TableCell>
             <Stack>

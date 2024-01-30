@@ -8,7 +8,9 @@ import { BaseColumnValue } from './utils';
 export const BaseRowBuilder = ({
   data,
   headerCells = [],
+  showRowNumber = false,
   wrapWithTRElem = false,
+  rowNumber = undefined,
   noDataMessage = 'No records found',
 }: RowBuilderProps<Record<string, unknown>>) => {
   if (!data || typeof data == 'undefined') {
@@ -30,11 +32,17 @@ export const BaseRowBuilder = ({
     );
   });
 
+  const rowNumberCell = <TableCell>{rowNumber}</TableCell>;
+
   return wrapWithTRElem ? (
     <TableRow tabIndex={-1} key={`tr-${slugify(title)}`} sx={{ height: '5.6rem' }} role="row">
+      {showRowNumber && rowNumber && rowNumberCell}
       {rowContent}
     </TableRow>
   ) : (
-    <>{rowContent}</>
+    <>
+      {showRowNumber && rowNumber && rowNumberCell}
+      {rowContent}
+    </>
   );
 };

@@ -55,6 +55,7 @@ export type TableV2Props<TData extends object = Record<string, unknown>> = {
   noDataMessage?: string;
   showFirstButton?: boolean;
   showLastButton?: boolean;
+  showRowNumber?: boolean;
   sx?: SxProps<Theme>;
   columnLabelFormat?: ColumnLabelTextFormat;
 };
@@ -95,6 +96,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.noDataMessage] - Message to show when the table is empty
  * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
  * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
+ * @param {boolean} [props.showRowNumber] - Show the row number in the data row.
  * @param {boolean} [props.sx] - Custom SX styles to be applied to the Box wrapper element.
  * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
@@ -125,6 +127,7 @@ export const TableV2 = (
     noDataMessage = 'No records found',
     showFirstButton = false,
     showLastButton = false,
+    showRowNumber = true,
     sx = {},
     columnLabelFormat = 'capitalize',
   } = props;
@@ -182,7 +185,9 @@ export const TableV2 = (
     const visibleData = paginatedData;
 
     return visibleData.length > 0
-      ? visibleData.map((data) => rowBuilder({ data, headerCells, noDataMessage }))
+      ? visibleData.map((data, i) =>
+          rowBuilder({ data, headerCells, showRowNumber, rowNumber: page * rowsPerPage + i + 1, noDataMessage })
+        )
       : [
           <TableRow key={0}>
             <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
@@ -232,6 +237,17 @@ export const TableV2 = (
           <TableHead>
             <TableRowSkeleton id="head" loading={!!loading} cells={headerCells?.length} />
             <TableRow>
+              {showRowNumber && (
+                <TableCell
+                  align="center"
+                  sx={{
+                    color: (theme) => theme.palette.grey[500],
+                    fontsize: '0.75rem',
+                  }}
+                >
+                  #
+                </TableCell>
+              )}
               {!loading &&
                 headerCells.map((column) => {
                   const label = labelFormatters[columnLabelFormat](column.label) ?? column.label;
