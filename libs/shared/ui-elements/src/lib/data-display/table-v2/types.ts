@@ -25,6 +25,16 @@ export type TableChangeEvent = {
   orderBy: string;
 };
 
+export type TablePaginationProps = {
+  page: number;
+  pageSize: number;
+};
+
+export type TableSortingProps = {
+  order: SortDirection;
+  column: string | null;
+};
+
 export type HeaderToEventValueMapFn<TData extends object = Record<string, unknown>> = (
   data: TData,
   column: string

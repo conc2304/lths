@@ -1,7 +1,8 @@
 import { TableCell, TableRow, TableSortLabel } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import { TableHeaderCellProps, TableSortingProps } from './types';
+import { TableSortingProps } from '../table-v2';
+import { TableHeaderCellProps } from '../tables/types';
 
 export const TableHeaderRow = ({
   cells,

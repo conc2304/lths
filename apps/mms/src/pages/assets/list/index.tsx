@@ -21,7 +21,13 @@ import {
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
 import { useLazyGetUserQuery } from '@lths/shared/data-access';
-import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
+import {
+  TableV2,
+  TablePaginationProps,
+  TableSortingProps,
+  PageContentWithRightDrawer,
+  RowBuilderFn,
+} from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
@@ -123,11 +129,9 @@ export default function AssetsPage() {
     getData(req);
   }
 
-  const onPageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const pagination: TablePaginationProps = { page, pageSize: rowsPerPage };
+    const sorting: TableSortingProps = { order: sortOrder, column: orderBy };
     setCurrPagination(pagination);
     setCurrSorting(sorting);
   };
@@ -145,65 +149,69 @@ export default function AssetsPage() {
     setSearch({ queryString: value });
   };
 
-  const tableRows = data?.data?.map((row, index) => {
-    const handleSelectFile = () => {
-      setSelectedPreviewRow({ asset: row, rowIndex: index });
-      handleDrawerOpen();
-    };
+  const RowBuilder = (): RowBuilderFn<AssetProps> => {
+    return (props) => {
+      const { data: row, rowNumber: index } = props;
 
-    if (selectedPreviewRow?.asset?._id === row._id && selectedPreviewRow?.rowIndex !== index) {
-      setSelectedPreviewRow({ asset: row, rowIndex: index });
-    }
+      const handleSelectFile = () => {
+        setSelectedPreviewRow({ asset: row, rowIndex: index });
+        handleDrawerOpen();
+      };
 
-    const handleOpenMenu = (event) => {
-      event.stopPropagation();
-      setAnchorEl(event.currentTarget);
-      setSelectedRowIndex(index);
-    };
-
-    const handlePreview = () => {
-      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
-      if (previewUrl) {
-        const imageWindow = window.open(previewUrl);
-        imageWindow.document.write('<html><head><title>Preview</title></head><body>');
-        imageWindow.document.write(
-          '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
-        );
-        imageWindow.document.write('</body></html>');
-        imageWindow.document.close();
+      if (selectedPreviewRow?.asset?._id === row._id && selectedPreviewRow?.rowIndex !== index) {
+        setSelectedPreviewRow({ asset: row, rowIndex: index });
       }
-    };
 
-    const handleDownload = () => {
-      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
-      previewUrl && window.open(previewUrl);
-      handleClose();
-    };
+      const handleOpenMenu = (event) => {
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
+        setSelectedRowIndex(index);
+      };
 
-    const handleOpenModal = (action: string, row: AssetProps) => {
-      setSelectedRow(row);
-      setIsRowModalOpen(action);
-      handleClose();
-    };
+      const handlePreview = () => {
+        const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
+        if (previewUrl) {
+          const imageWindow = window.open(previewUrl);
+          imageWindow.document.write('<html><head><title>Preview</title></head><body>');
+          imageWindow.document.write(
+            '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
+          );
+          imageWindow.document.write('</body></html>');
+          imageWindow.document.close();
+        }
+      };
 
-    return (
-      <TableFileInfoRow
-        row={row}
-        index={index}
-        key={row._id}
-        handleSelectFile={handleSelectFile}
-        handleOpenMenu={handleOpenMenu}
-        selectedPreviewRow={selectedPreviewRow}
-        theme={theme}
-        selectedRowIndex={selectedRowIndex}
-        anchorEl={anchorEl}
-        handleDownload={handleDownload}
-        handleClose={handleClose}
-        handleOpenModal={handleOpenModal}
-        handlePreview={handlePreview}
-      />
-    );
-  });
+      const handleDownload = () => {
+        const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
+        previewUrl && window.open(previewUrl);
+        handleClose();
+      };
+
+      const handleOpenModal = (action: string, row: AssetProps) => {
+        setSelectedRow(row);
+        setIsRowModalOpen(action);
+        handleClose();
+      };
+
+      return (
+        <TableFileInfoRow
+          row={row}
+          index={index}
+          key={row._id}
+          handleSelectFile={handleSelectFile}
+          handleOpenMenu={handleOpenMenu}
+          selectedPreviewRow={selectedPreviewRow}
+          theme={theme}
+          selectedRowIndex={selectedRowIndex}
+          anchorEl={anchorEl}
+          handleDownload={handleDownload}
+          handleClose={handleClose}
+          handleOpenModal={handleOpenModal}
+          handlePreview={handlePreview}
+        />
+      );
+    };
+  };
 
   const total = data?.pagination?.totalItems || 0;
 
@@ -293,7 +301,7 @@ export default function AssetsPage() {
       }
     >
       <PageHeader
-        title="Assets"
+        title="Assets - Bananas"
         rightContent={
           <div>
             <input
@@ -327,16 +335,19 @@ export default function AssetsPage() {
         </Grid>
       </Grid>
 
-      <Table
+      <TableV2
         loading={isLoading}
         fetching={isFetching}
         total={total}
         title="{0} Assets"
         headerCells={headers}
-        tableRows={tableRows}
-        pagination={currPagination}
-        sorting={currSorting}
-        onPageChange={onPageChange}
+        data={data?.data}
+        rowBuilder={RowBuilder()}
+        page={currPagination?.page ?? undefined}
+        rowsPerPage={currPagination?.pageSize ?? undefined}
+        sortOrder={currSorting?.order ?? undefined}
+        orderBy={currSorting?.column ?? undefined}
+        onChange={handleOnChange}
         noDataMessage="No assets"
         sx={{
           mt: 1,

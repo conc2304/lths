@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { SxProps } from '@mui/material/styles';
 
 import { ProgressLoadingProps, ProgressProps } from '../../types';
+import { TablePaginationProps, TableSortingProps } from '../table-v2';
 
 export type TableHeaderCellProps = {
   id: string;
@@ -11,14 +12,7 @@ export type TableHeaderCellProps = {
 };
 
 export type TableOrderProp = 'asc' | 'desc';
-export type TablePaginationProps = {
-  page: number;
-  pageSize: number;
-};
-export type TableSortingProps = {
-  order: TableOrderProp;
-  column: string | null;
-};
+
 export type TableTitleProps = ProgressLoadingProps & { total?: number; title?: string; onExportClick?: () => void };
 export type TableProps = ProgressProps &
   TableTitleProps & {
@@ -42,39 +36,6 @@ export type TableProps = ProgressProps &
     noDataMessage?: string;
   };
 
-/*
-export type GenericTableCellProps = {
-  id: string;
-  label: string;
-  type?: ColumnType;
-  unit?: string;
-  sortable?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formatCell?: ({ data, type, unit }: { data: any; type?: ColumnType; unit?: string }) => string;
-};
-
-export type GenericTableProps = {
-  headers: Array<GenericTableCellProps>;
-  data: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-  }[];
-};
-*/
-/*export type GenericTableCellProps = {
-  id: string;
-  label: string;
-  type?: ColumnType;
-  unit?: string;
-  sortable?: boolean;
-  formatCell?: (data: any, type?: ColumnType, unit?: string) => string | ReactNode;
-};
-
-export type GenericTableProps = {
-  headers: Array<GenericTableCellProps>;
-  //data: any;
-};
-*/
 export type TableCellType = 'string' | 'number' | 'boolean' | 'date' | 'object' | 'unknown' | string | null;
 export type GenericTableCellFormatProps = {
   data: Record<string, string>;

@@ -96,7 +96,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.noDataMessage] - Message to show when the table is empty
  * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
  * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
- * @param {boolean} [props.showRowNumber] - Show the row number in the data row.
+ * @param {boolean} [props.showRowNumber] - Show the row number in the data row. If using a rowBuilder function, that fn should have a cell for row number
  * @param {boolean} [props.sx] - Custom SX styles to be applied to the Box wrapper element.
  * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
@@ -127,7 +127,7 @@ export const TableV2 = (
     noDataMessage = 'No records found',
     showFirstButton = false,
     showLastButton = false,
-    showRowNumber = true,
+    showRowNumber = false,
     sx = {},
     columnLabelFormat = 'capitalize',
   } = props;
@@ -228,7 +228,7 @@ export const TableV2 = (
   };
 
   return (
-    <Box data-testid="Table-List-View--root" sx={sx}>
+    <Box data-testid="TableV2--root" sx={sx}>
       {totalItems !== 0 && title && (
         <TableTitleRow title={title} loading={!!loading} total={totalItems} onExportClick={onExport} />
       )}
