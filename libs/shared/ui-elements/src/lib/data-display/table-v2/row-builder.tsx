@@ -10,7 +10,7 @@ export const BaseRowBuilder = ({
   headerCells = [],
   wrapWithTRElem = false,
   noDataMessage = 'No data found for selection',
-}: RowBuilderProps<Record<any, any>>) => {
+}: RowBuilderProps<Record<string, unknown>>) => {
   if (!data || typeof data == 'undefined') {
     return <TableCell>{noDataMessage}</TableCell>;
   }

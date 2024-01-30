@@ -1,12 +1,12 @@
 import React from 'react';
+import { useArgs } from '@storybook/preview-api';
 
 import { SampleHeaderCells, tableDataMocks } from './mocks';
 import { TableV2 } from './table-v2';
-import { useArgs } from '@storybook/preview-api';
+import { SortDirection, TableChangeEvent } from './types';
+import { BaseColumnValue, getComparator } from './utils';
 
 import type { StoryFn } from '@storybook/react';
-import { BaseColumnValue, getComparator } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/utils';
-import { SortDirection, TableChangeEvent } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
 export default {
   component: TableV2,
   title: 'Data Display/Table V2',

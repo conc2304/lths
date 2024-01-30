@@ -1,8 +1,8 @@
 import { TableCell, TableRow, capitalize } from '@mui/material';
 import { faker } from '@faker-js/faker';
 
+import { RowBuilderFn } from './types';
 import { TableHeaderCellProps } from '../tables/types';
-import { RowBuilderFn } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
 
 export const SampleHeaderCells: TableHeaderCellProps[] = [
   {

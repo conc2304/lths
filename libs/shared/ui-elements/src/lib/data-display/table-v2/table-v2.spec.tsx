@@ -1,27 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent, getByText, within } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { TableV2 } from './table-v2'; // Update the import path as needed
-import { PersistantUserSettings } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/types';
-import { SortDirection } from '@lths/shared/ui-calendar-scheduler';
+import { PersistantUserSettings, SortDirection } from './types';
 
 describe('TableV2', () => {
-  // Mock localStorage
-  // const localStorageMock: Storage = {
-  //   getItem: jest.fn(),
-  //   setItem: jest.fn(),
-  //   clear: jest.fn(),
-  //   removeItem: jest.fn(),
-  //   key: jest.fn(),
-  //   length: 0,
-  // };
-
-  // beforeEach(() => {
-  //   global.localStorage = localStorageMock;
-  // });
-
   afterEach(() => {
     localStorage.clear();
   });

@@ -7,10 +7,10 @@ export function triggerAnimationEnd(node: HTMLElement | HTMLElement[]) {
   act(() => {
     if (Array.isArray(node)) {
       node.forEach((el) => {
-        fireEvent.animationEnd(el.parentNode!);
+        if (el.parentNode) fireEvent.animationEnd(el.parentNode);
       });
     } else {
-      fireEvent.animationEnd(node.parentNode!);
+      if (node.parentNode) fireEvent.animationEnd(node.parentNode);
     }
 
     jest.runAllTimers();

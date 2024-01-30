@@ -26,7 +26,7 @@ describe('BaseRowBuilder', () => {
     const { getByText } = render(
       <Table>
         <TableBody>
-          <BaseRowBuilder {...props} data={undefined as unknown as Record<any, any>} />
+          <BaseRowBuilder {...props} data={undefined as unknown as Record<string, unknown>} />
         </TableBody>
       </Table>
     );
@@ -38,7 +38,7 @@ describe('BaseRowBuilder', () => {
     const { getByText } = render(
       <Table>
         <TableBody>
-          <BaseRowBuilder {...props} data={undefined as unknown as Record<any, any>} noDataMessage={customMsg} />
+          <BaseRowBuilder {...props} data={undefined as unknown as Record<string, unknown>} noDataMessage={customMsg} />
         </TableBody>
       </Table>
     );

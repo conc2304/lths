@@ -14,14 +14,15 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
 
+import { findClosestNumber } from '@lths/shared/utils';
+
+import { BaseRowBuilder } from './row-builder';
 import { TableTitleRow } from './table-title-row';
 import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection, PersistantUserSettings } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
-import { BaseRowBuilder } from 'libs/shared/ui-elements/src/lib/data-display/table-v2/row-builder';
-import { findClosestNumber } from '@lths/shared/utils';
 
-export type TableV2Props<TData extends object = Record<any, any>> = {
+export type TableV2Props<TData extends object = Record<string, unknown>> = {
   headerCells: TableColumnHeader[];
   data: TData[];
   rowBuilder?: RowBuilderFn<TData>;
