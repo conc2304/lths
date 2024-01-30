@@ -4,6 +4,8 @@ export type RowBuilderProps<TData extends object> = {
   data: TData;
   headerCells: TableColumnHeader[];
   wrapWithTRElem?: boolean;
+  showRowNumber?: boolean;
+  rowNumber?: number;
   noDataMessage?: string;
 };
 
@@ -12,6 +14,8 @@ export type RowBuilderFn<TData extends object = Record<string, unknown>> = ({
   headerCells,
   wrapWithTRElem,
   noDataMessage,
+  rowNumber,
+  showRowNumber,
 }: RowBuilderProps<TData>) => JSX.Element;
 
 export type TableChangeEvent = {
@@ -27,6 +31,8 @@ export type HeaderToEventValueMapFn<TData extends object = Record<string, unknow
 ) => Date | string | number | undefined;
 
 export type SortDirection = 'asc' | 'desc';
+
+export type ColumnLabelTextFormat = 'uppercase' | 'lowercase' | 'capitalize' | 'unformatted';
 
 export type TableColumnHeader = {
   id: string;

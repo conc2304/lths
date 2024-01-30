@@ -402,6 +402,7 @@ export function PageEditorTabs() {
       </Box>
       <Box>
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
+          <Box sx={{ width: '100%', border: '2px solid red' }} />
           <BlockEditor onAddComponent={handleAddComponent} onPropChange={handlePropChange} />
           <ComponentModal
             onClose={handleCloseCompModal}

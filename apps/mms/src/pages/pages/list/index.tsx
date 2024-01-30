@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Link, Stack, TableCell, Typography } from '@mui/material';
+import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
@@ -157,11 +157,13 @@ const Page = (): JSX.Element => {
 
   const RowBuilder = (): RowBuilderFn<PageDetail> => {
     return (props) => {
-      const { data } = props;
+      const { data, showRowNumber, rowNumber } = props;
       const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
 
       return (
-        <>
+        <TableRow key={`row_${page_id}`}>
+          {!!showRowNumber && <TableCell>{rowNumber}</TableCell>}
+
           <TableCell>
             <Stack>
               <Link
@@ -192,7 +194,7 @@ const Page = (): JSX.Element => {
           <TableCell>
             <ActionMenu options={menuOptions(data)} />
           </TableCell>
-        </>
+        </TableRow>
       );
     };
   };

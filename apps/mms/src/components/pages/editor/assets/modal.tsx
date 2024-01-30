@@ -36,6 +36,11 @@ const headers = [
     label: 'Owner',
     sortable: true,
   },
+  {
+    id: 'asset_actions',
+    label: '',
+    sortable: false,
+  },
 ];
 
 const AssetsModal = ({
@@ -74,8 +79,6 @@ const AssetsModal = ({
       return <TableFileInfoRow key={data.id} row={data} onSelect={onSelect} />;
     };
   };
-
-  // const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
 
   const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
     const pagination: TablePaginationProps = {
@@ -157,29 +160,13 @@ const AssetsModal = ({
             headerCells={headers}
             onChange={handleOnChange}
             noDataMessage="No assets"
-            page={pagination.page}
-            rowsPerPage={pagination.pageSize}
-            sortOrder={sorting.order}
-            orderBy={sorting.column}
+            page={pagination?.page ?? undefined}
+            rowsPerPage={pagination?.pageSize ?? undefined}
+            sortOrder={sorting?.order ?? undefined}
+            orderBy={sorting?.column ?? undefined}
             rowBuilder={RowBuilder()}
             sx={{ mt: 1 }}
           />
-          {/* <Table
-            loading={isLoading}
-            fetching={isFetching}
-            total={total}
-            title="{0} Assets"
-            headerCells={headers}
-            tableRows={tableRows}
-            pagination={pagination}
-            sorting={sorting}
-            onPageChange={onPageChange}
-            noDataMessage="No assets"
-            sx={{
-              mt: 1,
-            }}
-            fixPagination={true}
-          /> */}
         </Grid>
       </DialogContent>
     </Dialog>

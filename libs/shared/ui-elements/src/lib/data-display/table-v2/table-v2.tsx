@@ -1,4 +1,4 @@
-import { ChangeEvent, Children, MouseEvent, cloneElement, isValidElement, useMemo, useState } from 'react';
+import { ChangeEvent, MouseEvent, cloneElement, useMemo, useState } from 'react';
 import {
   Box,
   LinearProgress,
@@ -15,12 +15,20 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { visuallyHidden } from '@mui/utils';
+import { capitalize, toLower, toUpper } from 'lodash';
 
 import { findClosestNumber } from '@lths/shared/utils';
 
 import { BaseRowBuilder } from './row-builder';
 import { TableTitleRow } from './table-title-row';
-import { TableColumnHeader, TableChangeEvent, RowBuilderFn, SortDirection, PersistantUserSettings } from './types';
+import {
+  TableColumnHeader,
+  TableChangeEvent,
+  RowBuilderFn,
+  SortDirection,
+  PersistantUserSettings,
+  ColumnLabelTextFormat,
+} from './types';
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
 
@@ -47,9 +55,8 @@ export type TableV2Props<TData extends object = Record<string, unknown>> = {
   noDataMessage?: string;
   showFirstButton?: boolean;
   showLastButton?: boolean;
-  showRowNumber?: boolean;
   sx?: SxProps<Theme>;
-  tableRowSx?: SxProps<Theme>;
+  columnLabelFormat?: ColumnLabelTextFormat;
 };
 
 const DEFAULT_ROWS_PER_PAGE = 25;
@@ -57,7 +64,7 @@ const DEFAULT_TABLE_PAGE = 0;
 const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
 /**
- * ListView component for displaying data in a paginated and sortable table format.
+ * Tablev2 component for displaying data in a paginated and sortable table format.
  * The component is made to handle both data as a controlled and uncontrolled component.
  * For server side data that handles pagination and sorting, pass in the page, rowsPerPage, sortOrder, and orderBy props.
  * For client side data, leave those blank and the component will handle it internally.
@@ -88,9 +95,8 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.noDataMessage] - Message to show when the table is empty
  * @param {boolean} [props.showFirstButton] - Show the "First Page" button in pagination.
  * @param {boolean} [props.showLastButton] - Show the "Last Page" button in pagination.
- * @param {boolean} [props.showRowNumber] - Show row numbers in the table.
  * @param {boolean} [props.sx] - Custom SX styles to be applied to the Box wrapper element.
- * @param {boolean} [props.tableRowSx] - Custom SX styles to be applied to the TableRow element.
+ * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
  */
 export const TableV2 = (
@@ -119,9 +125,8 @@ export const TableV2 = (
     noDataMessage = 'No records found',
     showFirstButton = false,
     showLastButton = false,
-    showRowNumber = false,
     sx = {},
-    tableRowSx = {},
+    columnLabelFormat = 'capitalize',
   } = props;
 
   const persistantSettings: PersistantUserSettings = userSettingsStorageKey
@@ -142,6 +147,13 @@ export const TableV2 = (
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
 
   const totalItems = total ?? data.length ?? 0;
+
+  const labelFormatters: Record<ColumnLabelTextFormat, (text: string) => string> = {
+    uppercase: (text: string) => toUpper(text),
+    lowercase: (text: string) => toLower(text),
+    capitalize: (text: string) => capitalize(text),
+    unformatted: (text: string) => text,
+  };
 
   const tableRows = useMemo(() => {
     if (!data) return [];
@@ -170,45 +182,13 @@ export const TableV2 = (
     const visibleData = paginatedData;
 
     return visibleData.length > 0
-      ? visibleData.map((data, i) => {
-          const rowContent = rowBuilder({ data, headerCells, noDataMessage });
-
-          const firstContentChild = Children.toArray(rowContent.props.children)[0];
-          const isWrappedInTrElem = isValidElement(firstContentChild) && firstContentChild.type === TableRow;
-
-          if (isWrappedInTrElem && showRowNumber)
-            console.error(
-              'RowBuilder function should return a React Fragment with all of the TableCell elements and not contain a TableRow wrapper in order to use the showRowNumberFeature.'
-            );
-
-          return (
-            <TableRow role="row" sx={tableRowSx}>
-              {showRowNumber && !isWrappedInTrElem && (
-                <TableCell sx={{ textAlign: 'center', color: (theme) => theme.palette.grey.A400 }}>
-                  {page * rowsPerPage + i + 1}
-                </TableCell>
-              )}
-              {rowContent}
-            </TableRow>
-          );
-        })
+      ? visibleData.map((data) => rowBuilder({ data, headerCells, noDataMessage }))
       : [
           <TableRow key={0}>
             <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
           </TableRow>,
         ];
-  }, [
-    data,
-    sortOrder,
-    orderBy,
-    page,
-    rowsPerPage,
-    rowsPerPageProp,
-    sortOrderProp,
-    orderByProp,
-    pageProp,
-    showRowNumber,
-  ]);
+  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
 
   const handleSort = (columnId: string) => {
     const isAsc = orderBy === columnId && sortOrder === 'asc';
@@ -252,47 +232,44 @@ export const TableV2 = (
           <TableHead>
             <TableRowSkeleton id="head" loading={!!loading} cells={headerCells?.length} />
             <TableRow>
-              {showRowNumber && (
-                <TableCell
-                  align="center"
-                  sx={{
-                    color: (theme) => theme.palette.grey[500],
-                    fontsize: '0.75rem',
-                  }}
-                >
-                  #
-                </TableCell>
-              )}
               {!loading &&
-                headerCells.map((column) => (
-                  <TableCell
-                    key={`th-${column.id}`}
-                    align="left"
-                    sx={{
-                      color: (theme) => theme.palette.grey[500],
-                      fontsize: '0.75rem',
-                      textDecoration: 'uppercase',
-                    }}
-                  >
-                    {column.sortable && (
-                      <TableSortLabel
-                        active={column.id === orderBy}
-                        direction={orderBy === column.id ? sortOrder : 'asc'}
-                        onClick={() => handleSort(column.id)}
-                        IconComponent={KeyboardArrowDownIcon}
-                        role="columnheader"
-                      >
-                        {column.label}
-                        {orderBy === column.id ? (
-                          <Box component="span" sx={visuallyHidden}>
-                            {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                          </Box>
-                        ) : null}
-                      </TableSortLabel>
-                    )}
-                    {!column.sortable && column.label}
-                  </TableCell>
-                ))}
+                headerCells.map((column) => {
+                  const label = labelFormatters[columnLabelFormat](column.label) ?? column.label;
+                  return (
+                    <TableCell
+                      key={`th-${column.id}`}
+                      align="left"
+                      sx={{
+                        color: (theme) => theme.palette.text.secondary,
+                        fontSize: (theme) => theme.typography.pxToRem(16),
+                      }}
+                    >
+                      {column.sortable && (
+                        <TableSortLabel
+                          active={column.id === orderBy}
+                          direction={orderBy === column.id ? sortOrder : 'asc'}
+                          onClick={() => handleSort(column.id)}
+                          IconComponent={KeyboardArrowDownIcon}
+                          role="columnheader"
+                          sx={{
+                            transition: 'color 150ms ease-in',
+                            fontSize: 'inherit',
+                            color: (theme) =>
+                              column.id === orderBy ? theme.palette.text.primary : theme.palette.text.secondary,
+                          }}
+                        >
+                          {label}
+                          {orderBy === column.id ? (
+                            <Box component="span" sx={visuallyHidden}>
+                              {sortOrder === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                            </Box>
+                          ) : null}
+                        </TableSortLabel>
+                      )}
+                      {!column.sortable && label}
+                    </TableCell>
+                  );
+                })}
             </TableRow>
             {/* Progress Loader */}
             {!loading && fetching && (
