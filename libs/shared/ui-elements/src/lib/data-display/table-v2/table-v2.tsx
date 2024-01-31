@@ -140,7 +140,7 @@ export const TableV2 = (
     persistantSettings.rowsPerPage !== undefined
       ? parseInt(persistantSettings.rowsPerPage as string)
       : typeof rowsPerPageProp === 'number'
-      ? // don't allow any value that is not an one of the options to be set for rowsPerPAge
+      ? // don't allow any value that is not an one of the options to be set for rowsPerPage
         findClosestNumber(rowsPerPageProp, rowsPerPageOptions)
       : DEFAULT_ROWS_PER_PAGE;
 

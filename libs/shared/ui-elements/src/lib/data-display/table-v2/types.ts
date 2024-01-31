@@ -1,6 +1,6 @@
 import { Property } from 'csstype';
 
-export type RowBuilderProps<TData extends object> = {
+export type RowBuilderProps<TData extends object = Record<string, unknown>> = {
   data: TData;
   headerCells: TableColumnHeader[];
   wrapWithTRElem?: boolean;

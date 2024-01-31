@@ -1,7 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import { visuallyHidden } from '@mui/utils';
 import { CalendarProps, Event } from 'react-big-calendar';
 
 import { RowBuilderFn, TableColumnHeader, TableV2 } from '@lths/shared/ui-elements';
@@ -27,7 +25,7 @@ export const ListView: FunctionComponent<ListViewProps> = (props): JSX.Element =
   return (
     <Box data-testid="Calendar-List-View--root">
       <TableV2
-        data={events as Record<any, unknown>[]}
+        data={events as Record<string, unknown>[]}
         headerCells={headerCells}
         headerToCellValueMap={headerToEventValueMap}
         rowBuilder={rowBuilder}

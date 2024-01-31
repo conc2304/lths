@@ -8,8 +8,8 @@ import { BaseColumnValue } from './utils';
 export const BaseRowBuilder = ({
   data,
   headerCells = [],
+  wrapWithTRElem = true,
   showRowNumber = false,
-  wrapWithTRElem = false,
   rowNumber = undefined,
   noDataMessage = 'No records found',
 }: RowBuilderProps<Record<string, unknown>>) => {

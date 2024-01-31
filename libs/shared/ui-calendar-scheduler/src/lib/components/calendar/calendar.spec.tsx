@@ -7,7 +7,7 @@ import { BaseRowBuilder, RowBuilderFn } from '@lths/shared/ui-elements';
 import { LTHSCalendar, LTHSCalendarProps } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { EventComponentProps, ToolbarHeaderProps } from '../../types';
-import { getNewEvent } from '../mock-events'; // Sample events for testing
+import { getNewEvent } from '../mock-events';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
 
 describe('LTHSCalendar', () => {
