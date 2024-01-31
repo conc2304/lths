@@ -1,7 +1,5 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format, getDay, parse, startOfWeek, subHours } from 'date-fns';
@@ -60,10 +58,10 @@ describe('SchedulingEvent', () => {
   it('shows the event time when view is not month and not in all day row', async () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
 
-    testEvent.start?.setHours(10, 0, 0, 0);
-    testEvent.end?.setHours(12, 0, 0, 0);
+    testEvent.start?.setHours(10, 0, 0, 0); // 10 AM
+    testEvent.end?.setHours(12, 0, 0, 0); // 12 PM
 
-    renderWithTheme(
+    const { getByTestId } = renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
         event={testEvent}
@@ -75,12 +73,10 @@ describe('SchedulingEvent', () => {
       />
     );
 
-    await waitFor(() => {
-      expect(screen.getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
-      expect(screen.getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
-      expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
-    });
-  }, 10000);
+    expect(getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
+    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('10AM - 12PM PST');
+    expect(getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
+  });
 
   it('shows the "NEW EVENT ADDED" icon banner for new events', () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });
