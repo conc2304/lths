@@ -103,7 +103,7 @@ const AssetsModal = ({
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
       <DialogTitle>
-        <Typography sx={{ fontSize: '1.5rem' }}>Assets and Bananas</Typography>
+        <Typography sx={{ fontSize: '1.5rem' }}>Assets</Typography>
         <IconButton
           aria-label="close"
           onClick={onClose}

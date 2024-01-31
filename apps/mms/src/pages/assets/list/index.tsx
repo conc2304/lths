@@ -301,7 +301,7 @@ export default function AssetsPage() {
       }
     >
       <PageHeader
-        title="Assets - Bananas"
+        title="Assets"
         rightContent={
           <div>
             <input
