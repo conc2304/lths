@@ -1,8 +1,10 @@
 import { Button, Stack, Typography } from '@mui/material';
 
 import { TableTitleSkeleton } from '../../feedback/skeletons';
+import { ProgressLoadingProps } from '../../types';
 import { formatString } from '../../utils/string-utils';
-import { TableTitleProps } from '../tables/types';
+
+export type TableTitleProps = ProgressLoadingProps & { total?: number; title?: string; onExportClick?: () => void };
 
 export const TableTitleRow = (props: TableTitleProps) => {
   const { total = 0, loading, title = '', onExportClick } = props;

@@ -7,7 +7,7 @@ import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-d
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import { ActionMenu, SearchBar, TableV2, RowBuilderFn, SortDirection } from '@lths/shared/ui-elements';
+import { ActionMenu, SearchBar, Table, RowBuilderFn, SortDirection } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 type SearchParam = Record<string, string | number | null | undefined>;
@@ -229,7 +229,7 @@ const Page = (): JSX.Element => {
       />
       <Divider />
       <SearchBar value={name} onSearch={handleSearch} sx={{ marginY: 2 }} />
-      <TableV2
+      <Table
         data={data?.data ?? []}
         headerCells={headers}
         rowBuilder={RowBuilder()}

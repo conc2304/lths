@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { AssetProps } from '@lths/features/mms/data-access';
 import { AssetSearchBar } from '@lths/features/mms/ui-components';
-import { TableSortingProps, TablePaginationProps, TableV2, RowBuilderFn } from '@lths/shared/ui-elements';
+import { TableSortingProps, TablePaginationProps, Table, RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
 import { AssetModalProps } from './types';
@@ -103,7 +103,7 @@ const AssetsModal = ({
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
       <DialogTitle>
-        <Typography sx={{ fontSize: '1.5rem' }}>Assets</Typography>
+        <Typography sx={{ fontSize: '1.5rem' }}>Assets and Bananas</Typography>
         <IconButton
           aria-label="close"
           onClick={onClose}
@@ -151,7 +151,7 @@ const AssetsModal = ({
       </DialogTitle>
       <DialogContent sx={{ height: '40rem' }}>
         <Grid item xs={9} sx={{ padding: 1 }}>
-          <TableV2
+          <Table
             loading={isLoading}
             fetching={isFetching}
             data={data}

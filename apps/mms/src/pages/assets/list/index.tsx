@@ -22,7 +22,7 @@ import {
 } from '@lths/features/mms/ui-components';
 import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import {
-  TableV2,
+  Table,
   TablePaginationProps,
   TableSortingProps,
   PageContentWithRightDrawer,
@@ -335,7 +335,7 @@ export default function AssetsPage() {
         </Grid>
       </Grid>
 
-      <TableV2
+      <Table
         loading={isLoading}
         fetching={isFetching}
         total={total}

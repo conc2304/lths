@@ -44,7 +44,7 @@ export type SortDirection = 'asc' | 'desc';
 
 export type ColumnLabelTextFormat = 'uppercase' | 'lowercase' | 'capitalize' | 'unformatted';
 
-export type TableColumnHeader = {
+export type TableColumnHeader = Record<string, unknown> & {
   id: string;
   label: string;
   sortable: boolean;

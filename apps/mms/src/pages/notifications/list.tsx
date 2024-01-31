@@ -7,7 +7,7 @@ import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-ac
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
 import { NotificationAdapterProvider, NotificationStatus } from '@lths/features/mms/ui-components';
 import { NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
-import { TablePaginationProps, TableSortingProps, ActionMenu, RowBuilderFn, TableV2 } from '@lths/shared/ui-elements';
+import { TablePaginationProps, TableSortingProps, ActionMenu, RowBuilderFn, Table } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
@@ -185,7 +185,7 @@ const NotificationPage = () => {
         }
         sx={{ mt: 2 }}
       />
-      <TableV2
+      <Table
         data={data?.data ?? []}
         headerCells={headers}
         rowBuilder={RowBuilder()}

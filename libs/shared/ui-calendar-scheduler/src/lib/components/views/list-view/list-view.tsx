@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { CalendarProps, Event } from 'react-big-calendar';
 
-import { RowBuilderFn, TableColumnHeader, TableV2 } from '@lths/shared/ui-elements';
+import { RowBuilderFn, TableColumnHeader, Table } from '@lths/shared/ui-elements';
 
 export type ListViewProps<TEvent extends object = Event> = CalendarProps & {
   headerCells: TableColumnHeader[];
@@ -24,7 +24,7 @@ export const ListView: FunctionComponent<ListViewProps> = (props): JSX.Element =
 
   return (
     <Box data-testid="Calendar-List-View--root">
-      <TableV2
+      <Table
         data={events as Record<string, unknown>[]}
         headerCells={headerCells}
         headerToCellValueMap={headerToEventValueMap}

@@ -2,13 +2,13 @@ import React from 'react';
 import { useArgs } from '@storybook/preview-api';
 
 import { SampleHeaderCells, tableDataMocks } from './mocks';
-import { TableV2 } from './table-v2';
+import { Table } from './table';
 import { SortDirection, TableChangeEvent } from './types';
 import { BaseColumnValue, getComparator } from './utils';
 
 import type { StoryFn } from '@storybook/react';
 export default {
-  component: TableV2,
+  component: Table,
   title: 'Data Display/Table V2',
   argTypes: {
     sortOrder: { control: 'inline-radio', options: ['desc', 'asc'] },
@@ -18,7 +18,7 @@ export default {
 
 const mockData = tableDataMocks(117);
 
-const Template: StoryFn<typeof TableV2> = (args) => <TableV2 {...args} />;
+const Template: StoryFn<typeof Table> = (args) => <Table {...args} />;
 
 export const DefaultUncontrolled = Template.bind({});
 DefaultUncontrolled.args = {

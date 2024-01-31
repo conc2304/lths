@@ -3,7 +3,7 @@ import {
   Box,
   LinearProgress,
   SxProps,
-  Table,
+  Table as TableMui,
   TableBody,
   TableCell,
   TableContainer,
@@ -32,7 +32,7 @@ import {
 import { BaseColumnValue, getComparator } from './utils';
 import { TableRowSkeleton } from '../../feedback';
 
-export type TableV2Props<TData extends object = Record<string, unknown>> = {
+export type TableProps<TData extends object = Record<string, unknown>> = {
   headerCells: TableColumnHeader[];
   data: TData[];
   rowBuilder?: RowBuilderFn<TData>;
@@ -65,7 +65,7 @@ const DEFAULT_TABLE_PAGE = 0;
 const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
 /**
- * Tablev2 component for displaying data in a paginated and sortable table format.
+ * Table component for displaying data in a paginated and sortable table format.
  * The component is made to handle both data as a controlled and uncontrolled component.
  * For server side data that handles pagination and sorting, pass in the page, rowsPerPage, sortOrder, and orderBy props.
  * For client side data, leave those blank and the component will handle it internally.
@@ -101,8 +101,8 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
  */
-export const TableV2 = (
-  props: TableV2Props<Record<any, number | string | Date | boolean | undefined | unknown>>
+export const Table = (
+  props: TableProps<Record<any, number | string | Date | boolean | undefined | unknown>>
 ): JSX.Element => {
   const {
     data,
@@ -238,12 +238,12 @@ export const TableV2 = (
   };
 
   return (
-    <Box data-testid="TableV2--root" sx={sx}>
+    <Box data-testid="Table--root" sx={sx}>
       {totalItems !== 0 && title && (
         <TableTitleRow title={title} loading={!!loading} total={totalItems} onExportClick={onExport} />
       )}
       <TableContainer>
-        <Table>
+        <TableMui>
           <TableHead>
             <TableRowSkeleton id="head" loading={!!loading} cells={headerCells?.length} />
             <TableRow>
@@ -320,7 +320,7 @@ export const TableV2 = (
                 return cloneElement(row, { key: `tr-${i}` });
               })}
           </TableBody>
-        </Table>
+        </TableMui>
       </TableContainer>
       <TablePagination
         component="div"

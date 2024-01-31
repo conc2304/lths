@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { TableV2 } from './table-v2'; // Update the import path as needed
+import { Table } from './table';
 import { PersistantUserSettings, SortDirection } from './types';
 
-describe('TableV2', () => {
+describe('Table', () => {
   afterEach(() => {
     localStorage.clear();
   });
@@ -21,19 +21,19 @@ describe('TableV2', () => {
   ];
 
   it('renders the table headers', () => {
-    const { getByText } = render(<TableV2 headerCells={headerCells} data={data} />);
+    const { getByText } = render(<Table headerCells={headerCells} data={data} />);
     expect(getByText('ID')).toBeInTheDocument();
     expect(getByText('Name')).toBeInTheDocument();
   });
 
   it('renders the data rows ', () => {
-    const { getByText } = render(<TableV2 headerCells={headerCells} data={data} />);
+    const { getByText } = render(<Table headerCells={headerCells} data={data} />);
     expect(getByText('John')).toBeInTheDocument();
     expect(getByText('Jane')).toBeInTheDocument();
   });
 
   it('sorts by first cell when no sort props are passed in', () => {
-    const { getAllByRole } = render(<TableV2 headerCells={headerCells} data={data} />);
+    const { getAllByRole } = render(<Table headerCells={headerCells} data={data} />);
 
     const rows = getAllByRole('row');
 
@@ -47,7 +47,7 @@ describe('TableV2', () => {
     const mockOnSortChange = jest.fn();
     const mockOnChange = jest.fn();
 
-    render(<TableV2 headerCells={headerCells} data={data} onSortChange={mockOnSortChange} onChange={mockOnChange} />);
+    render(<Table headerCells={headerCells} data={data} onSortChange={mockOnSortChange} onChange={mockOnChange} />);
     const headerCell = screen.getByText('ID');
 
     await user.click(headerCell);
@@ -66,7 +66,7 @@ describe('TableV2', () => {
     const rowsPerPage = 10;
     localStorage.setItem('testKey', JSON.stringify({ rowsPerPage: rowsPerPage }));
 
-    const { getByText } = render(<TableV2 headerCells={headerCells} data={data} userSettingsStorageKey="testKey" />);
+    const { getByText } = render(<Table headerCells={headerCells} data={data} userSettingsStorageKey="testKey" />);
 
     const RPPLabel = getByText('Rows per page:');
 
@@ -87,7 +87,7 @@ describe('TableV2', () => {
       orderBy: 'name',
     };
     const { getByRole } = render(
-      <TableV2
+      <Table
         headerCells={headerCells}
         data={data}
         rowsPerPage={initialRPP}

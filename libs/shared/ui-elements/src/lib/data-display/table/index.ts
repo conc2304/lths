@@ -1,3 +1,3 @@
 export * from './types';
-export * from './table-v2';
+export * from './table';
 export * from './row-builder';
