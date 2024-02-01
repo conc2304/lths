@@ -7,25 +7,10 @@ export type LTHSView = View | 'year';
 
 export type EventComponentProps<TEvent extends object = Event> = { view: LTHSView } & EventProps<TEvent>;
 
-// export type RowBuilderProps<TEvent extends object = Event> = { event: TEvent; headerCells: ListViewColumnHeader[] };
-
-// // export type RowBuilderFn<TEvent extends object = Event> = ({
-// //   event,
-// //   headerCells,
-// // }: RowBuilderProps<TEvent>) => JSX.Element;
-
 export type HeaderToEventValueMapFn<TEvent extends object = Event> = (
   event: TEvent,
   column: string
 ) => Date | string | number | undefined;
-
-// export type SortDirection = 'asc' | 'desc';
-
-// export type ListViewColumnHeader = {
-//   id: string;
-//   label: string;
-//   sortable: boolean;
-// };
 
 export type ToolbarHeaderProps = ToolbarProps & {
   viewMode: ViewMode;
