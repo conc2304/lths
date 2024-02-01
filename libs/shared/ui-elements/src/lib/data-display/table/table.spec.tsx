@@ -107,7 +107,6 @@ describe('Table', () => {
     expect(selectPageOptionsBtn).toBeInTheDocument();
     expect(selectPageOptionsBtn).toHaveTextContent(initialRPP.toString());
 
-    // await act(() => fireEvent.click(selectPageOptions));
     await user.click(selectPageOptionsBtn);
 
     const selectOption = 50;

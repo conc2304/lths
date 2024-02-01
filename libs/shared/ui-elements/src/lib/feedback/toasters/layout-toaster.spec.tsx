@@ -74,9 +74,13 @@ describe('LayoutToaster', () => {
       toast.success('MockMessage_1', { id: toastID });
       waitTime(10);
       toast.success('MockMessage_2', { id: toastID });
+      waitTime(10);
+      toast.error('MockMessage_3', { id: toastID });
+      waitTime(10);
+      toast.error('MockMessage_4', { id: 'unique' });
     });
 
     const toasts = screen.queryAllByText(/MockMessage/);
-    expect(toasts.length).toBe(1);
+    expect(toasts.length).toBe(2);
   });
 });
