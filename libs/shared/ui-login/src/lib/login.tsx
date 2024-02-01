@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import {
   Checkbox,
   FormControlLabel,
@@ -15,8 +15,10 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Box } from '@mui/system';
 import { Formik } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { useAppSelector } from '@lths/features/mms/data-access';
 import { LoginRequest, removeAuthTokenFromStorage } from '@lths/shared/data-access';
@@ -29,6 +31,7 @@ const LoginForm: React.FC = (): JSX.Element => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const auth = useAppSelector((state) => state.auth);
   const { authenticated } = auth;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [login, { isLoading }] = useLoginMutation();
   const [getUser] = useLazyGetUserQuery();
@@ -68,6 +71,11 @@ const LoginForm: React.FC = (): JSX.Element => {
     }
   };
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid Email').required('Required'),
+    password: Yup.string().required('Required'),
+  });
+
   return (
     <CenterCard>
       <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
@@ -80,9 +88,10 @@ const LoginForm: React.FC = (): JSX.Element => {
           onSubmit(values);
           setSubmitting(false);
         }}
+        validationSchema={validationSchema}
       >
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-          <form noValidate onSubmit={handleSubmit}>
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
+          <Box component="form" noValidate onSubmit={handleSubmit} autoComplete="on">
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
@@ -91,7 +100,9 @@ const LoginForm: React.FC = (): JSX.Element => {
                     id="email-login"
                     type="email"
                     value={values.email}
+                    ref={inputRef}
                     name="email"
+                    autoComplete="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter username address"
@@ -111,10 +122,11 @@ const LoginForm: React.FC = (): JSX.Element => {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"
+                    autoComplete='"password'
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter password"
@@ -168,19 +180,30 @@ const LoginForm: React.FC = (): JSX.Element => {
               <Grid item xs={12}>
                 <LoadingButton
                   loading={isLoading}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isValid}
                   fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
                   color="primary"
+                  onMouseEnter={() => {
+                    // test to see if this gets values from autofill to take effect
+                    const autoFillElem = document.querySelector(
+                      '*:-internal-autofill-selected, *:-internal-autofill-previewed, *:-webkit-autofill'
+                    );
+
+                    if (autoFillElem) {
+                      inputRef.current.focus();
+                      inputRef.current.blur();
+                    }
+                  }}
                 >
                   Login
                 </LoadingButton>
               </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
-          </form>
+          </Box>
         )}
       </Formik>
     </CenterCard>
