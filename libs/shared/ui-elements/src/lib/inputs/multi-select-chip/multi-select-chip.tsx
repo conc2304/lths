@@ -16,7 +16,7 @@ const MenuItemFontStyle = {
   pl: pxToRem(8),
 };
 
-export const SelectChipRenderer = (props: SelectChipRendererProps) => {
+export const MultiChipSelect = (props: SelectChipRendererProps) => {
   const { selectedItems, onRemoveItem, chipLimit = 3 } = props;
 
   const theme = useTheme();

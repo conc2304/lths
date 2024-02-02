@@ -16,10 +16,9 @@ import { isEqual } from 'lodash';
 import { Views } from 'react-big-calendar';
 
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
-import { IOSSwitch, InfoTooltip } from '@lths/shared/ui-elements';
+import { IOSSwitch, InfoTooltip, MultiChipSelect } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
-import { SelectChipRenderer } from './select-chip-renderer';
 import { EventType } from '../../types';
 
 export type EventTypeFilterProps = {
@@ -181,7 +180,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
               // !! renderValue runs before useLayoutEffect in SelectedChipRenderer will run when add/removing, and then again on menu blur,
               // !! which causes some weirdness and delays in calculating number of chips to render
               // So in lieu of that we are hardcoding the chip limit
-              return <SelectChipRenderer selectedItems={selected} onRemoveItem={handleRemoveFilter} chipLimit={3} />;
+              return <MultiChipSelect selectedItems={selected} onRemoveItem={handleRemoveFilter} chipLimit={3} />;
             }}
           >
             <MenuItem key={showAllValue[0]} value={showAllValue} sx={getStyles(showAllValue[1])}>
