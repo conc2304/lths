@@ -12,7 +12,7 @@ import {
   ToolbarHeaderProps,
   ViewMode,
 } from '@lths/shared/ui-calendar-scheduler';
-import { PopperWithArrow, TableHeaderCellProps } from '@lths/shared/ui-elements';
+import { PopperWithArrow, TableColumnHeader } from '@lths/shared/ui-elements';
 
 import { EventSchedulingFooter } from './footers';
 import { EventDetailsPopper } from './modals/event-details-popper';
@@ -152,7 +152,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     };
   }, [viewMode, view, eventTypes]);
 
-  const columns: TableHeaderCellProps[] = [
+  const columns: TableColumnHeader[] = [
     { id: 'eventTime', label: 'Event Time', sortable: true },
     { id: 'eventName', label: 'Event Name', sortable: true },
     { id: 'eventType', label: 'Event Type', sortable: true },

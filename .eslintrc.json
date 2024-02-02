@@ -1,25 +1,16 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
+  "ignorePatterns": ["**/*"],
   "globals": {
     "JSX": true
   },
   "parser": "",
-  "plugins": [
-    "@nx",
-    "import"
-  ],
+  "plugins": ["@nx", "import"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "react/jsx-no-useless-fragment": ["warn", { "allowExpressions": true }],
         "react-hooks/exhaustive-deps": "off",
         "@nx/enforce-module-boundaries": [
           "error",
@@ -29,9 +20,7 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -81,47 +70,27 @@
                 "position": "after"
               }
             ],
-            "pathGroupsExcludedImportTypes": [
-              "react"
-            ],
+            "pathGroupsExcludedImportTypes": ["react"],
             "warnOnUnassignedImports": true,
             "alphabetize": {
               "order": "asc",
               "caseInsensitive": true
             },
             "groups": [
-              [
-                "builtin",
-                "external"
-              ],
-              [
-                "internal"
-              ],
+              ["builtin", "external"],
+              ["internal"],
               // space between
-              [
-                "parent",
-                "sibling",
-                "index"
-              ],
+              ["parent", "sibling", "index"],
               // space between
-              [
-                "type",
-                "object",
-                "unknown"
-              ]
+              ["type", "object", "unknown"]
             ]
           }
         ]
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
       "rules": {
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": [
@@ -168,25 +137,15 @@
       }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {
         "no-unused-vars": "error",
         "no-undef": "error"
       }
     },
     {
-      "files": [
-        "*.spec.ts",
-        "*.spec.tsx",
-        "*.spec.js",
-        "*.spec.jsx"
-      ],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
       },
