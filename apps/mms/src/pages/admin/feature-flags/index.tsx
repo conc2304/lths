@@ -170,7 +170,6 @@ const FeatureFlagPage = () => {
     >
       <PageHeader title="Feature Flags" sx={{ mt: '1rem', mb: '3.5rem' }} />
       <Box>
-        <Typography>Filter Bar</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -256,7 +255,7 @@ const FeatureFlagPage = () => {
             </ToggleButtonGroup>
           </FormControl>
           <FormControl>
-            <Button color="secondary" variant="outlined" onClick={handleReset}>
+            <Button color="primary" variant="outlined" onClick={handleReset}>
               Reset
             </Button>
           </FormControl>
