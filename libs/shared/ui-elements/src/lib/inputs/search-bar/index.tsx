@@ -7,10 +7,11 @@ type Props = {
   onSearch: (value: string) => void;
   sx?: SxProps;
   debounceTime?: number;
+  size?: 'small' | 'medium';
 };
 
 export const SearchBar = (props: Props) => {
-  const { value = '', onSearch, sx, debounceTime = 250 } = props;
+  const { value = '', onSearch, sx, debounceTime = 250, size } = props;
 
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -35,6 +36,7 @@ export const SearchBar = (props: Props) => {
       value={inputValue}
       onChange={handleChange}
       fullWidth
+      size={size}
       sx={sx}
       InputProps={{
         startAdornment: (

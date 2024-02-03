@@ -1,14 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import {
   Box,
+  Button,
+  Checkbox,
   FormControl,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
   useTheme,
 } from '@mui/material';
+import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
 import { isEqual } from 'lodash';
 
 import { MultiChipSelect, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
@@ -29,6 +34,7 @@ const FeatureFlagPage = () => {
 
   const [search, setSearch] = useState('');
   const [modulesFilteredOn, setModulesFilteredOn] = useState<FilterOption[]>([showAllValue]);
+  const [filterByFeatureState, setFilterByFeatureState] = useState<true | false | null>(null);
   const availableModules = getUniqueValuesByKey(featureFlagData, 'module').map((value, i) => [i, value]);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,10 +73,15 @@ const FeatureFlagPage = () => {
     },
   ];
 
+  const featureStateFilteredData = featureFlagData.filter((feature) => {
+    if (filterByFeatureState === null) return true;
+    return filterByFeatureState === feature.enabled;
+  });
+
   const moduleFilteredData =
     modulesFilteredOn[0] === showAllValue
-      ? featureFlagData
-      : featureFlagData.filter((feature) => modulesFilteredOn.map((m) => m[1]).includes(feature.module));
+      ? featureStateFilteredData
+      : featureStateFilteredData.filter((feature) => modulesFilteredOn.map((m) => m[1]).includes(feature.module));
   const searchFilteredData = filterObjectsBySearch(moduleFilteredData, search);
   const handleOnSearch = (value: string) => {
     setSearch(value);
@@ -116,10 +127,21 @@ const FeatureFlagPage = () => {
     // onFilterChange && onFilterChange(nextState);
   };
 
-  // const handleReset = () => {
-  //   setModulesFilteredOn([showAllValue]);
-  //   // onFilterChange && onFilterChange([showAllValue]);
-  // };
+  const handleReset = () => {
+    setModulesFilteredOn([showAllValue]);
+    setSearch('');
+    setFilterByFeatureState(null);
+  };
+
+  const handleFeatureEnableFilterChange = (_: MouseEvent<HTMLElement>, nextView: boolean | null) => {
+    setFilterByFeatureState(nextView);
+  };
+
+  const handleEnableFilterToggleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+
+    if (!isChecked) setFilterByFeatureState(null);
+  };
 
   const handleRemoveFilter = (id: string) => {
     const newState = modulesFilteredOn.filter(([fid]) => fid !== id);
@@ -149,11 +171,15 @@ const FeatureFlagPage = () => {
       <PageHeader title="Feature Flags" sx={{ mt: '1rem', mb: '3.5rem' }} />
       <Box>
         <Typography>Filter Bar</Typography>
-        <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
-          <FormControl>
-            <SearchBar value={search} onSearch={handleOnSearch} />
-          </FormControl>
-          <FormControl sx={{ width: '500px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            mb: 3,
+          }}
+        >
+          <FormControl sx={{ width: '40%' }}>
             <Select
               labelId="event-type-filter-label"
               data-testid="Calendar-toolbar--filter-select"
@@ -162,12 +188,12 @@ const FeatureFlagPage = () => {
               onChange={handleSelectFilter}
               input={<OutlinedInput id="select-multiple-chip" />}
               ref={containerRef}
-              size="medium"
+              size="small"
               sx={{
                 width: '100%',
                 backgroundColor: '#FFF',
                 color: '#000',
-                height: pxToRem(41),
+                height: pxToRem(40),
                 boxShadow: '0px 2px 2px 0px #00000026 inset',
                 '& .MuiSelect-select': { py: theme.spacing(0.9), pl: theme.spacing(0.5) },
               }}
@@ -197,6 +223,42 @@ const FeatureFlagPage = () => {
                 );
               })}
             </Select>
+          </FormControl>
+          <FormControl sx={{ width: '25%' }}>
+            <SearchBar value={search} onSearch={handleOnSearch} size="small" />
+          </FormControl>
+          <FormControl
+            sx={{
+              width: '20%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'start',
+              flexDirection: 'row',
+            }}
+          >
+            <Checkbox
+              inputProps={{
+                'aria-label': 'Filter On',
+              }}
+              icon={<FilterAltOffOutlined />}
+              checkedIcon={<FilterAlt />}
+              checked={filterByFeatureState !== null}
+              onChange={handleEnableFilterToggleChange}
+            />
+            <ToggleButtonGroup
+              color="secondary"
+              exclusive
+              value={filterByFeatureState}
+              onChange={handleFeatureEnableFilterChange}
+            >
+              <ToggleButton value={true}>Enabled</ToggleButton>
+              <ToggleButton value={false}>Disabled</ToggleButton>
+            </ToggleButtonGroup>
+          </FormControl>
+          <FormControl>
+            <Button color="secondary" variant="outlined" onClick={handleReset}>
+              Reset
+            </Button>
           </FormControl>
         </Box>
         <Table data={searchFilteredData} headerCells={tableHeaders} />
