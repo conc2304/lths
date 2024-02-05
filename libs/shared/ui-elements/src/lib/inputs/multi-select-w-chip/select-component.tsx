@@ -1,5 +1,15 @@
 import { useRef, useState } from 'react';
-import { MenuItem, OutlinedInput, Select, SelectChangeEvent, SxProps, useTheme } from '@mui/material';
+import {
+  MenuItem,
+  MenuItemProps,
+  OutlinedInput,
+  OutlinedInputProps,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+  SxProps,
+  useTheme,
+} from '@mui/material';
 import { isEqual } from 'lodash';
 
 import { pxToRem } from '@lths/shared/utils';
@@ -12,6 +22,7 @@ type MultiSelectWithChipProps = {
   options: SelectOptionProp[];
   value?: SelectOptionProp[];
   showAllText?: string;
+  placeholder?: string;
 
   onChange?: (selectedOptions: SelectOptionProp[]) => void;
   onSelect?: (selectedOptions: SelectOptionProp[]) => void;
@@ -19,6 +30,12 @@ type MultiSelectWithChipProps = {
 
   size?: 'small' | 'medium';
   sx?: SxProps;
+  maxChips?: number;
+  slotProps?: {
+    select?: SelectProps;
+    input?: OutlinedInputProps;
+    menuItem?: MenuItemProps;
+  };
 };
 
 const MenuItemFontStyle = {
@@ -40,12 +57,15 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
   const {
     options: optionsProp = [],
     value,
-    showAllText = 'Show All',
     onChange,
     onSelect,
     onRemove,
+    placeholder: placeholderProp,
+    showAllText = 'Show All',
     size = 'small',
     sx = {},
+    maxChips = 3,
+    slotProps = { select: {} as SelectProps<SelectOptionInternal>, input: {}, menuItem: {} },
   } = props;
 
   const theme = useTheme();
@@ -60,6 +80,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
   const dataIsObject = optionsProp.some((option) => {
     return !Array.isArray(option);
   });
+  const placeholder = placeholderProp ?? showAllText;
 
   console.log({ dataIsObject });
 
@@ -114,13 +135,12 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
 
   return (
     <Select
-      labelId="event-type-filter-label"
       // todo refactor this
-      data-testid="Calendar-toolbar--filter-select"
+      data-testid="MultiSelectChip--root"
       multiple
       value={optionsSelected}
       onChange={handleSelectFilter}
-      input={<OutlinedInput id="select-multiple-chip" />}
+      input={<OutlinedInput {...slotProps.input} />}
       ref={containerRef}
       size={size}
       sx={{
@@ -132,26 +152,30 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
         '& .MuiSelect-select': { py: theme.spacing(0.9), pl: theme.spacing(0.5) },
         ...sx,
       }}
-      placeholder="Show All"
+      placeholder={placeholder}
       renderValue={(selected: SelectOptionInternal[]) => {
         // !! renderValue runs before useLayoutEffect in SelectChipRenderer will run when add/removing, and then again on menu blur,
         // !! which causes some weirdness and delays in calculating number of chips to render
         // So in lieu of that we are hardcoding the chip limit
-        return <SelectChipRenderer selectedItems={selected} onRemoveItem={handleRemoveFilter} chipLimit={3} />;
+        return <SelectChipRenderer selectedItems={selected} onRemoveItem={handleRemoveFilter} chipLimit={maxChips} />;
       }}
     >
-      <MenuItem key={showAllValue[0]} value={showAllValue[1]} sx={getStyles(showAllValue[1], options)}>
-        Show all
+      <MenuItem
+        key={showAllValue[0]}
+        value={showAllValue[1]}
+        sx={getStyles(showAllValue[1], options)}
+        {...slotProps.menuItem}
+      >
+        {showAllText}
       </MenuItem>
       {options.map(([id, label]) => {
-        console.log([id, label]);
-
         return (
           // value can only be a string
           <MenuItem
             key={id.toString()}
             value={[id.toString(), label.toString()]}
             style={getStyles(label.toString(), options)}
+            {...slotProps.menuItem}
           >
             {label.toString()}
           </MenuItem>

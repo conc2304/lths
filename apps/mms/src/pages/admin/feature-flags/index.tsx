@@ -1,11 +1,12 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, FormControl, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Button, Checkbox, FormControl, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
 
 import { MultiSelectWithChip, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
+import { AddFlagModal } from './add-flag-modal';
 import { generateMockFlags } from './mockFeatures';
 
 const featureFlagData = generateMockFlags(50);
@@ -22,6 +23,8 @@ const FeatureFlagPage = () => {
   const [filterByFeatureState, setFilterByFeatureState] = useState<true | false | null>(null);
   const availableModules = getUniqueValuesByKey(featureFlagData, 'module').map((value, i) => [i, value]);
 
+  console.log(1, { availableModules });
+  const [modalOpen, setModalOpen] = useState(false);
   // Data Fetching Params
 
   // Initialization
@@ -61,8 +64,6 @@ const FeatureFlagPage = () => {
     return filterByFeatureState === feature.enabled;
   });
 
-  console.log(featureStateFilteredData);
-
   const moduleFilteredData =
     modulesFilteredOn[0] === showAllValue
       ? featureStateFilteredData
@@ -100,7 +101,15 @@ const FeatureFlagPage = () => {
         width: '-webkit-fill-available',
       }}
     >
-      <PageHeader title="Feature Flags" sx={{ mt: '1rem', mb: '3.5rem' }} />
+      <PageHeader
+        title="Feature Flags"
+        sx={{ mt: '1rem', mb: '3.5rem' }}
+        rightContent={
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Button onClick={() => setModalOpen(true)}>CREATE NEW FLAG</Button>
+          </Stack>
+        }
+      />
       <Box>
         <Box
           sx={{
@@ -157,6 +166,11 @@ const FeatureFlagPage = () => {
         </Box>
         <Table data={searchFilteredData} headerCells={tableHeaders} />
       </Box>
+      <AddFlagModal
+        open={modalOpen}
+        availableModules={availableModules.map(([, label]) => label.toString())}
+        onClose={() => setModalOpen(false)}
+      />
     </Box>
   );
 };

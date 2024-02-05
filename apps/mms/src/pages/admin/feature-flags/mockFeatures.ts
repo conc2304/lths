@@ -1,11 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-export type FeatureFlag = {
-  description: string;
-  enabled: boolean;
-  title: string;
-  module: string;
-};
+import { FeatureFlag } from './type';
 
 const modules = Array.from({ length: 5 }, () => faker.commerce.product());
 
