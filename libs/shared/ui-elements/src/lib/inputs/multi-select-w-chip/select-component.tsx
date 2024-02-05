@@ -104,7 +104,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
     onSelect && onSelect(nextState);
   };
 
-  const handleRemoveFilter = (id: string) => {
+  const handleRemoveFilter = (id: string | number) => {
     const nextState = optionsSelected.filter(([fid]) => fid !== id);
     if (nextState.length === 0) nextState.push(showAllValue);
     setOptionsSelected(nextState);
