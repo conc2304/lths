@@ -90,9 +90,6 @@ jobs:
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_STAGING }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
           env: RESTART_APP_SERVICE=true 
-          
-      - name: Create Deployment Slot
-        run: az webapp deployment slot create --name lwa-staging-westus3-mms --resource-group rg-staging-westus3-base --slot staging
 
       - name: Post a message to Slack - lths-deployments
         run: |
