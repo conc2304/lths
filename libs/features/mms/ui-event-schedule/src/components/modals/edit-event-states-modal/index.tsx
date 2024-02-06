@@ -5,13 +5,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
 import { EventStateFormItem } from './event-state-form-item';
 import { BACKGROUND_EVENT_STATES, EVENT_STATE, FOREGROUND_EVENT_STATES } from '../../../constants';
 import { EventState, EventStateID, MMSEvent } from '../../../types';
 import { sortByEventState, updateEventStatesWithOffsets } from '../../../utils';
-import { CalendarDialogActions } from '../dialog-actions';
-import { CalendarDialogTitle } from '../dialog-title';
 import { FormLabel, StyledDialogContent, dialogSubtitleText } from '../utils';
 
 export type EditEventStatesModalProps = DialogProps & {
@@ -86,7 +85,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}} className="EditEventStates--root">
       <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '23rem' }}>
-        <CalendarDialogTitle
+        <DialogTitle
           title="Edit Event States"
           subtitle={dialogSubtitleText}
           onClose={() => formik.handleReset(formik.initialValues)}
@@ -153,7 +152,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
               }
             })}
         </StyledDialogContent>
-        <CalendarDialogActions
+        <DialogActions
           cancelText="CANCEL"
           confirmText="UPDATE EVENT STATES"
           onCancel={() => formik.handleReset(formik.initialValues)}

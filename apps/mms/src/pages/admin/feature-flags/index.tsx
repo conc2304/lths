@@ -6,7 +6,7 @@ import { MultiSelectWithChip, SearchBar, Table, TableColumnHeader } from '@lths/
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
-import { AddFlagModal } from './add-flag-modal';
+import { AddNewFlagModal } from './add-new-flag-modal';
 import { generateMockFlags } from './mockFeatures';
 
 const featureFlagData = generateMockFlags(50);
@@ -166,7 +166,7 @@ const FeatureFlagPage = () => {
         </Box>
         <Table data={searchFilteredData} headerCells={tableHeaders} />
       </Box>
-      <AddFlagModal
+      <AddNewFlagModal
         open={modalOpen}
         availableModules={availableModules.map(([, label]) => label.toString())}
         onClose={() => setModalOpen(false)}

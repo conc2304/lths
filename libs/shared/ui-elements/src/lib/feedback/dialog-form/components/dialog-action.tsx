@@ -1,22 +1,22 @@
-import { Button, DialogActions, SxProps } from '@mui/material';
+import { Button, DialogActions as DialogActionsMui, SxProps } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import { pxToRem } from '@lths/shared/utils';
 
-type CalendarDialogActionsProps = {
-  cancelText: string;
+type DialogActionsProps = {
+  cancelText?: string;
   onCancel: () => void;
-  confirmText: string;
+  confirmText?: string;
   onSubmit?: () => void; // for when submit is not handled by form libs like Formik
   isSubmitting?: boolean;
   disabled?: boolean;
   sx?: SxProps;
 };
 
-export const CalendarDialogActions = (props: CalendarDialogActionsProps) => {
-  const { cancelText, confirmText, isSubmitting, onCancel, disabled, onSubmit, sx = {} } = props;
+export const DialogActions = (props: DialogActionsProps) => {
+  const { cancelText = 'Cancel', confirmText = 'Confirm', isSubmitting, onCancel, disabled, onSubmit, sx = {} } = props;
   return (
-    <DialogActions sx={{ pr: '1.5rem', pb: '2rem', ...sx }}>
+    <DialogActionsMui sx={{ pr: '1.5rem', pb: '2rem', ...sx }} data-testid="Dialog-Form--actions-wrapper">
       <Button sx={{ mr: pxToRem(8) }} onClick={onCancel} variant="outlined" color="primary">
         {cancelText}
       </Button>
@@ -30,6 +30,6 @@ export const CalendarDialogActions = (props: CalendarDialogActionsProps) => {
       >
         {confirmText}
       </LoadingButton>
-    </DialogActions>
+    </DialogActionsMui>
   );
 };

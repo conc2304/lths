@@ -1,22 +1,11 @@
 import { ReactNode } from 'react';
-import {
-  Dialog as DialogMui,
-  Box,
-  InputLabel,
-  OutlinedInput,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  TextField,
-  MenuItem,
-  Select,
-  FormHelperText,
-  styled,
-  DialogContent,
-} from '@mui/material';
+import { Dialog as DialogMui, Box, styled, DialogContent } from '@mui/material';
 import { FormikValues } from 'formik';
 
 import { pxToRem } from '@lths/shared/utils';
+
+import { DialogActions } from './dialog-action';
+import { DialogTitle } from './dialog-title';
 
 const StyledDialogContent = styled(DialogContent)(() => ({
   padding: pxToRem(24),
@@ -24,7 +13,7 @@ const StyledDialogContent = styled(DialogContent)(() => ({
 
 type DialogFormProps = {
   open: boolean;
-  children?: ReactNode;
+  children: ReactNode;
   confirmText?: string;
   cancelText?: string;
   title: string | JSX.Element;
@@ -36,16 +25,11 @@ export const DialogForm = (props: DialogFormProps) => {
   const { open, title, subtitle, cancelText, confirmText, formikValues: formik, children } = props;
 
   return (
-    <DialogMui open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" maxWidth="md">
+    <DialogMui open={open} aria-labelledby="Dialog-Form--root" className="EventForm--Dailog" maxWidth="md">
       <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
-        <CalendarDialogTitle
-          title={title}
-          subtitle={subtitle}
-          onClose={() => formik.handleReset(formik.initialValues)}
-        />
-        <StyledDialogContent>{children && children}</StyledDialogContent>
-        <CalendarDialogActions
-          data-testid="Edit-Event--actions-wrapper"
+        <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
+        <StyledDialogContent>{children}</StyledDialogContent>
+        <DialogActions
           cancelText={cancelText}
           confirmText={confirmText}
           onCancel={() => formik.handleReset(formik.values)}
