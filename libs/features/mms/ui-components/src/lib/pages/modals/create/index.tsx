@@ -198,7 +198,7 @@ export const CreatePageModal = (props: CreatePageModalProps) => {
           disabled={isSubmitting}
           variant="contained"
           type="submit"
-          color="primaryButton"
+          color="primary"
           onClick={() => handleSubmit()}
         >
           CREATE PAGE

@@ -48,7 +48,7 @@ export type CarouselProps = {
 
 export type SpacerProps = ComponentProps & {
   data: {
-    space: string;
+    space: number;
     type: string;
     background_color: string;
   };
@@ -677,7 +677,7 @@ export type HeroCarouselProps =
 
 export type HeroCarouselMetaDataProps = {
   selectedSlideIndex: number;
-}
+};
 
 export type HeroCarouselComponentProps = ComponentProps & {
   data: {

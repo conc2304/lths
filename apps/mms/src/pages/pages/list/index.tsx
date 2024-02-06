@@ -194,7 +194,7 @@ const Page = (): JSX.Element => {
           <Button
             startIcon={<AddIcon />}
             variant="contained"
-            color="primaryButton"
+            color="primary"
             onClick={() => openAlert(PageAction.CREATE)}
           >
             CREATE

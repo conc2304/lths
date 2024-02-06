@@ -5,66 +5,66 @@ import { useToolbarChange } from '../../hooks';
 import { SpacerProps } from '../../types';
 
 type Space = {
-  value: string;
+  value: number;
   label: string;
 };
 
 const spacing: Space[] = [
   {
     label: '4 px',
-    value: '4',
+    value: 4,
   },
   {
     label: '8 px',
-    value: '8',
+    value: 8,
   },
   {
     label: '12 px',
-    value: '12',
+    value: 12,
   },
   {
     label: '16 px',
-    value: '16',
+    value: 16,
   },
   {
     label: '20 px',
-    value: '20',
+    value: 20,
   },
   {
     label: '24 px',
-    value: '24',
+    value: 24,
   },
   {
     label: '28 px',
-    value: '28',
+    value: 28,
   },
   {
     label: '32 px',
-    value: '32',
+    value: 32,
   },
   {
     label: '36 px',
-    value: '36',
+    value: 36,
   },
   {
     label: '40 px',
-    value: '40',
+    value: 40,
   },
   {
     label: '48 px',
-    value: '48',
+    value: 48,
   },
   {
     label: '56 px',
-    value: '56',
+    value: 56,
   },
   {
     label: '64 px',
-    value: '64',
+    value: 64,
   },
   {
     label: '80 px',
-    value: '80',
+    value: 80,
   },
 ];
 

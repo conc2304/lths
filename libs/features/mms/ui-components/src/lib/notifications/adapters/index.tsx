@@ -208,6 +208,7 @@ export const NotificationAdapterProvider = ({ children }: Props) => {
     },
     selectedAlert: null,
     isSubmittingForm: false,
+    isEditorFormValid: false,
   };
 
   return (

@@ -23,3 +23,7 @@ export const closeNotificationAlert = (dispatch: Dispatch<EditorActionProps>) =>
 export const setFormSubmitting = (dispatch: Dispatch<EditorActionProps>) => (isSubmitting: boolean) => {
   dispatch({ type: EditorActionType.SET_FORM_SUBMITTING, isSubmitting });
 };
+
+export const setEditorFormValid = (dispatch: Dispatch<EditorActionProps>) => (isEditorFormValid: boolean) => {
+  dispatch({ type: EditorActionType.SET_EDITOR_FORM_VALID, isEditorFormValid });
+};
