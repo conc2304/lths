@@ -1,20 +1,21 @@
-import { DialogTitle, Typography } from '@mui/material';
+import { DialogTitle as DialogTitleMui, Typography } from '@mui/material';
 import { Box, SxProps } from '@mui/system';
 
-import { CloseButton } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
-type CalendarDialogTitleProps = {
+import { CloseButton } from '../../../inputs';
+
+type DialogTitleProps = {
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
   onClose: () => void;
   sx?: SxProps;
 };
 
-export const CalendarDialogTitle = (props: CalendarDialogTitleProps) => {
+export const DialogTitle = (props: DialogTitleProps) => {
   const { title, subtitle, onClose, sx = {} } = props;
   return (
-    <DialogTitle position="relative" mb={2} sx={sx}>
+    <DialogTitleMui position="relative" mb={2} sx={sx}>
       <Typography
         sx={{
           fontWeight: 400,
@@ -51,6 +52,6 @@ export const CalendarDialogTitle = (props: CalendarDialogTitleProps) => {
           }}
         />
       </Box>
-    </DialogTitle>
+    </DialogTitleMui>
   );
 };

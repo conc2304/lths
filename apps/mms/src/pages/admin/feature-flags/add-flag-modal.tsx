@@ -61,8 +61,10 @@ export const AddFlagModal = (props: AddFlagModalProps) => {
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
       // todo clean up values
+      console.log(values);
       onSubmit && onSubmit(values);
       setSubmitting(false);
+      handleCancel();
     },
   });
 
@@ -144,11 +146,13 @@ export const AddFlagModal = (props: AddFlagModalProps) => {
         </Button>
         <LoadingButton
           aria-label="Save new feature flag"
-          color="primary"
           disabled={isSubmitting || !isValid || !dirty}
           loading={isSubmitting}
+          type="submit"
           // onClick={() => setModalOpen(false)}
           sx={{ fontWeight: 600 }}
+          color="primary"
+          variant="contained"
         >
           ADD
         </LoadingButton>
