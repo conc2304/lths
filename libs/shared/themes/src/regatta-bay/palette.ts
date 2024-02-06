@@ -14,7 +14,7 @@ const AppBarColorMap: Record<WebEnvName, Property.BackgroundColor> = {
   local: AppBarBlack,
 };
 
-const appBarColor = env ? AppBarColorMap?.[env] : AppBarBlack;
+const appBarColor = env && env !== undefined && Boolean(AppBarColorMap?.[env]) ? AppBarColorMap[env] : AppBarBlack;
 
 const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
   return {

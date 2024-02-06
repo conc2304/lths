@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { Twirl as Hamburger } from 'hamburger-react';
 
 import { DashboardLayout, useLayoutActions } from '@lths/shared/ui-layouts';
-import { getAppEnvironmentName } from '@lths/shared/utils';
+import { WebEnvName, getAppEnvironmentName } from '@lths/shared/utils';
 
 import { LitehouseLogoIcon, LitehouseLogoText } from '../../assets/icon';
 import { UserActionMenu } from '../../components/layouts';
@@ -12,8 +12,30 @@ import sections from '../../pages/paths';
 const HeaderLeft = () => {
   const theme = useTheme();
 
-  const useProdTheme = ['production', 'local'].includes(getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV));
+  const currEnv = getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
+  const prodThemes: WebEnvName[] = ['production', 'local'];
+  const isProdLikeEnv = prodThemes.includes(currEnv);
+  const useProdTheme = currEnv ? isProdLikeEnv : true;
+
+  console.log(1, {
+    currEnv,
+    isProdLikeEnv,
+    useProdTheme,
+    theme,
+    nxEnv: process.env.NX_PUBLIC_WEB_ENV ? process.env.NX_PUBLIC_WEB_ENV : 'not present',
+    appBarColor: theme.palette.appBar.background,
+  });
   const appBarTextColor = theme.palette.getContrastText(theme.palette.appBar.background);
+
+  console.log(2, {
+    currEnv,
+    isProdLikeEnv,
+    useProdTheme,
+    theme,
+    nxEnv: process.env.NX_PUBLIC_WEB_ENV ? process.env.NX_PUBLIC_WEB_ENV : 'not present',
+    appBarColor: theme.palette.appBar.background,
+    appBarTextColor: appBarTextColor,
+  });
 
   return (
     <Box

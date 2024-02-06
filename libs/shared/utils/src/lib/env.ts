@@ -4,9 +4,9 @@ import process from 'process';
 export type WebEnvName = 'dev' | 'staging' | 'production' | 'qa' | 'local';
 
 export const getAppEnvironmentName = (processEnvVar: string | WebEnvName | undefined = undefined): WebEnvName => {
-  const env = processEnvVar || process?.env.NX_PUBLIC_WEB_ENV || undefined;
+  const env = processEnvVar ?? process?.env?.NX_PUBLIC_WEB_ENV ?? undefined;
 
-  if (env) return env as WebEnvName;
+  if (env !== undefined) return env as WebEnvName;
 
   // fallback to parsing the env from the url
   const hostname = window?.location?.hostname;
