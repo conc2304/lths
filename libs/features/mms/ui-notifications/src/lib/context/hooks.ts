@@ -6,6 +6,7 @@ import {
   openNotificationAlert,
   closeNotificationAlert,
   setFormSubmitting,
+  setEditorFormValid,
 } from './actions';
 import { useEditor } from './context';
 
@@ -23,7 +24,9 @@ export const useEditorActions = () => {
     openNotificationAlert: useMemo(() => openNotificationAlert(dispatch), [dispatch]),
     closeNotificationAlert: useMemo(() => closeNotificationAlert(dispatch), [dispatch]),
     setFormSubmitting: useMemo(() => setFormSubmitting(dispatch), [dispatch]),
+    setEditorFormValid: useMemo(() => setEditorFormValid(dispatch), [dispatch]),
     selectedNotification: state.selectedNotification,
     selectedAlert: state.selectedAlert,
+    isEditorFormValid: state.isEditorFormValid,
   };
 };

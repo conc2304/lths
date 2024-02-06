@@ -42,6 +42,13 @@ const reducer = (state: EditorProps, action: EditorActionProps): EditorProps => 
         isSubmittingForm: isSubmitting,
       };
     }
+    case EditorActionType.SET_EDITOR_FORM_VALID: {
+      const { isEditorFormValid } = action;
+      return {
+        ...state,
+        isEditorFormValid: isEditorFormValid,
+      };
+    }
     default: {
       return state;
     }
