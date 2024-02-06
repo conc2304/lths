@@ -162,7 +162,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
               sx={{
                 fontSize: '0.75rem',
                 cursor: 'pointer',
-                color: (theme: Theme) => theme.palette.secondaryButton.main,
+                color: (theme: Theme) => theme.palette.secondary.main,
                 mt: 1.25,
               }}
             >

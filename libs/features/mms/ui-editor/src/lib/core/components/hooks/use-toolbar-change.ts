@@ -13,7 +13,7 @@ export const useToolbarChange = () => {
    */
   const updateComponentProp = (
     key: string,
-    value: string | object,
+    value: string | number | object,
     index?: number,
     parent_key = 'sub_component_data'
   ) => {

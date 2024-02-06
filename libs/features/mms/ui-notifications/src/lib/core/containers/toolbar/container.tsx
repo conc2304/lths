@@ -16,6 +16,7 @@ import { string, object } from 'yup';
 import { NotificationDataProps, NotificationTargetType, PageProps } from '@lths/features/mms/data-access';
 import { urlRegexPattern } from '@lths/shared/utils';
 
+import { useEditorActions } from '../../../context';
 import { usePageList } from '../../../hooks';
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { UpdateEditorStateProps } from '../types';
@@ -53,6 +54,8 @@ const Container = ({
   } = notificationData || {};
 
   const { pageList } = usePageList();
+
+  const { setEditorFormValid } = useEditorActions();
 
   const onSubmit = async () => {
     onUpdateNotification(notificationData);
@@ -100,6 +103,10 @@ const Container = ({
   useEffect(() => {
     validateForm();
   }, [values.target_type]);
+
+  useEffect(() => {
+    setEditorFormValid(!isNotValid);
+  }, [isNotValid]);
 
   return (
     <Box sx={{ paddingY: 3, paddingX: 4, height: '100%', position: 'relative' }}>
@@ -182,6 +189,7 @@ const Container = ({
         )}
       </Box>
       <Fab
+        color="primary"
         sx={{ position: 'absolute', bottom: 24, left: -72 }}
         disabled={isNotValid || isSubmitting || isUpdating}
         onClick={() => handleSubmit()}

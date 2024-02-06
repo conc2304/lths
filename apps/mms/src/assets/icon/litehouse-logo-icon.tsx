@@ -1,14 +1,25 @@
 import { Box, SxProps } from '@mui/system';
+import { Property } from 'csstype';
 
 type SVGProps = {
   scale?: number;
   width?: number;
   height?: number;
   wrapperSx?: SxProps;
+  gradientColorBottom?: Property.Color;
+  gradientColorTop?: Property.Color;
 };
 
 export const LitehouseLogoIcon = (props: SVGProps) => {
-  const { scale = 1, width = 23, height = 30, wrapperSx } = props;
+  const {
+    scale = 1,
+    width = 23,
+    height = 30,
+    wrapperSx,
+    gradientColorTop = '#299581',
+    gradientColorBottom = '#047881',
+  } = props;
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', ...wrapperSx }} data-testid="LitehouseLogoIcon">
       <svg
@@ -51,8 +62,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3139"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
           <linearGradient
             id="paint1_linear_11841_104973"
@@ -62,8 +73,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3139"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
           <linearGradient
             id="paint2_linear_11841_104973"
@@ -73,8 +84,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3137"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
           <linearGradient
             id="paint3_linear_11841_104973"
@@ -84,8 +95,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3137"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
           <linearGradient
             id="paint4_linear_11841_104973"
@@ -95,8 +106,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3141"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
           <linearGradient
             id="paint5_linear_11841_104973"
@@ -106,8 +117,8 @@ export const LitehouseLogoIcon = (props: SVGProps) => {
             y2="28.3141"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#299581" />
-            <stop offset="1" stopColor="#047881" />
+            <stop stopColor={gradientColorTop} />
+            <stop offset="1" stopColor={gradientColorBottom} />
           </linearGradient>
         </defs>
       </svg>
