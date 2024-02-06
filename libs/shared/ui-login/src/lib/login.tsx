@@ -30,19 +30,28 @@ const LoginForm: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const auth = useAppSelector((state) => state.auth);
-  const { authenticated } = auth;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [login, { isLoading }] = useLoginMutation();
   const [getUser] = useLazyGetUserQuery();
 
   useLayoutEffect(() => {
-    if (authenticated) {
+    const authauthenticated = auth;
+    if (authauthenticated) {
       // the async on submit screws with the render cycle of useNavigate
       // so we we navigate syncronously once authenticated
       navigate('/');
     }
-  }, [authenticated]);
+  }, [auth]);
+
+  useLayoutEffect(() => {
+    const authauthenticated = auth;
+    if (authauthenticated) {
+      // the async on submit screws with the render cycle of useNavigate
+      // so we we navigate syncronously once authenticated
+      navigate('/');
+    }
+  }, []);
 
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
@@ -59,6 +68,11 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   const onSubmit = async (values: LoginRequest) => {
     try {
+      if (auth.authenticated) {
+        navigate('/');
+        return;
+      }
+
       //remove tokens from storage, having auth bearer token in header is causing issues on the backend server
       removeAuthTokenFromStorage();
 
@@ -78,7 +92,7 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   return (
     <CenterCard>
-      <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
+      <Typography variant="h2" textAlign={'center'} mb={4}>
         Mobile Management System
       </Typography>
 
