@@ -182,6 +182,7 @@ const Container = ({
         )}
       </Box>
       <Fab
+        color="primary"
         sx={{ position: 'absolute', bottom: 24, left: -72 }}
         disabled={isNotValid || isSubmitting || isUpdating}
         onClick={() => handleSubmit()}

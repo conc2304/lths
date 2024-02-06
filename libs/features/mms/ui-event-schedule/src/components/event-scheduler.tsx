@@ -176,7 +176,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   const cssVariables: CalendarCustomProperties = {
-    '--current-time-color': theme.palette.secondaryButton.main,
+    '--current-time-color': theme.palette.secondary.main,
     '--current-day-highlight-color': '#cddce787',
     '--show-more-color': theme.palette.primary.main,
     '--event-min-height': '5.5rem',

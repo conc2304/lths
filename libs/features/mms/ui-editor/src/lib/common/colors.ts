@@ -59,9 +59,6 @@ const colors = {
     title: 'rgb(158, 158, 158)',
     category: 'rgba(0, 0, 0, 0.6)',
   },
-  saveButton: {
-    color: '#007882',
-  },
 };
 
 export default colors;

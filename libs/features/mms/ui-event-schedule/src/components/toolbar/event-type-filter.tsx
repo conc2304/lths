@@ -198,7 +198,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
         {selectedFilters.some(([id]) => id !== showAllValue[0]) && (
           <Button
             variant="text"
-            color="secondaryButton"
+            color="secondary"
             sx={{ fontWeight: 'bold' }}
             disableRipple
             onClick={() => handleReset()}
@@ -232,7 +232,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
               aria-labelledby="event-states-toggle-label"
               sx={{ m: 1 }}
               value={eventStatesVisible}
-              trackActiveColor={theme.palette.secondaryButton.light}
+              trackActiveColor={theme.palette.secondary.light}
               trackInactiveColor={theme.palette.grey[500]}
               size="medium"
               thumbColor={theme.palette.grey[100]}

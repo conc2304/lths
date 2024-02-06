@@ -52,7 +52,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
                 <Link
                   // TODO - Dont know where this is linking
                   underline="hover"
-                  color={(theme) => theme.palette.secondaryButton.main}
+                  color={(theme) => theme.palette.secondary.main}
                   target="_blank"
                   rel="noopener"
                   aria-label="Visit the Data Format Template page to see what files formats are valid."

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { FlagsProvider } from 'react-feature-flags';
+import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { store, persistor } from '@lths/features/mms/data-access';
 import { LayoutToaster } from '@lths/shared/ui-elements';
 import { LayoutProvider } from '@lths/shared/ui-layouts';
+import { getAppEnvTitle, getAppEnvironmentName } from '@lths/shared/utils';
 
 import { MMS_FEATURE_FLAGS } from './feature-flags';
 import Routes from './routes';
@@ -31,21 +33,29 @@ function App() {
     return null;
   }
 
+  const env = getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
+  const envTitle = getAppEnvTitle({ envName: env });
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <FlagsProvider value={MMS_FEATURE_FLAGS}>
-          <LayoutThemeProvider>
-            <LayoutProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Routes />
-              </LocalizationProvider>
-            </LayoutProvider>
-            <LayoutToaster />
-          </LayoutThemeProvider>
-        </FlagsProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <Helmet>
+        <title>{envTitle}</title>
+      </Helmet>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <FlagsProvider value={MMS_FEATURE_FLAGS}>
+            <LayoutThemeProvider>
+              <LayoutProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Routes />
+                </LocalizationProvider>
+              </LayoutProvider>
+              <LayoutToaster />
+            </LayoutThemeProvider>
+          </FlagsProvider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
 

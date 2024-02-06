@@ -98,7 +98,7 @@ const DateTimeRangePicker = (props: Props) => {
             </Typography>
             <Button
               variant="text"
-              sx={{ color: theme.palette.secondaryButton.main, padding: 0, marginTop: 1.25 }}
+              sx={{ color: theme.palette.secondary.main, padding: 0, marginTop: 1.25 }}
               onClick={() => onDateRangeRemove(index)}
             >
               DELETE
@@ -143,7 +143,7 @@ const DateTimeRangePicker = (props: Props) => {
       <div>
         <Button
           variant="text"
-          sx={{ color: theme.palette.secondaryButton.main, padding: 0, marginTop: 2 }}
+          sx={{ color: theme.palette.secondary.main, padding: 0, marginTop: 2 }}
           onClick={onDateRangeAdd}
         >
           ADD ANOTHER DATE/TIME RANGE

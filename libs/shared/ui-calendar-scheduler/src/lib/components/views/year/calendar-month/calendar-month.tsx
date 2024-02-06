@@ -58,7 +58,7 @@ export const CalendarMonth = (props: CalendarMonthProps) => {
             cursor: 'pointer',
             color: (theme) => (isPastMonth ? theme.palette.grey[600] : undefined),
             '&:hover': {
-              color: (theme) => theme.palette.secondaryButton.main,
+              color: (theme) => theme.palette.secondary.main,
             },
           }}
         >

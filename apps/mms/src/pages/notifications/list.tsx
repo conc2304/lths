@@ -172,7 +172,7 @@ const NotificationPage = () => {
           <Button
             startIcon={<AddIcon />}
             variant="contained"
-            color="primaryButton"
+            color="primary"
             onClick={() => openNotificationAlert(NotificationAction.CREATE)}
           >
             CREATE

@@ -46,7 +46,7 @@ export const DragDropFile = (props: DragDropFileProps) => {
     filesRemovable = false,
     showFilesAdded = false,
     multiple = false,
-    borderColor = theme.palette.secondaryButton.main,
+    borderColor = theme.palette.secondary.main,
     backgroundDragColor = theme.palette.grey[100],
     maxFileSize = 'XXX',
     promptText = 'Drag and drop your file here.',
@@ -176,7 +176,7 @@ export const DragDropFile = (props: DragDropFileProps) => {
           <Button
             className="upload-button"
             variant="outlined"
-            color="secondaryButton"
+            color="secondary"
             fullWidth
             onClick={onButtonClick}
             sx={{ borderRadius: '24px', mb: 2.5 }}
