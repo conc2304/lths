@@ -25,7 +25,8 @@ type GetAppEnvTitleProps = {
 };
 
 export const getAppEnvTitle = ({ envName = undefined, titleGenerator }: GetAppEnvTitleProps) => {
-  const env = envName ? envName : getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
+  const env = envName && envName !== undefined ? envName : getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
+
   const envTitleMap: Record<WebEnvName, 'DEV' | 'STAGING' | 'LOC' | 'QA' | ''> = {
     local: 'LOC',
     dev: 'DEV',
@@ -37,6 +38,6 @@ export const getAppEnvTitle = ({ envName = undefined, titleGenerator }: GetAppEn
   const envTitleStr = envTitleMap[env] || '';
   if (titleGenerator) return titleGenerator(envTitleStr);
 
-  const envTitle = 'MMS' + (env && env !== 'production' ? ` [${envTitleMap[env]}] ` : envTitleMap?.[env] || '');
+  const envTitle = 'MMS' + (env && env !== 'production' && envTitleStr ? ` [${envTitleStr}] ` : '');
   return envTitle;
 };

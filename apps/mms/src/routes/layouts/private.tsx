@@ -16,26 +16,7 @@ const HeaderLeft = () => {
   const prodThemes: WebEnvName[] = ['production', 'local'];
   const isProdLikeEnv = prodThemes.includes(currEnv);
   const useProdTheme = currEnv ? isProdLikeEnv : true;
-
-  console.log(1, {
-    currEnv,
-    isProdLikeEnv,
-    useProdTheme,
-    theme,
-    nxEnv: process.env.NX_PUBLIC_WEB_ENV ? process.env.NX_PUBLIC_WEB_ENV : 'not present',
-    appBarColor: theme.palette.appBar.background,
-  });
   const appBarTextColor = theme.palette.getContrastText(theme.palette.appBar.background);
-
-  console.log(2, {
-    currEnv,
-    isProdLikeEnv,
-    useProdTheme,
-    theme,
-    nxEnv: process.env.NX_PUBLIC_WEB_ENV ? process.env.NX_PUBLIC_WEB_ENV : 'not present',
-    appBarColor: theme.palette.appBar.background,
-    appBarTextColor: appBarTextColor,
-  });
 
   return (
     <Box
