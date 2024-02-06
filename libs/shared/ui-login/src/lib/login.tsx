@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import {
   Checkbox,
   FormControlLabel,
@@ -30,23 +30,21 @@ const LoginForm: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const auth = useAppSelector((state) => state.auth);
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const [login, { isLoading }] = useLoginMutation();
   const [getUser] = useLazyGetUserQuery();
 
   useLayoutEffect(() => {
-    const authauthenticated = auth;
-    if (authauthenticated) {
+    const { authenticated } = auth;
+    if (authenticated) {
       // the async on submit screws with the render cycle of useNavigate
       // so we we navigate syncronously once authenticated
       navigate('/');
     }
   }, [auth]);
 
-  useLayoutEffect(() => {
-    const authauthenticated = auth;
-    if (authauthenticated) {
+  useEffect(() => {
+    const { authenticated } = auth;
+    if (authenticated) {
       // the async on submit screws with the render cycle of useNavigate
       // so we we navigate syncronously once authenticated
       navigate('/');
@@ -69,6 +67,7 @@ const LoginForm: React.FC = (): JSX.Element => {
   const onSubmit = async (values: LoginRequest) => {
     try {
       if (auth.authenticated) {
+        // short circuit if we have already authenticated
         navigate('/');
         return;
       }
@@ -92,7 +91,7 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   return (
     <CenterCard>
-      <Typography variant="h2" textAlign={'center'} mb={4}>
+      <Typography variant="h2" textAlign={'center'} mb={4} sx={{ color: (theme) => theme.palette.secondary.main }}>
         Mobile Management System
       </Typography>
 
@@ -114,7 +113,6 @@ const LoginForm: React.FC = (): JSX.Element => {
                     id="email-login"
                     type="email"
                     value={values.email}
-                    ref={inputRef}
                     name="email"
                     autoComplete="email"
                     onBlur={handleBlur}
@@ -200,17 +198,6 @@ const LoginForm: React.FC = (): JSX.Element => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  onMouseEnter={() => {
-                    // test to see if this gets values from autofill to take effect
-                    const autoFillElem = document.querySelector(
-                      '*:-internal-autofill-selected, *:-internal-autofill-previewed, *:-webkit-autofill'
-                    );
-
-                    if (autoFillElem) {
-                      inputRef.current.focus();
-                      inputRef.current.blur();
-                    }
-                  }}
                 >
                   Login
                 </LoadingButton>
