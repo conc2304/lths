@@ -46,7 +46,7 @@ export const DialogForm = (props: DialogFormProps) => {
           confirmText={confirmText}
           onCancel={handleOnCancel}
           isSubmitting={formik.isSubmitting}
-          disabled={!formik.isValid}
+          disabled={!formik.isValid || !formik.dirty}
         />
       </Box>
     </DialogMui>

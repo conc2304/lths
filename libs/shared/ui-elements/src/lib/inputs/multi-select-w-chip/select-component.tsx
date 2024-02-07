@@ -17,6 +17,7 @@ import { pxToRem } from '@lths/shared/utils';
 import { SelectChipRenderer } from './select-chip-renderer';
 import { SelectOptionInternal, SelectOptionProp } from './types';
 import { normalizeOption } from './utils';
+import { ColorThemeMui } from '../../types';
 
 type MultiSelectWithChipProps = {
   options: SelectOptionProp[];
@@ -31,6 +32,7 @@ type MultiSelectWithChipProps = {
   size?: 'small' | 'medium';
   sx?: SxProps;
   maxChips?: number;
+  color?: ColorThemeMui;
   slotProps?: {
     select?: SelectProps;
     input?: OutlinedInputProps;
@@ -65,6 +67,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
     size = 'small',
     sx = {},
     maxChips = 3,
+    color = 'primary',
     slotProps = { select: {} as SelectProps<SelectOptionInternal>, input: {}, menuItem: {} },
   } = props;
 
@@ -77,12 +80,10 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
   const options = optionsProp.map(normalizeOption);
   const initialValue = value ? value.map(normalizeOption) : [showAllValue];
   const [optionsSelected, setOptionsSelected] = useState<SelectOptionInternal[]>(initialValue);
-  const dataIsObject = optionsProp.some((option) => {
-    return !Array.isArray(option);
-  });
+  // const dataIsObject = optionsProp.some((option) => {
+  //   return !Array.isArray(option);
+  // });
   const placeholder = placeholderProp ?? showAllText;
-
-  console.log({ dataIsObject });
 
   const handleSelectFilter = (event: SelectChangeEvent<SelectOptionInternal[]>) => {
     // values from the selection can only be strings or array of strings, so unfortunately no objects
@@ -143,6 +144,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
       input={<OutlinedInput {...slotProps.input} />}
       ref={containerRef}
       size={size}
+      color={color}
       sx={{
         width: '100%',
         backgroundColor: '#FFF',
@@ -157,13 +159,21 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
         // !! renderValue runs before useLayoutEffect in SelectChipRenderer will run when add/removing, and then again on menu blur,
         // !! which causes some weirdness and delays in calculating number of chips to render
         // So in lieu of that we are hardcoding the chip limit
-        return <SelectChipRenderer selectedItems={selected} onRemoveItem={handleRemoveFilter} chipLimit={maxChips} />;
+        return (
+          <SelectChipRenderer
+            selectedItems={selected}
+            onRemoveItem={handleRemoveFilter}
+            chipLimit={maxChips}
+            showAllText={showAllText}
+          />
+        );
       }}
     >
       <MenuItem
         key={showAllValue[0]}
         value={showAllValue[1]}
         sx={getStyles(showAllValue[1], options)}
+        color={color}
         {...slotProps.menuItem}
       >
         {showAllText}
@@ -175,6 +185,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
             key={id.toString()}
             value={[id.toString(), label.toString()]}
             style={getStyles(label.toString(), options)}
+            color={color}
             {...slotProps.menuItem}
           >
             {label.toString()}

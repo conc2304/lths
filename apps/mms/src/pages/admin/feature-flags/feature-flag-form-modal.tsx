@@ -3,24 +3,28 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogForm } from '@lths/shared/ui-elements';
+import { slugify } from '@lths/shared/utils';
 
 import { FeatureFlag } from './type';
 
-type AddNewFlagModalProps = {
+type FeatureFlagFormModalProps = {
   open: boolean;
   availableModules?: (string | number)[];
+  formValues?: FeatureFlag;
   onClose?: () => void;
-  onSubmit?: (flagData: FeatureFlag) => void;
+  onSubmit?: (flagData: FeatureFlag, method: 'edit' | 'create') => void;
 };
 
-export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
-  const { open, availableModules = [], onClose, onSubmit } = props;
+export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
+  const { open, availableModules = [], onClose, onSubmit, formValues = null } = props;
+
+  const isNewFeature = Boolean(formValues);
 
   const initialValues = {
-    module: '',
-    title: '',
-    enabled: false,
-    description: '',
+    module: formValues?.module ?? '',
+    title: formValues?.title ?? '',
+    enabled: formValues?.enabled ?? false,
+    description: formValues?.description ?? '',
   };
 
   const validationSchema = Yup.object().shape({
@@ -34,33 +38,31 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
     initialValues,
     validationSchema,
     validateOnBlur: true,
-    // validateOnChange: true,
+    validateOnChange: true,
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
       // todo clean up values
-      console.log(values);
-      onSubmit && onSubmit(values);
+      const featureFlag = { ...values, id: formValues?.id ?? slugify(values.title) };
+      const method = isNewFeature ? 'create' : 'edit';
+      onSubmit && onSubmit(featureFlag, method);
       setSubmitting(false);
       handleCancel();
     },
   });
 
   const { values, handleChange, handleBlur, handleReset, setFieldValue, touched, errors } = formik;
-  console.log({ errors, values });
 
   const handleCancel = () => {
     onClose && onClose();
     handleReset(initialValues);
   };
 
-  console.log(errors.title);
-  console.log(touched.title);
-  console.log({ touched });
+  const formTitleText = `${formValues !== null ? 'Add New' : 'Edit'} Feature Flag`;
 
   return (
     <DialogForm
       open={open}
-      title="Add New Feature Flag"
+      title={formTitleText}
       formikValues={formik}
       cancelText="Cancel"
       confirmText="Add Flag"
@@ -80,13 +82,15 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 setFieldValue('module', newValue ?? '');
               }}
               renderOption={(props, option) => <li {...props}>{option}</li>}
+              color="secondary"
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label="Feature Module"
                   onBlur={handleBlur}
                   helperText={touched.module && errors.module}
-                  color={touched.module && Boolean(errors.module) ? 'error' : 'primary'}
+                  color="secondary"
+                  // color={touched.module && Boolean(errors.module) ? 'error' : 'primary'}
                   error={touched.module && Boolean(errors.module)}
                 />
               )}
@@ -103,12 +107,14 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 helperText={touched.title && errors.title}
-                color={touched.title && Boolean(errors.title) ? 'error' : 'primary'}
+                color="secondary"
+                // color={touched.title && Boolean(errors.title) ? 'error' : 'primary'}
                 error={touched.title && Boolean(errors.title)}
                 fullWidth
               />
               <FormControlLabel
-                control={<Checkbox checked={values.enabled} onChange={handleChange} />}
+                color="secondary"
+                control={<Checkbox checked={values.enabled} onChange={handleChange} color="secondary" />}
                 label="Enabled"
                 labelPlacement="start"
                 name="enabled"
@@ -127,7 +133,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
               onChange={handleChange}
               onBlur={handleBlur}
               helperText={touched.description && errors.description ? errors.description : ''}
-              // color={touched.description && Boolean(errors.description) ? 'error' : 'primary'}
+              color="secondary"
               error={touched.description && Boolean(errors.description)}
             />
           </FormControl>

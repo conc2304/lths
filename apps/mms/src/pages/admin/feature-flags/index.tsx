@@ -1,13 +1,26 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Box, Button, Checkbox, FormControl, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Add, FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
+import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  IconButton,
+  Stack,
+  TableCell,
+  TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
+import { Add, CheckCircle, Edit, FilterAlt, FilterAltOffOutlined, HighlightOff } from '@mui/icons-material';
+import { isEqual } from 'lodash';
 
-import { MultiSelectWithChip, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
+import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
-import { AddNewFlagModal } from './add-new-flag-modal';
+import { FeatureFlagFormModal } from './feature-flag-form-modal';
 import { generateMockFlags } from './mockFeatures';
+import { FeatureFlag } from './type';
 
 const featureFlagData = generateMockFlags(50);
 type FilterOption = [id: string | number, value: string | number];
@@ -22,9 +35,11 @@ const FeatureFlagPage = () => {
   const [modulesFilteredOn, setModulesFilteredOn] = useState<FilterOption[]>([showAllValue]);
   const [filterByFeatureState, setFilterByFeatureState] = useState<true | false | null>(null);
   const availableModules = getUniqueValuesByKey(featureFlagData, 'module').map((value, i) => [i, value]);
+  const filtersFormIsClean =
+    search === '' && isEqual(modulesFilteredOn, [showAllValue]) && filterByFeatureState === null;
 
-  console.log(1, { availableModules });
   const [modalOpen, setModalOpen] = useState(false);
+  const [formFeatureValues, setFormFeatureFlag] = useState(null);
   // Data Fetching Params
 
   // Initialization
@@ -56,6 +71,11 @@ const FeatureFlagPage = () => {
       id: 'enabled',
       label: 'enabled',
       sortable: true,
+    },
+    {
+      id: 'edit',
+      label: '',
+      sortable: false,
     },
   ];
 
@@ -94,6 +114,49 @@ const FeatureFlagPage = () => {
     if (!isChecked) setFilterByFeatureState(null);
   };
 
+  const onEditFlagClick = (flagData: FeatureFlag) => {
+    console.log(flagData);
+    setFormFeatureFlag(flagData);
+    setModalOpen(true);
+  };
+
+  const RowBuilder = (): RowBuilderFn<FeatureFlag> => {
+    return (props) => {
+      const { data } = props;
+
+      return (
+        <TableRow>
+          {tableHeaders.map((col) => {
+            const key = col.id;
+            const cellValue = data[key];
+            let content: ReactNode;
+
+            if (typeof cellValue === 'boolean') {
+              content = cellValue ? (
+                <CheckCircle fontSize="medium" htmlColor="#388E3C" />
+              ) : (
+                <HighlightOff fontSize="medium" color="error" />
+              );
+            } else if (key === 'edit') {
+              content = (
+                <IconButton onClick={() => onEditFlagClick(data)}>
+                  <Edit />
+                </IconButton>
+              );
+            } else {
+              content = cellValue;
+            }
+            return (
+              <TableCell key={key} size={['edit', 'enabled'].includes(key) ? 'small' : undefined}>
+                {content}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      );
+    };
+  };
+
   return (
     <Box
       className="MMS-Schedule-Page--root"
@@ -127,10 +190,11 @@ const FeatureFlagPage = () => {
               options={availableModules as FilterOption[]}
               showAllText="Show All Modules"
               onChange={handleSelectFilter}
+              color="secondary"
             />
           </FormControl>
           <FormControl sx={{ width: '25%' }}>
-            <SearchBar value={search} onSearch={handleOnSearch} size="small" />
+            <SearchBar value={search} onSearch={handleOnSearch} size="small" color="secondary" />
           </FormControl>
           <FormControl
             sx={{
@@ -145,6 +209,7 @@ const FeatureFlagPage = () => {
               inputProps={{
                 'aria-label': 'Filter On',
               }}
+              color="secondary"
               icon={<FilterAltOffOutlined />}
               checkedIcon={<FilterAlt />}
               checked={filterByFeatureState !== null}
@@ -161,17 +226,18 @@ const FeatureFlagPage = () => {
             </ToggleButtonGroup>
           </FormControl>
           <FormControl>
-            <Button color="secondary" variant="outlined" onClick={handleReset}>
+            <Button color="secondary" variant="outlined" onClick={handleReset} disabled={filtersFormIsClean}>
               Reset
             </Button>
           </FormControl>
         </Box>
-        <Table data={searchFilteredData} headerCells={tableHeaders} />
+        <Table data={searchFilteredData} headerCells={tableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
       </Box>
-      <AddNewFlagModal
+      <FeatureFlagFormModal
         open={modalOpen}
         availableModules={availableModules.map(([, label]) => label.toString())}
         onClose={() => setModalOpen(false)}
+        // formValues={formFeatureValues}
       />
     </Box>
   );
