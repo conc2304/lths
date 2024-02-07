@@ -33,7 +33,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    // validateOnBlur: true,
+    validateOnBlur: true,
     // validateOnChange: true,
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
@@ -45,7 +45,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
     },
   });
 
-  const { values, handleChange, handleReset, setFieldValue, touched, errors } = formik;
+  const { values, handleChange, handleBlur, handleReset, setFieldValue, touched, errors } = formik;
   console.log({ errors, values });
 
   const handleCancel = () => {
@@ -53,14 +53,9 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
     handleReset(initialValues);
   };
 
-  // Object.keys(initialValues).forEach((key) => {
-  //   console.log({
-  //     [key]: {
-  //       text: touched[key] && errors[key],
-  //       error: touched[key] && Boolean(errors[key]),
-  //     },
-  //   });
-  // });
+  console.log(errors.title);
+  console.log(touched.title);
+  console.log({ touched });
 
   return (
     <DialogForm
@@ -80,8 +75,8 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
               autoSelect
               value={values.module}
               options={availableModules.map((m) => m.toString())}
+              onBlur={handleBlur}
               onChange={(_, newValue: string | null) => {
-                console.log('change', newValue);
                 setFieldValue('module', newValue ?? '');
               }}
               renderOption={(props, option) => <li {...props}>{option}</li>}
@@ -89,6 +84,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 <TextField
                   {...params}
                   label="Feature Module"
+                  onBlur={handleBlur}
                   helperText={touched.module && errors.module}
                   color={touched.module && Boolean(errors.module) ? 'error' : 'primary'}
                   error={touched.module && Boolean(errors.module)}
@@ -105,6 +101,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 value={values.title}
                 name="title"
                 onChange={handleChange}
+                onBlur={handleBlur}
                 helperText={touched.title && errors.title}
                 color={touched.title && Boolean(errors.title) ? 'error' : 'primary'}
                 error={touched.title && Boolean(errors.title)}
@@ -115,6 +112,8 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 label="Enabled"
                 labelPlacement="start"
                 name="enabled"
+                onBlur={handleBlur}
+                onChange={handleChange}
               />
             </Stack>
           </FormControl>
@@ -126,6 +125,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
               multiline
               aria-multiline
               onChange={handleChange}
+              onBlur={handleBlur}
               helperText={touched.description && errors.description ? errors.description : ''}
               // color={touched.description && Boolean(errors.description) ? 'error' : 'primary'}
               error={touched.description && Boolean(errors.description)}
