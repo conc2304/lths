@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { Box, Button, Checkbox, FormControl, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
+import { Add, FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
 
 import { MultiSelectWithChip, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
@@ -106,7 +106,9 @@ const FeatureFlagPage = () => {
         sx={{ mt: '1rem', mb: '3.5rem' }}
         rightContent={
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Button onClick={() => setModalOpen(true)}>CREATE NEW FLAG</Button>
+            <Button onClick={() => setModalOpen(true)} variant="contained" startIcon={<Add />}>
+              NEW FLAG
+            </Button>
           </Stack>
         }
       />
@@ -159,7 +161,7 @@ const FeatureFlagPage = () => {
             </ToggleButtonGroup>
           </FormControl>
           <FormControl>
-            <Button color="primary" variant="outlined" onClick={handleReset}>
+            <Button color="secondary" variant="outlined" onClick={handleReset}>
               Reset
             </Button>
           </FormControl>

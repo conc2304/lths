@@ -33,8 +33,8 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    validateOnBlur: true,
-    validateOnChange: true,
+    // validateOnBlur: true,
+    // validateOnChange: true,
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
       // todo clean up values
@@ -53,6 +53,15 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
     handleReset(initialValues);
   };
 
+  // Object.keys(initialValues).forEach((key) => {
+  //   console.log({
+  //     [key]: {
+  //       text: touched[key] && errors[key],
+  //       error: touched[key] && Boolean(errors[key]),
+  //     },
+  //   });
+  // });
+
   return (
     <DialogForm
       open={open}
@@ -60,15 +69,19 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
       formikValues={formik}
       cancelText="Cancel"
       confirmText="Add Flag"
+      onCancel={handleCancel}
+      onClose={handleCancel}
     >
       <Box>
         <FormGroup>
           <FormControl sx={{ mb: 2, mt: 1 }}>
             <Autocomplete
               freeSolo
+              autoSelect
               value={values.module}
               options={availableModules.map((m) => m.toString())}
               onChange={(_, newValue: string | null) => {
+                console.log('change', newValue);
                 setFieldValue('module', newValue ?? '');
               }}
               renderOption={(props, option) => <li {...props}>{option}</li>}
@@ -76,8 +89,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 <TextField
                   {...params}
                   label="Feature Module"
-                  // helperText={(touched.module && errors.module) || ' '}
-                  helperText={'Module error'}
+                  helperText={touched.module && errors.module}
                   color={touched.module && Boolean(errors.module) ? 'error' : 'primary'}
                   error={touched.module && Boolean(errors.module)}
                 />
@@ -93,7 +105,7 @@ export const AddNewFlagModal = (props: AddNewFlagModalProps) => {
                 value={values.title}
                 name="title"
                 onChange={handleChange}
-                helperText={(touched.title && errors.title) || ' '}
+                helperText={touched.title && errors.title}
                 color={touched.title && Boolean(errors.title) ? 'error' : 'primary'}
                 error={touched.title && Boolean(errors.title)}
                 fullWidth
