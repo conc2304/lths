@@ -44,8 +44,9 @@ export type SortDirection = 'asc' | 'desc';
 
 export type ColumnLabelTextFormat = 'uppercase' | 'lowercase' | 'capitalize' | 'unformatted';
 
-export type TableColumnHeader = Record<string, unknown> & {
-  id: string;
+// export type TableColumnHeader<K extends string = string> = Record<K, unknown> & {
+export type TableColumnHeader<Key extends string = string> = {
+  id: Key;
   label: string;
   sortable: boolean;
   width?: Property.Width;
