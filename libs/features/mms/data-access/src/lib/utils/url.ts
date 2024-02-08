@@ -13,3 +13,5 @@ export const addQueryParams = (url: string, req: PaginationRequest) => {
   const queryParams = convertIntoQueryParams(req);
   return queryParams ? `${url}?${queryParams}` : url;
 };
+
+export const getEnumListUrl = (enum_id: string) => `/enums/${enum_id}`;

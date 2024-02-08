@@ -25,7 +25,6 @@ import {
   UpdatePageNameRequest,
 } from './types';
 import {
-  getEnumListUrl,
   getComponentDetailUrl,
   getComponentsListUrl,
   getCreatePageUrl,
@@ -40,6 +39,8 @@ import {
   getDuplicatePageUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
+import { getEnumListUrl } from '../utils';
+
 //TOD: Typing is missing for few methods
 const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages', 'page-details'] }).injectEndpoints({
   endpoints: (builder) => ({
