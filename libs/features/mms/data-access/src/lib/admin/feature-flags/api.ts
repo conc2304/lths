@@ -13,12 +13,6 @@ export const featureFlagsApi = api.injectEndpoints({
         url: getFeatureFlagsUrl(),
         method: 'GET',
       }),
-      // Provides a list of `Feature Flags` by `id`.
-      // If any mutation is executed that `invalidate`s any of these tags,
-      // this query will re-run to be always up-to-date.
-      // The `VIRTUAL_ID` id is a "virtual id" that is made up to be able
-      // to invalidate this query specifically if a new `Flags` element was added
-
       // @ts-expect-error: type definition doesn't reflect with injectEndpoints method
       providesTags: () => {
         return [FT_FLAG_TAG];
