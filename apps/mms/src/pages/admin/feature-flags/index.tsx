@@ -1,6 +1,4 @@
-import { FeatureFlagManager } from '@lths/shared/ui-admin';
-
-import { generateMockFlags } from './mockFeatures';
+import { FeatureFlagManager, generateMockFlags } from '@lths/shared/ui-admin';
 
 const featureFlagData = generateMockFlags(50);
 
