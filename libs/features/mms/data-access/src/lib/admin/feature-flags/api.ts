@@ -5,7 +5,6 @@ import { getFeatureFlagsUrl } from './urls';
 import { ApiResponse } from '../../types';
 
 const FT_FLAG_TAG = 'FT_FLAGS';
-const VIRTUAL_ID = 'FT_FLAGS_CACHE';
 
 export const featureFlagsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,7 +21,7 @@ export const featureFlagsApi = api.injectEndpoints({
 
       // @ts-expect-error: type definition doesn't reflect with injectEndpoints method
       providesTags: () => {
-        return [{ type: FT_FLAG_TAG, id: VIRTUAL_ID }];
+        return [FT_FLAG_TAG];
       },
     }),
     updateFeatureFlags: builder.mutation<ApiResponse<FeatureFlag[]>, FeatureFlag[]>({
@@ -33,7 +32,7 @@ export const featureFlagsApi = api.injectEndpoints({
       }),
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: () => {
-        return [{ type: FT_FLAG_TAG, id: VIRTUAL_ID }];
+        return [FT_FLAG_TAG];
       },
     }),
   }),

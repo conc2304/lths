@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { useLazyGetFeatureFlagsQuery, useUpdateFeatureFlagsMutation } from '@lths/features/mms/data-access';
 import { FeatureFlag, FeatureFlagManager } from '@lths/shared/ui-admin';
-// const featureFlagData = generateMockFlags(50);
 
 const FeatureFlagPage = () => {
   const [getFeatureFlags, { data: { data: featureFlagData = [] } = { data: [] } }] = useLazyGetFeatureFlagsQuery();
