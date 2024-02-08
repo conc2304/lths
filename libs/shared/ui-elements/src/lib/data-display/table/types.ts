@@ -49,6 +49,7 @@ export type TableColumnHeader<Key extends string = string> = Record<string, unkn
   label: string;
   sortable: boolean;
   width?: Property.Width;
+  align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
 };
 
 export type PersistantUserSettings = {

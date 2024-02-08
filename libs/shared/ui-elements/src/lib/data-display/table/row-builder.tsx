@@ -26,6 +26,7 @@ export const BaseRowBuilder = ({
       <TableCell
         key={`tc-${col.id}-${slugify(title).slice(-4)}`}
         sx={{ fontSize: '0.75rem', color: (theme) => theme.palette.grey[600] }}
+        align={col.align}
       >
         {value.toString()}
       </TableCell>

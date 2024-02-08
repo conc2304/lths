@@ -264,7 +264,8 @@ export const Table = (
                   return (
                     <TableCell
                       key={`th-${column.id}`}
-                      align="left"
+                      align={column.align ?? 'left'}
+                      width={column.width}
                       sx={{
                         color: (theme) => theme.palette.text.secondary,
                         fontSize: (theme) => theme.typography.pxToRem(16),
@@ -280,6 +281,7 @@ export const Table = (
                           sx={{
                             transition: 'color 150ms ease-in',
                             fontSize: 'inherit',
+                            pl: column?.align === 'center' ? '22px' : undefined, // the sort arrow is 18px + 4 for margins so offset for that
                             color: (theme) =>
                               column.id === orderBy ? theme.palette.text.primary : theme.palette.text.secondary,
                           }}

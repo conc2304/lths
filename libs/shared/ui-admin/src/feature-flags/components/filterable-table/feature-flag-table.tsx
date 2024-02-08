@@ -57,11 +57,13 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
       id: 'enabled',
       label: 'enabled',
       sortable: true,
+      align: 'center',
     },
     {
       id: 'edit',
       label: '',
       sortable: false,
+      align: 'center',
     },
   ];
 
@@ -115,7 +117,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
             {tableHeaders.map((col) => {
               if (col.id === 'edit')
                 return (
-                  <TableCell key={col.id} size="small">
+                  <TableCell key={col.id} size="small" align={col.align}>
                     <IconButton onClick={() => handleEditFlagClick(data)}>
                       <Edit />
                     </IconButton>
@@ -136,7 +138,14 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
                 content = cellValue;
               }
               return (
-                <TableCell key={key} size={['edit', 'enabled'].includes(key) ? 'small' : undefined}>
+                <TableCell
+                  key={key}
+                  size={key === 'enabled' ? 'small' : undefined}
+                  align={col.align}
+                  sx={{
+                    pl: col.align === 'center' && col.sortable ? '-18px' : undefined,
+                  }}
+                >
                   {content}
                 </TableCell>
               );
