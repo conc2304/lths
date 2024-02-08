@@ -1,4 +1,14 @@
-import { Autocomplete, Box, Checkbox, FormControl, FormControlLabel, FormGroup, Stack, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -18,7 +28,7 @@ type FeatureFlagFormModalProps = {
 export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const { open, availableModules = [], onClose, onSubmit, formValues = null } = props;
 
-  const isNewFeature = Boolean(formValues);
+  const isNewFeature = Boolean(!formValues);
 
   const initialValues = {
     module: formValues?.module ?? '',
@@ -57,7 +67,9 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     handleReset(initialValues);
   };
 
-  const formTitleText = `${formValues !== null ? 'Add New' : 'Edit'} Feature Flag`;
+  console.log({ isNewFeature, formValues });
+
+  const formTitleText = `${isNewFeature ? 'Add New' : 'Edit'} Feature Flag`;
 
   return (
     <DialogForm
@@ -139,6 +151,11 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           </FormControl>
         </FormGroup>
       </Box>
+      {isNewFeature && (
+        <Typography variant="caption">
+          <strong>Note:</strong> For new flags to work there will have to be updates to the code to implement them.
+        </Typography>
+      )}
     </DialogForm>
   );
 };

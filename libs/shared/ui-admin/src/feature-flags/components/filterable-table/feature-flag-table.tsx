@@ -115,9 +115,11 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
             {tableHeaders.map((col) => {
               if (col.id === 'edit')
                 return (
-                  <IconButton onClick={() => handleEditFlagClick(data)}>
-                    <Edit />
-                  </IconButton>
+                  <TableCell key={col.id} size="small">
+                    <IconButton onClick={() => handleEditFlagClick(data)}>
+                      <Edit />
+                    </IconButton>
+                  </TableCell>
                 );
 
               const key = col.id;
