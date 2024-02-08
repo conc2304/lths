@@ -18,3 +18,5 @@ export const generateMockFlags = (totalFeatures = 25): FeatureFlag[] => {
     };
   });
 };
+
+export const featureFlagDataMock = generateMockFlags(50);

@@ -1,3 +1,3 @@
-export * from './components/flag-manager-page';
+export * from './components';
 export * from './types';
 export * from './mockFeatures';

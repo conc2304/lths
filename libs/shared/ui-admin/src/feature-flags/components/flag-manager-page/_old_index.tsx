@@ -18,12 +18,13 @@ import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader 
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
-import { generateMockFlags } from '../../mockFeatures';
+import { featureFlagDataMock } from '../../mockFeatures';
 import { FeatureFlag } from '../../types';
 import { FeatureFlagFormModal } from '../form-modal/feature-flag-form-modal';
 
-const featureFlagData = generateMockFlags(50);
 type FilterOption = [id: string | number, value: string | number];
+
+const featureFlagData = featureFlagDataMock;
 
 const FeatureFlagPage = () => {
   // Api Calls
@@ -114,48 +115,6 @@ const FeatureFlagPage = () => {
     if (!isChecked) setFilterByFeatureState(null);
   };
 
-  const onEditFlagClick = (flagData: FeatureFlag) => {
-    console.log(flagData);
-    setFormFeatureFlag(flagData);
-    setModalOpen(true);
-  };
-
-  const RowBuilder = (): RowBuilderFn<FeatureFlag> => {
-    return (props) => {
-      const { data } = props;
-
-      return (
-        <TableRow>
-          <>
-            {tableHeaders.map((col) => {
-              const key = col.id;
-              const cellValue = data[key];
-              let content: ReactNode;
-
-              if (typeof cellValue === 'boolean') {
-                content = cellValue ? (
-                  <CheckCircle fontSize="medium" htmlColor="#388E3C" />
-                ) : (
-                  <HighlightOff fontSize="medium" color="error" />
-                );
-              } else {
-                content = cellValue;
-              }
-              return (
-                <TableCell key={key} size={['edit', 'enabled'].includes(key) ? 'small' : undefined}>
-                  {content}
-                </TableCell>
-              );
-            })}
-            <IconButton onClick={() => onEditFlagClick(data)}>
-              <Edit />
-            </IconButton>
-          </>
-        </TableRow>
-      );
-    };
-  };
-
   return (
     <Box
       className="MMS-Schedule-Page--root"
@@ -174,64 +133,7 @@ const FeatureFlagPage = () => {
           </Stack>
         }
       />
-      <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            mb: 3,
-          }}
-        >
-          <FormControl sx={{ width: '40%' }}>
-            <MultiSelectWithChip
-              value={modulesFilteredOn}
-              options={availableModules as FilterOption[]}
-              showAllText="Show All Modules"
-              onChange={handleSelectFilter}
-              color="secondary"
-            />
-          </FormControl>
-          <FormControl sx={{ width: '25%' }}>
-            <SearchBar value={search} onSearch={handleOnSearch} size="small" color="secondary" />
-          </FormControl>
-          <FormControl
-            sx={{
-              width: '20%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'start',
-              flexDirection: 'row',
-            }}
-          >
-            <Checkbox
-              inputProps={{
-                'aria-label': 'Filter On',
-              }}
-              color="secondary"
-              icon={<FilterAltOffOutlined />}
-              checkedIcon={<FilterAlt />}
-              checked={filterByFeatureState !== null}
-              onChange={handleEnableFilterToggleChange}
-            />
-            <ToggleButtonGroup
-              color="secondary"
-              exclusive
-              value={filterByFeatureState}
-              onChange={handleFeatureEnableFilterChange}
-            >
-              <ToggleButton value={true}>Enabled</ToggleButton>
-              <ToggleButton value={false}>Disabled</ToggleButton>
-            </ToggleButtonGroup>
-          </FormControl>
-          <FormControl>
-            <Button color="secondary" variant="outlined" onClick={handleReset} disabled={filtersFormIsClean}>
-              Reset
-            </Button>
-          </FormControl>
-        </Box>
-        <Table data={searchFilteredData} headerCells={tableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
-      </Box>
+      <Box></Box>
       <FeatureFlagFormModal
         open={modalOpen}
         availableModules={availableModules.map(([, label]) => label.toString())}
