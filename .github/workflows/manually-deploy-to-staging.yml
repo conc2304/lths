@@ -89,7 +89,13 @@ jobs:
           app-name: 'lwa-staging-westus3-mms'
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_STAGING }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
-          env: RESTART_APP_SERVICE=true 
+
+      - name: Azure Login
+        run: az login
+ 
+      - name: Restart Azure Web App
+        run: |
+          az webapp restart --name "${{ env.lwa-staging-westus3-mms }}" --resource-group "${{ env.rg-staging-westus3-aks-tf }}"  
 
       - name: Post a message to Slack - lths-deployments
         run: |
