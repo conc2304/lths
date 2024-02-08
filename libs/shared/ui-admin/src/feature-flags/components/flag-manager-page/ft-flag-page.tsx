@@ -11,10 +11,11 @@ import { FeatureFlagFormModal } from '../form-modal/feature-flag-form-modal';
 
 type FeatureFlagManagerProps = {
   featureFlags: FeatureFlag[];
+  onUpdateFlags?: (flags: FeatureFlag) => void; // api enum values are not posted, just patched with the entire enum group content
 };
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
-  const { featureFlags } = props;
+  const { featureFlags, onUpdateFlags: onUpdate } = props;
 
   // State
   const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);
@@ -22,9 +23,13 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
   const [formFeatureValues, setFormFeatureFlag] = useState<FeatureFlag | undefined>(undefined);
 
   // Handlers
-  const handleOnEditFlag = (flagData: FeatureFlag) => {
+  const handleOnEditFlagClick = (flagData: FeatureFlag) => {
     setFormFeatureFlag(flagData);
     setModalOpen(true);
+  };
+
+  const handleOnSubmit = (flagData: FeatureFlag) => {
+    onUpdate && onUpdate(flagData);
   };
 
   return (
@@ -46,13 +51,14 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
         }
       />
       <Box>
-        <FeatureFlagTable featureFlags={featureFlags} onEditFlagClick={handleOnEditFlag} />
+        <FeatureFlagTable featureFlags={featureFlags} onEditFlagClick={handleOnEditFlagClick} />
       </Box>
       <FeatureFlagFormModal
         open={modalOpen}
         availableModules={availableModules.map(([, label]) => label.toString())}
         onClose={() => setModalOpen(false)}
         formValues={formFeatureValues}
+        onSubmit={handleOnSubmit}
       />
     </Box>
   );

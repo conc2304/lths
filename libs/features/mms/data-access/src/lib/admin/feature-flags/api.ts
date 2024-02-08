@@ -25,15 +25,6 @@ export const featureFlagsApi = api.injectEndpoints({
         return [{ type: FT_FLAG_TAG, id: VIRTUAL_ID }];
       },
     }),
-    createFeatureFlag: builder.mutation<ApiResponse<FeatureFlag[]>, FeatureFlag[]>({
-      query: (payload) => ({
-        url: getFeatureFlagsUrl(),
-        method: 'POST',
-        body: payload,
-      }),
-      //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
-      invalidatesTags: [{ type: FT_FLAG_TAG, id: VIRTUAL_ID }],
-    }),
     updateFeatureFlags: builder.mutation<ApiResponse<FeatureFlag[]>, FeatureFlag[]>({
       query: (payload) => ({
         url: getFeatureFlagsUrl(),
@@ -48,5 +39,4 @@ export const featureFlagsApi = api.injectEndpoints({
   }),
 });
 
-export const { useLazyGetFeatureFlagsQuery, useCreateFeatureFlagMutation, useUpdateFeatureFlagsMutation } =
-  featureFlagsApi;
+export const { useLazyGetFeatureFlagsQuery, useUpdateFeatureFlagsMutation } = featureFlagsApi;
