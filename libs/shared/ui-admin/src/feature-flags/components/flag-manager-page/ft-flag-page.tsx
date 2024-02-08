@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { Add } from '@mui/icons-material';
 
@@ -18,20 +18,10 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
   // State
   const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [formFeatureValues, setFormFeatureFlag] = useState<FeatureFlag | undefined>(undefined);
-  // Data Fetching Params
 
-  // Initialization
-  const init = async () => {
-    console.log('init');
-  };
-
-  useEffect(() => {
-    init();
-  }, []);
-
+  // Handlers
   const handleOnEditFlag = (flagData: FeatureFlag) => {
     setFormFeatureFlag(flagData);
     setModalOpen(true);
