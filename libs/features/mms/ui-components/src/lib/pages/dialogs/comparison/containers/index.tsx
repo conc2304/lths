@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent, ChangeEvent, useState, useEffect } from 'react';
+import { ReactNode, SyntheticEvent, ChangeEvent, useState, useEffect, useMemo } from 'react';
 import { Grid, Box, Stack, Tabs, Tab, Divider } from '@mui/material';
 
 import { PageDetail } from '@lths/features/mms/data-access';
@@ -10,18 +10,22 @@ import {
 import { 
     PageItemPreviewed, 
     PageListCompared, 
-    ConstraintsFilters, ConstraintsFiltersValues, 
-    ConstraintsToggle 
+    ConstraintsFilters,
+    ConstraintsToggle,
 } from './sidebar';
+import { ConstraintsFilterValues, PageItemData } from './types';
+import { isPageDisabled } from './utils';
 import ViewPreview from './view';
+import { usePageComponentsLookup } from '../../../../hooks';
+import { Constraint } from '../../../types';
 
-interface ComparisonContainerProps {
-    previewedPage?: PageDetail;
-    pageList?: PageDetail[];
-    defaultPageId: string;
-    defaultPageIdOptions: AutocompleteOptionProps[];
-    onDefaultPageIdChange: (value: string) => void;
-}
+const DefaultFilters = {
+    eventConstraintType: Constraint.SPECIFIC_STATES, 
+    eventValues:[],
+    eventStateValues: [], 
+    locationValues: [], 
+    userValues: [],
+};
 
 const TabItems = {
     pages: { value: 'pages', label: 'PAGES' },
@@ -36,28 +40,31 @@ function TabPanel(props : {currentTab: string, value: string, children?: ReactNo
           {value === currentTab && children}
         </div>
       );
-  }
+}
+
+interface ComparisonContainerProps {
+    pageItem?: PageDetail;
+    pageList?: PageDetail[];
+    defaultPageId: string;
+    defaultPageIdOptions: AutocompleteOptionProps[];
+    onDefaultPageIdChange: (value: string) => void;
+}
 
 export default function ComparisonContainer(props: ComparisonContainerProps) {
     const {
-        previewedPage, pageList,
+        pageItem, pageList,
         defaultPageId, defaultPageIdOptions, onDefaultPageIdChange,
     } = props;
-
-    const [previewedPageShow, setPreviewedPageShow] = useState<boolean>(true);
-    const [previewedPageDisabled, setPreviewedPageDisabled] = useState<boolean>(false);
-
-    const [reorderablePageList, setReorderablePageList] = useState<PageDetail[] | undefined>();
-    const [showPageList, setShowPageList] = useState<boolean[]>([]);
-    const [disabledPageList, setDisabledPageList] = useState<boolean[]>([]);
-
-    const [filteredPageList, setFilteredPageList] = useState<PageDetail[]>([]);
+    const {pageComponentsLookup, fetchPageComponents, initializePageComponentsLookup} = usePageComponentsLookup();
 
     const [currentTab, setCurrentTab] = useState(TabItems.pages.value);
 
     const [showConstraints, setShowConstraints] = useState<boolean>(true);
+    const [filterValues, setFilterValues] = useState<ConstraintsFilterValues>(DefaultFilters);
 
-    const [filterValues, setFilterValues] = useState<ConstraintsFiltersValues>({});
+    const [previewedPage, setPreviewedPage] = useState<PageItemData | undefined>();
+    const [reorderablePageList, setReorderablePageList] = useState<PageItemData[] | undefined>();
+
 
     const handleTabChange = (event: SyntheticEvent, value: string) => {
         setCurrentTab(value);
@@ -70,57 +77,74 @@ export default function ComparisonContainer(props: ComparisonContainerProps) {
 
     useEffect(() => {
         if (previewedPage) {
-            setPreviewedPageShow(true);
-            setPreviewedPageDisabled(false);
+            setPreviewedPage((prevState) => (prevState &&{ ...prevState, isDisabled: isPageDisabled(previewedPage.page, filterValues)}));
         }
-    }, [previewedPage]);
+        if (pageList) { 
+            setReorderablePageList((prevState) => ( prevState ? [ 
+                ...(prevState.map((item) => ({...item, isDisabled: isPageDisabled(item.page, filterValues) })) )
+            ] : []));
+        }
+    }, [filterValues]);
+
+    const handlePreviewPageShowToggle = (value: boolean) => {
+        setPreviewedPage((prevState) => (prevState && { ...prevState, isShow: value}));
+    };
+
+    useEffect(() => {
+        if (pageItem) {
+            setPreviewedPage({ page: pageItem, isShow: true, isDisabled: false});
+        }
+    }, [pageItem]);
 
     useEffect(() => {
         if (pageList) {
-            setReorderablePageList(pageList);
-            setShowPageList(Array(pageList.length).fill(true));
-            setDisabledPageList(Array(pageList.length).fill(false));
-            setPreviewedPageDisabled(false);
-            setFilterValues({});
+            const numOfPagesToShow = 4
+            setReorderablePageList(pageList.map((page, i) => ({page: page, isShow: i < numOfPagesToShow, isDisabled: false })));
+            initializePageComponentsLookup(pageList, numOfPagesToShow);
+
+            setPreviewedPage((prevState) => (prevState && { ...prevState, isDisabled: false}));
+
+            setFilterValues(DefaultFilters);
         } else {
             setReorderablePageList(undefined);
-            setShowPageList([]);
-            setDisabledPageList([]);
-            setPreviewedPageDisabled(false);
-            setFilterValues({});
-            
+            initializePageComponentsLookup([], 0);
+
+            setPreviewedPage((prevState) => (prevState && { ...prevState, isDisabled: false}));
+
+            setFilterValues(DefaultFilters);
         }
     }, [pageList]);
 
     const handleDrag = (dragIndex: number, hoverIndex: number) => {
         if (reorderablePageList) {
             const newReorderablePageList= [...reorderablePageList];
-            const newShowPageList = [...showPageList];
-            const newDisabledPageList = [...disabledPageList];
         
             [newReorderablePageList[dragIndex], newReorderablePageList[hoverIndex]] = [newReorderablePageList[hoverIndex], newReorderablePageList[dragIndex]];
-            [newShowPageList[dragIndex], newShowPageList[hoverIndex]] = [newShowPageList[hoverIndex], newShowPageList[dragIndex]];
-            [newDisabledPageList[dragIndex], newDisabledPageList[hoverIndex]] = [newDisabledPageList[hoverIndex], newDisabledPageList[dragIndex]];
         
             setReorderablePageList(newReorderablePageList);
-            setShowPageList(newShowPageList);
-            setDisabledPageList(newDisabledPageList);
         }
     }
 
     const handlePageListShowToggle = (show: boolean, index: number) => {
-        const newShowPageList = [...showPageList];
-        newShowPageList[index] = show;
-        setShowPageList(newShowPageList);
+        if(reorderablePageList && reorderablePageList.length > index) {
+            const newPageList= [...reorderablePageList];
+            newPageList[index].isShow = show;
+            setReorderablePageList(newPageList);
+
+            if(show) {
+                const pageId = reorderablePageList[index].page.page_id
+                if(pageId) fetchPageComponents(pageId);
+            }
+        }
     }
 
-    useEffect(() => {
-        const newfilteredPreviewList = [
-            ...(previewedPage && (previewedPageShow && !previewedPageDisabled) ? [previewedPage] : []),
-            ...(reorderablePageList || []).filter((item, index) => showPageList[index] && !disabledPageList[index] )
-        ];
-        setFilteredPageList(newfilteredPreviewList);
-    }, [previewedPage, previewedPageShow, previewedPageDisabled, reorderablePageList, showPageList, disabledPageList]);
+    const filteredPageList = useMemo(() => ([
+        ...((previewedPage && previewedPage.isShow && !previewedPage.isDisabled) ? [previewedPage.page] : []),
+        ...(reorderablePageList || []).reduce((filteredPages: PageDetail[], item: PageItemData) => {
+                if(item.isShow && !item.isDisabled) filteredPages.push(item.page);
+                return filteredPages;
+            }, []),
+    ]), [previewedPage, reorderablePageList]);
 
     const defaultPageIdLabel = defaultPageIdOptions.find((v) => v.value === defaultPageId)?.label;
     const pagesControllerTitle = (defaultPageIdLabel ? `${defaultPageIdLabel} Pages` : 'Pages')
@@ -146,16 +170,12 @@ export default function ComparisonContainer(props: ComparisonContainerProps) {
                     <Stack spacing={0}>
                         <PageItemPreviewed
                             title={"Previewed Page"}
-                            page={previewedPage}
-                            show={previewedPageShow}
-                            disabled={previewedPageDisabled}
-                            onShowToggle={setPreviewedPageShow}
+                            pageItem={previewedPage}
+                            onShowToggle={handlePreviewPageShowToggle}
                         />
                         <PageListCompared
                             title={pagesControllerTitle}
                             pageList={reorderablePageList}
-                            showPageList={showPageList}
-                            disabledPageList={disabledPageList}
                             onDrag={handleDrag}
                             onShowToggle={handlePageListShowToggle}
                         />
@@ -164,15 +184,11 @@ export default function ComparisonContainer(props: ComparisonContainerProps) {
                 <TabPanel value={TabItems.constraints.value} currentTab={currentTab}>
                     <ConstraintsToggle showConstraints={showConstraints} onShowConstraintsChange={handleShowConstraintsChange} />
                     <Divider/>
-                    <ConstraintsFilters
-                        previewedPage={previewedPage} pageList={reorderablePageList}
-                        filterValues={filterValues} setFilterValues={setFilterValues}
-                        setPreviewedPageDisabled={setPreviewedPageDisabled} setDisabledPageList={setDisabledPageList}
-                    />
+                    <ConstraintsFilters filterValues={filterValues} onChange={setFilterValues}/>
                 </TabPanel>
             </Grid>
             <Grid item xs={9} sx={{ backgroundColor: Colors.editor.background, height: '100%', overflow: 'auto' }}>
-                <ViewPreview pageList={filteredPageList} showConstraints={showConstraints}/>
+                <ViewPreview pageList={filteredPageList} pageComponentsLookup={pageComponentsLookup} showConstraints={showConstraints}/>
             </Grid>
         </Grid> 
     );

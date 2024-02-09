@@ -14,37 +14,47 @@ describe('PageListCompared', () => {
     beforeEach(() => {
         props = {
             title: "Page List",
-            pageList: [
+            pageList: [ 
                 {
-                    ...mockPageDetailtProps,
-                    _id: "unique_id",
-                    page_id: "home_page",
-                    components: [], 
-                    name: "Page Name",
-                    is_variant: false,
-                    constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                    page: {
+                        ...mockPageDetailtProps,
+                        _id: "unique_id",
+                        page_id: "home_page",
+                        components: [], 
+                        name: "Page Name",
+                        is_variant: false,
+                        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                    },
+                    isShow: true,
+                    isDisabled: false,
                 },
                 {
-                    ...mockPageDetailtProps,
-                    _id: "unique_id2",
-                    page_id: "home_page",
-                    components: [], 
-                    name: "Home Page Variant 1",
-                    is_variant: true,
-                    constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                    page: {
+                        ...mockPageDetailtProps,
+                        _id: "unique_id2",
+                        page_id: "home_page",
+                        components: [], 
+                        name: "Home Page Variant 1",
+                        is_variant: true,
+                        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                    },
+                    isShow: false,
+                    isDisabled: false,
                 },
                 {
-                    ...mockPageDetailtProps,
-                    _id: "unique_id3",
-                    page_id: "home_page",
-                    components: [], 
-                    name: "Home Page Variant 2",
-                    is_variant: true,
-                    constraints: { _id: "", events: [], locations: [], user_segments: [] },
-                }
+                    page: {
+                        ...mockPageDetailtProps,
+                        _id: "unique_id3",
+                        page_id: "home_page",
+                        components: [], 
+                        name: "Home Page Variant 2",
+                        is_variant: true,
+                        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                    },
+                    isShow: true,
+                    isDisabled: false,
+                },
             ],
-            showPageList: [true, false, true],
-            disabledPageList: [false, false, false],
             onDrag: mockOnDrag,
             onShowToggle: mockOnShowToggle,
         };
@@ -72,7 +82,7 @@ describe('PageListCompared', () => {
         expect(container.innerHTML).toContain(title);
 
         pageList?.forEach((page) => {
-            const { page_id, name } = page;
+            const { page_id, name } = page.page;
             expect(container.innerHTML).toContain(page_id);
             expect(container.innerHTML).toContain(name);
         });
@@ -85,10 +95,10 @@ describe('PageListCompared', () => {
             </MemoryRouter>
         );
 
-        const { pageList, showPageList } = props;
+        const { pageList } = props;
 
         pageList?.forEach((page, index) => {
-            const checked = showPageList[index];
+            const checked = page.isShow;
             const showHideToggle = screen.getByLabelText(`show/hide toggle${index}`);
             expect(showHideToggle.classList.contains('Mui-checked')).toBe(checked);
         
@@ -102,9 +112,9 @@ describe('PageListCompared', () => {
 
     test('default labels', () => {
         if( props.pageList ) {
-            props.pageList[0].is_variant = false;
-            props.pageList[1].is_variant = true;
-            props.pageList[2].is_variant = false;
+            props.pageList[0].page.is_variant = false;
+            props.pageList[1].page.is_variant = true;
+            props.pageList[2].page.is_variant = false;
         }
         render(
             <MemoryRouter>
