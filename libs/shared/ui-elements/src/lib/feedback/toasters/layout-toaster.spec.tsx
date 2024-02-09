@@ -7,10 +7,10 @@ export function triggerAnimationEnd(node: HTMLElement | HTMLElement[]) {
   act(() => {
     if (Array.isArray(node)) {
       node.forEach((el) => {
-        fireEvent.animationEnd(el.parentNode!);
+        if (el.parentNode) fireEvent.animationEnd(el.parentNode);
       });
     } else {
-      fireEvent.animationEnd(node.parentNode!);
+      if (node.parentNode) fireEvent.animationEnd(node.parentNode);
     }
 
     jest.runAllTimers();
@@ -64,24 +64,23 @@ describe('LayoutToaster', () => {
   });
 
   it('should NOT render multiple toasts of with the same ID', async () => {
-    render(<LayoutToaster />);
+    act(() => {
+      render(<LayoutToaster />);
+    });
 
     const toastID = 'MockMessage_id';
 
     act(() => {
       toast.success('MockMessage_1', { id: toastID });
+      waitTime(10);
+      toast.success('MockMessage_2', { id: toastID });
+      waitTime(10);
+      toast.error('MockMessage_3', { id: toastID });
+      waitTime(10);
+      toast.error('MockMessage_4', { id: 'unique' });
     });
 
-    waitTime(10);
-
-    let toasts = screen.queryAllByText(/MockMessage/);
-    expect(toasts.length).toBe(1);
-
-    act(() => {
-      toast.error('MockMessage_2', { id: toastID });
-    });
-
-    toasts = screen.queryAllByText(/MockMessage/);
-    expect(toasts.length).toBe(1);
+    const toasts = screen.queryAllByText(/MockMessage/);
+    expect(toasts.length).toBe(2);
   });
 });

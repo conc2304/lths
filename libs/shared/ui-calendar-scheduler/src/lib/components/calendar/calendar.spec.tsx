@@ -1,17 +1,18 @@
 import { ThemeProvider, createTheme } from '@mui/material';
-import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
+import { Event } from 'react-big-calendar';
+
+import { BaseRowBuilder, RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { LTHSCalendar, LTHSCalendarProps } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { EventComponentProps, ToolbarHeaderProps } from '../../types';
-import { getNewEvent } from '../mock-events'; // Sample events for testing
+import { getNewEvent } from '../mock-events';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
-import { BaseRowBuilder } from '../views/list-view/row-builder';
 
 describe('LTHSCalendar', () => {
   const props: LTHSCalendarProps = {
-    rowBuilder: BaseRowBuilder,
+    rowBuilder: BaseRowBuilder as RowBuilderFn<Event>,
     headerCells: DEFAULT_LIST_VIEW_COL_HEADER,
     headerToEventValueMap: BaseColumnValue,
     events: Array.from(

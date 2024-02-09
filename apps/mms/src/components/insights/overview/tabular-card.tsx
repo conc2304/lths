@@ -1,7 +1,7 @@
 import { SelectChangeEvent } from '@mui/material';
 
 import { InsightTabularResponse } from '@lths/features/mms/data-access';
-import { GenericTableCellProps, HStack, BasicCard, GenericTable } from '@lths/shared/ui-elements';
+import { HStack, BasicCard, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { InfoTooltip } from '@lths/shared/ui-elements';
 
 import { ItemOption, DropdownList } from './dropdown-list';
@@ -34,18 +34,18 @@ export const TabularCard = ({ data, filter, onChange }: TabularCardProps) => {
     </HStack>
   );
 
-  const headers: GenericTableCellProps[] = metric.labels.map((o) => {
+  const headers: TableColumnHeader[] = metric.labels.map((o) => {
     if (Object.entries(o).length === 1) {
       const id = Object.keys(o)[0];
       const label = o[id];
-      return { label, id, unit: '*' };
+      return { label, id, unit: '*', sortable: false };
     }
-    return { label: o.label, id: o.slug, unit: o.unit, type: o.type };
+    return { label: o.label, id: o.slug, unit: o.unit, type: o.type, sortable: false };
   });
 
   return (
     <BasicCard title={title} subheader={subtitle} action={action} sx={{ flex: 1 }}>
-      <GenericTable headers={headers} data={metric.data} />
+      <Table headerCells={headers} data={metric.data} />
     </BasicCard>
   );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 import { TableCell, TableRow, ThemeProvider, createTheme } from '@mui/material';
-import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format, getDay, parse, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
+import { capitalize } from 'lodash';
 import { dateFnsLocalizer } from 'react-big-calendar';
 
 import { BaseColumnValue } from './column-to-event-prop';
@@ -23,17 +23,19 @@ describe('ListView', () => {
     { title: 'Test Event 08', start: new Date(2023, 7, 17) },
     { title: 'Test Event 07', start: new Date(2023, 7, 16) },
     { title: 'Test Event 05', start: new Date(2023, 7, 14) },
+    { title: 'Test Event 12', start: new Date(2023, 7, 18) },
     { title: 'Test Event XX-LAST', start: new Date(2023, 7, 18) },
     { title: 'Test Event 09', start: new Date(2023, 7, 18) },
     { title: 'Test Event 10', start: new Date(2023, 7, 18) },
+    { title: 'Test Event 11', start: new Date(2023, 7, 18) },
     { title: 'Test Event 06', start: new Date(2023, 7, 15) },
   ];
 
   const mockRowBuilder = jest.fn();
 
-  mockRowBuilder.mockImplementation(({ event }) => {
+  mockRowBuilder.mockImplementation(({ data: event }) => {
     return (
-      <TableRow>
+      <TableRow data-testid="mock--event-row">
         <TableCell role="cell">{event.title}</TableCell>
         <TableCell role="cell">{event.start.toISOString()}</TableCell>
       </TableRow>
@@ -74,20 +76,18 @@ describe('ListView', () => {
   it('renders header cells properly', () => {
     const { getByText } = renderComponent();
     mockHeaderCells.forEach((cell) => {
-      expect(getByText(cell.label.toUpperCase())).toBeVisible();
+      expect(getByText(capitalize(cell.label))).toBeVisible();
     });
   });
 
   it('renders rows properly', () => {
-    const { container } = renderComponent({ events: mockEvents });
+    const { queryAllByTestId } = renderComponent({ events: mockEvents });
 
-    // Check if the container has text content matching the regex
-    const matchedElements = Array.from(container.querySelectorAll('td')).filter((td) =>
-      /Test Event \d/.test(td.textContent ?? '')
-    );
+    const rows = queryAllByTestId('mock--event-row');
 
-    //  component defaults to 10 rows per table page
-    expect(matchedElements.length).toBe(10);
+    //  component defaults to 25 rows per table page
+    const targetLength = mockEvents.length > 25 ? 25 : mockEvents.length;
+    expect(rows.length).toBe(targetLength);
   });
 
   it('handles page changes', async () => {
@@ -104,26 +104,31 @@ describe('ListView', () => {
   it('handles rows per page changes', async () => {
     const user = userEvent.setup();
 
-    const { getByRole } = renderComponent({ events: mockEvents });
+    const { getByRole, queryAllByTestId } = renderComponent({ events: mockEvents });
 
-    const rowsPerPageDropdown = getByRole('button', { name: /10/ });
+    const rowsPerPageDropdown = getByRole('button', { name: /25/ });
 
     expect(rowsPerPageDropdown).toBeInTheDocument();
 
     await user.click(rowsPerPageDropdown);
 
+    const targetRowsPerPage = 10;
+
     const modal = document.getElementById('menu-');
-    const fiveRowOption = modal?.querySelector('[data-value="5"]');
-    expect(fiveRowOption).toBeInTheDocument();
+    const tenRowOption = modal?.querySelector(`[data-value="${targetRowsPerPage}"]`);
+    expect(tenRowOption).toBeInTheDocument();
 
     mockRowBuilder.mockClear();
 
-    if (fiveRowOption) {
-      await user.click(fiveRowOption);
+    if (tenRowOption) {
+      await user.click(tenRowOption);
     }
 
-    // The row builder should be called 5 times since we selected 5 rows per page.
-    expect(mockRowBuilder).toHaveBeenCalledTimes(5);
+    // The row builder should be called 10 times since we selected 10 rows per page.
+    const rows = queryAllByTestId('mock--event-row');
+    const targetLength = mockEvents.length > targetRowsPerPage ? targetRowsPerPage : mockEvents.length;
+    expect(mockRowBuilder).toHaveBeenCalledTimes(targetLength);
+    expect(rows.length).toBe(targetLength);
   });
 
   it('should sort events in the table', async () => {
