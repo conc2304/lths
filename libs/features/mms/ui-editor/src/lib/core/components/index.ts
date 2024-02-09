@@ -97,6 +97,10 @@ export { default as HorizontalMediumToolbar } from './horizontal-medium/toolbar'
 
 export { default as HorizontalSmallComponent } from './horizontal-small/component';
 export { default as HorizontalSmallToolbar } from './horizontal-small/toolbar';
+
+export { default as CalendarViewComponent } from './calendar-view/component';
+export { default as CalendarViewToolbar } from './calendar-view/toolbar';
+
 export * from './types';
 
 export * from './v1';
