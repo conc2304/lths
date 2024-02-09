@@ -101,6 +101,9 @@ export { default as HorizontalSmallToolbar } from './horizontal-small/toolbar';
 export { default as CalendarViewComponent } from './calendar-view/component';
 export { default as CalendarViewToolbar } from './calendar-view/toolbar';
 
+export { default as ScheduleListComponent } from './schedule-list/component';
+export { default as ScheduleListToolbar } from './schedule-list/toolbar';
+
 export * from './types';
 
 export * from './v1';

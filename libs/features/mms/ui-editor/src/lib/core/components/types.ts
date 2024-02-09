@@ -690,7 +690,7 @@ export type HeroCarouselComponentProps = ComponentProps & {
 
 export type MonthAndYear = {
   month: number;
-  year: number
+  year: number;
 };
 
 export type CalendarViewComponentProps = ComponentProps & {
@@ -700,6 +700,14 @@ export type CalendarViewComponentProps = ComponentProps & {
     start_year: string;
     end_month: string;
     end_year: string;
+    selected_month: string;
+    selected_year: string;
+  };
+};
+export type ScheduleListComponentProps = ComponentProps & {
+  data: {
+    allow_infinite_scroll: boolean;
+    update_frequency_in_ms: number;
     selected_month: string;
     selected_year: string;
   };
