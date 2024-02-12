@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 
 import { MOBILE_SCREEN_WIDTH, MOBILE_SCREEN_HEIGHT } from '../../../../common';
 import colors from '../../../../common/colors';
@@ -10,10 +10,11 @@ import '../container.scss';
 
 export type Props = {
   components: ComponentProps[];
+  isLoading: boolean;
 };
 
 export default function PreviewWysiwyg(props: Props) {
-  const { components } = props;
+  const { components, isLoading = false } = props;
   return (
     <div className="wysiwyg-container">
       <Box
@@ -34,15 +35,21 @@ export default function PreviewWysiwyg(props: Props) {
           }}
         >
           <MobileBar.Status />
-          {components.map((item, index) => {
-            const component = factory(item);
-            const id = `preview-component-${index}`
-            return (
-              <div id={id} key={id}>
-                {component}
-              </div>
-            );
-          })}
+          { isLoading ? 
+              <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: `${MOBILE_SCREEN_HEIGHT / 2 - 150}px` }}>
+                <CircularProgress size={150} color="primary" />
+              </Box>
+            :
+              components.map((item, index) => {
+                const component = factory(item);
+                const id = `preview-component-${index}`
+                return (
+                  <div id={id} key={id}>
+                    {component}
+                  </div>
+                );
+              })
+          }
         </Box>
         <MobileBar.Bottom />
       </Box>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import {
   PageDetail,
@@ -10,7 +10,7 @@ import { AutocompleteOptionProps } from '@lths/features/mms/ui-editor';
 
 import ComparisonContainer from './containers'
 import { FullScreenDialog } from '../../../common';
-import { useDefaultAndVariantPages, usePageDetailsList } from '../../../hooks';
+import { useDefaultAndVariantPages } from '../../../hooks';
 
 type ComparisonAlertProps = {
   isOpen: boolean;
@@ -21,12 +21,11 @@ type ComparisonAlertProps = {
 
 export const ComparisonAlert = ({ isOpen, handleClose, page_id, default_page_id }: ComparisonAlertProps) => {
   const [getPageDetail] = useLazyGetPageDetailsQuery();
-  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
+  const [getDefaultPages] = useLazyGetDefaultPagesQuery();
 
   const [previewedPageDetail, setPreviewedPageDetail] = useState<PageDetail | undefined>();
 
   const { defaultAndVariantPages, fetchDefaultAndVariantPages, clearDefaultAndVariantPages } = useDefaultAndVariantPages();
-  const { pageDetailList, fetchPageDetailList, clearPageDetailList } = usePageDetailsList();
 
   const [defaultPageIdOptions, setDefaultPageIdOptions] = useState<AutocompleteOptionProps[]>([]);
   const [selectedDefaultPageId, setSelectedDefaultPageId] = useState<string>('');
@@ -42,7 +41,7 @@ export const ComparisonAlert = ({ isOpen, handleClose, page_id, default_page_id 
   };
 
   const fetchDefaultPageIdOptions = async () => {
-    const response = await getDefaultPage().unwrap();
+    const response = await getDefaultPages().unwrap();
     if (response && response.success && response.data) {
       setDefaultPageIdOptions(response.data.map((o) => ({ label: o.name, value: o.page_id })));
     }
@@ -55,7 +54,6 @@ export const ComparisonAlert = ({ isOpen, handleClose, page_id, default_page_id 
     } else {
       setSelectedDefaultPageId('');
       clearDefaultAndVariantPages();
-      clearPageDetailList();
     }
   }, [isOpen, page_id]);
 
@@ -71,17 +69,11 @@ export const ComparisonAlert = ({ isOpen, handleClose, page_id, default_page_id 
         fetchDefaultAndVariantPages(selectedDefaultPageId);
       } else {
         clearDefaultAndVariantPages();
-        clearPageDetailList();
       }
     };
   }, [selectedDefaultPageId]);
 
-  useEffect(() => {
-    if (isOpen && defaultAndVariantPages) {
-      const pageList = defaultAndVariantPages.filter((page) => (page.page_id !== page_id));
-      fetchPageDetailList(pageList);
-    }
-  }, [defaultAndVariantPages]);
+const pageList = useMemo(() => defaultAndVariantPages?.filter((page) => (page.page_id !== page_id)), [defaultAndVariantPages]);
 
   return (
     <FullScreenDialog
@@ -90,8 +82,8 @@ export const ComparisonAlert = ({ isOpen, handleClose, page_id, default_page_id 
       handleClose={handleClose}
     >
       <ComparisonContainer
-        previewedPage={previewedPageDetail}
-        pageList={pageDetailList}
+        pageItem={previewedPageDetail}
+        pageList={pageList}
 
         defaultPageId={selectedDefaultPageId}
         defaultPageIdOptions={defaultPageIdOptions}

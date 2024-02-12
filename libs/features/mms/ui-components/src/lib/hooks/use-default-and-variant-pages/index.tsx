@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PageItemsRequest, PageDetail, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
+import { PageItemsRequest, PageDetail, useLazyGetPagesItemsQuery, formatConstraintsToReadable } from '@lths/features/mms/data-access';
 
 export const useDefaultAndVariantPages = () => {
     const [getData] = useLazyGetPagesItemsQuery();
@@ -24,10 +24,18 @@ export const useDefaultAndVariantPages = () => {
 
                 if (!pages) return;
 
-                const variantPages = pages.filter((page) => (page.default_page_id === page_id));
-                const defaultPage = pages.find((page) => (page.page_id === page_id)) || null;
-
-                setDefaultAndVariantPages([...(defaultPage ? [defaultPage] : []), ...variantPages]);
+                const pagesWithFormated = pages.map((page) => ({ ...page, constraints_formatted: formatConstraintsToReadable(page.constraints) }) );
+                
+                const filteredPages: PageDetail[] = [];
+                pagesWithFormated.forEach((page) => {
+                    if(page.default_page_id === page_id) {
+                        filteredPages.push(page);
+                    } else if(page.page_id === page_id) {
+                        filteredPages.unshift(page);
+                    }
+                });
+         
+                setDefaultAndVariantPages(filteredPages);
             } catch (error) {
                 console.error(`Error fetching pages for page_id ${page_id}: `, error);
             };

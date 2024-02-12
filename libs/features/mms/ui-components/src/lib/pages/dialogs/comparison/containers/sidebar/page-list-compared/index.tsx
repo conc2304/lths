@@ -2,22 +2,20 @@ import { List, ListItem, Typography, Divider } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { PageDetail } from '@lths/features/mms/data-access';
-
+import { PageItemData } from '../../types';
 import DraggableListItem from '../list-items/draggable';
 
 export interface PageListComparedProps {
     title: string;
-    pageList?: PageDetail[];
-    showPageList: boolean[];
-    disabledPageList: boolean[]
+    pageList?: PageItemData[];
     onDrag: (dragIndex: number, hoverIndex: number) => void;
     onShowToggle?: (show: boolean, index: number) => void;
 }
 
-export default function PageListCompared({ title, pageList, showPageList, disabledPageList, onDrag, onShowToggle }: PageListComparedProps) {
-    const renderDraggableListItem = (component: PageDetail, index: number) => {
-        const { _id, name, page_id, is_variant } = component;
+export default function PageListCompared({ title, pageList, onDrag, onShowToggle }: PageListComparedProps) {
+    const renderDraggableListItem = (component: PageItemData, index: number) => {
+        const { page, isShow, isDisabled } = component;
+        const { _id, name, page_id, is_variant } = page;
 
         return (
           <DraggableListItem
@@ -28,8 +26,8 @@ export default function PageListCompared({ title, pageList, showPageList, disabl
             page_id={page_id}
             onDrag={onDrag}
             isDefault={!is_variant}
-            checked={showPageList[index]}
-            disabled={disabledPageList[index]}
+            checked={isShow}
+            disabled={isDisabled}
             onShowToggle={onShowToggle}
           />
         );

@@ -28,32 +28,32 @@ export const NoDefaultPreview = Template.bind({});
 // set args
 Primary.args = {
   title: "A Title",
-  page: {
-    ...mockPageDetailtProps,
-    _id: "unique_id",
-    page_id: "home_page",
-    components: [], 
-    name: "Page Name",
-    is_variant: false,
-    constraints: { _id: "", events: [], locations: [], user_segments: [] },
+  pageItem: {
+    page: {
+        ...mockPageDetailtProps,
+        _id: "unique_id",
+        page_id: "home_page",
+        components: [], 
+        name: "Page Name",
+        is_variant: false,
+        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+    },
+    isShow: false,
+    isDisabled: false,
   },
-  show: false,
-  disabled: false,
   onShowToggle: () => ({}),
 }
 NoDefaultPreview.args = {
     ...Primary.args,
-    page: undefined,
+    pageItem: undefined,
 }
 
 
 Primary.argTypes = {
   title: { control: 'text' },
-  page: { control: 'object' },
-  show: { control: 'boolean' },
-  disabled: { control: 'boolean' },
+  pageItem: { control: 'object' },
 }
 NoDefaultPreview.argTypes = {
     ...Primary.argTypes,
-    page: { table: { disable: true }},
+    pageItem: { table: { disable: true }},
 };

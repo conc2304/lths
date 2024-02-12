@@ -31,56 +31,70 @@ Primary.args = {
   title: "Page List",
   pageList: [
     {
-      ...mockPageDetailtProps,
-      _id: "unique_id",
-      page_id: "home_page",
-      components: [], 
-      name: "Page Name",
-      is_variant: false,
-      constraints: { _id: "", events: [], locations: [], user_segments: [] },
+      page: {
+        ...mockPageDetailtProps,
+        _id: "unique_id",
+        page_id: "home_page",
+        components: [], 
+        name: "Page Name",
+        is_variant: false,
+        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+      },
+      isShow: true,
+      isDisabled: false,
     },
     {
-      ...mockPageDetailtProps,
-      _id: "unique_id2",
-      page_id: "home_page",
-      components: [], 
-      name: "Home Page Variant 1",
-      is_variant: true,
-      constraints: { _id: "", events: [], locations: [], user_segments: [] },
+      page: {
+        ...mockPageDetailtProps,
+        _id: "unique_id2",
+        page_id: "home_page",
+        components: [], 
+        name: "Home Page Variant 1",
+        is_variant: true,
+        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+      },
+      isShow: false,
+      isDisabled: false,
     },
     {
-      ...mockPageDetailtProps,
-      _id: "unique_id3",
-      page_id: "home_page",
-      components: [], 
-      name: "Home Page Variant 2",
-      is_variant: true,
-      constraints: { _id: "", events: [], locations: [], user_segments: [] },
-    }
+      page: {
+        ...mockPageDetailtProps,
+        _id: "unique_id3",
+        page_id: "home_page",
+        components: [], 
+        name: "Home Page Variant 2",
+        is_variant: true,
+        constraints: { _id: "", events: [], locations: [], user_segments: [] },
+      },
+      isShow: false,
+      isDisabled: false,
+    },
   ],
-  showPageList: [true, false, false],
-  disabledPageList: [false, false, false],
   onDrag: () => ({}),
   onShowToggle: () => ({}),
 }
 DisabledItems.args = {
   ...Primary.args,
-  disabledPageList: [true, false, true],
+  pageList: Primary.args.pageList && [
+    ...(
+      Primary.args.pageList.map((pageItem, index) => ({
+        ...pageItem,
+        isDisabled: (index % 2 === 0),
+      }))
+    )
+  ]
 }
+
 NoItems.args = {
   ...Primary.args,
   title: "Page List",
   pageList:[],
-  showPageList: [],
-  disabledPageList: [],
 }
 
 // set argTypes
 Primary.argTypes = {
   title: { control: 'text' },
   pageList: { control: 'object' },
-  showPageList: { control: 'object' },
-  disabledPageList: { control: 'object' },
 }
 DisabledItems.argTypes = Primary.argTypes;
 NoItems.argTypes = Primary.argTypes;

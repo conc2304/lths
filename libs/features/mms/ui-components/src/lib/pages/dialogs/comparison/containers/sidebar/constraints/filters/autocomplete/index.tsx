@@ -2,20 +2,17 @@ import React, { HTMLAttributes, SyntheticEvent } from 'react';
 import { TextField, Checkbox, SxProps } from '@mui/material';
 import Autocomplete, { AutocompleteRenderOptionState } from '@mui/material/Autocomplete';
 
-export type OptionProp = {
-    name: string;
-    value: string;
-};
+import { OptionProp } from '../../../../types';
 
 interface ConstraintsAutocompleteProps {
     label: string;
     values: OptionProp[];
-    setValues: (values: OptionProp[]) => void;
+    onChange: (values: OptionProp[]) => void;
     options: OptionProp[];
     sx?: SxProps;
 };
 
-const ConstraintsAutocomplete = ({ label, values, setValues, options, sx }: ConstraintsAutocompleteProps) => {
+const ConstraintsAutocomplete = ({ label, values, onChange, options, sx }: ConstraintsAutocompleteProps) => {
     const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: OptionProp, state: AutocompleteRenderOptionState) => {
         return (
             <li {...props}>
@@ -25,11 +22,11 @@ const ConstraintsAutocomplete = ({ label, values, setValues, options, sx }: Cons
         );
     };
 
-    const handleValuesChange = (
+    const handleChange = (
         event: SyntheticEvent<Element, Event>,
         item: OptionProp[],
     ) => { 
-        setValues(item)
+        onChange(item)
     };
 
     return (
@@ -40,7 +37,7 @@ const ConstraintsAutocomplete = ({ label, values, setValues, options, sx }: Cons
             options={options}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => <TextField {...params} label={label} placeholder={label}/>}
-            onChange={handleValuesChange}
+            onChange={handleChange}
             renderOption={renderOption}
         />
     );

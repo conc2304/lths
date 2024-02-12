@@ -13,17 +13,19 @@ describe('PageItemPreviewed', () => {
     beforeEach(() => {
         props = {
             title: "A Title",
-            page: {
-                ...mockPageDetailtProps,
-                _id: "unique_id",
-                page_id: "home_page",
-                components: [], 
-                name: "Page Name",
-                is_variant: false,
-                constraints: { _id: "", events: [], locations: [], user_segments: [] },
+            pageItem: {
+                page: {
+                    ...mockPageDetailtProps,
+                    _id: "unique_id",
+                    page_id: "home_page",
+                    components: [], 
+                    name: "Page Name",
+                    is_variant: false,
+                    constraints: { _id: "", events: [], locations: [], user_segments: [] },
+                },
+                isShow: false,
+                isDisabled: false,
             },
-            show: false,
-            disabled: false,
             onShowToggle: mockOnShowToggle,
         };
     });
@@ -46,10 +48,13 @@ describe('PageItemPreviewed', () => {
                 <PageItemPreviewed {...props} />
             </MemoryRouter>
         );
-        const { title, page: { name, page_id } = {} } = props;
-
-        expect(container.innerHTML).toContain(title);
-        expect(container.innerHTML).toContain(name);
-        expect(container.innerHTML).toContain(page_id);
+        const { title, pageItem } = props;
+        if (pageItem) {
+            const { page: { name, page_id } } = pageItem;
+            
+            expect(container.innerHTML).toContain(title);
+            expect(container.innerHTML).toContain(name);
+            expect(container.innerHTML).toContain(page_id);
+        }
     });
 });
