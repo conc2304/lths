@@ -61,6 +61,8 @@ import {
   HeroEventComponent,
   HorizontalMediumComponent,
   HorizontalSmallComponent,
+  CalendarViewComponent,
+  ScheduleListComponent,
 } from '../components';
 import HeroCarouselComponent from '../components/hero-carousel/component';
 import {
@@ -126,6 +128,8 @@ import {
   HorizontalMediumProps,
   HorizontalSmallComponentProps,
   HeroCarouselComponentProps,
+  CalendarViewComponentProps,
+  ScheduleListComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -254,6 +258,10 @@ export const componentFactory = (props: ComponentProps) => {
       return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     case Component.HeroCarousel:
       return <HeroCarouselComponent {...(props as HeroCarouselComponentProps)} />;
+    case Component.CalendarView:
+      return <CalendarViewComponent {...(props as CalendarViewComponentProps)} />;
+    case Component.ScheduleList:
+      return <ScheduleListComponent {...(props as ScheduleListComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

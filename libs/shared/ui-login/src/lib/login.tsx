@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import {
   Checkbox,
   FormControlLabel,
@@ -15,8 +15,10 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Box } from '@mui/system';
 import { Formik } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { useAppSelector } from '@lths/features/mms/data-access';
 import { LoginRequest, removeAuthTokenFromStorage } from '@lths/shared/data-access';
@@ -28,18 +30,26 @@ const LoginForm: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const auth = useAppSelector((state) => state.auth);
-  const { authenticated } = auth;
-
   const [login, { isLoading }] = useLoginMutation();
   const [getUser] = useLazyGetUserQuery();
 
   useLayoutEffect(() => {
+    const { authenticated } = auth;
     if (authenticated) {
       // the async on submit screws with the render cycle of useNavigate
       // so we we navigate syncronously once authenticated
       navigate('/');
     }
-  }, [authenticated]);
+  }, [auth]);
+
+  useEffect(() => {
+    const { authenticated } = auth;
+    if (authenticated) {
+      // the async on submit screws with the render cycle of useNavigate
+      // so we we navigate syncronously once authenticated
+      navigate('/');
+    }
+  }, []);
 
   const onShowPasswordClick = () => {
     setShowPassword(!showPassword);
@@ -56,6 +66,12 @@ const LoginForm: React.FC = (): JSX.Element => {
 
   const onSubmit = async (values: LoginRequest) => {
     try {
+      if (auth.authenticated) {
+        // short circuit if we have already authenticated
+        navigate('/');
+        return;
+      }
+
       //remove tokens from storage, having auth bearer token in header is causing issues on the backend server
       removeAuthTokenFromStorage();
 
@@ -68,9 +84,14 @@ const LoginForm: React.FC = (): JSX.Element => {
     }
   };
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid Email').required('Required'),
+    password: Yup.string().required('Required'),
+  });
+
   return (
     <CenterCard>
-      <Typography variant="h2" color="primary" textAlign={'center'} mb={4}>
+      <Typography variant="h2" textAlign={'center'} mb={4} sx={{ color: (theme) => theme.palette.secondary.main }}>
         Mobile Management System
       </Typography>
 
@@ -80,9 +101,10 @@ const LoginForm: React.FC = (): JSX.Element => {
           onSubmit(values);
           setSubmitting(false);
         }}
+        validationSchema={validationSchema}
       >
-        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-          <form noValidate onSubmit={handleSubmit}>
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
+          <Box component="form" noValidate onSubmit={handleSubmit} autoComplete="on">
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
@@ -92,6 +114,7 @@ const LoginForm: React.FC = (): JSX.Element => {
                     type="email"
                     value={values.email}
                     name="email"
+                    autoComplete="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter username address"
@@ -111,10 +134,11 @@ const LoginForm: React.FC = (): JSX.Element => {
                   <OutlinedInput
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
+                    id="password-login"
                     type={showPassword ? 'text' : 'password'}
                     value={values.password}
                     name="password"
+                    autoComplete='"password'
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter password"
@@ -168,7 +192,7 @@ const LoginForm: React.FC = (): JSX.Element => {
               <Grid item xs={12}>
                 <LoadingButton
                   loading={isLoading}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isValid}
                   fullWidth
                   size="large"
                   type="submit"
@@ -180,7 +204,7 @@ const LoginForm: React.FC = (): JSX.Element => {
               </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
-          </form>
+          </Box>
         )}
       </Formik>
     </CenterCard>

@@ -48,7 +48,7 @@ export type CarouselProps = {
 
 export type SpacerProps = ComponentProps & {
   data: {
-    space: string;
+    space: number;
     type: string;
     background_color: string;
   };
@@ -675,13 +675,40 @@ export type HeroCarouselProps =
   | CardTextComponentProps
   | CardTextOverlayAndButtonComponentProps;
 
+export type HeroCarouselMetaDataProps = {
+  selectedSlideIndex: number;
+};
+
 export type HeroCarouselComponentProps = ComponentProps & {
   data: {
     title: string;
     show_greetings: boolean;
     component_data: HeroCarouselProps[];
-    editor_meta_data?: {
-      selectedSlideIndex: number;
-    };
+    editor_meta_data?: HeroCarouselMetaDataProps;
+  };
+};
+
+export type MonthAndYear = {
+  month: number;
+  year: number;
+};
+
+export type CalendarViewComponentProps = ComponentProps & {
+  data: {
+    tab_mode: string;
+    start_month: string;
+    start_year: string;
+    end_month: string;
+    end_year: string;
+    selected_month: string;
+    selected_year: string;
+  };
+};
+export type ScheduleListComponentProps = ComponentProps & {
+  data: {
+    allow_infinite_scroll: boolean;
+    update_frequency_in_ms: number;
+    selected_month: string;
+    selected_year: string;
   };
 };

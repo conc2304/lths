@@ -20,3 +20,4 @@ export const HERO_PROMO_CARD_WIDTH = 335;
 export const HERO_PROMO_CARD_HEIGHT = 192;
 export const HERO_PROMO_SILO_IMAGE_WIDTH = 166;
 export const HERO_PROMO_SILO_IMAGE_HEIGHT = 166;
+export const CAlENDAR_HEIGHT = 390;

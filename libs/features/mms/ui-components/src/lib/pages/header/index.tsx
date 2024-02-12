@@ -6,10 +6,11 @@ import LinkIcon from '@mui/icons-material/Link';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import VerticalSplitIcon from '@mui/icons-material/VerticalSplit';
 import { LoadingButton } from '@mui/lab';
 
 import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
-import { Colors, PageAction } from '@lths/features/mms/ui-editor';
+import { PageAction } from '@lths/features/mms/ui-editor';
 import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
 
@@ -49,6 +50,10 @@ const actions = (type: PageType) => {
       action: PageAction.PREVIEW,
     },
     {
+      icon: <VerticalSplitIcon />,
+      action: PageAction.COMPARISON,
+    },
+    {
       icon: <ShowChartIcon />,
       action: PageAction.INSIGHTS,
     },
@@ -86,8 +91,6 @@ export const PageHeader = ({
     },
   ];
 
-  const saveBtnColor = Colors.saveButton.color;
-
   const statusInfoText = lastUpdatedOn ? new Date(lastUpdatedOn).toLocaleDateString() : '';
 
   return (
@@ -100,17 +103,10 @@ export const PageHeader = ({
           <LoadingButton
             variant="outlined"
             startIcon={<SaveIcon />}
-            sx={{
-              paddingY: 0.5,
-              paddingX: 1.25,
-              borderRadius: 1,
-              border: `1px solid ${saveBtnColor}`,
-              color: saveBtnColor,
-              letterSpacing: '0.46px',
-              fontWeight: 500,
-            }}
+            color="primary"
             onClick={onUpdate}
             loading={isPageUpdating}
+            size="small"
           >
             SAVE
           </LoadingButton>

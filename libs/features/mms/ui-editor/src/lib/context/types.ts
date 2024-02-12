@@ -8,6 +8,7 @@ export enum PageAction {
   DUPLICATE = 'DUPLICATE',
   DELETE = 'DELETE',
   PREVIEW = 'PREVIEW',
+  COMPARISON = 'COMPARISON',
   INSIGHTS = 'INSIGHTS',
   PUSH = 'PUSH',
   SHARE = 'SHARE',

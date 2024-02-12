@@ -11,12 +11,12 @@ import {
 import { getAddAssetUrl, getAssetsUrl, getUpdateAssetUrl } from './urls';
 
 const createAssetQuery = (request: AssetsRequestProps) => {
-  const queryString = request?.queryString;
+  const searchText = request?.queryString || '';
   return {
     url: getAssetsUrl(request),
     method: 'POST',
     body: {
-      ...(queryString && { queryString: { original_file_name: queryString } }),
+      queryString: { search: searchText },
       sort: {
         direction: request.sort_order ?? 'desc',
         field: request.sort_key ?? 'created_at',

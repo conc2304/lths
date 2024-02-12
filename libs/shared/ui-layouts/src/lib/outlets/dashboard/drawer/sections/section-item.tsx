@@ -54,7 +54,11 @@ const DrawerSectionListItem = ({
       aria-haspopup={showAccordion ? 'true' : 'false'}
       tabIndex={selected ? 0 : undefined}
     >
-      {icon && <ListItemIcon sx={{ minWidth: 24, paddingRight: 1 }}>{icon}</ListItemIcon>}
+      {icon && (
+        <ListItemIcon color="red" sx={{ minWidth: 24, paddingRight: 1 }}>
+          {icon}
+        </ListItemIcon>
+      )}
       <ListItemText primary={title} />
       {showAccordion && (
         <ChevronRight

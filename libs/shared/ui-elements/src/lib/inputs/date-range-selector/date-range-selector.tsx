@@ -231,7 +231,7 @@ export const DateRangeSelector = ({
           <Grid>
             <Button
               variant="outlined"
-              color="secondaryButton"
+              color="secondary"
               disabled={!isDateRangeValid || isLoading}
               onClick={handleUpdateRange}
               sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}

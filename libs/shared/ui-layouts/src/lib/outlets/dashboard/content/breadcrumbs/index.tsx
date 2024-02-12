@@ -35,7 +35,7 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
       }}
     >
       <BreadcrumbLink path="/" title="Home">
-        <HomeIcon sx={{ padding: '0', margin: 0 }} color="primary" />
+        <HomeIcon sx={{ padding: '0', margin: 0 }} color="inherit" />
       </BreadcrumbLink>
 
       {renderInactivePaths(paths)}

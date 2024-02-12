@@ -34,7 +34,7 @@ export const WeekItem = ({ date, onClick }: WeekItemProps) => {
         borderRadius: '50%',
         color: 'InactiveCaptionText',
         '&:hover': {
-          color: (theme) => theme.palette.secondaryButton.main,
+          color: (theme) => theme.palette.secondary.main,
           fontWeight: 'bold',
         },
       }}

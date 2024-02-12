@@ -1,14 +1,13 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
+import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
   useLazyGetComponentDetailQuery,
-  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
@@ -72,10 +71,9 @@ export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
-  const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
-  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
   const getPageList = UseGetPageListQuery();
@@ -110,6 +108,13 @@ export function PageEditorTabs() {
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+
+  useBeforeUnload(handleBeforeUnload, hasUnsavedEdits);
+
   //fetch params
   const page_data = data as PageDetail;
 
@@ -122,25 +127,18 @@ export function PageEditorTabs() {
     if (page_data?.name) setPageTitle(page_data.name);
   }, [page_data?.name]);
 
-  //fetch
-  const fetchPageDetail = async (pageId: string) => {
-    try {
-      const response = await getPageDetail(pageId).unwrap();
-      if (response && response.success && response.data) {
-        initEditor(response.data);
-      } else {
-        toast.error('Page details could not be found');
-      }
-    } catch (error) {
-      console.error('Error in fetching the page details', error);
-      toast.error('Page details could not be found');
-    }
-  };
-
   //side effects
   useEffect(() => {
-    if (pageId) fetchPageDetail(pageId);
+    if (pageId) getPageDetail(pageId);
   }, [pageId]);
+
+  useEffect(() => {
+    if (pageDetailResponse) {
+      const { data, success } = pageDetailResponse;
+      if (success && data) initEditor(data);
+      else toast.error('Page details could not be found');
+    }
+  }, [pageDetailResponse]);
 
   //modal events
   const handleSelectComponent = async (componentId: string) => {
@@ -344,7 +342,7 @@ export function PageEditorTabs() {
 
   // handlers
   const handleActionClick = (action: PageAction) => {
-    const { page_id, name } = page_data;
+    const { page_id, name, default_page_id } = page_data;
     switch (action) {
       case PageAction.RENAME:
         openAlert(PageAction.RENAME, { page_id, name });
@@ -357,6 +355,9 @@ export function PageEditorTabs() {
         break;
       case PageAction.PREVIEW:
         console.log('Not implemented: preview');
+        break;
+      case PageAction.COMPARISON:
+        openAlert(PageAction.COMPARISON, { page_id, default_page_id });
         break;
       case PageAction.INSIGHTS:
         console.log('Not implemented: insights');
@@ -450,7 +451,7 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <Backdrop open={isFetchingComponentDetail}>
+      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail}>
         <CircularProgress />
       </Backdrop>
       <UnSavedPageAlert

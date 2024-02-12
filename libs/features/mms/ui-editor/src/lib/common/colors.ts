@@ -59,8 +59,19 @@ const colors = {
     title: 'rgb(158, 158, 158)',
     category: 'rgba(0, 0, 0, 0.6)',
   },
-  saveButton: {
-    color: '#007882',
+  calendar: {
+    tabBar : { background: '#1B1C1D' },
+    background: '#242526',
+    day: {
+      notCurrentMonth: {
+        background: 'unset',
+        text: '#636364',
+      },
+      isCurrentMonth: {
+        background: '#303031',
+        text: '#FFFFFF',
+      },
+    }
   },
 };
 
