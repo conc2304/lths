@@ -1,11 +1,16 @@
 ---
-name: Semver
+name: Semver Tag
 on:
   push:
     branches:
       - develop
+
 jobs:
   semverTag:
+    permissions:
+      contents: write
+      pull-requests: write
+    
     name: Update Version
     runs-on: ubuntu-latest
     steps:
