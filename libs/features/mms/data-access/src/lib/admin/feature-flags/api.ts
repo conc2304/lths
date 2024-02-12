@@ -2,13 +2,13 @@ import { api } from '@lths/shared/data-access';
 import { FeatureFlag } from '@lths/shared/ui-admin';
 
 import { getFeatureFlagsUrl } from './urls';
-import { ApiResponse } from '../../types';
+import { ApiResponse, EnumGroupResponseData } from '../../types';
 
 const FT_FLAG_TAG = 'FT_FLAGS';
 
 export const featureFlagsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getFeatureFlags: builder.query<ApiResponse<FeatureFlag[]>, void>({
+    getFeatureFlags: builder.query<ApiResponse<EnumGroupResponseData<FeatureFlag>>, void>({
       query: () => ({
         url: getFeatureFlagsUrl(),
         method: 'GET',
@@ -18,7 +18,7 @@ export const featureFlagsApi = api.injectEndpoints({
         return [FT_FLAG_TAG];
       },
     }),
-    updateFeatureFlags: builder.mutation<ApiResponse<FeatureFlag[]>, FeatureFlag[]>({
+    updateFeatureFlags: builder.mutation<ApiResponse<EnumGroupResponseData<FeatureFlag>>, FeatureFlag[]>({
       query: (payload) => ({
         url: getFeatureFlagsUrl(),
         method: 'PATCH',

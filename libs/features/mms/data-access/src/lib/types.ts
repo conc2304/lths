@@ -26,3 +26,5 @@ export type ApiResponse<T> = {
   pagination?: Pagination;
   error?: Error;
 };
+
+export type EnumGroupResponseData<TData> = { _id: string; enum_group: string; enum_values: Array<TData> };

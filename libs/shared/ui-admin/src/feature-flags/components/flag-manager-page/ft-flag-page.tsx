@@ -16,6 +16,7 @@ type FeatureFlagManagerProps = {
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
   const { featureFlags, onUpdateFlags: onUpdate } = props;
+  console.log({ sharedPageFlags: featureFlags });
 
   // State
   const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);

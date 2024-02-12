@@ -1,3 +1,3 @@
 import { getEnumListUrl } from '../../utils';
 
-export const getFeatureFlagsUrl = () => getEnumListUrl('feature-flags');
+export const getFeatureFlagsUrl = () => getEnumListUrl('FeatureFlags');

@@ -4,7 +4,14 @@ import { useLazyGetFeatureFlagsQuery, useUpdateFeatureFlagsMutation } from '@lth
 import { FeatureFlag, FeatureFlagManager } from '@lths/shared/ui-admin';
 
 const FeatureFlagPage = () => {
-  const [getFeatureFlags, { data: { data: featureFlagData = [] } = { data: [] } }] = useLazyGetFeatureFlagsQuery();
+  const [
+    getFeatureFlags,
+    {
+      data: { data: { enum_values: featureFlagData = [] } } = {
+        data: { enum_values: [] },
+      },
+    },
+  ] = useLazyGetFeatureFlagsQuery();
   const [updateFeatureFlags] = useUpdateFeatureFlagsMutation();
 
   const init = async () => {
@@ -29,7 +36,10 @@ const FeatureFlagPage = () => {
   useEffect(() => {
     init();
   }, []);
-  return <FeatureFlagManager featureFlags={featureFlagData} onUpdateFlags={handleOnUpdateFlags} />;
+
+  console.log({ featureFlagData });
+
+  return <FeatureFlagManager featureFlags={featureFlagData || []} onUpdateFlags={handleOnUpdateFlags} />;
 };
 
 export default FeatureFlagPage;

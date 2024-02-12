@@ -28,15 +28,21 @@ type FeatureFlagTableProps = {
 export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   const { featureFlags, onEditFlagClick } = props;
 
-  const showAllValue: [string, string] = ['all', 'Show All'];
+  console.log({ tableFlags: featureFlags });
+
+  const showAllText = 'Show All Modules';
+  const showAllValue: [string, string] = ['all', showAllText];
 
   const [search, setSearch] = useState('');
   const [modulesFilteredOn, setModulesFilteredOn] = useState<FilterOption[]>([showAllValue]);
   const [filterByFeatureState, setFilterByFeatureState] = useState<true | false | null>(null);
   const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);
   const filtersFormIsClean =
-    search === '' && isEqual(modulesFilteredOn, [showAllValue]) && filterByFeatureState === null;
+    search === '' && isEqual(modulesFilteredOn[0][0], showAllValue[0]) && filterByFeatureState === null;
 
+  console.log({ filtersFormIsClean });
+
+  console.log({ modulesFilteredOn, showAllValue, isShowAll: isEqual(modulesFilteredOn, [showAllValue]) });
   const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit'>[] = [
     {
       id: 'module',
@@ -67,18 +73,44 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
     },
   ];
 
+  // Filters
   const featureStateFilteredData = featureFlags.slice().filter((feature) => {
     if (filterByFeatureState === null) return true;
     return filterByFeatureState === feature.enabled;
   });
 
-  const moduleFilteredData =
-    modulesFilteredOn[0] === showAllValue
-      ? featureStateFilteredData
-      : featureStateFilteredData.filter((feature) => modulesFilteredOn.map((m) => m[1]).includes(feature.module));
+  const moduleFilteredData = isEqual(modulesFilteredOn[0], showAllValue)
+    ? featureStateFilteredData
+    : featureStateFilteredData.filter((feature) => modulesFilteredOn.map((m) => m[1]).includes(feature.module));
 
   const searchFilteredData = filterObjectsBySearch(moduleFilteredData, search);
 
+  // const filteredData = searchFilteredData;
+  const filteredData = featureFlags.slice().filter((feature) => {
+    // Check if the feature state matches the filter or if no filter is applied
+    const isFeatureStateFiltered = filterByFeatureState === null || feature.enabled === filterByFeatureState;
+
+    // Check if the module matches the filter or if all modules are selected
+    const isModuleFiltered =
+      isEqual(modulesFilteredOn[0][0], showAllValue[0]) || modulesFilteredOn.map((m) => m[1]).includes(feature.module);
+
+    // Check if the feature matches the search query
+    const isSearchFiltered = filterObjectsBySearch([feature], search).length > 0;
+
+    // Return true only if all conditions are met
+    return isFeatureStateFiltered && isModuleFiltered && isSearchFiltered;
+  });
+
+  // console.log({
+  //   isFeatureStateFiltered: filterByFeatureState === null,
+  //   isModuleFiltered: isEqual(modulesFilteredOn[0], showAllValue),
+  //   isSearchFiltered: search,
+  // });
+  // console.log({ filteredData });
+
+  //
+  // Handlers
+  //
   const handleOnSearch = (value: string) => {
     setSearch(value);
   };
@@ -170,7 +202,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
           <MultiSelectWithChip
             value={modulesFilteredOn}
             options={availableModules as FilterOption[]}
-            showAllText="Show All Modules"
+            showAllText={showAllText}
             onChange={(selectedOptions) => handleSelectFilter(selectedOptions as FilterOption[])}
             color="secondary"
           />
@@ -213,7 +245,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
           </Button>
         </FormControl>
       </Box>
-      <Table data={searchFilteredData} headerCells={tableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
+      <Table data={filteredData} headerCells={tableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
     </Box>
   );
 };

@@ -6,6 +6,7 @@ const responses = [
   getSuccessfulResponse('/enums/EventType', getEnumByName('EventType')),
   getSuccessfulResponse('/enums/UserSegments', getEnumByName('UserSegments')),
   getSuccessfulResponse('/enums/EventState', getEnumByName('EventState')),
+  getSuccessfulResponse('/enums/FeatureFlags', getEnumByName('FeatureFlags')),
   getSuccessfulResponse('/enums/Location', getEnumByName('Location')),
   getSuccessfulResponse('/enums/PageName', getEnumByName('PageName')),
   getSuccessfulResponse('/enums/ComponentCategories', getEnumByName('ComponentCategories')),

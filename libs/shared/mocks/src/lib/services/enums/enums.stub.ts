@@ -1,3 +1,9 @@
+// import { data as ftFlagValues } from '../admin/feature-flags/flag-data.stub';
+
+import { faker } from '@faker-js/faker';
+
+import { generateMockFlags } from '@lths/shared/ui-admin';
+
 export const enumData = [
   {
     _id: '64bf71050023a40a478abfdb',
@@ -24,6 +30,11 @@ export const enumData = [
         value: 'ARTS_OTHER',
       },
     ],
+  },
+  {
+    _id: 'doesntmatter',
+    enum_group: 'FeatureFlags',
+    enum_values: [...generateMockFlags(faker.number.int({ min: 27, max: 137 }))],
   },
   {
     _id: '64bf71050023a40aadsf478abfdb',
