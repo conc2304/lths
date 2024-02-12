@@ -23,6 +23,7 @@ type MultiSelectWithChipProps = {
   options: SelectOptionProp[];
   value?: SelectOptionProp[];
   showAllText?: string;
+  showAllValue?: [id: string, label: string];
   placeholder?: string;
 
   onChange?: (selectedOptions: SelectOptionProp[]) => void;
@@ -64,6 +65,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
     onRemove,
     placeholder: placeholderProp,
     showAllText = 'Show All',
+    showAllValue: showAllValueProp,
     size = 'small',
     sx = {},
     maxChips = 3,
@@ -73,7 +75,7 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
 
   const theme = useTheme();
 
-  const showAllValue: SelectOptionInternal = ['all', showAllText];
+  const showAllValue: SelectOptionInternal = showAllValueProp ?? ['all', showAllText];
 
   const containerRef = useRef<HTMLDivElement>(null);
 
