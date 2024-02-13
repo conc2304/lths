@@ -10,14 +10,7 @@ type ConnectedFlagsProviderProps = {
 export const ConnectedFlagsProvider = (props: ConnectedFlagsProviderProps) => {
   const { children } = props;
 
-  const [
-    getFeatureFlags,
-    {
-      data: { data: { enum_values: featureFlagData = [] } } = {
-        data: { enum_values: [] },
-      },
-    },
-  ] = useLazyGetFeatureFlagsQuery();
+  const [getFeatureFlags, { data: featureFlagData = [] }] = useLazyGetFeatureFlagsQuery();
 
   useEffect(() => {
     getFeatureFlags();

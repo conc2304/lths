@@ -31,4 +31,5 @@ export const EVENT_SCHEDULER_UPDATE_EVENTS_FLAG = generateId({
 export const EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG = generateId({
   title: 'update event-states',
   module: featureModule,
+  appPrefix,
 });

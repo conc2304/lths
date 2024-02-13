@@ -27,4 +27,8 @@ export type ApiResponse<T> = {
   error?: Error;
 };
 
-export type EnumGroupResponseData<TData> = { _id: string; enum_group: string; enum_values: Array<TData> };
+export type EnumGroupResponseData<TData> = {
+  _id: string;
+  enum_group: string;
+  enum_values: Array<{ name: string; value: TData }>;
+};

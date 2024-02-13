@@ -13,10 +13,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogForm } from '@lths/shared/ui-elements';
-import { slugify } from '@lths/shared/utils';
 
 import { FeatureFlag } from '../../types';
-import { generateId } from '../../utils';
+import { generateFlagId } from '../../utils';
 
 type FeatureFlagFormModalProps = {
   open: boolean;
@@ -36,6 +35,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     title: formValues?.title ?? '',
     enabled: formValues?.enabled ?? false,
     description: formValues?.description ?? '',
+    id: formValues?.id ?? '',
   };
 
   const validationSchema = Yup.object().shape({
@@ -52,7 +52,10 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     validateOnChange: true,
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
-      const featureFlag = { ...values, id: formValues?.id ?? slugify(values.title) };
+      const featureFlag = {
+        ...values,
+        id: formValues?.id ?? generateFlagId({ title: values.title, module: values.module }),
+      };
       const method = isNewFeature ? 'create' : 'edit';
       onSubmit && onSubmit(featureFlag, method);
       setSubmitting(false);
@@ -175,7 +178,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
         <strong>Code ID: </strong>
         <span>
           <pre style={{ width: 'auto', display: 'inline-block', marginLeft: '6px' }}>
-            {generateId({ title: values.title, module: values.module })}{' '}
+            {generateFlagId({ title: values.title, module: values.module })}{' '}
           </pre>
         </span>
       </Typography>

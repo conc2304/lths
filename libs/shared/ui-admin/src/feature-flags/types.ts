@@ -4,4 +4,5 @@ export type FeatureFlag = {
   title: string;
   module: string;
   id?: string;
+  oldID?: string;
 };
