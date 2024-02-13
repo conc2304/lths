@@ -147,7 +147,7 @@ describe('SchedulePage', () => {
   });
 
   it('opens the new event modal when + NEW EVENT button is clicked', () => {
-    const newEventButton = component.getByText('+ NEW EVENT');
+    const newEventButton = component.getByText('NEW EVENT');
     fireEvent.click(newEventButton);
 
     // Verify that the component was called with the Open prop

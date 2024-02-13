@@ -119,7 +119,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
   const eventBorder = isBackgroundEvent
     ? `2px solid ${eventColorMap(eventType?.id || '')}`
     : eventSelected
-    ? `2px solid ${theme.palette.primary.main}`
+    ? `2px solid ${theme.palette.grey.A700}`
     : `1px solid #FFF`;
 
   return (

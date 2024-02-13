@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { PopperPlacementType, useTheme } from '@mui/material';
+import { PopperPlacementType, alpha, useTheme } from '@mui/material';
 import { NavigateAction } from 'react-big-calendar';
 
 import {
@@ -176,9 +176,10 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   const cssVariables: CalendarCustomProperties = {
-    '--current-time-color': theme.palette.secondary.main,
-    '--current-day-highlight-color': '#cddce787',
-    '--show-more-color': theme.palette.primary.main,
+    '--current-time-color': theme.palette.info.main,
+    '--current-day-highlight-color': alpha(theme.palette.info.light, 0.2),
+    '--current-day-marker-color': theme.palette.primary.main,
+    '--show-more-color': theme.palette.info.dark,
     '--event-min-height': '5.5rem',
   };
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
+import { Add } from '@mui/icons-material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
 import { Flags } from 'react-feature-flags';
 
@@ -215,8 +216,13 @@ const SchedulePage = () => {
               </Button>
             </Flags>
             <Flags authorizedFlags={[EVENT_SCHEDULER_CREATE_EVENTS_FLAG]}>
-              <Button variant="contained" color="primary" onClick={() => setNewEventModalOpen(true)}>
-                + NEW EVENT
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setNewEventModalOpen(true)}
+                startIcon={<Add />}
+              >
+                NEW EVENT
               </Button>
             </Flags>
           </Box>

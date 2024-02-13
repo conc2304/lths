@@ -5,7 +5,6 @@ export default function ToggleButtonGroup(theme: Theme): Components {
   return {
     MuiToggleButtonGroup: {
       defaultProps: {
-        color: 'info',
         size: 'small',
       },
       styleOverrides: {
