@@ -1,8 +1,12 @@
 // import { data as ftFlagValues } from '../admin/feature-flags/flag-data.stub';
 
-import { faker } from '@faker-js/faker';
-
-import { generateMockFlags } from '@lths/shared/ui-admin';
+import {
+  EVENT_SCHEDULER_CREATE_EVENTS_FLAG,
+  EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
+  EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
+  EVENT_SCHEDULER_UPDATE_EVENTS_FLAG,
+  EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG,
+} from '@lths/features/mms/ui-event-schedule';
 
 export const enumData = [
   {
@@ -34,7 +38,43 @@ export const enumData = [
   {
     _id: 'doesntmatter',
     enum_group: 'FeatureFlags',
-    enum_values: [...generateMockFlags(faker.number.int({ min: 27, max: 137 }))],
+    enum_values: [
+      {
+        title: 'IMPORT EVENTS',
+        id: EVENT_SCHEDULER_IMPORT_EVENTS_FLAG,
+        enabled: true,
+        description: 'Ability to import external calendars into MMS',
+        module: 'Scheduler',
+      },
+      {
+        title: 'EXPORT EVENTS',
+        id: EVENT_SCHEDULER_EXPORT_EVENTS_FLAG,
+        enabled: true,
+        description: 'Ability to download calendars as PDF or CSV',
+        module: 'Scheduler',
+      },
+      {
+        title: 'CREATE EVENTS',
+        id: EVENT_SCHEDULER_CREATE_EVENTS_FLAG,
+        enabled: true,
+        description: 'Ability to create new events the MMS scheduler',
+        module: 'Scheduler',
+      },
+      {
+        title: 'UPDATE EVENTS',
+        id: EVENT_SCHEDULER_UPDATE_EVENTS_FLAG,
+        enabled: true,
+        description: 'Ability to update existing events the MMS scheduler',
+        module: 'Scheduler',
+      },
+      {
+        title: 'UPDATE EVENT STATES',
+        id: EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG,
+        enabled: true,
+        description: "Ability to update existing events' event-states in the MMS scheduler",
+        module: 'Scheduler',
+      },
+    ],
   },
   {
     _id: '64bf71050023a40aadsf478abfdb',

@@ -28,7 +28,6 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
   // Handlers
   const handleOnEditFlagClick = (flagData: FeatureFlag) => {
-    console.log('handleOnEditFlagClick', flagData);
     setCreateModalOpen(false);
     setEditModalOpen(true);
     setFormFeatureValues(flagData);
@@ -37,14 +36,6 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
   const handleOnSubmit = (flagData: FeatureFlag) => {
     onUpdate && onUpdate(flagData);
   };
-
-  const flagFormValues = useMemo(() => {
-    console.log('update form values', JSON.stringify(formFeatureValues));
-
-    return formFeatureValues;
-  }, [formFeatureValues]);
-
-  console.log({ flagFormValues });
 
   return (
     <Box
@@ -83,7 +74,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
           onSubmit={handleOnSubmit}
         />
 
-        {flagFormValues && (
+        {formFeatureValues && (
           <FeatureFlagFormModal
             open={editModalOpen}
             availableModules={availableModules}
@@ -91,7 +82,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
               setEditModalOpen(false);
               setFormFeatureValues(null);
             }}
-            formValues={flagFormValues}
+            formValues={formFeatureValues}
             onSubmit={handleOnSubmit}
           />
         )}

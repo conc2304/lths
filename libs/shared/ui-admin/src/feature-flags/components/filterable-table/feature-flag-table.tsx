@@ -28,8 +28,6 @@ type FeatureFlagTableProps = {
 export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   const { featureFlags, onEditFlagClick } = props;
 
-  console.log({ tableFlags: featureFlags });
-
   const showAllText = 'Show All Modules';
   const showAllValue: [string, string] = ['all', showAllText];
 

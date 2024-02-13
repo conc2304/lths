@@ -1,5 +1,3 @@
-import { FeatureFlag } from '@lths/shared/ui-admin';
-
 declare module 'react-feature-flags' {
   import * as React from 'react';
 
@@ -11,7 +9,11 @@ declare module 'react-feature-flags' {
     children?: React.ReactNode;
   }>;
 
-  type Flag = FeatureFlag;
+  // Flags Provider Expects this type, there is no dec file so we are explicitly making one
+  type Flag = {
+    isActive: boolean;
+    name: string;
+  };
 
   const FlagsProvider: React.ComponentClass<{ value: Flag[]; children?: React.ReactNode }>;
 

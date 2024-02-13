@@ -1,22 +1,11 @@
-import { useEffect } from 'react';
-
-import { useLazyGetFeatureFlagsQuery, useUpdateFeatureFlagsMutation } from '@lths/features/mms/data-access';
+import { featureFlagsApi, useUpdateFeatureFlagsMutation } from '@lths/features/mms/data-access';
 import { FeatureFlag, FeatureFlagManager } from '@lths/shared/ui-admin';
 
 const FeatureFlagPage = () => {
-  const [
-    getFeatureFlags,
-    {
-      data: { data: { enum_values: featureFlagData = [] } } = {
-        data: { enum_values: [] },
-      },
-    },
-  ] = useLazyGetFeatureFlagsQuery();
   const [updateFeatureFlags] = useUpdateFeatureFlagsMutation();
 
-  const init = async () => {
-    getFeatureFlags();
-  };
+  const flagsCache = featureFlagsApi.endpoints.getFeatureFlags.useQueryState();
+  const featureFlagData = flagsCache?.data?.data?.enum_values || [];
 
   const handleOnUpdateFlags = (updatedFlag: FeatureFlag) => {
     // check if the feature flag is there and update that flag and then send all of the flags
@@ -32,12 +21,6 @@ const FeatureFlagPage = () => {
         });
     updateFeatureFlags(featFlags);
   };
-
-  useEffect(() => {
-    init();
-  }, []);
-
-  console.log({ featureFlagData });
 
   return <FeatureFlagManager featureFlags={featureFlagData || []} onUpdateFlags={handleOnUpdateFlags} />;
 };

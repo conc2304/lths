@@ -16,6 +16,7 @@ import { DialogForm } from '@lths/shared/ui-elements';
 import { slugify } from '@lths/shared/utils';
 
 import { FeatureFlag } from '../../types';
+import { generateId } from '../../utils';
 
 type FeatureFlagFormModalProps = {
   open: boolean;
@@ -78,16 +79,15 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     handleReset(initialValues);
   };
 
-  console.log({ isNewFeature, formValues });
-
   const formTitleText = `${isNewFeature ? 'Add New' : 'Edit'} Feature Flag`;
+  const confirmText = `${isNewFeature ? 'Add' : 'Edit'} Flag`;
 
   return (
     <DialogForm
       open={open}
       title={formTitleText}
       cancelText="Cancel"
-      confirmText="Add Flag"
+      confirmText={confirmText}
       onCancel={handleCancel}
       onClose={handleCancel}
       onReset={() => handleReset(initialValues)}
@@ -171,6 +171,14 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           <strong>Note:</strong> For new flags to work there will have to be updates to the code to implement them.
         </Typography>
       )}
+      <Typography variant="caption" display={'block'} mt={2}>
+        <strong>Code ID: </strong>
+        <span>
+          <pre style={{ width: 'auto', display: 'inline-block', marginLeft: '6px' }}>
+            {generateId({ title: values.title, module: values.module })}{' '}
+          </pre>
+        </span>
+      </Typography>
     </DialogForm>
   );
 };
