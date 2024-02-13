@@ -1,3 +1,5 @@
+import { FeatureFlag } from '@lths/shared/ui-admin';
+
 declare module 'react-feature-flags' {
   import * as React from 'react';
 
@@ -9,10 +11,7 @@ declare module 'react-feature-flags' {
     children?: React.ReactNode;
   }>;
 
-  type Flag = {
-    name: string;
-    isActive: boolean;
-  };
+  type Flag = FeatureFlag;
 
   const FlagsProvider: React.ComponentClass<{ value: Flag[]; children?: React.ReactNode }>;
 

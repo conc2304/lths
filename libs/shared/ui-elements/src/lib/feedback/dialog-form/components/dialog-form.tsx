@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Dialog as DialogMui, Box, styled, DialogContent } from '@mui/material';
-import { useFormik } from 'formik';
 
 import { pxToRem } from '@lths/shared/utils';
 
@@ -18,35 +17,52 @@ type DialogFormProps = {
   cancelText?: string;
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
-  formikValues: ReturnType<typeof useFormik>;
   onCancel?: () => void;
   onClose?: () => void;
+  onReset?: () => void;
+  onSubmit?: () => void;
+  isSubmitting?: boolean;
+  isValid?: boolean;
+  dirty?: boolean;
 };
 
 export const DialogForm = (props: DialogFormProps) => {
-  const { open, title, subtitle, cancelText, confirmText, formikValues: formik, children, onCancel, onClose } = props;
+  const {
+    open,
+    title,
+    subtitle,
+    cancelText,
+    confirmText,
+    children,
+    onCancel,
+    onClose,
+    onReset,
+    onSubmit,
+    isSubmitting,
+    isValid,
+    dirty,
+  } = props;
 
   const handleOnCancel = () => {
     onCancel && onCancel();
-    formik.handleReset(formik.initialValues);
+    onReset && onReset();
   };
-
   const handleOnClose = () => {
     onClose && onClose();
-    formik.handleReset(formik.initialValues);
+    onReset && onReset();
   };
 
   return (
     <DialogMui open={open} aria-labelledby="Dialog-Form--root" className="EventForm--Dailog" maxWidth="md">
-      <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
+      <Box component="form" onSubmit={onSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
         <DialogTitle title={title} subtitle={subtitle} onClose={handleOnClose} />
         <StyledDialogContent>{children}</StyledDialogContent>
         <DialogActions
           cancelText={cancelText}
           confirmText={confirmText}
           onCancel={handleOnCancel}
-          isSubmitting={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.dirty}
+          isSubmitting={isSubmitting}
+          disabled={!isValid || !dirty}
         />
       </Box>
     </DialogMui>

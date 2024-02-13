@@ -20,7 +20,7 @@ import { FeatureFlag } from '../../types';
 type FeatureFlagFormModalProps = {
   open: boolean;
   availableModules?: (string | number)[];
-  formValues?: FeatureFlag;
+  formValues?: FeatureFlag | null;
   onClose?: () => void;
   onSubmit?: (flagData: FeatureFlag, method: 'edit' | 'create') => void;
 };
@@ -51,7 +51,6 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     validateOnChange: true,
     validateOnMount: true,
     onSubmit(values, { setSubmitting }) {
-      // todo clean up values
       const featureFlag = { ...values, id: formValues?.id ?? slugify(values.title) };
       const method = isNewFeature ? 'create' : 'edit';
       onSubmit && onSubmit(featureFlag, method);
@@ -60,7 +59,19 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     },
   });
 
-  const { values, handleChange, handleBlur, handleReset, setFieldValue, touched, errors } = formik;
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    handleReset,
+    handleSubmit,
+    setFieldValue,
+    touched,
+    errors,
+    dirty,
+    isValid,
+    isSubmitting,
+  } = formik;
 
   const handleCancel = () => {
     onClose && onClose();
@@ -75,11 +86,15 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     <DialogForm
       open={open}
       title={formTitleText}
-      formikValues={formik}
       cancelText="Cancel"
       confirmText="Add Flag"
       onCancel={handleCancel}
       onClose={handleCancel}
+      onReset={() => handleReset(initialValues)}
+      onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
+      isValid={isValid}
+      dirty={dirty}
     >
       <Box>
         <FormGroup>

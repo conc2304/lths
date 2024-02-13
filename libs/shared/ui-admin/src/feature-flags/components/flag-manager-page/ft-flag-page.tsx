@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { Add } from '@mui/icons-material';
 
@@ -16,22 +16,35 @@ type FeatureFlagManagerProps = {
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
   const { featureFlags, onUpdateFlags: onUpdate } = props;
-  console.log({ sharedPageFlags: featureFlags });
 
   // State
-  const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [formFeatureValues, setFormFeatureFlag] = useState<FeatureFlag | undefined>(undefined);
+  const availableModules = useMemo(() => {
+    return getUniqueValuesByKey(featureFlags, 'module');
+  }, [featureFlags]);
+
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [formFeatureValues, setFormFeatureValues] = useState<FeatureFlag | null>(null);
 
   // Handlers
   const handleOnEditFlagClick = (flagData: FeatureFlag) => {
-    setFormFeatureFlag(flagData);
-    setModalOpen(true);
+    console.log('handleOnEditFlagClick', flagData);
+    setCreateModalOpen(false);
+    setEditModalOpen(true);
+    setFormFeatureValues(flagData);
   };
 
   const handleOnSubmit = (flagData: FeatureFlag) => {
     onUpdate && onUpdate(flagData);
   };
+
+  const flagFormValues = useMemo(() => {
+    console.log('update form values', JSON.stringify(formFeatureValues));
+
+    return formFeatureValues;
+  }, [formFeatureValues]);
+
+  console.log({ flagFormValues });
 
   return (
     <Box
@@ -45,7 +58,14 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
         sx={{ mt: '1rem', mb: '3.5rem' }}
         rightContent={
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Button onClick={() => setModalOpen(true)} variant="contained" startIcon={<Add />}>
+            <Button
+              onClick={() => {
+                setEditModalOpen(false);
+                setCreateModalOpen(true);
+              }}
+              variant="contained"
+              startIcon={<Add />}
+            >
               NEW FLAG
             </Button>
           </Stack>
@@ -54,13 +74,28 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
       <Box>
         <FeatureFlagTable featureFlags={featureFlags} onEditFlagClick={handleOnEditFlagClick} />
       </Box>
-      <FeatureFlagFormModal
-        open={modalOpen}
-        availableModules={availableModules.map(([, label]) => label.toString())}
-        onClose={() => setModalOpen(false)}
-        formValues={formFeatureValues}
-        onSubmit={handleOnSubmit}
-      />
+      <>
+        <FeatureFlagFormModal
+          open={createModalOpen}
+          availableModules={availableModules}
+          onClose={() => setCreateModalOpen(false)}
+          formValues={null}
+          onSubmit={handleOnSubmit}
+        />
+
+        {flagFormValues && (
+          <FeatureFlagFormModal
+            open={editModalOpen}
+            availableModules={availableModules}
+            onClose={() => {
+              setEditModalOpen(false);
+              setFormFeatureValues(null);
+            }}
+            formValues={flagFormValues}
+            onSubmit={handleOnSubmit}
+          />
+        )}
+      </>
     </Box>
   );
 };
