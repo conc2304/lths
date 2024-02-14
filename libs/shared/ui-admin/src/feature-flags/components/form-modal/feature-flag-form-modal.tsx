@@ -46,7 +46,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const validationSchema = Yup.object().shape({
     module: Yup.string().min(4, 'Too Short').required('Required'),
     title: Yup.string().min(4, 'Too Short').required('Required'),
-    description: Yup.string().min(15, 'Too Short').required('Required'),
+    description: Yup.string().min(10, 'Too Short').required('Required'),
     enabled: Yup.boolean(),
   });
 
