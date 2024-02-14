@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -7,7 +7,14 @@ import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-ac
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
 import { NotificationAdapterProvider, NotificationStatus } from '@lths/features/mms/ui-components';
 import { NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
-import { TablePaginationProps, TableSortingProps, ActionMenu, RowBuilderFn, Table } from '@lths/shared/ui-elements';
+import {
+  TablePaginationProps,
+  TableSortingProps,
+  ActionMenu,
+  RowBuilderFn,
+  Table,
+  SortDirection,
+} from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
@@ -46,6 +53,12 @@ const NotificationPage = () => {
   const { selectNotification, openNotificationAlert } = useEditorActions();
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsListQuery();
 
+  // table control
+  const [page, setPage] = useState<number | undefined>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [order, setOrder] = useState<SortDirection>('asc');
+  const [orderBy, setOrderBy] = useState<string | undefined>(headers[0].id);
+
   // fetch
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: PaginationRequest = {};
@@ -77,6 +90,12 @@ const NotificationPage = () => {
       order: sortOrder,
       column: orderBy,
     };
+
+    setPage(page);
+    setRowsPerPage(rowsPerPage);
+    setOrder(sortOrder);
+    setOrderBy(orderBy);
+
     fetchData(pagination, sorting);
   };
 
@@ -128,6 +147,8 @@ const NotificationPage = () => {
       isDisabled: false,
     },
   ];
+
+  console.log({ page, rowsPerPage, order, orderBy });
 
   const RowBuilder = (): RowBuilderFn<NotificationProps> => {
     return ({ data: row, rowNumber, showRowNumber }) => {
@@ -188,11 +209,15 @@ const NotificationPage = () => {
       <Table
         data={data?.data ?? []}
         headerCells={headers}
+        total={total}
         rowBuilder={RowBuilder()}
         onChange={handleOnChange}
-        loading={isLoading}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        orderBy={orderBy}
+        sortOrder={order}
         fetching={isFetching}
-        total={total}
+        loading={isLoading}
         sx={{
           mt: 4,
         }}
