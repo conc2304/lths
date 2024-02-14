@@ -1,14 +1,14 @@
 import { api } from '@lths/shared/data-access';
 import { FeatureFlag } from '@lths/shared/ui-admin';
 
-import { getFeatureFlagsUrl } from './urls';
-import { ApiResponse, EnumGroupResponseData } from '../../types';
+import { getFeatureFlagsUrl, updateFeatureFlagsUrl } from './urls';
+import { ApiResponse, EnumGroupResponseData, EnumRequestPayload, EnumValue } from '../../types';
 
-const FT_FLAG_TAG = 'FT_FLAGS';
+const FT_FLAG_TAG = 'FEATURE_FLAGS';
 
 export const featureFlagsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getFeatureFlags: builder.query<FeatureFlag[], void>({
+    getFeatureFlags: builder.query<EnumGroupResponseData<FeatureFlag>, void>({
       query: () => ({
         url: getFeatureFlagsUrl(),
         method: 'GET',
@@ -18,21 +18,17 @@ export const featureFlagsApi = api.injectEndpoints({
         return [FT_FLAG_TAG];
       },
       transformResponse(response: ApiResponse<EnumGroupResponseData<FeatureFlag>>) {
-        // we stuff all required data as a JSON string inside the value object
-        // and we store the module name, title, and app in the enum name
-        const featureFlagData = response?.data?.enum_values ?? null;
+        const featureFlagData = response?.data;
 
-        console.log('api', { featureFlagData });
-
-        return featureFlagData ? featureFlagData.map((f) => f.value) : [];
+        return featureFlagData;
       },
     }),
 
-    updateFeatureFlags: builder.mutation<ApiResponse<EnumGroupResponseData<string>>, FeatureFlag[]>({
-      query: (payload) => ({
-        url: getFeatureFlagsUrl(),
+    updateFeatureFlags: builder.mutation<ApiResponse<EnumGroupResponseData<string>>, UpdateMutationArgs>({
+      query: ({ id, body }) => ({
+        url: updateFeatureFlagsUrl(id),
         method: 'PATCH',
-        body: payload,
+        body,
       }),
       //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: () => {
@@ -41,5 +37,10 @@ export const featureFlagsApi = api.injectEndpoints({
     }),
   }),
 });
+
+type UpdateMutationArgs = {
+  id: string;
+  body: EnumRequestPayload<FeatureFlag>;
+};
 
 export const { useLazyGetFeatureFlagsQuery, useUpdateFeatureFlagsMutation } = featureFlagsApi;

@@ -3,6 +3,5 @@ export type FeatureFlag = {
   enabled: boolean;
   title: string;
   module: string;
-  id?: string;
-  oldID?: string;
+  id: string;
 };

@@ -57,7 +57,7 @@ export const enumValues: { name: string; value: FeatureFlag }[] = [
 export const enumGoup = EnumGroup.FEATURE_FLAGS;
 
 export const FEATURE_FLAG_ENUM_DATA_MOCK = {
-  _id: 'idNoMatterForMock',
+  _id: '65cd3500712d2da4cc1f8a31',
   enum_group: enumGoup,
   enum_values: enumValues,
 };

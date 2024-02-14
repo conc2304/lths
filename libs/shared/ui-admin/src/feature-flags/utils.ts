@@ -1,3 +1,4 @@
+import { EnumValue } from '@lths/features/mms/data-access';
 import { slugify } from '@lths/shared/utils';
 
 import { FeatureFlag } from './types';
@@ -25,4 +26,45 @@ export const parseFlagId = (flagId: string): ParsedFlagId => {
   const title = parts[1];
 
   return { title, module, appPrefix };
+};
+
+export const createFeatureFlagPayload: FlagCRUDPayloadFn = (newFlag, flags) => {
+  const ftFlagAdded = [...flags, newFlag];
+
+  return ftFlagAdded.map((f) => {
+    return {
+      display_order: 0,
+      name: f.id,
+      value: f,
+    };
+  });
+};
+
+export const updateFeatureFlagPayload: FlagCRUDPayloadFn = (editedFlag, flags) => {
+  return flags.map((f) => {
+    return {
+      display_order: 0,
+      name: f.id,
+      value: f.id !== editedFlag.id ? f : editedFlag,
+    };
+  });
+};
+
+export const deleteFeatureFlagPayload: FlagCRUDPayloadFn = (deletedFlag, flags) => {
+  return flags
+    .filter((f) => f.id !== deletedFlag.id)
+    .map((f) => ({
+      display_order: 0,
+      name: f.id,
+      value: f,
+    }));
+};
+
+export type FlagCRUDMethods = 'create' | 'update' | 'delete';
+type FlagCRUDPayloadFn = (flag: FeatureFlag, flags: FeatureFlag[]) => EnumValue<FeatureFlag>[];
+
+export const flagCrudFnMap: Record<FlagCRUDMethods, FlagCRUDPayloadFn> = {
+  create: createFeatureFlagPayload,
+  update: updateFeatureFlagPayload,
+  delete: deleteFeatureFlagPayload,
 };

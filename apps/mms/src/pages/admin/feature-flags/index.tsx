@@ -1,29 +1,20 @@
-import {
-  featureFlagsApi,
-  // useUpdateFeatureFlagsDescriptionMutation,
-  useUpdateFeatureFlagsMutation,
-} from '@lths/features/mms/data-access';
-import { FeatureFlag, FeatureFlagManager } from '@lths/shared/ui-admin';
+import { featureFlagsApi, useUpdateFeatureFlagsMutation } from '@lths/features/mms/data-access';
+import { FeatureFlag, FeatureFlagManager, FlagCRUDMethods, flagCrudFnMap } from '@lths/shared/ui-admin';
 
 const FeatureFlagPage = () => {
   const [updateFeatureFlags] = useUpdateFeatureFlagsMutation();
 
   const flagsCache = featureFlagsApi.endpoints.getFeatureFlags.useQueryState();
-  const featureFlagData = flagsCache?.data || [];
+  const { data: { _id = undefined, enum_values = [] } = { _id: undefined } } = flagsCache;
+  const featureFlagData = enum_values.map((f) => f.value);
 
-  const handleOnUpdateFlags = (updatedFlag: FeatureFlag & { oldId?: string }) => {
-    // check if the feature flag is there and update that flag and then send all of the flags
-    const flagIndex = featureFlagData.findIndex((flag) => flag.id === updatedFlag.id);
-    const isNewFtFlag = flagIndex === -1;
+  const handleOnUpdateFlags = (updatedFlag: FeatureFlag, mode: FlagCRUDMethods) => {
+    if (!mode) return;
 
-    // if new flag just add to the full payload we are sending,
-    // otherwise replace the flag in place with the updated flag
-    const featFlags: FeatureFlag[] = isNewFtFlag
-      ? [updatedFlag, ...featureFlagData]
-      : featureFlagData.map((flag) => {
-          return updatedFlag.id === flag.id ? updatedFlag : flag;
-        });
-    updateFeatureFlags(featFlags);
+    const payload = flagCrudFnMap[mode](updatedFlag, featureFlagData);
+    if (!payload || !_id) return;
+
+    updateFeatureFlags({ id: _id, body: { enum_values: payload } });
   };
 
   return <FeatureFlagManager featureFlags={featureFlagData || []} onUpdateFlags={handleOnUpdateFlags} />;

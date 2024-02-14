@@ -10,8 +10,7 @@ import {
   UpdateEventResponse,
 } from './types';
 import { createEventUrl, getEventsUrl, updateEventUrl } from './urls';
-import { QueryParams } from '../../types';
-import { ApiResponse } from '../types';
+import { ApiResponse, QueryParams } from '../types';
 
 const EVENTS_TAG = 'EVENTS';
 const VIRTUAL_ID = 'EVENTS_CACHE';

@@ -9,7 +9,6 @@ import {
   EventListResponse,
   UpdatePageStatusRequest,
   DeletePageRequest,
-  EnumListResponse,
   ComponentsListRequest,
   LocationListResponse,
   UserSegmentListResponse,
@@ -39,6 +38,7 @@ import {
   getDuplicatePageUrl,
 } from './urls';
 import { getPagesUrl } from './urls';
+import { EnumListResponse } from '../types';
 import { getEnumListUrl } from '../utils';
 
 //TOD: Typing is missing for few methods

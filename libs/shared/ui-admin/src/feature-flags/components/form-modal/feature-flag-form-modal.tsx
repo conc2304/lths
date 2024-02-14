@@ -20,16 +20,15 @@ import * as Yup from 'yup';
 import { DialogForm } from '@lths/shared/ui-elements';
 
 import { FeatureFlag } from '../../types';
-import { generateFlagId } from '../../utils';
+import { FlagCRUDMethods, generateFlagId } from '../../utils';
 
-type CrudMode = 'create' | 'edit' | 'delete';
 type FeatureFlagFormModalProps = {
   open: boolean;
   availableModules?: (string | number)[];
   formValues?: FeatureFlag | null;
   onClose?: () => void;
-  onSubmit?: (flagData: FeatureFlag, mode: CrudMode) => void;
-  mode?: CrudMode;
+  onSubmit?: (flagData: FeatureFlag, mode: FlagCRUDMethods) => void;
+  mode?: FlagCRUDMethods;
 };
 
 export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
@@ -107,6 +106,14 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const formTitleText = `${capitalize(mode)} Feature Flag`;
   const confirmText = `${capitalize(mode)} Flag`;
 
+  const readOnlyFields: Record<keyof FeatureFlag, FlagCRUDMethods[]> = {
+    module: ['delete', 'update'],
+    title: ['delete', 'update'],
+    description: ['delete'],
+    enabled: ['delete'],
+    id: [],
+  };
+
   return (
     <DialogForm
       open={open}
@@ -128,8 +135,8 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
             <Autocomplete
               freeSolo
               autoSelect
-              readOnly={['edit', 'delete'].includes(mode)}
-              disabled={['edit', 'delete'].includes(mode)}
+              readOnly={readOnlyFields.module.includes(mode)}
+              disabled={readOnlyFields.module.includes(mode)}
               value={values.module}
               options={availableModules.map((m) => m.toString())}
               onBlur={handleBlur}
@@ -145,7 +152,6 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                   onBlur={handleBlur}
                   helperText={touched.module && errors.module}
                   color="secondary"
-                  // color={touched.module && Boolean(errors.module) ? 'error' : 'primary'}
                   error={touched.module && Boolean(errors.module)}
                 />
               )}
@@ -164,25 +170,26 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                 helperText={touched.title && errors.title}
                 color="secondary"
                 error={touched.title && Boolean(errors.title)}
-                aria-readonly={['edit', 'delete'].includes(mode)}
-                disabled={['edit', 'delete'].includes(mode)}
+                aria-readonly={readOnlyFields.title.includes(mode)}
+                disabled={readOnlyFields.title.includes(mode)}
                 fullWidth
               />
               <FormControlLabel
                 color="secondary"
-                control={
-                  <Checkbox
-                    checked={values.enabled}
-                    onChange={handleChange}
-                    color="secondary"
-                    readOnly={mode === 'delete'}
-                  />
-                }
                 label="Enabled"
                 labelPlacement="start"
                 name="enabled"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                disabled={readOnlyFields.enabled.includes(mode)}
+                control={
+                  <Checkbox
+                    checked={values.enabled}
+                    onChange={handleChange}
+                    color="secondary"
+                    // readOnly={readOnlyFields.enabled.includes(mode)}
+                  />
+                }
               />
             </Stack>
           </FormControl>
@@ -198,6 +205,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
               helperText={touched.description && errors.description ? errors.description : ''}
               color="secondary"
               error={touched.description && Boolean(errors.description)}
+              disabled={readOnlyFields.description.includes(mode)}
             />
           </FormControl>
         </FormGroup>

@@ -6,12 +6,13 @@ import { PageHeader } from '@lths/shared/ui-layouts';
 import { getUniqueValuesByKey } from '@lths/shared/utils';
 
 import { FeatureFlag } from '../../types';
+import { FlagCRUDMethods } from '../../utils';
 import { FeatureFlagTable } from '../filterable-table';
 import { FeatureFlagFormModal } from '../form-modal/feature-flag-form-modal';
 
 type FeatureFlagManagerProps = {
   featureFlags: FeatureFlag[];
-  onUpdateFlags?: (flags: FeatureFlag) => void; // api enum values are not posted, just patched with the entire enum group content
+  onUpdateFlags?: (flags: FeatureFlag, mode: FlagCRUDMethods) => void; // api enum values are not posted, just patched with the entire enum group content
 };
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
@@ -41,8 +42,8 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
     setFormFeatureValues(flagData);
   };
 
-  const handleOnSubmit = (flagData: FeatureFlag) => {
-    onUpdate && onUpdate(flagData);
+  const handleOnSubmit = (flagData: FeatureFlag, mode: FlagCRUDMethods) => {
+    onUpdate && onUpdate(flagData, mode);
   };
 
   return (
@@ -89,7 +90,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
         {formFeatureValues && (
           <FeatureFlagFormModal
-            mode="edit"
+            mode="update"
             open={editModalOpen}
             availableModules={availableModules}
             onClose={() => {
