@@ -15,10 +15,10 @@ const CalendarViewComponent = (props: CalendarViewComponentProps) => {
     },
   } = props;
 
-  const startMonthAndYear = { month: Number(start_month), year: Number(start_year) };
-  const endMonthAndYear = { month: Number(end_month), year: Number(end_year) };
+  const startMonthAndYear = { month: Number(start_month)-1, year: Number(start_year) };
+  const endMonthAndYear = { month: Number(end_month)-1, year: Number(end_year) };
 
-  let selectedMonthAndYear = { month: Number(selected_month), year: Number(selected_year) };
+  let selectedMonthAndYear = { month: Number(selected_month)-1, year: Number(selected_year) };
 
   if(selected_month === "" || selected_year === "") {
     const result = clamp(new Date(), {
