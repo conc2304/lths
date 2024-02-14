@@ -226,7 +226,6 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           TransitionComponent={Zoom}
           TransitionProps={{
             easing: { exit: tooltipText === 'Copied!' ? 'cubic-bezier(.5,-0.32,.73,.65)' : undefined },
-            // easing: { exit: 'cubic-bezier(1,0,.73,.65)' },
             timeout: {
               enter: theme.transitions.duration.enteringScreen,
               exit: tooltipText === 'Copied!' ? 700 : theme.transitions.duration.leavingScreen, // slow down the exit so that we see the "Copied!" text
