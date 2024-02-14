@@ -3,14 +3,18 @@ import {
   Autocomplete,
   Box,
   Checkbox,
+  Fade,
   FormControl,
   FormControlLabel,
   FormGroup,
+  Grow,
   Stack,
   TextField,
   Tooltip,
   Typography,
+  Zoom,
   capitalize,
+  useTheme,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -33,7 +37,9 @@ type FeatureFlagFormModalProps = {
 export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const { open, availableModules = [], onClose, onSubmit, formValues = null, mode = 'create' } = props;
 
+  const theme = useTheme();
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [tooltipText, setTooltipText] = useState<'Copy to Clipboard' | 'Copied!'>('Copy to Clipboard');
 
   const initialValues: FeatureFlag = {
     module: formValues?.module ?? '',
@@ -91,7 +97,13 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
 
   const handleOnCodeClick = () => {
     navigator.clipboard.writeText(flagDevCode);
+    setTooltipText('Copied!');
     setTooltipOpen(false);
+  };
+
+  const handleShowTooltip = () => {
+    setTooltipText('Copy to Clipboard');
+    setTooltipOpen(true);
   };
 
   const formTitleText = `${capitalize(mode)} Feature Flag`;
@@ -207,12 +219,20 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
       <Typography variant="caption" display={'block'} mt={2}>
         <strong>Developer Code ID: </strong>
         <Tooltip
-          title="Copy to Clipboard"
+          title={tooltipText}
           onClick={handleOnCodeClick}
           placement="top"
           open={tooltipOpen}
-          onClose={() => setTooltipOpen(false)}
-          onMouseEnter={() => setTooltipOpen(true)}
+          TransitionComponent={Zoom}
+          TransitionProps={{
+            easing: { exit: tooltipText === 'Copied!' ? 'cubic-bezier(.5,-0.32,.73,.65)' : undefined },
+            // easing: { exit: 'cubic-bezier(1,0,.73,.65)' },
+            timeout: {
+              enter: theme.transitions.duration.enteringScreen,
+              exit: tooltipText === 'Copied!' ? 700 : theme.transitions.duration.leavingScreen, // slow down the exit so that we see the "Copied!" text
+            },
+          }}
+          onMouseEnter={handleShowTooltip}
           onMouseOut={() => setTooltipOpen(false)}
         >
           <span>
