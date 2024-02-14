@@ -14,8 +14,6 @@ export const getCountryData = ({ code, country }: { code?: string; country?: str
 };
 
 export const validatePostalCode = (territoryId: string | undefined, postalCode: string): boolean => {
-  console.log('validatePostalCode', territoryId, postalCode);
-
   if (!territoryId) return true;
 
   const regexPattern = PostalRegexByCountryCode[territoryId];
@@ -25,7 +23,6 @@ export const validatePostalCode = (territoryId: string | undefined, postalCode: 
   }
 
   const regex = new RegExp(regexPattern);
-  console.log(regex.test(postalCode));
   return regex.test(postalCode);
 };
 

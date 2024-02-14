@@ -61,6 +61,7 @@ import {
   HeroEventComponent,
   HorizontalMediumComponent,
   HorizontalSmallComponent,
+  GameCenterComponent,
   CalendarViewComponent,
   ScheduleListComponent,
 } from '../components';
@@ -128,6 +129,7 @@ import {
   HorizontalMediumProps,
   HorizontalSmallComponentProps,
   HeroCarouselComponentProps,
+  GameCenterComponentProps,
   CalendarViewComponentProps,
   ScheduleListComponentProps,
 } from '../components/types';
@@ -258,6 +260,8 @@ export const componentFactory = (props: ComponentProps) => {
       return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
     case Component.HeroCarousel:
       return <HeroCarouselComponent {...(props as HeroCarouselComponentProps)} />;
+    case Component.GameCenter:
+      return <GameCenterComponent {...(props as GameCenterComponentProps)} />;
     case Component.CalendarView:
       return <CalendarViewComponent {...(props as CalendarViewComponentProps)} />;
     case Component.ScheduleList:

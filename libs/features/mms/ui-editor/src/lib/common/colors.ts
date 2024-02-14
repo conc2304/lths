@@ -10,7 +10,8 @@ const colors = {
     divider: '#BA9765',
   },
   navigator: {
-    title: 'rgba(0, 0, 0, 0.60)', addButton: { color: '#46494C', border: '#46494C' },
+    title: 'rgba(0, 0, 0, 0.60)',
+    addButton: { color: '#46494C', border: '#46494C' },
   },
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },
@@ -59,8 +60,26 @@ const colors = {
     title: 'rgb(158, 158, 158)',
     category: 'rgba(0, 0, 0, 0.6)',
   },
+  gameCenter: {
+    background: '#313131',
+    tab: {
+      default: '#242526',
+      selected: '#505051',
+      text: '#ABABAC',
+      selectedText: '#fff',
+    },
+    timeline: {
+      dotBorder: '#fff',
+      text: '#D0D0D1',
+      chipBackground: '#121213',
+    },
+    gradient: {
+      start: '#FF6B6B',
+      end: '#556270',
+    },
+  },
   calendar: {
-    tabBar : { background: '#1B1C1D' },
+    tabBar: { background: '#1B1C1D' },
     background: '#242526',
     day: {
       notCurrentMonth: {
@@ -71,7 +90,7 @@ const colors = {
         background: '#303031',
         text: '#FFFFFF',
       },
-    }
+    },
   },
 };
 
