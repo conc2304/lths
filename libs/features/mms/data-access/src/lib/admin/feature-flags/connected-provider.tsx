@@ -17,8 +17,6 @@ export const ConnectedFlagsProvider = (props: ConnectedFlagsProviderProps) => {
     getFeatureFlags();
   }, []);
 
-  console.log({ featureFlagData });
-
   const formattedFlags = featureFlagData.map((f) => ({ isActive: f.enabled, name: f.id }));
 
   return <FlagsProvider value={formattedFlags}>{children}</FlagsProvider>;

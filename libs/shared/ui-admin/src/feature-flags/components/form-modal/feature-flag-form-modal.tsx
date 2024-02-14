@@ -182,14 +182,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 disabled={readOnlyFields.enabled.includes(mode)}
-                control={
-                  <Checkbox
-                    checked={values.enabled}
-                    onChange={handleChange}
-                    color="secondary"
-                    // readOnly={readOnlyFields.enabled.includes(mode)}
-                  />
-                }
+                control={<Checkbox checked={values.enabled} onChange={handleChange} color="secondary" />}
               />
             </Stack>
           </FormControl>
