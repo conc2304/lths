@@ -148,8 +148,6 @@ const NotificationPage = () => {
     },
   ];
 
-  console.log({ page, rowsPerPage, order, orderBy });
-
   const RowBuilder = (): RowBuilderFn<NotificationProps> => {
     return ({ data: row, rowNumber, showRowNumber }) => {
       const { _id, name, status, sent_on } = row;
