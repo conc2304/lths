@@ -12,11 +12,10 @@ const YearDropDownToolbar = ({ noOfYears, value, onChange }: MonthDropDownToolba
   const endYear = startYear + noOfYears - 1;
   const yearsArr = [];
   for (let year = startYear; year <= endYear; year++) {
-    yearsArr.push(year);
+    yearsArr.push(year.toString());
   }
-  console.log(yearsArr);
   return (
-    <Select value={value} onChange={onChange} label="Years" defaultValue={''}>
+    <Select value={value} onChange={onChange} label="Years" defaultValue={null}>
       {yearsArr.map((year, index) => (
         <MenuItem key={index} value={year}>
           {year}

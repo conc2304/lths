@@ -1,5 +1,6 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import { FormControl, InputLabel } from '@mui/material';
+import { isEmpty } from 'lodash';
 
 import { ToolbarLabel, GroupLabel, SwitchButton } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
@@ -27,7 +28,11 @@ const ScheduleListToolbar = (props: ScheduleListComponentProps) => {
   const handleScheduleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     handlePropChange('selected_year', event.target.value);
   };
-
+  useEffect(() => {
+    if (isEmpty(allow_infinite_scroll)) {
+      handlePropChange('allow_infinite_scroll', false);
+    }
+  }, [allow_infinite_scroll]);
   return (
     <ToolContainer id={id} aria-label={'Schedule List Toolbar'}>
       <ToolbarLabel label={'Event List'} />
@@ -39,11 +44,15 @@ const ScheduleListToolbar = (props: ScheduleListComponentProps) => {
       <GroupLabel label={'Schedule'} />
       <FormControl fullWidth>
         <InputLabel sx={{ color: 'gray' }}>Month</InputLabel>
-        <MonthDropDownToolbar value={selected_month} onChange={handleScheduleMonthChange} />
+        <MonthDropDownToolbar value={selected_month} onChange={selected_month && handleScheduleMonthChange} />
       </FormControl>
       <FormControl fullWidth>
         <InputLabel sx={{ color: 'gray' }}>Year</InputLabel>
-        <YearDropDownToolbar noOfYears={noOfYears} value={selected_year} onChange={handleScheduleYearChange} />
+        <YearDropDownToolbar
+          noOfYears={noOfYears}
+          value={selected_year}
+          onChange={selected_year && handleScheduleYearChange}
+        />
       </FormControl>
     </ToolContainer>
   );
