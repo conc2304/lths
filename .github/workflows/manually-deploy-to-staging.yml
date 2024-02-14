@@ -35,7 +35,7 @@ jobs:
 
       - name: Get current date in ISO format
         id: date
-        run: echo "::set-output name=date::$(date -u +'utc-%Y%m%d-%H%M')"
+        run: echo "date=$(date -u +'utc-%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Checkout code
         uses: actions/checkout@v3
