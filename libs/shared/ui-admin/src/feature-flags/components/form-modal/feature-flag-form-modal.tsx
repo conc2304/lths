@@ -200,7 +200,8 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
 
       {mode === 'delete' && (
         <Typography variant="caption" color="error">
-          <strong>Note:</strong> If this flag is being used in code, it could prevent that feature from being used.
+          <strong>Note:</strong> If this flag is being used in code, it could prevent that feature from being accessed
+          by all users.
         </Typography>
       )}
       <Typography variant="caption" display={'block'} mt={2}>
