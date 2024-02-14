@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Autocomplete,
   Box,
@@ -7,6 +8,7 @@ import {
   FormGroup,
   Stack,
   TextField,
+  Tooltip,
   Typography,
   capitalize,
 } from '@mui/material';
@@ -30,6 +32,8 @@ type FeatureFlagFormModalProps = {
 
 export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const { open, availableModules = [], onClose, onSubmit, formValues = null, mode = 'create' } = props;
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const initialValues: FeatureFlag = {
     module: formValues?.module ?? '',
@@ -81,6 +85,13 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
   const handleCancel = () => {
     onClose && onClose();
     handleReset(initialValues);
+  };
+
+  const flagDevCode = generateFlagId({ title: values.title, module: values.module });
+
+  const handleOnCodeClick = () => {
+    navigator.clipboard.writeText(flagDevCode);
+    setTooltipOpen(false);
   };
 
   const formTitleText = `${capitalize(mode)} Feature Flag`;
@@ -186,13 +197,41 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           <strong>Note:</strong> For new flags to work there will have to be updates to the code to implement them.
         </Typography>
       )}
+
+      {mode === 'delete' && (
+        <Typography variant="caption" color="error">
+          <strong>Note:</strong> If this flag is being used in code, it could prevent that feature from being used.
+        </Typography>
+      )}
       <Typography variant="caption" display={'block'} mt={2}>
-        <strong>Code ID: </strong>
-        <span>
-          <pre style={{ width: 'auto', display: 'inline-block', marginLeft: '6px' }}>
-            {generateFlagId({ title: values.title, module: values.module })}{' '}
-          </pre>
-        </span>
+        <strong>Developer Code ID: </strong>
+        <Tooltip
+          title="Copy to Clipboard"
+          onClick={handleOnCodeClick}
+          placement="top"
+          open={tooltipOpen}
+          onClose={() => setTooltipOpen(false)}
+          onMouseEnter={() => setTooltipOpen(true)}
+          onMouseOut={() => setTooltipOpen(false)}
+        >
+          <span>
+            <Box
+              component="pre"
+              sx={{
+                width: 'auto',
+                display: 'inline-block',
+                ml: '6px',
+                cursor: 'pointer',
+                backgroundColor: (theme) => theme.palette.grey[200],
+                px: 0.75,
+                py: 0.5,
+                borderRadius: '4px',
+              }}
+            >
+              {flagDevCode}
+            </Box>
+          </span>
+        </Tooltip>
       </Typography>
     </DialogForm>
   );
