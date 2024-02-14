@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { Dialog as DialogMui, Box, styled, DialogContent } from '@mui/material';
+import { Dialog as DialogMui, Box, styled, DialogContent, ButtonPropsColorOverrides } from '@mui/material';
+import { OverridableStringUnion } from '@mui/types';
 
 import { pxToRem } from '@lths/shared/utils';
 
@@ -17,6 +18,10 @@ type DialogFormProps = {
   cancelText?: string;
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
+  confirmColor?: OverridableStringUnion<
+    'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
+    ButtonPropsColorOverrides
+  >;
   onCancel?: () => void;
   onClose?: () => void;
   onReset?: () => void;
@@ -39,8 +44,9 @@ export const DialogForm = (props: DialogFormProps) => {
     onReset,
     onSubmit,
     isSubmitting,
-    isValid,
-    dirty,
+    isValid = true,
+    dirty = true,
+    confirmColor = 'primary',
   } = props;
 
   const handleOnCancel = () => {
@@ -63,6 +69,7 @@ export const DialogForm = (props: DialogFormProps) => {
           onCancel={handleOnCancel}
           isSubmitting={isSubmitting}
           disabled={!isValid || !dirty}
+          confirmColor={confirmColor}
         />
       </Box>
     </DialogMui>

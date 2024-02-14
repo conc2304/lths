@@ -24,12 +24,20 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [formFeatureValues, setFormFeatureValues] = useState<FeatureFlag | null>(null);
 
   // Handlers
   const handleOnEditFlagClick = (flagData: FeatureFlag) => {
     setCreateModalOpen(false);
+    setDeleteModalOpen(false);
     setEditModalOpen(true);
+    setFormFeatureValues(flagData);
+  };
+  const handleOnDeleteFlagClick = (flagData: FeatureFlag) => {
+    setCreateModalOpen(false);
+    setEditModalOpen(false);
+    setDeleteModalOpen(true);
     setFormFeatureValues(flagData);
   };
 
@@ -63,10 +71,15 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
         }
       />
       <Box>
-        <FeatureFlagTable featureFlags={featureFlags} onEditFlagClick={handleOnEditFlagClick} />
+        <FeatureFlagTable
+          featureFlags={featureFlags}
+          onEditFlagClick={handleOnEditFlagClick}
+          onDeleteFlagClick={handleOnDeleteFlagClick}
+        />
       </Box>
       <>
         <FeatureFlagFormModal
+          mode="create"
           open={createModalOpen}
           availableModules={availableModules}
           onClose={() => setCreateModalOpen(false)}
@@ -76,10 +89,25 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
         {formFeatureValues && (
           <FeatureFlagFormModal
+            mode="edit"
             open={editModalOpen}
             availableModules={availableModules}
             onClose={() => {
               setEditModalOpen(false);
+              setFormFeatureValues(null);
+            }}
+            formValues={formFeatureValues}
+            onSubmit={handleOnSubmit}
+          />
+        )}
+
+        {formFeatureValues && (
+          <FeatureFlagFormModal
+            mode="delete"
+            open={deleteModalOpen}
+            availableModules={availableModules}
+            onClose={() => {
+              setDeleteModalOpen(false);
               setFormFeatureValues(null);
             }}
             formValues={formFeatureValues}

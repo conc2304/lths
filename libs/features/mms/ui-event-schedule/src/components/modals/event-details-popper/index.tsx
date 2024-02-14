@@ -23,10 +23,25 @@ type EventDetailsPopperProps = {
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
   eventTypes: EventType[];
+  features?: {
+    updateEvents: boolean;
+    updateEventStates: boolean;
+  }[];
 };
 
 export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
-  const { onClose, editModalOpen, onSetEditModalOpen, onSaveEvent, onSaveEventStates, eventTypes, event } = props;
+  const {
+    onClose,
+    editModalOpen,
+    onSetEditModalOpen,
+    onSaveEvent,
+    onSaveEventStates,
+    eventTypes,
+    event,
+    // features = {},
+  } = props;
+
+  // const {updateEvents: updateEventsEnabled = true, updateEventStates: updateEventStatesEnabled = true} = features;
 
   const { id, start, end, allDay = false, title, desc, eventType, createdBy, eventStates, createdOn } = event;
 
@@ -166,6 +181,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
                 mt: 1.25,
               }}
             >
+              {}
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
                 {eventStatesEditable && 'EDIT EVENT STATES'}
               </Flags>

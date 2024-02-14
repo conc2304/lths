@@ -10,7 +10,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import { CheckCircle, Edit, FilterAlt, FilterAltOffOutlined, HighlightOff } from '@mui/icons-material';
+import { CheckCircle, Delete, Edit, FilterAlt, FilterAltOffOutlined, HighlightOff } from '@mui/icons-material';
 import { isEqual } from 'lodash';
 
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
@@ -22,11 +22,12 @@ type FilterOption = [id: string | number, value: string | number];
 
 type FeatureFlagTableProps = {
   featureFlags: FeatureFlag[];
-  onEditFlagClick: (flagData: FeatureFlag) => void;
+  onEditFlagClick?: (flagData: FeatureFlag) => void;
+  onDeleteFlagClick?: (flagData: FeatureFlag) => void;
 };
 
 export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
-  const { featureFlags, onEditFlagClick } = props;
+  const { featureFlags, onEditFlagClick, onDeleteFlagClick } = props;
 
   const showAllText = 'Show All Modules';
   const showAllValue: [string, string] = ['all', showAllText];
@@ -38,7 +39,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   const filtersFormIsClean =
     search === '' && isEqual(modulesFilteredOn[0][0], showAllValue[0]) && filterByFeatureState === null;
 
-  const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit'>[] = [
+  const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit' | 'delete'>[] = [
     {
       id: 'module',
       label: 'module',
@@ -65,6 +66,14 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
       label: '',
       sortable: false,
       align: 'center',
+      width: '35px',
+    },
+    {
+      id: 'delete',
+      label: '',
+      sortable: false,
+      align: 'center',
+      width: '35px',
     },
   ];
 
@@ -110,7 +119,11 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   };
 
   const handleEditFlagClick = (flagData: FeatureFlag) => {
-    onEditFlagClick(flagData);
+    onEditFlagClick && onEditFlagClick(flagData);
+  };
+
+  const handleDeleteFlagClick = (flagData: FeatureFlag) => {
+    onDeleteFlagClick && onDeleteFlagClick(flagData);
   };
 
   const RowBuilder = (): RowBuilderFn<FeatureFlag> => {
@@ -121,14 +134,25 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
         <TableRow>
           <>
             {tableHeaders.map((col) => {
-              if (col.id === 'edit')
+              if (col.id === 'edit') {
                 return (
-                  <TableCell key={col.id} size="small" align={col.align}>
+                  <TableCell key={col.id} size="small" align={col.align} width={col.width}>
                     <IconButton onClick={() => handleEditFlagClick(data)}>
                       <Edit />
                     </IconButton>
                   </TableCell>
                 );
+              }
+
+              if (col.id === 'delete') {
+                return (
+                  <TableCell key={col.id} size="small" align={col.align} width={col.width}>
+                    <IconButton onClick={() => handleDeleteFlagClick(data)}>
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                );
+              }
 
               const key = col.id;
               const cellValue = data[key];

@@ -8,6 +8,7 @@ import {
   Stack,
   TextField,
   Typography,
+  capitalize,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -17,20 +18,20 @@ import { DialogForm } from '@lths/shared/ui-elements';
 import { FeatureFlag } from '../../types';
 import { generateFlagId } from '../../utils';
 
+type CrudMode = 'create' | 'edit' | 'delete';
 type FeatureFlagFormModalProps = {
   open: boolean;
   availableModules?: (string | number)[];
   formValues?: FeatureFlag | null;
   onClose?: () => void;
-  onSubmit?: (flagData: FeatureFlag, method: 'edit' | 'create') => void;
+  onSubmit?: (flagData: FeatureFlag, mode: CrudMode) => void;
+  mode?: CrudMode;
 };
 
 export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
-  const { open, availableModules = [], onClose, onSubmit, formValues = null } = props;
+  const { open, availableModules = [], onClose, onSubmit, formValues = null, mode = 'create' } = props;
 
-  const isNewFeature = Boolean(!formValues);
-
-  const initialValues = {
+  const initialValues: FeatureFlag = {
     module: formValues?.module ?? '',
     title: formValues?.title ?? '',
     enabled: formValues?.enabled ?? false,
@@ -56,7 +57,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
         ...values,
         id: formValues?.id ?? generateFlagId({ title: values.title, module: values.module }),
       };
-      const method = isNewFeature ? 'create' : 'edit';
+      const method = mode;
       onSubmit && onSubmit(featureFlag, method);
       setSubmitting(false);
       handleCancel();
@@ -82,8 +83,8 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     handleReset(initialValues);
   };
 
-  const formTitleText = `${isNewFeature ? 'Add New' : 'Edit'} Feature Flag`;
-  const confirmText = `${isNewFeature ? 'Add' : 'Edit'} Flag`;
+  const formTitleText = `${capitalize(mode)} Feature Flag`;
+  const confirmText = `${capitalize(mode)} Flag`;
 
   return (
     <DialogForm
@@ -96,8 +97,9 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
       onReset={() => handleReset(initialValues)}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      isValid={isValid}
-      dirty={dirty}
+      isValid={mode === 'delete' || isValid}
+      dirty={mode === 'delete' || dirty}
+      confirmColor={mode !== 'delete' ? 'primary' : 'error'}
     >
       <Box>
         <FormGroup>
@@ -105,6 +107,8 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
             <Autocomplete
               freeSolo
               autoSelect
+              readOnly={['edit', 'delete'].includes(mode)}
+              disabled={['edit', 'delete'].includes(mode)}
               value={values.module}
               options={availableModules.map((m) => m.toString())}
               onBlur={handleBlur}
@@ -138,13 +142,21 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                 onBlur={handleBlur}
                 helperText={touched.title && errors.title}
                 color="secondary"
-                // color={touched.title && Boolean(errors.title) ? 'error' : 'primary'}
                 error={touched.title && Boolean(errors.title)}
+                aria-readonly={['edit', 'delete'].includes(mode)}
+                disabled={['edit', 'delete'].includes(mode)}
                 fullWidth
               />
               <FormControlLabel
                 color="secondary"
-                control={<Checkbox checked={values.enabled} onChange={handleChange} color="secondary" />}
+                control={
+                  <Checkbox
+                    checked={values.enabled}
+                    onChange={handleChange}
+                    color="secondary"
+                    readOnly={mode === 'delete'}
+                  />
+                }
                 label="Enabled"
                 labelPlacement="start"
                 name="enabled"
@@ -169,7 +181,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           </FormControl>
         </FormGroup>
       </Box>
-      {isNewFeature && (
+      {mode === 'create' && (
         <Typography variant="caption">
           <strong>Note:</strong> For new flags to work there will have to be updates to the code to implement them.
         </Typography>
