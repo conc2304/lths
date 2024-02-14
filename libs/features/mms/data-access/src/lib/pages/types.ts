@@ -134,6 +134,7 @@ export enum EnumGroup {
   SOCIAL_ICONS = 'SocialIcons',
   ACTION_ICONS = 'ActionIcons',
   EVENT_TYPE = 'EventType',
+  FEATURE_FLAGS = 'FeatureFlags-MMS',
   PUSH_NOTIFICATION_TOPICS = 'PushNotificationTopics',
   NOTIFICATION_TYPES = 'NotificationTypes',
   PAGE_NAME = 'PageName',
