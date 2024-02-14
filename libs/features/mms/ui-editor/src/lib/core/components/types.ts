@@ -692,7 +692,29 @@ export type MonthAndYear = {
   month: number;
   year: number;
 };
-
+export type GameCenterComponentProps = ComponentProps & {
+  data: {
+    show_game: string;
+    show_away_game: boolean;
+    pregame: {
+      show_date_text: boolean;
+      show_time_text: boolean;
+      show_at_text: boolean;
+    };
+    ingame: {
+      show_peroid_text: boolean;
+      show_time_remain_text: boolean;
+      show_stats_btn: boolean;
+      btn_text: string;
+    };
+    postgame: {
+      show_final_text: boolean;
+      show_highlights_btn: boolean;
+      btn_text_play_icon: boolean;
+      btn_text: string;
+    };
+  };
+};
 export type CalendarViewComponentProps = ComponentProps & {
   data: {
     tab_mode: string;

@@ -1,6 +1,5 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Theme } from '@mui/system';
 import { format, isAfter } from 'date-fns';
 import { Flags } from 'react-feature-flags';
 
@@ -157,20 +156,13 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
 
           {/* Event Actions */}
 
-          <Box onClick={() => onSetEditModalOpen(true)}>
-            <Typography
-              sx={{
-                fontSize: '0.75rem',
-                cursor: 'pointer',
-                color: (theme: Theme) => theme.palette.secondary.main,
-                mt: 1.25,
-              }}
-            >
+          <Box>
+            <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
                 {eventStatesEditable && 'EDIT EVENT STATES'}
               </Flags>
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>{eventEditable && 'EDIT EVENT'}</Flags>
-            </Typography>
+            </Button>
           </Box>
 
           {eventCompleted && (

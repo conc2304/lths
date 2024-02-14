@@ -91,7 +91,7 @@ jobs:
           build-args: |
             "NX_PUBLIC_HOST_PROTOCOL=https"
             "NX_PUBLIC_API_HOST_DOMAIN=mok-dev-k8s.briteliteimmersive.io"
-            "NX_PUBLIC_WEB_ENV=${{ steps.set-env-vars-step.outputs.k8s_namespace }}"
+            "NX_PUBLIC_WEB_ENV=production"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
             "BASE_PATH=./mms/"
             "GITHUB_BRANCH=develop"

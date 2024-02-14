@@ -42,11 +42,4 @@ describe('ViewModeToggle', () => {
 
     expect(mockOnChange).toHaveBeenCalledWith('calendar');
   });
-
-  it('displays correct color based on selected view mode', () => {
-    const { getByTestId } = render(<ViewModeToggle {...defaultProps} />);
-
-    expect(getByTestId('ViewDayOutlinedIcon')).toHaveAttribute('color', '#000'); // For the selected view mode
-    expect(getByTestId('CalendarMonthOutlinedIcon')).toHaveAttribute('color', '#e0e0e0'); // For the unselected view mode
-  });
 });

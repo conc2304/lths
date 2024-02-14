@@ -20,6 +20,7 @@ export type ToolbarHeaderProps = ToolbarProps & {
 export type CalendarCustomProperties = {
   '--current-time-color'?: Property.Color;
   '--current-day-highlight-color'?: Property.Color;
+  '--current-day-marker-color'?: Property.Color;
   '--show-more-color'?: Property.Color;
   '--accent-border-color'?: Property.Color;
   '--accent-border-width'?: Property.Width;

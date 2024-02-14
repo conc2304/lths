@@ -16,13 +16,13 @@ export type CalendarViewControlProps = ToolbarProps & {
   onViewMode?: (viewMode: ViewMode) => void;
 };
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  borderColor: theme.palette.grey[500],
+const StyledIconButton = styled(IconButton)(() => ({
   borderWidth: '1px',
   borderStyle: 'solid',
-  borderRadius: '15%',
+  borderRadius: '20%',
   padding: '0',
   height: '1.3rem',
+  margin: '0 2px',
 }));
 
 export const CalendarViewControl = (props: CalendarViewControlProps) => {
@@ -70,12 +70,14 @@ export const CalendarViewControl = (props: CalendarViewControlProps) => {
             onClick={() => onNavigate(Navigate.PREVIOUS)}
             aria-label={messages.previous}
             data-testid="Calendar-View-Control--navigation--prev"
+            color="secondary"
           >
             <ChevronLeft fontSize="inherit" />
           </StyledIconButton>
           <Button
             variant="outlined"
             size="small"
+            color="secondary"
             onClick={() => onNavigate(Navigate.TODAY)}
             aria-label={messages.today}
             sx={{
@@ -91,6 +93,7 @@ export const CalendarViewControl = (props: CalendarViewControlProps) => {
 
           <StyledIconButton
             size="small"
+            color="secondary"
             onClick={() => onNavigate(Navigate.NEXT)}
             aria-label={messages.next}
             data-testid="Calendar-View-Control--navigation--next"
