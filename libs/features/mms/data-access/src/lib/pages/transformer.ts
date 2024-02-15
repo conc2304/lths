@@ -20,7 +20,7 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
       if (value?.items?.properties && Object.keys(value?.items?.properties).length > 0)
         obj[newKey(key)].push(transformToObject(value?.items));
     } else {
-      obj[key] = value?.placeholder || '';
+      obj[key] = value?.placeholder ?? '';
     }
   }
   return obj;
