@@ -178,6 +178,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                   {...params}
                   label="Feature Module"
                   onBlur={handleBlur}
+                  placeholder="Select a module or add a new one"
                   helperText={touched.module && errors.module}
                   color="secondary"
                   error={touched.module && Boolean(errors.module)}
