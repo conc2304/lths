@@ -1,12 +1,12 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { Box, Button, Checkbox, FormControl, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
-import { FtFlagTableHeaders } from 'libs/shared/ui-admin/src/feature-flags/components/filterable-table/constants';
 import { isEqual } from 'lodash';
 
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table } from '@lths/shared/ui-elements';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
+import { FtFlagTableHeaders } from './constants';
 import { FtFlagRow } from './flag-row';
 import { FeatureFlag } from '../../types';
 

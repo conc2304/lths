@@ -2,7 +2,7 @@ import { api } from '@lths/shared/data-access';
 import { FeatureFlag } from '@lths/shared/ui-admin';
 
 import { getFeatureFlagsUrl, updateFeatureFlagsUrl } from './urls';
-import { ApiResponse, EnumGroupResponseData, EnumRequestPayload, EnumValue } from '../../types';
+import { ApiResponse, EnumGroupResponseData, EnumRequestPayload } from '../../types';
 
 const FT_FLAG_TAG = 'FEATURE_FLAGS';
 

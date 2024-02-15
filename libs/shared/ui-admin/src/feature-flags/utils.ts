@@ -1,4 +1,3 @@
-import { EnumValue } from '@lths/features/mms/data-access';
 import { slugify } from '@lths/shared/utils';
 
 import { FeatureFlag } from './types';
@@ -58,6 +57,12 @@ export const deleteFeatureFlagPayload: FlagCRUDPayloadFn = (deletedFlag, flags) 
       name: f.id,
       value: f,
     }));
+};
+
+type EnumValue<TData = string> = {
+  display_order: number;
+  name: string;
+  value: TData;
 };
 
 export type FlagCRUDMethods = 'create' | 'update' | 'delete';
