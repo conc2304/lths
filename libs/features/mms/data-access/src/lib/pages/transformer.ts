@@ -45,9 +45,9 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
   } else if (payload.component_id === Component.CalendarView) {
     const start = new Date();
     const end = addMonths(start, 11);
-    data.start_month = getMonth(start).toString();
+    data.start_month = (getMonth(start)+1).toString();
     data.start_year = getYear(start).toString();
-    data.end_month = getMonth(end).toString();
+    data.end_month = (getMonth(end)+1).toString();
     data.end_year = getYear(end).toString();
   }
 
