@@ -16,11 +16,11 @@ describe('CalendarViewComponent', () => {
       component_id: Component.CalendarView,
       data: {
         tab_mode: 'scrollable',
-        start_month: '3',
+        start_month: '4',
         start_year: '2001',
-        end_month: '5',
+        end_month: '6',
         end_year: '2001',
-        selected_month: '4',
+        selected_month: '5',
         selected_year: '2001',
       },
     };
@@ -42,7 +42,7 @@ describe('CalendarViewComponent', () => {
   });
 
   test('renders component with two tabs', () => {
-    props.data.start_month = '4'
+    props.data.start_month = '5'
     render(<CalendarViewComponent {...props} />);
 
     const monthTabLeftElement = screen.queryByText("April");
@@ -54,8 +54,8 @@ describe('CalendarViewComponent', () => {
   });
 
   test('renders component with one tab', () => {
-    props.data.start_month = '4'
-    props.data.end_month = '4'
+    props.data.start_month = '5'
+    props.data.end_month = '5'
     render(<CalendarViewComponent {...props} />);
 
     const monthTabLeftElement = screen.queryByText("April");

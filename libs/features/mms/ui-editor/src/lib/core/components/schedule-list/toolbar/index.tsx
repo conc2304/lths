@@ -38,11 +38,11 @@ const ScheduleListToolbar = (props: ScheduleListComponentProps) => {
       />
       <GroupLabel label={'Schedule'} />
       <FormControl fullWidth>
-        <InputLabel sx={{ color: 'gray' }}>Month</InputLabel>
+        <InputLabel>Month</InputLabel>
         <MonthDropDownToolbar value={selected_month} onChange={handleScheduleMonthChange} />
       </FormControl>
       <FormControl fullWidth>
-        <InputLabel sx={{ color: 'gray' }}>Year</InputLabel>
+        <InputLabel>Year</InputLabel>
         <YearDropDownToolbar noOfYears={noOfYears} value={selected_year} onChange={handleScheduleYearChange} />
       </FormControl>
     </ToolContainer>

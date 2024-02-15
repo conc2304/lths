@@ -1,17 +1,29 @@
+import { afterEach } from 'node:test';
+
 import { getAppEnvironmentName, getAppEnvTitle } from './env';
 
 describe('getEnv', () => {
   describe('getAppEnvironmentName', () => {
+    const preLocation = window?.location ?? {};
+    beforeEach(() => {
+      // @ts-expect-error - overriding window location for mocking
+      delete window.location;
+    });
+
+    afterEach(() => {
+      window.location = preLocation;
+    });
+
     it('returns the value of NX_PUBLIC_WEB_ENV if set', () => {
       const mockProcess = {
-        env: { NX_PUBLIC_WEB_ENV: 'development' },
+        env: { NX_PUBLIC_WEB_ENV: 'dev' },
       } as unknown as NodeJS.Process;
-      expect(getAppEnvironmentName(mockProcess.env.NX_PUBLIC_WEB_ENV)).toBe('development');
+
+      console.log({ mockProcess });
+      expect(getAppEnvironmentName(mockProcess.env.NX_PUBLIC_WEB_ENV)).toBe('dev');
     });
 
     it('returns "local" for localhost or gitpod hostnames', () => {
-      // @ts-expect-error - overriding window location for mocking
-      delete window.location;
       window.location = { hostname: 'localhost' } as any;
       expect(getAppEnvironmentName()).toBe('local');
       window.location = { hostname: 'gitpod' } as any;
@@ -19,17 +31,17 @@ describe('getEnv', () => {
     });
 
     it('returns "dev" for dev hostnames', () => {
-      window.location = { hostname: 'dev.example.com' } as any;
+      window.location = { hostname: 'mms-dev-k8s.briteliteimmersive.io' } as any;
       expect(getAppEnvironmentName()).toBe('dev');
     });
 
     it('returns "staging" for staging hostnames', () => {
-      window.location = { hostname: 'staging.example.com' } as any;
+      window.location = { hostname: '"mms-staging.briteliteimmersive.io"' } as any;
       expect(getAppEnvironmentName()).toBe('staging');
     });
 
     it('returns "production" as a fallback', () => {
-      window.location = { hostname: 'example.com' } as any;
+      window.location = { hostname: 'mms.lths.app' } as any;
       expect(getAppEnvironmentName()).toBe('production');
     });
 

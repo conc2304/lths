@@ -21,9 +21,9 @@ describe('CalendarView Toolbar', () => {
       component_id: Component.CalendarView,
       data: {
         tab_mode: 'scrollable',
-        start_month: '0',
+        start_month: '1',
         start_year: '2001',
-        end_month: '5',
+        end_month: '6',
         end_year: '2001',
         selected_month: '', 
         selected_year: '',
@@ -78,11 +78,11 @@ describe('CalendarView Toolbar', () => {
   });
 
   test('renders toolbar with correct date data', async () => {
-    component.data.start_month = '11'; // December
+    component.data.start_month = '12'; // December
     component.data.start_year = '2024'; // 2024
-    component.data.end_month = '4'; // May
+    component.data.end_month = '5'; // May
     component.data.end_year = '2025'; // 2025
-    component.data.selected_month = '3'; // April
+    component.data.selected_month = '4'; // April
     component.data.selected_year = '2025'; // 2025
 
     render(

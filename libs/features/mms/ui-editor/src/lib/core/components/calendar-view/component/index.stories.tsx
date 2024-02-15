@@ -43,7 +43,7 @@ Primary.args = {
   component_id: Component.CalendarView,
   data: {
     tab_mode: 'scrollable',
-    start_month: '0',
+    start_month: '1',
     start_year: '2001',
     end_month: '5',
     end_year: '2001',

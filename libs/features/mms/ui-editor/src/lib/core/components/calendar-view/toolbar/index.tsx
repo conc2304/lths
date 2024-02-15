@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Chip } from '@mui/material';
-import { subMonths, addMonths } from 'date-fns';
+import { clamp, isWithinInterval, addMonths, getMonth, getYear } from 'date-fns';
 
 import NHLLogo from '../../../../../assets/NHL-logo.svg';
 import { ICON_WIDTH, ICON_HEIGHT } from '../../../../common';
@@ -22,8 +22,24 @@ const CalendarViewToolbar = (props: CalendarViewComponentProps) => {
 
   const { updateComponent } = useEditorActions();
 
+  // format input values
+  const selectedValue = (selected_month === '' || selected_year === '') ? null : { month: Number(selected_month)-1, year: Number(selected_year)};
+  const startValue = { month: Number(start_month)-1, year: Number(start_year)};
+  const endValue = { month: Number(end_month)-1, year: Number(end_year)};
+  
+  // get min max dates
+  const selectedDate = selectedValue && new Date(Number(selectedValue.year), Number(selectedValue.month));
+  const startDate = new Date(Number(startValue.year), Number(startValue.month));
+  const endDate = new Date(Number(endValue.year), Number(endValue.month));
+
+  const selectedMin = startDate;
+  const selectedMax = endDate;
+
+  const endMin = selectedDate || startDate;
+  const endMax = addMonths(startDate, 11);
+
   const handleMonthYearChange = (monthKey: string, yearKey: string, value: MonthAndYear | null) => {
-    const month = value ? value.month.toString() : '';
+    const month = value ? (value.month + 1).toString() : '';
     const year = value ? value.year.toString() : '';
 
     const data = {
@@ -37,24 +53,36 @@ const CalendarViewToolbar = (props: CalendarViewComponentProps) => {
     updateComponent(data);
   };
 
-  // format input values
-  const selectedValue = (selected_month === '' || selected_year === '') ? null : { month: Number(selected_month), year: Number(selected_year)};
-  const startValue = { month: Number(start_month), year: Number(start_year)};
-  const endValue = { month: Number(end_month), year: Number(end_year)};
-  
-  // get min max dates
-  const selectedDate = selectedValue && new Date(Number(selectedValue.year), Number(selectedValue.month));
-  const startDate = new Date(Number(startValue.year), Number(startValue.month));
-  const endDate = new Date(Number(endValue.year), Number(endValue.month));
+  const handleStartMonthYearChange = (value: MonthAndYear | null) => {
+    if(!value) return;
+    const newStartDate = new Date(Number(value.year), Number(value.month));
 
-  const selectedMin = startDate;
-  const selectedMax = endDate;
+    const newEndDate = clamp(endDate, {
+      start: newStartDate,
+      end: addMonths(newStartDate, 11),
+    })
 
-  const startMin = subMonths(endDate, 11);
-  const startMax = selectedDate || endDate;
+    const isSelectedValid = isWithinInterval(selectedDate, {
+      start: newStartDate,
+      end: newEndDate,
+    })
 
-  const endMin = selectedDate || startDate;
-  const endMax = addMonths(startDate, 11);
+    const data = {
+      ...props,
+      data: {
+        ...props.data,
+        start_month: (getMonth(newStartDate)+1).toString(),
+        start_year: getYear(newStartDate).toString(),
+        end_month: (getMonth(newEndDate)+1).toString(),
+        end_year: getYear(newEndDate).toString(),
+        ...(!isSelectedValid && {
+          selected_month: '',
+          selected_year: '',
+        })
+      },
+    };
+    updateComponent(data);
+  };
 
   return (
     <ToolContainer id={id} aria-label={'Calendar View Toolbar'}>
@@ -63,9 +91,7 @@ const CalendarViewToolbar = (props: CalendarViewComponentProps) => {
       <MonthYearPicker
         label={"Start"}
         value={startValue}
-        maxDate={startMax}
-        minDate={startMin}
-        onChange={(value) => handleMonthYearChange('start_month', 'start_year', value)}
+        onChange={handleStartMonthYearChange}
       />
       <MonthYearPicker
         label={"End"}
