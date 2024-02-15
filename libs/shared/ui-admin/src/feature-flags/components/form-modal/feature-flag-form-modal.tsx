@@ -20,6 +20,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogForm } from '@lths/shared/ui-elements';
+import { capitalizeString } from '@lths/shared/utils';
 
 import { FeatureFlag } from '../../types';
 import { FlagCRUDMethods, generateFlagId } from '../../utils';
@@ -169,7 +170,11 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
               options={availableModules.map((m) => m.toString())}
               onBlur={handleBlur}
               onChange={(_, newValue: string | null) => {
-                setFieldValue('module', newValue ?? '');
+                // force formatting so that we don't end up with a variety
+                // of modules that are the same but with different formatting
+
+                const capitalizedValue = capitalizeString(newValue ?? '');
+                setFieldValue('module', capitalizedValue);
               }}
               renderOption={(props, option) => <li {...props}>{option}</li>}
               color="secondary"
@@ -192,9 +197,12 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
               <TextField
                 label="Title"
                 aria-label="Title"
-                value={values.title}
+                value={values.title.toUpperCase()}
                 name="title"
-                onChange={handleChange}
+                onChange={(e) => {
+                  const formattedTitle = (e?.target?.value ?? '').toUpperCase();
+                  setFieldValue('title', formattedTitle);
+                }}
                 onBlur={handleBlur}
                 helperText={touched.title && errors.title}
                 color="secondary"

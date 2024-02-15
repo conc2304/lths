@@ -10,7 +10,16 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import { CheckCircle, Delete, Edit, FilterAlt, FilterAltOffOutlined, HighlightOff } from '@mui/icons-material';
+import {
+  CheckCircle,
+  Delete,
+  Edit,
+  FilterAlt,
+  FilterAltOffOutlined,
+  HighlightOff,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 import { isEqual } from 'lodash';
 
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
@@ -160,9 +169,9 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
 
               if (typeof cellValue === 'boolean') {
                 content = cellValue ? (
-                  <CheckCircle fontSize="medium" htmlColor="#388E3C" />
+                  <Visibility fontSize="medium" htmlColor="#388E3C" />
                 ) : (
-                  <HighlightOff fontSize="medium" color="error" />
+                  <VisibilityOff fontSize="medium" color="disabled" />
                 );
               } else {
                 content = cellValue;

@@ -1,3 +1,5 @@
+import { capitalize } from '@mui/material';
+
 export const slugify = (str: string) =>
   str
     .toLowerCase()
@@ -21,4 +23,11 @@ export const hashString = (string: string) => {
     a = (a << 5) - a + b.charCodeAt(0);
     return a & a;
   }, 0);
+};
+
+export const capitalizeString = (string: string, splitter = ' ') => {
+  return (string.toLowerCase() ?? '')
+    .split(splitter)
+    .map((word) => capitalize(word))
+    .join(splitter);
 };
