@@ -1,9 +1,10 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { Box, Button, Checkbox, FormControl, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
+import { FtFlagTableHeaders } from 'libs/shared/ui-admin/src/feature-flags/components/filterable-table/constants';
 import { isEqual } from 'lodash';
 
-import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
+import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table } from '@lths/shared/ui-elements';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
 import { FtFlagRow } from './flag-row';
@@ -29,44 +30,6 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   const availableModules = getUniqueValuesByKey(featureFlags, 'module').map((value, i) => [i, value]);
   const filtersFormIsClean =
     search === '' && isEqual(modulesFilteredOn[0][0], showAllValue[0]) && filterByFeatureState === null;
-
-  const tableHeaders: TableColumnHeader[] = [
-    {
-      id: 'module',
-      label: 'module',
-      sortable: true,
-    },
-    {
-      id: 'title',
-      label: 'title',
-      sortable: true,
-    },
-    {
-      id: 'description',
-      label: 'description',
-      sortable: true,
-    },
-    {
-      id: 'enabled',
-      label: 'enabled',
-      sortable: true,
-      align: 'center',
-    },
-    {
-      id: 'edit',
-      label: '',
-      sortable: false,
-      align: 'center',
-      width: '35px',
-    },
-    {
-      id: 'delete',
-      label: '',
-      sortable: false,
-      align: 'center',
-      width: '35px',
-    },
-  ];
 
   const filteredData = featureFlags.slice().filter((feature) => {
     // Check if the feature state matches the filter or if no filter is applied
@@ -189,7 +152,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
           </Button>
         </FormControl>
       </Box>
-      <Table data={filteredData} headerCells={tableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
+      <Table data={filteredData} headerCells={FtFlagTableHeaders} rowBuilder={RowBuilder()} rowsPerPage={10} />
     </Box>
   );
 };
