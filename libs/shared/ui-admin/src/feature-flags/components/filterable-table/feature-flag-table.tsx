@@ -6,7 +6,7 @@ import { isEqual } from 'lodash';
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
-import { FtFlagTableRow } from './flag-row';
+import { FtFlagRow } from './flag-row';
 import { FeatureFlag } from '../../types';
 
 type FilterOption = [id: string | number, value: string | number];
@@ -31,7 +31,6 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
     search === '' && isEqual(modulesFilteredOn[0][0], showAllValue[0]) && filterByFeatureState === null;
 
   const tableHeaders: TableColumnHeader[] = [
-    // const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit' | 'delete'>[] = [
     {
       id: 'module',
       label: 'module',
@@ -123,7 +122,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
       const { data, headerCells } = props;
 
       return (
-        <FtFlagTableRow
+        <FtFlagRow
           flag={data}
           tableHeaders={headerCells}
           handleDeleteFlagClick={() => handleDeleteFlagClick(data)}
