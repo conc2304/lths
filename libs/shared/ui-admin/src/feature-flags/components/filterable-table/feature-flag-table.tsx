@@ -10,16 +10,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
-import {
-  CheckCircle,
-  Delete,
-  Edit,
-  FilterAlt,
-  FilterAltOffOutlined,
-  HighlightOff,
-  Visibility,
-  VisibilityOff,
-} from '@mui/icons-material';
+import { Delete, Edit, FilterAlt, FilterAltOffOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { isEqual } from 'lodash';
 
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
