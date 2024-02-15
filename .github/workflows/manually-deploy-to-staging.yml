@@ -91,7 +91,9 @@ jobs:
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
 
       - name: Azure Login
-        run: az login
+        uses: azure/login@v1
+        with:
+          creds: ${{AZURE_CREDENTIALS_STAGING}}
  
       - name: Restart Azure Web App
         run: |
