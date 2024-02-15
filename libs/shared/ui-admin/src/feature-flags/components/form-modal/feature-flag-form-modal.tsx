@@ -6,6 +6,8 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  List,
+  ListItem,
   Stack,
   TextField,
   Tooltip,
@@ -22,12 +24,15 @@ import { DialogForm } from '@lths/shared/ui-elements';
 import { FeatureFlag } from '../../types';
 import { FlagCRUDMethods, generateFlagId } from '../../utils';
 
+type FormError = { field: keyof FeatureFlag | 'form'; msg: string };
+type FormStatusError = { errors: FormError[] };
+
 type FeatureFlagFormModalProps = {
   open: boolean;
   availableModules?: (string | number)[];
   formValues?: FeatureFlag | null;
   onClose?: () => void;
-  onSubmit?: (flagData: FeatureFlag, mode: FlagCRUDMethods) => void;
+  onSubmit?: (flagData: FeatureFlag, mode: FlagCRUDMethods) => void | Promise<FormStatusError | void>;
   mode?: FlagCRUDMethods;
 };
 
@@ -46,6 +51,10 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     id: formValues?.id ?? '',
   };
 
+  const initialStatus: FormStatusError = {
+    errors: [],
+  };
+
   const validationSchema = Yup.object().shape({
     module: Yup.string().min(4, 'Too Short').required('Required'),
     title: Yup.string().min(4, 'Too Short').required('Required'),
@@ -55,19 +64,37 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
 
   const formik = useFormik({
     initialValues,
+    initialStatus,
     validationSchema,
     validateOnBlur: true,
     validateOnChange: true,
     validateOnMount: true,
-    onSubmit(values, { setSubmitting }) {
+
+    onSubmit(values, { setSubmitting, setStatus, setFieldError }) {
       const featureFlag = {
         ...values,
         id: formValues?.id ?? generateFlagId({ title: values.title, module: values.module }),
       };
       const method = mode;
-      onSubmit && onSubmit(featureFlag, method);
-      setSubmitting(false);
-      handleCancel();
+      if (!onSubmit) {
+        return setSubmitting(false);
+      }
+
+      const result = onSubmit(featureFlag, method);
+      if (result instanceof Promise) {
+        result
+          .catch((e: FormStatusError) => {
+            setStatus({ errors: e.errors.filter((e) => e.field === 'form') });
+            e.errors.forEach(({ field, msg }) => {
+              if (field === 'form') return;
+              setFieldError(field, msg);
+            });
+          })
+          .finally(() => setSubmitting(false));
+      } else {
+        setSubmitting(false);
+        handleCancel();
+      }
     },
   });
 
@@ -83,6 +110,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     dirty,
     isValid,
     isSubmitting,
+    status,
   } = formik;
 
   const handleCancel = () => {
@@ -252,6 +280,22 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           </span>
         </Tooltip>
       </Typography>
+      {status?.errors?.length > 0 && (
+        <>
+          <List>
+            {status?.errors.map((e: FormError) => (
+              <ListItem>
+                <Typography color="error" align="center">
+                  {e.msg}
+                </Typography>
+              </ListItem>
+            ))}
+          </List>
+          <Typography color={'error'} align="center">
+            Please try again.
+          </Typography>
+        </>
+      )}
     </DialogForm>
   );
 };

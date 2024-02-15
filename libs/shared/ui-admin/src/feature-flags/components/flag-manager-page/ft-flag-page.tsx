@@ -42,6 +42,21 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
     setFormFeatureValues(flagData);
   };
 
+  const handleCreateFlag = (flagData: FeatureFlag, mode: FlagCRUDMethods) => {
+    // check if flag with same id already exists and prevent creation
+    const flagExists = featureFlags.some((f) => f.id === flagData.id);
+
+    if (flagExists)
+      return Promise.reject({
+        errors: [
+          { field: 'form', msg: 'Event with that ID and Module already exist.' },
+          { field: 'title', msg: 'Duplicate flag name.' },
+        ],
+      });
+
+    handleOnSubmit(flagData, mode);
+  };
+
   const handleOnSubmit = (flagData: FeatureFlag, mode: FlagCRUDMethods) => {
     onUpdate && onUpdate(flagData, mode);
   };
@@ -85,7 +100,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
           availableModules={availableModules}
           onClose={() => setCreateModalOpen(false)}
           formValues={null}
-          onSubmit={handleOnSubmit}
+          onSubmit={handleCreateFlag}
         />
 
         {formFeatureValues && (
