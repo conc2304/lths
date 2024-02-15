@@ -101,9 +101,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
  */
-export const Table = (
-  props: TableProps<Record<any, number | string | Date | boolean | undefined | unknown>>
-): JSX.Element => {
+export const Table = (props: TableProps<Record<string, unknown>>): JSX.Element => {
   const {
     data,
     headerCells,

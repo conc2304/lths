@@ -1,21 +1,12 @@
-import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  IconButton,
-  TableCell,
-  TableRow,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
-import { Delete, Edit, FilterAlt, FilterAltOffOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import { Box, Button, Checkbox, FormControl, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { FilterAlt, FilterAltOffOutlined } from '@mui/icons-material';
 import { isEqual } from 'lodash';
 
 import { MultiSelectWithChip, RowBuilderFn, SearchBar, Table, TableColumnHeader } from '@lths/shared/ui-elements';
 import { filterObjectsBySearch, getUniqueValuesByKey } from '@lths/shared/utils';
 
+import { FtFlagTableRow } from './flag-row';
 import { FeatureFlag } from '../../types';
 
 type FilterOption = [id: string | number, value: string | number];
@@ -39,7 +30,8 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   const filtersFormIsClean =
     search === '' && isEqual(modulesFilteredOn[0][0], showAllValue[0]) && filterByFeatureState === null;
 
-  const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit' | 'delete'>[] = [
+  const tableHeaders: TableColumnHeader[] = [
+    // const tableHeaders: TableColumnHeader<keyof FeatureFlag | 'edit' | 'delete'>[] = [
     {
       id: 'module',
       label: 'module',
@@ -128,60 +120,15 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
 
   const RowBuilder = (): RowBuilderFn<FeatureFlag> => {
     return (props) => {
-      const { data } = props;
+      const { data, headerCells } = props;
 
       return (
-        <TableRow>
-          <>
-            {tableHeaders.map((col) => {
-              if (col.id === 'edit') {
-                return (
-                  <TableCell key={col.id} size="small" align={col.align} width={col.width}>
-                    <IconButton onClick={() => handleEditFlagClick(data)}>
-                      <Edit />
-                    </IconButton>
-                  </TableCell>
-                );
-              }
-
-              if (col.id === 'delete') {
-                return (
-                  <TableCell key={col.id} size="small" align={col.align} width={col.width}>
-                    <IconButton onClick={() => handleDeleteFlagClick(data)}>
-                      <Delete />
-                    </IconButton>
-                  </TableCell>
-                );
-              }
-
-              const key = col.id;
-              const cellValue = data[key];
-              let content: ReactNode;
-
-              if (typeof cellValue === 'boolean') {
-                content = cellValue ? (
-                  <Visibility fontSize="medium" htmlColor="#388E3C" />
-                ) : (
-                  <VisibilityOff fontSize="medium" color="disabled" />
-                );
-              } else {
-                content = cellValue;
-              }
-              return (
-                <TableCell
-                  key={key}
-                  size={key === 'enabled' ? 'small' : undefined}
-                  align={col.align}
-                  sx={{
-                    pl: col.align === 'center' && col.sortable ? '-18px' : undefined,
-                  }}
-                >
-                  {content}
-                </TableCell>
-              );
-            })}
-          </>
-        </TableRow>
+        <FtFlagTableRow
+          flag={data}
+          tableHeaders={headerCells}
+          handleDeleteFlagClick={() => handleDeleteFlagClick(data)}
+          handleEditFlagClick={() => handleEditFlagClick(data)}
+        />
       );
     };
   };
