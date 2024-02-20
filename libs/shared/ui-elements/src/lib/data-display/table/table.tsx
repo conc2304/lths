@@ -149,6 +149,13 @@ export const Table = (
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
 
+  useEffect(() => {
+    setPage(pageProp || 0);
+    setRowsPerPage(initialRowsPerPage);
+    setSortOrder(sortOrderProp ?? 'asc');
+    setOrderBy(orderByProp ?? headerCells[0].id);
+  }, [pageProp, rowsPerPageProp, sortOrderProp, orderByProp]);
+
   const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
   const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
   const isComponentUncontrolled = !sortingIsControlled && !paginationIsControlled;
