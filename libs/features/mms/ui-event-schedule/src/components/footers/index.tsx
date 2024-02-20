@@ -34,6 +34,23 @@ export const EventSchedulingFooter = (props: EventSchedulingFooterProps): JSX.El
           </Typography>
         </Box>
       ))}
+      <Box key={'unknown'} display={'flex'} alignContent={'center'}>
+        <Paper
+          elevation={3}
+          sx={{
+            px: 0,
+            width: pxToRem(28),
+            height: pxToRem(28),
+            minWidth: 'unset',
+            backgroundColor: eventColorMap('unknown'),
+            borderRadius: '10%',
+            mr: (theme) => theme.spacing(1.1),
+          }}
+        />
+        <Typography variant="body1" pt={0.25} sx={{ mr: (theme) => theme.spacing(3) }}>
+          Unknown
+        </Typography>
+      </Box>
     </>
   );
 };

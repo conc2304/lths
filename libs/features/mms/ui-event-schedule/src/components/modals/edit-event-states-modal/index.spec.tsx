@@ -1,10 +1,10 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { subHours } from 'date-fns';
 
 import { EditEventStatesModal } from './index';
-import { EVENT_STATE, EVENT_TYPE } from '../../../constants';
+import { EVENT_TYPE } from '../../../constants';
 import { EventState, MMSEvent } from '../../../types';
 import { updateEventStatesWithOffsets } from '../../../utils';
 
@@ -20,64 +20,47 @@ const mockEventData: MMSEvent = {
   eventType: { label: 'Game', id: 'GAME' },
   desc: 'The Sharks are in town to take on the Anaheim Ducks.',
   createdBy: 'NHL',
-  eventStates: [
-    {
-      state: EVENT_STATE.PRE_EVENT,
-      id: '64dd565849d62a229cf44339',
-      name: '[PRE-GAME]: San Jose @ Anaheim',
-      eventId: '2023010040',
-      start: new Date('2023-09-28T01:59:52.800Z'),
-      end: new Date('2023-09-28T02:00:00.000Z'),
-      duration: 0,
-      label: 'Pre-Event',
-      desc: 'before event start',
-      stateDependency: { relativeState: EVENT_STATE.IN_EVENT, referencePoint: 'start', dependentPoint: 'start' },
-      relativeOffsetHrs: 0,
-      source: 'NHL',
-      type: EVENT_TYPE.GAME,
-    },
-    {
-      state: EVENT_STATE.IN_EVENT,
-      id: '64dd565849d62a229cf44338',
-      name: 'San Jose @ Anaheim',
-      eventId: '2023010040',
-      start: new Date('2023-09-28T02:00:00.000Z'),
-      end: new Date('2023-09-28T02:00:09.000Z'),
-      duration: 0,
-      label: 'In-Event',
-      desc: 'Event hours',
-      stateDependency: { relativeState: null, referencePoint: null, dependentPoint: null },
-      relativeOffsetHrs: 0,
-      source: 'NHL',
-      type: EVENT_TYPE.GAME,
-    },
-    {
-      state: EVENT_STATE.POST_EVENT,
-      id: '64dd565849d62a229cf4433a',
-      name: '[POST-GAME]: San Jose @ Anaheim',
-      eventId: '2023010040',
-      start: new Date('2023-09-28T02:00:09.000Z'),
-      end: new Date('2023-09-28T02:00:07.200Z'),
-      duration: 0,
-      label: 'Post-Event',
-      desc: 'after event end',
-      stateDependency: { relativeState: EVENT_STATE.IN_EVENT, referencePoint: 'end', dependentPoint: 'end' },
-      relativeOffsetHrs: 0,
-      source: 'NHL',
-      type: EVENT_TYPE.GAME,
-    },
-  ],
-  eventState: 'INGAME',
   createdOn: new Date('2023-08-16T22:53:26.357Z'),
 };
 
-const mockOnSave = jest.fn();
-const mockOnCancel = jest.fn();
+const eventStateHrs = 3;
+const eventStateMock: EventState[] = [
+  {
+    name: 'whatever',
+    id: '2134',
+    eventId: '2023010040',
+    label: 'Pre-Event',
+    type: EVENT_TYPE.PRE_GAME,
+    duration: eventStateHrs * 60 * 60,
+    start: subHours(mockEventData.start as Date, eventStateHrs),
+    end: mockEventData.start as Date,
+    desc: 'before event start',
+    relativeOffsetHrs: eventStateHrs,
+    typeDependency: {
+      relativeState: EVENT_TYPE.GAME,
+      referencePoint: 'start',
+      dependentPoint: 'start',
+    },
+  },
+];
 
 describe('EditEventStatesModal', () => {
+  const mockOnSave = jest.fn();
+  const mockOnCancel = jest.fn();
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders the modal with correct props', () => {
     const { container } = render(
-      <EditEventStatesModal open={true} onCancel={mockOnCancel} onSave={mockOnSave} eventData={mockEventData} />
+      <EditEventStatesModal
+        open={true}
+        onCancel={mockOnCancel}
+        onSave={mockOnSave}
+        eventData={mockEventData}
+        eventStates={eventStateMock}
+      />
     );
 
     expect(container).toBeInTheDocument();
@@ -88,34 +71,68 @@ describe('EditEventStatesModal', () => {
 
   it('calls onCancel when the "Cancel" button is clicked', () => {
     const { getByText } = render(
-      <EditEventStatesModal open={true} onCancel={mockOnCancel} onSave={mockOnSave} eventData={mockEventData} />
+      <EditEventStatesModal
+        open={true}
+        onCancel={mockOnCancel}
+        onSave={mockOnSave}
+        eventData={mockEventData}
+        eventStates={eventStateMock}
+      />
     );
 
     fireEvent.click(getByText('CANCEL'));
-    expect(mockOnCancel).toHaveBeenCalled();
+    expect(mockOnCancel).toHaveBeenCalledTimes(1);
   });
 
   it('calls onSave with updated event states when the "Update Event States" button is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<EditEventStatesModal open={true} onCancel={mockOnCancel} onSave={mockOnSave} eventData={mockEventData} />);
+    render(
+      <EditEventStatesModal
+        open={true}
+        onCancel={mockOnCancel}
+        onSave={mockOnSave}
+        eventData={mockEventData}
+        eventStates={eventStateMock}
+      />
+    );
+
     expect(mockOnSave).toHaveBeenCalledTimes(0);
 
     // Simulate user input by changing offset value
-    await user.type(screen.getByLabelText('PRE-EVENT'), '3');
-    await user.click(screen.getByRole('button', { name: 'UPDATE EVENT STATES' }));
+    const inputField = screen.getByLabelText('PRE-EVENT');
+    const onSaveButton = screen.getByText('UPDATE EVENT STATES');
+    expect(inputField).toBeInTheDocument();
+    expect(onSaveButton).toBeInTheDocument();
+    expect(onSaveButton).toBeDisabled();
 
-    const updatedEventStates = updateEventStatesWithOffsets(mockEventData.eventStates as EventState[], {
-      [EVENT_STATE.PRE_EVENT]: 3,
+    const offsetAmount = 1;
+    const newDuration = offsetAmount + eventStateHrs;
+
+    await user.clear(inputField);
+    await user.type(inputField, newDuration.toString());
+    await user.click(document.body);
+
+    expect(onSaveButton).not.toBeDisabled();
+
+    waitFor(() => {
+      fireEvent.submit(screen.getByRole('form'));
     });
 
-    expect(mockOnSave).toHaveBeenCalledTimes(1);
+    const updatedEventStates = updateEventStatesWithOffsets([...eventStateMock] as EventState[], {
+      [EVENT_TYPE.PRE_GAME]: eventStateHrs + offsetAmount,
+    });
+
+    await waitFor(() => {
+      expect(mockOnSave).toHaveBeenCalledTimes(1);
+    });
+
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.arrayContaining([
         expect.objectContaining({
-          state: EVENT_STATE.PRE_EVENT,
-          start: updatedEventStates.find((eventState) => eventState.state === EVENT_STATE.PRE_EVENT)?.start,
-          end: updatedEventStates.find((eventState) => eventState.state === EVENT_STATE.PRE_EVENT)?.end,
+          type: EVENT_TYPE.PRE_GAME,
+          start: updatedEventStates[0].start as Date,
+          end: (eventStateMock[0].end as Date).toISOString(),
         }),
       ])
     );

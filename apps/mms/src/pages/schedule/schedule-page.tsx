@@ -59,12 +59,15 @@ const SchedulePage = () => {
     const now = new Date();
     const { start, end } = constructRange(now, monthsBeforeAndAfter);
 
-    getEventsData({
-      start_date_time: start,
-      end_date_time: end,
-      sort: eventSorting,
-      limit: eventLimit,
-    });
+    getEventsData(
+      {
+        start_date_time: start,
+        end_date_time: end,
+        sort: eventSorting,
+        limit: eventLimit,
+      },
+      true
+    );
 
     const response = await getEnumList('EventType');
     const eventTypes =
@@ -83,6 +86,8 @@ const SchedulePage = () => {
   // Event Handlers
   const handleSaveEvent = (values: EventFormValues, id: string | null | undefined) => {
     // update and save take the same info, only difference is whether we have an eventID
+
+    const newEventId = new Date().getTime().toString(); // fake mandatory event id for creating events
     const eventPayload = {
       name: values.eventName,
       description: values.description,
@@ -93,7 +98,7 @@ const SchedulePage = () => {
       actual_start_date_time: values.startDateTime.toISOString(),
       actual_end_date_time: values.endDateTime.toISOString(),
       source: 'mms' as const,
-      event_id: values?.eventId,
+      event_id: values?.eventId ? values.eventId : newEventId,
       _id: id || undefined,
     };
 
@@ -106,13 +111,17 @@ const SchedulePage = () => {
 
   const handleSaveEventStates = (updatedEventStates: EventState[]) => {
     updatedEventStates.forEach((eventState) => {
+      const start = new Date(eventState.start).toISOString();
+      const end = new Date(eventState.end).toISOString();
+      const duration_in_seconds = Math.abs(differenceInSeconds(new Date(eventState.start), new Date(eventState.end)));
+
       const eventPayload = {
         name: eventState.name,
-        duration_in_seconds: Math.abs(differenceInSeconds(new Date(eventState.start), new Date(eventState.end))),
-        start_date_time: new Date(eventState.start).toISOString(),
-        end_date_time: new Date(eventState.end).toISOString(),
-        actual_start_date_time: new Date(eventState.start).toISOString(),
-        actual_end_date_time: new Date(eventState.end).toISOString(),
+        duration_in_seconds,
+        start_date_time: start,
+        end_date_time: end,
+        actual_start_date_time: start,
+        actual_end_date_time: end,
         source: eventState.source,
         type: eventState.type,
         event_id: eventState.eventId,
@@ -151,24 +160,30 @@ const SchedulePage = () => {
     if (!!endRange && isAfter(endRange, upperThresholdDate)) {
       const { start, end } = constructRange(upperThresholdDate, monthsBeforeAndAfter);
 
-      getEventsData({
-        start_date_time: start,
-        end_date_time: end,
-        sort: eventSorting,
-        limit: eventLimit,
-      });
+      getEventsData(
+        {
+          start_date_time: start,
+          end_date_time: end,
+          sort: eventSorting,
+          limit: eventLimit,
+        },
+        true
+      );
       return;
     }
 
     if (!!startRange && isBefore(startRange, lowerThresholdDate)) {
       const { start, end } = constructRange(lowerThresholdDate, monthsBeforeAndAfter);
 
-      getEventsData({
-        start_date_time: start,
-        end_date_time: end,
-        sort: eventSorting,
-        limit: eventLimit,
-      });
+      getEventsData(
+        {
+          start_date_time: start,
+          end_date_time: end,
+          sort: eventSorting,
+          limit: eventLimit,
+        },
+        true
+      );
       return;
     }
   };

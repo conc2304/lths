@@ -6,6 +6,8 @@ export enum EVENT_TYPE {
   CONCERT = 'CONCERT',
   COMEDY = 'COMEDY',
   ARTS_OTHER = 'ARTS_OTHER',
+  PRE_GAME = 'PRE_GAME',
+  POST_GAME = 'POST_GAME',
 }
 
 // !! THIS will break but we have no other way to get labels
@@ -14,46 +16,40 @@ export const EVENT_LABEL_MAP = {
   CONCERT: 'Concert',
   COMEDY: 'Comedy',
   ARTS_OTHER: 'Arts / Other',
+  PRE_GAME: 'Pre Game',
+  POST_GAME: 'Post Game',
 };
 
-//  !! hardcoding EVENT States bc that is still how we do
-export enum EVENT_STATE {
-  IN_EVENT = 'INGAME',
-  PRE_EVENT = 'PREGAME',
-  POST_EVENT = 'POSTGAME',
-}
-
 // !! also hardcoded ... :(
-export const BACKGROUND_EVENT_STATES = ['PREGAME', 'POSTGAME', 'EVENTDAY'];
-export const FOREGROUND_EVENT_STATES = ['INGAME'];
+export const BACKGROUND_EVENT_TYPES = [EVENT_TYPE.POST_GAME.toString(), EVENT_TYPE.PRE_GAME.toString()];
 
 // !! moar hardcoding of ui
 export const UNEDITABLE_EVENT_TYPES = [EVENT_TYPE.GAME, EVENT_TYPE.CONCERT];
 export const EVENTS_W_STATES = [EVENT_TYPE.GAME, EVENT_TYPE.CONCERT];
 
 export const EVENT_STATE_SORT_ORDER = {
-  PREGAME: -1,
-  INGAME: 0,
-  POSTGAME: 1,
+  PRE_GAME: -1,
+  GAME: 0,
+  POST_GAME: 1,
 };
 
 // !! would you believe that i am going to also hard code this UI ?????
 export const EventStateUIPreEvent: EventStateUI = {
-  state: EVENT_STATE.PRE_EVENT,
+  type: EVENT_TYPE.PRE_GAME,
   label: 'Pre-Event',
   desc: 'before event start',
-  stateDependency: {
-    relativeState: EVENT_STATE.IN_EVENT,
+  typeDependency: {
+    relativeState: EVENT_TYPE.GAME,
     referencePoint: 'start',
     dependentPoint: 'start',
   },
 };
 
 export const EventStateUIInEvent: EventStateUI = {
-  state: EVENT_STATE.IN_EVENT,
+  type: EVENT_TYPE.GAME,
   label: 'In-Event',
   desc: 'Event hours',
-  stateDependency: {
+  typeDependency: {
     relativeState: null,
     referencePoint: null,
     dependentPoint: null,
@@ -61,11 +57,11 @@ export const EventStateUIInEvent: EventStateUI = {
 };
 
 export const EventStateUIPostEvent: EventStateUI = {
-  state: EVENT_STATE.POST_EVENT,
+  type: EVENT_TYPE.POST_GAME,
   label: 'Post-Event',
   desc: 'after event end',
-  stateDependency: {
-    relativeState: EVENT_STATE.IN_EVENT,
+  typeDependency: {
+    relativeState: EVENT_TYPE.GAME,
     referencePoint: 'end',
     dependentPoint: 'end',
   },

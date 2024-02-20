@@ -119,11 +119,14 @@ describe('SchedulePage', () => {
 
     // Assert that the getEventsData function was called with the correct parameters
     expect(getEventsDataMock).toBeCalledTimes(1);
-    expect(getEventsDataMock).toHaveBeenCalledWith({
-      start_date_time: start,
-      end_date_time: end,
-      sort: expect.any(String),
-      limit: expect.any(Number),
-    });
+    expect(getEventsDataMock).toHaveBeenCalledWith(
+      {
+        start_date_time: start,
+        end_date_time: end,
+        sort: expect.any(String),
+        limit: expect.any(Number),
+      },
+      true
+    );
   });
 });

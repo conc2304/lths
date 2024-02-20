@@ -87,10 +87,15 @@ export const EventFormModal = (props: EventFormModalProps) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      if (values.isAllDay) {
+        values.startDateTime = values.startDateTime ? startOfDay(new Date(values.startDateTime)) : values.startDateTime;
+        values.endDateTime = values.endDateTime ? endOfDay(new Date(values.endDateTime)) : values.endDateTime;
+      }
       onSave(values as EventFormValues, eventValues?.id || null);
       setSubmitting(false);
       onCancel();
+      resetForm();
     },
     validateOnChange: true,
     validateOnBlur: true,
@@ -174,10 +179,11 @@ export const EventFormModal = (props: EventFormModalProps) => {
                     name="isAllDay"
                     value={formik.values.isAllDay}
                     onChange={formik.handleChange}
+                    checked={formik.values.isAllDay}
                   />
                 }
                 label="All-day event"
-                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle } }}
+                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content' }}
               />
             </FormGroup>
 
@@ -187,11 +193,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 Start Date{formik.values.isAllDay ? '' : '/Time'}
               </FormLabel>
               <Box display="flex" justifyContent="space-between">
+                {/* IS ALL DAY */}
                 {formik.values.isAllDay && (
                   <DatePicker
                     value={formik.values.startDateTime ? startOfDay(formik.values.startDateTime) : null}
                     onChange={async (value) => {
-                      formik.setFieldValue('startDateTime', value);
+                      if (value) formik.setFieldValue('startDateTime', startOfDay(value));
                       await formik.setFieldTouched('startDateTime', true);
                       await formik.validateField('startDateTime');
                       await formik.validateField('endDateTime');
@@ -214,7 +221,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   <DateTimePicker
                     value={formik.values.startDateTime}
                     onChange={async (value) => {
-                      if (value) formik.setFieldValue('startDateTime', startOfDay(value));
+                      if (value) formik.setFieldValue('startDateTime', value);
                       await formik.validateField('startDateTime');
                       await formik.validateField('endDateTime');
                     }}
@@ -238,6 +245,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
             <FormGroup sx={formGroupSX} data-testid="Edit-Event--end-date-wrapper">
               <FormLabel htmlFor="edit-event--endDateTime">End Date{formik.values.isAllDay ? '' : '/Time'}</FormLabel>
               <Box display="flex" justifyContent="space-between">
+                {/* IS ALL DAY */}
                 {formik.values.isAllDay && (
                   <DatePicker
                     value={formik.values.endDateTime ? endOfDay(formik.values.endDateTime) : null}
@@ -372,7 +380,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
             confirmText={confirmText}
             onCancel={() => formik.handleReset(formik.values)}
             isSubmitting={formik.isSubmitting}
-            disabled={!formik.isValid}
+            disabled={!formik.isValid || !formik.dirty}
           />
         </Box>
       </LocalizationProvider>

@@ -8,33 +8,33 @@ import {
   QuestionMarkRounded,
 } from '@mui/icons-material';
 import { Property } from 'csstype';
-import { addHours, subHours } from 'date-fns';
+import { addMinutes, differenceInMinutes, differenceInSeconds, subMinutes } from 'date-fns';
 
 import {
-  EVENT_STATE,
   EventStateUIPostEvent,
   EventStateUIPreEvent,
   EventStateUIInEvent,
+  EVENT_TYPE,
   EVENT_STATE_SORT_ORDER,
 } from './constants';
-import { EventState, EventStateID, EventStateUI } from './types';
+import { EventState, EventStateID, EventStateUI, EventTypeID, MMSEvent } from './types';
 
 export const EventStateUIMap = (eventStateID: EventStateID): EventStateUI => {
   switch (eventStateID) {
-    case EVENT_STATE.PRE_EVENT:
+    case EVENT_TYPE.PRE_GAME:
       return EventStateUIPreEvent;
-    case EVENT_STATE.IN_EVENT:
+    case EVENT_TYPE.GAME:
       return EventStateUIInEvent;
-    case EVENT_STATE.POST_EVENT:
+    case EVENT_TYPE.POST_GAME:
       return EventStateUIPostEvent;
     default:
       return {
-        stateDependency: {
+        typeDependency: {
           relativeState: null,
           referencePoint: null,
           dependentPoint: null,
         },
-        state: eventStateID,
+        type: eventStateID,
         label: eventStateID,
         desc: 'N/A',
       };
@@ -42,8 +42,10 @@ export const EventStateUIMap = (eventStateID: EventStateID): EventStateUI => {
 };
 
 export const sortByEventState = (a: EventState, b: EventState) => {
-  const aVal = EVENT_STATE_SORT_ORDER[a.state] !== undefined ? EVENT_STATE_SORT_ORDER[a.state] : 10;
-  const bVal = EVENT_STATE_SORT_ORDER[b.state] !== undefined ? EVENT_STATE_SORT_ORDER[b.state] : 10;
+  const aVal =
+    EVENT_STATE_SORT_ORDER[a.type as EventStateID] !== undefined ? EVENT_STATE_SORT_ORDER[a.type as EventStateID] : 10;
+  const bVal =
+    EVENT_STATE_SORT_ORDER[b.type as EventStateID] !== undefined ? EVENT_STATE_SORT_ORDER[b.type as EventStateID] : 10;
 
   if (aVal === bVal) return 0;
   return bVal > aVal ? -1 : 1;
@@ -128,31 +130,105 @@ export const eventStateOffsetToDateRange = (
   offset: number
 ): { start: string; end: string; offsetDifference: number; relativeTo: 'start' | 'end' | null } => {
   const {
-    stateDependency: { dependentPoint, referencePoint },
+    typeDependency: { dependentPoint, referencePoint },
     relativeOffsetHrs,
     start,
     end,
   } = eventState;
 
   // difference from the original offset and the new offset to calculate new start/end time
-  const offsetDifference = offset - relativeOffsetHrs;
+  const offsetDifferenceHrs = offset - (relativeOffsetHrs ?? 0);
+  const offsetDifferenceMin = offsetDifferenceHrs * 60;
   let startTime = new Date(start);
   let endTime = new Date(end);
 
   const referenceTime = referencePoint === 'start' ? startTime : endTime;
 
   if (dependentPoint === 'start') {
-    startTime = subHours(referenceTime, offsetDifference);
+    startTime = subMinutes(referenceTime, offsetDifferenceMin);
   } else {
-    endTime = addHours(referenceTime, offsetDifference);
+    endTime = addMinutes(referenceTime, offsetDifferenceMin);
   }
 
   return {
     start: startTime.toISOString(),
     end: endTime.toISOString(),
-    offsetDifference,
+    offsetDifference: offsetDifferenceHrs,
     relativeTo: dependentPoint,
   };
+};
+
+export const getEventStatesByEventId = (events: MMSEvent[], eventId: string): EventState[] => {
+  const eventsWithId = events.filter((event) => {
+    return event.eventId === eventId;
+  });
+
+  if (!eventsWithId || !eventsWithId.length) return [];
+
+  const eventStates: EventState[] = [];
+
+  eventsWithId.forEach((event) => {
+    const { eventType, start, end } = event;
+    if (!eventType || !start || !end) return [];
+
+    const currentStateStart = start;
+    const currentStateEnd = end;
+
+    const {
+      label,
+      desc,
+      typeDependency: { relativeState, referencePoint, dependentPoint },
+    } = EventStateUIMap(eventType.id as EventStateID);
+    let timeOffset: number | null = null;
+
+    if (relativeState) {
+      // we are calculating the difference in time between the start of event and the targetTime
+
+      // the event state that our current event state is relative to
+      const dependOnEvent = eventsWithId.find((event) => event.eventType.id === relativeState);
+
+      // the dependent event's start and end times
+      const depEventStateStart = dependOnEvent?.start || null;
+      const depEventStateEnd = dependOnEvent?.end || null;
+
+      if (depEventStateStart && depEventStateEnd) {
+        // get the time difference from the state's dependentPoint to the referencePoint
+        const dependantTime = referencePoint === 'start' ? new Date(depEventStateStart) : new Date(depEventStateEnd);
+
+        // if start
+        //  offset is the difference between the start of the Current State and the start of the Dependant Event
+        // if end
+        //  offset is the difference between the end of the Depenedant Event and the end of the Current State
+        timeOffset =
+          dependentPoint === 'start'
+            ? differenceInMinutes(dependantTime, new Date(currentStateStart)) / 60
+            : differenceInMinutes(new Date(currentStateEnd), dependantTime) / 60;
+      }
+    }
+
+    const eventState: EventState = {
+      id: event.id,
+      name: event.title as string,
+      eventId: event.eventId,
+      start,
+      end,
+      duration: Math.abs(differenceInSeconds(new Date(start), new Date(end))),
+      label,
+      desc,
+      typeDependency: {
+        relativeState,
+        referencePoint: referencePoint,
+        dependentPoint,
+      },
+      relativeOffsetHrs: timeOffset,
+      source: event.createdBy,
+      type: event.eventType.id as EventTypeID,
+    };
+
+    eventStates.push(eventState);
+  });
+
+  return eventStates.sort(sortByEventState);
 };
 
 export const updateEventStatesWithOffsets = (
@@ -163,23 +239,26 @@ export const updateEventStatesWithOffsets = (
   const offsets = [];
 
   for (const eventState of eventStates) {
-    if (eventState.state === EVENT_STATE.IN_EVENT) continue;
+    if (eventState.type === EVENT_TYPE.GAME) continue;
 
-    const offset = offSetValues[eventState.state];
+    const offset = offSetValues[eventState.type];
+    if (!offset) continue;
 
     const {
       start: newStart,
       end: newEnd,
-      offsetDifference,
+      offsetDifference: offsetDifferenceHrs,
       relativeTo,
-    } = offset !== undefined
-      ? eventStateOffsetToDateRange(eventState, offset)
-      : { start: eventState.start, end: eventState.end, offsetDifference: null, relativeTo: null };
+    } = eventStateOffsetToDateRange(eventState, offset);
 
-    offsets.push({ offsetDifference, relativeTo, state: eventState.state });
+    offsets.push({ offsetDifferenceHrs, relativeTo, state: eventState.type });
+    if (offsetDifferenceHrs === 0) continue;
+
+    const newDuration = Math.abs(differenceInSeconds(new Date(newStart), new Date(newEnd)));
 
     updatedEventStates.push({
       ...eventState,
+      duration: newDuration,
       start: newStart,
       end: newEnd,
     });
@@ -187,28 +266,27 @@ export const updateEventStatesWithOffsets = (
 
   // check if any of our dependencies changed and update those
   for (const eventState of eventStates) {
-    //
     const {
-      state: currState,
-      stateDependency: { relativeState },
+      type: currState,
+      typeDependency: { relativeState },
     } = eventState;
 
     // find the relativeState and offsetData
-    const updatedRelativeEventState = updatedEventStates.find((eventState) => eventState.state === relativeState);
+    const updatedRelativeEventState = updatedEventStates.find((eventState) => eventState.type === relativeState);
     const offsetData = offsets.find((eventState) => eventState.state === relativeState);
 
     // relative state did not change so we dont need to update this one
-    if (!updatedRelativeEventState || !offsetData || !offsetData.offsetDifference) continue;
+    if (!updatedRelativeEventState || !offsetData || !offsetData.offsetDifferenceHrs) continue;
 
     // how much did the dependency move by
-    const { relativeTo, offsetDifference } = offsetData;
+    const { relativeTo, offsetDifferenceHrs } = offsetData;
 
     // it did change so get the offset of the changed
 
     // update the start and end time by that offset
 
     // check if the user updated it already and make that the offset point
-    const preUpdatedEventIndex = updatedEventStates.findIndex((eventState) => eventState.state === currState);
+    const preUpdatedEventIndex = updatedEventStates.findIndex((eventState) => eventState.type === currState);
 
     const start = preUpdatedEventIndex ? updatedEventStates[preUpdatedEventIndex]?.start : eventState.start;
     const end = preUpdatedEventIndex ? updatedEventStates[preUpdatedEventIndex]?.end : eventState.end;
@@ -217,10 +295,12 @@ export const updateEventStatesWithOffsets = (
     // if end,   add hours to start and end
     const updatedStart =
       relativeTo === 'start'
-        ? subHours(new Date(start), offsetDifference)
-        : addHours(new Date(start), offsetDifference);
+        ? subMinutes(new Date(start), offsetDifferenceHrs * 60)
+        : addMinutes(new Date(start), offsetDifferenceHrs * 60);
     const updatedEnd =
-      relativeTo === 'start' ? subHours(new Date(end), offsetDifference) : addHours(new Date(end), offsetDifference);
+      relativeTo === 'start'
+        ? subMinutes(new Date(end), offsetDifferenceHrs * 60)
+        : addMinutes(new Date(end), offsetDifferenceHrs * 60);
 
     if (preUpdatedEventIndex < 0) {
       updatedEventStates.push({
