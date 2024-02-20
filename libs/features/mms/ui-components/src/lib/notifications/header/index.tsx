@@ -41,13 +41,14 @@ export const NotificationHeader = ({
       title={title}
       leftContent={<NotificationActions onActionClick={onActionClick} />}
       rightContent={
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={3}>
           <NotificationStatus status={status} />
           <MenuButton
             buttonText="PUSH"
             buttonAction={setNotificationStatusSent}
             items={menuItems}
             isDisabled={disableButtons}
+            size="medium"
           />
         </Stack>
       }

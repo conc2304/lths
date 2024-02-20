@@ -98,7 +98,7 @@ export const PageHeader = ({
       sx={{ my: 1 }}
       title={title}
       leftContent={
-        <Stack direction="row" spacing={2.5}>
+        <Stack direction="row" spacing={1}>
           <PageActions actions={actions(type)} onActionClick={onActionClick} />
           <LoadingButton
             variant="outlined"
@@ -113,13 +113,14 @@ export const PageHeader = ({
         </Stack>
       }
       rightContent={
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={3}>
           <PagesStatus status={status} statusInfo={statusInfoText} />
           <MenuButton
             startIcon={<img src={PublishIcon} alt="publish icon" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             buttonText="PUBLISH"
             buttonAction={setNotificationStatusSent}
             items={menuItems}
+            size="medium"
           />
         </Stack>
       }

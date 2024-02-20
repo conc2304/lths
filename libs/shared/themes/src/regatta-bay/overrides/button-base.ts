@@ -82,6 +82,7 @@ export default function ButtonBase(theme: Theme): Components {
                 fontSize: pxToRem(13),
                 lineHeight: pxToRem(23),
                 letterSpacing: '0.46px',
+                height: pxToRem(30),
               },
             }),
           };

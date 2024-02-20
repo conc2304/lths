@@ -7,7 +7,8 @@ export default function ButtonIcon(theme: Theme): Components {
         size: 'medium',
       },
       styleOverrides: {
-        root: ({ ownerState: { color } }) => {
+        root: ({ ownerState }) => {
+          const { color } = ownerState;
           const colorTheme = !!color && color !== 'inherit' && color !== 'default' ? color : undefined;
           return {
             '&&': {
@@ -19,6 +20,11 @@ export default function ButtonIcon(theme: Theme): Components {
             '.MuiTouchRipple-child': {
               backgroundColor: colorTheme ? alpha(theme.palette[colorTheme].main, 0.2) : undefined,
             },
+            ...(ownerState.size === 'small' && {
+              '&.MuiIconButton-sizeSmall': {
+                padding: theme.spacing(0.5),
+              },
+            }),
           };
         },
       },

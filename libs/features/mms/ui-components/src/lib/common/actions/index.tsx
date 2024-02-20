@@ -16,13 +16,13 @@ type Props = {
 
 export const Actions = ({ onActionClick, actions, sx = {} }: Props) => {
   return (
-    <Stack direction="row" sx={sx}>
+    <Stack direction="row" sx={sx} spacing={1}>
       {actions.map(({ icon, action, title, hide = false }) => {
         const actionTitle = title ? title : action.toLowerCase();
         return (
           !hide && (
             <Tooltip key={action} title={actionTitle} arrow>
-              <IconButton onClick={() => onActionClick(action)}>{icon}</IconButton>
+              <IconButton size='small' onClick={() => onActionClick(action)}>{icon}</IconButton>
             </Tooltip>
           )
         );

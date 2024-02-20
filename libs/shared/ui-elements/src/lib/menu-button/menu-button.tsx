@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { alpha } from '@mui/material/styles';
 import { OverridableStringUnion } from '@mui/types';
 
 type Menu = {
@@ -101,18 +102,25 @@ const MenuButton = (props: Props) => {
             color: !isDisabled ? textColor : textColorDisabled,
             transition: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,',
             paddingY: 0.75,
-            paddingX: 1.2,
+            paddingX: 1,
+            '& .MuiButton-startIcon': {
+              marginLeft: 0, marginRight: 0.5,
+            },
           }}
           disabled={isDisabled}
         >
-          {isLoading && <CircularProgress color="secondary" size={15} sx={{ mr: 1, ml: 0, pl: 0 }} />}
+          {isLoading && <CircularProgress color="secondary" size={24} sx={{ mr: 0.5, ml: 0, p: 0.5 }} />}
           {buttonText}
         </Button>
         <Divider
           orientation="vertical"
           flexItem
           variant="middle"
-          sx={{ bgcolor: !isDisabled ? textColor : textColorDisabled, ml: 1, transition: defualtTransition }}
+          sx={{ 
+            bgcolor: !isDisabled ? textColor : alpha(textColorDisabled, 0.2),
+            ml: 1, mt: 0.75, mb: 0.75, 
+            transition: defualtTransition,
+          }}
         />
         <IconButton
           sx={{
@@ -138,7 +146,7 @@ const MenuButton = (props: Props) => {
             color: textColor,
             overflow: 'visible',
             '& .MuiList-root': {
-              paddingY: 0.5,
+              paddingY: 0.25,
               minWidth: anchorEl?.parentElement?.clientWidth || '100%',
             },
             borderRadius: '0px 0px 4px 4px',
@@ -155,8 +163,11 @@ const MenuButton = (props: Props) => {
               action();
             }}
             sx={{
-              fontSize: '0.875rem',
+              fontSize: '0.875rem', 
+              letterSpacing: '0.4px',
               fontWeight: 500,
+              lineHeight: 1.715,
+              paddingY: 0.5,
             }}
             disabled={isDisabled}
           >

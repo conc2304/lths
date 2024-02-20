@@ -1,12 +1,14 @@
 import { useCallback } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import { useTheme } from '@mui/material/styles';
 
 import { BreadcrumbLink } from './link';
 import { BreadcrumbTitle } from './title';
 import { BreadcrumbPathProps, BreadcrumbTrailProps } from './types';
 
 const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
+  const theme = useTheme();
   const renderInactivePaths = useCallback((paths: BreadcrumbPathProps[]) => {
     return (
       paths.length > 1 &&
@@ -31,11 +33,14 @@ const BreadcrumbTrail = ({ paths, activePageTitle }: BreadcrumbTrailProps) => {
       aria-label="breadcrumb"
       sx={{
         marginRight: '0rem',
-        '& .MuiBreadcrumbs-separator': { marginRight: '.3rem', marginLeft: '.3rem' },
+        '& .MuiBreadcrumbs-separator': { 
+          marginRight: '.5rem', marginLeft: '.5rem',
+          fontSize: '0.75rem',
+        },
       }}
     >
       <BreadcrumbLink path="/" title="Home">
-        <HomeIcon sx={{ padding: '0', margin: 0 }} color="inherit" />
+        <HomeIcon sx={{ color: theme.palette.action.active, display: 'block' }} />
       </BreadcrumbLink>
 
       {renderInactivePaths(paths)}
