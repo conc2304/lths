@@ -1,22 +1,24 @@
 import { slugify } from '@lths/shared/utils';
 
-import { FeatureFlag } from './types';
-
-export const getFlagStatusByFlagId = (id: string, flags: FeatureFlag[], fallback = false) => {
-  const featureEnable = flags.find((flag) => flag.id === id)?.enabled;
-  return featureEnable !== undefined ? featureEnable : fallback;
-};
+import { FeatureFlag, FlagCRUDMethods, FlagCRUDPayloadFn } from './types';
 
 type GenerateIdProps = { title: string; module: string; appPrefix?: string };
-export const generateFlagId = ({ title, module, appPrefix = 'MMS' }: GenerateIdProps) => {
-  return `${appPrefix.toUpperCase()}_${slugify(module).toUpperCase()}--${slugify(title)}`;
-};
 
 type ParsedFlagId = {
   title: string;
   module: string;
   appPrefix: string;
 };
+
+export const generateFlagId = ({ title, module, appPrefix = 'MMS' }: GenerateIdProps) => {
+  return `${appPrefix.toUpperCase()}_${slugify(module).toUpperCase()}--${slugify(title)}`;
+};
+
+export const getFlagStatusByFlagId = (id: string, flags: FeatureFlag[], fallback = false) => {
+  const featureEnable = flags.find((flag) => flag.id === id)?.enabled;
+  return featureEnable !== undefined ? featureEnable : fallback;
+};
+
 export const parseFlagId = (flagId: string): ParsedFlagId => {
   const parts = flagId.split('--');
   const moduleAndAppPrefix = parts[0].split('_');
@@ -58,15 +60,6 @@ export const deleteFeatureFlagPayload: FlagCRUDPayloadFn = (deletedFlag, flags) 
       value: f,
     }));
 };
-
-type EnumValue<TData = string> = {
-  display_order: number;
-  name: string;
-  value: TData;
-};
-
-export type FlagCRUDMethods = 'create' | 'update' | 'delete';
-type FlagCRUDPayloadFn = (flag: FeatureFlag, flags: FeatureFlag[]) => EnumValue<FeatureFlag>[];
 
 export const flagCrudFnMap: Record<FlagCRUDMethods, FlagCRUDPayloadFn> = {
   create: createFeatureFlagPayload,
