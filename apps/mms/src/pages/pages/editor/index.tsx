@@ -457,7 +457,7 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail}>
+      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail} sx={{ zIndex: 2 }}>
         <CircularProgress />
       </Backdrop>
       <UnSavedPageAlert
