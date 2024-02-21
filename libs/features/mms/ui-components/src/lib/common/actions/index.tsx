@@ -22,7 +22,7 @@ export const Actions = ({ onActionClick, actions, sx = {} }: Props) => {
         return (
           !hide && (
             <Tooltip key={action} title={actionTitle} arrow>
-              <IconButton size='small' onClick={() => onActionClick(action)}>{icon}</IconButton>
+              <IconButton size='small' sx={{ padding: 0.5 }} onClick={() => onActionClick(action)}>{icon}</IconButton>
             </Tooltip>
           )
         );

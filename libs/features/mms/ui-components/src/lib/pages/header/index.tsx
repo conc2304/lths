@@ -13,6 +13,7 @@ import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
 import { PageAction } from '@lths/features/mms/ui-editor';
 import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
+import { pxToRem } from '@lths/shared/utils';
 
 import { PageActions } from './actions';
 import { PagesStatus } from './status';
@@ -107,6 +108,7 @@ export const PageHeader = ({
             onClick={onUpdate}
             loading={isPageUpdating}
             size="small"
+            sx={{ height: pxToRem(30) }}
           >
             SAVE
           </LoadingButton>
