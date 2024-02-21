@@ -36,6 +36,7 @@ export type TableProps<TData extends object = Record<string, unknown>> = {
   headerCells: TableColumnHeader[];
   data: TData[];
   rowBuilder?: RowBuilderFn<TData>;
+  selectedRowId?: string;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
   onChange?: (options: TableChangeEvent) => void;
@@ -108,6 +109,7 @@ export const Table = (
     data,
     headerCells,
     rowBuilder = BaseRowBuilder,
+    selectedRowId,
     headerToCellValueMap = BaseColumnValue,
     title,
     onChange,
@@ -148,6 +150,7 @@ export const Table = (
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+  const [selectedRow, setSelectedRow] = useState(selectedRowId);
 
   useEffect(() => {
     setPage(pageProp || 0);
@@ -155,6 +158,10 @@ export const Table = (
     setSortOrder(sortOrderProp ?? 'asc');
     setOrderBy(orderByProp ?? headerCells[0].id);
   }, [pageProp, rowsPerPageProp, sortOrderProp, orderByProp]);
+
+  useEffect(() => {
+    setSelectedRow(selectedRowId);
+  }, [selectedRowId]);
 
   const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
   const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
@@ -203,14 +210,21 @@ export const Table = (
 
     return visibleData.length > 0
       ? visibleData.map((data, i) =>
-          rowBuilder({ data, headerCells, showRowNumber, rowNumber: page * rowsPerPage + i + 1, noDataMessage })
+          rowBuilder({
+            data,
+            headerCells,
+            showRowNumber,
+            rowNumber: page * (rowsPerPage + i) + 1,
+            noDataMessage,
+            selectedRowId: selectedRow,
+          })
         )
       : [
           <TableRow key={0}>
             <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
           </TableRow>,
         ];
-  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
+  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp, selectedRow]);
 
   const handleSort = (columnId: string) => {
     const isAsc = orderBy === columnId && sortOrder === 'asc';

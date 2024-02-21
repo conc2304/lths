@@ -20,7 +20,6 @@ import {
   AssetModals,
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
 import {
   Table,
   TablePaginationProps,
@@ -30,14 +29,16 @@ import {
 } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
+// * header keys should match the key they are associated with on the backend for sorting
+// *   not be some random slugified version of label
 const headers = [
   {
-    id: 'unique_file_name',
+    id: 'original_file_name',
     label: 'File Name',
     sortable: true,
   },
   {
-    id: 'created_at',
+    id: 'created_on',
     label: 'Created At',
     sortable: true,
   },
@@ -52,7 +53,7 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'owner',
+    id: 'created_by',
     label: 'Owner',
     sortable: true,
   },
@@ -66,7 +67,7 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
-  const user = useAppSelector((state) => state.auth);
+  const currentUser = useAppSelector((state) => state.users.user);
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -106,6 +107,14 @@ export default function AssetsPage() {
     const currPagination = { page: currPage, pageSize: currPageSize };
     fetchData(currPagination, currSorting, search);
   }, [currPage, currPageSize, currSorting, search]);
+
+  useEffect(() => {
+    // if the previously selected preview row is not in the data set then reset it
+    const prevSelectedPreviewInView = data?.data?.find((asset) => asset?._id === selectedPreviewRow?.asset?._id);
+    if (!prevSelectedPreviewInView) {
+      handleDrawerClose();
+    }
+  }, [data]);
 
   async function fetchData(
     pagination: TablePaginationProps,
@@ -148,21 +157,16 @@ export default function AssetsPage() {
 
   const RowBuilder = (): RowBuilderFn<AssetProps> => {
     return (props) => {
-      const { data: row, rowNumber } = props;
-
+      const { data: asset, rowNumber, selectedRowId } = props;
       const index = rowNumber - 1;
 
       const handleSelectFile = () => {
-        setSelectedPreviewRow({ asset: row, rowIndex: index });
+        setSelectedPreviewRow({ asset, rowIndex: index });
         handleDrawerOpen();
       };
 
-      if (selectedPreviewRow?.asset?._id === row._id && selectedPreviewRow?.rowIndex !== index) {
-        setSelectedPreviewRow({ asset: row, rowIndex: index });
-      }
-
       const handlePreview = () => {
-        const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
+        const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
         if (previewUrl) {
           const imageWindow = window.open(previewUrl);
           imageWindow.document.write('<html><head><title>Preview</title></head><body>');
@@ -175,26 +179,26 @@ export default function AssetsPage() {
       };
 
       const handleDownload = () => {
-        const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
+        const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
         previewUrl && window.open(previewUrl);
-        handleClose();
       };
 
       const handleOpenModal = (action: AssetModalState, row: AssetProps) => {
         setSelectedRow(row);
         setAssetModalState(action);
-        handleClose();
       };
 
+      const isSelected = selectedRowId === asset._id;
       return (
         <TableFileInfoRow
-          assetData={row}
-          key={row._id}
+          assetData={asset}
+          key={asset._id}
           onSelectFile={handleSelectFile}
           onDownload={handleDownload}
           onModalClose={handleClose}
           onModalOpen={handleOpenModal}
           onPreview={handlePreview}
+          isSelected={isSelected}
         />
       );
     };
@@ -207,34 +211,19 @@ export default function AssetsPage() {
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
   const handleUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
-        await handleAddAsset(file);
-        const currPagination = {
-          page: currPage,
-          pageSize: currPageSize,
-        };
-        fetchData(currPagination, currSorting, search);
-      } else {
-        console.error('Invalid file type:', file.type);
+    const newAsset = event.target.files[0];
+    if (newAsset && allowedFileTypes.includes(newAsset.type)) {
+      try {
+        await addResource({ newAsset, user: currentUser.username });
+      } catch (error) {
+        console.error('Failed to add asset:', error);
       }
+    } else {
+      console.error('Invalid file type:', newAsset.type);
     }
     // This small change resets the file input after each upload,
     // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
     event.target.value = '';
-  };
-  const [getUser] = useLazyGetUserQuery();
-
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
-
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
-    }
   };
 
   const [editResource] = useEditResourceMutation();
@@ -252,7 +241,6 @@ export default function AssetsPage() {
           rowIndex: null,
         });
       }
-      setSearch({ queryString: '' });
     } catch (error) {
       console.error('Failed to edit asset:', error);
     }
@@ -264,12 +252,17 @@ export default function AssetsPage() {
     try {
       await deleteResource({ id: selectedRow._id }).unwrap();
       if (selectedRow._id === selectedPreviewRow?.asset?._id) {
-        const nextRow = selectedPreviewRow.rowIndex - 1;
-        if (nextRow < 0) {
+        const currRow = data.data.findIndex((a) => a._id === selectedRow._id);
+        let nextRow = Math.min(currRow + 1, data.data.length - 1); // Ensures it doesn't exceed the last index
+        nextRow = nextRow === currRow ? nextRow - 1 : nextRow; // if its the same then choose the one before (for when its last in list)
+        nextRow = Math.max(nextRow, 0); // and make sure that we dont bottom out
+
+        const nextPreviewAsset = data?.data[nextRow];
+        if (currRow < 0) {
           handleDrawerClose();
         }
-        setSelectedPreviewRow({ asset: data?.data[nextRow], rowIndex: nextRow });
-        setSearch({ queryString: '' });
+
+        setSelectedPreviewRow({ asset: nextPreviewAsset, rowIndex: nextRow });
       }
     } catch (error) {
       console.error('Failed to delete asset:', error);
@@ -338,6 +331,7 @@ export default function AssetsPage() {
         rowBuilder={RowBuilder()}
         page={currPage}
         rowsPerPage={currPageSize}
+        selectedRowId={selectedPreviewAsset?._id ?? undefined}
         sortOrder={currSorting?.order ?? undefined}
         orderBy={currSorting?.column ?? undefined}
         onChange={handleOnChange}

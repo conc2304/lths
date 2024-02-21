@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TableRow, TableCell, Box, ClickAwayListener, lighten } from '@mui/material';
+import React from 'react';
+import { TableRow, TableCell, Box, lighten } from '@mui/material';
 
 import { AssetExtendedListProps } from '@lths/features/mms/data-access';
 import { ActionMenu } from '@lths/shared/ui-elements';
@@ -55,10 +55,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     },
   ];
 
-  const [rowIsSelected, setRowIsSelected] = useState(isSelected);
-
   const handleOnClick = () => {
-    setRowIsSelected(true);
     onSelectFile();
   };
 
@@ -67,40 +64,49 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     assetData.original_file_name;
 
   return (
-    <ClickAwayListener onClickAway={() => setRowIsSelected(false)}>
-      <TableRow
-        key={assetData._id}
-        sx={{
-          backgroundColor: (theme) => (rowIsSelected ? lighten(theme.palette.primary.light, 0.5) : '#fff'),
-        }}
-      >
-        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <img
-              src={(assetData.media_files.length > 0 && cleanUrl(assetData.media_files[0]?.url)) || ''}
-              alt={assetData.unique_file_name}
-              style={{ width: 50, height: 50, marginRight: 15 }}
-            />
-            {cleanName}
-          </Box>
-        </TableCell>
-        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-          {assetData.created_at_formatted}
-        </TableCell>
-        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-          {assetData.file_extension}
-        </TableCell>
-        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-          {assetData.mime_type}
-        </TableCell>
-        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-          {assetData.created_by}
-        </TableCell>
-        <TableCell align="center">
-          <ActionMenu options={menuOptions(assetData)} />
-        </TableCell>
-      </TableRow>
-    </ClickAwayListener>
+    <TableRow
+      key={assetData._id}
+      sx={{
+        backgroundColor: (theme) => (isSelected ? lighten(theme.palette.primary.light, 0.5) : '#fff'),
+      }}
+    >
+      <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <img
+            src={(assetData.media_files.length > 0 && cleanUrl(assetData.media_files[0]?.url)) || ''}
+            alt={assetData.unique_file_name}
+            style={{ width: 50, height: 50, marginRight: 15 }}
+          />
+          {cleanName}
+        </Box>
+      </TableCell>
+      <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+        {assetData.created_at_formatted}
+      </TableCell>
+      <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+        {assetData.file_extension}
+      </TableCell>
+      <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+        {assetData.mime_type}
+      </TableCell>
+      <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+        {assetData.created_by}
+      </TableCell>
+      <TableCell align="center">
+        <ActionMenu
+          onClickMenu={handleOnClick}
+          options={menuOptions(assetData)}
+          anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'center',
+            horizontal: 'right',
+          }}
+        />
+      </TableCell>
+    </TableRow>
   );
 };
 
