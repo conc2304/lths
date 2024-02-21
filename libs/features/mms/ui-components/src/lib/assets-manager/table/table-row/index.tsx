@@ -1,86 +1,106 @@
-import React from 'react';
-import { TableRow, TableCell, IconButton, Menu, MenuItem } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import React, { useState } from 'react';
+import { TableRow, TableCell, Box, ClickAwayListener, lighten } from '@mui/material';
 
-import { AssetExtendedListProps, PreviewAssetRowProps } from '@lths/features/mms/data-access';
+import { AssetExtendedListProps } from '@lths/features/mms/data-access';
+import { ActionMenu } from '@lths/shared/ui-elements';
 
 import { cleanUrl } from '../utils';
 
 type TableFileInfoRowProps = {
-  row: AssetExtendedListProps;
-  index: number;
-  handleSelectFile: () => void;
-  handleOpenMenu: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  selectedPreviewRow: PreviewAssetRowProps;
-  theme: any;
-  anchorEl: HTMLElement | null;
-  handleClose: () => void;
-  handleOpenModal: (action: string, row: AssetExtendedListProps) => void;
-  handlePreview: () => void;
-  selectedRowIndex: number;
-  handleDownload: () => void;
+  assetData: AssetExtendedListProps;
+  onSelectFile: () => void;
+  isSelected?: boolean;
+  onModalClose: () => void;
+  onModalOpen: (action: string, row: AssetExtendedListProps) => void;
+  onPreview: () => void;
+  onDownload: () => void;
 };
 
 const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
-  row,
-  index,
-  handleSelectFile,
-  handleOpenMenu,
-  selectedPreviewRow,
-  theme,
-  selectedRowIndex,
-  anchorEl,
-  handleClose,
-  handleOpenModal,
-  handlePreview,
-  handleDownload,
+  assetData,
+  onSelectFile,
+  isSelected,
+  onModalOpen,
+  onPreview,
+  onDownload,
 }) => {
-  const withStopPropagation =
-    (callback: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void) =>
-    (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-      event.stopPropagation();
-      callback(event);
-    };
-  const cleanName = row.original_file_name.slice(0, row.original_file_name.lastIndexOf('.')) || row.original_file_name;
+  const menuOptions = (assetData: AssetExtendedListProps) => [
+    {
+      id: 'preview',
+      label: 'Preview',
+      action: () => {
+        onPreview();
+      },
+    },
+    {
+      id: 'download',
+      label: 'Download',
+      action: () => {
+        onDownload();
+      },
+    },
+    {
+      id: 'rename',
+      label: 'Rename',
+      action: () => {
+        onModalOpen('Rename', assetData);
+      },
+    },
+    {
+      id: 'delete',
+      label: 'Delete',
+      action: () => {
+        onModalOpen('Delete', assetData);
+      },
+    },
+  ];
+
+  const [rowIsSelected, setRowIsSelected] = useState(isSelected);
+
+  const handleOnClick = () => {
+    setRowIsSelected(true);
+    onSelectFile();
+  };
+
+  const cleanName =
+    assetData.original_file_name.slice(0, assetData.original_file_name.lastIndexOf('.')) ||
+    assetData.original_file_name;
+
   return (
-    <TableRow
-      key={row._id}
-      style={{
-        cursor: 'pointer',
-        backgroundColor: selectedPreviewRow?.asset?._id === row._id ? theme.palette.secondary.main : '#fff',
-      }}
-      onClick={handleSelectFile}
-    >
-      <TableCell sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <img
-          src={(row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || ''}
-          alt={row.unique_file_name}
-          style={{ width: 50, height: 50, marginRight: 15 }}
-        />
-        {cleanName}
-      </TableCell>
-      <TableCell>{row.created_at_formatted}</TableCell>
-      <TableCell>{row.file_extension}</TableCell>
-      <TableCell>{row.mime_type}</TableCell>
-      <TableCell>{row.created_by}</TableCell>
-      <TableCell align="right" sx={{ pr: 5 }}>
-        <IconButton onClick={(event) => handleOpenMenu(event)} size="large">
-          <MoreVertIcon />
-        </IconButton>
-        <Menu
-          id={row._id}
-          anchorEl={anchorEl}
-          keepMounted
-          open={selectedRowIndex === index}
-          onClose={withStopPropagation(handleClose)}
-        >
-          <MenuItem onClick={withStopPropagation(handlePreview)}>Preview</MenuItem>
-          <MenuItem onClick={withStopPropagation(handleDownload)}>Download</MenuItem>
-          <MenuItem onClick={withStopPropagation(() => handleOpenModal('Rename', row))}>Rename</MenuItem>
-          <MenuItem onClick={withStopPropagation(() => handleOpenModal('Delete', row))}>Delete</MenuItem>
-        </Menu>
-      </TableCell>
-    </TableRow>
+    <ClickAwayListener onClickAway={() => setRowIsSelected(false)}>
+      <TableRow
+        key={assetData._id}
+        sx={{
+          backgroundColor: (theme) => (rowIsSelected ? lighten(theme.palette.primary.light, 0.5) : '#fff'),
+        }}
+      >
+        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <img
+              src={(assetData.media_files.length > 0 && cleanUrl(assetData.media_files[0]?.url)) || ''}
+              alt={assetData.unique_file_name}
+              style={{ width: 50, height: 50, marginRight: 15 }}
+            />
+            {cleanName}
+          </Box>
+        </TableCell>
+        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+          {assetData.created_at_formatted}
+        </TableCell>
+        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+          {assetData.file_extension}
+        </TableCell>
+        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+          {assetData.mime_type}
+        </TableCell>
+        <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
+          {assetData.created_by}
+        </TableCell>
+        <TableCell align="center">
+          <ActionMenu options={menuOptions(assetData)} />
+        </TableCell>
+      </TableRow>
+    </ClickAwayListener>
   );
 };
 

@@ -17,6 +17,7 @@ type ActionMenuProps = {
 const ActionMenu = ({ options }: ActionMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -27,7 +28,7 @@ const ActionMenu = ({ options }: ActionMenuProps) => {
 
   return (
     <Box>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} sx={{ p: 2 }}>
         <MoreVertIcon />
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
