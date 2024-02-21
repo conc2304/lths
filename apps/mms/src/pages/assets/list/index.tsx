@@ -97,7 +97,6 @@ export default function AssetsPage() {
   };
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
-  // * mui pagination is 0 index, mok pagination is 1 index - current pagination will refer to ui and be adjusted on fetch
   const [currPage, setCurrPage] = useState<number>(0);
   const [currPageSize, setCurrPageSize] = useState<number>(25);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>({ order: 'asc', column: headers[0].id });
@@ -115,8 +114,7 @@ export default function AssetsPage() {
   ) {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
-      // * mui pagination is 0 index, mok pagination is 1 index : + 1 to convert mui 0 index to mok 1 index
-      req.page = pagination.page + 1;
+      req.page = pagination.page;
       req.page_size = pagination.pageSize;
     }
     if (sorting != null) {
@@ -144,7 +142,6 @@ export default function AssetsPage() {
   };
 
   const handleSearch = (value: string) => {
-    // * mui pagination is 0 index, mok pagination is 1 index, but we use mui in app
     setCurrPage(0);
     setSearch({ queryString: value });
   };
