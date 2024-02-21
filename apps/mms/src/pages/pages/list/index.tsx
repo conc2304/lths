@@ -89,13 +89,15 @@ const Page = (): JSX.Element => {
   };
 
   const handleSearch = (value: string) => {
-    updateSearchParams({ name: value });
+    console.log('handle search');
+    updateSearchParams({ name: value, offset: 0 });
   };
 
   const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    console.log('handleOnChange');
     const params: SearchParam = {
       limit: rowsPerPage,
-      offset: page * rowsPerPage,
+      offset: page * rowsPerPage, // * page is 0 indexed from mui components
       ...(orderBy &&
         sortOrder && {
           sort_field: orderBy,
@@ -210,6 +212,7 @@ const Page = (): JSX.Element => {
   };
 
   const total = data?.pagination?.totalItems;
+  const page = offset && limit ? Math.max(parseInt(offset) / parseInt(limit), 0) : 0;
 
   return (
     <Box>
@@ -238,8 +241,8 @@ const Page = (): JSX.Element => {
         total={total}
         title="{0} total pages"
         onChange={handleOnChange}
-        page={offset && limit ? parseInt(offset) / parseInt(limit) : undefined}
-        rowsPerPage={limit ? parseInt(limit) : undefined}
+        page={page}
+        rowsPerPage={rowsPerPage}
         sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
         orderBy={sort_field ? sort_field : undefined}
         userSettingsStorageKey={persistantTableSettingsKey}
