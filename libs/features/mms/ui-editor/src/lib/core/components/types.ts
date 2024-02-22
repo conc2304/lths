@@ -728,9 +728,14 @@ export type CalendarViewComponentProps = ComponentProps & {
 };
 export type ScheduleListComponentProps = ComponentProps & {
   data: {
-    allow_infinite_scroll: boolean;
-    update_frequency_in_ms: number;
+    allow_infinite_scroll?: boolean;
+    update_frequency_in_ms?: number;
     selected_month: string;
     selected_year: string;
+    btn_buy_tickets_txt: string;
+    btn_ingame_txt: string;
+    btn_more_info_txt: string;
+    btn_post_game_txt: string;
+    is_show_ingame_btn_icon: boolean;
   };
 };
