@@ -53,6 +53,7 @@ const headers = [
     sortable: true,
   },
   {
+    // * we use 'created_by' for api calls for sorting, but we use 'computed_created_by' from the assets response for the data to display
     id: 'created_by',
     label: 'Owner',
     sortable: true,

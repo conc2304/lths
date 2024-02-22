@@ -90,11 +90,10 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
         {assetData.mime_type}
       </TableCell>
       <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
-        {assetData.created_by}
+        {assetData?.computed_created_by ?? ''}
       </TableCell>
       <TableCell align="center">
         <ActionMenu
-          onClickMenu={handleOnClick}
           options={menuOptions(assetData)}
           anchorOrigin={{
             vertical: 'center',

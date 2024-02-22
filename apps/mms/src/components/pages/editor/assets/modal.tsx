@@ -10,14 +10,16 @@ import { TableSortingProps, TablePaginationProps, Table, RowBuilderFn } from '@l
 import { TableFileInfoRow } from './table-row';
 import { AssetModalProps } from './types';
 
+// * header keys should match the key they are associated with on the backend for sorting
+// *   not be some random slugified version of label, unless you are explicitly remapping those fields
 const headers = [
   {
-    id: 'name',
+    id: 'original_file_name',
     label: 'Name',
     sortable: true,
   },
   {
-    id: 'created',
+    id: 'created_on',
     label: 'Created',
     sortable: true,
   },
@@ -27,12 +29,13 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'filetype',
+    id: 'file_type',
     label: 'File Type',
     sortable: true,
   },
   {
-    id: 'owner',
+    // * we use 'created_by' for api calls for sorting, but we use 'computed_created_by' from the assets response for the data to display
+    id: 'created_by',
     label: 'Owner',
     sortable: true,
   },
