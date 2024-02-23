@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { toast } from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
@@ -39,7 +40,7 @@ const headers = [
   },
   {
     id: 'created_on',
-    label: 'Created At',
+    label: 'Created',
     sortable: true,
   },
   {
@@ -101,8 +102,8 @@ export default function AssetsPage() {
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPage, setCurrPage] = useState<number>(0);
   const [currPageSize, setCurrPageSize] = useState<number>(25);
-  const [currSorting, setCurrSorting] = useState<TableSortingProps>({ order: 'asc', column: headers[0].id });
-  const [search, setSearch] = React.useState({ queryString: '' });
+  const [currSorting, setCurrSorting] = useState<TableSortingProps>({ order: 'desc', column: headers[1].id });
+  const [search, setSearch] = useState({ queryString: '' });
 
   useEffect(() => {
     const currPagination = { page: currPage, pageSize: currPageSize };
@@ -207,7 +208,7 @@ export default function AssetsPage() {
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource] = useAddResourceMutation();
+  const [addResource, { isLoading: isAddingResource }] = useAddResourceMutation();
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
@@ -215,7 +216,11 @@ export default function AssetsPage() {
     const newAsset = event.target.files[0];
     if (newAsset && allowedFileTypes.includes(newAsset.type)) {
       try {
-        await addResource({ newAsset, user: currentUser.username });
+        await addResource({ newAsset, user: currentUser.username }).unwrap();
+        toast.success('Asset has been added successfully.');
+        setCurrPage(0);
+        setSearch({ queryString: '' });
+        setCurrSorting({ order: 'desc', column: headers[1].id });
       } catch (error) {
         console.error('Failed to add asset:', error);
       }
@@ -324,7 +329,7 @@ export default function AssetsPage() {
 
       <Table
         loading={isLoading}
-        fetching={isFetching}
+        fetching={isFetching || isAddingResource}
         total={total}
         title="{0} Assets"
         headerCells={headers}

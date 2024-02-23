@@ -19,8 +19,8 @@ const createAssetQuery = (request: AssetsRequestProps) => {
       // dont send querystring if its empty
       queryString: searchText && searchText !== '' ? { search: searchText } : undefined,
       sort: {
-        direction: request.sort_order ?? 'desc',
-        field: request.sort_key ?? 'created_at',
+        direction: request.sort_order ?? 'asc',
+        field: request.sort_key ?? 'original_file_name',
       },
     },
   };
@@ -59,8 +59,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
           headers: { 'x-api-version': '1' },
         };
       },
-      //@ts-expect-error: type definition doesn't reflect with injectEndpoints method
-      invalidatesTags: [{ type: ASSETS_TAG, id: VIRTUAL_ID }],
     }),
     editResource: builder.mutation<UpdateAssetResponse, { id: string; original_file_name: string }>({
       query: (prop) => ({

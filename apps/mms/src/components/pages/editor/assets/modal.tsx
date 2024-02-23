@@ -10,46 +10,12 @@ import { TableSortingProps, TablePaginationProps, Table, RowBuilderFn } from '@l
 import { TableFileInfoRow } from './table-row';
 import { AssetModalProps } from './types';
 
-// * header keys should match the key they are associated with on the backend for sorting
-// *   not be some random slugified version of label, unless you are explicitly remapping those fields
-const headers = [
-  {
-    id: 'original_file_name',
-    label: 'Name',
-    sortable: true,
-  },
-  {
-    id: 'created_on',
-    label: 'Created',
-    sortable: true,
-  },
-  {
-    id: 'file_extension',
-    label: 'File Extension',
-    sortable: true,
-  },
-  {
-    id: 'file_type',
-    label: 'File Type',
-    sortable: true,
-  },
-  {
-    // * we use 'created_by' for api calls for sorting, but we use 'computed_created_by' from the assets response for the data to display
-    id: 'created_by',
-    label: 'Owner',
-    sortable: true,
-  },
-  {
-    id: 'asset_actions',
-    label: '',
-    sortable: false,
-  },
-];
-
+// update
 const AssetsModal = ({
   open,
   onClose,
   onSelect,
+  headerCells,
   data = [],
   isFetching,
   isLoading,
@@ -96,12 +62,6 @@ const AssetsModal = ({
 
     onPageChange({} as React.MouseEvent<HTMLButtonElement, MouseEvent>, pagination, sorting);
   };
-
-  React.useEffect(() => {
-    if (open) {
-      onSearch('');
-    }
-  }, [open]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
@@ -160,7 +120,7 @@ const AssetsModal = ({
             data={data}
             total={total}
             title="{0} Assets"
-            headerCells={headers}
+            headerCells={headerCells}
             onChange={handleOnChange}
             noDataMessage="No assets"
             page={pagination?.page ?? undefined}
