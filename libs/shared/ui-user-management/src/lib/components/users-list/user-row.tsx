@@ -16,7 +16,7 @@ import { Property } from 'csstype';
 import { User } from '@lths/shared/data-access';
 
 type Props = {
-  user: User;
+  user: Partial<User>;
 };
 
 export const UserRow = (props: Props) => {
@@ -75,7 +75,7 @@ export const UserRow = (props: Props) => {
       </TableCell>
 
       <TableCell>
-        {!roles.length ? (
+        {!roles?.length ? (
           <Typography variant="caption">N/A</Typography>
         ) : (
           roles.map((role) => (

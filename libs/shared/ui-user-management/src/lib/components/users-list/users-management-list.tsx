@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { User } from '@lths/shared/data-access';
-import { Table, TableHeaderCellProps, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { RowBuilderFn, Table, TableProps } from '@lths/shared/ui-elements';
 
 import { UserRow } from './user-row';
 
@@ -10,38 +8,38 @@ type Props = {
   totalUsers?: number;
   loading: boolean;
   fetching: boolean;
-  onSortClick?: (pagination: TablePaginationProps, sorting: TableSortingProps) => void;
-  headerCells?: TableHeaderCellProps[];
-  tableRows?: JSX.Element[];
-  pagination?: TablePaginationProps;
-  sorting?: TableSortingProps;
-  onPageChange?: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => void;
-  onRowsPerPageChange?: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => void;
+  page?: TableProps['page'];
+  onChange: TableProps['onChange'];
+  onPageChange?: TableProps['onPageChange'];
+  rowsPerPage?: TableProps['rowsPerPage'];
+  onRowsPerPageChange?: TableProps['onRowsPerPageChange'];
+  rowsPerPageOptions?: TableProps['rowsPerPageOptions'];
+  sortOrder?: TableProps['sortOrder'];
+  orderBy?: TableProps['orderBy'];
+  onSortChange?: TableProps['onSortChange'];
+  total?: TableProps['total'];
 };
 
 export const UserManagementList = (props: Props) => {
-  const { users = [] } = props;
   const {
+    users = [],
     totalUsers = users.length,
-    headerCells,
-    tableRows: tableRowsProp,
-    pagination,
+
     loading = false,
-    sorting,
+
     fetching = false,
-    onPageChange,
-    onSortClick,
+    page,
+    onChange,
+    rowsPerPage,
+    onRowsPerPageChange,
+    rowsPerPageOptions,
+    sortOrder,
+    onSortChange,
+    orderBy,
+    total,
   } = props;
 
-  const headers = headerCells || [
+  const headers = [
     {
       id: 'first_name',
       label: 'User Details',
@@ -74,25 +72,25 @@ export const UserManagementList = (props: Props) => {
     },
   ];
 
-  const tableRows = tableRowsProp
-    ? tableRowsProp
-    : !users?.length
-    ? []
-    : users.map((userData) => <UserRow key={userData._id} user={userData} />);
+  const RowBuilder = (): RowBuilderFn<Partial<User>> => {
+    return ({ data: row, rowNumber, showRowNumber }) => {
+      return <UserRow key={row._id} user={row} />;
+    };
+  };
 
   return (
     <Table
-      loading={loading}
-      fetching={fetching}
-      total={totalUsers}
-      title="{0} Users"
+      data={users ?? []}
       headerCells={headers}
-      tableRows={tableRows}
-      pagination={pagination}
-      sorting={sorting}
-      onPageChange={onPageChange}
-      onSortClick={onSortClick}
-      noDataMessage="No Users"
+      total={totalUsers}
+      rowBuilder={RowBuilder()}
+      onChange={onChange}
+      page={page}
+      rowsPerPage={rowsPerPage}
+      orderBy={orderBy}
+      sortOrder={sortOrder}
+      fetching={fetching}
+      loading={loading}
       sx={{
         mt: 1,
       }}

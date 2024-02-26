@@ -8,7 +8,7 @@ import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import * as Yup from 'yup';
 
 import { User } from '@lths/shared/data-access';
-import { CountrySelect, toastQueueService } from '@lths/shared/ui-elements';
+import { CountrySelect } from '@lths/shared/ui-elements';
 import { getCountryData, validatePostalCode } from '@lths/shared/utils';
 
 import { UserRolesFormGroup } from './user-roles-group';
@@ -34,8 +34,7 @@ export const UserForm = (props: Props) => {
     rolesEditable = false,
     rolesAvailable = [],
   } = props;
-  const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, roles, _id } =
-    user;
+  const { email, first_name, last_name, username, phone_number, date_of_birth, city, country, zip_code, roles } = user;
   const isNewUser = !user._id;
   // TODO - this is fake
 

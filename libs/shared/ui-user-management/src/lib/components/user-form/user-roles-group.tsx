@@ -43,7 +43,7 @@ export const UserRolesFormGroup = (props: Props) => {
     userRoles: userRolesProp = [],
     rolesAvailable = [],
     onChange,
-    onBlur,
+
     size = 'medium',
     placeholder,
   } = props;
@@ -87,6 +87,11 @@ export const UserRolesFormGroup = (props: Props) => {
     };
   });
 
+  const handleDeleteUserRoles = ({ itemID }: { parentID: string; itemID: string }) => {
+    //todo added as temp fix, onDelete in Chip needs to be an optional function
+    if (rolesEditable) handleDelete(itemID);
+  };
+
   return (
     <Box>
       {rolesEditable && (
@@ -129,13 +134,7 @@ export const UserRolesFormGroup = (props: Props) => {
             variant="inline"
             title="User Roles"
             selectedFilters={rolesFormState}
-            onDelete={
-              !rolesEditable
-                ? undefined
-                : ({ parentID, itemID }: { parentID: string; itemID: string }) => {
-                    handleDelete(itemID);
-                  }
-            }
+            onDelete={handleDeleteUserRoles}
             openModal={() => {
               console.log('open modal');
             }}

@@ -2,9 +2,9 @@ import { useEffect, useState, MouseEvent as MouseEventReact } from 'react';
 import { Box, Button, Dialog, Grid } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 
-import { QueryParams, useLazyGetRolesQuery } from '@lths/features/mms/data-access';
+import { PageItemsRequest, PaginationRequest, QueryParams, useLazyGetRolesQuery } from '@lths/features/mms/data-access';
 import { User, useLazyGetUsersQuery } from '@lths/shared/data-access';
-import { SearchBar, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { SearchBar, SortDirection, TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { UserForm, UserManagementList, UserRolesFormGroup } from '@lths/shared/ui-user-management';
 
@@ -22,8 +22,14 @@ const UserManagementPage = () => {
   const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
   const [search, setSearch] = useState({ queryString: '' });
 
+  // table control
+  const [page, setPage] = useState<number | undefined>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [order, setOrder] = useState<SortDirection>('asc');
+  const [orderBy, setOrderBy] = useState<string | undefined>();
+
   useEffect(() => {
-    fetchUsers(currPagination, currSorting, search);
+    fetchUsers(page, rowsPerPage, order, orderBy, search);
   }, [currPagination, currSorting, search]);
 
   useEffect(() => {
@@ -31,24 +37,27 @@ const UserManagementPage = () => {
   }, []);
 
   async function fetchUsers(
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps,
-    search: { queryString: string }
+    page: number,
+    rowsPerPage: number,
+    sortOrder: SortDirection,
+    orderBy: string,
+    search?: { queryString: string }
   ) {
-    const req: QueryParams = {};
-    if (pagination != null) {
-      req.page = pagination.page;
-      req.page_size = pagination.pageSize;
-    }
-    if (sorting != null) {
-      req.sort_key = sorting.column;
-      req.sort_order = sorting.order;
-    }
+    const params = {
+      limit: rowsPerPage,
+      offset: page * rowsPerPage, // * page is 0 indexed from mui components
+      ...(orderBy &&
+        sortOrder && {
+          sort_field: orderBy,
+          sort_by: sortOrder,
+        }),
+    };
+
     if (search != null && search.queryString !== '') {
-      req.queryString = search.queryString;
+      //  req = search.queryString;
     }
 
-    getUsers(req);
+    getUsers(params);
   }
 
   async function fetchRoles() {
@@ -56,15 +65,6 @@ const UserManagementPage = () => {
   }
 
   const totalUsers = pagination?.totalItems || 0;
-
-  const handlePageChange = (
-    event: MouseEventReact<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    setCurrPagination(pagination);
-    setCurrSorting(sorting);
-  };
 
   const handleSearch = (value: string) => {
     if (currPagination) {
@@ -79,6 +79,15 @@ const UserManagementPage = () => {
 
   const handleRolesFilterChange = (roles: string[]) => {
     console.log('update fetch params for the following roles', roles);
+  };
+  // handlers
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    setPage(page);
+    setRowsPerPage(rowsPerPage);
+    setOrder(sortOrder);
+    setOrderBy(orderBy);
+
+    fetchUsers(page, rowsPerPage, sortOrder, orderBy);
   };
 
   return (
@@ -123,11 +132,13 @@ const UserManagementPage = () => {
         <UserManagementList
           users={users}
           totalUsers={totalUsers}
-          loading={isLoading}
+          onChange={handleOnChange}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          orderBy={orderBy}
+          sortOrder={order}
           fetching={isFetching}
-          pagination={currPagination}
-          sorting={currSorting}
-          onPageChange={handlePageChange}
+          loading={isLoading}
         />
       </Box>
       <Dialog open={userFormOpen} onClose={() => setUserFormOpen(false)}>
