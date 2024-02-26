@@ -97,7 +97,7 @@ jobs:
  
       - name: Restart Azure Web App
         run: |
-          az webapp restart --name "${{ env.lwa-staging-westus3-mms }}" --resource-group "${{ env.rg-staging-westus3-aks-tf }}"  
+          az webapp restart --name "${{ AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"  
 
       - name: Post a message to Slack - lths-deployments
         run: |
