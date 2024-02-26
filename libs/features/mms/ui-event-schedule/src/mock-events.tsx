@@ -1,15 +1,18 @@
 import { faker } from '@faker-js/faker';
-import { addHours, addMinutes, addMonths, endOfDay, startOfDay, subHours, subMinutes, subMonths } from 'date-fns';
+import { addHours, addMonths, endOfDay, startOfDay, subHours, subMonths } from 'date-fns';
 import { upperFirst } from 'lodash';
 
-import { EVENTS_W_STATES, EVENT_STATE, EVENT_TYPE } from './constants';
+import { EVENTS_W_STATES, EVENT_TYPE } from './constants';
 import { EventState, EventType, MMSEvent } from './types';
 
 export const eventTypesMock: EventType[] = [
-  { id: EVENT_TYPE.GAME, label: 'Hockey Game' },
+  { id: EVENT_TYPE.GAME, label: 'Game' },
   { id: EVENT_TYPE.CONCERT, label: 'Concert' },
   { id: EVENT_TYPE.COMEDY, label: 'Comedy' },
   { id: EVENT_TYPE.ARTS_OTHER, label: 'Arts / Other' },
+  //
+  { id: EVENT_TYPE.PRE_GAME, label: 'Pre Game' },
+  { id: EVENT_TYPE.POST_GAME, label: 'Post Game' },
 ];
 
 export const eventStateMock: EventState[] = [
@@ -18,14 +21,14 @@ export const eventStateMock: EventState[] = [
     id: '2134',
     eventId: faker.database.mongodbObjectId(),
     label: 'Pre-Event',
-    state: EVENT_STATE.PRE_EVENT,
+    type: EVENT_TYPE.PRE_GAME,
     duration: 1.5,
     start: new Date(),
     end: new Date(),
     desc: 'before event start',
     relativeOffsetHrs: 3,
-    stateDependency: {
-      relativeState: EVENT_STATE.IN_EVENT,
+    typeDependency: {
+      relativeState: EVENT_TYPE.GAME,
       referencePoint: 'start',
       dependentPoint: 'start',
     },
@@ -35,12 +38,12 @@ export const eventStateMock: EventState[] = [
     id: '2134',
     eventId: faker.database.mongodbObjectId(),
     label: 'In-Event',
-    state: EVENT_STATE.IN_EVENT,
+    type: EVENT_TYPE.GAME,
     duration: 2800,
     start: new Date(),
     end: new Date(),
     desc: 'Event hours',
-    stateDependency: {
+    typeDependency: {
       relativeState: null,
       referencePoint: null,
       dependentPoint: null,
@@ -53,13 +56,13 @@ export const eventStateMock: EventState[] = [
 
     eventId: faker.database.mongodbObjectId(),
     label: 'Post-Event',
-    state: EVENT_STATE.POST_EVENT,
+    type: EVENT_TYPE.POST_GAME,
     duration: 2800,
     start: new Date(),
     end: new Date(),
     desc: 'after event end',
-    stateDependency: {
-      relativeState: EVENT_STATE.IN_EVENT,
+    typeDependency: {
+      relativeState: EVENT_TYPE.GAME,
       referencePoint: 'end',
       dependentPoint: 'end',
     },
@@ -73,13 +76,18 @@ type GetNewEventProps = {
   isToday?: boolean;
   isAllDay?: boolean;
   monthRange?: number;
+  isBackground?: boolean;
+  eventId?: string;
 };
+
 export const getNewEvent = ({
   eventTypeID,
   completed = false,
   isToday = false,
   isAllDay = undefined,
   monthRange = 2,
+  isBackground = false,
+  eventId = undefined,
 }: GetNewEventProps): MMSEvent => {
   const today = new Date();
   const minRange = isToday ? startOfDay(today) : subMonths(today, monthRange);
@@ -92,9 +100,11 @@ export const getNewEvent = ({
     ? faker.date.between({ from: start, to: subHours(today, 1) })
     : addHours(start, faker.number.float({ max: 6, min: 0.5 }));
 
-  const eventType = eventTypeID
+  const eventType = isBackground
+    ? { label: 'Pre-Game', id: EVENT_TYPE.PRE_GAME }
+    : eventTypeID
     ? (Object.values(eventTypesMock).find(({ id }) => id === eventTypeID) as EventType)
-    : faker.helpers.arrayElement(eventTypesMock);
+    : faker.helpers.arrayElement(eventTypesMock.slice(0, 4));
 
   const allDayEvent =
     isAllDay !== undefined
@@ -122,7 +132,7 @@ export const getNewEvent = ({
     start: allDayEvent ? startOfDay(start) : start,
     end: allDayEvent ? endOfDay(start) : end,
     id: faker.database.mongodbObjectId(),
-    eventId: faker.database.mongodbObjectId(),
+    eventId: eventId ?? faker.database.mongodbObjectId(),
     eventType: eventType,
     createdBy: createdBy,
     createdOn:
@@ -130,7 +140,6 @@ export const getNewEvent = ({
         ? faker.date.between({ from: minRange, to: maxRange })
         : faker.date.between({ from: subHours(today, 24), to: today }),
     desc: faker.lorem.sentences(2),
-    eventStates: eventStateMock,
   };
 };
 
@@ -141,73 +150,21 @@ const eventsMock_temp: MMSEvent[] = Array.from(
   () => getNewEvent({})
 );
 
-const getEventStatesMockEvents = (events: MMSEvent[]) => {
-  const eventStatesEvents: MMSEvent[] = [];
+const mockEvents_temp = { events: eventsMock_temp, eventStates: [] as MMSEvent[] };
 
-  events.forEach((event, i) => {
-    const { start: eventStart, end: eventEnd, eventStates, eventType } = event;
-    if (!eventStart || !eventEnd) return;
-    if (!!eventType && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString())) return;
-
-    let stateStart: Date;
-    let stateEnd: Date;
-
-    const preEventLength = 15 * faker.number.int({ max: 16, min: 2 });
-    const postEventLength = 15 * faker.number.int({ max: 16, min: 2 });
-
-    eventStates?.forEach((eventState, j) => {
-      switch (eventState.state) {
-        case EVENT_STATE.PRE_EVENT:
-          stateStart = subMinutes(eventStart, preEventLength);
-          stateEnd = eventStart;
-          break;
-        case EVENT_STATE.IN_EVENT:
-          stateStart = eventStart;
-          stateEnd = eventEnd;
-          break;
-        case EVENT_STATE.POST_EVENT:
-          stateStart = eventEnd;
-          stateEnd = addMinutes(eventStart, postEventLength);
-          break;
-
-        default:
-          break;
-      }
-
-      if (typeof events[i].eventStates !== 'undefined') {
-        const updatedEvent = {
-          ...events[i],
-          eventStates: [...(events[i].eventStates || [])],
-        };
-
-        updatedEvent.eventStates[j] = {
-          ...updatedEvent.eventStates[j],
-          start: stateStart,
-          end: stateEnd,
-        };
-
-        events[i] = updatedEvent;
-      }
-
-      eventStatesEvents.push({
-        title: event.title,
-        allDay: false,
-        start: stateStart,
-        end: stateEnd,
-        id: faker.database.mongodbObjectId(),
-        eventId: faker.database.mongodbObjectId(),
-        isBackgroundEvent: true,
-        eventType: eventType,
-        createdBy: undefined,
-        createdOn: undefined,
-        desc: undefined,
-        eventStates: undefined,
-        eventState: eventState.label,
-      });
+eventsMock_temp
+  .filter((event) => event.eventType.id === EVENT_TYPE.GAME)
+  .forEach((event) => {
+    const preEvent = getNewEvent({
+      eventTypeID: EVENT_TYPE.PRE_GAME,
+      eventId: event.eventId,
     });
+    const postEvent = getNewEvent({
+      eventTypeID: EVENT_TYPE.POST_GAME,
+      eventId: event.eventId,
+    });
+
+    mockEvents_temp.eventStates.push(preEvent, postEvent);
   });
 
-  return { events, eventStates: eventStatesEvents };
-};
-
-export const { events: eventsMock, eventStates: eventStateMockEvents } = getEventStatesMockEvents(eventsMock_temp);
+export const { events: eventsMock, eventStates: eventStateMockEvents } = mockEvents_temp;

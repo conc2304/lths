@@ -1,6 +1,5 @@
 export * from './lib/data-display';
 export * from './lib/data-display/cards/basic';
-export * from './lib/data-display/tables';
 export * from './lib/feedback';
 export * from './lib/feedback/toasters';
 export * from './lib/inputs';
@@ -27,3 +26,5 @@ export * from './lib/overflow-menu';
 export * from './lib/action-menu';
 
 export * from './lib/menu-button';
+
+export * from './lib/transitions';

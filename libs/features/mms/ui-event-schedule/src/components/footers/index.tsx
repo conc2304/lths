@@ -15,7 +15,7 @@ export const EventSchedulingFooter = (props: EventSchedulingFooterProps): JSX.El
 
   return (
     <>
-      {eventTypes.map(({ id, label }) => (
+      {[...eventTypes, { id: 'unknown', label: 'Unknown' }].map(({ id, label }) => (
         <Box key={id} display={'flex'} alignContent={'center'}>
           <Paper
             elevation={3}

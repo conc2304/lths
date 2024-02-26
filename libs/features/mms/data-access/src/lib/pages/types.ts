@@ -19,13 +19,10 @@ export type ComponentProps = {
   schema: { [key: string]: any };
 };
 
-export type ComponentDetailResponse = {
-  data: ComponentProps;
-};
+export type ComponentDetailResponse = ApiResponse<ComponentProps>;
 
-export type ComponentListResponse = {
-  data: ComponentProps[];
-};
+export type ComponentListResponse = ApiResponse<ComponentProps[]>;
+
 export type File = {
   _id: string;
   id: string;
@@ -132,6 +129,23 @@ export type PageDetail = EditorProps & {
 export type PageItemsResponse = ApiResponse<PageDetail[]>;
 
 export type PageDetailResponse = ApiResponse<PageDetail>;
+
+export enum EnumGroup {
+  SOCIAL_ICONS = 'SocialIcons',
+  ACTION_ICONS = 'ActionIcons',
+  EVENT_TYPE = 'EventType',
+  PUSH_NOTIFICATION_TOPICS = 'PushNotificationTopics',
+  NOTIFICATION_TYPES = 'NotificationTypes',
+  PAGE_NAME = 'PageName',
+  COMPONENT_CATEGORIES = 'ComponentCategories',
+  LOCATION = 'Location',
+  EVENT_STATE = 'EventState',
+  PAGE_STATUS = 'PageStatus',
+  NOTIFICATION_STATUS = 'NotificationStatus',
+  PAGE_TYPE = 'PageType',
+  COMPONENT_TYPE = 'ComponentType',
+  NATIVE_PAGE_LIST = 'NativePageList',
+}
 
 export type EnumValue = {
   display_order: number;

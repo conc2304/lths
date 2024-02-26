@@ -7,11 +7,9 @@ on:
 
 jobs:
   build-push-deploy-dev:
-
     runs-on: ubuntu-22.04
 
     steps:
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -49,7 +47,7 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.25.6' # default is latest stable
+          version: "v1.25.6" # default is latest stable
         id: install
 
       - name: Set AKS context
@@ -85,7 +83,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64  #,linux/arm64
+          platforms: linux/amd64 #,linux/arm64
           file: apps/mms/docker/Dockerfile
           push: true
           tags: ${{ steps.set-env-vars-step.outputs.full_image_name }}
@@ -93,6 +91,7 @@ jobs:
           build-args: |
             "NX_PUBLIC_HOST_PROTOCOL=https"
             "NX_PUBLIC_API_HOST_DOMAIN=mok-dev-k8s.briteliteimmersive.io"
+            "NX_PUBLIC_WEB_ENV=dev"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
             "BASE_PATH=./mms/"
             "GITHUB_BRANCH=develop"

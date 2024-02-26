@@ -100,12 +100,13 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
 
     case EditorActionType.DUPLICATE_COMPONENT: {
       const { id } = action;
-      const components = duplicateComponent(state.components, id);
+      const { components, selectedComponent } = duplicateComponent(state.components, id);
 
       return {
         ...state,
         components,
         hasUnsavedEdits: true,
+        selectedComponent: selectedComponent,
       };
     }
 

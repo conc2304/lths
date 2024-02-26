@@ -23,6 +23,7 @@ export const eventsApi = api.injectEndpoints({
         method: 'GET',
         params: params,
       }),
+
       // Provides a list of `Events` by `id`.
       // If any mutation is executed that `invalidate`s any of these tags,
       // this query will re-run to be always up-to-date.

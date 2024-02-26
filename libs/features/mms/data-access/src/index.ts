@@ -9,6 +9,8 @@ export * from './lib/events/types';
 export * from './lib/pages/api';
 export * from './lib/pages/slice';
 export * from './lib/pages/types';
+export * from './lib/pages/utils';
+export * from './lib/pages/transformer';
 
 export * from './lib/notifications/api';
 export * from './lib/notifications/types';
@@ -32,3 +34,5 @@ export * from './lib/insights/pages/pages-api';
 export * from './lib/insights/pages/pages-slice';
 
 export * from './lib/types';
+
+export * from './lib/hooks';

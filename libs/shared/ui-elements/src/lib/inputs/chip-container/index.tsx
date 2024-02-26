@@ -5,7 +5,7 @@ import { FormState } from '../../ui-filters';
 
 type ChipContainerProps = {
   title?: string;
-  onDelete?: ({ parentID, itemID }: { parentID: string; itemID: string }) => void;
+  onDelete: ({ parentID, itemID }: { parentID: string; itemID: string }) => void;
   selectedFilters?: FormState;
   variant?: 'modal' | 'inline';
   onClearAll?: () => void;
@@ -121,13 +121,7 @@ export const ChipContainer = ({
               return (
                 <Chip
                   label={item.title}
-                  onDelete={
-                    !onDelete
-                      ? undefined
-                      : () => {
-                          onDelete({ parentID: groupID, itemID: item.id as string });
-                        }
-                  }
+                  onDelete={() => onDelete({ parentID: groupID, itemID: item.id as string })}
                   key={`${groupID}--${item.id}`}
                 />
               );
@@ -168,9 +162,7 @@ export const ChipContainer = ({
                   return (
                     <Chip
                       label={item.title}
-                      onDelete={
-                        !onDelete ? undefined : () => onDelete({ parentID: groupID, itemID: item.id as string })
-                      }
+                      onDelete={() => onDelete({ parentID: groupID, itemID: item.id as string })}
                       key={`${groupID}--${item.id}`}
                     />
                   );
@@ -187,19 +179,11 @@ export const ChipContainer = ({
             )}
           </Box>
 
-          {onClearAll && (
-            <div ref={buttonRef}>
-              <Button
-                variant="text"
-                color="secondaryButton"
-                size="large"
-                onClick={onClearAll}
-                sx={{ whiteSpace: 'nowrap' }}
-              >
-                Clear All
-              </Button>
-            </div>
-          )}
+          <div ref={buttonRef}>
+            <Button variant="text" color="secondary" size="large" onClick={onClearAll} sx={{ whiteSpace: 'nowrap' }}>
+              Clear All
+            </Button>
+          </div>
         </Box>
       </div>
     );

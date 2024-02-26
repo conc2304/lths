@@ -1,7 +1,17 @@
 import { useEffect, useState, MouseEvent } from 'react';
-import { Box, Button, Divider, Skeleton, Theme, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonPropsColorOverrides,
+  Divider,
+  Skeleton,
+  Theme,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { OverridableStringUnion } from '@mui/types';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -11,6 +21,10 @@ import { slugify } from '@lths/shared/utils';
 
 import { DateFilterOptions, DateRange } from '../../ui-filters';
 
+type ThemeColor = OverridableStringUnion<
+  'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
+  ButtonPropsColorOverrides
+>;
 type Props = {
   dateOptions: DateFilterOptions;
   onUpdateTimePeriod: (dateRange: DateRange) => void;
@@ -21,6 +35,8 @@ type Props = {
   datePickerStartProps?: DatePickerProps<any>;
   datePickerEndProps?: DatePickerProps<any>;
   isLoading?: boolean;
+  color?: ThemeColor;
+  updateButtonColor?: ThemeColor;
 };
 
 export const DateRangeSelector = ({
@@ -33,6 +49,8 @@ export const DateRangeSelector = ({
   datePickerStartProps,
   datePickerEndProps,
   isLoading = false,
+  color = 'secondary',
+  updateButtonColor = 'secondary',
 }: Props): JSX.Element => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -135,6 +153,7 @@ export const DateRangeSelector = ({
               <ToggleButtonGroup
                 value={dateOptionGroupValue}
                 onChange={handleOptionSelected}
+                color={color}
                 exclusive
                 aria-label="Predifinded Date Range Filter"
                 sx={{
@@ -149,6 +168,7 @@ export const DateRangeSelector = ({
                     return (
                       <ToggleButton
                         role="button"
+                        color={color}
                         value={value}
                         key={value}
                         onClick={() => {
@@ -205,6 +225,11 @@ export const DateRangeSelector = ({
                   onClose={onDatePickerClose}
                   sx={{ ml: 0 }}
                   value={tempStartDate || start_date || null}
+                  slotProps={{
+                    textField: {
+                      color: color,
+                    },
+                  }}
                   {...datePickerStartProps}
                 />
               </Grid>
@@ -223,6 +248,11 @@ export const DateRangeSelector = ({
                   onClose={onDatePickerClose}
                   sx={{ mb: 0.75 }}
                   value={tempEndDate || end_date || null}
+                  slotProps={{
+                    textField: {
+                      color: color,
+                    },
+                  }}
                   {...datePickerEndProps}
                 />
               </Grid>
@@ -231,7 +261,7 @@ export const DateRangeSelector = ({
           <Grid>
             <Button
               variant="outlined"
-              color="secondaryButton"
+              color={updateButtonColor}
               disabled={!isDateRangeValid || isLoading}
               onClick={handleUpdateRange}
               sx={{ fontSize: '0.688rem', height: '2.188rem', ml: 3.5 }}

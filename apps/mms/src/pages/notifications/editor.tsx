@@ -33,6 +33,8 @@ const NotificationEditor = () => {
 
   const { setPageTitle } = useLayoutActions();
 
+  const { isEditorFormValid } = useEditorActions();
+
   // fetch
   const fetchNotificationDetail = async (notificationId: string) => {
     try {
@@ -134,6 +136,7 @@ const NotificationEditor = () => {
         status={status}
         onStatusChange={handleStatusChange}
         onActionClick={handleActionClick}
+        disableButtons={!isEditorFormValid}
       />
       <EditorContainer
         notificationData={data}

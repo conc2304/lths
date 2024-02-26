@@ -2,7 +2,8 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "globals": {
-    "JSX": true
+    "JSX": true,
+    "NodeJS": true
   },
   "parser": "",
   "plugins": ["@nx", "import"],
@@ -10,6 +11,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "react/jsx-no-useless-fragment": ["warn", { "allowExpressions": true }],
         "react-hooks/exhaustive-deps": "off",
         "@nx/enforce-module-boundaries": [
           "error",
@@ -82,22 +84,6 @@
               ["parent", "sibling", "index"],
               // space between
               ["type", "object", "unknown"]
-            ]
-          }
-        ],
-        "no-restricted-imports": [
-          "error",
-          {
-            "paths": [
-              {
-                "name": "react-hot-toast",
-                "importNames": ["toast"],
-                "message": "Importing 'toast' from 'react-hot-toast' is not allowed. Use 'toastQueueService' from '@lths/shared/ui-elements' instead."
-              },
-              {
-                "name": "react-hot-toast",
-                "message": "Importing default from 'react-hot-toast' is not allowed. Use 'toastQueueService' from '@lths/shared/ui-elements' instead."
-              }
             ]
           }
         ]

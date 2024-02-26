@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Link, TableCell, TableRow } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -7,7 +7,14 @@ import { NotificationProps, PaginationRequest } from '@lths/features/mms/data-ac
 import { useLazyGetNotificationsListQuery } from '@lths/features/mms/data-access';
 import { NotificationAdapterProvider, NotificationStatus } from '@lths/features/mms/ui-components';
 import { NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
-import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
+import {
+  TablePaginationProps,
+  TableSortingProps,
+  ActionMenu,
+  RowBuilderFn,
+  Table,
+  SortDirection,
+} from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 const headers = [
@@ -46,6 +53,12 @@ const NotificationPage = () => {
   const { selectNotification, openNotificationAlert } = useEditorActions();
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsListQuery();
 
+  // table control
+  const [page, setPage] = useState<number | undefined>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [order, setOrder] = useState<SortDirection>('asc');
+  const [orderBy, setOrderBy] = useState<string | undefined>(headers[0].id);
+
   // fetch
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
     const req: PaginationRequest = {};
@@ -67,24 +80,22 @@ const NotificationPage = () => {
   }, []);
 
   // handlers
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const pagination: TablePaginationProps = {
+      page,
+      pageSize: rowsPerPage,
+    };
 
-  const handlePageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    fetchData(pagination, sorting);
-  };
+    const sorting: TableSortingProps = {
+      order: sortOrder,
+      column: orderBy,
+    };
 
-  const handleRowsPerPageChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    fetchData(pagination, sorting);
-  };
+    setPage(page);
+    setRowsPerPage(rowsPerPage);
+    setOrder(sortOrder);
+    setOrderBy(orderBy);
 
-  const handleSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
     fetchData(pagination, sorting);
   };
 
@@ -133,34 +144,47 @@ const NotificationPage = () => {
         selectNotification(notification);
         openNotificationAlert(NotificationAction.PUSH);
       },
-      isDisabled: true,
+      isDisabled: false,
     },
   ];
 
-  const tableRows = data?.data?.map((row) => {
-    const { _id, name, status, sent_on } = row;
-    return (
-      <TableRow key={`row_${_id}`}>
-        <TableCell>
-          <Link
-            component={RouterLink}
-            to={`/notifications/editor/${_id}`}
-            color="inherit"
-            underline="hover"
-            variant="h5"
-          >
-            {name}
-          </Link>
-        </TableCell>
-        <TableCell>{<NotificationStatus status={status} />}</TableCell>
-        <TableCell>{sent_on}</TableCell>
-        <TableCell>{row?.data?.topics?.join(', ')}</TableCell>
-        <TableCell>
-          <ActionMenu options={menuOptions(row)} />
-        </TableCell>
-      </TableRow>
-    );
-  });
+  const RowBuilder = (): RowBuilderFn<NotificationProps> => {
+    return ({ data: row, rowNumber, showRowNumber }) => {
+      const { _id, name, status, sent_on } = row;
+      return (
+        <TableRow key={`row_${_id}`}>
+          {!!showRowNumber && (
+            <TableCell
+              align="center"
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+                fontsize: '0.75rem',
+              }}
+            >
+              {rowNumber}
+            </TableCell>
+          )}
+          <TableCell>
+            <Link
+              component={RouterLink}
+              to={`/notifications/editor/${_id}`}
+              color="inherit"
+              underline="hover"
+              variant="h5"
+            >
+              {name}
+            </Link>
+          </TableCell>
+          <TableCell>{<NotificationStatus status={status} />}</TableCell>
+          <TableCell>{sent_on}</TableCell>
+          <TableCell>{row?.data?.topics?.join(', ')}</TableCell>
+          <TableCell>
+            <ActionMenu options={menuOptions(row)} />
+          </TableCell>
+        </TableRow>
+      );
+    };
+  };
 
   const total = data?.pagination?.totalItems;
 
@@ -172,7 +196,7 @@ const NotificationPage = () => {
           <Button
             startIcon={<AddIcon />}
             variant="contained"
-            color="primaryButton"
+            color="primary"
             onClick={() => openNotificationAlert(NotificationAction.CREATE)}
           >
             CREATE
@@ -181,14 +205,17 @@ const NotificationPage = () => {
         sx={{ mt: 2 }}
       />
       <Table
-        loading={isLoading}
-        fetching={isFetching}
-        total={total}
+        data={data?.data ?? []}
         headerCells={headers}
-        tableRows={tableRows}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        onSortClick={handleSortClick}
+        total={total}
+        rowBuilder={RowBuilder()}
+        onChange={handleOnChange}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        orderBy={orderBy}
+        sortOrder={order}
+        fetching={isFetching}
+        loading={isLoading}
         sx={{
           mt: 4,
         }}

@@ -41,7 +41,7 @@ import {
 } from './urls';
 import { getPagesUrl } from './urls';
 //TOD: Typing is missing for few methods
-const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages'] }).injectEndpoints({
+const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages', 'page-details'] }).injectEndpoints({
   endpoints: (builder) => ({
     getComponentList: builder.query<ComponentListResponse, ComponentsListRequest>({
       query: (req) => ({
@@ -86,6 +86,7 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages'
         url: getPageDetailUrl(page_id),
         method: 'GET',
       }),
+      providesTags: ['page-details'],
     }),
     getEnumList: builder.query<EnumListResponse, string>({
       query: (enum_id) => ({
@@ -128,11 +129,12 @@ const pageApi = api.enhanceEndpoints({ addTagTypes: ['pages-components', 'pages'
       }),
     }),
     updatePageName: builder.mutation<UpdatePageDetailResponse, UpdatePageNameRequest>({
-      query: (req) => ({
-        url: getUpdatePageDetailsUrl(req.page_id),
+      query: ({ page_id, ...req }) => ({
+        url: getUpdatePageDetailsUrl(page_id),
         method: 'PATCH',
         body: req,
       }),
+      invalidatesTags: ['pages', 'page-details'],
     }),
     deletePage: builder.mutation<DeletePageResponse, DeletePageRequest>({
       query: (req) => ({

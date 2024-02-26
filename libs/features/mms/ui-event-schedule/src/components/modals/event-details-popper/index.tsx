@@ -1,22 +1,22 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Theme } from '@mui/system';
 import { format, isAfter } from 'date-fns';
 import { Flags } from 'react-feature-flags';
 
 import { CloseButton } from '@lths/shared/ui-elements';
-import { pxToRem } from '@lths/shared/utils';
+import { pxToRem, roundNumToNearestX, truncateToDecimalPlace } from '@lths/shared/utils';
 
 import { EventTime } from './event-time-header';
 import { EVENTS_W_STATES, UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EVENT_SCHEDULER_UPDATE_EVENTS_FLAG, EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG } from '../../../feature-flags';
-import { EventFormValues, EventState, EventType, MMSEvent } from '../../../types';
+import { EventFormValues, EventState, EventStates, EventType, MMSEvent } from '../../../types';
 import { sortByEventState } from '../../../utils';
 import { EditEventModal } from '../edit-event-modal';
 import { EditEventStatesModal } from '../edit-event-states-modal';
 
 type EventDetailsPopperProps = {
   event: MMSEvent;
+  eventStates: EventStates;
   onClose?: () => void;
   editModalOpen: boolean;
   onSetEditModalOpen: (isOpen: boolean) => void;
@@ -26,12 +26,20 @@ type EventDetailsPopperProps = {
 };
 
 export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
-  const { onClose, editModalOpen, onSetEditModalOpen, onSaveEvent, onSaveEventStates, eventTypes, event } = props;
+  const {
+    onClose,
+    editModalOpen,
+    onSetEditModalOpen,
+    onSaveEvent,
+    onSaveEventStates,
+    eventTypes,
+    event,
+    eventStates = [],
+  } = props;
 
-  const { id, start, end, allDay = false, title, desc, eventType, createdBy, eventStates, createdOn } = event;
+  const { id, start, end, allDay = false, title, desc, eventType, createdBy, createdOn } = event;
 
   const eventCompleted = !!end && isAfter(new Date(), end);
-
   const FieldLabel = styled(Typography)(({ theme }) => {
     return {
       textTransform: 'uppercase',
@@ -131,10 +139,14 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
               <Box mb={2} className="EventDetailsPopper--eventStates">
                 <FieldLabel mb={1.5}>Event States</FieldLabel>
                 <Stack direction="column" spacing={2}>
-                  {eventStates?.sort(sortByEventState).map((eventState: EventState) => {
-                    const { label, desc, state, relativeOffsetHrs } = eventState;
+                  {eventStates.sort(sortByEventState).map((eventState: EventState) => {
+                    const { label, desc, type: state, relativeOffsetHrs } = eventState;
                     const offsetTimeSuffix = relativeOffsetHrs && relativeOffsetHrs > 1 ? 'hrs' : 'hr';
-                    const offsetText = `${relativeOffsetHrs} ${offsetTimeSuffix}`;
+                    const stepSize = 0.25;
+                    const formattedTimeOffset = relativeOffsetHrs
+                      ? truncateToDecimalPlace(roundNumToNearestX(relativeOffsetHrs, stepSize), 2)
+                      : relativeOffsetHrs;
+                    const offsetText = `${formattedTimeOffset} ${offsetTimeSuffix}`;
                     return (
                       <Box
                         display="flex"
@@ -157,20 +169,13 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
 
           {/* Event Actions */}
 
-          <Box onClick={() => onSetEditModalOpen(true)}>
-            <Typography
-              sx={{
-                fontSize: '0.75rem',
-                cursor: 'pointer',
-                color: (theme: Theme) => theme.palette.secondaryButton.main,
-                mt: 1.25,
-              }}
-            >
+          <Box>
+            <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
                 {eventStatesEditable && 'EDIT EVENT STATES'}
               </Flags>
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>{eventEditable && 'EDIT EVENT'}</Flags>
-            </Typography>
+            </Button>
           </Box>
 
           {eventCompleted && (
@@ -194,6 +199,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           <EditEventStatesModal
             open={editModalOpen}
             eventData={event}
+            eventStates={eventStates}
             onClose={() => onSetEditModalOpen(false)}
             onCancel={() => onSetEditModalOpen(false)}
             onSave={(updatedEventStates) => {

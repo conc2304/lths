@@ -1,9 +1,10 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { format, getDay, parse, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-import { ViewStatic, dateFnsLocalizer } from 'react-big-calendar';
+import { Event, ViewStatic, dateFnsLocalizer } from 'react-big-calendar';
+
+import { BaseRowBuilder, RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { YearList } from './year-list';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../../../constants';
@@ -11,7 +12,6 @@ import { ListViewContextProvider } from '../../../../context';
 import { NavigateYear, TitleYear } from '../../year/utils/methods';
 import { BaseColumnValue } from '../column-to-event-prop';
 import { ListViewProps } from '../list-view';
-import { BaseRowBuilder } from '../row-builder';
 
 const localizer = dateFnsLocalizer({
   format,
@@ -25,7 +25,7 @@ const props: ListViewProps & ViewStatic = {
   date: new Date(),
   events: [],
   localizer,
-  rowBuilder: BaseRowBuilder,
+  rowBuilder: BaseRowBuilder as RowBuilderFn<Event>,
   headerCells: DEFAULT_LIST_VIEW_COL_HEADER,
   headerToEventValueMap: BaseColumnValue,
   navigate: NavigateYear,

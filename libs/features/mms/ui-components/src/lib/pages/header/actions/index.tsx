@@ -14,5 +14,5 @@ type Props = {
 };
 
 export const PageActions = ({ actions, onActionClick }: Props) => {
-  return <Actions actions={actions} onActionClick={onActionClick} sx={{ marginLeft: 3 }} />;
+  return <Actions actions={actions} onActionClick={onActionClick} sx={{ marginLeft: 1 }} />;
 };

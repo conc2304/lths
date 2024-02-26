@@ -7,7 +7,7 @@ import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-d
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import { Table, TablePaginationProps, TableSortingProps, ActionMenu, SearchBar } from '@lths/shared/ui-elements';
+import { ActionMenu, SearchBar, Table, RowBuilderFn, SortDirection } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
 type SearchParam = Record<string, string | number | null | undefined>;
@@ -51,7 +51,6 @@ const headers = [
     sortable: false,
   },
 ];
-//TODO: Add a response type for RTK queries
 const Page = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -65,8 +64,16 @@ const Page = (): JSX.Element => {
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
+  const persistantTableSettingsKey = 'persist:mms:pages-table-settings';
+  const persistantSettings = localStorage.getItem(persistantTableSettingsKey);
+  const { rowsPerPage } = persistantSettings ? JSON.parse(persistantSettings) : { rowsPerPage: undefined };
+
   useEffect(() => {
     const req: PageItemsRequest = { name, limit, offset, sort_field, sort_by };
+
+    // use query params if present, if not use persistantSettings
+    req.limit = !!req.limit && Number(req.limit) > 0 ? req.limit : rowsPerPage;
+
     getData(req);
   }, [name, limit, offset, sort_field, sort_by]);
 
@@ -82,24 +89,22 @@ const Page = (): JSX.Element => {
   };
 
   const handleSearch = (value: string) => {
-    updateSearchParams({ name: value });
+    console.log('handle search');
+    updateSearchParams({ name: value, offset: 0 });
   };
 
-  const onPageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    const { column, order } = sorting;
-    const { page, pageSize } = pagination;
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    console.log('handleOnChange');
     const params: SearchParam = {
-      limit: pageSize,
-      offset: page * pageSize,
+      limit: rowsPerPage,
+      offset: page * rowsPerPage, // * page is 0 indexed from mui components
+      ...(orderBy &&
+        sortOrder && {
+          sort_field: orderBy,
+          sort_by: sortOrder,
+        }),
     };
-    if (column && order) {
-      params['sort_field'] = column;
-      params['sort_by'] = order;
-    }
+
     updateSearchParams(params);
   };
 
@@ -152,39 +157,62 @@ const Page = (): JSX.Element => {
     ];
   };
 
-  const tableRows = data?.data?.map((row) => {
-    const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = row;
-    return (
-      <TableRow key={`row_${_id}`}>
-        <TableCell>
-          <Stack>
-            <Link component={RouterLink} to={`/pages/editor/${page_id}`} color="inherit" underline="hover" variant="h5">
-              {name}
+  const RowBuilder = (): RowBuilderFn<PageDetail> => {
+    return (props) => {
+      const { data, showRowNumber, rowNumber } = props;
+      const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
+
+      return (
+        <TableRow key={`row_${page_id}`}>
+          {!!showRowNumber && (
+            <TableCell
+              align="center"
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+                fontsize: '0.75rem',
+              }}
+            >
+              {rowNumber}
+            </TableCell>
+          )}
+
+          <TableCell>
+            <Stack>
+              <Link
+                component={RouterLink}
+                to={`/pages/editor/${page_id}`}
+                color="inherit"
+                underline="hover"
+                variant="h5"
+              >
+                {name}
+              </Link>
+              <Typography variant="subtitle1">{page_id}</Typography>
+            </Stack>
+          </TableCell>
+          <TableCell>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <PagesStatus status={status} />
+            </Stack>
+          </TableCell>
+          <TableCell>{updated_on}</TableCell>
+          <TableCell>{type}</TableCell>
+          <TableCell>
+            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
+              {default_page_id}
             </Link>
-            <Typography variant="subtitle1">{page_id}</Typography>
-          </Stack>
-        </TableCell>
-        <TableCell>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <PagesStatus status={status} />
-          </Stack>
-        </TableCell>
-        <TableCell>{updated_on}</TableCell>
-        <TableCell>{type}</TableCell>
-        <TableCell>
-          <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
-            {default_page_id}
-          </Link>
-        </TableCell>
-        <TableCell>{constraints_formatted}</TableCell>
-        <TableCell>
-          <ActionMenu options={menuOptions(row)} />
-        </TableCell>
-      </TableRow>
-    );
-  });
+          </TableCell>
+          <TableCell>{constraints_formatted}</TableCell>
+          <TableCell>
+            <ActionMenu options={menuOptions(data)} />
+          </TableCell>
+        </TableRow>
+      );
+    };
+  };
 
   const total = data?.pagination?.totalItems;
+  const page = offset && limit ? Math.max(parseInt(offset) / parseInt(limit), 0) : 0;
 
   return (
     <Box>
@@ -194,7 +222,7 @@ const Page = (): JSX.Element => {
           <Button
             startIcon={<AddIcon />}
             variant="contained"
-            color="primaryButton"
+            color="primary"
             onClick={() => openAlert(PageAction.CREATE)}
           >
             CREATE
@@ -205,16 +233,21 @@ const Page = (): JSX.Element => {
       <Divider />
       <SearchBar value={name} onSearch={handleSearch} sx={{ marginY: 2 }} />
       <Table
+        data={data?.data ?? []}
+        headerCells={headers}
+        rowBuilder={RowBuilder()}
         loading={isLoading}
         fetching={isFetching}
         total={total}
         title="{0} total pages"
-        headerCells={headers}
-        tableRows={tableRows}
-        onPageChange={onPageChange}
-        sx={{
-          mt: 4,
-        }}
+        onChange={handleOnChange}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
+        orderBy={sort_field ? sort_field : undefined}
+        userSettingsStorageKey={persistantTableSettingsKey}
+        showFirstButton
+        showLastButton
       />
     </Box>
   );

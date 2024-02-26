@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { PopperPlacementType, useTheme } from '@mui/material';
+import { PopperPlacementType, alpha, useTheme } from '@mui/material';
 import { NavigateAction } from 'react-big-calendar';
 
 import {
@@ -12,7 +12,7 @@ import {
   ToolbarHeaderProps,
   ViewMode,
 } from '@lths/shared/ui-calendar-scheduler';
-import { PopperWithArrow, TableHeaderCellProps } from '@lths/shared/ui-elements';
+import { PopperWithArrow, TableColumnHeader } from '@lths/shared/ui-elements';
 
 import { EventSchedulingFooter } from './footers';
 import { EventDetailsPopper } from './modals/event-details-popper';
@@ -20,6 +20,7 @@ import { RowBuilder } from './row/row-builder';
 import { SchedulingEvent } from './scheduling-event';
 import { EventTypeFilter } from './toolbar/event-type-filter';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../types';
+import { getEventStatesByEventId } from '../utils';
 
 type EventSchedulerProps = {
   events: MMSEvent[];
@@ -73,8 +74,6 @@ export const EventScheduler = (props: EventSchedulerProps) => {
       ? popperEventId
       : visibileEvents.find((event) => event.id === popperEventId);
 
-  console.log({ eventDetailsEvent });
-
   const backgroundEvents = useMemo(() => {
     return !eventStatesVisible
       ? []
@@ -82,6 +81,10 @@ export const EventScheduler = (props: EventSchedulerProps) => {
       ? bEvents
       : bEvents.filter((event) => !!event.eventType && filters.includes(event.eventType.id));
   }, [events, filters, visibileEvents, eventStatesVisible, bEvents]);
+
+  const eventDetailsStates = eventDetailsEvent?.eventId
+    ? getEventStatesByEventId([...events, ...bEvents], eventDetailsEvent.eventId)
+    : [];
 
   const handleFilterChange = (filtersSelected: [id: string, value: string][]) => {
     const filters = filtersSelected.map(([id]) => id);
@@ -154,7 +157,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     };
   }, [viewMode, view, eventTypes]);
 
-  const columns: TableHeaderCellProps[] = [
+  const columns: TableColumnHeader[] = [
     { id: 'eventTime', label: 'Event Time', sortable: true },
     { id: 'eventName', label: 'Event Name', sortable: true },
     { id: 'eventType', label: 'Event Type', sortable: true },
@@ -178,9 +181,10 @@ export const EventScheduler = (props: EventSchedulerProps) => {
   };
 
   const cssVariables: CalendarCustomProperties = {
-    '--current-time-color': theme.palette.secondaryButton.main,
-    '--current-day-highlight-color': '#cddce787',
-    '--show-more-color': theme.palette.primary.main,
+    '--current-time-color': theme.palette.info.main,
+    '--current-day-highlight-color': alpha(theme.palette.info.light, 0.2),
+    '--current-day-marker-color': theme.palette.primary.main,
+    '--show-more-color': theme.palette.info.dark,
     '--event-min-height': '5.5rem',
   };
 
@@ -222,6 +226,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
         >
           <EventDetailsPopper
             event={eventDetailsEvent}
+            eventStates={eventDetailsStates}
             onClose={() => setPopperOpen(false)}
             editModalOpen={editModalOpen}
             onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}

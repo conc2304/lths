@@ -1,12 +1,12 @@
 import { MouseEventHandler, useRef } from 'react';
 import { PopperPlacementType, TableCell, TableRow } from '@mui/material';
 
-import { RowBuilderProps } from '@lths/shared/ui-calendar-scheduler';
+import { RowBuilderProps } from '@lths/shared/ui-elements';
 
 import { CalendarEventTableCell } from './render-cell';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../../types';
 
-export type RowProps = RowBuilderProps & {
+export type RowProps = RowBuilderProps<MMSEvent> & {
   eventTypes: EventType[];
   onSaveEvent?: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates?: (updatedEventStates: EventState[]) => void;
@@ -23,7 +23,7 @@ export type RowProps = RowBuilderProps & {
 
 export const Row = (props: RowProps) => {
   const { headerCells, eventTypes, onEventClick } = props;
-  const event = props.event as MMSEvent;
+  const event = props.data;
 
   const popperTargetRef = useRef<HTMLElement>(null);
 
