@@ -5,7 +5,9 @@ const FeatureFlagPage = () => {
   const [updateFeatureFlags] = useUpdateFeatureFlagsMutation();
 
   const flagsCache = featureFlagsApi.endpoints.getFeatureFlags.useQueryState();
-  const { data: { _id = undefined, enum_values = [] } = { _id: undefined } } = flagsCache;
+  const { data } = flagsCache;
+  const enum_values = data ? data.enum_values : [];
+  const _id = data ? data._id : 'N/A';
   const featureFlagData = enum_values.map((f) => f.value);
 
   const handleOnUpdateFlags = (updatedFlag: FeatureFlag, mode: FlagCRUDMethods) => {

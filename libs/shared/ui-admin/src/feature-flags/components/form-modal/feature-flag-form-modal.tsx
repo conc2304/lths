@@ -22,8 +22,8 @@ import * as Yup from 'yup';
 import { DialogForm } from '@lths/shared/ui-elements';
 import { capitalizeString } from '@lths/shared/utils';
 
-import { FeatureFlag } from '../../types';
-import { FlagCRUDMethods, generateFlagId } from '../../utils';
+import { FeatureFlag, FlagCRUDMethods } from '../../types';
+import { generateFlagId } from '../../utils';
 
 type FormError = { field: keyof FeatureFlag | 'form'; msg: string };
 type FormStatusError = { errors: FormError[] };

@@ -43,7 +43,7 @@ export type EnumRequestPayload<TData> = {
   enum_values: EnumValue<TData>[];
 };
 
-export type EnumListResponse = ApiResponse<EnumGroupResponseData>;
+export type EnumListResponse = ApiResponse<EnumGroupResponseData | null>; // apparently no data found returns a success with null for the data, instead off a 404, who would have guessed
 
 export enum EnumGroup {
   SOCIAL_ICONS = 'SocialIcons',

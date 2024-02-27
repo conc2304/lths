@@ -5,8 +5,7 @@ import { Add } from '@mui/icons-material';
 import { PageHeader } from '@lths/shared/ui-layouts';
 import { getUniqueValuesByKey } from '@lths/shared/utils';
 
-import { FeatureFlag } from '../../types';
-import { FlagCRUDMethods } from '../../utils';
+import { FeatureFlag, FlagCRUDMethods } from '../../types';
 import { FeatureFlagTable } from '../filterable-table';
 import { FeatureFlagFormModal } from '../form-modal/feature-flag-form-modal';
 
