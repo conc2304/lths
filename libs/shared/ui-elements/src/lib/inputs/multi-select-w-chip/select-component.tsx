@@ -82,9 +82,6 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
   const options = optionsProp.map(normalizeOption);
   const initialValue = value ? value.map(normalizeOption) : [showAllValue];
   const [optionsSelected, setOptionsSelected] = useState<SelectOptionInternal[]>(initialValue);
-  // const dataIsObject = optionsProp.some((option) => {
-  //   return !Array.isArray(option);
-  // });
   const placeholder = placeholderProp ?? showAllText;
 
   const handleSelectFilter = (event: SelectChangeEvent<SelectOptionInternal[]>) => {

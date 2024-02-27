@@ -36,7 +36,10 @@ export const SelectChipRenderer = (props: SelectChipRendererProps) => {
   currChipIndex.current = 0;
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: 0.5, width: '100%' }}>
+    <Box
+      sx={{ display: 'flex', flexWrap: 'nowrap', gap: 0.5, width: '100%' }}
+      data-testid="MultiSelect--chip-container"
+    >
       {/* Loop over all selected items and render them as chips */}
       {selectedItems.map(([id, label]) => {
         const [showAllId, showAllLabel] = showAllValue;
