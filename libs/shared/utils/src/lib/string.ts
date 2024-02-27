@@ -25,9 +25,11 @@ export const hashString = (string: string) => {
   }, 0);
 };
 
-export const capitalizeString = (string: string, splitter = ' ') => {
+export const capitalizeString = (string: string, splitter = ' ', joiner = undefined) => {
+  const joinerStr = joiner ?? splitter;
   return (string.toLowerCase() ?? '')
-    .split(splitter)
+    .trim()
+    .split(new RegExp(splitter + '+'))
     .map((word) => capitalize(word))
-    .join(splitter);
+    .join(joinerStr);
 };
