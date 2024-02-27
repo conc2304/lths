@@ -13,6 +13,7 @@ import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
 import { PageAction } from '@lths/features/mms/ui-editor';
 import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
+import { pxToRem } from '@lths/shared/utils';
 
 import { PageActions } from './actions';
 import { PagesStatus } from './status';
@@ -98,7 +99,7 @@ export const PageHeader = ({
       sx={{ my: 1 }}
       title={title}
       leftContent={
-        <Stack direction="row" spacing={2.5}>
+        <Stack direction="row" spacing={1}>
           <PageActions actions={actions(type)} onActionClick={onActionClick} />
           <LoadingButton
             variant="outlined"
@@ -107,19 +108,21 @@ export const PageHeader = ({
             onClick={onUpdate}
             loading={isPageUpdating}
             size="small"
+            sx={{ height: pxToRem(30) }}
           >
             SAVE
           </LoadingButton>
         </Stack>
       }
       rightContent={
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={3}>
           <PagesStatus status={status} statusInfo={statusInfoText} />
           <MenuButton
             startIcon={<img src={PublishIcon} alt="publish icon" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             buttonText="PUBLISH"
             buttonAction={setNotificationStatusSent}
             items={menuItems}
+            size="medium"
           />
         </Stack>
       }

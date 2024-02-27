@@ -3,33 +3,33 @@ import { AssetProps } from '@lths/features/mms/data-access';
 import { ArchiveModal, RenameModal } from './index';
 
 export function AssetModals({
-  isRowModalOpen,
+  assetModalType,
   selectedRow,
   handleDeleteRow,
   handlRenameRow,
-  setIsRowModalOpen,
+  setModalState,
 }: {
-  isRowModalOpen: string;
+  assetModalType: 'Delete' | 'Rename' | null;
   selectedRow: AssetProps;
   handleDeleteRow: () => void;
   handlRenameRow: (newName: string) => Promise<void>;
-  setIsRowModalOpen: (value: string) => void;
+  setModalState: (value: 'Delete' | 'Rename' | null) => void;
 }) {
   return (
     <>
-      {isRowModalOpen === 'Delete' && (
+      {assetModalType === 'Delete' && (
         <ArchiveModal
           open={true}
           itemToDelete={selectedRow?.original_file_name}
-          onClickKeepButton={() => setIsRowModalOpen('')}
+          onClickKeepButton={() => setModalState(null)}
           onClickDeleteButton={handleDeleteRow}
         />
       )}
-      {isRowModalOpen === 'Rename' && (
+      {assetModalType === 'Rename' && (
         <RenameModal
           open={true}
           itemToRename={selectedRow?.original_file_name}
-          onClickCancelButton={() => setIsRowModalOpen('')}
+          onClickCancelButton={() => setModalState(null)}
           onClickOkButton={handlRenameRow}
         />
       )}

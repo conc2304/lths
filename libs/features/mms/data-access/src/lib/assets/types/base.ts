@@ -7,7 +7,6 @@ export type PaginationRequestAssetsProps = {
   queryString?: string;
 };
 
-
 export type MediaFileProps = {
   url: string;
   format_label: string;
@@ -28,6 +27,7 @@ export type AssetProps = {
   unique_file_name: string;
   created_on?: string;
   created_by?: string;
+  computed_created_by?: string;
   original_file_name: string;
   description: string;
   original_file_size: number | null;

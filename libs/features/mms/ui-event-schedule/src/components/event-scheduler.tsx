@@ -20,6 +20,7 @@ import { RowBuilder } from './row/row-builder';
 import { SchedulingEvent } from './scheduling-event';
 import { EventTypeFilter } from './toolbar/event-type-filter';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../types';
+import { getEventStatesByEventId } from '../utils';
 
 type EventSchedulerProps = {
   events: MMSEvent[];
@@ -80,6 +81,10 @@ export const EventScheduler = (props: EventSchedulerProps) => {
       ? bEvents
       : bEvents.filter((event) => !!event.eventType && filters.includes(event.eventType.id));
   }, [events, filters, visibileEvents, eventStatesVisible, bEvents]);
+
+  const eventDetailsStates = eventDetailsEvent?.eventId
+    ? getEventStatesByEventId([...events, ...bEvents], eventDetailsEvent.eventId)
+    : [];
 
   const handleFilterChange = (filtersSelected: [id: string, value: string][]) => {
     const filters = filtersSelected.map(([id]) => id);
@@ -221,6 +226,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
         >
           <EventDetailsPopper
             event={eventDetailsEvent}
+            eventStates={eventDetailsStates}
             onClose={() => setPopperOpen(false)}
             editModalOpen={editModalOpen}
             onSetEditModalOpen={(isOpen: boolean) => setEditModalOpen(isOpen)}

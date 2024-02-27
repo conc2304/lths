@@ -14,11 +14,19 @@ export const Status = (props: Props) => {
   return (
     <Stack direction="row">
       {icon ? icon : <img src={imgSrc} alt={status} />}
-      <Typography color={color} marginLeft={0.5}>
+      <Typography 
+        color={color} 
+        marginLeft={0.5} 
+        sx={{ 
+          letterSpacing: '0.15px',
+          textTransform: 'lowercase', 
+          ':first-letter': {textTransform: 'uppercase'},
+        }}
+      >
         {status}
       </Typography>
       {statusInfo && (
-        <Typography color={color} marginLeft={1}>
+        <Typography color={color} marginLeft={1} sx={{ letterSpacing: '0.15px' }}>
           {statusInfo}
         </Typography>
       )}

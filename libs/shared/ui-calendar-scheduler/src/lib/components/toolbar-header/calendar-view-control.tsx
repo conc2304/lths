@@ -22,6 +22,7 @@ const StyledIconButton = styled(IconButton)(() => ({
   borderRadius: '20%',
   padding: '0',
   height: '1.3rem',
+  width: '1.3rem',
   margin: '0 2px',
 }));
 
@@ -82,9 +83,11 @@ export const CalendarViewControl = (props: CalendarViewControlProps) => {
             aria-label={messages.today}
             sx={{
               padding: '0',
-              height: '1.3rem',
-              lineHeight: '1.3rem',
+              lineHeight: '0.8rem',
               fontSize: '0.8rem',
+              '&.MuiButton-sizeSmall': {
+                height: '1.3rem',
+              },
             }}
             data-testid="Calendar-View-Control--navigation--today"
           >

@@ -125,7 +125,8 @@ describe('SchedulePage', () => {
         ),
         limit: 500,
         sort: '{ start_date_time: 1 }',
-      })
+      }),
+      true
     );
     expect(getEnumListMock).toHaveBeenLastCalledWith('EventType');
   });

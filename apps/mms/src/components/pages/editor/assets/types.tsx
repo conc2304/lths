@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { AssetProps } from '@lths/features/mms/data-access';
-import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
+import { TablePaginationProps, TableColumnHeader, TableSortingProps } from '@lths/shared/ui-elements';
 
 type onSelectProp = { onSelect: (url: string) => void };
 type assetsProps = {
+  headerCells: TableColumnHeader[];
   data: AssetProps[];
   isFetching: boolean;
   total: number;

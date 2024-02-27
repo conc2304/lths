@@ -35,6 +35,11 @@ Primary.args = {
     update_frequency_in_ms: 15000,
     selected_month: '1',
     selected_year: '2024',
+    is_show_ingame_btn_icon: true,
+    btn_more_info_txt: 'More Info',
+    btn_buy_tickets_txt: 'Buy Tickets',
+    btn_ingame_txt: 'Real-time',
+    btn_post_game_txt: 'Game Recap',
   },
 };
 

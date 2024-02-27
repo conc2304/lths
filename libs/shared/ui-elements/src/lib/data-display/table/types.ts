@@ -7,6 +7,7 @@ export type RowBuilderProps<TData extends object = Record<string, unknown>> = {
   showRowNumber?: boolean;
   rowNumber?: number;
   noDataMessage?: string;
+  selectedRowId?: string;
 };
 
 export type RowBuilderFn<TData extends object = Record<string, unknown>> = ({

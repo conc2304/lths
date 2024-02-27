@@ -18,10 +18,15 @@ describe('ScheduleListComponent', () => {
       __ui_id__: '12345',
       component_id: Component.ScheduleList,
       data: {
-        allow_infinite_scroll: false,
+        is_show_ingame_btn_icon: true,
         update_frequency_in_ms: 15000,
         selected_month: '1',
         selected_year: '2024',
+        btn_more_info_txt: 'More Info',
+        btn_buy_tickets_txt: 'Buy Tickets',
+        btn_ingame_txt: 'Real-time',
+        btn_post_game_txt: 'Game Recap',
+        allow_infinite_scroll: false,
       },
     };
   });

@@ -36,6 +36,7 @@ export type TableProps<TData extends object = Record<string, unknown>> = {
   headerCells: TableColumnHeader[];
   data: TData[];
   rowBuilder?: RowBuilderFn<TData>;
+  selectedRowId?: string;
   headerToCellValueMap?: (data: TData, column: string) => Date | string | number | undefined;
   title?: string;
   onChange?: (options: TableChangeEvent) => void;
@@ -106,6 +107,7 @@ export const Table = (props: TableProps<Record<string, unknown>>): JSX.Element =
     data,
     headerCells,
     rowBuilder = BaseRowBuilder,
+    selectedRowId,
     headerToCellValueMap = BaseColumnValue,
     title,
     onChange,
@@ -135,17 +137,29 @@ export const Table = (props: TableProps<Record<string, unknown>>): JSX.Element =
     : {};
 
   const initialRowsPerPage =
-    persistantSettings.rowsPerPage !== undefined
-      ? parseInt(persistantSettings.rowsPerPage as string)
-      : typeof rowsPerPageProp === 'number'
+    typeof rowsPerPageProp === 'number'
       ? // don't allow any value that is not an one of the options to be set for rowsPerPage
         findClosestNumber(rowsPerPageProp, rowsPerPageOptions)
+      : persistantSettings.rowsPerPage !== undefined ? 
+        parseInt(persistantSettings.rowsPerPage as string)
       : DEFAULT_ROWS_PER_PAGE;
 
   const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
   const [orderBy, setOrderBy] = useState<string>(orderByProp ?? headerCells[0].id);
   const [page, setPage] = useState(pageProp ?? DEFAULT_TABLE_PAGE);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+  const [selectedRow, setSelectedRow] = useState(selectedRowId);
+
+  useEffect(() => {
+    setPage(pageProp || 0);
+    setRowsPerPage(initialRowsPerPage);
+    setSortOrder(sortOrderProp ?? 'asc');
+    setOrderBy(orderByProp ?? headerCells[0].id);
+  }, [pageProp, rowsPerPageProp, sortOrderProp, orderByProp]);
+
+  useEffect(() => {
+    setSelectedRow(selectedRowId);
+  }, [selectedRowId]);
 
   const sortingIsControlled = Boolean(sortOrderProp && orderByProp);
   const paginationIsControlled = Boolean(pageProp !== undefined && rowsPerPageProp);
@@ -194,14 +208,21 @@ export const Table = (props: TableProps<Record<string, unknown>>): JSX.Element =
 
     return visibleData.length > 0
       ? visibleData.map((data, i) =>
-          rowBuilder({ data, headerCells, showRowNumber, rowNumber: page * rowsPerPage + i + 1, noDataMessage })
+          rowBuilder({
+            data,
+            headerCells,
+            showRowNumber,
+            rowNumber: page * (rowsPerPage + i) + 1,
+            noDataMessage,
+            selectedRowId: selectedRow,
+          })
         )
       : [
           <TableRow key={0}>
             <TableCell colSpan={headerCells.length}>{noDataMessage}</TableCell>
           </TableRow>,
         ];
-  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp]);
+  }, [data, sortOrder, orderBy, page, rowsPerPage, rowsPerPageProp, sortOrderProp, orderByProp, pageProp, selectedRow]);
 
   const handleSort = (columnId: string) => {
     const isAsc = orderBy === columnId && sortOrder === 'asc';

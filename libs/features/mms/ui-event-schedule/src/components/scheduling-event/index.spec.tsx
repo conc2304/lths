@@ -37,6 +37,10 @@ describe('SchedulingEvent', () => {
     slotEnd: new Date(),
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     const testEvent = getNewEvent({});
 
