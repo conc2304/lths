@@ -139,11 +139,11 @@ export const Table = (
     : {};
 
   const initialRowsPerPage =
-    persistantSettings.rowsPerPage !== undefined
-      ? parseInt(persistantSettings.rowsPerPage as string)
-      : typeof rowsPerPageProp === 'number'
+    typeof rowsPerPageProp === 'number'
       ? // don't allow any value that is not an one of the options to be set for rowsPerPage
         findClosestNumber(rowsPerPageProp, rowsPerPageOptions)
+      : persistantSettings.rowsPerPage !== undefined ? 
+        parseInt(persistantSettings.rowsPerPage as string)
       : DEFAULT_ROWS_PER_PAGE;
 
   const [sortOrder, setSortOrder] = useState<SortDirection>(sortOrderProp ?? 'asc');
