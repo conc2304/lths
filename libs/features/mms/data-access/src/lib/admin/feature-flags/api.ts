@@ -18,7 +18,7 @@ export const featureFlagsApi = api.injectEndpoints({
         return [FT_FLAG_TAG];
       },
       transformResponse(response: ApiResponse<EnumGroupResponseData<FeatureFlag>>) {
-        const featureFlagData = response?.data;
+        const featureFlagData = response?.data; // * note that a success response might actually be a "no data response" in which case the success should be treated as failure down the road
 
         return featureFlagData;
       },

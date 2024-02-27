@@ -14,7 +14,6 @@ export const ConnectedFlagsProvider = (props: ConnectedFlagsProviderProps) => {
   const [getFeatureFlags, { data }] = useLazyGetFeatureFlagsQuery();
 
   if (data === null) {
-    console.log('no data');
     toast.error('Sorry! Looks like someone deleted all the feature flags, whoops!', { id: 'ft-flags-erased' });
   }
   const enum_values = data ? data.enum_values : [];
