@@ -25,7 +25,7 @@ export const hashString = (string: string) => {
   }, 0);
 };
 
-export const capitalizeString = (string: string, splitter = ' ', joiner = undefined) => {
+export const capitalizeString = (string: string, splitter = ' ', joiner: string | undefined = undefined) => {
   const joinerStr = joiner ?? splitter;
   return (string.toLowerCase() ?? '')
     .trim()
