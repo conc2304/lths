@@ -67,7 +67,6 @@ describe('MultiSelectWithChip component', () => {
 
     expect(container).toBeInTheDocument();
     const chipOption = within(container).getByRole('button', { name: selectedOpt.value });
-    // const chipOption = within(container).getByText(selectedOpt.value);
     expect(chipOption).toBeInTheDocument();
 
     act(() => {
