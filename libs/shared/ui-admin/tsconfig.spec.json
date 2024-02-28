@@ -16,6 +16,6 @@
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
     "src/**/*.d.ts",
-    "../../../declaration-files/*.d.ts"
+    "../../../declaration-files/*.d.ts",
   ]
 }

@@ -19,8 +19,6 @@
     "src/**/*.spec.jsx",
     "src/**/*.test.jsx",
     "../../../declaration-files/*.d.ts",
-    "../../../../declaration-files/*.d.ts",
-    "../../declaration-files/*.d.ts",
   ],
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }
