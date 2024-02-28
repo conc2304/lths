@@ -36,6 +36,7 @@ export const DialogActions = (props: DialogActionsProps) => {
       <LoadingButton
         loading={isSubmitting}
         disabled={disabled || isSubmitting}
+        aria-disabled={disabled || isSubmitting}
         type="submit"
         variant="contained"
         color={confirmColor}

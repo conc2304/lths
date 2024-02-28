@@ -60,7 +60,7 @@ export const DialogForm = (props: DialogFormProps) => {
 
   return (
     <DialogMui open={open} aria-labelledby="Dialog-Form--root" className="EventForm--Dailog" maxWidth="md">
-      <Box component="form" onSubmit={onSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
+      <Box component="form" onSubmit={onSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }} role="form">
         <DialogTitle title={title} subtitle={subtitle} onClose={handleOnClose} />
         <StyledDialogContent>{children}</StyledDialogContent>
         <DialogActions
