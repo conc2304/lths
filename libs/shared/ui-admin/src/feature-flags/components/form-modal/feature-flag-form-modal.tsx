@@ -162,6 +162,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
         <FormGroup>
           <FormControl sx={{ mb: 2, mt: 1 }}>
             <Autocomplete
+              data-testid="autocomplete"
               freeSolo
               autoSelect
               readOnly={readOnlyFields.module.includes(mode)}
@@ -195,6 +196,7 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
           <FormControl sx={{ mb: 2 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={8}>
               <TextField
+                data-testid="FtFlag--title-field"
                 label="Title"
                 aria-label="Title"
                 value={values.title.toUpperCase()}
@@ -219,12 +221,14 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 disabled={readOnlyFields.enabled.includes(mode)}
+                role="checkbox"
                 control={<Checkbox checked={values.enabled} onChange={handleChange} color="secondary" />}
               />
             </Stack>
           </FormControl>
           <FormControl sx={{ mb: 2 }}>
             <TextField
+              data-testid="FtFlag--description-field"
               label="Description"
               name="description"
               value={values.description}
