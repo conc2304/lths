@@ -72,7 +72,7 @@ const Page = (): JSX.Element => {
     const req: PageItemsRequest = { name, limit, offset, sort_field, sort_by };
 
     // use query params if present, if not use persistantSettings
-    req.limit = (!!req.limit && Number(req.limit) > 0) ? req.limit : rowsPerPage;
+    req.limit = !!req.limit && Number(req.limit) > 0 ? req.limit : rowsPerPage;
 
     getData(req);
   }, [name, limit, offset, sort_field, sort_by]);
@@ -89,12 +89,10 @@ const Page = (): JSX.Element => {
   };
 
   const handleSearch = (value: string) => {
-    console.log('handle search');
     updateSearchParams({ name: value, offset: 0 });
   };
 
   const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
-    console.log('handleOnChange');
     const params: SearchParam = {
       limit: rowsPerPage,
       offset: page * rowsPerPage, // * page is 0 indexed from mui components
@@ -213,7 +211,7 @@ const Page = (): JSX.Element => {
 
   const total = data?.pagination?.totalItems;
   const page = offset && limit ? Math.max(parseInt(offset) / parseInt(limit), 0) : 0;
-  const pageLimit = (!!limit && Number(limit) > 0) ? Number(limit) : rowsPerPage || 25;
+  const pageLimit = !!limit && Number(limit) > 0 ? Number(limit) : rowsPerPage || 25;
 
   return (
     <Box>
