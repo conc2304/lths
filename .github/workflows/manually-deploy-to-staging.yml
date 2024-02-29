@@ -93,11 +93,11 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{AZURE_CREDENTIALS_STAGING}}
+          creds: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
  
       - name: Restart Azure Web App
         run: |
-          az webapp restart --name "${{ AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"  
+          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"  
 
       - name: Post a message to Slack - lths-deployments
         run: |
