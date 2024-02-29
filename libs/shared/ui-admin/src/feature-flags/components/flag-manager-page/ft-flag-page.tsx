@@ -16,7 +16,7 @@ type FeatureFlagManagerProps = {
 };
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
-  const { featureFlags, onUpdateFlags: onUpdate } = props;
+  const { featureFlags = [], onUpdateFlags: onUpdate } = props;
 
   // State
   const availableModules = useMemo(() => {
@@ -80,8 +80,10 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
               }}
               variant="contained"
               startIcon={<Add />}
+              role="button"
+              name="New Flag"
             >
-              NEW FLAG
+              New Flag
             </Button>
           </Stack>
         }
@@ -101,6 +103,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
           onClose={() => setCreateModalOpen(false)}
           formValues={null}
           onSubmit={handleCreateFlag}
+          data-testid="CreateFlag--modal"
         />
 
         {formFeatureValues && (

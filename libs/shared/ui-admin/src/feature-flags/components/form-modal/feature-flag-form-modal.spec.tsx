@@ -68,25 +68,20 @@ describe('FeatureFlagFormModal component', () => {
     // TODO - figure out how to test the autocomplete input
     // expect(screen.getByLabelText('Feature Module')).toBeInTheDocument();
 
-    // Check if the title textfield is rendered with correct value
     expect(within(screen.getByTestId('FtFlag--title-field')).getByLabelText('Title')).toHaveValue(
       formValues.title.toUpperCase()
     );
 
-    // Check if the enabled checkbox is rendered and checked
     expect(screen.getByLabelText('Enabled')).toBeChecked();
 
-    // Check if the description textfield is rendered with correct value
     expect(screen.getByLabelText('Description')).toHaveValue('Test Description');
   });
 
   it('calls onClose when clicking on the cancel button', () => {
     render(<FeatureFlagFormModal open={true} onClose={onCloseMock} onSubmit={onSubmitMock} />);
 
-    // Click on the cancel button
     fireEvent.click(screen.getByText('Cancel'));
 
-    // Check if onClose function is called
     expect(onCloseMock).toHaveBeenCalled();
   });
 
@@ -128,7 +123,6 @@ describe('FeatureFlagFormModal component', () => {
     // Submit the form
     await user.click(screen.getByText('Create Flag'));
 
-    // Check if onSubmit function is called
     await waitFor(() => {
       expect(onSubmitMock).toHaveBeenCalled();
       expect(onSubmitMock).toHaveBeenCalledWith(
