@@ -11,7 +11,8 @@ import { FeatureFlagFormModal } from '../form-modal/feature-flag-form-modal';
 
 type FeatureFlagManagerProps = {
   featureFlags: FeatureFlag[];
-  onUpdateFlags?: (flags: FeatureFlag, mode: FlagCRUDMethods) => void; // api enum values are not posted, just patched with the entire enum group content
+  // api enum values are not posted, just patched with the entire enum group content
+  onUpdateFlags?: (flags: FeatureFlag, mode: FlagCRUDMethods) => void;
 };
 
 export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {

@@ -36,6 +36,7 @@ export const SearchBar = (props: Props) => {
 
   return (
     <TextField
+      data-testid="Searchbar--root"
       placeholder={placeholder}
       value={inputValue}
       onChange={handleChange}

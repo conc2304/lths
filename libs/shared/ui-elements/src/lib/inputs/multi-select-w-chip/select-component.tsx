@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   MenuItem,
   MenuItemProps,
@@ -84,6 +84,10 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
   const [optionsSelected, setOptionsSelected] = useState<SelectOptionInternal[]>(initialValue);
   const placeholder = placeholderProp ?? showAllText;
 
+  useEffect(() => {
+    setOptionsSelected(initialValue);
+  }, [value]);
+
   const handleSelectFilter = (event: SelectChangeEvent<SelectOptionInternal[]>) => {
     // values from the selection can only be strings or array of strings, so unfortunately no objects
     const { target } = event;
@@ -135,7 +139,6 @@ export const MultiSelectWithChip = (props: MultiSelectWithChipProps) => {
 
   return (
     <Select
-      // todo refactor this
       data-testid="MultiSelectChip--root"
       multiple
       value={optionsSelected}

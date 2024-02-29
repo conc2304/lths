@@ -96,7 +96,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
   };
 
   return (
-    <Box>
+    <Box data-testid="FtFlagTable--root">
       <Box
         sx={{
           display: 'flex',
@@ -118,6 +118,7 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
           <SearchBar value={search} onSearch={handleOnSearch} size="small" color="secondary" />
         </FormControl>
         <FormControl
+          data-testid="FtFlagTable--enabled-filter"
           sx={{
             width: '20%',
             display: 'flex',
@@ -127,8 +128,9 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
           }}
         >
           <Checkbox
+            data-testid="FtFlagTable--enabled-filter-toggle"
             inputProps={{
-              'aria-label': 'Filter On',
+              'aria-label': `Filter ${filterByFeatureState !== null ? 'On' : 'Off'}`,
             }}
             color="secondary"
             icon={<FilterAltOffOutlined />}
@@ -142,8 +144,12 @@ export const FeatureFlagTable = (props: FeatureFlagTableProps) => {
             value={filterByFeatureState}
             onChange={handleFeatureEnableFilterChange}
           >
-            <ToggleButton value={true}>Enabled</ToggleButton>
-            <ToggleButton value={false}>Disabled</ToggleButton>
+            <ToggleButton value={true} role="button" name="Enabled">
+              Enabled
+            </ToggleButton>
+            <ToggleButton value={false} role="button" name="Disabled">
+              Disabled
+            </ToggleButton>
           </ToggleButtonGroup>
         </FormControl>
         <FormControl>

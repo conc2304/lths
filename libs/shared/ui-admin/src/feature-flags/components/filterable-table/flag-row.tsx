@@ -17,7 +17,7 @@ export const FtFlagRow = (props: FtFlagRowProps) => {
   const { flag: data, tableHeaders, handleDeleteFlagClick, handleEditFlagClick } = props;
 
   return (
-    <TableRow>
+    <TableRow data-testid="FtFlagTableRow--root">
       <>
         {tableHeaders.map((col) => {
           const key = col.id as keyof FeatureFlag;
@@ -26,7 +26,7 @@ export const FtFlagRow = (props: FtFlagRowProps) => {
           if (col.id === 'edit') {
             return (
               <TableCell key={col.id} size="small" align={col.align} width={col.width}>
-                <IconButton onClick={() => handleEditFlagClick(data)}>
+                <IconButton data-testid="FtFlagTableRow--edit-btn" onClick={() => handleEditFlagClick(data)}>
                   <Edit />
                 </IconButton>
               </TableCell>
@@ -36,7 +36,7 @@ export const FtFlagRow = (props: FtFlagRowProps) => {
           if (col.id === 'delete') {
             return (
               <TableCell key={col.id} size="small" align={col.align} width={col.width}>
-                <IconButton onClick={() => handleDeleteFlagClick(data)}>
+                <IconButton data-testid="FtFlagTableRow--delete-btn" onClick={() => handleDeleteFlagClick(data)}>
                   <Delete />
                 </IconButton>
               </TableCell>
