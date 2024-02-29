@@ -45,6 +45,7 @@ describe('utils', () => {
     });
   });
 
+  // todo add tests for formatting the payload
   describe('createFeatureFlagPayload', () => {
     const flags: FeatureFlag[] = [
       { id: 'MMS_MODULE--TEST1', description: 'Test Flag 1', enabled: true, title: 'Test 1', module: 'Module' },

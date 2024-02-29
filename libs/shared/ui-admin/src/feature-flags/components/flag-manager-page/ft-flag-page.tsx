@@ -63,7 +63,7 @@ export const FeatureFlagManager = (props: FeatureFlagManagerProps) => {
 
   return (
     <Box
-      className="MMS-Schedule-Page--root"
+      data-testid="MMS-Feature-Flag-Page--root"
       style={{
         width: '-webkit-fill-available',
       }}
