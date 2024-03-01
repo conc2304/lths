@@ -9,8 +9,8 @@ const section: SectionItemProps = {
       icon: <Today />,
       path: '/admin',
       file: '/admin',
-      hidden: false,
-      items: [{ title: 'App Features', hidden: false, path: '/admin/features', file: '/admin/feature-flags' }],
+      hidden: true,
+      items: [{ title: 'App Features', hidden: true, path: '/admin/features', file: '/admin/feature-flags' }],
     },
   ],
 };
