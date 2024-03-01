@@ -19,6 +19,7 @@ export const OverviewTile = (props: OverviewTileProps) => {
     ...theme.typography.body2,
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
+    minHeight: '150px',
   }));
 
   return (
