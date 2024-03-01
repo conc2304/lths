@@ -34,6 +34,7 @@ const AdminRootPage = () => {
       <PageHeader title="Admin Portal" sx={{ mt: '1rem', mb: '3.5rem' }} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          {/* render a minium of 6 tiles so that page doesn't look so weird while it is mostly empty */}
           {Array.from(Array(Math.max(6, dataDisplayMap.length))).map((_, index) => {
             const indexHasData = index + 1 >= dataDisplayMap.length && !!dataDisplayMap[index];
 
