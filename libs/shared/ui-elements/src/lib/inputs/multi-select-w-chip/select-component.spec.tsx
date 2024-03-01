@@ -73,7 +73,7 @@ describe('MultiSelectWithChip component', () => {
       fireEvent.click(within(chipOption).getByTestId('CancelIcon'));
     });
 
-    // we only had on item selected so 0 selected state is show all
+    // we only had 1 item selected so 0 selected state is show all
     expect(mockOnChange).toHaveBeenCalled();
     expect(mockOnChange).toHaveBeenCalledWith([['all', 'Show All']]);
     expect(mockOnRemove).toHaveBeenCalled();
