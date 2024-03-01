@@ -94,8 +94,11 @@ describe('FeatureFlagManager', () => {
       .getByTestId('FtFlag--description-field')
       .querySelector("textarea[name='description']") as HTMLInputElement;
     const newDescription = 'Allow everyon to eat bananas';
-    await user.clear(descInput);
-    await user.type(descInput, newDescription);
+
+    await act(async () => {
+      await user.clear(descInput);
+      await user.type(descInput, newDescription);
+    });
 
     expect(screen.getByText('Create Flag')).not.toBeDisabled();
 
@@ -114,7 +117,7 @@ describe('FeatureFlagManager', () => {
         'create'
       );
     });
-  });
+  }, 50000); // increase timeout for ci pipeline
 
   it('handles updating a feature flag', async () => {
     const user = userEvent.setup();
