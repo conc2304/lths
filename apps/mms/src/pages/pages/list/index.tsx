@@ -73,7 +73,6 @@ const Page = (): JSX.Element => {
 
     // use query params if present, if not use persistantSettings
     req.limit = !!req.limit && Number(req.limit) > 0 ? req.limit : rowsPerPage;
-
     getData(req);
   }, [name, limit, offset, sort_field, sort_by]);
 
@@ -212,7 +211,6 @@ const Page = (): JSX.Element => {
   const total = data?.pagination?.totalItems;
   const page = offset && limit ? Math.max(parseInt(offset) / parseInt(limit), 0) : 0;
   const pageLimit = !!limit && Number(limit) > 0 ? Number(limit) : rowsPerPage || 25;
-
   return (
     <Box>
       <PageHeader
