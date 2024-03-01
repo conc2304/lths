@@ -10,7 +10,8 @@ export type FlagCRUDMethods = 'create' | 'update' | 'delete';
 
 export type FlagCRUDPayloadFn = (flag: FeatureFlag, flags: FeatureFlag[]) => EnumValue<FeatureFlag>[];
 
-type EnumValue<TData = string> = {
+// ! duplicate of what is in data access to avoid circular dep probs
+export type EnumValue<TData = string> = {
   display_order: number;
   name: string;
   value: TData;

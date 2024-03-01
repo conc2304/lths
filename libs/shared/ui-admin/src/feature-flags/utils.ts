@@ -1,6 +1,6 @@
-import { slugify } from '@lths/shared/utils';
+import { getUniqueValuesByKey, slugify } from '@lths/shared/utils';
 
-import { FeatureFlag, FlagCRUDMethods, FlagCRUDPayloadFn } from './types';
+import { EnumValue, FeatureFlag, FlagCRUDMethods, FlagCRUDPayloadFn } from './types';
 
 type GenerateIdProps = { title: string; module: string; appPrefix?: string };
 
@@ -65,4 +65,20 @@ export const flagCrudFnMap: Record<FlagCRUDMethods, FlagCRUDPayloadFn> = {
   create: createFeatureFlagPayload,
   update: updateFeatureFlagPayload,
   delete: deleteFeatureFlagPayload,
+};
+
+export const getFtFlagOverviewData = (enumsFlags: EnumValue<FeatureFlag>[] = []) => {
+  const featureFlagData = enumsFlags.map((f) => f.value);
+
+  const numFlags = featureFlagData?.length ? featureFlagData?.length : 0;
+  const featuresEnabled = featureFlagData ? featureFlagData.filter((f) => f.enabled).length : 0;
+  const featuresDisabled = numFlags - featuresEnabled;
+  const numModules = getUniqueValuesByKey(featureFlagData, 'module').length;
+
+  return {
+    'Total Flags': numFlags,
+    'Total Modules': numModules,
+    'Features Enabled': featuresEnabled,
+    'Features Disabled': featuresDisabled,
+  };
 };
