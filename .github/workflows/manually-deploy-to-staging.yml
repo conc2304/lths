@@ -90,8 +90,18 @@ jobs:
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_STAGING }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
+ 
+      - name: Restart Azure Web App
+        run: |
+          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"  
+
       - name: Post a message to Slack - lths-deployments
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"The STAGING environment is being updated with the latest version of the MMS staging branch. Commit ID: ${{ github.sha }}"}' \
             ${{ secrets.SLACK_WEBHOOK_URL_DEPLOYMENTS_CH}}
+    
