@@ -67,6 +67,9 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         url: getAddAssetUrl(),
         method: 'POST',
         body: mediaData,
+        headers: {
+          'x-api-version': '2',
+        },
       }),
     }),
     getSecureUploadUrl: builder.query({
