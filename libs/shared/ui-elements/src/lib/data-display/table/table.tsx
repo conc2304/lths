@@ -102,9 +102,7 @@ const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
  * @param {string} [props.columnLabelFormat] - Text formatting for column labels. either 'uppercase' | 'lowercase' | 'capitalize'
  * @returns {JSX.Element} - The rendered ListView component.
  */
-export const Table = (
-  props: TableProps<Record<any, number | string | Date | boolean | undefined | unknown>>
-): JSX.Element => {
+export const Table = (props: TableProps<Record<string, unknown>>): JSX.Element => {
   const {
     data,
     headerCells,
@@ -285,7 +283,8 @@ export const Table = (
                   return (
                     <TableCell
                       key={`th-${column.id}`}
-                      align="left"
+                      align={column.align ?? 'left'}
+                      width={column.width}
                       sx={{
                         color: (theme) => theme.palette.text.secondary,
                         fontSize: (theme) => theme.typography.pxToRem(16),
@@ -301,6 +300,7 @@ export const Table = (
                           sx={{
                             transition: 'color 150ms ease-in',
                             fontSize: 'inherit',
+                            pl: column?.align === 'center' ? '22px' : undefined, // the sort arrow is 18px + 4 for margins so offset for that
                             color: (theme) =>
                               column.id === orderBy ? theme.palette.text.primary : theme.palette.text.secondary,
                           }}

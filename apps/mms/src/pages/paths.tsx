@@ -1,3 +1,4 @@
+import Admin from './admin/paths';
 import Assets from './assets/paths';
 import Notifications from './notifications/paths';
 import Pages from './pages/paths';
@@ -8,6 +9,6 @@ import User from './user/paths';
 // import Insights from './insights/paths';
 // const sections = [Home, Schedule, Themes, Pages, Assets, Notifications, Insights];
 
-const sections = [Home, Schedule, Themes, Pages, Assets, Notifications, User];
+const sections = [Home, Schedule, Themes, Pages, Assets, Notifications, User, Admin];
 
 export default sections;

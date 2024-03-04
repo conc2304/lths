@@ -23,12 +23,11 @@ import { endOfDay, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
-import { CalendarDialogActions } from '../dialog-actions';
-import { CalendarDialogTitle } from '../dialog-title';
 import { FormLabel, StyledDialogContent, fontStyle } from '../utils';
 
 export type EventFormModalProps = {
@@ -135,11 +134,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" maxWidth="md">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
-          <CalendarDialogTitle
-            title={title}
-            subtitle={subtitle}
-            onClose={() => formik.handleReset(formik.initialValues)}
-          />
+          <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
           <StyledDialogContent>
             <FormGroup>
               <FormLabel htmlFor="edit-event--event-name">Event Name</FormLabel>
@@ -374,7 +369,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
               />
             </FormGroup>
           </StyledDialogContent>
-          <CalendarDialogActions
+          <DialogActions
             data-testid="Edit-Event--actions-wrapper"
             cancelText={cancelText}
             confirmText={confirmText}

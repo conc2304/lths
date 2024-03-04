@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { subHours } from 'date-fns';
 
@@ -115,7 +115,7 @@ describe('EditEventStatesModal', () => {
 
     expect(onSaveButton).not.toBeDisabled();
 
-    waitFor(() => {
+    act(() => {
       fireEvent.submit(screen.getByRole('form'));
     });
 

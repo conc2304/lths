@@ -19,7 +19,6 @@ describe('getEnv', () => {
         env: { NX_PUBLIC_WEB_ENV: 'dev' },
       } as unknown as NodeJS.Process;
 
-      console.log({ mockProcess });
       expect(getAppEnvironmentName(mockProcess.env.NX_PUBLIC_WEB_ENV)).toBe('dev');
     });
 

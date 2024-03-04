@@ -3,10 +3,13 @@ import { Typography, Box, Chip, useTheme } from '@mui/material';
 
 import { pxToRem } from '@lths/shared/utils';
 
+import { SelectOptionInternal } from './types';
+
 type SelectChipRendererProps = {
-  selectedItems: [id: string, value: string][];
-  onRemoveItem: (id: string) => void;
-  chipLimit: number;
+  selectedItems: SelectOptionInternal[];
+  onRemoveItem: (id: string | number) => void;
+  chipLimit?: number;
+  showAllText?: string;
 };
 
 const MenuItemFontStyle = {
@@ -17,11 +20,11 @@ const MenuItemFontStyle = {
 };
 
 export const SelectChipRenderer = (props: SelectChipRendererProps) => {
-  const { selectedItems, onRemoveItem, chipLimit = 3 } = props;
+  const { selectedItems, onRemoveItem, chipLimit = 3, showAllText = 'Show All' } = props;
 
   const theme = useTheme();
 
-  const showAllValue: [string, string] = ['all', 'Show All'];
+  const showAllValue: [string, string] = ['all', showAllText];
 
   const currChipIndex = useRef(0);
   const seeMoreBtnClassName = 'ChipContainer--see-more-chip-btn';
@@ -33,7 +36,10 @@ export const SelectChipRenderer = (props: SelectChipRendererProps) => {
   currChipIndex.current = 0;
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: 0.5, width: '100%' }}>
+    <Box
+      sx={{ display: 'flex', flexWrap: 'nowrap', gap: 0.5, width: '100%' }}
+      data-testid="MultiSelect--chip-container"
+    >
       {/* Loop over all selected items and render them as chips */}
       {selectedItems.map(([id, label]) => {
         const [showAllId, showAllLabel] = showAllValue;
