@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box } from '@mui/material';
 
 import CardViewCarouselToolbar from './index';
+import colors from '../../../../common/colors';
 import { EditorProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
@@ -11,6 +11,14 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof CardViewCarouselToolbar> = {
   component: CardViewCarouselToolbar,
   title: 'core/ Components/ card-view-carousel / Toolbar',
+  parameters: {
+    backgrounds: {
+      default: 'sidebar',
+      values: [
+        { name: 'sidebar', value: colors.sidebar.background },
+      ],
+    },
+  },
 };
 export default Story;
 
@@ -22,9 +30,7 @@ const Template: StoryFn<typeof CardViewCarouselToolbar> = (args) => {
 
   return (
     <EditorProvider initialValue={initialState}>
-      <Box sx={{padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
-          <CardViewCarouselToolbar {...args}/>
-      </Box>
+      <CardViewCarouselToolbar {...args}/>
     </EditorProvider>
   )
 };

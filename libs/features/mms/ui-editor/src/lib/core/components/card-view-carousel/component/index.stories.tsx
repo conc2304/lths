@@ -2,6 +2,8 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 import CardViewCarouselComponent from './index';
+import { MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
@@ -9,23 +11,29 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 const Story: Meta<typeof CardViewCarouselComponent> = {
   component: CardViewCarouselComponent,
-  title: 'core/ Components/ card-view-carousel / Component',
+  title: 'core/ Components / card-view-carousel / Component',
+  parameters: {
+    backgrounds: {
+      default: 'editor',
+      values: [
+        { name: 'editor', value: colors.editor.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+        <Box sx={{ width: MOBILE_SCREEN_WIDTH, backgroundColor: colors.editor.mobile.background }}>
+          <Story />
+        </Box>
+      </Box>
+    ),
+  ],
 };
 export default Story;
 
 const Template: StoryFn<typeof CardViewCarouselComponent> = (args) => (
-  <Box
-    sx={{
-      backgroundColor: 'rgb(245, 245, 245)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-      <CardViewCarouselComponent {...args} />
-    </Box>
-  </Box>
+  <CardViewCarouselComponent {...args} />
 );
 
 export const Primary = Template.bind({});

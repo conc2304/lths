@@ -1,16 +1,15 @@
-import HalfWidthTextToolbar from './index';
+import PromotionOneIsToOneAspectRatioToolbar from './index';
 import colors from '../../../../common/colors';
 import { EditorProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
-import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
-import { HalfWidthTextComponentProps } from '../../types';
+import { PromotionOneIsToOneAspectRatioComponentProps, AutocompleteItemProps } from '../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
-const Story: Meta<typeof HalfWidthTextToolbar> = {
-  component: HalfWidthTextToolbar,
-  title: 'core/ Components/ half-width-text-component / Toolbar',
+const Story: Meta<typeof PromotionOneIsToOneAspectRatioToolbar> = {
+  component: PromotionOneIsToOneAspectRatioToolbar,
+  title: 'core/ Components/ promotion-one-is-to-one-aspect-ratio / Toolbar',
   parameters: {
     backgrounds: {
       default: 'sidebar',
@@ -29,44 +28,39 @@ const Story: Meta<typeof HalfWidthTextToolbar> = {
 };
 export default Story;
 
-type StoryArgs = HalfWidthTextComponentProps & {
-  mock_quickLinkIcons: AutocompleteOptionProps[];
+type StoryArgs = PromotionOneIsToOneAspectRatioComponentProps & {
+  mock_action: AutocompleteItemProps[];
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
   function mockOnPropChange(propName, callback) {
-    if (propName === 'quickLinkIcons') {
-      callback(args.mock_quickLinkIcons);
+    if (propName === 'action') {
+      callback(args.mock_action);
     }
   }
 
-  return (<HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />);
+  return (<PromotionOneIsToOneAspectRatioToolbar {...args} onPropChange={mockOnPropChange} />);
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
   ...mockComponent,
   __ui_id__: '3333333',
-  component_id: Component.HalfWidthText,
+  component_id: Component.PromotionOneIsToOneAspectRatio,
   data: {
-    btn_text: 'Map',
-    description: 'Test description pizza tastes good',
-    icon: 'icon url',
-    image: 'iamge url',
-    section: 'Section 206',
-    sub_title: 'Pizza, Drinks',
-    text_color: 'string',
-    title: 'Anaheim Pizza Co',
+    image: 'image.one',
+    img_alt_text: 'image alt text name',
+    btn_text: 'button text',
     action: {
-      type: '',
-      page_id: 'map page',
-      page_link: 'maplink',
+      type: 'native',
+      page_id: 'action.one.value',
+      page_link: 'first aid link',
     },
   },
-  mock_quickLinkIcons: [
-    { label: 'iconOne', value: 'icon.one.link' },
-    { label: 'iconTwo', value: 'icon.two.link' },
-    { label: 'iconThree', value: 'icon.three.link' },
+  mock_action: [
+    { label: 'actionOne', value: 'action.one.value', type: '' },
+    { label: 'actionTwo', value: 'action.two.link', type: '' },
+    { label: 'actionThree', value: 'action.three.link', type: '' },
   ],
 };
 

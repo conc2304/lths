@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 
 import SocialIconButtonComponent from './index';
+import { MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import mockComponent from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
@@ -9,21 +11,27 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof SocialIconButtonComponent> = {
   component: SocialIconButtonComponent,
   title: 'core/Components/social-icon-button/Component',
+  parameters: {
+    backgrounds: {
+      default: 'editor',
+      values: [
+        { name: 'editor', value: colors.editor.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+        <Box sx={{ width: MOBILE_SCREEN_WIDTH, backgroundColor: colors.editor.mobile.background }}>
+          <Story />
+        </Box>
+      </Box>
+    ),
+  ],
 };
 export default Story;
 const Template: StoryFn<typeof SocialIconButtonComponent> = (args) => (
-  <Box
-    sx={{
-      backgroundColor: 'rgb(245, 245, 245)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-      <SocialIconButtonComponent {...args} />
-    </Box>
-  </Box>
+  <SocialIconButtonComponent {...args} />
 );
 
 export const Primary = Template.bind({});
@@ -31,8 +39,8 @@ Primary.args = {
   ...mockComponent,
   __ui_id__: '3333333',
   component_id: Component.QuicklinkButtonGroup,
-  properties_data: {
-    sub_properties_data: [
+  data: {
+    sub_component_data: [
       {
         icon: 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/Twitter_Icon.svg',
         action: {

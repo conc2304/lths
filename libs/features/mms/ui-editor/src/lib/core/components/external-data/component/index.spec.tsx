@@ -9,21 +9,8 @@ describe('Live Data Component', () => {
   });
 
   test('renders component with default data', () => {
-    const image_alt_text = 'Hero GameBox';
-    const image = 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroGameBox.svg';
-    render(<ExternalDataComponent img_alt={image_alt_text} id={'33333'} image={image} />);
-
-    const backgroundImageElement = screen.getByLabelText(image_alt_text + ' Component Image');
-    expect(backgroundImageElement).toBeInTheDocument();
-
-    const styles = window.getComputedStyle(backgroundImageElement);
-
-    expect(styles.backgroundImage).toBe(`url(${image})`);
-  });
-
-  test('renders component with diffrent default data', () => {
-    const image_alt_text = 'Hero Event';
-    const image = 'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.svg';
+    const image_alt_text = 'External Data';
+    const image = 'test.img.test';
     render(<ExternalDataComponent img_alt={image_alt_text} id={'4444'} image={image} />);
 
     const backgroundImageElement = screen.getByLabelText(image_alt_text + ' Component Image');

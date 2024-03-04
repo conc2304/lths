@@ -2,52 +2,56 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 
-import CardViewCarouselToolbar from './index';
+import HalfWidthCarouselFloatingTextToolbar from './index';
 import { EditorProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
-import { CardViewCarouselComponentProps, AutocompleteItemProps } from '../../types';
+import { HalfWidthCarouselFloatingTextComponentProps, AutocompleteItemProps } from '../../types';
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    disconnect: jest.fn(),
-}))
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
 
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    disconnect: jest.fn(),
-}))
-
-describe('CardViewCarousel Toolbar', () => {
+describe('HalfWidthCarouselFloatingText Toolbar', () => {
   let initialState;
-  let component: CardViewCarouselComponentProps;
+  let component: HalfWidthCarouselFloatingTextComponentProps;
   let mockCallbackData: AutocompleteItemProps[];
 
   beforeEach(() => {
     component = {
       ...mockComponentProps,
       __ui_id__: '3333333',
-      component_id: Component.CardViewCarousel,
+      component_id: Component.HalfWidthCarouselFloatingText,
       data: {
         sub_component_data: [
           {
             name: 'Card 1',
-            image: 'test.Image-1.png',
+            image: 'image.one',
+            img_alt_text: 'alt text 1',
+            title: 'Title 1',
             action: { type: 'web', page_id: 'pageId1', page_link: 'pageLink1' },
           },
           {
             name: 'Card 2',
-            image: 'test.Image-2.png',
+            image: 'image.two',
+            img_alt_text: 'alt text 2',
+            title: 'Title 2',
             action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
           },
           {
             name: 'Card 3',
-            image: 'test.Image-3.png',
+            image: 'image.three',
+            img_alt_text: 'alt text 3',
+            title: 'Title 3',
             action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
           },
           {
             name: 'Card 4',
-            image: 'test.Image-4.png',
+            image: 'image.four',
+            img_alt_text: 'alt text 4',
+            title: 'Title 4',
             action: { type: 'native', page_id: 'pageId4', page_link: 'pageLink4' },
           },
         ],
@@ -79,23 +83,23 @@ describe('CardViewCarousel Toolbar', () => {
     jest.clearAllMocks();
   });
 
-  test('should render CardViewCarousel toolbar component', () => {
+  test('renders toolbar component', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <CardViewCarouselToolbar {...component} />
+        <HalfWidthCarouselFloatingTextToolbar {...component} />
       </EditorProvider>
     );
 
-    const containerLabelCarousel = screen.getByLabelText('Card View Carousel Toolbar: Carousel');
+    const containerLabelCarousel = screen.getByLabelText('Half Width Carousel Floating Text Toolbar: Carousel');
     expect(containerLabelCarousel).toBeInTheDocument();
-    const containerLabelCarouselItem = screen.getByLabelText('Card View Carousel Toolbar: Carousel Item');
+    const containerLabelCarouselItem = screen.getByLabelText('Half Width Carousel Floating Text Toolbar: Carousel Item');
     expect(containerLabelCarouselItem).toBeInTheDocument();
   });
 
-  test('should render CardViewCarousel toolbar title and add button', () => {
+  test('renders toolbar title and add button', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
       </EditorProvider>
     );
 
@@ -107,10 +111,10 @@ describe('CardViewCarousel Toolbar', () => {
     expect(addButton).toBeInTheDocument();
   });
 
-  test('should render CardViewCarousel toolbar with carousel items', () => {
+  test('renders toolbar with carousel items', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
       </EditorProvider>
     );
     const { sub_component_data } = component.data;
@@ -127,15 +131,14 @@ describe('CardViewCarousel Toolbar', () => {
     });
   });
 
-  test('should render CardViewCarousel toolbar edit item view', () => {
-    render(
+  test('renders toolbar edit item view', () => {
+    const { container } = render(
       <EditorProvider initialValue={initialState}>
-        <CardViewCarouselToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
       </EditorProvider>
     );
     const { sub_component_data } = component.data;
 
-    // for (let index = 0; index < sub_component_data.length; index++) {
     sub_component_data.forEach((item, index) => {
       const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement as HTMLElement;
       expect(carouselListItem).toBeInTheDocument();
@@ -151,25 +154,28 @@ describe('CardViewCarousel Toolbar', () => {
       expect(toolbarlabel.length).toBe(2);
       const imagelabel = screen.getByText('Image');
       expect(imagelabel).toBeInTheDocument();
+      const textlabel = screen.getByText('Text');
+      expect(textlabel).toBeInTheDocument();
       // test data
+      const { image, img_alt_text, title, action } = sub_component_data[index];
+
       const imageElement = screen.getByRole('img');
-      expect(imageElement).toHaveAttribute('src', sub_component_data[index].image);
+      expect(imageElement).toHaveAttribute('src', image);
 
-      if (sub_component_data[index].action.type === 'web') {
-        const webRadio = screen.getByTestId('Radio--Web');
-        expect(webRadio.classList.contains('Mui-checked')).toBe(true)
+      expect(container.innerHTML).toContain(img_alt_text);
+      expect(container.innerHTML).toContain(title);
 
-        const pageLinkInputContainer = screen.getByLabelText('Page Link').parentElement as HTMLElement;
-        const pageLinkInput = pageLinkInputContainer.querySelector('textarea');
-        expect(pageLinkInput?.value).toContain(sub_component_data[index].action.page_link);
-      } else if (sub_component_data[index].action.type === 'native') {
-        const nativeRadio = screen.getByTestId('Radio--Native');
-        expect(nativeRadio.classList.contains('Mui-checked')).toBe(true)
+      if (action.type === 'web') {
+        const actionType = screen.getByText('weblink');
+        expect(actionType).toBeInTheDocument();
 
-        const pageIDInputContainer = screen.getByLabelText('Page ID').parentElement as HTMLElement;
-        const pageIDInput = pageIDInputContainer.querySelector('input');
-        const pageIDValue = `${mockCallbackData[index].label}`;
-        expect(pageIDInput?.value).toContain(pageIDValue);
+        expect(container.innerHTML).toContain(action.page_link);
+      } else if (action.type === 'native') {
+        const actionType = screen.getByText('native');
+        expect(actionType).toBeInTheDocument();
+
+        const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
+        expect(container.innerHTML).toContain(pageIDValue);
       }
     });
   });
