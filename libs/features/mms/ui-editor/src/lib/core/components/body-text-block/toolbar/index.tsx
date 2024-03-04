@@ -1,9 +1,8 @@
 import { ChangeEvent } from 'react';
-import { MenuItem, TextField, Button, Divider } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { MenuItem, Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { GroupLabel, OutlinedTextField, ToolContainer } from '../../../../elements';
+import { ToolbarLabel, OutlinedTextField, AddButton, ToolContainer } from '../../../../elements';
 import { HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
@@ -51,17 +50,16 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
 
   return (
     <ToolContainer id={id}>
-      <GroupLabel label={'Body Text Block'} />
+      <ToolbarLabel label={'Body Text Block'} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-      <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+      <OutlinedTextField value={text_size} onChange={handleStyleChange} label="Text Size" select>
         {sizes.map((s) => (
           <MenuItem key={`option-${s.value}`} value={s.value}>
             {s.label}
           </MenuItem>
         ))}
-      </TextField>
-      <Divider sx={{ marginY: 1 }} />
-
+      </OutlinedTextField>
+      <Divider/>
       {linked_text.map(({ link_key, action, link_id }, index) => {
         const hyperLinkId = `Link_${index}`;
         return (
@@ -78,16 +76,9 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
           />
         );
       })}
-      <Button
-        data-testid="Add Button"
-        variant="outlined"
-        sx={{ fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
-        onClick={handleAdd}
-        startIcon={<AddIcon />}
-        fullWidth
-      >
+      <AddButton onClick={handleAdd}>
         Add Link
-      </Button>
+      </AddButton>
     </ToolContainer>
   );
 };

@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { TextField, MenuItem, Box, RadioGroup, Typography, FormControlLabel, Radio } from '@mui/material';
+import { TextField, MenuItem, RadioGroup, Typography, FormControlLabel, Radio, Stack } from '@mui/material';
 
 import PageAutocomplete from './autocomplete';
+import colors from '../../../../common/colors';
 import { ToolbarProps } from '../../../../context';
 import { GroupLabel, OutlinedTextField } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
@@ -23,7 +24,7 @@ const Action = (props: ActionExtendedProps) => {
     keys: parentKeys,
     index,
     childKeys,
-    isRadioButton = false,
+    isRadioButton = true,
   } = props;
 
   const { handleActionChange } = useToolbarChange();
@@ -61,6 +62,7 @@ const Action = (props: ActionExtendedProps) => {
       {!isRadioButton && <GroupLabel label={'Action'} />}
       {!isRadioButton ? (
         <TextField
+          size="small"
           data-testid={'Action--type'}
           value={type}
           onChange={handleActionTypeChange}
@@ -73,19 +75,23 @@ const Action = (props: ActionExtendedProps) => {
         </TextField>
       ) : (
         <RadioGroup aria-labelledby="link" onChange={handleActionTypeChange} value={type} row>
-          <Typography sx={{ marginLeft: 0.5 }}>Link</Typography>
-          <Box sx={{ marginTop: -1.15, marginLeft: 2 }}>
-            <FormControlLabel value={ActionType.NATIVE} control={<Radio />} label="Native" />
-            <FormControlLabel value={ActionType.WEBVIEW} control={<Radio />} label="Web" />
-          </Box>
+          <Typography color="text.secondary">Link</Typography>
+          <Stack direction="row" justifyContent="flex-start" alignItems="center" sx={{ marginLeft: 3 }}>
+            <FormControlLabel value={ActionType.NATIVE} sx={{ marginRight: 2.5 }}
+              control={<Radio size="small" data-testid={'Radio--Native'} sx={{ '&.Mui-checked': { color: colors.linkRadio }, padding: 0.25 }}/>} 
+              label={<Typography color="text.secondary" sx={{ fontSize: 14, marginLeft: 0.5  }}>Native</Typography>}
+            />
+            <FormControlLabel color="secondary" value={ActionType.WEBVIEW} 
+              control={<Radio size="small" data-testid={'Radio--Web'} sx={{ '&.Mui-checked': { color: colors.linkRadio }, padding: 0.25 }}/>}
+              label={<Typography color="text.secondary" sx={{ fontSize: 14, marginLeft: 0.5 }}>Web</Typography>} 
+            />
+          </Stack>
         </RadioGroup>
       )}
       {type !== ActionType.NATIVE ? (
         <OutlinedTextField label={'Page Link'} value={page_link} onChange={handleActionPageLinkChange} />
       ) : (
-        <Box sx={{ mt: 2 }}>
           <PageAutocomplete data={data} onChange={handleActionPageIdChange} value={page_id} />
-        </Box>
       )}
     </>
   );

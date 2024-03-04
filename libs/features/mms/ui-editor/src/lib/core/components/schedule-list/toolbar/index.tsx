@@ -56,11 +56,11 @@ const ScheduleListToolbar = (props: ScheduleListComponentProps) => {
     <ToolContainer id={id} aria-label={'Schedule List Toolbar'}>
       <ToolbarLabel label={'Event List'} />
       <GroupLabel label={'Schedule'} />
-      <FormControl fullWidth>
+      <FormControl fullWidth size="small">
         <InputLabel>Month</InputLabel>
         <MonthDropDownToolbar value={selected_month} onChange={handleScheduleMonthChange} />
       </FormControl>
-      <FormControl fullWidth>
+      <FormControl fullWidth size="small">
         <InputLabel>Year</InputLabel>
         <YearDropDownToolbar noOfYears={noOfYears} value={selected_year} onChange={handleScheduleYearChange} />
       </FormControl>

@@ -8,6 +8,11 @@ import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 describe('QuicklinkButtonGroup Toolbar', () => {
   let initialState;
   let component: QuicklinkButtonGroupComponentProps;

@@ -15,9 +15,8 @@ const IconTextButton = ({ icon, text, onClick }: IconTextButtonProps) => {
         onClick={onClick}
         variant="contained"
         sx={{
-          padding: '4.5px 19px',
+          paddingY: '5px', paddingLeft: '17px', paddingRight: '22px',
           boxShadow: 'none',
-          border: `1px solid ${Colors.simpleImagePicker.button.border}`,
           color: Colors.simpleImagePicker.button.text,
           backgroundColor: Colors.simpleImagePicker.button.background,
           '&:hover': { backgroundColor: Colors.simpleImagePicker.button.background },
@@ -27,7 +26,7 @@ const IconTextButton = ({ icon, text, onClick }: IconTextButtonProps) => {
         <Typography
           sx={{
             fontSize: 15,
-            fontWeight: 'bold',
+            fontWeight: 500,
             letterSpacing: '0.46px',
             whiteSpace: 'nowrap',
           }}

@@ -6,6 +6,11 @@ import { EditorProvider } from '../../../../context';
 import { Component } from '../../enum';
 import { ScheduleListComponentProps } from '../../types';
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 describe('ScheduleList Toolbar', () => {
   let initialState;
   let component: ScheduleListComponentProps;

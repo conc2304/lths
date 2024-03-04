@@ -1,5 +1,4 @@
 import { ChangeEvent } from 'react';
-import { Stack } from '@mui/system';
 
 import { SimpleImagePicker, OutlinedTextField, GroupLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
@@ -21,18 +20,16 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
 
   return (
     <ToolContainer id={id}>
-      <Stack spacing={2}>
-        <SimpleImagePicker
-          value={image}
-          onChange={(value) => updateComponentProp('image', value)}
-          onReplace={onPropChange}
-        />
-        <OutlinedTextField label={'Image alt text'} onChange={handleImageAltChange} />
-        <GroupLabel label={'Text'} />
-        <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
-        <OutlinedTextField label={'Description'} value={description} onChange={handleDescChange} />
-        <ActionToolbar action={action} onPropChange={onPropChange} />
-      </Stack>
+      <SimpleImagePicker
+        value={image}
+        onChange={(value) => updateComponentProp('image', value)}
+        onReplace={onPropChange}
+      />
+      <OutlinedTextField label={'Image alt text'} onChange={handleImageAltChange} />
+      <GroupLabel label={'Text'} />
+      <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <OutlinedTextField label={'Description'} value={description} onChange={handleDescChange} />
+      <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
   );
 };

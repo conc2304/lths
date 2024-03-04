@@ -9,10 +9,14 @@ import { Component } from '../../enum';
 import { CardViewCarouselComponentProps, AutocompleteItemProps } from '../../types';
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
+    observe: jest.fn(),
+    disconnect: jest.fn(),
+}))
+
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    disconnect: jest.fn(),
+}))
 
 describe('CardViewCarousel Toolbar', () => {
   let initialState;
@@ -147,26 +151,24 @@ describe('CardViewCarousel Toolbar', () => {
       expect(toolbarlabel.length).toBe(2);
       const imagelabel = screen.getByText('Image');
       expect(imagelabel).toBeInTheDocument();
-      const actionlabel = screen.getByText('Action');
-      expect(actionlabel).toBeInTheDocument();
       // test data
       const imageElement = screen.getByRole('img');
       expect(imageElement).toHaveAttribute('src', sub_component_data[index].image);
 
       if (sub_component_data[index].action.type === 'web') {
-        const actionType = screen.getByText('weblink');
-        expect(actionType).toBeInTheDocument();
+        const webRadio = screen.getByTestId('Radio--Web');
+        expect(webRadio.classList.contains('Mui-checked')).toBe(true)
 
         const pageLinkInputContainer = screen.getByLabelText('Page Link').parentElement as HTMLElement;
         const pageLinkInput = pageLinkInputContainer.querySelector('textarea');
         expect(pageLinkInput?.value).toContain(sub_component_data[index].action.page_link);
       } else if (sub_component_data[index].action.type === 'native') {
-        const actionType = screen.getByText('native');
-        expect(actionType).toBeInTheDocument();
+        const nativeRadio = screen.getByTestId('Radio--Native');
+        expect(nativeRadio.classList.contains('Mui-checked')).toBe(true)
 
         const pageIDInputContainer = screen.getByLabelText('Page ID').parentElement as HTMLElement;
         const pageIDInput = pageIDInputContainer.querySelector('input');
-        const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
+        const pageIDValue = `${mockCallbackData[index].label}`;
         expect(pageIDInput?.value).toContain(pageIDValue);
       }
     });

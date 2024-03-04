@@ -16,8 +16,8 @@ const colors = {
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },
   simpleImagePicker: {
-    image: { background: '#F5F5F5' },
-    button: { background: '#FFFFFF', text: '#3D4752', border: '#BDBDBD' },
+    image: { background: '#E0E0E0' },
+    button: { background: '#46494C99', text: '#FFFFFF' },
   },
   container: { background: '#121213' },
   card: {
@@ -92,6 +92,11 @@ const colors = {
       },
     },
   },
+  linkRadio: {
+    color: '#007882',
+  },
+  icon: { color: 'rgba(0, 0, 0, 0.56)' },
+  toolbar: { addButton: { border: '#46494C' }}
 };
 
 export default colors;
