@@ -22,3 +22,11 @@ export const hashString = (string: string) => {
     return a & a;
   }, 0);
 };
+
+export const getFileExtension = (filename: string) => {
+  return filename.split('.').pop();
+};
+
+export const generateRandomString = () => {
+  return Math.random().toString(36).slice(2);
+};
