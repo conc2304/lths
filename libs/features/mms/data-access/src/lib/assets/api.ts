@@ -92,9 +92,8 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
 
         // Upload file to Azure Blob Storage
         const uploadSuccess = await uploadFileToBlobStorage(file, signedUrl);
-        console.log({ uploadSuccess });
         if (!uploadSuccess) {
-          return { error: { data: 'Failed to upload file to Blob storage', status: 400 } };
+          return { error: { data: 'Failed to upload file to Azure Blob Storage', status: 400 } };
         }
 
         const mediaData = getMediaDataBody(file, signedUrl);

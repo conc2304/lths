@@ -3,6 +3,8 @@ import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 // import { toast } from 'react-hot-toast';
 
+import toast from 'react-hot-toast';
+
 import {
   AssetsRequestProps,
   AssetProps,
@@ -211,60 +213,24 @@ export default function AssetsPage() {
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
-  const [getUploadUrl] = useLazyGetSecureUploadUrlQuery();
-  const [createMedia] = useCreateMediaMutation();
   const [uploadAsset] = useUploadAssetMutation();
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('handleUpload');
     const file = event.target.files?.[0];
-    if (!file) {
-      console.log('no file');
+    if (!file || !allowedFileTypes.includes(file.type)) {
       return;
     }
-    if (!allowedFileTypes.includes(file.type)) {
-      console.error('Invalid file type:', file.type);
-      return;
-    }
-    // ! lets factor this out
-    // Fetch secure URL
-    console.log('get URL for ', file.name);
 
-    uploadAsset(file);
-    // const signedUrl = await getUploadUrl(file.name).unwrap();
-    // console.log({ signedUrl });
-    // if (!signedUrl) {
-    //   console.error('Failed to obtain signed URL');
-    //   return;
-    // }
-
-    // // Upload file to Azure Blob Storage
-    // const uploadSuccess = await uploadFileToBlob(file, signedUrl);
-    // console.log({ uploadSuccess });
-    // if (!uploadSuccess) {
-    //   console.error('Failed to upload file to Blob storage');
-    //   return;
-    // }
-
-    // // Create media entry in your backend
-    // const randomString = generateRandomString();
-    // const mediaData = {
-    //   mime_type: file.type,
-    //   original_file_name: file.name,
-    //   unique_file_name: `${randomString}-${file.name}`,
-    //   file_extension: getFileExtension(file.name),
-    //   media_files: [
-    //     {
-    //       url: signedUrl, // Assuming this is the URL you want to associate with the media file
-    //       mime_type: file.type,
-    //       is_finalized: false,
-    //       file_extension: getFileExtension(file.name),
-    //     },
-    //   ],
-    // };
-    // const createdMedia = await createMedia(mediaData).unwrap();
-    // console.log('Media created:', createdMedia);
-    // ! lets factor this out
+    uploadAsset(file)
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        toast.success(`Successfully uploaded media: ${file.name}`);
+      })
+      .catch((error: { data: string; status: number }) => {
+        console.log({ error });
+        toast.error(error.data || 'Unable to upload media. Please try again');
+      });
 
     event.target.value = ''; // Reset the file input after upload
   };
