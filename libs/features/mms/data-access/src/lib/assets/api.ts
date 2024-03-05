@@ -96,6 +96,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
           return { error: { data: 'Failed to upload file to Azure Blob Storage', status: 400 } };
         }
 
+        // save the meta data in our db
         const mediaData = getMediaDataBody(file, signedUrl);
         const result = await queryApi.dispatch(assetsApi.endpoints.createMedia.initiate(mediaData));
         return result;

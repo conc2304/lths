@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-// import { toast } from 'react-hot-toast';
-
 import toast from 'react-hot-toast';
 
 import {
@@ -13,8 +11,6 @@ import {
   useEditResourceMutation,
   useDeleteResourceMutation,
   AssetExtendedListProps,
-  useCreateMediaMutation,
-  useLazyGetSecureUploadUrlQuery,
   useUploadAssetMutation,
 } from '@lths/features/mms/data-access';
 import {
@@ -224,7 +220,7 @@ export default function AssetsPage() {
     uploadAsset(file)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        console.log({ res });
         toast.success(`Successfully uploaded media: ${file.name}`);
       })
       .catch((error: { data: string; status: number }) => {
