@@ -1,18 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
   AssetProps,
   PreviewAssetRowProps,
-  useAddResourceMutation,
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
-  useAppSelector,
   AssetExtendedListProps,
+  useCreateMediaMutation,
+  useLazyGetSecureUploadUrlQuery,
+  useUploadAssetMutation,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -69,7 +70,7 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
-  const currentUser = useAppSelector((state) => state.users.user);
+  // const currentUser = useAppSelector((state) => state.users.user);
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -208,28 +209,64 @@ export default function AssetsPage() {
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource, { isLoading: isAddingResource }] = useAddResourceMutation();
-
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
-  const handleUpload = async (event) => {
-    const newAsset = event.target.files[0];
-    if (newAsset && allowedFileTypes.includes(newAsset.type)) {
-      try {
-        await addResource({ newAsset, user: currentUser.username }).unwrap();
-        toast.success('Asset has been added successfully.');
-        setCurrPage(0);
-        setSearch({ queryString: '' });
-        setCurrSorting({ order: 'desc', column: headers[1].id });
-      } catch (error) {
-        console.error('Failed to add asset:', error);
-      }
-    } else {
-      console.error('Invalid file type:', newAsset.type);
+  const [getUploadUrl] = useLazyGetSecureUploadUrlQuery();
+  const [createMedia] = useCreateMediaMutation();
+  const [uploadAsset] = useUploadAssetMutation();
+
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    console.log('handleUpload');
+    const file = event.target.files?.[0];
+    if (!file) {
+      console.log('no file');
+      return;
     }
-    // This small change resets the file input after each upload,
-    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
-    event.target.value = '';
+    if (!allowedFileTypes.includes(file.type)) {
+      console.error('Invalid file type:', file.type);
+      return;
+    }
+    // ! lets factor this out
+    // Fetch secure URL
+    console.log('get URL for ', file.name);
+
+    uploadAsset(file);
+    // const signedUrl = await getUploadUrl(file.name).unwrap();
+    // console.log({ signedUrl });
+    // if (!signedUrl) {
+    //   console.error('Failed to obtain signed URL');
+    //   return;
+    // }
+
+    // // Upload file to Azure Blob Storage
+    // const uploadSuccess = await uploadFileToBlob(file, signedUrl);
+    // console.log({ uploadSuccess });
+    // if (!uploadSuccess) {
+    //   console.error('Failed to upload file to Blob storage');
+    //   return;
+    // }
+
+    // // Create media entry in your backend
+    // const randomString = generateRandomString();
+    // const mediaData = {
+    //   mime_type: file.type,
+    //   original_file_name: file.name,
+    //   unique_file_name: `${randomString}-${file.name}`,
+    //   file_extension: getFileExtension(file.name),
+    //   media_files: [
+    //     {
+    //       url: signedUrl, // Assuming this is the URL you want to associate with the media file
+    //       mime_type: file.type,
+    //       is_finalized: false,
+    //       file_extension: getFileExtension(file.name),
+    //     },
+    //   ],
+    // };
+    // const createdMedia = await createMedia(mediaData).unwrap();
+    // console.log('Media created:', createdMedia);
+    // ! lets factor this out
+
+    event.target.value = ''; // Reset the file input after upload
   };
 
   const [editResource] = useEditResourceMutation();
@@ -329,7 +366,8 @@ export default function AssetsPage() {
 
       <Table
         loading={isLoading}
-        fetching={isFetching || isAddingResource}
+        fetching={isFetching}
+        // fetching={isFetching || isAddingResource}
         total={total}
         title="{0} Assets"
         headerCells={headers}

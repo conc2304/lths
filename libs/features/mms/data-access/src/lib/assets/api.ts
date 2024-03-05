@@ -1,4 +1,5 @@
 import { api } from '@lths/shared/data-access';
+import { generateRandomString, getFileExtension } from '@lths/shared/utils';
 
 import { transformAssetResponse } from './transformer';
 import {
@@ -30,7 +31,7 @@ const createAssetQuery = (request: AssetsRequestProps) => {
 const ASSETS_TAG = 'ASSETS';
 const VIRTUAL_ID = 'ASSETS_CACHE';
 
-export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injectEndpoints({
+export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUAL_ID] }).injectEndpoints({
   endpoints: (builder) => ({
     getAssetsItems: builder.query<AssetListResponse, AssetsRequestProps>({
       query: (request: AssetsRequestProps) => createAssetQuery(request),
@@ -62,6 +63,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         };
       },
     }),
+
     createMedia: builder.mutation({
       query: (mediaData) => ({
         url: getAddAssetUrl(),
@@ -72,12 +74,59 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         },
       }),
     }),
+    uploadAsset: builder.mutation<{ data: string }, File>({
+      async queryFn(arg, queryApi, _extraOptions, fetchWithBQ) {
+        // get a random user
+        console.log('uploadAsset');
+        console.log({ arg, queryApi, _extraOptions, fetchWithBQ });
+        const file = arg;
+        const fileName = file.name;
+
+        const response = await queryApi.dispatch(assetsApi.endpoints.getSecureUploadUrl.initiate(fileName));
+        const signedUrl = response.data;
+
+        console.log('signedUrl', signedUrl);
+
+        if (!signedUrl) {
+          return { error: { data: 'Failed to obtain signed URL', status: 'rejected' } };
+        }
+
+        // Upload file to Azure Blob Storage
+        const uploadSuccess = await uploadFileToBlob(file, signedUrl);
+        console.log({ uploadSuccess });
+        if (!uploadSuccess) {
+          return { error: { data: 'Failed to upload file to Blob storage', status: 'rejected' } };
+        }
+
+        const randomString = generateRandomString();
+        const mediaData = {
+          mime_type: file.type,
+          original_file_name: file.name,
+          unique_file_name: `${randomString}-${file.name}`,
+          file_extension: getFileExtension(file.name),
+          media_files: [
+            {
+              url: signedUrl, // Assuming this is the URL you want to associate with the media file
+              mime_type: file.type,
+              is_finalized: false,
+              file_extension: getFileExtension(file.name),
+            },
+          ],
+        };
+
+        const result = await queryApi.dispatch(assetsApi.endpoints.createMedia.initiate(mediaData)).unwrap();
+
+        console.log('Media created:', result);
+
+        return result.data ? { data: 'good data' } : { error: { data: ' NO GOOD', status: 'rejected' } };
+      },
+    }),
     getSecureUploadUrl: builder.query({
       query: (fileName) => ({
         url: getSecureCloudUploadUrl(fileName),
         method: 'GET',
       }),
-      transformResponse: (response: { data: { signedUploadUrl: string }[] }) => response.data[0].signedUploadUrl,
+      transformResponse: (response: { data: { signedUploadUrl: string } }) => response.data.signedUploadUrl,
     }),
     editResource: builder.mutation<UpdateAssetResponse, { id: string; original_file_name: string }>({
       query: (prop) => ({
@@ -85,7 +134,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         method: 'PATCH',
         body: prop,
       }),
-      // @ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: (result, error, payload) => {
         const id = payload.id;
         if (!id) return;
@@ -98,7 +146,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: ['Assets'] }).injec
         method: 'DELETE',
         body: prop.id,
       }),
-      // @ts-expect-error: type definition doesn't reflect with injectEndpoints method
       invalidatesTags: (result, error, payload) => {
         const id = payload.id;
         if (!id) return;
@@ -121,6 +168,7 @@ export const uploadFileToBlob = async (file: File, signedUrl: string) => {
     });
 
     if (!response.ok) {
+      console.log('error');
       throw new Error(`Failed to upload file: ${response.statusText}`);
     }
 
@@ -140,4 +188,5 @@ export const {
   useEditResourceMutation,
   useDeleteResourceMutation,
   useCreateMediaMutation,
+  useUploadAssetMutation,
 } = assetsApi;
