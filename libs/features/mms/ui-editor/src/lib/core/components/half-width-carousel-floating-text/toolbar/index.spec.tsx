@@ -14,11 +14,6 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  disconnect: jest.fn(),
-}));
-
 describe('HalfWidthCarouselFloatingText Toolbar', () => {
   let initialState;
   let component: HalfWidthCarouselFloatingTextComponentProps;
