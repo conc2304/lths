@@ -64,7 +64,9 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
       },
     }),
 
-    createMedia: builder.mutation({
+    // todo - dont be lazy
+
+    createMedia: builder.mutation<any, any>({
       query: (mediaData) => ({
         url: getAddAssetUrl(),
         method: 'POST',
@@ -74,51 +76,29 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
         },
       }),
     }),
-    uploadAsset: builder.mutation<{ data: string }, File>({
-      async queryFn(arg, queryApi, _extraOptions, fetchWithBQ) {
-        // get a random user
-        console.log('uploadAsset');
-        console.log({ arg, queryApi, _extraOptions, fetchWithBQ });
+    uploadAsset: builder.mutation<AssetListResponse, File>({
+      async queryFn(arg, queryApi) {
         const file = arg;
         const fileName = file.name;
 
+        // ask the backend to give us a signed url for Azure Blob Storage upload
         const response = await queryApi.dispatch(assetsApi.endpoints.getSecureUploadUrl.initiate(fileName));
         const signedUrl = response.data;
 
-        console.log('signedUrl', signedUrl);
-
         if (!signedUrl) {
-          return { error: { data: 'Failed to obtain signed URL', status: 'rejected' } };
+          return { error: { data: 'Failed to obtain signed URL', status: 400 } };
         }
 
         // Upload file to Azure Blob Storage
-        const uploadSuccess = await uploadFileToBlob(file, signedUrl);
+        const uploadSuccess = await uploadFileToBlobStorage(file, signedUrl);
         console.log({ uploadSuccess });
         if (!uploadSuccess) {
-          return { error: { data: 'Failed to upload file to Blob storage', status: 'rejected' } };
+          return { error: { data: 'Failed to upload file to Blob storage', status: 400 } };
         }
 
-        const randomString = generateRandomString();
-        const mediaData = {
-          mime_type: file.type,
-          original_file_name: file.name,
-          unique_file_name: `${randomString}-${file.name}`,
-          file_extension: getFileExtension(file.name),
-          media_files: [
-            {
-              url: signedUrl, // Assuming this is the URL you want to associate with the media file
-              mime_type: file.type,
-              is_finalized: false,
-              file_extension: getFileExtension(file.name),
-            },
-          ],
-        };
-
-        const result = await queryApi.dispatch(assetsApi.endpoints.createMedia.initiate(mediaData)).unwrap();
-
-        console.log('Media created:', result);
-
-        return result.data ? { data: 'good data' } : { error: { data: ' NO GOOD', status: 'rejected' } };
+        const mediaData = getMediaDataBody(file, signedUrl);
+        const result = await queryApi.dispatch(assetsApi.endpoints.createMedia.initiate(mediaData));
+        return result;
       },
     }),
     getSecureUploadUrl: builder.query({
@@ -155,8 +135,19 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
   }),
 });
 
+export const {
+  useGetAssetsItemsQuery,
+  useLazyGetAssetsItemsQuery,
+  useLazyGetSecureUploadUrlQuery,
+  useAddResourceMutation,
+  useEditResourceMutation,
+  useDeleteResourceMutation,
+  useCreateMediaMutation,
+  useUploadAssetMutation,
+} = assetsApi;
+
 // Make a call to Azure Blob Services to file upload
-export const uploadFileToBlob = async (file: File, signedUrl: string) => {
+export const uploadFileToBlobStorage = async (file: File, signedUrl: string) => {
   try {
     const response = await fetch(signedUrl, {
       method: 'PUT',
@@ -168,25 +159,28 @@ export const uploadFileToBlob = async (file: File, signedUrl: string) => {
     });
 
     if (!response.ok) {
-      console.log('error');
       throw new Error(`Failed to upload file: ${response.statusText}`);
     }
 
-    console.log('File uploaded to Azure Blob storage.');
     return true;
   } catch (error) {
-    console.error('Error uploading to Blob storage:', error);
     return false;
   }
 };
 
-export const {
-  useGetAssetsItemsQuery,
-  useLazyGetAssetsItemsQuery,
-  useLazyGetSecureUploadUrlQuery,
-  useAddResourceMutation,
-  useEditResourceMutation,
-  useDeleteResourceMutation,
-  useCreateMediaMutation,
-  useUploadAssetMutation,
-} = assetsApi;
+export const getMediaDataBody = (file: File, mediaUrl: string) => {
+  return {
+    mime_type: file.type,
+    original_file_name: file.name,
+    unique_file_name: `${generateRandomString()}-${file.name}`,
+    file_extension: getFileExtension(file.name),
+    media_files: [
+      {
+        url: mediaUrl,
+        mime_type: file.type,
+        is_finalized: false,
+        file_extension: getFileExtension(file.name),
+      },
+    ],
+  };
+};
