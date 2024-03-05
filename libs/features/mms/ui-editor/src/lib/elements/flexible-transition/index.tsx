@@ -59,7 +59,7 @@ export const FlexibleTransition: React.FC<FlexibleTransitionProps> = (props) => 
         style={{
           width: `${width}px`,
           position: 'absolute',
-          overflow: 'hidden',
+          overflow: 'clip',
           top: 0,
           left: 0,
         }}

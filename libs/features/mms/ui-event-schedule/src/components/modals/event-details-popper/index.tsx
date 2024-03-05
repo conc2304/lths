@@ -23,6 +23,10 @@ type EventDetailsPopperProps = {
   onSaveEvent: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates: (updatedEventStates: EventState[]) => void;
   eventTypes: EventType[];
+  features?: {
+    updateEvents: boolean;
+    updateEventStates: boolean;
+  }[];
 };
 
 export const EventDetailsPopper = (props: EventDetailsPopperProps) => {

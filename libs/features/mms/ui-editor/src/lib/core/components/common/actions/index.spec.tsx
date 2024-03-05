@@ -17,7 +17,7 @@ describe('Action', () => {
 
     return render(
       <EditorProvider initialValue={mockInitialValue}>
-        <Action action={action} onPropChange={onPropChange} />
+        <Action action={action} isRadioButton={false} onPropChange={onPropChange} />
       </EditorProvider>
     );
   };

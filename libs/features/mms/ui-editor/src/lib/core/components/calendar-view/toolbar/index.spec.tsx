@@ -9,6 +9,11 @@ import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 import { CalendarViewComponentProps } from '../../types';
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 describe('CalendarView Toolbar', () => {
   let initialState;
   let component: CalendarViewComponentProps;

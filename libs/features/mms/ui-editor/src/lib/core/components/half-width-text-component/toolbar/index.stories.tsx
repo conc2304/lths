@@ -1,6 +1,5 @@
-import { Box } from '@mui/material';
-
 import HalfWidthTextToolbar from './index';
+import colors from '../../../../common/colors';
 import { EditorProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
@@ -12,6 +11,21 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof HalfWidthTextToolbar> = {
   component: HalfWidthTextToolbar,
   title: 'core/ Components/ half-width-text-component / Toolbar',
+  parameters: {
+    backgrounds: {
+      default: 'sidebar',
+      values: [
+        { name: 'sidebar', value: colors.sidebar.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <EditorProvider initialValue={{components: []}}>
+        <Story />
+      </EditorProvider>
+    ),
+  ],
 };
 export default Story;
 
@@ -20,24 +34,13 @@ type StoryArgs = HalfWidthTextComponentProps & {
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
-  const initialState = {
-    components: [],
-    selectedComponent: args,
-  };
-
   function mockOnPropChange(propName, callback) {
     if (propName === 'quickLinkIcons') {
       callback(args.mock_quickLinkIcons);
     }
   }
 
-  return (
-    <EditorProvider initialValue={initialState}>
-      <Box sx={{ padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
-        <HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />
-      </Box>
-    </EditorProvider>
-  );
+  return (<HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />);
 };
 
 export const Primary = Template.bind({});

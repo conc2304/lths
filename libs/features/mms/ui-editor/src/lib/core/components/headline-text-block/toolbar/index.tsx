@@ -1,10 +1,9 @@
 import { ChangeEvent } from 'react';
-import { MenuItem, TextField, Button, Divider } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { MenuItem, Divider } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
-import { GroupLabel, ToolContainer } from '../../../../elements';
+import { ToolbarLabel, AddButton, OutlinedTextField, ToolContainer } from '../../../../elements';
 import HyperLinkToolbar from '../../common/hyper-link';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, HeadlineTextBlockComponentProps } from '../../types';
@@ -54,18 +53,18 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Headline Text" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      <GroupLabel label={'Headline Text Block'} />
-      <TextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} sx={{ marginY: 3 }} fullWidth />
+    <ToolContainer id={id} aria-label="Headline Text">
+      <ToolbarLabel label={'Headline Text Block'} />
+      <OutlinedTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} />
 
-      <TextField value={text_size} onChange={handleStyleChange} label="Text Size" select fullWidth>
+      <OutlinedTextField value={text_size} onChange={handleStyleChange} label="Text Size" select >
         {sizes.map((s) => (
           <MenuItem key={`option-${s.value}`} value={s.value}>
             {s.label}
           </MenuItem>
         ))}
-      </TextField>
-      <Divider sx={{ marginY: 3 }} />
+      </OutlinedTextField>
+      <Divider />
       {linked_text.map(({ link_key, action, link_id }, index) => {
         const hyperLinkId = `link_${index}`;
         return (
@@ -82,16 +81,9 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
           />
         );
       })}
-      <Button
-        data-testid="Add Button"
-        variant="outlined"
-        sx={{ marginTop: 1, fontSize: '14px', fontWeight: 500, textTransform: 'uppercase' }}
-        onClick={handleAdd}
-        startIcon={<AddIcon />}
-        fullWidth
-      >
+      <AddButton onClick={handleAdd}>
         Add Link
-      </Button>
+      </AddButton>
     </ToolContainer>
   );
 };

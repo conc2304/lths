@@ -9,3 +9,4 @@ export * from './form-children';
 export * from './switch';
 export * from './vertical-form-group';
 export * from './search-bar';
+export * from './multi-select-w-chip';

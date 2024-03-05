@@ -3,6 +3,8 @@ export * from './lib/selectors/user-selectors';
 
 export * from './lib/filters';
 
+export * from './lib/admin';
+
 export * from './lib/events';
 export * from './lib/events/types';
 

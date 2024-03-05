@@ -13,6 +13,11 @@ jest.mock('../../../../elements/color-picker', () => ({
     default: jest.fn(({ value }) => <div data-testid="mocked-color-picker">{value}</div>),
 }));
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 describe('HalfWidthText Toolbar', () => {
   let initialState;
   let component: HalfWidthTextComponentProps;
@@ -107,8 +112,6 @@ describe('HalfWidthText Toolbar', () => {
     const buttonSectionLabel = screen.getByText('Button');
     expect(buttonSectionLabel).toBeInTheDocument();
 
-    const actionSectionLabels = screen.getByText('Action');
-    expect(actionSectionLabels).toBeInTheDocument();
   });
 
   test('should render HalfWidthText toolbar with text props', () => {

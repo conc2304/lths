@@ -23,12 +23,12 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   const IconAdornment = () => {
     const type = data?.find((a) => a.value === value)?.type;
     return (
-      <InputAdornment position="start">
+      <InputAdornment position="start" sx={{ marginRight: 0 }}>
         <PageTypeIcon type={type} />
       </InputAdornment>
     );
   };
-  const getOptionLabel = (option: AutocompleteItemProps) => (option ? `${option.label}(${option.value})` : '');
+  const getOptionLabel = (option: AutocompleteItemProps) => (option ? `${option.label}` : '');
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteItemProps) => {
     return (
       <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
@@ -51,6 +51,7 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   const selectedItem = data.find((a) => a.value === value) || null;
   return (
     <Autocomplete
+      size="small"
       value={selectedItem}
       options={data}
       getOptionLabel={getOptionLabel}

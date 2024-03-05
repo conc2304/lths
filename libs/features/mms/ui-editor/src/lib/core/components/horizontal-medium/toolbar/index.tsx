@@ -1,7 +1,6 @@
 import React from 'react';
-import { TextField } from '@mui/material';
 
-import { SimpleImagePicker, ToolbarLabel } from '../../../../elements';
+import { SimpleImagePicker, ToolbarLabel, OutlinedTextField  } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
@@ -20,7 +19,7 @@ const HorizontalMediumToolbar = (props: HorizontalMediumProps) => {
   return (
     <ToolContainer id={id} aria-label={'HorizontalMedium Toolbar'}>
       <ToolbarLabel label={'HorizontalMedium'} />
-      <TextField label={'Title'} value={title} onChange={handleTitleChange} />
+      <OutlinedTextField  label={'Title'} value={title} onChange={handleTitleChange} />
       <SimpleImagePicker value={file} onChange={handleFileChange} onReplace={onPropChange} />
       <ActionToolbar action={action} onPropChange={onPropChange} />
     </ToolContainer>
