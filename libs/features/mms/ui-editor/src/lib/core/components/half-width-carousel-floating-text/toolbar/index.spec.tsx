@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen, within } from '@testing-library/react';
+import { render, fireEvent, screen, within, waitFor } from '@testing-library/react';
 
 import HalfWidthCarouselFloatingTextToolbar from './index';
 import { EditorProvider } from '../../../../context';
@@ -11,6 +11,11 @@ import { HalfWidthCarouselFloatingTextComponentProps, AutocompleteItemProps } fr
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
   disconnect: jest.fn(),
 }));
 
@@ -92,7 +97,9 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
 
     const containerLabelCarousel = screen.getByLabelText('Half Width Carousel Floating Text Toolbar: Carousel');
     expect(containerLabelCarousel).toBeInTheDocument();
-    const containerLabelCarouselItem = screen.getByLabelText('Half Width Carousel Floating Text Toolbar: Carousel Item');
+    const containerLabelCarouselItem = screen.getByLabelText(
+      'Half Width Carousel Floating Text Toolbar: Carousel Item'
+    );
     expect(containerLabelCarouselItem).toBeInTheDocument();
   });
 
@@ -131,7 +138,7 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
     });
   });
 
-  test('renders toolbar edit item view', () => {
+  test('renders toolbar edit item view', async () => {
     const { container } = render(
       <EditorProvider initialValue={initialState}>
         <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
@@ -139,7 +146,7 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
     );
     const { sub_component_data } = component.data;
 
-    sub_component_data.forEach((item, index) => {
+    sub_component_data.forEach(async (item, index) => {
       const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement as HTMLElement;
       expect(carouselListItem).toBeInTheDocument();
 
@@ -165,18 +172,20 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
       expect(container.innerHTML).toContain(img_alt_text);
       expect(container.innerHTML).toContain(title);
 
-      if (action.type === 'web') {
-        const actionType = screen.getByText('weblink');
-        expect(actionType).toBeInTheDocument();
+      await waitFor(() => {
+        if (action.type === 'web') {
+          const actionType = screen.getByText('weblink');
+          expect(actionType).toBeInTheDocument();
 
-        expect(container.innerHTML).toContain(action.page_link);
-      } else if (action.type === 'native') {
-        const actionType = screen.getByText('native');
-        expect(actionType).toBeInTheDocument();
+          expect(container.innerHTML).toContain(action.page_link);
+        } else if (action.type === 'native') {
+          const actionType = screen.getByText('native');
+          expect(actionType).toBeInTheDocument();
 
-        const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
-        expect(container.innerHTML).toContain(pageIDValue);
-      }
+          const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
+          expect(container.innerHTML).toContain(pageIDValue);
+        }
+      });
     });
   });
 });
