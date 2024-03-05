@@ -25,6 +25,14 @@ export const hashString = (string: string) => {
   }, 0);
 };
 
+export const getFileExtension = (filename: string) => {
+  return filename.split('.').pop();
+};
+
+export const generateRandomString = () => {
+  return Math.random().toString(36).slice(2);
+};
+
 export const capitalizeString = (string: string, splitter = ' ', joiner: string | undefined = undefined) => {
   const joinerStr = joiner ?? splitter;
   return (string.toLowerCase() ?? '')
