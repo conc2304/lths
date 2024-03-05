@@ -64,9 +64,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
         };
       },
     }),
-
-    // todo - dont be lazy
-
     createMedia: builder.mutation<CreateAssetResponse, MediaMetaData>({
       query: (mediaData) => ({
         url: getAddAssetUrl(),
@@ -81,6 +78,10 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
       async queryFn(arg, queryApi) {
         const file = arg;
         const fileName = file.name;
+
+        if (!(file instanceof File)) {
+          return { error: { data: 'Invalid upload file.', status: 400 } };
+        }
 
         // ask the backend to give us a signed url for Azure Blob Storage upload
         const response = await queryApi.dispatch(assetsApi.endpoints.getSecureUploadUrl.initiate(fileName));
