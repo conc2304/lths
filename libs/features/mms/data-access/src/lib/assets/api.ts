@@ -85,6 +85,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
 
         // ask the backend to give us a signed url for Azure Blob Storage upload
         const response = await queryApi.dispatch(assetsApi.endpoints.getSecureUploadUrl.initiate(fileName));
+        console.log({ response });
         const signedUrl = response.data;
 
         if (!signedUrl) {
@@ -103,7 +104,10 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
         return result;
       },
     }),
-    getSecureUploadUrl: builder.query({
+    // * even though this is technically a query, we are setting it to mutation
+    // *  because we never want to get the results from cache,
+    // *  ie using the same file name twice should return different signed urls
+    getSecureUploadUrl: builder.mutation({
       query: (fileName) => ({
         url: getSecureCloudUploadUrl(fileName),
         method: 'GET',
@@ -161,6 +165,7 @@ export const uploadFileToBlobStorage = async (file: File, signedUrl: string) => 
     });
 
     if (!response.ok) {
+      console.log({ response });
       throw new Error(`Failed to upload file: ${response.statusText}`);
     }
 
