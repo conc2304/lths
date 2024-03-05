@@ -8,6 +8,7 @@ import {
   ArchiveAssetsResponse,
   UpdateAssetResponse,
   CreateAssetResponse,
+  MediaMetaData,
 } from './types';
 import { getAddAssetUrl, getAssetsUrl, getSecureCloudUploadUrl, getUpdateAssetUrl } from './urls';
 
@@ -66,7 +67,7 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
 
     // todo - dont be lazy
 
-    createMedia: builder.mutation<any, any>({
+    createMedia: builder.mutation<CreateAssetResponse, MediaMetaData>({
       query: (mediaData) => ({
         url: getAddAssetUrl(),
         method: 'POST',
