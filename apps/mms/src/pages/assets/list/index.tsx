@@ -68,7 +68,6 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
-  // const currentUser = useAppSelector((state) => state.users.user);
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -170,6 +169,7 @@ export default function AssetsPage() {
         const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
         if (previewUrl) {
           const imageWindow = window.open(previewUrl);
+
           imageWindow.document.write('<html><head><title>Preview</title></head><body>');
           imageWindow.document.write(
             '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
@@ -209,7 +209,7 @@ export default function AssetsPage() {
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
-  const [uploadAsset] = useUploadAssetMutation();
+  const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -328,8 +328,7 @@ export default function AssetsPage() {
 
       <Table
         loading={isLoading}
-        fetching={isFetching}
-        // fetching={isFetching || isAddingResource}
+        fetching={isFetching || isAddingResource}
         total={total}
         title="{0} Assets"
         headerCells={headers}
