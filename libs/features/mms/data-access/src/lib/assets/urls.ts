@@ -15,6 +15,3 @@ export const getAddAssetUrl = () => {
 export const getUpdateAssetUrl = (id: string) => {
   return `/media/${id}`;
 };
-export const getSecureCloudUploadUrl = (fileName: string) => {
-  return `/cloud/signed-upload-url?fileName=${encodeURIComponent(fileName)}`;
-};
