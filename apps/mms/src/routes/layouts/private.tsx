@@ -1,7 +1,8 @@
-import { Box, alpha, darken, useTheme } from '@mui/material';
+import { Box, Chip, alpha, darken, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Twirl as Hamburger } from 'hamburger-react';
 
+import { ColorThemeMui } from '@lths/shared/ui-elements';
 import { DashboardLayout, useLayoutActions } from '@lths/shared/ui-layouts';
 import { WebEnvName, getAppEnvironmentName } from '@lths/shared/utils';
 
@@ -12,22 +13,25 @@ import sections from '../../pages/paths';
 const HeaderLeft = () => {
   const theme = useTheme();
 
-  const currEnv = getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
-  const prodThemes: WebEnvName[] = ['production', 'local'];
-  const isProdLikeEnv = prodThemes.includes(currEnv);
-  const useProdTheme = currEnv ? isProdLikeEnv : true;
+  const env = getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
   const appBarTextColor = theme.palette.getContrastText(theme.palette.appBar.background);
+  const AppBarColorMap: Record<WebEnvName, ColorThemeMui> = {
+    production: undefined,
+    development: 'error',
+    staging: 'success',
+    qa: 'success',
+    local: 'error',
+  };
 
+  const hasEnvChip = env !== 'production';
+  const envChipColor = env && env !== undefined && Boolean(AppBarColorMap?.[env]) ? AppBarColorMap[env] : undefined;
+  const envChipLabel = env;
   return (
     <Box
       data-testid="Toolbar-HeaderLeft--root"
       sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}
     >
-      <LitehouseLogoIcon
-        scale={1}
-        gradientColorBottom={useProdTheme ? undefined : appBarTextColor}
-        gradientColorTop={useProdTheme ? undefined : appBarTextColor}
-      />
+      <LitehouseLogoIcon scale={1} />
       <LitehouseLogoText fill={appBarTextColor} scale={1} wrapperSx={{ ml: 2 }} />
       <Typography
         variant="body1"
@@ -42,6 +46,15 @@ const HeaderLeft = () => {
       >
         Mobile Management System
       </Typography>
+      {hasEnvChip && envChipColor && (
+        <Chip
+          label={envChipLabel}
+          color={envChipColor}
+          size="small"
+          variant="filled"
+          sx={{ ml: theme.spacing(2), pt: 0, '& .MuiChip-label': { paddingX: theme.spacing(1.5) } }}
+        />
+      )}
     </Box>
   );
 };
