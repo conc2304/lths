@@ -48,38 +48,3 @@ export type PreviewAssetRowProps = { asset: AssetProps; rowIndex: number };
 export type AssetExtendedListProps = AssetProps & {
   created_at_formatted?: string;
 };
-
-export type MediaMetaData = {
-  mime_type: string;
-  unique_file_name: string;
-  original_file_name: string;
-  file_extension: string;
-  description?: string;
-  original_file_size?: number;
-  media_files: {
-    file_extension: string;
-    mime_type: string;
-    url: string;
-    is_finalized: boolean;
-    format_label?: string;
-    description?: string;
-  }[];
-  media_type?: string;
-  audio_stream?: string[];
-  video_stream?: string[];
-  av_container_metadata?: string[];
-  image_file_fields?: string[];
-  three_d_file_fields?: string[];
-  package_metadata?: string[];
-  album_id?: string;
-  created_by?: string;
-  created_on?: string | Date;
-  updated_by?: string;
-  updated_on?: string | Date;
-  is_active?: boolean;
-  is_finalized?: boolean;
-  is_visible?: boolean;
-  is_deleted?: boolean;
-  is_published?: boolean;
-  computed_media_type?: string;
-};

@@ -17,7 +17,8 @@ export * from './lib/pages/transformer';
 export * from './lib/notifications/api';
 export * from './lib/notifications/types';
 
-export * from './lib/assets';
+export * from './lib/assets/api';
+export * from './lib/assets/types';
 
 export * from './lib/insights/overview-api';
 export * from './lib/insights/overview-slice';
