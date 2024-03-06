@@ -33,3 +33,11 @@ export const capitalizeString = (string: string, splitter = ' ', joiner: string 
     .map((word) => capitalize(word))
     .join(joinerStr);
 };
+
+export const getFileExtension = (filename: string) => {
+  return filename.split('.').pop();
+};
+
+export const generateRandomString = () => {
+  return Math.random().toString(36).slice(2);
+};
