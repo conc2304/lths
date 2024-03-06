@@ -158,6 +158,8 @@ export const uploadFileToBlobStorage = async (file: File, signedUrl: string) => 
     const response = await fetch(signedUrl, {
       method: 'PUT',
       headers: {
+        Origin: '',
+        'Access-Control-Request-Method': '',
         'Content-Type': file.type,
         'x-ms-blob-type': 'BlockBlob',
       },
