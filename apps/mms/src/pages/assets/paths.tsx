@@ -8,6 +8,13 @@ const Assets = {
       path: '/assets',
       file: '/assets/list',
     },
+    {
+      title: 'Assets',
+      icon: <CloudUploadRoundedIcon />,
+      path: '/assets-testing',
+      file: '/assets/list-testing',
+      hidden: true,
+    },
   ],
 };
 
