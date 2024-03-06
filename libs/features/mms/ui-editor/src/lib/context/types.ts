@@ -15,7 +15,7 @@ export enum PageAction {
 }
 
 export type ToolbarProps = {
-  onPropChange: <T>(propName: string, callback: Callback<T>, args?: unknown) => void;
+  onPropChange: <T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>) => void;
 };
 
 export type ValidationErrorProps = Record<

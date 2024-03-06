@@ -4,7 +4,7 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import RememberMeIcon from '@mui/icons-material/RememberMe';
 import { grey } from '@mui/material/colors';
 
-import { AutocompleteItemProps } from '../../../types';
+import { PageAutocompleteItemProps } from '../../../types';
 
 export const PageType = {
   UserDefined: 'User-Defined',
@@ -12,7 +12,7 @@ export const PageType = {
 
 type PageAutocompleteProps = {
   value: string;
-  data: AutocompleteItemProps[];
+  data: PageAutocompleteItemProps[];
   onChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
 };
 const PageTypeIcon = ({ type }: { type: string }) => {
@@ -28,8 +28,8 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
       </InputAdornment>
     );
   };
-  const getOptionLabel = (option: AutocompleteItemProps) => (option ? `${option.label}` : '');
-  const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteItemProps) => {
+  const getOptionLabel = (option: PageAutocompleteItemProps) => (option ? `${option.label}` : '');
+  const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: PageAutocompleteItemProps) => {
     return (
       <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
         <PageTypeIcon type={option.type} />
@@ -42,7 +42,7 @@ const PageAutocomplete = ({ data, value = '', onChange }: PageAutocompleteProps)
   };
   const handleAutocompleteChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    item: AutocompleteItemProps
+    item: PageAutocompleteItemProps
   ) => {
     const updatedEvent = { ...event, target: { ...event.target, value: item ? item.value : '' } };
     onChange(updatedEvent);

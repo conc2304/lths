@@ -5,6 +5,8 @@ export type PageProps = {
   label: string;
   value: string;
   type: PageType;
+  static: boolean,
+  image?: string,
 };
 
 export const UseGetPageListQuery = () => {
@@ -22,12 +24,15 @@ export const UseGetPageListQuery = () => {
             label: p.name,
             value: p.value,
             type: PageType.PreDefined,
+            static: true,
+            ...(p.image_url && { image: p.image_url }),
           })) || [];
         const defaultPageList =
           defaultPageListResponse?.data?.map((p) => ({
             label: p.name,
             value: p.page_id,
             type: p.type,
+            static: false,
           })) || [];
         combinedPageList = [...defaultPageList, ...nativePageList];
         combinedPageList.sort((a, b) => a.label.localeCompare(b.label));

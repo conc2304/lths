@@ -2,8 +2,8 @@ import { ChangeEvent } from 'react';
 import { MenuItem, Divider } from '@mui/material';
 
 import { useEditorActions } from '../../../../context';
-import { ToolbarLabel, OutlinedTextField, AddButton, ToolContainer } from '../../../../elements';
-import { HyperLinkToolbar } from '../../common';
+import { ToolbarLabel, OutlinedTextField, AddButton } from '../../../../elements';
+import { ToolPreviewContainer, HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { BodyTextComponentProps } from '../../types';
 import { sizes } from '../utils';
@@ -49,7 +49,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id}>
       <ToolbarLabel label={'Body Text Block'} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <OutlinedTextField value={text_size} onChange={handleStyleChange} label="Text Size" select>
@@ -79,7 +79,7 @@ const BodyTextToolbar = (props: BodyTextComponentProps) => {
       <AddButton onClick={handleAdd}>
         Add Link
       </AddButton>
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default BodyTextToolbar;

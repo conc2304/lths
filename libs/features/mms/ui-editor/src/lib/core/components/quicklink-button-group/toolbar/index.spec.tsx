@@ -2,11 +2,16 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import QuicklinkButtonGroupToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
 
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -79,7 +84,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
   test('renders toolbar component', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -90,7 +97,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
   test('renders toolbar with section labels', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -114,7 +123,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
 
     const container = render(
       <EditorProvider initialValue={initialState}>
-        <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     ).container;
 
@@ -135,7 +146,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
     component.data.sub_component_data[1].icon = mockCallbackData[1].value;
     render(
       <EditorProvider initialValue={initialState}>
-        <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
     const { sub_component_data } = component.data;
@@ -169,7 +182,9 @@ describe('QuicklinkButtonGroup Toolbar', () => {
 
     render(
       <EditorProvider initialValue={initialState}>
-        <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <QuicklinkButtonGroupToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
     const { sub_component_data } = component.data;

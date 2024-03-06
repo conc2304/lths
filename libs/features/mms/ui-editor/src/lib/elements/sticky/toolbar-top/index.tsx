@@ -6,12 +6,13 @@ import { PAGE_EDITOR_TOOLBAR_CONTAINER } from '../../../core/containers/constant
 
 interface ToolbarStickyTopProps {
     containerId?: string;
+    containerPadding?: typeof TOOLBAR_PADDING;
     sx?: CSSProperties;
     stuckStyle?: CSSProperties;
     children?: ReactNode;
 }
 
-const ToolbarStickyTop: FC<ToolbarStickyTopProps> = ({ containerId = PAGE_EDITOR_TOOLBAR_CONTAINER, sx, stuckStyle, children }) => {
+const ToolbarStickyTop: FC<ToolbarStickyTopProps> = ({ containerId = PAGE_EDITOR_TOOLBAR_CONTAINER, containerPadding = TOOLBAR_PADDING, sx, stuckStyle, children }) => {
 
   const [ isStuck, setIsStuck ] = useState(false);
   const stickyElementRef = useRef(null);
@@ -57,9 +58,9 @@ const ToolbarStickyTop: FC<ToolbarStickyTopProps> = ({ containerId = PAGE_EDITOR
         ref={stickyElementRef}
         sx={{ 
             position: 'sticky', top: -1,
-            marginLeft: -TOOLBAR_PADDING.left + 0.05, paddingLeft: TOOLBAR_PADDING.left - 0.05,
-            marginRight: -TOOLBAR_PADDING.right + 0.05, paddingRight: TOOLBAR_PADDING.right - 0.05,
-            marginY: -TOOLBAR_PADDING.top, paddingY: TOOLBAR_PADDING.top,
+            marginLeft: -containerPadding.left + 0.05, paddingLeft: containerPadding.left - 0.05,
+            marginRight: -containerPadding.right + 0.05, paddingRight: containerPadding.right - 0.05,
+            marginY: -containerPadding.top, paddingY: containerPadding.top,
             ...(stickyStyle)
         }}
     >

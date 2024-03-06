@@ -10,7 +10,7 @@ import '../container.scss';
 
 export type Props = {
   components: ComponentProps[];
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 export default function PreviewWysiwyg(props: Props) {

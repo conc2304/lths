@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, AddButton, ToolbarLabel } from '../../../../elements';
+import { AddButton, ToolbarLabel } from '../../../../elements';
+import { ToolPreviewContainer } from '../../common';
 import SegmentToolbar from '../../common/segment-group';
 import { ActionType, SegmentGroupProps } from '../../types';
 
@@ -37,7 +38,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="SegmentGroup">
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="SegmentGroup">
       <ToolbarLabel label={'Segment Group'} />
       {sub_component_data.map(({ title, description, action, segment_id }, index) => {
         return (
@@ -57,7 +58,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
       <AddButton onClick={handleAdd}>
         Add Segment
       </AddButton>
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 

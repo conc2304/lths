@@ -1,16 +1,16 @@
 import SiloTextAndButtonEditor from './editor';
 import { ToolbarLabel } from '../../../../../elements';
-import { ToolContainer } from '../../../../../elements/containers';
+import { ToolPreviewContainer } from '../../../common';
 import { SiloTextAndButtonComponentProps } from '../../../types';
 
 const SiloTextAndButtonToolbar = (props: SiloTextAndButtonComponentProps) => {
-  const { __ui_id__: id } = props;
+  const { __ui_id__: id, onPropChange } = props;
 
   return (
-    <ToolContainer id={id} aria-label="Silo Text And Button Toolbar">
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="Silo Text And Button Toolbar">
       <ToolbarLabel label={'Promotion'} />
       <SiloTextAndButtonEditor {...props} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default SiloTextAndButtonToolbar;

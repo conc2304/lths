@@ -2,21 +2,31 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import SiloTextAndButtonToolbar from './index';
-import { EditorProvider } from '../../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../../context';
 import mockComponentProps from '../../../../../context/mock-data';
 import { Component } from '../../../enum';
-import { SiloTextAndButtonComponentProps, AutocompleteItemProps } from '../../../types';
+import { SiloTextAndButtonComponentProps, PageAutocompleteItemProps } from '../../../types';
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
 
 describe('HeroPromotion: SiloTextAndButton Toolbar', () => {
   let initialState;
   let component: SiloTextAndButtonComponentProps;
-  let mockCallbackData: AutocompleteItemProps[];
+  let mockCallbackData: PageAutocompleteItemProps[];
 
   beforeEach(() => {
     mockCallbackData = [
-        { label: 'actionOne', value: 'action.one.value', type: '' },
-        { label: 'actionTwo', value: 'action.two.link', type: '' },
-        { label: 'actionThree', value: 'action.three.link', type: '' },
+      { label: 'actionOne', value: 'action.one.value', type: '', static: false },
+      { label: 'actionTwo', value: 'action.two.link', type: '', static: false },
+      { label: 'actionThree', value: 'action.three.link', type: '', static: false },
     ];
 
     component = {
@@ -58,7 +68,9 @@ describe('HeroPromotion: SiloTextAndButton Toolbar', () => {
   test('renders toolbar component', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -69,7 +81,9 @@ describe('HeroPromotion: SiloTextAndButton Toolbar', () => {
   test('renders toolbar with section labels', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -91,7 +105,9 @@ describe('HeroPromotion: SiloTextAndButton Toolbar', () => {
   test('renders toolbar with text props', () => {
     const container = render(
       <EditorProvider initialValue={initialState}>
-        <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     ).container;
 
@@ -113,7 +129,9 @@ describe('HeroPromotion: SiloTextAndButton Toolbar', () => {
 
     const container = render(
       <EditorProvider initialValue={initialState}>
-        <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <SiloTextAndButtonToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     ).container;
 

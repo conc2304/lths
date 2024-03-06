@@ -1,8 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import { SimpleImagePicker, OutlinedTextField, GroupLabel } from '../../../../elements';
-import { ToolContainer } from '../../../../elements/containers';
-import { ActionToolbar } from '../../common';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { FullHeightFloatingTextProps } from '../../types';
 
@@ -19,7 +18,7 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
   };
 
   return (
-    <ToolContainer id={id}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id}>
       <SimpleImagePicker
         value={image}
         onChange={(value) => updateComponentProp('image', value)}
@@ -30,7 +29,7 @@ const FullHeightFloatingTextToolbar = (props: FullHeightFloatingTextProps) => {
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <OutlinedTextField label={'Description'} value={description} onChange={handleDescChange} />
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default FullHeightFloatingTextToolbar;

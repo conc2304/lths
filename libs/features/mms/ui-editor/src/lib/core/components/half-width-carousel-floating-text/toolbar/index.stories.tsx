@@ -1,15 +1,22 @@
 import HalfWidthCarouselFloatingTextToolbar from './index';
 import colors from '../../../../common/colors';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { Component } from '../../enum';
-import { HalfWidthCarouselFloatingTextComponentProps, AutocompleteItemProps } from '../../types';
+import { HalfWidthCarouselFloatingTextComponentProps, PageAutocompleteItemProps } from '../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
 const Story: Meta<typeof HalfWidthCarouselFloatingTextToolbar> = {
   component: HalfWidthCarouselFloatingTextToolbar,
   title: 'core/ Components/ half-width-carousel-floating-text / Toolbar',
+  decorators: [
+    (Story) => (
+      <ToolbarContextProvider initialValue={{}}>
+        <Story />
+      </ToolbarContextProvider>
+    ),
+  ],
   parameters: {
     backgrounds: {
       default: 'sidebar',
@@ -22,7 +29,7 @@ const Story: Meta<typeof HalfWidthCarouselFloatingTextToolbar> = {
 export default Story;
 
 type StoryArgs = HalfWidthCarouselFloatingTextComponentProps & {
-  mock_action: AutocompleteItemProps[];
+  mock_action: PageAutocompleteItemProps[];
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
@@ -82,9 +89,9 @@ Primary.args = {
     ],
   },
   mock_action: [
-    { label: 'actionOne', value: 'action.one.value', type: '' },
-    { label: 'actionTwo', value: 'action.two.link', type: '' },
-    { label: 'actionThree', value: 'action.three.link', type: '' },
+    { label: 'actionOne', value: 'action.one.value', type: '', static: false },
+    { label: 'actionTwo', value: 'action.two.link', type: '', static: false },
+    { label: 'actionThree', value: 'action.three.link', type: '', static: false },
   ],
 };
 

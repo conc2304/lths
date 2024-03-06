@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
 import { MenuItem } from '@mui/material';
 
-import { ToolbarLabel, OutlinedTextField, ToolContainer } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { ToolbarLabel, OutlinedTextField } from '../../../../elements';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { TextButtonProps } from '../../types';
 import { sizes } from '../utils';
@@ -23,7 +23,7 @@ const TextButtonToolbar = (props: TextButtonProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Text Button">
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="Text Button">
       <ToolbarLabel  label={'Text Link'} />
       <OutlinedTextField
         label={'Title'}
@@ -43,7 +43,7 @@ const TextButtonToolbar = (props: TextButtonProps) => {
         ))}
       </OutlinedTextField>
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default TextButtonToolbar;

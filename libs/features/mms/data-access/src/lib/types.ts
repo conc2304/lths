@@ -31,6 +31,7 @@ export type EnumValue<TData = string> = {
   display_order: number;
   name: string;
   value: TData;
+  image_url?: string;
 };
 
 export type EnumGroupResponseData<TData = string> = {

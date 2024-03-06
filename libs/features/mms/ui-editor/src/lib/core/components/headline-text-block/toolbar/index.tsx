@@ -3,8 +3,8 @@ import { MenuItem, Divider } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
-import { ToolbarLabel, AddButton, OutlinedTextField, ToolContainer } from '../../../../elements';
-import HyperLinkToolbar from '../../common/hyper-link';
+import { ToolbarLabel, AddButton, OutlinedTextField } from '../../../../elements';
+import { ToolPreviewContainer, HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, HeadlineTextBlockComponentProps } from '../../types';
 import { sizes } from '../utils';
@@ -53,7 +53,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Headline Text">
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="Headline Text">
       <ToolbarLabel label={'Headline Text Block'} />
       <OutlinedTextField label={'Title'} value={title} onChange={(e) => handleTitleChange(e)} />
 
@@ -84,7 +84,7 @@ const HeadLineTextBlockToolbar = (props: HeadlineTextBlockComponentProps) => {
       <AddButton onClick={handleAdd}>
         Add Link
       </AddButton>
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default HeadLineTextBlockToolbar;

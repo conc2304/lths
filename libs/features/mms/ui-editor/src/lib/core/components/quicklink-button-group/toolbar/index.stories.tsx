@@ -1,6 +1,6 @@
 import QuicklinkButtonGroupToolbar from './index';
 import colors from '../../../../common/colors';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
@@ -22,7 +22,9 @@ const Story: Meta<typeof QuicklinkButtonGroupToolbar> = {
   decorators: [
     (Story) => (
       <EditorProvider initialValue={{components: []}}>
-        <Story />
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
       </EditorProvider>
     ),
   ],
@@ -58,7 +60,7 @@ Primary.args = {
         text_color: '',
         title: 'LABEL',
         action: {
-          type: '',
+          type: 'native',
           page_id: 'medical page',
           page_link: 'first aid link',
         },
@@ -69,7 +71,7 @@ Primary.args = {
         text_color: '',
         title: 'LABEL2',
         action: {
-          type: '',
+          type: 'web',
           page_id: 'report crime',
           page_link: 'local police department link',
         },

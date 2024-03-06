@@ -20,10 +20,12 @@ export enum GameEventState {
   POST_GAME = 'Post_Game',
 }
 
-export type AutocompleteItemProps = {
+export type PageAutocompleteItemProps = {
   label: string;
   value: string;
   type: string;
+  static: boolean;
+  image?: string;
 };
 
 export enum ActionType {

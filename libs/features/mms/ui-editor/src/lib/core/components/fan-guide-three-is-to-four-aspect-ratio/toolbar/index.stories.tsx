@@ -1,9 +1,9 @@
 import FanGuideThreeIsToFourAspectRatioToolbar from './index';
 import colors from '../../../../common/colors';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { Component } from '../../enum';
-import { FanGuideThreeIsToFourAspectRatioComponentProps, AutocompleteItemProps } from '../../types';
+import { FanGuideThreeIsToFourAspectRatioComponentProps, PageAutocompleteItemProps } from '../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
@@ -21,7 +21,9 @@ const Story: Meta<typeof FanGuideThreeIsToFourAspectRatioToolbar> = {
   decorators: [
     (Story) => (
       <EditorProvider initialValue={{components: []}}>
-        <Story />
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
       </EditorProvider>
     ),
   ],
@@ -29,7 +31,7 @@ const Story: Meta<typeof FanGuideThreeIsToFourAspectRatioToolbar> = {
 export default Story;
 
 type StoryArgs = FanGuideThreeIsToFourAspectRatioComponentProps & {
-  mock_action: AutocompleteItemProps[];
+  mock_action: PageAutocompleteItemProps[];
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
@@ -62,9 +64,9 @@ Primary.args = {
     btn_text: 'Get help',
   },
   mock_action: [
-    { label: 'actionOne', value: 'action.one.value', type: '' },
-    { label: 'actionTwo', value: 'action.two.link', type: '' },
-    { label: 'actionThree', value: 'action.three.link', type: '' },
+    { label: 'actionOne', value: 'action.one.value', type: '', static: false },
+    { label: 'actionTwo', value: 'action.two.link', type: '', static: false },
+    { label: 'actionThree', value: 'action.three.link', type: '', static: false },
   ],
 };
 

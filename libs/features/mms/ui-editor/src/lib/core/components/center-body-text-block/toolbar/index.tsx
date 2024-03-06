@@ -3,8 +3,8 @@ import { Divider, MenuItem } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
-import { GroupLabel, OutlinedTextField, AddButton, ToolContainer } from '../../../../elements';
-import { HyperLinkToolbar } from '../../common';
+import { GroupLabel, OutlinedTextField, AddButton } from '../../../../elements';
+import { ToolPreviewContainer, HyperLinkToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { ActionType, CenterBodyTextBlockProps } from '../../types';
 import { sizes } from '../utils';
@@ -47,7 +47,7 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
   };
 
   return (
-    <ToolContainer id={id}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id}>
       <GroupLabel label={'Text'} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <OutlinedTextField value={text_size} onChange={handleStyleChange} label="Text Size" select>
@@ -77,7 +77,7 @@ const CenterBodyTextBlockToolbar = (props: CenterBodyTextBlockProps) => {
       <AddButton onClick={handleAdd}>
         Add Link
       </AddButton>
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 

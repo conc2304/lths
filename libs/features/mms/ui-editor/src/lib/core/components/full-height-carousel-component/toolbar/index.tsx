@@ -8,7 +8,7 @@ import CarouselItemEditor from './carousel-Item-editor';
 import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, AddButton, ToolbarLabel, FlexibleTransition } from '../../../../elements';
-import { CarouselDraggableItemsList } from '../../common';
+import { ToolPreviewContainer, CarouselDraggableItemsList } from '../../common';
 import { FullHeightCarouselComponentProps, FullHeightCarouselProps } from '../../types';
 
 //TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
@@ -72,14 +72,14 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer id={`Carousel_Item${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel Item">
+          <ToolPreviewContainer onPropChange={onPropChange} id={`Carousel_Item${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel Item">
             <CarouselItemEditor
               item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}
             />
-          </ToolContainer>
+          </ToolPreviewContainer>
         }
       />
     </DndProvider>

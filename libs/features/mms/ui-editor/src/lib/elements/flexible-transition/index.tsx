@@ -1,15 +1,17 @@
 import React, { ReactElement } from 'react';
 import { useRef, useState, useEffect } from 'react';
 
+import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../common';
+
 interface FlexibleTransitionProps {
   displayRightItem: boolean;
-  minWidth: number;
+  minWidth?: number;
   leftItem: ReactElement;
   rightItem: ReactElement;
 }
 
 export const FlexibleTransition: React.FC<FlexibleTransitionProps> = (props) => {
-  const { displayRightItem, minWidth, leftItem, rightItem } = props;
+  const { displayRightItem, minWidth = FLEXIBLE_TRANSITION_MIN_WIDTH, leftItem, rightItem } = props;
 
   const hiddenElementRef = useRef(null);
   const overlayElementRef = useRef(null);

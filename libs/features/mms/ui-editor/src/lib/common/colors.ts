@@ -92,11 +92,7 @@ const colors = {
       },
     },
   },
-  linkRadio: {
-    color: '#007882',
-  },
   icon: { color: 'rgba(0, 0, 0, 0.56)' },
-  toolbar: { addButton: { border: '#46494C' }}
 };
 
 export default colors;

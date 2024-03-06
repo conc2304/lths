@@ -65,6 +65,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
           >
             {imageSrc && (
               <CardMedia
+                aria-label='selected_image'
                 component="img"
                 image={imageSrc}
                 alt="Selected Image"

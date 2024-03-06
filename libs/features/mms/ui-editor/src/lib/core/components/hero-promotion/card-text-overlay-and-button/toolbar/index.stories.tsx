@@ -1,9 +1,9 @@
 import HeroPromotionCardTextOverlayAndButtonToolbar from './index';
 import colors from '../../../../../common/colors';
-import { EditorProvider } from '../../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../../context';
 import mockComponent from '../../../../../context/mock-data';
 import { Component } from '../../../enum';
-import { CardTextOverlayAndButtonComponentProps, AutocompleteItemProps } from '../../../types';
+import { CardTextOverlayAndButtonComponentProps, PageAutocompleteItemProps } from '../../../types';
 
 import type { Meta, StoryFn } from '@storybook/react';
 
@@ -21,7 +21,9 @@ const Story: Meta<typeof HeroPromotionCardTextOverlayAndButtonToolbar> = {
   decorators: [
     (Story) => (
       <EditorProvider initialValue={{components: []}}>
-        <Story />
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
       </EditorProvider>
     ),
   ],
@@ -29,7 +31,7 @@ const Story: Meta<typeof HeroPromotionCardTextOverlayAndButtonToolbar> = {
 export default Story;
 
 type StoryArgs = CardTextOverlayAndButtonComponentProps & {
-  mock_action: AutocompleteItemProps[];
+  mock_action: PageAutocompleteItemProps[];
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {

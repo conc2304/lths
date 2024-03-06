@@ -1,6 +1,6 @@
 import HalfWidthTextToolbar from './index';
 import colors from '../../../../common/colors';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
@@ -22,7 +22,9 @@ const Story: Meta<typeof HalfWidthTextToolbar> = {
   decorators: [
     (Story) => (
       <EditorProvider initialValue={{components: []}}>
-        <Story />
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
       </EditorProvider>
     ),
   ],
@@ -58,7 +60,7 @@ Primary.args = {
     text_color: 'string',
     title: 'Anaheim Pizza Co',
     action: {
-      type: '',
+      type: 'native',
       page_id: 'map page',
       page_link: 'maplink',
     },

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { SimpleImagePicker, ToolbarLabel, OutlinedTextField  } from '../../../../elements';
-import { ToolContainer } from '../../../../elements/containers';
-import { ActionToolbar } from '../../common';
+import { SimpleImagePicker, ToolbarLabel, OutlinedTextField } from '../../../../elements';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HorizontalMediumProps } from '../../types';
 const HorizontalMediumToolbar = (props: HorizontalMediumProps) => {
@@ -17,12 +16,12 @@ const HorizontalMediumToolbar = (props: HorizontalMediumProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label={'HorizontalMedium Toolbar'}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label={'HorizontalMedium Toolbar'}>
       <ToolbarLabel label={'HorizontalMedium'} />
       <OutlinedTextField  label={'Title'} value={title} onChange={handleTitleChange} />
       <SimpleImagePicker value={file} onChange={handleFileChange} onReplace={onPropChange} />
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 

@@ -8,7 +8,7 @@ import CarouselItemEditor from './carousel-Item-editor';
 import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
 import { ToolContainer, AddButton, ToolbarLabel, FlexibleTransition } from '../../../../elements';
-import { CarouselDraggableItemsList } from '../../common';
+import { ToolPreviewContainer, CarouselDraggableItemsList } from '../../common';
 import { HalfWidthCarouselComponentProps, HalfWidthCarouselProps } from '../../types';
 
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
@@ -71,7 +71,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer
+          <ToolPreviewContainer onPropChange={onPropChange}
             id={`Carousel_Item${id}`}
             aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item"
           >
@@ -81,7 +81,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
               onPropChange={onPropChange}
               index={selectedIndex}
             />
-          </ToolContainer>
+          </ToolPreviewContainer>
         }
       />
     </DndProvider>

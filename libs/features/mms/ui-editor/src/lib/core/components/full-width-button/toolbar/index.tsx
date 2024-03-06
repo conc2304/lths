@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
 import { MenuItem } from '@mui/material';
 
-import { ToolContainer, OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { OutlinedTextField, GroupLabel, ToolbarLabel } from '../../../../elements';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { FullWidthButtonComponentProps } from '../../types';
 const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
@@ -17,7 +17,7 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
     updateComponentProp('btn_style', event.target.value);
   };
   return (
-    <ToolContainer id={id}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id}>
       <ToolbarLabel label={'Full Width Button'} />
       <OutlinedTextField
         label={'Label'}
@@ -31,7 +31,7 @@ const FullWidthButtonToolbar = (props: FullWidthButtonComponentProps) => {
         <MenuItem value="BrandFill">Brand Fill</MenuItem>
       </OutlinedTextField>
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default FullWidthButtonToolbar;

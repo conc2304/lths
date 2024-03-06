@@ -1,12 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen, within, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen, within } from '@testing-library/react';
 
 import HalfWidthCarouselFloatingTextToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
-import { HalfWidthCarouselFloatingTextComponentProps, AutocompleteItemProps } from '../../types';
+import { HalfWidthCarouselFloatingTextComponentProps, PageAutocompleteItemProps } from '../../types';
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -14,10 +14,15 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
 describe('HalfWidthCarouselFloatingText Toolbar', () => {
   let initialState;
   let component: HalfWidthCarouselFloatingTextComponentProps;
-  let mockCallbackData: AutocompleteItemProps[];
+  let mockCallbackData: PageAutocompleteItemProps[];
 
   beforeEach(() => {
     component = {
@@ -64,10 +69,10 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
     };
 
     mockCallbackData = [
-      { label: 'label1', value: 'pageId1', type: '' },
-      { label: 'label2', value: 'pageId2', type: '' },
-      { label: 'label3', value: 'pageId3', type: '' },
-      { label: 'label4', value: 'pageId4', type: '' },
+      { label: 'label1', value: 'pageId1', type: '', static: false },
+      { label: 'label2', value: 'pageId2', type: '', static: false },
+      { label: 'label3', value: 'pageId3', type: '', static: false },
+      { label: 'label4', value: 'pageId4', type: '', static: false },
     ];
   });
 
@@ -86,7 +91,9 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
   test('renders toolbar component', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthCarouselFloatingTextToolbar {...component} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthCarouselFloatingTextToolbar {...component} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -101,7 +108,9 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
   test('renders toolbar title and add button', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -116,7 +125,9 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
   test('renders toolbar with carousel items', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
     const { sub_component_data } = component.data;
@@ -133,16 +144,17 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
     });
   });
 
-  // todo this is for someone else to fix
-  xtest('renders toolbar edit item view', async () => {
+  test('renders toolbar edit item view', () => {
     const { container } = render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthCarouselFloatingTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
     const { sub_component_data } = component.data;
 
-    sub_component_data.forEach(async (item, index) => {
+    sub_component_data.forEach((item, index) => {
       const carouselListItem = screen.getByLabelText(`carousel-item-${index}`).parentElement as HTMLElement;
       expect(carouselListItem).toBeInTheDocument();
 
@@ -160,28 +172,23 @@ describe('HalfWidthCarouselFloatingText Toolbar', () => {
       const textlabel = screen.getByText('Text');
       expect(textlabel).toBeInTheDocument();
       // test data
-      const { image, img_alt_text, title, action } = sub_component_data[index];
-
-      const imageElement = screen.getByRole('img');
-      expect(imageElement).toHaveAttribute('src', image);
+      const { img_alt_text, title, action } = sub_component_data[index];
 
       expect(container.innerHTML).toContain(img_alt_text);
       expect(container.innerHTML).toContain(title);
 
-      await waitFor(() => {
-        if (action.type === 'web') {
-          const actionType = screen.getByText('weblink');
-          expect(actionType).toBeInTheDocument();
+      if (action.type === 'web') {
+        const actionType = screen.getByText('Web');
+        expect(actionType).toBeInTheDocument();
 
-          expect(container.innerHTML).toContain(action.page_link);
-        } else if (action.type === 'native') {
-          const actionType = screen.getByText('native');
-          expect(actionType).toBeInTheDocument();
+        expect(container.innerHTML).toContain(action.page_link);
+      } else if (action.type === 'native') {
+        const actionType = screen.getByText('Native');
+        expect(actionType).toBeInTheDocument();
 
-          const pageIDValue = `${mockCallbackData[index].label}(${mockCallbackData[index].value})`;
-          expect(container.innerHTML).toContain(pageIDValue);
-        }
-      });
+        const pageIDValue = `${mockCallbackData[index].label}`;
+        expect(container.innerHTML).toContain(pageIDValue);
+      }
     });
   });
 });
