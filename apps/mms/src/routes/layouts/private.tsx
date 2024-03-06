@@ -17,15 +17,16 @@ const HeaderLeft = () => {
   const appBarTextColor = theme.palette.getContrastText(theme.palette.appBar.background);
   const AppBarColorMap: Record<WebEnvName, ColorThemeMui> = {
     production: undefined,
-    development: 'error',
+    dev: 'error',
     staging: 'success',
-    qa: 'success',
+    qa: 'warning',
     local: 'error',
   };
 
   const hasEnvChip = env !== 'production';
+  console.log(hasEnvChip, env);
   const envChipColor = env && env !== undefined && Boolean(AppBarColorMap?.[env]) ? AppBarColorMap[env] : undefined;
-  const envChipLabel = env;
+  const envChipLabel = env !== 'dev' ? env : 'development';
   return (
     <Box
       data-testid="Toolbar-HeaderLeft--root"
@@ -48,11 +49,12 @@ const HeaderLeft = () => {
       </Typography>
       {hasEnvChip && envChipColor && (
         <Chip
+          data-testid="Appbar--env-indicator"
           label={envChipLabel}
           color={envChipColor}
           size="small"
           variant="filled"
-          sx={{ ml: theme.spacing(2), pt: 0, '& .MuiChip-label': { paddingX: theme.spacing(1.5) } }}
+          sx={{ ml: theme.spacing(2), pb: '1px', '& .MuiChip-label': { paddingX: theme.spacing(1.5) } }}
         />
       )}
     </Box>
