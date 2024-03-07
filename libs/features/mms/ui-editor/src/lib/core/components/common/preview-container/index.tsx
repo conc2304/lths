@@ -48,6 +48,16 @@ const ToolPreviewContainer = ({ id, children, onPropChange, ...rest }: BoxProps 
     }
   }, [previewPage]);
 
+  const getPageDesc = (page?: PageAutocompleteItemProps) => {
+    if (!page) return "Not Found";
+    
+    const pageType = page.static ? 'Static' : 'Native';
+    const pageId = page.value ? page.value : 'Not Found';
+    return `${pageType} Page ID: ${pageId}`;
+  }
+
+  const desc = getPageDesc(previewPage);
+
   return (
     <FlexibleTransition
       displayRightItem={isPreviewOpen}
@@ -58,7 +68,7 @@ const ToolPreviewContainer = ({ id, children, onPropChange, ...rest }: BoxProps 
       }
       rightItem={
         <ToolPreviewWysiwyg
-          desc={(previewPage?.static ? `Static` : `Native`) +  ` page ID: ${previewPage?.value}`}
+          desc={desc}
           isStaticPage={!!previewPage?.static}
           image={previewPage?.image}
           data={previewComponents}

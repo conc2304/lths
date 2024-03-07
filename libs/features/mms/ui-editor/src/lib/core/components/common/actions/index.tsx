@@ -102,21 +102,23 @@ const Action = (props: ActionExtendedProps) => {
         ) : (
           <PageAutocomplete data={data} onChange={handleActionPageIdChange} value={page_id} />
         )}
-        <Button
-          variant="text"
-          sx={{
-            height: 18,
-            fontSize: 12,
-            fontWeight: 500,
-            letterSpacing: '0.46px',
-            float: 'right',
-            marginTop: 1,
-          }}
-          onClick={onPreviewOpen}
-          disabled={data.length === 0 && type === ActionType.NATIVE}
-        >
-          PREVIEW
-        </Button>
+        {((type === ActionType.NATIVE && page_id) || (type === ActionType.WEBVIEW && page_link)) && 
+          <Button
+            variant="text"
+            sx={{
+              height: 18,
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: '0.46px',
+              float: 'right',
+              marginTop: 1,
+            }}
+            onClick={onPreviewOpen}
+            disabled={data.length === 0 && type === ActionType.NATIVE}
+          >
+            PREVIEW
+          </Button>
+        }
       </Box>
     </>
   );
