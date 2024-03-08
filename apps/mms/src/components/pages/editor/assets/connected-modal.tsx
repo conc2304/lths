@@ -116,12 +116,10 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
 
     uploadAsset(file)
       .unwrap()
-      .then((res) => {
-        console.log({ res });
+      .then(() => {
         toast.success(`Successfully uploaded media: ${file.name}`);
       })
       .catch((error: { data: string; status: number }) => {
-        console.log({ error });
         toast.error(error.data || 'Unable to upload media. Please try again');
       });
 
