@@ -1,3 +1,4 @@
+import { addMonths, getYear, getMonth } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 
 import { Component } from '@lths/features/mms/ui-editor';
@@ -19,7 +20,7 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
       if (value?.items?.properties && Object.keys(value?.items?.properties).length > 0)
         obj[newKey(key)].push(transformToObject(value?.items));
     } else {
-      obj[key] = value?.placeholder || '';
+      obj[key] = value?.placeholder ?? '';
     }
   }
   return obj;
@@ -41,6 +42,13 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
     } else if (payload.component_id === Component.SegmentGroup) {
       data.sub_component_data = [...Array(3)].map(() => ({ ...data.sub_component_data[0], segment_id: uuid() }));
     }
+  } else if (payload.component_id === Component.CalendarView) {
+    const start = new Date();
+    const end = addMonths(start, 11);
+    data.start_month = (getMonth(start)+1).toString();
+    data.start_year = getYear(start).toString();
+    data.end_month = (getMonth(end)+1).toString();
+    data.end_year = getYear(end).toString();
   }
 
   payload.constraints = constraints || [];

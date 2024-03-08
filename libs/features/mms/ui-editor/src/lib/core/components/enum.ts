@@ -80,4 +80,7 @@ export enum Component {
   HorizontalMedium = 'cHorizontalMedium',
   HorizontalSmall = 'cHorizontalSmall',
   HeroCarousel = 'cHeroCarousel',
+  GameCenter = 'cGameCenter',
+  CalendarView = 'cCalendarView',
+  ScheduleList = 'cScheduleList',
 }

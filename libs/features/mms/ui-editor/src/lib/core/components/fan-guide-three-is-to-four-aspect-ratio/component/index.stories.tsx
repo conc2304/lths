@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 
 import FanGuideThreeIsToFourAspectRatioComponent from './index';
+import { MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
@@ -9,22 +11,28 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof FanGuideThreeIsToFourAspectRatioComponent> = {
   component: FanGuideThreeIsToFourAspectRatioComponent,
   title: 'core/ Components/fan-guide-three-is-to-four-aspect-ratio / Component',
+  parameters: {
+    backgrounds: {
+      default: 'editor',
+      values: [
+        { name: 'editor', value: colors.editor.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+        <Box sx={{ width: MOBILE_SCREEN_WIDTH, backgroundColor: colors.editor.mobile.background }}>
+          <Story />
+        </Box>
+      </Box>
+    ),
+  ],
 };
 export default Story;
 
 const Template: StoryFn<typeof FanGuideThreeIsToFourAspectRatioComponent> = (args) => (
-  <Box
-    sx={{
-      backgroundColor: 'rgb(245, 245, 245)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-      <FanGuideThreeIsToFourAspectRatioComponent {...args} />
-    </Box>
-  </Box>
+  <FanGuideThreeIsToFourAspectRatioComponent {...args} />
 );
 
 export const Primary = Template.bind({});
@@ -33,7 +41,7 @@ Primary.args = {
   __ui_id__: '3333333',
   component_id: Component.FanGuideThreeIsToFourAspectRatio,
   data: {
-    image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
+    image: 'test.img.test',
     img_alt_text: 'image alth text name',
     title: 'Explore Honda Center',
     description: 'A description ',

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, within } from '@testing-library/react';
 import { addHours, subHours } from 'date-fns';
 
-import { EVENT_STATE, EventStateUIPostEvent, EventStateUIPreEvent, EventStateUIInEvent } from './constants';
+import { EventStateUIPostEvent, EventStateUIPreEvent, EventStateUIInEvent, EVENT_TYPE } from './constants';
 import { EventState, EventStateID } from './types';
 import {
   eventColorMap,
@@ -49,10 +49,11 @@ describe('EventTypeIcon', () => {
     expect(within(defaultContainer).getByTestId('QuestionMarkRoundedIcon')).toBeInTheDocument();
   });
 });
+
 describe('eventStateOffsetToDateRange', () => {
   it('should calculate the adjusted start and end date-times based on event state and offset (dependentPoint: start)', () => {
     const eventState = {
-      stateDependency: { dependentPoint: 'start', referencePoint: 'start' },
+      typeDependency: { dependentPoint: 'start', referencePoint: 'start' },
       relativeOffsetHrs: 2,
       start: new Date('2023-08-10T12:00:00Z').toISOString(),
       end: new Date('2023-08-10T14:00:00Z').toISOString(),
@@ -65,12 +66,12 @@ describe('eventStateOffsetToDateRange', () => {
     expect(result.start).toBe(addHours(new Date(eventState.start), offset).toISOString());
     expect(result.end).toBe(eventState.end);
     expect(result.offsetDifference).toBe(offset - eventState.relativeOffsetHrs);
-    expect(result.relativeTo).toBe(eventState.stateDependency.dependentPoint);
+    expect(result.relativeTo).toBe(eventState.typeDependency.dependentPoint);
   });
 
   it('should calculate the adjusted start and end date-times based on event state and offset (dependentPoint: end)', () => {
     const eventState = {
-      stateDependency: { dependentPoint: 'end', referencePoint: 'end' },
+      typeDependency: { dependentPoint: 'end', referencePoint: 'end' },
       relativeOffsetHrs: 2,
       start: new Date('2023-08-10T12:00:00Z').toISOString(),
       end: new Date('2023-08-10T14:00:00Z').toISOString(),
@@ -83,7 +84,7 @@ describe('eventStateOffsetToDateRange', () => {
     expect(result.start).toBe(eventState.start);
     expect(result.end).toBe(subHours(new Date(eventState.end), offset).toISOString());
     expect(result.offsetDifference).toBe(offset - eventState.relativeOffsetHrs);
-    expect(result.relativeTo).toBe(eventState.stateDependency.dependentPoint);
+    expect(result.relativeTo).toBe(eventState.typeDependency.dependentPoint);
   });
 });
 
@@ -105,7 +106,7 @@ describe('updateEventStatesWithOffsets', () => {
     const eventStates = [preEventState, inEventState];
 
     const offsetValues = {
-      [EVENT_STATE.PRE_EVENT]: 1,
+      [EVENT_TYPE.PRE_GAME]: 1,
     };
 
     const updatedEventStates = updateEventStatesWithOffsets(
@@ -113,13 +114,13 @@ describe('updateEventStatesWithOffsets', () => {
       offsetValues as Record<EventStateID, number | undefined>
     );
 
-    const newPreEventStart = updatedEventStates.find(({ state }) => state === 'PREGAME')?.start;
-    const newPreEventEnd = updatedEventStates.find(({ state }) => state === 'PREGAME')?.end;
+    const newPreEventStart = updatedEventStates.find(({ type }) => type === EVENT_TYPE.PRE_GAME)?.start;
+    const newPreEventEnd = updatedEventStates.find(({ type }) => type === EVENT_TYPE.PRE_GAME)?.end;
 
     expect(newPreEventStart).toBe(
       addHours(
         subHours(new Date(inEventState.start), preEventState.relativeOffsetHrs),
-        offsetValues[EVENT_STATE.PRE_EVENT]
+        offsetValues[EVENT_TYPE.PRE_GAME]
       ).toISOString()
     );
 
@@ -129,17 +130,17 @@ describe('updateEventStatesWithOffsets', () => {
 
 describe('EventStateUIMap', () => {
   it('should correctly map event state IDs to corresponding UI definitions', () => {
-    expect(EventStateUIMap(EVENT_STATE.PRE_EVENT)).toEqual(EventStateUIPreEvent);
-    expect(EventStateUIMap(EVENT_STATE.IN_EVENT)).toEqual(EventStateUIInEvent);
-    expect(EventStateUIMap(EVENT_STATE.POST_EVENT)).toEqual(EventStateUIPostEvent);
+    expect(EventStateUIMap(EVENT_TYPE.PRE_GAME)).toEqual(EventStateUIPreEvent);
+    expect(EventStateUIMap(EVENT_TYPE.GAME)).toEqual(EventStateUIInEvent);
+    expect(EventStateUIMap(EVENT_TYPE.POST_GAME)).toEqual(EventStateUIPostEvent);
 
     // Test for an unknown event state ID
     const testState = 'UNKNOWN_STATE';
     expect(EventStateUIMap(testState as EventStateID)).toEqual({
       desc: 'N/A',
       label: testState,
-      state: testState,
-      stateDependency: {
+      type: testState,
+      typeDependency: {
         dependentPoint: null,
         referencePoint: null,
         relativeState: null,

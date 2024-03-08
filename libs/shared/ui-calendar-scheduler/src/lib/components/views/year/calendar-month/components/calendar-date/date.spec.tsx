@@ -92,7 +92,7 @@ describe('CalendarDate', () => {
     const labelText = mockDate.toISOString().split('T')[0];
     const dateElement = getByLabelText(labelText);
     expect(dateElement).toHaveStyle('color: #FFF');
-    expect(dateElement).toHaveStyle(`background: ${RBTheme.palette.secondaryButton.light}`);
+    expect(dateElement).toHaveStyle(`background: ${RBTheme.palette.secondary.light}`);
   });
 
   it('renders with weekend styles when isWeekend is true and differentiateWeekends is true', () => {

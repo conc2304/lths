@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, createContext, useContext } from 'react';
 import { Event } from 'react-big-calendar';
 
-import { ListViewColumnHeader, RowBuilderFn } from './types';
+import { RowBuilderFn, TableColumnHeader } from '@lths/shared/ui-elements';
 
 export const withListViewContextProvider = <P extends object>(
   Component: ComponentType<P>,
@@ -17,8 +17,8 @@ export const withListViewContextProvider = <P extends object>(
 };
 
 type ListViewContextType<TEvent extends object = Event> = {
-  headerCells: ListViewColumnHeader[];
-  rowBuilder: RowBuilderFn;
+  headerCells: TableColumnHeader[];
+  rowBuilder: RowBuilderFn<TEvent>;
   headerToEventValueMap: (event: TEvent, column: string) => Date | string | number | undefined;
 };
 

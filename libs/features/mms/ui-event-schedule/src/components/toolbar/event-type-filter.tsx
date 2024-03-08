@@ -16,10 +16,9 @@ import { isEqual } from 'lodash';
 import { Views } from 'react-big-calendar';
 
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
-import { IOSSwitch, InfoTooltip } from '@lths/shared/ui-elements';
+import { IOSSwitch, InfoTooltip, SelectChipRenderer } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
-import { SelectChipRenderer } from './select-chip-renderer';
 import { EventType } from '../../types';
 
 export type EventTypeFilterProps = {
@@ -110,7 +109,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
     onFilterChange && onFilterChange([showAllValue]);
   };
 
-  const handleRemoveFilter = (id: string) => {
+  const handleRemoveFilter = (id: string | number) => {
     const newState = selectedFilters.filter(([fid]) => fid !== id);
     if (newState.length === 0) newState.push(showAllValue);
     setSelectedFilters(newState);
@@ -198,7 +197,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
         {selectedFilters.some(([id]) => id !== showAllValue[0]) && (
           <Button
             variant="text"
-            color="secondaryButton"
+            color="secondary"
             sx={{ fontWeight: 'bold' }}
             disableRipple
             onClick={() => handleReset()}
@@ -232,7 +231,7 @@ export const EventTypeFilter = (props: EventTypeFilterProps) => {
               aria-labelledby="event-states-toggle-label"
               sx={{ m: 1 }}
               value={eventStatesVisible}
-              trackActiveColor={theme.palette.secondaryButton.light}
+              trackActiveColor={theme.palette.secondary.light}
               trackInactiveColor={theme.palette.grey[500]}
               size="medium"
               thumbColor={theme.palette.grey[100]}

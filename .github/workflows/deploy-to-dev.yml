@@ -34,7 +34,7 @@ jobs:
 
       - name: Get current date in ISO format
         id: date
-        run: echo "::set-output name=date::$(date -u +'utc-%Y%m%d-%H%M')"
+        run: echo "date=$(date -u +'utc-%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -91,6 +91,7 @@ jobs:
           build-args: |
             "NX_PUBLIC_HOST_PROTOCOL=https"
             "NX_PUBLIC_API_HOST_DOMAIN=mok-dev-k8s.briteliteimmersive.io"
+            "NX_PUBLIC_WEB_ENV=dev"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
             "NX_PUBLIC_UI_VERSION=${{ github.sha }}"
             "BASE_PATH=./mms/"

@@ -16,6 +16,7 @@ export type EditorProps = {
   selectedNotification: NotificationProps;
   selectedAlert: NotificationAction | null;
   isSubmittingForm: boolean;
+  isEditorFormValid: boolean;
 };
 
 export enum EditorActionType {
@@ -25,6 +26,7 @@ export enum EditorActionType {
   OPEN_NOTIFICATION_ALERT = 'OPEN_NOTIFICATION_ALERT',
   CLOSE_NOTIFICATION_ALERT = 'CLOSE_NOTIFICATION_ALERT',
   SET_FORM_SUBMITTING = 'SET_FORM_SUBMITTING',
+  SET_EDITOR_FORM_VALID = 'SET_EDITOR_FORM_VALID',
 }
 
 export type EditorActionProps =
@@ -39,7 +41,8 @@ export type EditorActionProps =
       alert: NotificationAction;
     }
   | { type: EditorActionType.CLOSE_NOTIFICATION_ALERT }
-  | { type: EditorActionType.SET_FORM_SUBMITTING; isSubmitting: boolean };
+  | { type: EditorActionType.SET_FORM_SUBMITTING; isSubmitting: boolean }
+  | { type: EditorActionType.SET_EDITOR_FORM_VALID; isEditorFormValid: boolean };
 
 export type EditorContextProps = {
   state: EditorProps;

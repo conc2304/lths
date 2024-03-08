@@ -1,9 +1,8 @@
 import { ChangeEvent } from 'react';
-import { MenuItem, Typography, TextField, Box } from '@mui/material';
-import { Stack } from '@mui/system';
+import { MenuItem } from '@mui/material';
 
-import { ToolContainer } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { ToolbarLabel, OutlinedTextField } from '../../../../elements';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { TextButtonProps } from '../../types';
 import { sizes } from '../utils';
@@ -24,48 +23,27 @@ const TextButtonToolbar = (props: TextButtonProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="Text Button" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
-      <Stack spacing={2}>
-        <Box>
-          <Typography
-            gutterBottom
-            variant="body1"
-            sx={{
-              fontSize: '1.25rem',
-              fontWeight: '540',
-              lineHeight: '160%',
-              letterSpacing: '.15px',
-              color: '#847d7d',
-              marginBottom: 1.5,
-            }}
-          >
-            Text Link
-          </Typography>
-          <TextField
-            label={'Title'}
-            value={btn_text}
-            onChange={(e) => handleTitleChange(e)}
-            sx={{ marginY: 1.5 }}
-            fullWidth
-          />
-          <TextField
-            value={btn_text_size}
-            onChange={handleStyleChange}
-            label="Text Size"
-            select
-            fullWidth
-            sx={{ marginY: 1.5 }}
-          >
-            {sizes.map((s) => (
-              <MenuItem key={`option-${s.value}`} value={s.value}>
-                {s.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-        <ActionToolbar action={action} onPropChange={onPropChange} />
-      </Stack>
-    </ToolContainer>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="Text Button">
+      <ToolbarLabel  label={'Text Link'} />
+      <OutlinedTextField
+        label={'Title'}
+        value={btn_text}
+        onChange={(e) => handleTitleChange(e)}
+      />
+      <OutlinedTextField
+        value={btn_text_size}
+        onChange={handleStyleChange}
+        label="Text Size"
+        select
+      >
+        {sizes.map((s) => (
+          <MenuItem key={`option-${s.value}`} value={s.value}>
+            {s.label}
+          </MenuItem>
+        ))}
+      </OutlinedTextField>
+      <ActionToolbar action={action} onPropChange={onPropChange} />
+    </ToolPreviewContainer>
   );
 };
 export default TextButtonToolbar;

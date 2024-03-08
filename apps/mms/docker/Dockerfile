@@ -14,6 +14,7 @@ ARG PORT=4200
 ARG BASE_PATH=/
 ARG NX_PUBLIC_HOST_PROTOCOL="https"
 ARG NX_PUBLIC_API_HOST_DOMAIN="localhost"
+ARG NX_PUBLIC_WEB_ENV=""
 ARG NX_PUBLIC_API_HOST_VERSION_PATH="/api"
 ARG NX_PUBLIC_API_KEY
 ARG BASIC_AUTH_USER
@@ -24,6 +25,7 @@ ENV PORT $PORT
 ENV BASE_PATH $BASE_PATH
 ENV NX_PUBLIC_HOST_PROTOCOL $NX_PUBLIC_HOST_PROTOCOL
 ENV NX_PUBLIC_API_HOST_DOMAIN $NX_PUBLIC_API_HOST_DOMAIN
+ENV NX_PUBLIC_WEB_ENV $NX_PUBLIC_WEB_ENV
 ENV NX_PUBLIC_API_HOST_VERSION_PATH $NX_PUBLIC_API_HOST_VERSION_PATH
 ENV NX_PUBLIC_API_KEY $NX_PUBLIC_API_KEY
 ENV BASIC_AUTH_USER $BASIC_AUTH_USER
@@ -47,7 +49,7 @@ RUN apk update && \
     touch /etc/nginx/.htpasswd && \
     htpasswd -cb /etc/nginx/.htpasswd $BASIC_AUTH_USER $BASIC_AUTH_PASS && \
     # build the app
-    yarn nx build mms --configuration=production --skip-nx-cache --baseHref=$([[ -z "$BASE_PATH" ]] && echo "/" || echo $BASE_PATH)
+    yarn nx build mms --configuration=development --skip-nx-cache --baseHref=$([[ -z "$BASE_PATH" ]] && echo "/" || echo $BASE_PATH)
 
 EXPOSE $PORT
 

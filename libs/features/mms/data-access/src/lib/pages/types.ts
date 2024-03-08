@@ -12,11 +12,9 @@ export type ComponentProps = {
   category?: string;
   image_url: string;
   constraints: Array<Record<string, string>>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   display_order: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: { [key: string]: any };
+  schema: { [key: string]: unknown };
 };
 
 export type ComponentDetailResponse = ApiResponse<ComponentProps>;
@@ -69,8 +67,7 @@ export type PageStatus = 'DRAFT' | 'REJECTED' | 'APPROVED' | 'PUBLISHED' | 'UNPU
 export type ComponentSchema = {
   _id: string;
   component_id: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
   image_url: string;
 };
 
@@ -129,18 +126,6 @@ export type PageDetail = EditorProps & {
 export type PageItemsResponse = ApiResponse<PageDetail[]>;
 
 export type PageDetailResponse = ApiResponse<PageDetail>;
-
-export type EnumValue = {
-  display_order: number;
-  name: string;
-  value: string;
-};
-
-export type EnumListResponse = ApiResponse<{
-  _id: string;
-  enum_group: string;
-  enum_values: EnumValue[];
-}>;
 
 export type LocationItem = {
   _id: string;

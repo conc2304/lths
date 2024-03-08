@@ -33,3 +33,7 @@ export const areEqual = (str1: string, str2: string) =>
 export const escapeRegExp = (string: string) => {
   return string?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
+
+export const componentIdToName = (string: string) => {
+  return string?.replace(/([A-Z])/g, ' $1').substring(2);
+};

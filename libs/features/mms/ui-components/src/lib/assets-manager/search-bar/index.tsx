@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState, useCallback } from 'react';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -20,19 +20,23 @@ export function AssetSearchBar({
   const [inputValue, setInputValue] = useState(search || '');
 
   useEffect(() => {
-    const debounceChangeHandler = setTimeout(() => {
-      onSearch(inputValue);
-    }, debounceTime);
-    return () => clearTimeout(debounceChangeHandler);
-  }, [inputValue]);
-
-  useEffect(() => {
     setInputValue(search);
   }, [search]);
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-  };
+  const debounceSearch = () => {
+    let timer: NodeJS.Timeout;
+
+    return (e: ChangeEvent<HTMLTextAreaElement>) => {
+      setInputValue(e.target.value);
+
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        onSearch(e.target.value);
+      }, debounceTime);
+    }
+  }
+
+  const handleChange = useCallback(debounceSearch(), [onSearch, debounceTime]);
 
   return (
     <TextField

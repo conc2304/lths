@@ -8,13 +8,14 @@ export enum PageAction {
   DUPLICATE = 'DUPLICATE',
   DELETE = 'DELETE',
   PREVIEW = 'PREVIEW',
+  COMPARISON = 'COMPARISON',
   INSIGHTS = 'INSIGHTS',
   PUSH = 'PUSH',
   SHARE = 'SHARE',
 }
 
 export type ToolbarProps = {
-  onPropChange: <T>(propName: string, callback: Callback<T>, args?: unknown) => void;
+  onPropChange: <T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>) => void;
 };
 
 export type ValidationErrorProps = Record<

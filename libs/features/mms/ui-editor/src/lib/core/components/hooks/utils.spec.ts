@@ -1,8 +1,11 @@
-import { updateNestedProp } from './utils';
+import { updateNestedProp, swapArrayItems } from './utils';
 import { HeroCarouselPagePayload } from './utils.sample';
 import { ComponentProps } from '../../../context';
+import mockComponentProps from '../../../context/mock-data';
+
 describe('updateNestedProp', () => {
   const data: ComponentProps = {
+    ...mockComponentProps,
     data: {
       title: 'Test Title',
       text_size: '2',
@@ -12,15 +15,6 @@ describe('updateNestedProp', () => {
         { link_key: '2', action: { page_id: 'home', page_link: 'parking' } },
       ],
     },
-    __ui_id__: '',
-    _id: '',
-    component_id: '',
-    name: '',
-    description: '',
-    image_url: '',
-    schema: {},
-    display_order: 0,
-    variation_id: '',
   };
 
   it('should update a nested property without index', () => {
@@ -45,6 +39,53 @@ describe('updateNestedProp', () => {
   it('should create an array when a non-existent prop is used', () => {
     const updatedData = updateNestedProp(data, 'link_key', 'abc', 10, ['data', 'link_text2']);
     expect(updatedData.data['link_text2'].length).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('swapArrayItems', () => {
+  const data: ComponentProps = {
+    ...mockComponentProps,
+    data: {
+      title: 'Test Title',
+      colors: ['red', 'blue', 'green'],
+      link_text: [
+        { link_key: '1', action: { page_id: 'welcome', type: 'a', page_link: 'test' } },
+        { link_key: '2', action: { page_id: 'home', page_link: 'parking' } },
+      ],
+    },
+  };
+  
+  it('should swap item in nested array property', () => {
+    const updatedData = swapArrayItems(data, 0, 2, ['data', 'colors']);
+    expect(updatedData.data.colors[0]).toEqual(data.data.colors[2]);
+    expect(updatedData.data.colors[2]).toEqual(data.data.colors[0]);
+
+    const updatedData2 = swapArrayItems(data, 0, 1, ['data', 'link_text']);
+    expect(updatedData2.data.link_text[0]).toEqual(data.data.link_text[1]);
+    expect(updatedData2.data.link_text[1]).toEqual(data.data.link_text[0]);
+  });
+
+  it('should not update when index are out of range', () => {
+    const updatedData = swapArrayItems(data, 0, 2, ['data', 'link_text']);
+    expect(updatedData).toEqual(data);
+
+    const updatedData2 = swapArrayItems(data, -1, 1, ['data', 'link_text']);
+    expect(updatedData2).toEqual(data);
+  });
+
+  it('should not update when index not given', () => {
+    const updatedData = swapArrayItems(data, 0, undefined, ['data', 'link_text']);
+    expect(updatedData).toEqual(data);
+  });
+
+  it('should not update when final key is not an array', () => {
+    const updatedData = swapArrayItems(data, 0, 1, ['data', 'title']);
+    expect(updatedData).toEqual(data);
+  });
+
+  it('should not create path if one dose not exist', () => {
+    const updatedData = swapArrayItems(data, 0, 1, ['data', 'new_key_1', 'new_key_2']);
+    expect(updatedData).toEqual(data);
   });
 });
 

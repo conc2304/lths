@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Divider } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
@@ -8,8 +7,8 @@ import { v4 as uuid } from 'uuid';
 import CarouselItemEditor from './carousel-Item-editor';
 import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
-import { CarouselDraggableItemsList } from '../../common';
+import { ToolContainer, AddButton, ToolbarLabel, FlexibleTransition } from '../../../../elements';
+import { ToolPreviewContainer, CarouselDraggableItemsList } from '../../common';
 import { FullHeightCarouselComponentProps, FullHeightCarouselProps } from '../../types';
 
 //TODO: Fix lint, create onChange wrapper function, change event prop names to start with 'on'
@@ -66,28 +65,21 @@ const FullHeightCarouselToolbar = (props: FullHeightCarouselComponentProps) => {
           <ToolContainer id={`Carousel_${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
             <CarouselDraggableItemsList props={props} onEdit={onEdit} />
-            <div>
-              <Button
-                data-testid={'Add Carousel Item'}
-                variant="outlined"
-                onClick={onAdd}
-                sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
-              >
-                <AddIcon sx={{ width: '18px', height: '18px' }} />
-                ADD ITEM
-              </Button>
-            </div>
+            <Divider/>
+            <AddButton onClick={onAdd}>
+              ADD ITEM
+            </AddButton>
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer id={`Carousel_Item${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel Item">
+          <ToolPreviewContainer onPropChange={onPropChange} id={`Carousel_Item${id}`} aria-label="Full Height Carousel Text Toolbar: Carousel Item">
             <CarouselItemEditor
               item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}
             />
-          </ToolContainer>
+          </ToolPreviewContainer>
         }
       />
     </DndProvider>

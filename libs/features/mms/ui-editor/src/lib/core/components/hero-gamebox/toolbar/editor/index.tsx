@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
-import { MenuItem, TextField } from '@mui/material';
+import { MenuItem } from '@mui/material';
 
-import { GroupLabel, SimpleImagePicker, SwitchButton } from '../../../../../elements';
+import { GroupLabel, SimpleImagePicker, SwitchButton, OutlinedTextField } from '../../../../../elements';
 import { useToolbarChange } from '../../../hooks';
 import { GameEventState, HeroGameboxComponentProps, ItemPositionalProps } from '../../../types';
 import InGameToolbar from '../in-game';
@@ -59,16 +59,16 @@ const GameBoxEditor = (props: GameboxEditorProps) => {
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       {showHeader && (
         <>
-          <TextField value={title} onChange={handleTitleChange} label="Title" fullWidth />
+          <OutlinedTextField value={title} onChange={handleTitleChange} label="Title"/>
           <SwitchButton isChecked={show_greetings} onChange={handleShowGreetingsPropchange} label="Show Greetings" />
         </>
       )}
       <GroupLabel label="Game Events" />
-      <TextField value={eventState} onChange={handleEventStateChange} label="Event State" select fullWidth>
+      <OutlinedTextField value={eventState} onChange={handleEventStateChange} label="Event State" select>
         <MenuItem value={PRE_GAME}>Pre Game</MenuItem>
         <MenuItem value={IN_GAME}>In Game</MenuItem>
         <MenuItem value={POST_GAME}>Post Game</MenuItem>
-      </TextField>
+      </OutlinedTextField>
       {eventState === PRE_GAME && <PreGameToolbar {...pregame} onPreGamePropChange={handlePreGamePropChange} />}
       {eventState === IN_GAME && (
         <InGameToolbar

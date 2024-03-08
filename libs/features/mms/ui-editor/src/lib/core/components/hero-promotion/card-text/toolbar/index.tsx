@@ -1,16 +1,16 @@
 import CardTextEditor from './editor';
 import { ToolbarLabel } from '../../../../../elements';
-import { ToolContainer } from '../../../../../elements/containers';
+import { ToolPreviewContainer } from '../../../common';
 import { CardTextComponentProps } from '../../../types';
 
 const CardTextToolbar = (props: CardTextComponentProps) => {
-  const { __ui_id__: id } = props;
+  const { __ui_id__: id, onPropChange } = props;
 
   return (
-    <ToolContainer id={id} aria-label={'Card Text Toolbar'}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label={'Card Text Toolbar'}>
       <ToolbarLabel label={'Hero Promotion'} />
       <CardTextEditor {...props} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default CardTextToolbar;

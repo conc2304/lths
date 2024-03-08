@@ -12,9 +12,16 @@ type Props = {
   onActionClick: (action: string) => void;
   status: string;
   title: string;
+  disableButtons: boolean;
 };
 
-export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Notification name', status }: Props) => {
+export const NotificationHeader = ({
+  onStatusChange,
+  onActionClick,
+  title = 'Notification name',
+  status,
+  disableButtons = false,
+}: Props) => {
   const setNotificationStatusSent = () => {
     onStatusChange(NotificationStatusProps.SENT);
   };
@@ -24,7 +31,7 @@ export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Not
       id: NotificationStatusProps.SENT,
       label: 'PUSH NOW',
       action: setNotificationStatusSent,
-      isDisabled: false,
+      isDisabled: disableButtons,
     },
   ];
 
@@ -34,9 +41,15 @@ export const NotificationHeader = ({ onStatusChange, onActionClick, title = 'Not
       title={title}
       leftContent={<NotificationActions onActionClick={onActionClick} />}
       rightContent={
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={3}>
           <NotificationStatus status={status} />
-          <MenuButton buttonText="PUSH" buttonAction={setNotificationStatusSent} items={menuItems} />
+          <MenuButton
+            buttonText="PUSH"
+            buttonAction={setNotificationStatusSent}
+            items={menuItems}
+            isDisabled={disableButtons}
+            size="medium"
+          />
         </Stack>
       }
     />

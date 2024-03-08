@@ -1,8 +1,8 @@
 import { CircularProgress, List, ListItemText, Stack } from '@mui/material';
+import SectionItemButton from '@mui/material/ListItemButton';
 
 import { Colors } from '@lths/features/mms/ui-editor';
 
-import SectionItemButton from '../../list-item';
 import { CatergorySectionProps } from '../../types';
 
 const CategorySection = ({

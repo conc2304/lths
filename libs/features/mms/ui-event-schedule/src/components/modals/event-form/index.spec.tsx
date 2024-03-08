@@ -54,18 +54,28 @@ describe('EventFormModal', () => {
   });
 
   it('should allow submit when filled', async () => {
+    const user = userEvent.setup();
+
     const eventValues = getNewEvent({ eventTypeID: 'COMEDY' });
     renderComponent({ eventValues });
-    const { getByText } = component;
+    const { getByText, getByTestId } = component;
 
-    await userEvent.click(getByText('Save'));
+    const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
+    const saveBtn = getByText('Save');
+    expect(saveBtn).toBeDisabled();
+    const textToAdd = ' Add text'; // form needs to be dirty to change
+    await user.type(inputElem, textToAdd);
+    await user.tab();
+    expect(saveBtn).not.toBeDisabled();
+
+    await user.click(saveBtn);
 
     // Wait for the form to be submitted and the modal to close
     await waitFor(() => {
       // Assert that onSaveMock has been called with the correct values
       expect(onSaveMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          eventName: eventValues.title,
+          eventName: eventValues.title + textToAdd,
           description: eventValues.desc,
           isAllDay: eventValues.allDay,
         }),
@@ -148,12 +158,7 @@ describe('EventFormModal', () => {
   });
 
   it('should disable submit button when form is invalid', async () => {
-    const user = userEvent.setup();
-
     renderComponent();
-
-    // Try to submit the form with invalid input
-    await user.click(screen.getByText('Save'));
 
     // Assert that the submit button is disabled
     expect(screen.getByText('Save')).toBeDisabled();

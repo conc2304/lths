@@ -19,7 +19,7 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
   } = props;
 
   const { updateComponent } = useEditorActions();
-  const { swapComponentProps, generateUniqueId } = useToolbarChange();
+  const { handleSwapChange, generateUniqueId } = useToolbarChange();
 
   useEffect(() => {
     generateUniqueId();
@@ -35,7 +35,8 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
 
   const handleDrag = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      swapComponentProps(dragIndex, hoverIndex);
+      const pathKeys = ['sub_component_data'];
+      handleSwapChange(dragIndex, hoverIndex, pathKeys);
     },
     [props.data]
   );
@@ -43,7 +44,7 @@ const CarouselDraggableItemsList: React.FC<CarouselDraggableItemsListProps> = ({
   return (
     sub_component_data &&
     sub_component_data.length > 0 && (
-      <List>
+      <List sx={{ padding: 0 }}>
         {sub_component_data.map((item, index) => (
           <DraggableCarouselListItem
             key={item._ui_id_ || `carousel_item_${index}`}

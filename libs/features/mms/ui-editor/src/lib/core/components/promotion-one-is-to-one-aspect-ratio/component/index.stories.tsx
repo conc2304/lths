@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 
 import PromotionOneIsToOneAspectRatioComponent from './index';
+import { MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
@@ -9,22 +11,28 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof PromotionOneIsToOneAspectRatioComponent> = {
   component: PromotionOneIsToOneAspectRatioComponent,
   title: 'core/ Components/ promotion-one-is-to-one-aspect-ratio / Component',
+  parameters: {
+    backgrounds: {
+      default: 'editor',
+      values: [
+        { name: 'editor', value: colors.editor.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+        <Box sx={{ width: MOBILE_SCREEN_WIDTH, backgroundColor: colors.editor.mobile.background }}>
+          <Story />
+        </Box>
+      </Box>
+    ),
+  ],
 };
 export default Story;
 
 const Template: StoryFn<typeof PromotionOneIsToOneAspectRatioComponent> = (args) => (
-  <Box
-    sx={{
-      backgroundColor: 'rgb(245, 245, 245)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-      <PromotionOneIsToOneAspectRatioComponent {...args} />
-    </Box>
-  </Box>
+  <PromotionOneIsToOneAspectRatioComponent {...args} />
 );
 
 export const Primary = Template.bind({});
@@ -33,7 +41,7 @@ Primary.args = {
   __ui_id__: '3333333',
   component_id: Component.PromotionOneIsToOneAspectRatio,
   data: {
-    image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
+    image: 'test.Image-1.png',
     img_alt_text: 'image alth text name',
     title: 'Explore Honda Center',
     description: 'mock description',

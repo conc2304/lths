@@ -17,6 +17,7 @@ import {
   Views,
 } from 'react-big-calendar';
 
+import { BaseRowBuilder, RowBuilderFn, TableColumnHeader } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { CALENDAR_MESSAGES, DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
@@ -25,9 +26,7 @@ import {
   ViewMode,
   LTHSView,
   EventComponentProps,
-  RowBuilderFn,
   HeaderToEventValueMapFn,
-  ListViewColumnHeader,
   ToolbarHeaderProps,
   CalendarCustomProperties,
 } from '../../types';
@@ -35,7 +34,6 @@ import { DateCellWrapper, TimeGutterHeader, TimeGutterWrapper, TimeSlotWrapper }
 import { ToolbarHeader } from '../toolbar-header';
 import { DayList, WeekList, MonthList, MonthDateHeader, MonthHeader, WeekHeader, YearList, YearView } from '../views';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
-import { BaseRowBuilder } from '../views/list-view/row-builder';
 
 import './calendar.scss';
 
@@ -57,8 +55,8 @@ export type LTHSCalendarProps<TEvent extends object = Event> = {
   cssVariableOverrides?: CalendarCustomProperties;
 
   //  For ListViewContextProvider
-  headerCells: ListViewColumnHeader[];
-  rowBuilder: RowBuilderFn;
+  headerCells: TableColumnHeader[];
+  rowBuilder: RowBuilderFn<TEvent>;
   headerToEventValueMap: HeaderToEventValueMapFn;
 };
 
@@ -229,7 +227,9 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
           ...cssVariables,
         }}
       >
-        <ListViewContextProvider values={{ headerCells, rowBuilder, headerToEventValueMap }}>
+        <ListViewContextProvider
+          values={{ headerCells, rowBuilder: rowBuilder as RowBuilderFn<Event>, headerToEventValueMap }}
+        >
           <Calendar
             components={components}
             defaultDate={defaultDate}

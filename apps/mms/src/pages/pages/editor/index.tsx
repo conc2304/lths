@@ -1,14 +1,14 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
+import { styled } from '@mui/material/styles';
+import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
   useLazyGetComponentDetailQuery,
-  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
@@ -16,6 +16,8 @@ import {
   useLazyGetEnumListQuery,
   ComponentProps,
   transformUpdatePageDetailRequest,
+  EnumGroup,
+  UseGetPageListQuery,
 } from '@lths/features/mms/data-access';
 import {
   PageAdapterProvider,
@@ -32,8 +34,9 @@ import {
   useEditorActions,
   EditorProvider,
   Callback,
-  AutocompleteItemProps,
+  PageAutocompleteItemProps,
   AutocompleteOptionProps,
+  ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
@@ -60,6 +63,12 @@ const StatusChangeModalData = {
     status: PageStatus.UNPUBLISHED,
   },
 };
+
+const TabStyled = styled(Tab)(({ theme }) => ({
+  '&.Mui-selected': { color: "#3D4752" },
+  letterSpacing: theme.spacing(0.005),
+}));
+
 const TabItems = {
   page_design: { value: 'page_design', label: 'PAGE DESIGN' },
   constraints: { value: 'constraints', label: 'CONSTRAINTS' },
@@ -69,12 +78,13 @@ export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
-  const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
+  const [getPreviewPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
-  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+  const getPageList = UseGetPageListQuery();
 
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
@@ -106,6 +116,13 @@ export function PageEditorTabs() {
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+
+  useBeforeUnload(handleBeforeUnload, hasUnsavedEdits);
+
   //fetch params
   const page_data = data as PageDetail;
 
@@ -118,25 +135,18 @@ export function PageEditorTabs() {
     if (page_data?.name) setPageTitle(page_data.name);
   }, [page_data?.name]);
 
-  //fetch
-  const fetchPageDetail = async (pageId: string) => {
-    try {
-      const response = await getPageDetail(pageId).unwrap();
-      if (response && response.success && response.data) {
-        initEditor(response.data);
-      } else {
-        toast.error('Page details could not be found');
-      }
-    } catch (error) {
-      console.error('Error in fetching the page details', error);
-      toast.error('Page details could not be found');
-    }
-  };
-
   //side effects
   useEffect(() => {
-    if (pageId) fetchPageDetail(pageId);
+    if (pageId) getPageDetail(pageId);
   }, [pageId]);
+
+  useEffect(() => {
+    if (pageDetailResponse) {
+      const { data, success } = pageDetailResponse;
+      if (success && data) initEditor(data);
+      else toast.error('Page details could not be found');
+    }
+  }, [pageDetailResponse]);
 
   //modal events
   const handleSelectComponent = async (componentId: string) => {
@@ -199,13 +209,8 @@ export function PageEditorTabs() {
   //TODO: API is not typed yet, so using any for now
   const handlAddAction = async (callback: (data) => void) => {
     try {
-      const response = await getDefaultPage().unwrap();
-      if (response && response.success && response.data) {
-        return callback(response.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
-      } else {
-        toast.error('Default page list could not be found.');
-        return callback([]);
-      }
+      const pageList = await getPageList();
+      return callback(pageList);
     } catch (error) {
       console.error('Error in fetching the default page list', error);
       toast.error('Default page list could not be found.');
@@ -228,7 +233,7 @@ export function PageEditorTabs() {
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
     try {
-      const response = await getEnumList('ActionIcons').unwrap();
+      const response = await getEnumList(EnumGroup.ACTION_ICONS).unwrap();
       if (response && response.success && response.data)
         return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
       else {
@@ -250,15 +255,32 @@ export function PageEditorTabs() {
     });
   };
 
-  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+  const handlAddPageDetail = async (pageId: string, callback: (data: ComponentPropsUiEditor[]) => void) => {
+    try {
+      const response = await getPreviewPageDetail(pageId).unwrap();
+      if (response && response.success && response.data) return callback(response.data.components);
+      else {
+        toast.error('Page Detail could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the Page Detail', error);
+      toast.error('Page Detail could not be found.');
+    }
+  };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>): void {
     if (propName === 'image_url') {
       handleAddImage(callback as Callback<string>);
     } else if (propName === 'action') {
-      handlAddAction(callback as Callback<AutocompleteItemProps>);
+      handlAddAction(callback as Callback<PageAutocompleteItemProps[]>);
     } else if (propName === 'social_icon') {
       handleAddSocialIcon(callback as Callback<EnumValue>);
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
+    } else if (propName === 'pageDetail') {
+      const pageId = props.pageId as string || '';
+      handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
     } else if (propName === 'hero_carousel_component_modal') {
       handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
     }
@@ -345,7 +367,7 @@ export function PageEditorTabs() {
 
   // handlers
   const handleActionClick = (action: PageAction) => {
-    const { page_id, name } = page_data;
+    const { page_id, name, default_page_id } = page_data;
     switch (action) {
       case PageAction.RENAME:
         openAlert(PageAction.RENAME, { page_id, name });
@@ -358,6 +380,9 @@ export function PageEditorTabs() {
         break;
       case PageAction.PREVIEW:
         console.log('Not implemented: preview');
+        break;
+      case PageAction.COMPARISON:
+        openAlert(PageAction.COMPARISON, { page_id, default_page_id });
         break;
       case PageAction.INSIGHTS:
         console.log('Not implemented: insights');
@@ -396,9 +421,9 @@ export function PageEditorTabs() {
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
-          <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
-          <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
+          <TabStyled label={TabItems.page_design.label} value={TabItems.page_design.value} />
+          {isVariantPage && <TabStyled label={TabItems.constraints.label} value={TabItems.constraints.value} />}
+          <TabStyled label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
       <Box>
@@ -451,7 +476,7 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <Backdrop open={isFetchingComponentDetail}>
+      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail} sx={{ zIndex: 2 }}>
         <CircularProgress />
       </Backdrop>
       <UnSavedPageAlert

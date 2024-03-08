@@ -1,8 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 
 import { ToolbarLabel, OutlinedTextField, GroupLabel, ImageAutocomplete, SimpleImagePicker, AutocompleteOptionProps } from '../../../../elements';
-import { ToolContainer } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HalfWidthTextComponentProps } from '../../types';
 
@@ -48,7 +47,7 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label={'Half Width Text Toolbar'}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label={'Half Width Text Toolbar'}>
       <ToolbarLabel label={'Component'} />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
       <GroupLabel label={'Text'} />
@@ -71,7 +70,7 @@ const HalfWidthTextToolbar = (props: HalfWidthTextComponentProps) => {
       <GroupLabel label={'Button'} />
       <OutlinedTextField label={'Label'} value={btn_text} onChange={handleButtonTextChange} />
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 

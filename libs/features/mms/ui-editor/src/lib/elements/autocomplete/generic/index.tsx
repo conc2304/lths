@@ -54,6 +54,7 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
       getOptionLabel={handleGetOptionLabel}
       renderOption={handleRenderOption}
       onChange={handleAutocompleteChange}
+      size="small"
       renderInput={(params) => (
         <TextField
           {...params}
