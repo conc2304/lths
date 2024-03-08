@@ -39,6 +39,7 @@ describe('PrivateLayout', () => {
 
   describe('environment indicator', () => {
     // The first item in the tuple is the env variable passed down from the ci pipeline
+    jest.mock('../../../../../.env', () => { "" }, {virtual: true})
     const envs: [WebEnvName, string][] = [
       ['dev', 'development'],
       ['local', 'local'],

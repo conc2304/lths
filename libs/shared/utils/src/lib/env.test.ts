@@ -63,6 +63,14 @@ describe('getEnv', () => {
     });
 
     describe('environment indicator', () => {
+      jest.mock(
+        '../../../../../.env',
+        () => {
+          ('');
+        },
+        { virtual: true }
+      );
+
       // The first item in the tuple is the env variable passed down from the ci pipeline
       const envs: WebEnvName[] = ['dev', 'local', 'qa', 'staging', 'production'];
 
