@@ -7,6 +7,7 @@ declare module '@mui/material/styles/createPalette' {
     appBar?: {
       background?: Property.BackgroundColor;
     };
+    snackBar?: PaletteColor;
     sideBar?: {
       background?: Property.BackgroundColor;
       iconColor?: Property.Color;
@@ -17,6 +18,7 @@ declare module '@mui/material/styles/createPalette' {
     appBar?: {
       background?: Property.BackgroundColor;
     };
+    snackBar?: PaletteColorOptions;
     sideBar?: {
       background?: Property.BackgroundColor;
       iconColor?: Property.Color;
