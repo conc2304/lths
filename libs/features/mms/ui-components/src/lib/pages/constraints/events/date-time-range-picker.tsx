@@ -5,8 +5,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { format } from 'date-fns';
-import { toast } from 'react-hot-toast';
 
+import { toast } from '@lths/shared/ui-elements';
 import { ordinalifyNumber } from '@lths/shared/ui-elements';
 
 import { colors } from '../../../common';
@@ -50,7 +50,7 @@ const DateTimeRangePicker = (props: Props) => {
       startDateTime.setHours(startTime.getHours(), startTime.getMinutes());
 
       if (startDateTime.toDateString() === endDateTime.toDateString() && endDateTime < startDateTime) {
-        toast.error('End time cannot be before start time on the same day.');
+        toast.add('End time cannot be before start time on the same day.', { type: 'error' });
         onDateRangeChange('endTime', new Date(startTime));
       } else {
         onDateRangeChange('endTime', endDateTime);

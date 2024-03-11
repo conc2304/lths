@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { toast } from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
@@ -21,6 +20,7 @@ import {
   AssetModals,
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
+import { toast } from '@lths/shared/ui-elements';
 import {
   Table,
   TablePaginationProps,
@@ -217,7 +217,7 @@ export default function AssetsPage() {
     if (newAsset && allowedFileTypes.includes(newAsset.type)) {
       try {
         await addResource({ newAsset, user: currentUser.username }).unwrap();
-        toast.success('Asset has been added successfully.');
+        toast.add(`Asset has been added successfully.`, { type: 'success' });
         setCurrPage(0);
         setSearch({ queryString: '' });
         setCurrSorting({ order: 'desc', column: headers[1].id });

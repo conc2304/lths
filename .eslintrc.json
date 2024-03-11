@@ -98,7 +98,7 @@
               },
               {
                 "name": "react-hot-toast",
-                "message": "Importing default from 'react-hot-toast' is not allowed. Use 'toastQueueService' from '@lths/shared/ui-elements' instead."
+                "message": "Using 'react-hot-toast' for notifications is now deprecated. Use import { toast } from '@lths/shared/ui-elements' instead."
               }
             ]
           }

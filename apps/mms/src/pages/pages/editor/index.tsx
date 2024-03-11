@@ -3,7 +3,6 @@ import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/
 import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
-import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
@@ -39,6 +38,7 @@ import {
   ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
+import { toast } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { ComponentModal } from '../../../components/pages/editor';
@@ -65,7 +65,7 @@ const StatusChangeModalData = {
 };
 
 const TabStyled = styled(Tab)(({ theme }) => ({
-  '&.Mui-selected': { color: "#3D4752" },
+  '&.Mui-selected': { color: '#3D4752' },
   letterSpacing: theme.spacing(0.005),
 }));
 
@@ -144,7 +144,7 @@ export function PageEditorTabs() {
     if (pageDetailResponse) {
       const { data, success } = pageDetailResponse;
       if (success && data) initEditor(data);
-      else toast.error('Page details could not be found');
+      else toast.add('Page details could not be found', { type: 'error' });
     }
   }, [pageDetailResponse]);
 
@@ -157,11 +157,11 @@ export function PageEditorTabs() {
         if (compCallback) compCallback(response.data);
         else addComponent(response.data);
       } else {
-        toast.error('Component details could not be found');
+        toast.add('Component details could not be found', { type: 'error' });
       }
     } catch (error) {
       console.error('Error in fetching the component details', error);
-      toast.error('Component details could not be found');
+      toast.add('Component details could not be found', { type: 'error' });
     }
   };
 
@@ -213,7 +213,7 @@ export function PageEditorTabs() {
       return callback(pageList);
     } catch (error) {
       console.error('Error in fetching the default page list', error);
-      toast.error('Default page list could not be found.');
+      toast.add('Default page list could not be found.', { type: 'error' });
     }
   };
 
@@ -222,12 +222,12 @@ export function PageEditorTabs() {
       const response = await getEnumList('socialIcons').unwrap();
       if (response && response.success && response.data) return callback(response.data.enum_values);
       else {
-        toast.error('Social icon list could not be found.');
+        toast.add('Social icon list could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the social icon list', error);
-      toast.error('Social icon list could not be found.');
+      toast.add('Social icon list could not be found.', { type: 'error' });
     }
   };
 
@@ -237,12 +237,12 @@ export function PageEditorTabs() {
       if (response && response.success && response.data)
         return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
       else {
-        toast.error('Icon list could not be found.');
+        toast.add('Icon list could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the icon list', error);
-      toast.error('Icon list could not be found.');
+      toast.add('Icon list could not be found.', { type: 'error' });
     }
   };
 
@@ -260,12 +260,12 @@ export function PageEditorTabs() {
       const response = await getPreviewPageDetail(pageId).unwrap();
       if (response && response.success && response.data) return callback(response.data.components);
       else {
-        toast.error('Page Detail could not be found.');
+        toast.add('Page Detail could not be found.', { type: 'error' });
         return callback([]);
       }
     } catch (error) {
       console.error('Error in fetching the Page Detail', error);
-      toast.error('Page Detail could not be found.');
+      toast.add('Page Detail could not be found.', { type: 'error' });
     }
   };
 
@@ -279,7 +279,7 @@ export function PageEditorTabs() {
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
     } else if (propName === 'pageDetail') {
-      const pageId = props.pageId as string || '';
+      const pageId = (props.pageId as string) || '';
       handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
     } else if (propName === 'hero_carousel_component_modal') {
       handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
@@ -318,7 +318,7 @@ export function PageEditorTabs() {
         try {
           await handleUpdatePageDetails();
         } catch (error) {
-          toast.error('Error in saving page details');
+          toast.add('Error in saving page details', { type: 'error' });
           console.error('Error in saving page details', error);
           return;
         }
@@ -329,13 +329,13 @@ export function PageEditorTabs() {
       }).unwrap();
       if (response && response.success && response.data) {
         initEditor(response.data);
-        toast.success(modalData.success);
+        toast.add(modalData.success, { type: 'success' });
       } else {
-        toast.error(modalData.error);
+        toast.add(modalData.error, { type: 'error' });
       }
     } catch (error) {
       console.error('Error in updating the page', error);
-      toast.error(modalData.error);
+      toast.add(modalData.error, { type: 'error' });
     }
     setOpenModal(false);
   };
@@ -350,16 +350,16 @@ export function PageEditorTabs() {
 
       if (response?.success) {
         if (!isPageSaved) {
-          toast.success('Page details has been updated successfully');
+          toast.add('Page details has been updated successfully', { type: 'success' });
         }
         initEditor(response?.data);
         setIsPageSaved(true);
       } else {
-        toast.error('Failed to update the page details');
+        toast.add('Failed to update the page details', { type: 'error' });
         setIsPageSaved(false);
       }
     } catch (error) {
-      toast.error('Failed to update the page details');
+      toast.add('Failed to update the page details', { type: 'error' });
       console.error('Error in updating page details', error.message);
       setIsPageSaved(false);
     }
@@ -398,7 +398,7 @@ export function PageEditorTabs() {
       await handleUpdatePageDetails();
       cancelNavigation();
     } catch (error) {
-      toast.error('Error in saving page details');
+      toast.add('Error in saving page details', { type: 'error' });
       console.error('Error in saving page details', error);
     }
   };

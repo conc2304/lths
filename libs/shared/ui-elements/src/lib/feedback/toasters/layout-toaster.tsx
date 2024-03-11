@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
-import { resolveValue, toast, useToaster } from 'react-hot-toast';
+import { resolveValue, toast as toast_rht, useToaster } from 'react-hot-toast';
 
-import { toastQueueService } from './toast-service';
+import { toast } from './toast-service';
 
 export const LayoutToaster = () => {
   const theme = useTheme();
@@ -154,8 +154,8 @@ export const LayoutToaster = () => {
                     <IconButton
                       data-testid="LayoutToaster--close-btn"
                       onClick={() => {
-                        toast.dismiss(t.id);
-                        toastQueueService.processQueue();
+                        toast_rht.dismiss(t.id);
+                        toast.processQueue();
                       }}
                     >
                       <Close fontSize="small" htmlColor="#C4C4C4" />

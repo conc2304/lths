@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -19,6 +18,7 @@ import {
   useEditorActions,
   useNotificationTopics,
 } from '@lths/features/mms/ui-notifications';
+import { toast } from '@lths/shared/ui-elements';
 
 import { ArchiveAlert, DuplicateAlert, SendAlert } from '../dialogs';
 import { CreateNotificationModal, EditNotificationModal } from '../modals';
@@ -60,7 +60,7 @@ const NotificationAdapter = ({ children }: Props) => {
     try {
       const response = await createNotification(requestData).unwrap();
       if (response.success) {
-        toast.success('Notification has been created successfully.');
+        toast.add('Notification has been created successfully.', { type: 'success' });
         const {
           data: { _id },
         } = response;
@@ -70,7 +70,7 @@ const NotificationAdapter = ({ children }: Props) => {
       }
     } catch (error) {
       console.error('Error in create the notification', error);
-      toast.error('Failed to create the notification');
+      toast.add('Failed to create the notification', { type: 'error' });
     }
   };
 
@@ -90,7 +90,7 @@ const NotificationAdapter = ({ children }: Props) => {
       const response = await updateNotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toast.success('Notification has been updated successfully.');
+        toast.add('Notification has been updated successfully.', { type: 'success' });
         if (response?.data) {
           selectNotification(response.data);
         }
@@ -99,7 +99,7 @@ const NotificationAdapter = ({ children }: Props) => {
       }
     } catch (error) {
       console.error('Error in updating the notification', error);
-      toast.error('Failed to update the notification');
+      toast.add('Failed to update the notification', { type: 'error' });
     }
   };
 
@@ -114,14 +114,14 @@ const NotificationAdapter = ({ children }: Props) => {
       const response = await sendNotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toast.success('Notification has been sent successfully');
+        toast.add('Notification has been sent successfully', { type: 'success' });
         if (response.data) navigate('/notifications');
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
       console.error('Error in sending the notification', error);
-      toast.error('Failed to send the notification');
+      toast.add('Failed to send the notification', { type: 'error' });
     }
   };
 
@@ -130,14 +130,14 @@ const NotificationAdapter = ({ children }: Props) => {
       const response = await archiveNotification(_id).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toast.success('Notification has been archived successfully');
+        toast.add('Notification has been archived successfully', { type: 'success' });
         if (response.data) navigate('/notifications');
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
       console.error('Error in archiving the notification', error);
-      toast.error('Failed to archive the notification');
+      toast.add('Failed to archive the notification', { type: 'error' });
     }
   };
 
@@ -146,14 +146,14 @@ const NotificationAdapter = ({ children }: Props) => {
       const response = await duplicateNotification({ id: _id }).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toast.success('Notification has been duplicated successfully');
+        toast.add('Notification has been duplicated successfully', { type: 'success' });
         if (response.data) navigate(`/notifications/editor/${response.data._id}`);
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
       console.error('Error in duplicating the notification', error);
-      toast.error('Failed to duplicate the notification');
+      toast.add('Failed to duplicate the notification', { type: 'error' });
     }
   };
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
   useLazyGetAssetsItemsQuery,
-  useAddResourceMutation, 
-  useAppSelector
+  useAddResourceMutation,
+  useAppSelector,
 } from '@lths/features/mms/data-access';
 import { useLazyGetUserQuery } from '@lths/shared/data-access';
+import { toast } from '@lths/shared/ui-elements';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 import AssetsModal from './modal';
@@ -72,7 +72,11 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     }
   }, [open]);
 
-  const onFetch = async (pagination: TablePaginationProps, sorting: TableSortingProps, search: { queryString: string }) => {
+  const onFetch = async (
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) => {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -129,7 +133,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     try {
       const owner = await getUser(user.userId);
       await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-      toast.success('Asset has been added successfully.');
+      toast.add('Asset has been added successfully.', { type: 'success' });
       if (currPagination) {
         setCurrPagination({ ...currPagination, page: 0 });
       }

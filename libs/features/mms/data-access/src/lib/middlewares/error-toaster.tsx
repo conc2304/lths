@@ -1,6 +1,6 @@
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
 
-import { toastQueueService } from '@lths/shared/ui-elements';
+import { toast } from '@lths/shared/ui-elements';
 import { hashString } from '@lths/shared/utils';
 
 export const errorToasterMiddleware: Middleware = () => (next) => (action) => {
@@ -49,7 +49,7 @@ export const errorToasterMiddleware: Middleware = () => (next) => (action) => {
     // this allows us to dedupe errors of the same type AND same message and not just the same type
     id = id ? `${id}_${hashString(msg.toString())}` : undefined;
 
-    toastQueueService.addToastToQueue(msg, { id, type: 'important' });
+    toast.add(msg, { id, type: 'important' });
     console.warn('ERROR : ', msg, ` id: ${id}`, action);
   }
   return next(action);
