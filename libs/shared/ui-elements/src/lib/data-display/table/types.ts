@@ -45,11 +45,12 @@ export type SortDirection = 'asc' | 'desc';
 
 export type ColumnLabelTextFormat = 'uppercase' | 'lowercase' | 'capitalize' | 'unformatted';
 
-export type TableColumnHeader = Record<string, unknown> & {
-  id: string;
+export type TableColumnHeader<Key extends string = string> = Record<string, unknown> & {
+  id: Key;
   label: string;
   sortable: boolean;
   width?: Property.Width;
+  align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
 };
 
 export type PersistantUserSettings = {

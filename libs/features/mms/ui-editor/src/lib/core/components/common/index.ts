@@ -7,5 +7,6 @@ export { default as CarouselDraggableItemsList } from './carousel-draggable-item
 export { default as ActionToolbar } from './actions';
 export { default as HyperLinkToolbar } from './hyper-link';
 export { default as Carousel } from './carousel';
+export { default as ToolPreviewContainer } from './preview-container';
 export { default as MonthDropDownToolbar } from './month-dropdown';
 export { default as YearDropDownToolbar } from './years-dropdown';

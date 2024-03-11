@@ -60,10 +60,18 @@ describe('SchedulingEvent', () => {
   });
 
   it('shows the event time when view is not month and not in all day row', async () => {
-    const testEvent = getNewEvent({ isAllDay: false, isToday: true });
-
-    testEvent.start?.setHours(10, 0, 0, 0); // 10 AM
-    testEvent.end?.setHours(12, 0, 0, 0); // 12 PM
+    const testEvent = {
+      title: 'You Make Me Feel Like Dancing: Incubate Content',
+      allDay: false,
+      start: new Date('2024-03-01T18:00:00.000Z'), // 6 PM
+      end: new Date('2024-03-01T20:00:00.000Z'), // 8 PM
+      id: 'd4dd5aaecfec4e74f39cebef',
+      eventId: '76a1ccdef34e3823e6af4715',
+      eventType: { id: 'COMEDY', label: 'Comedy' },
+      createdBy: 'Carolyn Bashirian',
+      createdOn: new Date('2024-03-01T11:08:38.845Z'),
+      desc: 'Eum eum nesciunt occaecati cupiditate placeat saepe tenetur expedita reprehenderit. Laudantium possimus sit cupiditate quas mollitia exercitationem.',
+    };
 
     const { getByTestId } = renderWithTheme(
       <SchedulingEvent
@@ -78,7 +86,7 @@ describe('SchedulingEvent', () => {
     );
 
     expect(getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
-    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('10AM - 12PM PST');
+    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('6PM - 8PM PST');
     expect(getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
   });
 

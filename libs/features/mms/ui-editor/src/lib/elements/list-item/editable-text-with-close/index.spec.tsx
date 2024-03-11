@@ -4,9 +4,14 @@ import { render, screen } from '@testing-library/react';
 
 import EditableListItemTextWithClose from './index';
 
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    disconnect: jest.fn(),
+}))
+
 describe('EditableListItemTextWithClose', () => {
     const mockOnClose = jest.fn();
-    const mockOnSave= jest.fn();
+    const mockOnSave = jest.fn();
   
     afterEach(() => {
       jest.clearAllMocks();

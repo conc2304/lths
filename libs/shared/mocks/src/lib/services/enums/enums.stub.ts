@@ -1,51 +1,9 @@
+import { EVENT_STATE_ENUM_DATA_MOCK, EVENT_TYPE_ENUM_DATA_MOCK, FEATURE_FLAG_ENUM_DATA_MOCK } from './group-values';
+
 export const enumData = [
-  {
-    _id: '64bf71050023a40a478abfdb',
-    enum_group: 'EventType',
-    enum_values: [
-      {
-        display_order: 1,
-        name: 'Game',
-        value: 'GAME',
-      },
-      {
-        display_order: 2,
-        name: 'Concert',
-        value: 'CONCERT',
-      },
-      {
-        display_order: 3,
-        name: 'Comedy',
-        value: 'COMEDY',
-      },
-      {
-        display_order: 3,
-        name: 'Arts / Other',
-        value: 'ARTS_OTHER',
-      },
-    ],
-  },
-  {
-    _id: '64bf71050023a40aadsf478abfdb',
-    enum_group: 'EventState',
-    enum_values: [
-      {
-        display_order: 1,
-        name: 'Event Day',
-        value: 'EventDay',
-      },
-      {
-        display_order: 2,
-        name: 'Pre-Event',
-        value: 'PreEvent',
-      },
-      {
-        display_order: 3,
-        name: 'Post Game',
-        value: 'PostGame',
-      },
-    ],
-  },
+  EVENT_TYPE_ENUM_DATA_MOCK,
+  FEATURE_FLAG_ENUM_DATA_MOCK,
+  EVENT_STATE_ENUM_DATA_MOCK,
   {
     _id: '64bf72d00023a40a478abfdc',
     enum_group: 'Location',

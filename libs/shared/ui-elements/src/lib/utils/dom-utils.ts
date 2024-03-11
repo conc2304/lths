@@ -20,3 +20,21 @@ export const scrollToAnElementInAContainer = (containerSelector: string, element
     });
   }
 };
+
+/**
+ * Scrolls a specified container to the top.
+ *
+ * @param containerSelector - CSS selector for the container element.
+ */
+export const scrollToTopInAContainer = (containerSelector: string) => {
+  // Find the container using the provided CSS selector
+  const container = document.querySelector(containerSelector) as HTMLElement;
+
+  if (container) {
+    // Scroll the container to the top position smoothly
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+};

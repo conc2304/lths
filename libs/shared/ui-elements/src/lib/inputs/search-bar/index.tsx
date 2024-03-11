@@ -2,16 +2,30 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { InputAdornment, SxProps, TextField, TextFieldProps } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
+import { ColorThemeMui } from '../../types';
+
 type Props = {
   value: string;
   onSearch: (value: string) => void;
   sx?: SxProps;
   debounceTime?: number;
   textFieldProps?: TextFieldProps;
+  size?: 'small' | 'medium';
+  color?: ColorThemeMui;
+  placeholder?: string;
 };
 
 export const SearchBar = (props: Props) => {
-  const { value = '', onSearch, sx, debounceTime = 250, textFieldProps = {} } = props;
+  const {
+    value = '',
+    onSearch,
+    sx,
+    debounceTime = 250,
+    size,
+    color,
+    placeholder = 'Search',
+    textFieldProps = {},
+  } = props;
 
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -32,10 +46,13 @@ export const SearchBar = (props: Props) => {
 
   return (
     <TextField
-      placeholder="Search"
+      data-testid="Searchbar--root"
+      placeholder={placeholder}
       value={inputValue}
       onChange={handleChange}
       fullWidth
+      size={size}
+      color={color}
       sx={sx}
       InputProps={{
         startAdornment: (

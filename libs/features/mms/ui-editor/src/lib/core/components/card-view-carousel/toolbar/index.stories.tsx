@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box } from '@mui/material';
 
 import CardViewCarouselToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import colors from '../../../../common/colors';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
 
@@ -11,6 +11,21 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof CardViewCarouselToolbar> = {
   component: CardViewCarouselToolbar,
   title: 'core/ Components/ card-view-carousel / Toolbar',
+  decorators: [
+    (Story) => (
+      <ToolbarContextProvider initialValue={{}}>
+        <Story />
+      </ToolbarContextProvider>
+    ),
+  ],
+  parameters: {
+    backgrounds: {
+      default: 'sidebar',
+      values: [
+        { name: 'sidebar', value: colors.sidebar.background },
+      ],
+    },
+  },
 };
 export default Story;
 
@@ -20,11 +35,15 @@ const Template: StoryFn<typeof CardViewCarouselToolbar> = (args) => {
     selectedComponent: args
   };
 
+  function mockOnPropChange(propName, callback) {
+    if (propName === 'pageDetail') {
+      callback([]);
+    }
+  }
+
   return (
     <EditorProvider initialValue={initialState}>
-      <Box sx={{padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
-          <CardViewCarouselToolbar {...args}/>
-      </Box>
+      <CardViewCarouselToolbar {...args} onPropChange={mockOnPropChange}/>
     </EditorProvider>
   )
 };
@@ -39,19 +58,19 @@ Primary.args = {
     sub_component_data: [
       {
         image: 'https://Image-1.png',
-        action: { type: '', page_id: 'pageId1', page_link: 'pageLink1' },
+        action: { type: 'native', page_id: 'pageId1', page_link: 'pageLink1' },
       },
       {
         image: 'https://Image-2.png',
-        action: { type: '', page_id: 'pageId2', page_link: 'pageLink2' },
+        action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
       },
       {
         image: 'https://Image-3.png',
-        action: { type: '', page_id: 'pageId3', page_link: 'pageLink3' },
+        action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
       },
       {
         image: 'https://Image-4.png',
-        action: { type: '', page_id: 'pageId4', page_link: 'pageLink4' },
+        action: { type: 'web', page_id: 'pageId4', page_link: 'pageLink4' },
       },
     ],
   },

@@ -7,7 +7,7 @@ import Card from './list-items/draggable';
 import colors from '../../../common/colors';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
-import { areEqual } from '../../utils';
+import { areEqual, componentIdToName } from '../../utils';
 import { PAGE_EDITOR_CONTAINER, PAGE_EDITOR_NAVIGATOR_CONTAINER } from '../constants';
 
 export type NavigatorProps = {
@@ -50,7 +50,7 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
 
   const renderCard = (component: ComponentProps, index: number) => {
     const { __ui_id__, name, component_id } = component;
-    const text = name || component_id;
+    const subText = componentIdToName(component_id);
     const selected = selectedComponent?.__ui_id__ === __ui_id__;
 
     return (
@@ -62,7 +62,8 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
         onClick={handleClick}
         onRename={handleRename}
         onMenuClick={handleMenuClick}
-        text={text}
+        text={name}
+        subText={subText}
         selected={selected}
       ></Card>
     );

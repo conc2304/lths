@@ -1,5 +1,5 @@
 const colors = {
-  sidebar: { background: '#f5f5f5', divider: '#0000001f', textInput: { background: '#fff' } },
+  sidebar: { background: '#f5f5f5', divider: '#0000001f', subText: '#00000061', textInput: { background: '#fff' } },
   editor: {
     background: '#D9D9D9',
     highlight: '#FF9A02',
@@ -16,8 +16,8 @@ const colors = {
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },
   simpleImagePicker: {
-    image: { background: '#F5F5F5' },
-    button: { background: '#FFFFFF', text: '#3D4752', border: '#BDBDBD' },
+    image: { background: '#E0E0E0' },
+    button: { background: '#46494C99', text: '#FFFFFF' },
   },
   container: { background: '#121213' },
   card: {
@@ -92,6 +92,7 @@ const colors = {
       },
     },
   },
+  icon: { color: 'rgba(0, 0, 0, 0.56)' },
 };
 
 export default colors;

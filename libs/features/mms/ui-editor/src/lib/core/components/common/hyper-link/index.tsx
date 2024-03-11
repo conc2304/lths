@@ -1,10 +1,12 @@
 import { ChangeEvent } from 'react';
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { ActionToolbar } from '..';
 import BinIcon from '../../../../../assets/bin-icon.svg';
+import { TOOLBAR_GAP } from '../../../../common/constants';
 import { ToolbarProps } from '../../../../context';
+import { OutlinedTextField, GroupLabel } from '../../../../elements';
 import { ActionProps } from '../../types';
 
 type HyperLinkToolbarProps = {
@@ -25,9 +27,9 @@ const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
   };
   return (
     <Box>
-      <Stack spacing={2}>
-        <Typography>Link Text {index + 1}</Typography>
-        <TextField label={'Link Text'} value={link_key} onChange={handleLinkText} />
+      <Stack spacing={TOOLBAR_GAP}>
+        <GroupLabel label={'Link Text ' + (index + 1)} />
+        <OutlinedTextField label={'Link Text'} value={link_key} onChange={handleLinkText} />
         <ActionToolbar action={action} onPropChange={onPropChange} isRadioButton index={index} keys={parent_key} />
         <Stack sx={{ justifyContent: 'center' }}>
           <Button
@@ -39,8 +41,8 @@ const HyperLinkToolbar = (props: HyperLinkToolbarProps) => {
             Remove
           </Button>
         </Stack>
+        <Divider/>
       </Stack>
-      <Divider sx={{ marginY: 1 }} />
     </Box>
   );
 };

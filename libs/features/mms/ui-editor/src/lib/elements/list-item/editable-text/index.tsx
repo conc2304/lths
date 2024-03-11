@@ -1,18 +1,20 @@
 import { FocusEvent, MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties, useCallback } from 'react';
-import { ListItemText, TextField, Typography } from '@mui/material';
+import { SxProps, ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
 import { useClickOutside } from '../../hooks';
 
-interface EditableListItemTextProps { 
+interface EditableListItemTextProps {
   text: string; 
-  sx?: CSSProperties;  
+  sx?: SxProps;  
   textStyle?: CSSProperties;
   onLabelClick?: (event: MouseEvent<HTMLInputElement>) => void;
   onSave: (value: string) => void;
+  fullWidth?: boolean;
+  multiline?: boolean;
 }
 
-const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, onSave }: EditableListItemTextProps) => {
+const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, onSave, fullWidth = false, multiline = false}: EditableListItemTextProps) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -75,10 +77,14 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
                 pb: 0.5,
                 m: 0,
                 lineHeight: 1,
+                borderRadius: 'inherit',
                 backgroundColor: Colors.sidebar.textInput.background,
                 ...textStyle,
               },
+              '& .MuiInputBase-root': { p: 0 }
             }}
+            multiline={multiline}
+            fullWidth={fullWidth}
             ref={inputRef}
             value={editedText}
             onChange={handleChange}

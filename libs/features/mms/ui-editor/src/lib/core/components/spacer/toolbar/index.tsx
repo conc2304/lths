@@ -97,6 +97,8 @@ const SpacerToolbar = (props: SpacerProps) => {
         renderInput={(params) => <TextField {...params} label="Spacing" />}
         onChange={handleAutocompleteChange}
         value={selectedvalue}
+        size="small"
+        disableClearable 
       />
     </ToolContainer>
   );

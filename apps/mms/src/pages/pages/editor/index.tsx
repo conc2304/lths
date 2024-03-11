@@ -34,8 +34,9 @@ import {
   useEditorActions,
   EditorProvider,
   Callback,
-  AutocompleteItemProps,
+  PageAutocompleteItemProps,
   AutocompleteOptionProps,
+  ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
@@ -78,6 +79,7 @@ export function PageEditorTabs() {
   const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
   const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
+  const [getPreviewPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
@@ -253,15 +255,32 @@ export function PageEditorTabs() {
     });
   };
 
-  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+  const handlAddPageDetail = async (pageId: string, callback: (data: ComponentPropsUiEditor[]) => void) => {
+    try {
+      const response = await getPreviewPageDetail(pageId).unwrap();
+      if (response && response.success && response.data) return callback(response.data.components);
+      else {
+        toast.error('Page Detail could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the Page Detail', error);
+      toast.error('Page Detail could not be found.');
+    }
+  };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>): void {
     if (propName === 'image_url') {
       handleAddImage(callback as Callback<string>);
     } else if (propName === 'action') {
-      handlAddAction(callback as Callback<AutocompleteItemProps>);
+      handlAddAction(callback as Callback<PageAutocompleteItemProps[]>);
     } else if (propName === 'social_icon') {
       handleAddSocialIcon(callback as Callback<EnumValue>);
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
+    } else if (propName === 'pageDetail') {
+      const pageId = props.pageId as string || '';
+      handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
     } else if (propName === 'hero_carousel_component_modal') {
       handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
     }

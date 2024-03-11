@@ -6,6 +6,7 @@ export { default as ColorPickerPopup } from './color-picker-popup';
 export { default as ImagePicker } from './image-picker/basic';
 export { default as SimpleImagePicker } from './image-picker/simple';
 export { FlexibleTransition } from './flexible-transition';
+export { FlexibleTransitionMultiSlide } from './flexible-transition/multiple-slide';
 
 export * from './buttons';
 export * from './labels';

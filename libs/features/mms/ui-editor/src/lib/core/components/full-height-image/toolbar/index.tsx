@@ -1,6 +1,5 @@
 import { SimpleImagePicker, ToolbarLabel } from '../../../../elements';
-import { ToolContainer } from '../../../../elements/containers';
-import { ActionToolbar } from '../../common';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { FullHeightImageComponentProps } from '../../types';
 
@@ -14,12 +13,12 @@ const FullHeightImageToolbar = (props: FullHeightImageComponentProps) => {
   const { handleImageChange } = useToolbarChange();
 
   return (
-    <ToolContainer id={id} aria-label={'Full Height Image'}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label={'Full Height Image'}>
       <ToolbarLabel label={'Full Height Image'} />
       <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
 
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default FullHeightImageToolbar;

@@ -2,10 +2,8 @@ import { Box, Dialog, Link } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { DragDropFile } from '@lths/shared/ui-elements';
+import { DialogActions, DialogTitle, DragDropFile } from '@lths/shared/ui-elements';
 
-import { CalendarDialogActions } from '../dialog-actions';
-import { CalendarDialogTitle } from '../dialog-title';
 import { StyledDialogContent } from '../utils';
 
 type ImportEventsModalProps = {
@@ -41,7 +39,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
     <Dialog open={open} aria-label="Import Calendar Events" maxWidth="md">
       <Box width={'24rem'}>
         <form onSubmit={formik.handleSubmit}>
-          <CalendarDialogTitle
+          <DialogTitle
             title="Import Events"
             subtitle={
               <>
@@ -74,7 +72,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
               files={formik.values.files}
             />
           </StyledDialogContent>
-          <CalendarDialogActions
+          <DialogActions
             cancelText="CANCEL"
             confirmText="IMPORT EVENTS"
             onCancel={() => formik.handleReset(formik.values)}

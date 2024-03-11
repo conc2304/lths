@@ -18,11 +18,16 @@ const Template: StoryFn<typeof PreviewWysiwyg> = (args) => (
 );
 
 export const Primary = Template.bind({});
+export const Loading = Template.bind({});
 export const UnsupportedComponents = Template.bind({});
 
 // set args
 Primary.args = {
   components: [],
+}
+Loading.args = {
+  ...Primary.args,
+  isLoading: true, 
 }
 UnsupportedComponents.args = {
   components: [
@@ -57,4 +62,5 @@ UnsupportedComponents.args = {
 Primary.argTypes = {
   components: { control: 'object' },
 }
+Loading.argTypes = Primary.argTypes;
 UnsupportedComponents.argTypes = Primary.argTypes;

@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
-
 import HalfWidthTextToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import colors from '../../../../common/colors';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
@@ -12,6 +11,23 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof HalfWidthTextToolbar> = {
   component: HalfWidthTextToolbar,
   title: 'core/ Components/ half-width-text-component / Toolbar',
+  parameters: {
+    backgrounds: {
+      default: 'sidebar',
+      values: [
+        { name: 'sidebar', value: colors.sidebar.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <EditorProvider initialValue={{components: []}}>
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
+      </EditorProvider>
+    ),
+  ],
 };
 export default Story;
 
@@ -20,24 +36,13 @@ type StoryArgs = HalfWidthTextComponentProps & {
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
-  const initialState = {
-    components: [],
-    selectedComponent: args,
-  };
-
   function mockOnPropChange(propName, callback) {
     if (propName === 'quickLinkIcons') {
       callback(args.mock_quickLinkIcons);
     }
   }
 
-  return (
-    <EditorProvider initialValue={initialState}>
-      <Box sx={{ padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
-        <HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />
-      </Box>
-    </EditorProvider>
-  );
+  return (<HalfWidthTextToolbar {...args} onPropChange={mockOnPropChange} />);
 };
 
 export const Primary = Template.bind({});
@@ -55,7 +60,7 @@ Primary.args = {
     text_color: 'string',
     title: 'Anaheim Pizza Co',
     action: {
-      type: '',
+      type: 'native',
       page_id: 'map page',
       page_link: 'maplink',
     },

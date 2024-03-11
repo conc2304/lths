@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
 import Action from './';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import { ActionProps } from '../../types';
 
 describe('Action', () => {
@@ -17,7 +17,9 @@ describe('Action', () => {
 
     return render(
       <EditorProvider initialValue={mockInitialValue}>
-        <Action action={action} onPropChange={onPropChange} />
+        <ToolbarContextProvider initialValue={{}}>
+          <Action action={action} isRadioButton={false} onPropChange={onPropChange} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
   };

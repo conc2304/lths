@@ -34,7 +34,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
       <GroupLabel label={'Image'} />
       <Box
         sx={{
-          paddingTop: 1,
+          paddingTop: 1.5,
           position: 'relative',
           width: '100%',
         }}
@@ -51,6 +51,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
             paddingBottom: `${75}%`,
             position: 'relative',
             width: '100%',
+            borderRadius: '4px',
             backgroundColor: Colors.simpleImagePicker.image.background,
           }}
         >
@@ -64,6 +65,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
           >
             {imageSrc && (
               <CardMedia
+                aria-label='selected_image'
                 component="img"
                 image={imageSrc}
                 alt="Selected Image"
@@ -84,7 +86,7 @@ const SimpleImagePicker = ({ value, onChange, onReplace }: SimpleImagePickerProp
                 <Stack spacing={1}>
                   <IconTextButton
                     icon={<RefreshIcon sx={{ fontSize: 32, paddingRight: 1 }} />}
-                    text="Change"
+                    text="Replace"
                     onClick={handleReplace}
                   />
                   <IconTextButton
