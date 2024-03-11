@@ -73,7 +73,7 @@ export const UserManagementList = (props: Props) => {
   ];
 
   const RowBuilder = (): RowBuilderFn<Partial<User>> => {
-    return ({ data: row, rowNumber, showRowNumber }) => {
+    return ({ data: row }) => {
       return <UserRow key={row._id} user={row} />;
     };
   };
