@@ -1,8 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { FlagsProvider } from 'react-feature-flags';
-// import { toast } from 'react-hot-toast';
 
-import { toastQueueService } from '@lths/shared/ui-elements';
+import { toast } from '@lths/shared/ui-elements';
 
 import { useLazyGetFeatureFlagsQuery } from './api';
 import { useAppSelector } from '../../store';
@@ -18,7 +17,7 @@ export const ConnectedFlagsProvider = (props: ConnectedFlagsProviderProps) => {
   const [getFeatureFlags, { data }] = useLazyGetFeatureFlagsQuery();
 
   if (data === null) {
-    toastQueueService.addToastToQueue('Sorry! Looks like someone deleted all the feature flags, whoops!', {
+    toast.add('Sorry! Looks like someone deleted all the feature flags, whoops!', {
       // adding id makes sure that it doenst respawn multiple times
       id: 'ft-flags-erased',
       type: 'error',

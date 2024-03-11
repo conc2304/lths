@@ -1,4 +1,4 @@
-import { ToastOptions, ValueOrFunction, Renderable, Toast, toast } from 'react-hot-toast';
+import { ToastOptions, ValueOrFunction, Renderable, Toast, toast as toast_rht } from 'react-hot-toast';
 
 import { TOAST_DURATION, MAX_CONCURRENT_TOASTS } from './constants';
 
@@ -17,7 +17,7 @@ const processQueue = () => {
   if (!toastConf) return;
 
   const { message, options } = toastConf;
-  const toastId = toast(message, { duration: TOAST_DURATION, ...options });
+  const toastId = toast_rht(message, { duration: TOAST_DURATION, ...options });
   activeToasts.add(toastId);
 
   // Set a timeout to automatically remove the toast from activeToasts
@@ -43,8 +43,8 @@ const addToastToQueue = (message: ValueOrFunction<Renderable, Toast>, options: L
 const _testonly_getQueue = () => queue;
 const _testonly_getActiveToasts = () => activeToasts;
 
-export const toastQueueService = {
-  addToastToQueue,
+export const toast = {
+  add: addToastToQueue,
   processQueue,
   _testonly_getQueue,
   _testonly_getActiveToasts,

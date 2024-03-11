@@ -13,7 +13,7 @@ import {
   NotificationStatusProps,
 } from '@lths/features/mms/ui-components';
 import { EditorContainer, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
-import { toastQueueService } from '@lths/shared/ui-elements';
+import { toast } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 const NotificationEditor = () => {
@@ -47,7 +47,7 @@ const NotificationEditor = () => {
       }
     } catch (error) {
       console.error('Error in fetching the notification details', error);
-      toastQueueService.addToastToQueue('Notification details could not be found', { type: 'error' });
+      toast.add('Notification details could not be found', { type: 'error' });
     }
   };
 
@@ -68,7 +68,7 @@ const NotificationEditor = () => {
       const response = await updatenotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toastQueueService.addToastToQueue('Notification has been updated successfully.', { type: 'success' });
+        toast.add('Notification has been updated successfully.', { type: 'success' });
         if (response?.data) {
           selectNotification(response.data);
         }
@@ -77,7 +77,7 @@ const NotificationEditor = () => {
       }
     } catch (error) {
       console.error('Error in updating the notification', error);
-      toastQueueService.addToastToQueue('Failed to update the notification', { type: 'error' });
+      toast.add('Failed to update the notification', { type: 'error' });
     }
   };
   const handleStatusChange = (status: NotificationStatusProps) => {
