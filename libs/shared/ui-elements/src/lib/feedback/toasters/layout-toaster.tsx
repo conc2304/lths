@@ -154,6 +154,7 @@ export const LayoutToaster = () => {
                     <IconButton
                       data-testid="LayoutToaster--close-btn"
                       onClick={() => {
+                        endPause();
                         toast_rht.dismiss(t.id);
                         toast.processQueue();
                       }}
