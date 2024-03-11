@@ -8,7 +8,7 @@ import mockConfigureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { api } from '@lths/shared/data-access';
-import { toastQueueService } from '@lths/shared/ui-elements';
+import { toast } from '@lths/shared/ui-elements';
 
 import { useLazyGetFeatureFlagsQuery } from './api';
 import { ConnectedFlagsProvider } from './connected-provider';
@@ -18,11 +18,9 @@ jest.mock('./api', () => ({
   useLazyGetFeatureFlagsQuery: jest.fn(),
 }));
 
-// jest.mock('react-hot-toast');
-
 jest.mock('@lths/shared/ui-elements', () => ({
-  toastQueueService: {
-    addToastToQueue: jest.fn(),
+  toast: {
+    add: jest.fn(),
     processQueue: jest.fn(),
   },
 }));
@@ -174,7 +172,7 @@ describe('ConnectedFlagsProvider', () => {
     renderWithWrappers(<></>);
 
     await waitFor(() => {
-      expect(toastQueueService.addToastToQueue).toHaveBeenCalledWith(
+      expect(toast.add).toHaveBeenCalledWith(
         expect.any(String),
         // adding id makes sure that it doenst respawn multiple times
         expect.objectContaining({ id: 'ft-flags-erased' })
