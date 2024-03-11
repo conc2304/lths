@@ -17,6 +17,8 @@ export const LayoutToaster = () => {
   const previousIndicesRef = useRef(new Map());
 
   // Animation Settings
+  //
+  // each toast should have an animation of their own, so adding math.random to avoid collision
   const animEnterName = `toastEnter${Math.round(Math.random() * 100)}`;
   const animExitName = `toastExit${Math.round(Math.random() * 100)}`;
   const animTime = '300ms';
@@ -36,11 +38,12 @@ export const LayoutToaster = () => {
       data-testid="LayoutToasterContainer--root"
       sx={{
         position: 'fixed',
-        zIndex: 9999,
+        zIndex: theme.zIndex.snackbar,
         inset: '1.5rem',
         pointerEvents: 'none',
       }}
     >
+      {/* inline styles for each of the toasts animations */}
       <style>{fadeInKeyframes}</style>
       <style>{fadeOutKeyframes}</style>
       {toasts
@@ -83,14 +86,15 @@ export const LayoutToaster = () => {
               animationCompletedRef.current.set(t.id, true);
             }, parseFloat(animTime));
           }
+
           const animation =
             i !== 0 // only first should have enter animation
-              ? undefined // toast is not first - so we use the transform translateY to the next spot
-              : t.visible
-              ? shouldAnimateEnter //  when should we stop using animation enter
-                ? `${animEnterName} ${animTime} ease`
-                : undefined // use the transform translateY
-              : `${animExitName} ${animTime} ease both`; // toast is not visible exit animation
+              ? undefined // toast is not first - so no enter animation is needed, use the builtin transform translateY to the next spot
+              : t.visible // check if toast is visible
+              ? shouldAnimateEnter //  if it is visible, check if enter animation is needed
+                ? `${animEnterName} ${animTime} ease` // apply enter transition
+                : undefined // use the default 'transform translateY' property
+              : `${animExitName} ${animTime} ease both`; // apply exit animation when toast becomes not visible
 
           return (
             <Box
@@ -101,6 +105,7 @@ export const LayoutToaster = () => {
               sx={{
                 maxWidth: '100%',
                 minWidth: '100%',
+                // current designs dictate that all notifications are the same color regardless of notification type
                 background: theme.palette.snackBar?.main || '#dfdfdf',
                 color: theme.palette.snackBar?.contrastText || '#FFF',
                 borderRadius: '0.25rem',
@@ -118,8 +123,11 @@ export const LayoutToaster = () => {
                 bottom: '0px',
                 pointerEvents: 'initial',
               }}
-              onMouseOver={() => {
-                startPause();
+              onMouseEnter={() => {
+                // dont pause if we transitioning state -> causes animation to flicker
+                if (animationCompletedRef.current.size !== 0) {
+                  startPause();
+                }
               }}
               onMouseLeave={() => {
                 endPause();

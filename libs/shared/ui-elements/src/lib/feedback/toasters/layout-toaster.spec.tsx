@@ -4,6 +4,7 @@ import * as toastLib from 'react-hot-toast';
 
 import { LayoutToaster } from './layout-toaster';
 import { toastQueueService } from './toast-service';
+import { TOAST_DURATION } from 'libs/shared/ui-elements/src/lib/feedback/toasters/constants';
 
 jest.mock('react-hot-toast');
 jest.mock('./toast-service');
@@ -96,6 +97,10 @@ describe('LayoutToaster', () => {
   it('handles mouse events correctly', async () => {
     const user = userEvent.setup();
     const { getAllByTestId } = render(<LayoutToaster />);
+
+    // wait for toast to enter screen
+    waitTime(TOAST_DURATION / 2);
+
     const toasterContainer = getAllByTestId('LayoutToaster--notification')[0];
 
     await user.hover(toasterContainer);

@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/react';
 import { toast } from 'react-hot-toast';
 
 import { TOAST_DURATION, MAX_CONCURRENT_TOASTS } from './constants';
@@ -69,7 +70,8 @@ describe('toastQueueService', () => {
     const options = { duration: TOAST_DURATION };
 
     // Add more toasts than the maximum limit
-    const toastsCount = MAX_CONCURRENT_TOASTS + 3;
+    const scaleMultipier = 2;
+    const toastsCount = MAX_CONCURRENT_TOASTS * scaleMultipier;
     for (let i = 0; i < toastsCount; i++) {
       toastQueueService.addToastToQueue(`${message} ${i}`, options);
     }
@@ -78,11 +80,20 @@ describe('toastQueueService', () => {
     expect(toastQueueService._testonly_getActiveToasts().size).toBe(MAX_CONCURRENT_TOASTS);
     expect(toast).toHaveBeenCalledTimes(MAX_CONCURRENT_TOASTS);
 
+    expect(toastQueueService._testonly_getActiveToasts().size).toBeLessThanOrEqual(MAX_CONCURRENT_TOASTS);
+
     // Advance timers by toast duration
-    jest.advanceTimersByTime(TOAST_DURATION + 1000);
+    jest.advanceTimersByTime(TOAST_DURATION);
+    // we expect to have only called enough toasts to hit the max by the end of the duration
+    await waitFor(() => {
+      expect(toast).toHaveBeenCalledTimes(MAX_CONCURRENT_TOASTS);
+    });
 
     // Ensure the queue is processed correctly and the limit is respected
-    expect(toastQueueService._testonly_getActiveToasts().size).toBeLessThanOrEqual(MAX_CONCURRENT_TOASTS);
-    expect(toast).toHaveBeenCalledTimes(toastsCount);
+    // we expect the second set of 3 toasts to have been called after the first 3 set are called for a total of 6
+    jest.advanceTimersByTime(TOAST_DURATION * scaleMultipier);
+    await waitFor(() => {
+      expect(toast).toHaveBeenCalledTimes(toastsCount);
+    });
   });
 });
