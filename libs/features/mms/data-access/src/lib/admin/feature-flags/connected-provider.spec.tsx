@@ -2,12 +2,13 @@ import React, { ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { Flags } from 'react-feature-flags';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import mockConfigureStore, { MockStoreEnhanced } from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { api } from '@lths/shared/data-access';
+import { toastQueueService } from '@lths/shared/ui-elements';
 
 import { useLazyGetFeatureFlagsQuery } from './api';
 import { ConnectedFlagsProvider } from './connected-provider';
@@ -17,7 +18,14 @@ jest.mock('./api', () => ({
   useLazyGetFeatureFlagsQuery: jest.fn(),
 }));
 
-jest.mock('react-hot-toast');
+// jest.mock('react-hot-toast');
+
+jest.mock('@lths/shared/ui-elements', () => ({
+  toastQueueService: {
+    addToastToQueue: jest.fn(),
+    processQueue: jest.fn(),
+  },
+}));
 
 // set up mock store
 const middlewares = [thunk];
@@ -166,7 +174,7 @@ describe('ConnectedFlagsProvider', () => {
     renderWithWrappers(<></>);
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith(
+      expect(toastQueueService.addToastToQueue).toHaveBeenCalledWith(
         expect.any(String),
         // adding id makes sure that it doenst respawn multiple times
         expect.objectContaining({ id: 'ft-flags-erased' })
