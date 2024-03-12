@@ -104,7 +104,8 @@ const MenuButton = (props: Props) => {
             paddingY: 0.75,
             paddingX: 1,
             '& .MuiButton-startIcon': {
-              marginLeft: 0, marginRight: 0.5,
+              marginLeft: 0,
+              marginRight: 0.5,
             },
           }}
           disabled={isDisabled}
@@ -116,9 +117,11 @@ const MenuButton = (props: Props) => {
           orientation="vertical"
           flexItem
           variant="middle"
-          sx={{ 
+          sx={{
             bgcolor: !isDisabled ? textColor : alpha(textColorDisabled, 0.2),
-            ml: 1, mt: 0.75, mb: 0.75, 
+            ml: 1,
+            mt: 0.75,
+            mb: 0.75,
             transition: defualtTransition,
           }}
         />
@@ -163,7 +166,7 @@ const MenuButton = (props: Props) => {
               action();
             }}
             sx={{
-              fontSize: '0.875rem', 
+              fontSize: '0.875rem',
               letterSpacing: '0.4px',
               fontWeight: 500,
               lineHeight: 1.715,

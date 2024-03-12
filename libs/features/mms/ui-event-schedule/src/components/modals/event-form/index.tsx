@@ -1,7 +1,6 @@
 import {
   Dialog,
   Box,
-  InputLabel,
   OutlinedInput,
   FormGroup,
   FormControlLabel,
@@ -11,6 +10,7 @@ import {
   Select,
   FormHelperText,
 } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {
   DatePicker,
   DatePickerSlotsComponentsProps,
@@ -103,17 +103,19 @@ export const EventFormModal = (props: EventFormModalProps) => {
       onCancel();
     },
   });
-
   const dateTimeSlotProps: DateTimePickerSlotsComponentsProps<Date> & DatePickerSlotsComponentsProps<Date> = {
+    inputAdornment: {
+      position: 'start',
+    },
     textField: {
       required: false,
-      fullWidth: true,
       variant: 'outlined',
+      size: 'small',
       sx: {
         '&.MuiTextField-root': {
           marginRight: 'unset',
-          width: '100%',
           marginTop: 'unset',
+          // mb: 2,
         },
         '& .MuiInputBase-inputSizeSmall': {
           ...fontStyle,
@@ -128,8 +130,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
     ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
   );
 
-  const formGroupSX = { marginTop: pxToRem(16) };
-
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" maxWidth="md">
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -137,7 +137,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
           <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
           <StyledDialogContent>
             <FormGroup>
-              <FormLabel htmlFor="edit-event--event-name">Event Name</FormLabel>
+              <FormLabel>Event</FormLabel>
               <TextField
                 variant="outlined"
                 id="edit-event--event-name"
@@ -146,7 +146,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 fullWidth
                 margin="dense"
                 size="small"
-                placeholder="Enter event name"
+                placeholder="Name"
                 color={formik.touched.eventName && Boolean(formik.errors.eventName) ? 'error' : 'primary'}
                 value={formik.values.eventName}
                 onChange={formik.handleChange}
@@ -157,6 +157,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 error={formik.touched.eventName && Boolean(formik.errors.eventName)}
                 helperText={formik.touched.eventName && formik.errors.eventName}
                 sx={{
+                  mb: 2,
                   '&.MuiTextField-root': {
                     marginTop: 'unset',
                   },
@@ -165,136 +166,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   },
                 }}
               />
-            </FormGroup>
-            <FormGroup sx={{ marginTop: pxToRem(6) }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    data-testid="Edit-Event--isAllDay"
-                    name="isAllDay"
-                    value={formik.values.isAllDay}
-                    onChange={formik.handleChange}
-                    checked={formik.values.isAllDay}
-                  />
-                }
-                label="All-day event"
-                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content' }}
-              />
-            </FormGroup>
-
-            {/* START DATE FORM  */}
-            <FormGroup sx={{ marginTop: pxToRem(8) }} data-testid="Edit-Event--start-date-wrapper">
-              <FormLabel htmlFor="edit-event--startDateTime">
-                Start Date{formik.values.isAllDay ? '' : '/Time'}
-              </FormLabel>
-              <Box display="flex" justifyContent="space-between">
-                {/* IS ALL DAY */}
-                {formik.values.isAllDay && (
-                  <DatePicker
-                    value={formik.values.startDateTime ? startOfDay(formik.values.startDateTime) : null}
-                    onChange={async (value) => {
-                      if (value) formik.setFieldValue('startDateTime', startOfDay(value));
-                      await formik.setFieldTouched('startDateTime', true);
-                      await formik.validateField('startDateTime');
-                      await formik.validateField('endDateTime');
-                    }}
-                    slotProps={{
-                      textField: {
-                        ...dateTimeSlotProps.textField,
-                        onBlur: () => {
-                          formik.setFieldTouched('startDateTime', true);
-                          formik.validateField('startDateTime');
-                          formik.validateField('endDateTime');
-                        },
-                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
-                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
-                      },
-                    }}
-                  />
-                )}
-                {!formik.values.isAllDay && (
-                  <DateTimePicker
-                    value={formik.values.startDateTime}
-                    onChange={async (value) => {
-                      if (value) formik.setFieldValue('startDateTime', value);
-                      await formik.validateField('startDateTime');
-                      await formik.validateField('endDateTime');
-                    }}
-                    slotProps={{
-                      textField: {
-                        ...dateTimeSlotProps.textField,
-                        onBlur: () => {
-                          formik.setFieldTouched('startDateTime', true);
-                          formik.validateField('startDateTime');
-                          formik.validateField('endDateTime');
-                        },
-                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
-                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
-                      },
-                    }}
-                  />
-                )}
-              </Box>
-            </FormGroup>
-            {/* END DATE FORM */}
-            <FormGroup sx={formGroupSX} data-testid="Edit-Event--end-date-wrapper">
-              <FormLabel htmlFor="edit-event--endDateTime">End Date{formik.values.isAllDay ? '' : '/Time'}</FormLabel>
-              <Box display="flex" justifyContent="space-between">
-                {/* IS ALL DAY */}
-                {formik.values.isAllDay && (
-                  <DatePicker
-                    value={formik.values.endDateTime ? endOfDay(formik.values.endDateTime) : null}
-                    onChange={(value) => {
-                      if (value) formik.setFieldValue('endDateTime', endOfDay(value));
-                      formik.setFieldTouched('endDateTime', true);
-                      formik.validateField('startDateTime');
-                      formik.validateField('endDateTime');
-                    }}
-                    slotProps={{
-                      textField: {
-                        ...dateTimeSlotProps.textField,
-                        onBlur: () => {
-                          formik.setFieldTouched('endDateTime', true);
-                          formik.validateField('startDateTime');
-                          formik.validateField('endDateTime');
-                        },
-                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
-                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
-                      },
-                    }}
-                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
-                    minDate={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
-                  />
-                )}
-                {!formik.values.isAllDay && (
-                  <DateTimePicker
-                    value={formik.values.endDateTime}
-                    onChange={(value) => {
-                      formik.setFieldTouched('endDateTime', true);
-                      formik.setFieldValue('endDateTime', value);
-                      formik.validateField('startDateTime');
-                      formik.validateField('endDateTime');
-                    }}
-                    slotProps={{
-                      textField: {
-                        ...dateTimeSlotProps.textField,
-                        onBlur: () => {
-                          formik.setFieldTouched('endDateTime', true);
-                          formik.validateField('endDateTime');
-                          formik.validateField('startDateTime');
-                        },
-                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
-                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
-                      },
-                    }}
-                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
-                    minDateTime={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
-                  />
-                )}
-              </Box>
-            </FormGroup>
-            <FormGroup sx={formGroupSX}>
-              <FormLabel htmlFor="edit-event--event-type">Event Type</FormLabel>
               {/* parsing and stringifying in order to keep id label structure */}
               <Select
                 name="eventType"
@@ -316,7 +187,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   }
                   return sVal.label;
                 }}
-                placeholder="Select event type"
+                placeholder="Type"
                 onChange={async ({ target: value }) => {
                   formik.setFieldValue('eventType', JSON.parse(value.value as string));
                   await formik.validateField('eventType');
@@ -326,11 +197,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 size="small"
                 sx={{
                   ...fontStyle,
+                  mb: 2,
                   lineHeight: '1.2rem',
                 }}
               >
                 <MenuItem disabled value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}>
-                  <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Select event type'}</em>
+                  <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Type'}</em>
                 </MenuItem>
                 {originalEventTypeUnknown && (
                   <MenuItem
@@ -351,21 +223,160 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   {formik.errors.eventType?.id}
                 </FormHelperText>
               )}
-            </FormGroup>
-            <FormGroup sx={formGroupSX}>
-              <InputLabel sx={{ ...fontStyle, mb: (theme) => theme.spacing(1) }} htmlFor="edit-event--description">
-                DESCRIPTION (optional)
-              </InputLabel>
               <OutlinedInput
                 id="edit-event--description"
                 color="primary"
                 name="description"
-                placeholder="Enter event description"
+                placeholder="Description (optional)"
                 multiline
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 error={formik.touched.description && Boolean(formik.errors.description)}
                 sx={{ ...fontStyle }}
+              />
+            </FormGroup>
+
+            <FormGroup sx={{ marginTop: pxToRem(16) }}>
+              <FormLabel>Schedule</FormLabel>
+
+              <Box display="flex" justifyContent="space-between">
+                {/* IS ALL DAY */}
+                {formik.values.isAllDay && (
+                  <DatePicker
+                    value={formik.values.startDateTime ? startOfDay(formik.values.startDateTime) : null}
+                    onChange={async (value) => {
+                      if (value) formik.setFieldValue('startDateTime', startOfDay(value));
+                      await formik.setFieldTouched('startDateTime', true);
+                      await formik.validateField('startDateTime');
+                      await formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'Start date',
+                        onBlur: () => {
+                          formik.setFieldTouched('startDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
+                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                    }}
+                  />
+                )}
+                {!formik.values.isAllDay && (
+                  <DateTimePicker
+                    value={formik.values.startDateTime}
+                    onChange={async (value) => {
+                      if (value) formik.setFieldValue('startDateTime', value);
+                      await formik.validateField('startDateTime');
+                      await formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'Start date & time',
+                        onBlur: () => {
+                          formik.setFieldTouched('startDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
+                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                    }}
+                  />
+                )}
+              </Box>
+              {/* END DATE FORM */}
+
+              <Box display="flex" justifyContent="space-between">
+                {/* IS ALL DAY */}
+                {formik.values.isAllDay && (
+                  <DatePicker
+                    value={formik.values.endDateTime ? endOfDay(formik.values.endDateTime) : null}
+                    onChange={(value) => {
+                      if (value) formik.setFieldValue('endDateTime', endOfDay(value));
+                      formik.setFieldTouched('endDateTime', true);
+                      formik.validateField('startDateTime');
+                      formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'End date',
+                        onBlur: () => {
+                          formik.setFieldTouched('endDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
+                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerIcon: dateTimeSlotProps.openPickerIcon,
+                    }}
+                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
+                    minDate={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
+                  />
+                )}
+                {!formik.values.isAllDay && (
+                  <DateTimePicker
+                    value={formik.values.endDateTime}
+                    onChange={(value) => {
+                      formik.setFieldTouched('endDateTime', true);
+                      formik.setFieldValue('endDateTime', value);
+                      formik.validateField('startDateTime');
+                      formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'End date & time',
+                        onBlur: () => {
+                          formik.setFieldTouched('endDateTime', true);
+                          formik.validateField('endDateTime');
+                          formik.validateField('startDateTime');
+                        },
+                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
+                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerIcon: dateTimeSlotProps.openPickerIcon,
+                    }}
+                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
+                    minDateTime={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
+                  />
+                )}
+              </Box>
+              {/*  THE TOHER STUFF HERE */}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    data-testid="Edit-Event--isAllDay"
+                    name="isAllDay"
+                    value={formik.values.isAllDay}
+                    onChange={formik.handleChange}
+                    checked={formik.values.isAllDay}
+                  />
+                }
+                label="All-day event"
+                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content', ml: 0.25 }}
               />
             </FormGroup>
           </StyledDialogContent>

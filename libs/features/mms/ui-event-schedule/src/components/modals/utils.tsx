@@ -14,8 +14,13 @@ export const fontStyle = {
 };
 
 export const FormLabel = styled(InputLabel)(({ theme }) => ({
-  ...fontStyle,
   textTransform: 'uppercase',
+  fontStyle: 'normal',
+  fontWeight: 400,
+  fontSize: pxToRem(12),
+  lineHeight: '266%',
+  letterSpacing: '1px',
+  color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
 }));
 

@@ -16,10 +16,10 @@ export const EditEventModal = (props: EditEventModalProps) => {
   return (
     <EventFormModal
       open={open}
-      title="Edit Event"
+      title="Edit event"
       subtitle={dialogSubtitleText}
       cancelText="CANCEL"
-      confirmText="SAVE UPDATES"
+      confirmText="UPDATE"
       onSave={onSave}
       onCancel={onCancel}
       eventValues={event}

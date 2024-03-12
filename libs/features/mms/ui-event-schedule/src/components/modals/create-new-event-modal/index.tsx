@@ -1,6 +1,5 @@
 import { EventFormValues, EventType } from '../../../types';
 import { EventFormModal } from '../event-form';
-import { dialogSubtitleText } from '../utils';
 
 export type CreateNewEventModalProps = {
   open: boolean;
@@ -15,10 +14,9 @@ export const CreateNewEventModal = (props: CreateNewEventModalProps) => {
   return (
     <EventFormModal
       open={open}
-      title="Create New Event"
-      subtitle={dialogSubtitleText}
+      title="Create event"
       cancelText="CANCEL"
-      confirmText="CREATE EVENT"
+      confirmText="CREATE"
       onSave={onSave}
       onCancel={onCancel}
       eventTypes={eventTypes}
