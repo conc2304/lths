@@ -16,6 +16,7 @@ import TimePicker from './time-picker';
 import ToggleButton from './toggle-button';
 import ToggleButtonGroup from './toggle-button-group';
 import Toolbar from './toolbar';
+import TypogragphyOverrides from './typography';
 
 export default function getComponentOverrides(theme: Theme): Components {
   return {
@@ -34,5 +35,6 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...ToggleButton(theme),
     ...ToggleButtonGroup(theme),
     ...Toolbar(theme),
+    ...TypogragphyOverrides(theme),
   };
 }

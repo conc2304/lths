@@ -1,10 +1,11 @@
-import { Box, Dialog, DialogContent, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Box, Dialog, DialogContent, FormControlLabel, Radio, RadioGroup, Theme, Typography } from '@mui/material';
+import { SxProps } from '@mui/system';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
-import { FormLabel } from '../utils';
+// import { FormLabel } from '../utils';
 
 type ExportFormats = 'csv' | 'pdf' | null;
 type ExportEventsModalProps = {
@@ -37,35 +38,47 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
     },
   });
 
+  const labelTypograhySx: SxProps<Theme> = {
+    fontWeight: 400,
+    fontSize: '1rem',
+    lineHeight: '1.5rem',
+    letterSpacing: '0.15px',
+    color: (theme) => theme.palette.text.secondary,
+  };
+
   return (
-    <Dialog open={open} aria-label="Export Calendar Events" maxWidth="md">
-      <Box width={'24rem'}>
-        <Box component="form" onSubmit={formik.handleSubmit}>
-          <DialogTitle
-            title="Export Events"
-            subtitle="You can export the data on this page in a couple different formats. Choose .CSV to import your data into another program like Excel."
-            onClose={() => formik.handleReset(formik.values)}
-          />
-          <DialogContent>
-            <FormLabel id="Export-Events--format-radio-group">Select Format</FormLabel>
-            <RadioGroup
-              aria-labelledby="Export-Events--format-radio-group"
-              name="fileFormat"
-              value={formik.values.fileFormat}
-              onChange={formik.handleChange}
-            >
-              <FormControlLabel value="csv" control={<Radio />} label=".CSV file" />
-              <FormControlLabel value="pdf" control={<Radio />} label=".PDF file" />
-            </RadioGroup>
-          </DialogContent>
-          <DialogActions
-            cancelText="CANCEL"
-            confirmText="EXPORT EVENTS"
-            disabled={!formik.isValid}
-            onCancel={() => formik.handleReset(formik.values)}
-            isSubmitting={formik.isSubmitting}
-          />
-        </Box>
+    <Dialog open={open} aria-label="Export Calendar Events" onClose={onClose}>
+      <Box component="form" onSubmit={formik.handleSubmit}>
+        <DialogTitle title="Export events" onClose={() => formik.handleReset(formik.values)} />
+        <DialogContent>
+          <Typography variant="subtitle2">Format</Typography>
+          <RadioGroup
+            aria-labelledby="Export-Events--format-radio-group"
+            name="fileFormat"
+            value={formik.values.fileFormat}
+            onChange={formik.handleChange}
+          >
+            <FormControlLabel
+              value="csv"
+              control={<Radio color="default" sx={{ py: 0 }} />}
+              label="CSV (comma separated value, good for Excel)"
+              sx={{ ...labelTypograhySx, mb: '0.5rem' }}
+            />
+            <FormControlLabel
+              value="pdf"
+              control={<Radio color="default" sx={{ py: 0 }} />}
+              label="PDF (portable document format)"
+              sx={labelTypograhySx}
+            />
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions
+          cancelText="CANCEL"
+          confirmText="EXPORT"
+          disabled={!formik.isValid}
+          onCancel={() => formik.handleReset(formik.values)}
+          isSubmitting={formik.isSubmitting}
+        />
       </Box>
     </Dialog>
   );

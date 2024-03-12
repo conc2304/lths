@@ -10,6 +10,7 @@ import {
   Select,
   FormHelperText,
   DialogContent,
+  Typography,
 } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {
@@ -29,7 +30,7 @@ import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
-import { FormLabel, fontStyle } from '../utils';
+// import { FormLabel, fontStyle } from '../utils';
 
 export type EventFormModalProps = {
   open: boolean;
@@ -50,7 +51,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
   const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
-  const eventTypeFallback = { id: 'none', label: 'Select Event Type' };
+  const eventTypeFallback = { id: 'none', label: 'Type' };
   const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | typeof eventTypeFallback } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
     isAllDay: eventValues?.allDay || false,
@@ -120,7 +121,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
           // mb: ,
         },
         '& .MuiInputBase-inputSizeSmall': {
-          ...fontStyle,
+          // ...fontStyle,
         },
       },
     },
@@ -139,7 +140,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
         <DialogContent>
           <Box component="form" onSubmit={formik.handleSubmit}>
             <FormGroup>
-              <FormLabel>Event</FormLabel>
+              <Typography variant="overline" color="text.secondary">
+                Event
+              </Typography>
               <TextField
                 variant="outlined"
                 data-testid="Edit-Event--event-name"
@@ -163,7 +166,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                     marginTop: 'unset',
                   },
                   '& .MuiInputBase-inputSizeSmall': {
-                    ...fontStyle,
+                    // ...fontStyle,
                   },
                 }}
               />
@@ -196,9 +199,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 error={formik.touched.eventType && Boolean(formik.errors.eventType)}
                 size="small"
                 sx={{
-                  ...fontStyle,
+                  // ...fontStyle,
                   mb: 2,
-                  lineHeight: '1.2rem',
                 }}
               >
                 <MenuItem disabled value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}>
@@ -231,12 +233,14 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 error={formik.touched.description && Boolean(formik.errors.description)}
-                sx={{ ...fontStyle }}
+                // sx={{ ...fontStyle }}
               />
             </FormGroup>
 
             <FormGroup sx={{ marginTop: pxToRem(16) }}>
-              <FormLabel>Schedule</FormLabel>
+              <Typography variant="overline" color="text.secondary">
+                Schedule
+              </Typography>
               <Box mb={2}>
                 {/* IS ALL DAY */}
                 {formik.values.isAllDay && (
@@ -384,7 +388,13 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   />
                 }
                 label="All-day event"
-                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content', ml: 0.6 }}
+                sx={{
+                  '& .MuiFormControlLabel-label': {
+                    // ...fontStyle
+                  },
+                  width: 'fit-content',
+                  ml: 0.6,
+                }}
               />
             </FormGroup>
           </Box>

@@ -59,7 +59,7 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
     },
     action: {
       activatedOpacity: 0.12,
-      active: 'rgba(0, 0, 0, 0.54)',
+      active: 'rgba(0, 0, 0, 0.56)',
       disabled: 'rgba(0, 0, 0, 0.38)',
       disabledBackground: 'rgba(0, 0, 0, 0.12)',
       disabledOpacity: 0.38,
@@ -69,6 +69,11 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
       hoverOpacity: 0.04,
       selected: 'rgba(0, 0, 0, 0.08)',
       selectedOpacity: 0.08,
+    },
+    text: {
+      primary: 'rgba(0, 0, 0, 0.87)',
+      secondary: 'rgba(0, 0, 0, 0.60)',
+      disabled: 'rgba(0,0,0, 0.38)',
     },
   };
 };

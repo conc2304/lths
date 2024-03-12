@@ -1,9 +1,10 @@
 import { ChangeEvent } from 'react';
 import { Box, FormGroup, InputAdornment, OutlinedInput, SxProps, Typography } from '@mui/material';
 
+import { FormGroupLabel } from '@lths/shared/ui-elements';
 import { roundNumToNearestX, truncateToDecimalPlace } from '@lths/shared/utils';
 
-import { fontStyle, FormLabel } from '../utils';
+// import { fontStyle, FormLabel } from '../utils';
 
 type EventStateFormItemProps = {
   onChange?: {
@@ -46,7 +47,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
 
   return (
     <FormGroup sx={{ ...sx }} key={`form-group-${id}`}>
-      <FormLabel htmlFor={`${title}-form-id`}>{title.toUpperCase()}</FormLabel>
+      <FormGroupLabel htmlFor={`${title}-form-id`}>{title.toUpperCase()}</FormGroupLabel>
 
       {!editable && <Typography sx={{ ...descSx, fontStyle: 'italic' }}>This cannot be edited.</Typography>}
       {editable && (
@@ -63,7 +64,14 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
             inputProps={{ min: minHours, max: maxHours, step }}
             placeholder="Hours"
           />
-          <Typography sx={{ ...fontStyle, pl: 1.5 }}>{desc}</Typography>
+          <Typography
+            sx={{
+              // ...fontStyle,
+              pl: 1.5,
+            }}
+          >
+            {desc}
+          </Typography>
         </Box>
       )}
     </FormGroup>

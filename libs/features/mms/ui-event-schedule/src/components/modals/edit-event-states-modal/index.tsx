@@ -5,13 +5,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
-import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
+import { DialogActions, DialogTitle, FormGroupLabel } from '@lths/shared/ui-elements';
 
 import { EventStateFormItem } from './event-state-form-item';
 import { EVENT_TYPE } from '../../../constants';
 import { EventState, EventStateID, MMSEvent } from '../../../types';
 import { sortByEventState, updateEventStatesWithOffsets } from '../../../utils';
-import { FormLabel } from '../utils';
 
 export type EditEventStatesModalProps = DialogProps & {
   eventData: MMSEvent;
@@ -84,11 +83,11 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   };
 
   return (
-    <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}} className="EditEventStates--root">
-      <Box component="form" role="form" onSubmit={formik.handleSubmit} style={{ width: '23rem' }}>
-        <DialogTitle title="Edit Event States" onClose={() => formik.handleReset(formik.initialValues)} />
+    <Dialog open={open} aria-labelledby="edit-event-dialog-title" onClose={onCancel}>
+      <Box component="form" role="form" onSubmit={formik.handleSubmit}>
+        <DialogTitle title="Edit event states" onClose={() => formik.handleReset(formik.initialValues)} />
         <DialogContent>
-          <FormLabel>EVENT</FormLabel>
+          <FormGroupLabel>EVENT</FormGroupLabel>
           {start && end && (
             <Typography
               sx={{
@@ -142,7 +141,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
         </DialogContent>
         <DialogActions
           cancelText="CANCEL"
-          confirmText="UPDATE EVENT STATES"
+          confirmText="UPDATE"
           onCancel={() => formik.handleReset(formik.initialValues)}
           isSubmitting={formik.isSubmitting}
           disabled={!formik.isValid || !formik.dirty}
