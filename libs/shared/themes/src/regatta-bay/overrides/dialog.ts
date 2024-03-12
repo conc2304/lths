@@ -8,10 +8,11 @@ export default function Dialog(theme: Theme): Components {
           const { fullScreen, fullWidth } = ownerState;
 
           const isFixedSize = !fullScreen && !fullWidth;
+          console.log({ isFixedSize });
           return {
             ...(isFixedSize && {
               '&. MuiPaper-root': {
-                width: '27.75em', // all dialogs should be 444px wide unless set to fullwidth
+                width: '27.75rem', // all dialogs should be 444px wide unless set to fullwidth
               },
             }),
           };

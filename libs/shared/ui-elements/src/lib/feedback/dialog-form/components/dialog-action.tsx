@@ -7,6 +7,7 @@ import { pxToRem } from '@lths/shared/utils';
 type DialogActionsProps = {
   cancelText?: string;
   onCancel: () => void;
+  onConfirm?: () => void;
   confirmText?: string;
   isSubmitting?: boolean;
   disabled?: boolean;
@@ -21,6 +22,7 @@ export const DialogActions = (props: DialogActionsProps) => {
   const {
     cancelText = 'Cancel',
     confirmText = 'Confirm',
+    onConfirm,
     isSubmitting,
     onCancel,
     disabled,
@@ -40,6 +42,7 @@ export const DialogActions = (props: DialogActionsProps) => {
         type="submit"
         variant="contained"
         color={confirmColor}
+        onClick={onConfirm}
       >
         {confirmText}
       </LoadingButton>

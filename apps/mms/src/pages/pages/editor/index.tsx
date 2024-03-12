@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Box, Tab, Tabs, Backdrop, CircularProgress, Dialog, DialogContent, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
@@ -39,6 +38,7 @@ import {
   ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { ComponentModal } from '../../../components/pages/editor';
@@ -56,8 +56,12 @@ const StatusChangeModalData = {
   },
   [PageStatus.UNPUBLISHED]: {
     title: 'Unublish page now',
-    description:
-      'Once you unpublish this page, it will no longer be viewable on the mobile app and all links to this page will become inactive.',
+    description: (
+      <Typography maxWidth={'27rem'}>
+        Once you unpublish this page, it will not be viewable on the mobile app and links to this page will become
+        inactive.
+      </Typography>
+    ),
     action: 'UNPUBLISH',
     error: 'Failed to unpublish the page',
     success: 'Page has been Unpublished Successfully',
@@ -448,38 +452,26 @@ export function PageEditorTabs() {
           <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>
       </Box>
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            borderRadius: 3,
-            boxShadow: 24,
-            p: 3,
-          }}
-        >
-          <h2 style={{ marginTop: -1.5 }}>{modalData.title}</h2>
-          <p>{modalData.description}</p>
-          <LoadingButton
-            sx={{ float: 'right', ml: 1, mt: 2 }}
-            variant="contained"
-            onClick={handleUpdatePageStatus}
-            loading={isLoading}
-          >
-            {modalData.action}
-          </LoadingButton>
-          <Button sx={{ float: 'right', mt: 2 }} variant="outlined" onClick={handleCloseModal}>
-            CANCEL
-          </Button>
-        </Box>
-      </Modal>
+
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle title={modalData.title} />
+        <DialogContent>
+          <Typography variant="body1" color="text.primary" flexWrap="wrap">
+            {modalData.description}
+          </Typography>
+        </DialogContent>
+        <DialogActions
+          confirmText={modalData.action}
+          onConfirm={handleUpdatePageStatus}
+          onCancel={handleCloseModal}
+          isSubmitting={isLoading}
+        />
+      </Dialog>
+
       <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail} sx={{ zIndex: 2 }}>
         <CircularProgress />
       </Backdrop>
+
       <UnSavedPageAlert
         isOpen={showPrompt}
         onCancel={confirmNavigation}

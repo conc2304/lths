@@ -8,7 +8,7 @@ import { CloseButton } from '../../../inputs';
 type DialogTitleProps = {
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
-  onClose: () => void;
+  onClose?: () => void;
   sx?: SxProps;
 };
 
