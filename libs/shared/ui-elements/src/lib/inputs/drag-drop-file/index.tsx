@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   FormLabel,
   IconButton,
   Input,
@@ -13,9 +14,9 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Property } from 'csstype';
 
 import { humanFileSize } from '@lths/shared/utils';
@@ -52,7 +53,7 @@ export const DragDropFile = (props: DragDropFileProps) => {
     promptText = 'Drag and drop your file here.',
     buttonText = 'Browse Files',
     iconColor = theme.palette.primary.main,
-    iconSize = '4.5rem',
+    iconSize = '2.5rem',
     fullWidth = false,
     accept = '*',
   } = props;
@@ -115,8 +116,6 @@ export const DragDropFile = (props: DragDropFileProps) => {
     onFilesChanged(dt.files);
   };
 
-  const GreyDivider = () => <Box sx={{ flex: 1, height: '1px', backgroundColor: theme.palette.grey[300] }} />;
-
   return (
     <Box
       component={'div'}
@@ -153,12 +152,12 @@ export const DragDropFile = (props: DragDropFileProps) => {
           border: `1px dashed ${borderColor}`,
           borderRadius: '0.5rem',
           px: 1.5,
-          py: 1.8,
+          py: 2.5,
           backgroundColor: dragActive ? backgroundDragColor : null,
         }}
       >
         <Box>
-          <CloudUploadOutlinedIcon htmlColor={iconColor} sx={{ fontSize: iconSize }} />
+          <UploadFileIcon htmlColor={iconColor} sx={{ fontSize: iconSize }} />
           <Typography
             sx={{
               textAlign: 'center',
@@ -168,19 +167,14 @@ export const DragDropFile = (props: DragDropFileProps) => {
           >
             {promptText}
           </Typography>
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <GreyDivider />
-            <Typography sx={{ fontSize: '1.125rem', letterSpacing: '0.15px', px: 2, py: 3 }}>Or</Typography>
-            <GreyDivider />
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            {/* <GreyDivider /> */}
+            <Divider sx={{ width: '40px' }} />
+            <Typography sx={{ fontSize: '1.125rem', letterSpacing: '0.15px', px: 1, py: 2 }}>or</Typography>
+            <Divider sx={{ width: '40px' }} />
+            {/* <GreyDivider /> */}
           </Box>
-          <Button
-            className="upload-button"
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            onClick={onButtonClick}
-            sx={{ borderRadius: '24px', mb: 2.5 }}
-          >
+          <Button className="upload-button" variant="outlined" onClick={onButtonClick}>
             {buttonText}
           </Button>
           <Typography
@@ -190,6 +184,7 @@ export const DragDropFile = (props: DragDropFileProps) => {
               fontSize: '0.75rem',
               lineHeight: '1.125rem',
               letterSpacing: '0.15px',
+              mt: '1rem',
             }}
           >
             Maximum file size {maxFileSize}MB

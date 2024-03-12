@@ -1,7 +1,20 @@
-import { Components } from '@mui/material/styles';
+import { Components, Theme } from '@mui/material/styles';
 
-export default function Dialog(): Components {
+export default function Dialog(theme: Theme): Components {
   return {
+    MuiDialog: {
+      defaultProps: {
+        disableEscapeKeyDown: false,
+        PaperProps: {
+          sx: {
+            borderRadius: '0.25rem',
+          },
+        },
+        onClose: () => {
+          console.log('close');
+        },
+      },
+    },
     MuiDialogTitle: {
       styleOverrides: {
         root: {

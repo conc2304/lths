@@ -1,4 +1,4 @@
-import { Box, Dialog, Link } from '@mui/material';
+import { Box, Dialog, Link, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -36,29 +36,15 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
   });
 
   return (
-    <Dialog open={open} aria-label="Import Calendar Events" maxWidth="md">
-      <Box width={'24rem'}>
+    <Dialog open={open} aria-label="Import Calendar Events" maxWidth="lg" onClose={onClose}>
+      <Box width={'27.75em'}>
         <form onSubmit={formik.handleSubmit}>
           <DialogTitle
-            title="Import Events"
+            title="Import event"
             subtitle={
-              <>
-                You can add events to the schedule by uploading a CSV file to the system.
-                <br />
-                <br />
-                Check the{' '}
-                <Link
-                  // TODO - Dont know where this is linking
-                  underline="hover"
-                  color={(theme) => theme.palette.secondary.main}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Visit the Data Format Template page to see what files formats are valid."
-                >
-                  data format template
-                </Link>{' '}
-                before uploading your file.
-              </>
+              <Typography variant="body1" mt={2}>
+                Add events by uploading a CSV file.
+              </Typography>
             }
             onClose={onClose}
           />
@@ -70,11 +56,29 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
               filesRemovable
               onFilesChanged={(files) => formik.setFieldValue('files', files)}
               files={formik.values.files}
+              promptText="Drag and drop file here"
             />
+            <Box sx={{ mt: 1.5 }}>
+              <Typography variant="caption">
+                Review the{' '}
+                <Link
+                  // TODO - Dont know where this is linking
+                  underline="hover"
+                  color={(theme) => theme.palette.primary.main}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Visit the Data Format Template page to see what files formats are valid."
+                  sx={{ cursor: 'pointer' }}
+                >
+                  data format template
+                </Link>{' '}
+                before uploading.
+              </Typography>
+            </Box>
           </StyledDialogContent>
           <DialogActions
             cancelText="CANCEL"
-            confirmText="IMPORT EVENTS"
+            confirmText="IMPORT"
             onCancel={() => formik.handleReset(formik.values)}
             disabled={!formik.isValid}
             isSubmitting={formik.isSubmitting}

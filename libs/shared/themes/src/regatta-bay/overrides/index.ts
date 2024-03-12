@@ -26,7 +26,7 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...Chip(theme),
     ...DatePicker(theme),
     ...DateTimePicker(theme),
-    ...Dialog(),
+    ...Dialog(theme),
     ...Link(theme),
     ...Paper(theme),
     ...Table(theme),
