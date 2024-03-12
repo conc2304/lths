@@ -11,6 +11,7 @@ type DialogActionsProps = {
   confirmText?: string;
   isSubmitting?: boolean;
   disabled?: boolean;
+  destructive?: boolean;
   sx?: SxProps;
   confirmColor?: OverridableStringUnion<
     'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
@@ -27,6 +28,7 @@ export const DialogActions = (props: DialogActionsProps) => {
     onCancel,
     disabled,
     sx = {},
+    destructive = false,
     confirmColor = 'primary',
   } = props;
 
@@ -41,7 +43,7 @@ export const DialogActions = (props: DialogActionsProps) => {
         aria-disabled={disabled || isSubmitting}
         type="submit"
         variant="contained"
-        color={confirmColor}
+        color={!destructive ? confirmColor : 'error'}
         onClick={onConfirm}
       >
         {confirmText}
