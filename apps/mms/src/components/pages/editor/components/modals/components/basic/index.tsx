@@ -1,18 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  LinearProgress,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, Dialog, DialogContent, Divider, Grid, InputAdornment, LinearProgress, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { Colors } from '@lths/features/mms/ui-editor';
