@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
-import { DialogProps, Dialog, Typography, SxProps, Box, DialogContent } from '@mui/material';
+import { DialogProps, Dialog, Typography, Box, DialogContent } from '@mui/material';
 import { format, getMinutes } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
-import { DialogActions, DialogTitle, FormGroupLabel } from '@lths/shared/ui-elements';
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
 import { EventStateFormItem } from './event-state-form-item';
 import { EVENT_TYPE } from '../../../constants';
@@ -66,49 +66,43 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
     },
   });
 
-  const formattedEventDate = (start: Date, end: Date) => {
+  const formattedEventTime = (start: Date, end: Date) => {
     const getFormattedTime = (date: Date) => (getMinutes(date) === 0 ? format(date, 'ha') : format(date, 'h:mma'));
-    const dateFormat = 'EEEE, MMMM do, yyyy';
-    const startDate = format(start, dateFormat);
     const startTime = getFormattedTime(start);
     const endTime = getFormattedTime(end);
 
-    return `${startDate} | ${startTime} - ${endTime} ${TMZ}`;
+    return `${startTime} - ${endTime} ${TMZ}`;
   };
 
-  const dateTitleSX: SxProps = {
-    fontSize: '0.75rem',
-    fontWeight: 'bold',
-    letterSpacing: '0.15px',
-  };
+  const dateFormat = 'EEEE, MMMM do, yyyy';
+  const formattedDate = format(start || new Date(), dateFormat);
+  const formattedTime = formattedEventTime(start || new Date(), end || new Date());
 
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" onClose={onCancel}>
       <Box component="form" role="form" onSubmit={formik.handleSubmit}>
         <DialogTitle title="Edit event states" onClose={() => formik.handleReset(formik.initialValues)} />
         <DialogContent>
-          <FormGroupLabel>EVENT</FormGroupLabel>
-          {start && end && (
-            <Typography
-              sx={{
-                pt: 0,
-                ...dateTitleSX,
-              }}
-            >
-              {formattedEventDate(start, end)}
-            </Typography>
-          )}
-          <Typography
-            sx={{
-              maxWidth: '80%',
-              ...dateTitleSX,
-              pb: 1.5,
-            }}
-          >
-            {title as string}
-          </Typography>
+          <Box mb={2}>
+            <Typography variant="overline">EVENT</Typography>
+            <Typography variant="body1">Name: {title}</Typography>
+            <Typography variant="body1">Date: {formattedDate}</Typography>
+            <Typography variant="body1">Time: {formattedTime}</Typography>
+          </Box>
 
-          {eventStates.sort(sortByEventState).map((eventState) => {
+          <Typography variant="overline">STATES</Typography>
+
+          {eventStates.sort(sortByEventState).map((eventState, i) => {
+            const isFirst = i === 0;
+            const isLast = i === eventStates.length - 1;
+
+            const paddingMap = {
+              first: '0.5rem 0 1rem 0',
+              middle: '0 0 1rem 0',
+              last: '0 0 0 0',
+            };
+            const pos = isFirst ? 'first' : isLast ? 'last' : 'middle';
+
             const { desc, label, type, id } = eventState;
             if (type === EVENT_TYPE.GAME) {
               return (
@@ -118,7 +112,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
                   id={id}
                   title={label}
                   desc={desc}
-                  sx={{ py: 2.5 }}
+                  sx={{ padding: paddingMap[pos] }}
                 />
               );
             } else {
@@ -133,7 +127,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
                   editable
                   desc={desc}
                   value={formik.values[type as EventStateID]}
-                  sx={{ py: 2 }}
+                  sx={{ padding: paddingMap[pos] }}
                 />
               );
             }

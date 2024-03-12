@@ -47,9 +47,11 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
 
   return (
     <FormGroup sx={{ ...sx }} key={`form-group-${id}`}>
-      <FormGroupLabel htmlFor={`${title}-form-id`}>{title.toUpperCase()}</FormGroupLabel>
+      <Typography variant="body1" mb={1}>
+        {title}
+      </Typography>
 
-      {!editable && <Typography sx={{ ...descSx, fontStyle: 'italic' }}>This cannot be edited.</Typography>}
+      {!editable && <Typography color="text.disabled">Determined dynamically by NHL.com.</Typography>}
       {editable && (
         <Box display={'flex'} alignItems={'center'}>
           <OutlinedInput

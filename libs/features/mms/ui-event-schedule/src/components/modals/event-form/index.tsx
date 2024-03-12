@@ -140,9 +140,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
         <DialogContent>
           <Box component="form" onSubmit={formik.handleSubmit}>
             <FormGroup>
-              <Typography variant="overline" color="text.secondary">
-                Event
-              </Typography>
+              <Typography variant="overline">Event</Typography>
               <TextField
                 variant="outlined"
                 data-testid="Edit-Event--event-name"
@@ -238,9 +236,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
             </FormGroup>
 
             <FormGroup sx={{ marginTop: pxToRem(16) }}>
-              <Typography variant="overline" color="text.secondary">
-                Schedule
-              </Typography>
+              <Typography variant="overline">Schedule</Typography>
               <Box mb={2}>
                 {/* IS ALL DAY */}
                 {formik.values.isAllDay && (
