@@ -43,18 +43,7 @@ export const DialogTitle = (props: DialogTitleProps) => {
           )}
         </Box>
       </Box>
-      {subtitle && (
-        <Typography
-          sx={{
-            fontWeight: 400,
-            fontSize: pxToRem(12),
-            lineHeight: pxToRem(16),
-            letterSpacing: '0.15px',
-          }}
-        >
-          {subtitle}
-        </Typography>
-      )}
+      {subtitle && <Box>{subtitle}</Box>}
     </DialogTitleMui>
   );
 };

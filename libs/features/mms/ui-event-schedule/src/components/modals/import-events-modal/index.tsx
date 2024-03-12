@@ -36,18 +36,12 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
   });
 
   return (
-    <Dialog
-      open={open}
-      aria-label="Import Calendar Events"
-      // maxWidth="lg"
-      // sx={{ width: '27.75em' }}
-      onClose={onClose}
-    >
+    <Dialog open={open} aria-label="Import Calendar Events" onClose={onClose}>
       <Box component="form" onSubmit={formik.handleSubmit}>
         <DialogTitle
           title="Import event"
           subtitle={
-            <Typography variant="body1" mt={2}>
+            <Typography variant="body1" mt={2} sx={{ color: (theme) => theme.palette.text.secondary }}>
               Add events by uploading a CSV file.
             </Typography>
           }
@@ -64,7 +58,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
             promptText="Drag and drop file here"
           />
           <Box sx={{ mt: 1.75 }}>
-            <Typography variant="caption">
+            <Typography variant="caption" sx={{ color: (theme) => theme.palette.text.secondary }}>
               Review the{' '}
               <Link
                 // TODO - Dont know where this is linking
