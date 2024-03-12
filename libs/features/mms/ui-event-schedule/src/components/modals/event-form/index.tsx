@@ -111,11 +111,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
       required: false,
       variant: 'outlined',
       size: 'small',
+
       sx: {
         '&.MuiTextField-root': {
           marginRight: 'unset',
           marginTop: 'unset',
-          // mb: 2,
+          // mb: ,
         },
         '& .MuiInputBase-inputSizeSmall': {
           ...fontStyle,
@@ -140,7 +141,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
               <FormLabel>Event</FormLabel>
               <TextField
                 variant="outlined"
-                id="edit-event--event-name"
                 data-testid="Edit-Event--event-name"
                 name="eventName"
                 fullWidth
@@ -169,7 +169,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
               {/* parsing and stringifying in order to keep id label structure */}
               <Select
                 name="eventType"
-                id="edit-event--event-type"
                 data-testid="Edit-Event--event-type"
                 value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
                 required
@@ -224,7 +223,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 </FormHelperText>
               )}
               <OutlinedInput
-                id="edit-event--description"
                 color="primary"
                 name="description"
                 placeholder="Description (optional)"
@@ -238,8 +236,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
 
             <FormGroup sx={{ marginTop: pxToRem(16) }}>
               <FormLabel>Schedule</FormLabel>
-
-              <Box display="flex" justifyContent="space-between">
+              <Box mb={2}>
                 {/* IS ALL DAY */}
                 {formik.values.isAllDay && (
                   <DatePicker
@@ -266,6 +263,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                         helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
                       },
                       inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
                     }}
                   />
                 )}
@@ -293,6 +293,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                         helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
                       },
                       inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
                     }}
                   />
                 )}
@@ -326,7 +329,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                         helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
                       },
                       inputAdornment: dateTimeSlotProps.inputAdornment,
-                      openPickerIcon: dateTimeSlotProps.openPickerIcon,
+                      openPickerButton: {
+                        size: 'small',
+                      },
                     }}
                     sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
                     minDate={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
@@ -357,7 +362,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                         helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
                       },
                       inputAdornment: dateTimeSlotProps.inputAdornment,
-                      openPickerIcon: dateTimeSlotProps.openPickerIcon,
+                      openPickerButton: {
+                        size: 'small',
+                      },
                     }}
                     sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
                     minDateTime={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
@@ -376,7 +383,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   />
                 }
                 label="All-day event"
-                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content', ml: 0.25 }}
+                sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content', ml: 0.6 }}
               />
             </FormGroup>
           </StyledDialogContent>

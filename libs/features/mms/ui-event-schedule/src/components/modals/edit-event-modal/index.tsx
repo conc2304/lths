@@ -1,6 +1,5 @@
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
 import { EventFormModal } from '../event-form';
-import { dialogSubtitleText } from '../utils';
 
 export type EditEventModalProps = {
   open: boolean;
@@ -17,7 +16,6 @@ export const EditEventModal = (props: EditEventModalProps) => {
     <EventFormModal
       open={open}
       title="Edit event"
-      subtitle={dialogSubtitleText}
       cancelText="CANCEL"
       confirmText="UPDATE"
       onSave={onSave}

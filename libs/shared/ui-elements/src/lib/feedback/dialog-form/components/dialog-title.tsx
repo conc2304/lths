@@ -15,7 +15,7 @@ type DialogTitleProps = {
 export const DialogTitle = (props: DialogTitleProps) => {
   const { title, subtitle, onClose, sx = {} } = props;
   return (
-    <DialogTitleMui position="relative" mb={pxToRem(16)} sx={sx}>
+    <DialogTitleMui position="relative" sx={sx}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography
           variant="h6"

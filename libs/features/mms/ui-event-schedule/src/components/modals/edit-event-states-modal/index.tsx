@@ -11,7 +11,7 @@ import { EventStateFormItem } from './event-state-form-item';
 import { EVENT_TYPE } from '../../../constants';
 import { EventState, EventStateID, MMSEvent } from '../../../types';
 import { sortByEventState, updateEventStatesWithOffsets } from '../../../utils';
-import { FormLabel, StyledDialogContent, dialogSubtitleText } from '../utils';
+import { FormLabel, StyledDialogContent } from '../utils';
 
 export type EditEventStatesModalProps = DialogProps & {
   eventData: MMSEvent;
@@ -86,11 +86,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}} className="EditEventStates--root">
       <Box component="form" role="form" onSubmit={formik.handleSubmit} style={{ width: '23rem' }}>
-        <DialogTitle
-          title="Edit Event States"
-          subtitle={dialogSubtitleText}
-          onClose={() => formik.handleReset(formik.initialValues)}
-        />
+        <DialogTitle title="Edit Event States" onClose={() => formik.handleReset(formik.initialValues)} />
         <StyledDialogContent>
           <FormLabel>EVENT</FormLabel>
           {start && end && (

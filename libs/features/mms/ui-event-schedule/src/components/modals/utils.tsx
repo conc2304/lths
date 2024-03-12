@@ -2,7 +2,6 @@ import { DialogContent, InputLabel } from '@mui/material';
 import { styled } from '@mui/system';
 
 import { pxToRem } from '@lths/shared/utils';
-
 // Custom Component Styles
 export const fontStyle = {
   fontStyle: 'normal',
@@ -25,7 +24,8 @@ export const FormLabel = styled(InputLabel)(({ theme }) => ({
 }));
 
 export const StyledDialogContent = styled(DialogContent)(() => ({
-  padding: pxToRem(24),
+  px: pxToRem(24),
+  py: 0,
 }));
 
 export const formGroupSX = { marginTop: pxToRem(16) };
