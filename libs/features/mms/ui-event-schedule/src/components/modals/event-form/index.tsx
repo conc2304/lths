@@ -134,7 +134,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Box component="form" onSubmit={formik.handleSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }}>
+        <Box component="form" onSubmit={formik.handleSubmit}>
           <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
           <StyledDialogContent>
             <FormGroup>

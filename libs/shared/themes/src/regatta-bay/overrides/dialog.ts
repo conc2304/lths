@@ -8,6 +8,7 @@ export default function Dialog(theme: Theme): Components {
         PaperProps: {
           sx: {
             borderRadius: '0.25rem',
+            width: '27.75em', // all dialogs should be 444px wide
           },
         },
         onClose: () => {

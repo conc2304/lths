@@ -29,7 +29,7 @@ export const DialogActions = (props: DialogActionsProps) => {
   } = props;
 
   return (
-    <DialogActionsMui sx={{ pr: '1.5rem', pb: '2rem', ...sx }} data-testid="Dialog-Form--actions-wrapper">
+    <DialogActionsMui sx={{ p: '1.5rem', ...sx }} data-testid="Dialog-Form--actions-wrapper">
       <Button sx={{ mr: pxToRem(8) }} onClick={onCancel} variant="outlined" color="secondary">
         {cancelText}
       </Button>

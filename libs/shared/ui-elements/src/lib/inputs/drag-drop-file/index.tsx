@@ -12,6 +12,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
+  hexToRgb,
   useTheme,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -47,8 +48,8 @@ export const DragDropFile = (props: DragDropFileProps) => {
     filesRemovable = false,
     showFilesAdded = false,
     multiple = false,
-    borderColor = theme.palette.secondary.main,
-    backgroundDragColor = theme.palette.grey[100],
+    borderColor = theme.palette.primary.main,
+    backgroundDragColor = theme.palette.grey[300],
     maxFileSize = 'XXX',
     promptText = 'Drag and drop your file here.',
     buttonText = 'Browse Files',
@@ -149,11 +150,15 @@ export const DragDropFile = (props: DragDropFileProps) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: `1px dashed ${borderColor}`,
-          borderRadius: '0.5rem',
+          borderRadius: '8px',
           px: 1.5,
           py: 2.5,
-          backgroundColor: dragActive ? backgroundDragColor : null,
+          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='${
+            dragActive ? hexToRgb(backgroundDragColor) : 'none'
+          }' rx='8' ry='8' stroke='${hexToRgb(
+            borderColor
+          )}' stroke-width='2' stroke-dasharray='5%2c11' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+border-radius: 8px`,
         }}
       >
         <Box>
@@ -168,11 +173,9 @@ export const DragDropFile = (props: DragDropFileProps) => {
             {promptText}
           </Typography>
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
-            {/* <GreyDivider /> */}
             <Divider sx={{ width: '40px' }} />
             <Typography sx={{ fontSize: '1.125rem', letterSpacing: '0.15px', px: 1, py: 2 }}>or</Typography>
             <Divider sx={{ width: '40px' }} />
-            {/* <GreyDivider /> */}
           </Box>
           <Button className="upload-button" variant="outlined" onClick={onButtonClick}>
             {buttonText}
