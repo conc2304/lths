@@ -1,10 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Box, FormGroup, InputAdornment, OutlinedInput, SxProps, Typography } from '@mui/material';
 
-import { FormGroupLabel } from '@lths/shared/ui-elements';
 import { roundNumToNearestX, truncateToDecimalPlace } from '@lths/shared/utils';
-
-// import { fontStyle, FormLabel } from '../utils';
 
 type EventStateFormItemProps = {
   onChange?: {
@@ -38,11 +35,6 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
     step = 0.25,
   } = props;
 
-  const descSx = {
-    fontSize: '0.75rem',
-    letterSpacing: '0.15px',
-  };
-
   const formattedValue = value ? truncateToDecimalPlace(roundNumToNearestX(value, step), 2) : value;
 
   return (
@@ -62,13 +54,20 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
             name={title}
             value={formattedValue}
             onChange={onChange}
-            endAdornment={<InputAdornment position="end">hrs</InputAdornment>}
+            endAdornment={
+              <InputAdornment position="end">
+                <Typography color="text.disabled">hrs</Typography>
+              </InputAdornment>
+            }
             inputProps={{ min: minHours, max: maxHours, step }}
-            placeholder="Hours"
+            placeholder="0"
+            sx={{
+              width: '6.875rem',
+            }}
           />
           <Typography
+            color="text.secondary"
             sx={{
-              // ...fontStyle,
               pl: 1.5,
             }}
           >
