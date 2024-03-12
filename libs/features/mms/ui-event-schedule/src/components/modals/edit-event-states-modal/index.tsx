@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { DialogProps, Dialog, Typography, SxProps, Box } from '@mui/material';
+import { DialogProps, Dialog, Typography, SxProps, Box, DialogContent } from '@mui/material';
 import { format, getMinutes } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +11,7 @@ import { EventStateFormItem } from './event-state-form-item';
 import { EVENT_TYPE } from '../../../constants';
 import { EventState, EventStateID, MMSEvent } from '../../../types';
 import { sortByEventState, updateEventStatesWithOffsets } from '../../../utils';
-import { FormLabel, StyledDialogContent } from '../utils';
+import { FormLabel } from '../utils';
 
 export type EditEventStatesModalProps = DialogProps & {
   eventData: MMSEvent;
@@ -87,7 +87,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" sx={{}} className="EditEventStates--root">
       <Box component="form" role="form" onSubmit={formik.handleSubmit} style={{ width: '23rem' }}>
         <DialogTitle title="Edit Event States" onClose={() => formik.handleReset(formik.initialValues)} />
-        <StyledDialogContent>
+        <DialogContent>
           <FormLabel>EVENT</FormLabel>
           {start && end && (
             <Typography
@@ -139,7 +139,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
               );
             }
           })}
-        </StyledDialogContent>
+        </DialogContent>
         <DialogActions
           cancelText="CANCEL"
           confirmText="UPDATE EVENT STATES"

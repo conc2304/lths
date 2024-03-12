@@ -1,4 +1,4 @@
-import { DialogContent, InputLabel } from '@mui/material';
+import { InputLabel } from '@mui/material';
 import { styled } from '@mui/system';
 
 import { pxToRem } from '@lths/shared/utils';
@@ -21,11 +21,6 @@ export const FormLabel = styled(InputLabel)(({ theme }) => ({
   letterSpacing: '1px',
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
-}));
-
-export const StyledDialogContent = styled(DialogContent)(() => ({
-  px: pxToRem(24),
-  py: 0,
 }));
 
 export const formGroupSX = { marginTop: pxToRem(16) };

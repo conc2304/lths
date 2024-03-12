@@ -1,10 +1,8 @@
-import { Box, Dialog, Link, Typography } from '@mui/material';
+import { Box, Dialog, DialogContent, Link, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogActions, DialogTitle, DragDropFile } from '@lths/shared/ui-elements';
-
-import { StyledDialogContent } from '../utils';
 
 type ImportEventsModalProps = {
   open: boolean;
@@ -47,7 +45,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
           }
           onClose={onClose}
         />
-        <StyledDialogContent>
+        <DialogContent>
           <DragDropFile
             fullWidth
             multiple
@@ -74,7 +72,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
               before uploading.
             </Typography>
           </Box>
-        </StyledDialogContent>
+        </DialogContent>
         <DialogActions
           cancelText="CANCEL"
           confirmText="IMPORT"

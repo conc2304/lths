@@ -1,10 +1,10 @@
-import { Box, Dialog, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Box, Dialog, DialogContent, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
-import { FormLabel, StyledDialogContent } from '../utils';
+import { FormLabel } from '../utils';
 
 type ExportFormats = 'csv' | 'pdf' | null;
 type ExportEventsModalProps = {
@@ -46,7 +46,7 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
             subtitle="You can export the data on this page in a couple different formats. Choose .CSV to import your data into another program like Excel."
             onClose={() => formik.handleReset(formik.values)}
           />
-          <StyledDialogContent>
+          <DialogContent>
             <FormLabel id="Export-Events--format-radio-group">Select Format</FormLabel>
             <RadioGroup
               aria-labelledby="Export-Events--format-radio-group"
@@ -57,7 +57,7 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
               <FormControlLabel value="csv" control={<Radio />} label=".CSV file" />
               <FormControlLabel value="pdf" control={<Radio />} label=".PDF file" />
             </RadioGroup>
-          </StyledDialogContent>
+          </DialogContent>
           <DialogActions
             cancelText="CANCEL"
             confirmText="EXPORT EVENTS"

@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   FormHelperText,
+  DialogContent,
 } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {
@@ -28,7 +29,7 @@ import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
-import { FormLabel, StyledDialogContent, fontStyle } from '../utils';
+import { FormLabel, fontStyle } from '../utils';
 
 export type EventFormModalProps = {
   open: boolean;
@@ -134,9 +135,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Box component="form" onSubmit={formik.handleSubmit}>
-          <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
-          <StyledDialogContent>
+        <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
+        <DialogContent>
+          <Box component="form" onSubmit={formik.handleSubmit}>
             <FormGroup>
               <FormLabel>Event</FormLabel>
               <TextField
@@ -386,16 +387,16 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 sx={{ '& .MuiFormControlLabel-label': { ...fontStyle }, width: 'fit-content', ml: 0.6 }}
               />
             </FormGroup>
-          </StyledDialogContent>
-          <DialogActions
-            data-testid="Edit-Event--actions-wrapper"
-            cancelText={cancelText}
-            confirmText={confirmText}
-            onCancel={() => formik.handleReset(formik.values)}
-            isSubmitting={formik.isSubmitting}
-            disabled={!formik.isValid || !formik.dirty}
-          />
-        </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions
+          data-testid="Edit-Event--actions-wrapper"
+          cancelText={cancelText}
+          confirmText={confirmText}
+          onCancel={() => formik.handleReset(formik.values)}
+          isSubmitting={formik.isSubmitting}
+          disabled={!formik.isValid || !formik.dirty}
+        />
       </LocalizationProvider>
     </Dialog>
   );
