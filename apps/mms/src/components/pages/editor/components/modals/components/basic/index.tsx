@@ -3,7 +3,6 @@ import {
   Box,
   Dialog,
   DialogContent,
-  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -17,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { Colors } from '@lths/features/mms/ui-editor';
+import { DialogTitle } from '@lths/shared/ui-elements';
 import { filter } from '@lths/shared/utils';
 
 import ComponentGallery from '../../../gallery';
@@ -38,8 +38,6 @@ const ComponentModal = ({
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const theme = useTheme();
 
   const searchProps = ['component_id', 'name', 'component_type'];
 
@@ -63,23 +61,17 @@ const ComponentModal = ({
   }, [open]);
 
   return (
-    <Dialog fullWidth={true} maxWidth={'xl'} open={open} onClose={onClose} TransitionComponent={Transition}>
+    <Dialog
+      fullWidth={true}
+      maxWidth={'xl'}
+      open={open}
+      onClose={onClose}
+      TransitionComponent={Transition}
+      PaperProps={{ sx: { width: undefined } }}
+    >
       {isComponentListLoading && <LinearProgress color="primary" />}
-      <DialogTitle>
-        <Typography sx={{ fontSize: '1.5rem' }}>Components</Typography>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: () => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+
+      <DialogTitle onClose={onClose} title="Components" />
       <DialogContent dividers sx={{ height: '40rem', padding: 0 }}>
         <Grid container flexWrap="nowrap">
           <Grid item xs={2.5}>

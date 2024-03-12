@@ -47,16 +47,17 @@ import TabPanel from '../tab-panel';
 
 const StatusChangeModalData = {
   [PageStatus.PUBLISHED]: {
-    title: 'Are you sure you want to publish this page?',
-    description: 'Once you publish this page, it will be accessible by app users',
-    action: 'PUBLISH NOW',
+    title: 'Publish page now',
+    description: 'Once you publish this page, it will be viewable on the mobile app.',
+    action: 'PUBLISH',
     error: 'Failed to publish the page',
     success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
-    title: 'Are you sure you want to unpublish this page?',
-    description: 'This page will no longer appear on the app and all links to this page will become inactive.',
+    title: 'Unublish page now',
+    description:
+      'Once you unpublish this page, it will no longer be viewable on the mobile app and all links to this page will become inactive.',
     action: 'UNPUBLISH',
     error: 'Failed to unpublish the page',
     success: 'Page has been Unpublished Successfully',
@@ -65,7 +66,7 @@ const StatusChangeModalData = {
 };
 
 const TabStyled = styled(Tab)(({ theme }) => ({
-  '&.Mui-selected': { color: "#3D4752" },
+  '&.Mui-selected': { color: '#3D4752' },
   letterSpacing: theme.spacing(0.005),
 }));
 
@@ -279,7 +280,7 @@ export function PageEditorTabs() {
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
     } else if (propName === 'pageDetail') {
-      const pageId = props.pageId as string || '';
+      const pageId = (props.pageId as string) || '';
       handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
     } else if (propName === 'hero_carousel_component_modal') {
       handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);

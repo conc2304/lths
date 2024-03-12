@@ -4,16 +4,25 @@ export default function Dialog(theme: Theme): Components {
   return {
     MuiDialog: {
       styleOverrides: {
-        root: {
-          padding: '1rem, 1rem, 1rem, 1.5rem',
+        root: ({ ownerState }) => {
+          const { fullScreen, fullWidth } = ownerState;
+
+          const isFixedSize = !fullScreen && !fullWidth;
+          return {
+            ...(isFixedSize && {
+              '&. MuiPaper-root': {
+                width: '27.75em', // all dialogs should be 444px wide unless set to fullwidth
+              },
+            }),
+          };
         },
       },
       defaultProps: {
-        disableEscapeKeyDown: false,
+        disableRestoreFocus: true, // refocusing on the opening button causes mui button ripple to trigger indefinitely, which looks weird
+        disableEscapeKeyDown: false, // already the default but lets make it explicit
         PaperProps: {
           sx: {
             borderRadius: '0.25rem',
-            width: '27.75em', // all dialogs should be 444px wide
           },
         },
       },
