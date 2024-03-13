@@ -90,6 +90,15 @@ jobs:
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_PRODUCTION }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
+ 
+      - name: Restart Azure Web App
+        run: |
+          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_PRODUCTION }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_PRODUCTION }}"
+      
       - name: Post a message to Slack - lths-deployments
         run: |
           curl -X POST -H 'Content-type: application/json' \
