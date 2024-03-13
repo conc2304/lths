@@ -1,21 +1,30 @@
-import { DialogTitle as DialogTitleMui, Typography } from '@mui/material';
+import { DialogTitle as DialogTitleMui, DialogTitleProps, Typography } from '@mui/material';
 import { Box, SxProps } from '@mui/system';
 
 import { pxToRem } from '@lths/shared/utils';
 
 import { CloseButton } from '../../../inputs';
 
-type DialogTitleProps = {
+type DialogTitleLTHSProps = {
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
   onClose?: () => void;
   sx?: SxProps;
+  slotProps?: { DialogTitle?: DialogTitleProps };
 };
 
-export const DialogTitle = (props: DialogTitleProps) => {
-  const { title, subtitle, onClose, sx = {} } = props;
+export const DialogTitle = (props: DialogTitleLTHSProps) => {
+  const {
+    title,
+    subtitle,
+    onClose,
+    sx = {},
+    slotProps = {
+      DialogTitle: {},
+    },
+  } = props;
   return (
-    <DialogTitleMui position="relative" sx={sx}>
+    <DialogTitleMui position="relative" sx={sx} {...slotProps.DialogTitle}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography
           variant="h6"

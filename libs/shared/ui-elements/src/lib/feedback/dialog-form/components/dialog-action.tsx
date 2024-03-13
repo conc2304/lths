@@ -1,4 +1,10 @@
-import { Button, ButtonPropsColorOverrides, DialogActions as DialogActionsMui, SxProps } from '@mui/material';
+import {
+  Button,
+  ButtonPropsColorOverrides,
+  DialogActions as DialogActionsMui,
+  DialogActionsProps as DialogActionsPropsMui,
+  SxProps,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { OverridableStringUnion } from '@mui/types';
 
@@ -18,6 +24,9 @@ type DialogActionsProps = {
     'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
     ButtonPropsColorOverrides
   >;
+  slotProps?: {
+    DialogActions?: DialogActionsPropsMui;
+  };
 };
 
 export const DialogActions = (props: DialogActionsProps) => {
@@ -32,10 +41,17 @@ export const DialogActions = (props: DialogActionsProps) => {
     sx = {},
     destructive = false,
     confirmColor = 'primary',
+    slotProps = {
+      DialogActions: {},
+    },
   } = props;
 
   return (
-    <DialogActionsMui sx={{ p: '1.5rem', ...sx }} data-testid="Dialog-Form--actions-wrapper">
+    <DialogActionsMui
+      sx={{ p: '1.5rem', ...sx }}
+      data-testid="Dialog-Form--actions-wrapper"
+      {...slotProps.DialogActions}
+    >
       <Button sx={{ mr: pxToRem(8) }} onClick={onCancel} variant="outlined" color="secondary">
         {cancelText}
       </Button>

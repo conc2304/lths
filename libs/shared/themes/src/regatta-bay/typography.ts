@@ -38,6 +38,12 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
       fontSize: '0.875rem',
       lineHeight: 1.52,
     },
+    body1: {
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: '1.5rem',
+      letterSpacing: '0.15px',
+    },
     overline: {
       fontWeight: 400,
       fontSize: '0.75rem',

@@ -7,7 +7,6 @@ export default function TypogragphyOverrides(theme: Theme): Components {
       defaultProps: {},
       styleOverrides: {
         root: ({ ownerState }: { ownerState: TypographyProps }) => {
-          console.log({ ownerState });
           return {
             // overline
             ...(ownerState.variant === 'overline' && {

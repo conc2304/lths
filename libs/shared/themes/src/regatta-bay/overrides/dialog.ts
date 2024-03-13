@@ -6,9 +6,8 @@ export default function Dialog(theme: Theme): Components {
       styleOverrides: {
         root: ({ ownerState }) => {
           const { fullScreen, fullWidth } = ownerState;
-
           const isFixedSize = !fullScreen && !fullWidth;
-          console.log({ isFixedSize });
+
           return {
             ...(isFixedSize && {
               '.MuiPaper-root': {

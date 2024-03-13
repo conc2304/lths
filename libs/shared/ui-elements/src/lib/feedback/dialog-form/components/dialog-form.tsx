@@ -1,22 +1,25 @@
 import { ReactNode } from 'react';
-import { Dialog as DialogMui, Box, styled, DialogContent, ButtonPropsColorOverrides } from '@mui/material';
+import {
+  Dialog as DialogMui,
+  Box,
+  DialogContent,
+  ButtonPropsColorOverrides,
+  DialogProps,
+  DialogContentProps,
+  DialogActionsProps,
+  DialogTitleProps,
+} from '@mui/material';
 import { OverridableStringUnion } from '@mui/types';
-
-import { pxToRem } from '@lths/shared/utils';
 
 import { DialogActions } from './dialog-action';
 import { DialogTitle } from './dialog-title';
-
-const StyledDialogContent = styled(DialogContent)(() => ({
-  padding: pxToRem(24),
-}));
 
 type DialogFormProps = {
   open: boolean;
   children: ReactNode;
   confirmText?: string;
   cancelText?: string;
-  title: string | JSX.Element;
+  title?: string | JSX.Element;
   subtitle?: string | JSX.Element;
   confirmColor?: OverridableStringUnion<
     'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
@@ -29,6 +32,14 @@ type DialogFormProps = {
   isSubmitting?: boolean;
   isValid?: boolean;
   dirty?: boolean;
+  destructive?: boolean;
+  hasCloseButton?: boolean;
+  slotProps?: {
+    Dialog?: DialogProps;
+    DialogTitle?: DialogTitleProps;
+    DialogContent?: DialogContentProps;
+    DialogActions?: DialogActionsProps;
+  };
 };
 
 export const DialogForm = (props: DialogFormProps) => {
@@ -46,7 +57,19 @@ export const DialogForm = (props: DialogFormProps) => {
     isSubmitting,
     isValid = true,
     dirty = true,
+    destructive,
     confirmColor = 'primary',
+    hasCloseButton = false,
+    slotProps: {
+      Dialog: DialogProps = {},
+      DialogTitle: DialogTitleProps = {},
+      DialogContent: DialogContentProps = {},
+      DialogActions: DialogActionsProps = {},
+    } = {
+      DialogProps: {},
+      DialogContentProps: {},
+      DialogActionsProps: {},
+    },
   } = props;
 
   const handleOnCancel = () => {
@@ -59,10 +82,23 @@ export const DialogForm = (props: DialogFormProps) => {
   };
 
   return (
-    <DialogMui open={open} aria-labelledby="Dialog-Form--root" data-testid="DialogFormModal--root" maxWidth="md">
-      <Box component="form" onSubmit={onSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }} role="form">
-        <DialogTitle title={title} subtitle={subtitle} onClose={handleOnClose} />
-        <StyledDialogContent>{children}</StyledDialogContent>
+    <DialogMui
+      open={open}
+      onClose={onClose}
+      aria-labelledby="Dialog-Form--root"
+      data-testid="DialogFormModal--root"
+      {...DialogProps}
+    >
+      <Box component="form" onSubmit={onSubmit} role="form">
+        {title && (
+          <DialogTitle
+            title={title}
+            subtitle={subtitle}
+            onClose={hasCloseButton ? handleOnClose : undefined}
+            slotProps={{ DialogTitle: DialogTitleProps }}
+          />
+        )}
+        <DialogContent {...DialogContentProps}>{children}</DialogContent>
         <DialogActions
           cancelText={cancelText}
           confirmText={confirmText}
@@ -70,6 +106,8 @@ export const DialogForm = (props: DialogFormProps) => {
           isSubmitting={isSubmitting}
           disabled={!isValid || !dirty}
           confirmColor={confirmColor}
+          destructive={destructive}
+          slotProps={{ DialogActions: DialogActionsProps }}
         />
       </Box>
     </DialogMui>
