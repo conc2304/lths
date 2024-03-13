@@ -27,7 +27,7 @@ import { endOfDay, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { DatePickerLTHS, DialogActions, DialogTitle } from '@lths/shared/ui-elements';
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
@@ -109,6 +109,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
       onCancel();
     },
   });
+
   const dateTimeSlotProps: DateTimePickerSlotsComponentsProps<Date> & DatePickerSlotsComponentsProps<Date> = {
     inputAdornment: {
       position: 'start',
@@ -259,28 +260,140 @@ export const EventFormModal = (props: EventFormModalProps) => {
             <FormGroup sx={{ marginTop: pxToRem(16) }}>
               <Typography variant="overline">Schedule</Typography>
               <Box mb={2}>
-                <DatePickerLTHS
-                  mode="datetime"
-                  value={formik.values.startDateTime}
-                  placeholder="Start date"
-                  onChange={async (value) => {
-                    if (value) formik.setFieldValue('startDateTime', startOfDay(value));
-                    await formik.setFieldTouched('startDateTime', true);
-                    await formik.validateField('startDateTime');
-                    await formik.validateField('endDateTime');
-                  }}
-                  onBlur={() => {
-                    formik.setFieldTouched('startDateTime', true);
-                    formik.validateField('startDateTime');
-                    formik.validateField('endDateTime');
-                  }}
-                  error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
-                  helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
-                />
+                {/* IS ALL DAY */}
+                {formik.values.isAllDay && (
+                  <DatePicker
+                    value={formik.values.startDateTime ? startOfDay(formik.values.startDateTime) : null}
+                    onChange={async (value) => {
+                      if (value) formik.setFieldValue('startDateTime', startOfDay(value));
+                      await formik.setFieldTouched('startDateTime', true);
+                      await formik.validateField('startDateTime');
+                      await formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'Start date',
+                        onBlur: () => {
+                          formik.setFieldTouched('startDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
+                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
+                    }}
+                  />
+                )}
+                {!formik.values.isAllDay && (
+                  <DateTimePicker
+                    value={formik.values.startDateTime}
+                    onChange={async (value) => {
+                      if (value) formik.setFieldValue('startDateTime', value);
+                      await formik.validateField('startDateTime');
+                      await formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'Start date & time',
+                        onBlur: () => {
+                          formik.setFieldTouched('startDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.startDateTime && Boolean(formik.errors.startDateTime),
+                        helperText: !formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
+                    }}
+                  />
+                )}
               </Box>
               {/* END DATE FORM */}
 
-              <Box display="flex" justifyContent="space-between"></Box>
+              <Box display="flex" justifyContent="space-between">
+                {/* IS ALL DAY */}
+                {formik.values.isAllDay && (
+                  <DatePicker
+                    value={formik.values.endDateTime ? endOfDay(formik.values.endDateTime) : null}
+                    onChange={(value) => {
+                      if (value) formik.setFieldValue('endDateTime', endOfDay(value));
+                      formik.setFieldTouched('endDateTime', true);
+                      formik.validateField('startDateTime');
+                      formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'End date',
+                        onBlur: () => {
+                          formik.setFieldTouched('endDateTime', true);
+                          formik.validateField('startDateTime');
+                          formik.validateField('endDateTime');
+                        },
+                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
+                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
+                    }}
+                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
+                    minDate={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
+                  />
+                )}
+                {!formik.values.isAllDay && (
+                  <DateTimePicker
+                    value={formik.values.endDateTime}
+                    onChange={(value) => {
+                      formik.setFieldTouched('endDateTime', true);
+                      formik.setFieldValue('endDateTime', value);
+                      formik.validateField('startDateTime');
+                      formik.validateField('endDateTime');
+                    }}
+                    slots={{
+                      openPickerIcon: CalendarTodayIcon,
+                    }}
+                    slotProps={{
+                      textField: {
+                        ...dateTimeSlotProps.textField,
+                        placeholder: 'End date & time',
+                        onBlur: () => {
+                          formik.setFieldTouched('endDateTime', true);
+                          formik.validateField('endDateTime');
+                          formik.validateField('startDateTime');
+                        },
+                        error: formik.touched.endDateTime && Boolean(formik.errors.endDateTime),
+                        helperText: !formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string),
+                      },
+                      inputAdornment: dateTimeSlotProps.inputAdornment,
+                      openPickerButton: {
+                        size: 'small',
+                      },
+                    }}
+                    sx={{ '& .MuiFormControl-root': { marginTop: 'unset' } }}
+                    minDateTime={formik.values.startDateTime !== null ? formik.values.startDateTime : undefined}
+                  />
+                )}
+              </Box>
               {/*  THE OTHER STUFF HERE */}
               {/*  THE OTHER STUFF HERE */}
               {/*  THE OTHER STUFF HERE */}

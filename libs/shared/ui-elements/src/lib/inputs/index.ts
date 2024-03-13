@@ -2,6 +2,7 @@ export * from './chip-container';
 export * from './close-button';
 export * from './country-select';
 export * from './date-range-selector';
+export * from './date-picker';
 export * from './drag-drop-file';
 export * from './filter-form';
 export * from './form-builder';
