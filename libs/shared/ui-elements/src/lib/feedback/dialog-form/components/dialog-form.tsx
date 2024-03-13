@@ -76,6 +76,7 @@ export const DialogForm = (props: DialogFormProps) => {
     onCancel && onCancel();
     onReset && onReset();
   };
+
   const handleOnClose = () => {
     onClose && onClose();
     onReset && onReset();
