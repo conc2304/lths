@@ -57,7 +57,7 @@ const StatusChangeModalData = {
   [PageStatus.UNPUBLISHED]: {
     title: 'Unublish page now',
     description: (
-      <Typography maxWidth={'27rem'}>
+      <Typography maxWidth={'26rem'}>
         Once you unpublish this page, it will not be viewable on the mobile app and links to this page will become
         inactive.
       </Typography>

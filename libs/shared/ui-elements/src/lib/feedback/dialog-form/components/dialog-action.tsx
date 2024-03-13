@@ -9,6 +9,7 @@ type DialogActionsProps = {
   onCancel: () => void;
   onConfirm?: () => void;
   confirmText?: string;
+  isLoading?: boolean;
   isSubmitting?: boolean;
   disabled?: boolean;
   destructive?: boolean;
@@ -24,6 +25,7 @@ export const DialogActions = (props: DialogActionsProps) => {
     cancelText = 'Cancel',
     confirmText = 'Confirm',
     onConfirm,
+    isLoading,
     isSubmitting,
     onCancel,
     disabled,
@@ -38,8 +40,8 @@ export const DialogActions = (props: DialogActionsProps) => {
         {cancelText}
       </Button>
       <LoadingButton
-        loading={isSubmitting}
-        disabled={disabled || isSubmitting}
+        loading={isLoading || isSubmitting}
+        disabled={disabled || isSubmitting || isLoading}
         aria-disabled={disabled || isSubmitting}
         type="submit"
         variant="contained"

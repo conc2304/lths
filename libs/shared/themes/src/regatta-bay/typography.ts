@@ -50,6 +50,7 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
       fontSize: '0.875rem',
       lineHeight: '1.375rem',
       letterSpacing: '0.1px',
+      textTransform: 'uppercase',
     },
     button: {
       textTransform: 'uppercase',

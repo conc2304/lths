@@ -1,10 +1,10 @@
 import { HTMLAttributes, useEffect } from 'react';
-import { Autocomplete, Box, Grid, TextField, Typography, DialogContent, DialogActions, Button } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Autocomplete, Box, Grid, TextField, Typography, DialogContent } from '@mui/material';
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
 import { EnumValue, NotificationType } from '@lths/features/mms/data-access';
+import { DialogActions } from '@lths/shared/ui-elements';
 
 import { NotificationFormProps } from '../../types';
 
@@ -67,6 +67,7 @@ const NotificationForm = ({
                 value={values.name}
                 label="Name"
                 variant="outlined"
+                size="small"
                 helperText={touched.name && errors.name}
                 sx={{ marginTop: 1 }}
               />
@@ -82,6 +83,7 @@ const NotificationForm = ({
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    size="small"
                     label="Topic"
                     error={touched.topics && Boolean(errors.topics)}
                     helperText={touched.topics && errors.topics}
@@ -106,21 +108,13 @@ const NotificationForm = ({
           </Grid>
         </form>
       </DialogContent>
-      <DialogActions sx={{ marginBottom: 2 }}>
-        <Button onClick={onCancel} variant="outlined" sx={{ marginRight: 2 }}>
-          CANCEL
-        </Button>
-        <LoadingButton
-          color="primary"
-          loading={isLoading}
-          disabled={isSubmitting}
-          variant="contained"
-          type="submit"
-          onClick={() => handleSubmit()}
-        >
-          {confirmButtonText}
-        </LoadingButton>
-      </DialogActions>
+      <DialogActions
+        confirmText={confirmButtonText}
+        isLoading={isLoading}
+        isSubmitting={isSubmitting}
+        onConfirm={() => handleSubmit}
+        onCancel={onCancel}
+      />
     </>
   );
 };

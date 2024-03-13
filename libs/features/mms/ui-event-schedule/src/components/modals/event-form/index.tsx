@@ -11,6 +11,8 @@ import {
   FormHelperText,
   DialogContent,
   Typography,
+  InputLabel,
+  FormControl,
 } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {
@@ -31,6 +33,8 @@ import { pxToRem } from '@lths/shared/utils';
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
 // import { FormLabel, fontStyle } from '../utils';
+
+// TODO - update the time section when the full design is finalized
 
 export type EventFormModalProps = {
   open: boolean;
@@ -148,6 +152,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 fullWidth
                 margin="dense"
                 size="small"
+                label="Name"
                 placeholder="Name"
                 color={formik.touched.eventName && Boolean(formik.errors.eventName) ? 'error' : 'primary'}
                 value={formik.values.eventName}
@@ -169,60 +174,76 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 }}
               />
               {/* parsing and stringifying in order to keep id label structure */}
-              <Select
-                name="eventType"
-                data-testid="Edit-Event--event-type"
-                value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
-                required
-                renderValue={(selected) => {
-                  const sVal = JSON.parse(selected) as EventType;
-                  if (sVal.id === eventTypeFallback.id) {
-                    return (
-                      <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                        {eventTypeFallback.label}
-                      </Box>
-                    );
-                  }
-                  if (sVal.id === eventTypeUnknown.id) {
-                    return <Box component="span">{eventTypeUnknown.label}</Box>;
-                  }
-                  return sVal.label;
-                }}
-                placeholder="Type"
-                onChange={async ({ target: value }) => {
-                  formik.setFieldValue('eventType', JSON.parse(value.value as string));
-                  await formik.validateField('eventType');
-                }}
-                onBlur={() => formik.setFieldTouched('eventType', true)}
-                error={formik.touched.eventType && Boolean(formik.errors.eventType)}
-                size="small"
-                sx={{
-                  // ...fontStyle,
-                  mb: 2,
-                }}
-              >
-                <MenuItem disabled value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}>
-                  <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Type'}</em>
-                </MenuItem>
-                {originalEventTypeUnknown && (
+              <FormControl fullWidth>
+                <InputLabel
+                  id="Edit-Event--event-type"
+                  color={formik.touched.eventType && Boolean(formik.errors.eventType) ? 'error' : 'secondary'}
+                >
+                  Type
+                </InputLabel>
+                <Select
+                  name="eventType"
+                  data-testid="Edit-Event--event-type"
+                  id="Edit-Event--event-type"
+                  value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
+                  required
+                  label="Type"
+                  // placeholder="Type"
+                  renderValue={(selected) => {
+                    const sVal = JSON.parse(selected) as EventType;
+                    if (sVal.id === eventTypeFallback.id) {
+                      return (
+                        <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                          {eventTypeFallback.label}
+                        </Box>
+                      );
+                    }
+                    if (sVal.id === eventTypeUnknown.id) {
+                      return <Box component="span">{eventTypeUnknown.label}</Box>;
+                    }
+                    return sVal.label;
+                  }}
+                  onChange={async ({ target: value }) => {
+                    formik.setFieldValue('eventType', JSON.parse(value.value as string));
+                    await formik.validateField('eventType');
+                  }}
+                  onBlur={() => formik.setFieldTouched('eventType', true)}
+                  error={formik.touched.eventType && Boolean(formik.errors.eventType)}
+                  size="small"
+                  sx={{
+                    // ...fontStyle,
+                    mb: 2,
+                  }}
+                >
                   <MenuItem
-                    sx={{ display: 'none' }}
-                    value={JSON.stringify({ id: eventTypeUnknown.id, label: eventTypeUnknown.label })}
+                    disabled
+                    value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}
                   >
-                    <em>{eventTypeUnknown.label}</em>
+                    <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Type'}</em>
                   </MenuItem>
+
+                  {originalEventTypeUnknown && (
+                    <MenuItem
+                      sx={{ display: 'none' }}
+                      value={JSON.stringify({ id: eventTypeUnknown.id, label: eventTypeUnknown.label })}
+                    >
+                      <em>{eventTypeUnknown.label}</em>
+                    </MenuItem>
+                  )}
+                  {availableEventTypes.map(({ label, id }) => (
+                    <MenuItem key={id} value={JSON.stringify({ id, label })}>
+                      {label}
+                    </MenuItem>
+                  ))}
+                </Select>
+
+                {Boolean(formik.errors?.eventType?.id) && (
+                  <FormHelperText error sx={{ ml: 2 }}>
+                    {formik.errors.eventType?.id}
+                  </FormHelperText>
                 )}
-                {availableEventTypes.map(({ label, id }) => (
-                  <MenuItem key={id} value={JSON.stringify({ id, label })}>
-                    {label}
-                  </MenuItem>
-                ))}
-              </Select>
-              {Boolean(formik.errors?.eventType?.id) && (
-                <FormHelperText error sx={{ ml: 2 }}>
-                  {formik.errors.eventType?.id}
-                </FormHelperText>
-              )}
+              </FormControl>
+
               <OutlinedInput
                 color="primary"
                 name="description"

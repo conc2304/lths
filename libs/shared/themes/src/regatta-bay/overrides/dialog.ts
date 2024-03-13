@@ -11,7 +11,7 @@ export default function Dialog(theme: Theme): Components {
           console.log({ isFixedSize });
           return {
             ...(isFixedSize && {
-              '&. MuiPaper-root': {
+              '.MuiPaper-root': {
                 width: '27.75rem', // all dialogs should be 444px wide unless set to fullwidth
               },
             }),
