@@ -14,14 +14,7 @@ import {
   InputLabel,
   FormControl,
 } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import {
-  DatePicker,
-  DatePickerSlotsComponentsProps,
-  DateTimePicker,
-  DateTimePickerSlotsComponentsProps,
-  LocalizationProvider,
-} from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { endOfDay, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
@@ -109,27 +102,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
       onCancel();
     },
   });
-  const dateTimeSlotProps: DateTimePickerSlotsComponentsProps<Date> & DatePickerSlotsComponentsProps<Date> = {
-    inputAdornment: {
-      position: 'start',
-    },
-    textField: {
-      required: false,
-      variant: 'outlined',
-      size: 'small',
-
-      sx: {
-        '&.MuiTextField-root': {
-          marginRight: 'unset',
-          marginTop: 'unset',
-          // mb: ,
-        },
-        '& .MuiInputBase-inputSizeSmall': {
-          // ...fontStyle,
-        },
-      },
-    },
-  };
 
   const originalEventTypeUnknown =
     eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
