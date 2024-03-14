@@ -232,7 +232,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
               <Typography variant="overline">Schedule</Typography>
               <Box mb={2}>
                 <DatePickerLTHS
-                  mode="datetime"
+                  mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.startDateTime}
                   placeholder="Start date"
                   onChange={async (value) => {
@@ -248,6 +248,24 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   }}
                   error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
                   helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
+                />
+                <DatePickerLTHS
+                  mode={formik.values.isAllDay ? 'date' : 'datetime'}
+                  value={formik.values.endDateTime}
+                  placeholder="End date"
+                  onChange={async (value) => {
+                    if (value) formik.setFieldValue('startDateTime', startOfDay(value));
+                    await formik.setFieldTouched('startDateTime', true);
+                    await formik.validateField('startDateTime');
+                    await formik.validateField('endDateTime');
+                  }}
+                  onBlur={() => {
+                    formik.setFieldTouched('startDateTime', true);
+                    formik.validateField('startDateTime');
+                    formik.validateField('endDateTime');
+                  }}
+                  error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}
+                  helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}
                 />
               </Box>
               {/* END DATE FORM */}

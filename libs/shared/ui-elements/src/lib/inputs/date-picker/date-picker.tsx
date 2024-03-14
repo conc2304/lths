@@ -1,5 +1,5 @@
 import { FocusEventHandler, MouseEventHandler, useState } from 'react';
-import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
+import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper, useTheme } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -18,9 +18,10 @@ type DatePickerLTHSProps = {
 };
 export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   const { value, onChange, onBlur, error, helperText, placeholder, mode } = props;
-
+  // const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [timePickerFocused, setTimePickerFocused] = useState(false);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const defaultTime = value ? new Date(value) : new Date();
   defaultTime.setHours(12, 0, 0);
@@ -34,18 +35,23 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
       size: 'small',
 
       sx: {
+        ':root': {
+          // padding: '20px',
+          color: 'blue',
+        },
         '&.MuiTextField-root': {
           marginRight: 'unset',
-          // marginTop: 'unset',
+          marginTop: 'unset',
+          // color: 'red',
+          // marginTop: '200px',
           // mb: ,
         },
-        '& .MuiInputBase-inputSizeSmall': {
-          // ...fontStyle,
-          //styleName: components/input-text;
-          fontSize: '16px',
+        '&.MuiInputBase-root': {
+          color: 'orange',
+          fontSize: '1rem',
           fontWeight: '400',
-          lineHeight: '24px',
-          letterSpacing: '0.15000000596046448px',
+          lineHeight: '1.5rem',
+          letterSpacing: '0.15px',
         },
       },
     },
@@ -65,13 +71,6 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     onChange && onChange(value);
   };
 
-  const handleFocus: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined = (event) => {
-    console.log('click');
-
-    setTimePickerFocused(!timePickerFocused);
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-
   const handleClick: MouseEventHandler<HTMLDivElement> | undefined = (event) => {
     setTimePickerFocused(!timePickerFocused);
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -86,36 +85,43 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
-      <DatePicker
-        value={value}
-        onChange={handleDateChange}
-        slots={{
-          openPickerIcon: CalendarTodayIcon,
-        }}
-        slotProps={{
-          inputAdornment: {
-            position: 'start',
-          },
-          openPickerButton: {
-            size: 'small',
-          },
-          textField: {
-            ...datePickerSlotProps.textField,
-            sx: { width: '185px' },
-            placeholder: placeholder,
-            onBlur: onBlur,
-            error: error,
-            helperText: helperText,
-            InputProps: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <ArrowDropDownIcon />
-                </InputAdornment>
-              ),
+      <ClickAwayListener onClickAway={() => setDatePickerOpen(false)}>
+        <DatePicker
+          value={value}
+          onChange={handleDateChange}
+          open={datePickerOpen}
+          onOpen={() => setDatePickerOpen(true)}
+          slots={{
+            openPickerIcon: CalendarTodayIcon,
+          }}
+          slotProps={{
+            inputAdornment: {
+              position: 'start',
             },
-          },
-        }}
-      />
+            openPickerButton: {
+              size: 'small',
+            },
+            textField: {
+              ...datePickerSlotProps.textField,
+              sx: { width: '185px' },
+              placeholder: placeholder,
+              onBlur: onBlur,
+              error: error,
+              helperText: helperText,
+              InputProps: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Box onClick={() => setDatePickerOpen(!datePickerOpen)}>
+                      <ArrowDropDownIcon />
+                    </Box>
+                  </InputAdornment>
+                ),
+              },
+            },
+          }}
+        />
+      </ClickAwayListener>
+
       {mode === 'datetime' && (
         // have clicking on input value open the digital clock modal
         <ClickAwayListener onClickAway={handleClickAway}>
@@ -132,8 +138,8 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 slotProps={{
                   textField: {
                     ...datePickerSlotProps.textField,
-                    sx: { width: timePickerWidth },
                     InputProps: {
+                      sx: { width: timePickerWidth },
                       endAdornment: (
                         <InputAdornment position="end">
                           <ArrowDropDownIcon />
@@ -156,6 +162,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                   value={new Date()}
                   onChange={handleTimeChange}
                   defaultValue={new Date()}
+                  slotProps={{}}
                   timeStep={15}
                   // minTime={}
                   // maxTime={}
