@@ -1,6 +1,5 @@
 import { FocusEventHandler, MouseEventHandler, useState } from 'react';
-import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper, useTheme } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { DatePicker, DatePickerSlotsComponentsProps, DigitalClock, TimeField } from '@mui/x-date-pickers';
@@ -15,30 +14,21 @@ type DatePickerLTHSProps = {
   helperText?: string;
   placeholder?: string;
   onAddTime?: () => void;
+  minDate?: Date;
 };
 export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
-  const { value, onChange, onBlur, error, helperText, placeholder, mode } = props;
-  // const theme = useTheme();
+  const { value, onChange, onBlur, error, helperText, placeholder, mode, minDate } = props;
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [timePickerFocused, setTimePickerFocused] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
-  const defaultTime = value ? new Date(value) : new Date();
-  defaultTime.setHours(12, 0, 0);
-
-  console.log(defaultTime);
-  // const time = value.get
   const datePickerSlotProps: DatePickerSlotsComponentsProps<Date> = {
     textField: {
       required: false,
       variant: 'outlined',
       size: 'small',
-
       sx: {
-        ':root': {
-          // padding: '20px',
-          color: 'blue',
-        },
         '&.MuiTextField-root': {
           marginRight: 'unset',
           marginTop: 'unset',
@@ -61,6 +51,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     // do something with value
     // get the time from the value,
     // update the value with this time
+    console.log('handleTimeChange', value);
     onChange && onChange(value);
     setAnchorEl(null);
     setTimePickerFocused(true);
@@ -91,6 +82,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
           onChange={handleDateChange}
           open={datePickerOpen}
           onOpen={() => setDatePickerOpen(true)}
+          // minDate={minDate}
           slots={{
             openPickerIcon: CalendarTodayIcon,
           }}
@@ -133,12 +125,11 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 value={value}
                 readOnly
                 onClick={handleClick}
-                // onFocus={handleFocus}
                 focused={timePickerFocused}
-                defaultValue={defaultTime}
                 slotProps={{
                   textField: {
                     ...datePickerSlotProps.textField,
+                    placeholder: placeholder?.replace('date', 'time'),
                     InputProps: {
                       sx: { width: timePickerWidth },
                       endAdornment: (
@@ -151,28 +142,35 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 }}
               />
             </FormControl>
-            {/* </Box> */}
             <Popper
               open={open}
               anchorEl={anchorEl}
               placement="bottom-start"
-              sx={{ zIndex: (theme) => theme.zIndex.modal + 500 }}
+              sx={{ zIndex: (theme) => theme.zIndex.modal }}
             >
-              <Paper>
-                <DigitalClock
-                  value={new Date()}
-                  onChange={handleTimeChange}
-                  defaultValue={new Date()}
-                  slotProps={{}}
-                  timeStep={15}
-                  // minTime={}
-                  // maxTime={}
-                  skipDisabled
-                  timezone="PST"
-                  sx={{
-                    width: timePickerWidth,
-                  }}
-                />
+              {/* paper and box combo to force round borders over the scrollbar's hard corners */}
+              <Paper
+                sx={{
+                  borderRadius: '0.25rem',
+                  overflow: 'hidden',
+                }}
+              >
+                <Box sx={{ overflowY: 'auto' }}>
+                  <DigitalClock
+                    value={value}
+                    onChange={handleTimeChange}
+                    defaultValue={new Date()}
+                    slotProps={{}}
+                    timeStep={15}
+                    minTime={minDate}
+                    // maxTime={}
+                    skipDisabled
+                    timezone="PST"
+                    sx={{
+                      width: timePickerWidth,
+                    }}
+                  />
+                </Box>
               </Paper>
             </Popper>
           </Box>

@@ -95,7 +95,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
       onCancel();
       resetForm();
     },
-    validateOnChange: true,
+    validateOnChange: false,
     validateOnBlur: true,
     validateOnMount: false,
     onReset: () => {
@@ -108,6 +108,10 @@ export const EventFormModal = (props: EventFormModalProps) => {
   const availableEventTypes = eventTypes.filter(
     ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
   );
+
+  const handleDateTimeChange = (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
+    // if we move our start date past the end date, then move the end date up by an hour
+  };
 
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
@@ -235,8 +239,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.startDateTime}
                   placeholder="Start date"
+                  // datepickers don't play nice with formik change handlers, so we have to manually do it
                   onChange={async (value) => {
-                    if (value) formik.setFieldValue('startDateTime', startOfDay(value));
+                    if (value) formik.setFieldValue('startDateTime', value);
                     await formik.setFieldTouched('startDateTime', true);
                     await formik.validateField('startDateTime');
                     await formik.validateField('endDateTime');
@@ -253,14 +258,15 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.endDateTime}
                   placeholder="End date"
+                  minDate={formik.values.startDateTime || undefined}
                   onChange={async (value) => {
-                    if (value) formik.setFieldValue('startDateTime', startOfDay(value));
-                    await formik.setFieldTouched('startDateTime', true);
-                    await formik.validateField('startDateTime');
-                    await formik.validateField('endDateTime');
+                    if (value) formik.setFieldValue('endDateTime', value);
+                    formik.setFieldTouched('endDateTime', true);
+                    formik.validateField('startDateTime');
+                    formik.validateField('endDateTime');
                   }}
                   onBlur={() => {
-                    formik.setFieldTouched('startDateTime', true);
+                    formik.setFieldTouched('endDateTime', true);
                     formik.validateField('startDateTime');
                     formik.validateField('endDateTime');
                   }}
@@ -286,9 +292,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 }
                 label="All-day event"
                 sx={{
-                  '& .MuiFormControlLabel-label': {
-                    // ...fontStyle
-                  },
                   width: 'fit-content',
                   ml: 0.6,
                 }}
