@@ -82,7 +82,9 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
           onChange={handleDateChange}
           open={datePickerOpen}
           onOpen={() => setDatePickerOpen(true)}
-          // minDate={minDate}
+          // intentionally not setting minDate for datePicker
+          // to allow users to more easily change dates,
+          // having parent components handle the date/error validation
           slots={{
             openPickerIcon: CalendarTodayIcon,
           }}

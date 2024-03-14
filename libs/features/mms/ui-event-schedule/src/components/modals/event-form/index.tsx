@@ -254,9 +254,11 @@ export const EventFormModal = (props: EventFormModalProps) => {
               />
             </FormGroup>
 
+            {/* DATE TIME FORM  */}
             <FormGroup sx={{ marginTop: pxToRem(16) }}>
               <Typography variant="overline">Schedule</Typography>
-              <Box mb={2}>
+              <Box mb={0.5}>
+                {/* Start Date */}
                 <DatePickerLTHS
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.startDateTime}
@@ -270,6 +272,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
                   helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
                 />
+
+                {/* End Date */}
                 <DatePickerLTHS
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.endDateTime}
@@ -285,12 +289,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}
                 />
               </Box>
-              {/* END DATE FORM */}
+              {/*  DATE TIME FORM */}
 
               <Box display="flex" justifyContent="space-between"></Box>
-              {/*  THE OTHER STUFF HERE */}
-              {/*  THE OTHER STUFF HERE */}
-              {/*  THE OTHER STUFF HERE */}
               <FormControlLabel
                 control={
                   <Checkbox
@@ -304,7 +305,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 label="All-day event"
                 sx={{
                   width: 'fit-content',
-                  ml: 0.6,
+                  ml: 0.89, // force the checkox to align with the calendar icon
                 }}
               />
             </FormGroup>
