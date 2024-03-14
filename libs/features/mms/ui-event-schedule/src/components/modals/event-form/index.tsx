@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { addHours, addMinutes, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
+import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -25,9 +25,6 @@ import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
 import { EventFormValues, EventType, MMSEvent } from '../../../types';
-// import { FormLabel, fontStyle } from '../utils';
-
-// TODO - update the time section when the full design is finalized
 
 export type EventFormModalProps = {
   open: boolean;
@@ -104,6 +101,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
     },
   });
 
+  // handle when the backend is screwed up and gives us garbage
   const originalEventTypeUnknown =
     eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
   const availableEventTypes = eventTypes.filter(
@@ -111,6 +109,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
   );
 
   const handleDateTimeChange = async (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
+    // datepickers don't play nice with formik change handlers, so we have to manually do it the onchange on blur things that formik.onChange would handle
+
     const changeField = field;
     const dependentField = field === 'startDateTime' ? 'endDateTime' : 'startDateTime';
 
@@ -119,8 +119,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
     // if we move our start date past the end date, then move the end date to be an hour after start
     if (
       value && // current value not null
-      changeField === 'startDateTime' && // only change when changing startdate
-      formik.values.endDateTime && // only change end if end is set
+      changeField === 'startDateTime' && // only change when changing 'startdate'
+      formik.values.endDateTime && // only change end if 'enddate' is set
       isAfter(value, formik.values.endDateTime) // only update is start is moved to after end
     ) {
       const startDate = value || formik.values.startDateTime;
@@ -128,7 +128,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
       formik.setFieldValue(dependentField, updatedEndDate);
     }
 
+    // handle blurring the field
     await formik.setFieldTouched(changeField, true);
+    // validate both start and end in relation to each other
     await formik.validateField(changeField);
     await formik.validateField(dependentField);
   };
@@ -259,7 +261,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.startDateTime}
                   placeholder="Start date"
-                  // datepickers don't play nice with formik change handlers, so we have to manually do it
                   onChange={(value) => {
                     handleDateTimeChange(value, 'startDateTime');
                   }}
