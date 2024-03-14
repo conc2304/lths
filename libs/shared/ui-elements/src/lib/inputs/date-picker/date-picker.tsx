@@ -100,6 +100,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             },
             openPickerButton: {
               size: 'small',
+              onClick: () => setDatePickerOpen(!datePickerOpen),
             },
             textField: {
               ...datePickerSlotProps.textField,
