@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { endOfDay, isBefore, startOfDay } from 'date-fns';
+import { addHours, addMinutes, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -73,7 +73,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
     startDateTime: Yup.date().nullable().required('Required'),
     endDateTime: Yup.date()
       .nullable()
-      .test('valid-endDate', 'The end date must be later than the start date', function (value) {
+      .test('valid-endDate', 'Invalid end date', function (value) {
         if (!value || !this.parent['startDateTime']) return true;
         return !isBefore(value, this.parent['startDateTime']);
       })
@@ -87,6 +87,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
     validationSchema,
     onSubmit: (values, { setSubmitting, resetForm }) => {
       if (values.isAllDay) {
+        // move datetimes to start/end of day if is allday event
         values.startDateTime = values.startDateTime ? startOfDay(new Date(values.startDateTime)) : values.startDateTime;
         values.endDateTime = values.endDateTime ? endOfDay(new Date(values.endDateTime)) : values.endDateTime;
       }
@@ -109,8 +110,27 @@ export const EventFormModal = (props: EventFormModalProps) => {
     ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
   );
 
-  const handleDateTimeChange = (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
-    // if we move our start date past the end date, then move the end date up by an hour
+  const handleDateTimeChange = async (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
+    const changeField = field;
+    const dependentField = field === 'startDateTime' ? 'endDateTime' : 'startDateTime';
+
+    if (value) formik.setFieldValue(changeField, value);
+
+    // if we move our start date past the end date, then move the end date to be an hour after start
+    if (
+      value && // current value not null
+      changeField === 'startDateTime' && // only change when changing startdate
+      formik.values.endDateTime && // only change end if end is set
+      isAfter(value, formik.values.endDateTime) // only update is start is moved to after end
+    ) {
+      const startDate = value || formik.values.startDateTime;
+      const updatedEndDate = addHours(startDate, 1);
+      formik.setFieldValue(dependentField, updatedEndDate);
+    }
+
+    await formik.setFieldTouched(changeField, true);
+    await formik.validateField(changeField);
+    await formik.validateField(dependentField);
   };
 
   return (
@@ -240,16 +260,11 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   value={formik.values.startDateTime}
                   placeholder="Start date"
                   // datepickers don't play nice with formik change handlers, so we have to manually do it
-                  onChange={async (value) => {
-                    if (value) formik.setFieldValue('startDateTime', value);
-                    await formik.setFieldTouched('startDateTime', true);
-                    await formik.validateField('startDateTime');
-                    await formik.validateField('endDateTime');
+                  onChange={(value) => {
+                    handleDateTimeChange(value, 'startDateTime');
                   }}
                   onBlur={() => {
-                    formik.setFieldTouched('startDateTime', true);
-                    formik.validateField('startDateTime');
-                    formik.validateField('endDateTime');
+                    handleDateTimeChange(null, 'startDateTime');
                   }}
                   error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
                   helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
@@ -260,15 +275,10 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   placeholder="End date"
                   minDate={formik.values.startDateTime || undefined}
                   onChange={async (value) => {
-                    if (value) formik.setFieldValue('endDateTime', value);
-                    formik.setFieldTouched('endDateTime', true);
-                    formik.validateField('startDateTime');
-                    formik.validateField('endDateTime');
+                    handleDateTimeChange(value, 'endDateTime');
                   }}
                   onBlur={() => {
-                    formik.setFieldTouched('endDateTime', true);
-                    formik.validateField('startDateTime');
-                    formik.validateField('endDateTime');
+                    handleDateTimeChange(null, 'endDateTime');
                   }}
                   error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}
                   helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}
