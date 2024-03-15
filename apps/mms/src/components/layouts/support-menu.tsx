@@ -1,4 +1,4 @@
-import { Box, Divider, Link, LinkProps, List, ListItem } from '@mui/material';
+import { Box, Divider, Link, LinkProps, List, ListItem, Typography } from '@mui/material';
 
 const StyledLink = (props: LinkProps) => (
   <Link
@@ -16,6 +16,10 @@ const StyledLink = (props: LinkProps) => (
 
 // TODO - we have no idea where these links go - need to add href or internal routing depending on where they go
 export const SupportMenu = () => {
+  const githashVersion = process.env.NX_PUBLIC_UI_VERSION
+    ? process.env.NX_PUBLIC_UI_VERSION.toString().slice(0, 7)
+    : 'N/A';
+
   return (
     <Box data-testid="Support-Menu--root">
       <List>
@@ -37,6 +41,9 @@ export const SupportMenu = () => {
           <StyledLink>Send feedback to Google</StyledLink>
         </ListItem>
       </List>
+      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+        <Typography variant="caption">MMS Version: {githashVersion}</Typography>
+      </Box>
     </Box>
   );
 };
