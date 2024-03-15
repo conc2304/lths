@@ -2,7 +2,7 @@ import { FocusEventHandler, MouseEventHandler, useState } from 'react';
 import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import { DatePicker, DatePickerSlotsComponentsProps, DigitalClock, TimeField } from '@mui/x-date-pickers';
+import { DatePicker, DigitalClock, TimeField } from '@mui/x-date-pickers';
 
 type OnDateChageFn = ((value: Date | null) => void) | undefined;
 type DatePickerLTHSProps = {
@@ -112,13 +112,12 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             {/* <Box> */}
             <FormControl sx={{ margin: '0.5rem 0 0.25rem 0.5rem' }}>
               <TimeField
-                // value={value}
+                value={value}
                 readOnly
                 onClick={handleClick}
                 focused={timePickerFocused}
                 slotProps={{
                   textField: {
-                    // ...datePickerSlotProps.textField,
                     label: label?.replace('date', 'time'),
                     placeholder: placeholder?.replace('date', 'time'),
                     InputProps: {
