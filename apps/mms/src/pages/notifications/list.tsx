@@ -29,12 +29,12 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'sent',
+    id: 'sent_on',
     label: 'SENT',
     sortable: true,
   },
   {
-    id: 'topics',
+    id: 'data.topics',
     label: 'TOPICS',
     sortable: true,
   },
@@ -54,10 +54,10 @@ const NotificationPage = () => {
   const [getData, { isFetching, isLoading, data }] = useLazyGetNotificationsListQuery();
 
   // table control
-  const [page, setPage] = useState<number | undefined>(1);
+  const [page, setPage] = useState<number | undefined>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(25);
-  const [order, setOrder] = useState<SortDirection>('asc');
-  const [orderBy, setOrderBy] = useState<string | undefined>(headers[0].id);
+  const [order, setOrder] = useState<SortDirection>('desc');
+  const [orderBy, setOrderBy] = useState<string | undefined>(headers[2].id);
 
   // fetch
   async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
@@ -76,7 +76,7 @@ const NotificationPage = () => {
 
   // side effects
   useEffect(() => {
-    fetchData(null, undefined);
+    fetchData({ page: page, pageSize: rowsPerPage }, { column: orderBy, order: order });
   }, []);
 
   // handlers
