@@ -8,6 +8,7 @@ type SelectLTHSProps = SelectProps & {
   options: Array<TValue | { label: string | number; value: TValue }>;
   noOptionsAvailableText?: string;
   size?: 'small' | 'medium';
+  value: TValue | null;
 };
 
 export const SelectLTHS = (props: SelectLTHSProps) => {
@@ -25,20 +26,25 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     value,
     noOptionsAvailableText,
     size = 'small',
+    renderValue: renderValueProp,
   } = props;
 
   const labelId = `Select-label--${name || Math.random()}`;
 
   const optionsAreObjects = typeof options?.[0] === 'object';
 
-  //  parsing and stringifying in order to keep id label structure
-  const renderValue = (selected: string) => {
-    const sVal = optionsAreObjects
-      ? (JSON.parse(selected) as { label: string | number; value: TValue })
-      : { label: selected };
+  const renderValue =
+    renderValueProp ||
+    ((selected) => {
+      //  parsing and stringifying in order to keep id label structure
+      if (!selected) return;
+      const value =
+        optionsAreObjects && typeof selected === 'string'
+          ? (JSON.parse(selected) as { label: string | number; value: TValue }).label
+          : selected;
 
-    return sVal.label;
-  };
+      return <Box>{value.toString()}</Box>;
+    });
 
   return (
     <FormControl fullWidth sx={{ my: 2 }} size={size}>
