@@ -18,15 +18,15 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     helperText,
     label,
     name,
+    noOptionsAvailableText,
     onBlur,
     onChange,
     options,
     placeholder,
-    required,
-    value,
-    noOptionsAvailableText,
-    size = 'small',
     renderValue: renderValueProp,
+    required,
+    size = 'small',
+    value,
   } = props;
 
   const labelId = `Select-label--${name || Math.random()}`;
