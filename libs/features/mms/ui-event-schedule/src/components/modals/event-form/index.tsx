@@ -262,6 +262,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 <DatePickerLTHS
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.startDateTime}
+                  label="Start date"
                   placeholder="Start date"
                   onChange={(value) => {
                     handleDateTimeChange(value, 'startDateTime');
@@ -277,6 +278,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 <DatePickerLTHS
                   mode={formik.values.isAllDay ? 'date' : 'datetime'}
                   value={formik.values.endDateTime}
+                  label="End date"
                   placeholder="End date"
                   minDate={formik.values.startDateTime || undefined}
                   onChange={async (value) => {

@@ -12,6 +12,7 @@ type DatePickerLTHSProps = {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   error?: boolean;
   helperText?: string;
+  label?: string;
   placeholder?: string;
   onAddTime?: () => void;
   minDate?: Date;
@@ -30,8 +31,8 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
       size: 'small',
       sx: {
         '&.MuiTextField-root': {
-          marginRight: 'unset',
-          marginTop: 'unset',
+          // marginRight: 'unset',
+          // marginTop: 'unset',
           // color: 'red',
           // marginTop: '200px',
           // mb: ,
@@ -98,8 +99,10 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             },
             textField: {
               ...datePickerSlotProps.textField,
+
               sx: { width: '185px' },
               placeholder: placeholder,
+              label: placeholder,
               onBlur: onBlur,
               error: error,
               helperText: helperText,
@@ -131,6 +134,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 slotProps={{
                   textField: {
                     ...datePickerSlotProps.textField,
+                    label: placeholder?.replace('date', 'time'),
                     placeholder: placeholder?.replace('date', 'time'),
                     InputProps: {
                       sx: { width: timePickerWidth },

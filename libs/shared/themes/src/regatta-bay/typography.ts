@@ -58,6 +58,12 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
       letterSpacing: '0.1px',
       textTransform: 'uppercase',
     },
+    input: {
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem',
+      letterSpacing: '0.15px',
+    },
     button: {
       textTransform: 'uppercase',
     },
