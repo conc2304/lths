@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { toast } from 'react-hot-toast';
 
-import {
-  AssetsRequestProps,
-  useLazyGetAssetsItemsQuery,
-  useAddResourceMutation, 
-  useAppSelector
-} from '@lths/features/mms/data-access';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
+import { AssetsRequestProps, useLazyGetAssetsItemsQuery, useUploadAssetMutation } from '@lths/features/mms/data-access';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 import AssetsModal from './modal';
@@ -50,7 +44,6 @@ const headers = [
 ];
 
 const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalProps) => {
-  const user = useAppSelector((state) => state.auth);
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
   const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
   const [currSorting, setCurrSorting] = useState<TableSortingProps>({ order: 'desc', column: headers[1].id });
@@ -72,7 +65,11 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     }
   }, [open]);
 
-  const onFetch = async (pagination: TablePaginationProps, sorting: TableSortingProps, search: { queryString: string }) => {
+  const onFetch = async (
+    pagination: TablePaginationProps,
+    sorting: TableSortingProps,
+    search: { queryString: string }
+  ) => {
     const req: AssetsRequestProps = {};
     if (pagination != null) {
       req.page = pagination.page;
@@ -107,37 +104,26 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource] = useAddResourceMutation();
+  const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
 
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
 
-  const handleUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
-        await handleAddAsset(file);
-      } else {
-        console.error('Invalid file type:', file.type);
-      }
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      return;
     }
-  };
-  const [getUser] = useLazyGetUserQuery();
 
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
+    uploadAsset(file)
+      .unwrap()
+      .then(() => {
+        toast.success(`Successfully uploaded media: ${file.name}`);
+      })
+      .catch((error: { data: string; status: number }) => {
+        toast.error(error.data || 'Unable to upload media. Please try again');
+      });
 
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-      toast.success('Asset has been added successfully.');
-      if (currPagination) {
-        setCurrPagination({ ...currPagination, page: 0 });
-      }
-      setSearch({ queryString: '' });
-      setCurrSorting({ order: 'desc', column: headers[1].id });
-    } catch (error) {
-      console.error('Failed to add asset:', error);
-    }
+    event.target.value = ''; // Reset the file input after upload
   };
 
   return (
@@ -147,7 +133,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       onSelect={onSelect}
       headerCells={headers}
       data={data?.data}
-      isFetching={isFetching}
+      isFetching={isFetching || isAddingResource}
       isLoading={isLoading}
       total={total}
       onPageChange={onPageChange}
