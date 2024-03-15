@@ -163,7 +163,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 name="eventType"
                 label="Type"
                 placeholder="Type"
-                //  parsing and stringifying in order to keep {id label structure
+                //  parsing and stringifying in order to keep {value, label} structure in order
                 value={
                   formik.values.eventType
                     ? JSON.stringify({

@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@mui/material';
+import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@mui/material';
 import { ColorThemeMui } from 'libs/shared/ui-elements/src/lib/types';
 
 type TValue = string | number;
@@ -27,9 +27,18 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     size = 'small',
   } = props;
 
-  // {/* parsing and stringifying in order to keep id label structure */}
-
   const labelId = `Select-label--${name || Math.random()}`;
+
+  const optionsAreObjects = typeof options?.[0] === 'object';
+
+  //  parsing and stringifying in order to keep id label structure
+  const renderValue = (selected: string) => {
+    const sVal = optionsAreObjects
+      ? (JSON.parse(selected) as { label: string | number; value: TValue })
+      : { label: selected };
+
+    return sVal.label;
+  };
 
   return (
     <FormControl fullWidth sx={{ my: 2 }} size={size}>
@@ -48,22 +57,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
         onBlur={onBlur}
         error={error}
         size={size}
-        // renderValue={(selected) => {
-        //   console.log({ selected });
-        //   if (!selected) return 'banana';
-        //   const sVal = JSON.parse(selected) as EventType;
-        //   // if (sVal.id === eventTypeFallback.id) {
-        //   //   return (
-        //   //     <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
-        //   //       {eventTypeFallback.label}
-        //   //     </Box>
-        //   //   );
-        //   // }
-        //   if (sVal.id === eventTypeUnknown.id) {
-        //     return <Box component="span">{eventTypeUnknown.label}</Box>;
-        //   }
-        //   return sVal.label;
-        // }}
+        renderValue={renderValue}
       >
         <MenuItem disabled value={undefined}>
           <em>{!options?.length ? noOptionsAvailableText || 'No options available' : placeholder || label}</em>
@@ -71,8 +65,10 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
 
         {options.map((option) => {
           const { value, label } = typeof option === 'object' ? option : { value: option, label: option };
+          const itemValue = typeof option === 'object' ? JSON.stringify({ value, label }) : value;
+
           return (
-            <MenuItem key={label} value={JSON.stringify({ value, label })}>
+            <MenuItem key={label} value={itemValue}>
               {label}
             </MenuItem>
           );

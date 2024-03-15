@@ -134,6 +134,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
 
   const originalEventTypeUnknown =
     eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
+
   const availableEventTypes = eventTypes.filter(
     ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
   );
