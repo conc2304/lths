@@ -25,7 +25,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openTimePicker = Boolean(anchorEl);
-  const timePickerWidth = '130px';
+  const timePickerWidth = '8.125rem';
 
   const handleTimeChange: OnDateChageFn = (value) => {
     // do something with value
@@ -81,7 +81,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               onClick: () => setDatePickerOpen(!datePickerOpen),
             },
             textField: {
-              sx: { width: '185px' },
+              sx: { width: '11.5rem' },
               onBlur: handleDatePickerBlur,
               onFocus: () => setDatePickerFocused(true),
               error: error,

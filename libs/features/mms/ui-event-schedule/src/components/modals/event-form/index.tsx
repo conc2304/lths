@@ -19,7 +19,7 @@ import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { DatePickerLTHS, DialogActions, DialogTitle } from '@lths/shared/ui-elements';
+import { DatePickerLTHS, DialogActions, DialogTitle, SelectLTHS } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
@@ -103,9 +103,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
   // handle when the backend is screwed up and gives us garbage
   const originalEventTypeUnknown =
     eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
-  const availableEventTypes = eventTypes.filter(
-    ({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString())
-  );
+  const availableEventTypes = eventTypes
+    .filter(({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString()))
+    .map((v) => ({ value: v.id, label: v.label }));
 
   const handleDateTimeChange = async (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
     // datepickers don't play nice with formik change handlers, so we have to manually do it the onchange on blur things that formik.onChange would handle
@@ -158,83 +158,31 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 error={formik.touched.eventName && Boolean(formik.errors.eventName)}
                 helperText={formik.touched.eventName && formik.errors.eventName}
               />
-              {/* parsing and stringifying in order to keep id label structure */}
-              <FormControl fullWidth sx={{ my: 2 }}>
-                <InputLabel
-                  id="Edit-Event--event-type"
-                  color={formik.touched.eventType && Boolean(formik.errors.eventType) ? 'error' : 'primary'}
-                >
-                  Type
-                </InputLabel>
-                <Select
-                  name="eventType"
-                  data-testid="Edit-Event--event-type"
-                  value={
-                    formik.values.eventType
-                      ? JSON.stringify({
-                          id: formik.values.eventType.id,
-                          label: formik.values.eventType.label,
-                        })
-                      : null
-                  }
-                  // value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
-                  // required
-                  label="Type"
-                  labelId="Edit-Event--event-type-label"
-                  placeholder="Type"
-                  renderValue={(selected) => {
-                    console.log({ selected });
-                    if (!selected) return 'banana';
-                    const sVal = JSON.parse(selected) as EventType;
-                    // if (sVal.id === eventTypeFallback.id) {
-                    //   return (
-                    //     <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                    //       {eventTypeFallback.label}
-                    //     </Box>
-                    //   );
-                    // }
-                    if (sVal.id === eventTypeUnknown.id) {
-                      return <Box component="span">{eventTypeUnknown.label}</Box>;
-                    }
-                    return sVal.label;
-                  }}
-                  onChange={async ({ target: value }) => {
-                    formik.setFieldValue('eventType', JSON.parse(value.value as string));
-                    await formik.validateField('eventType');
-                  }}
-                  onBlur={() => formik.setFieldTouched('eventType', true)}
-                  error={formik.touched.eventType && Boolean(formik.errors.eventType)}
-                  size="small"
-                >
-                  <MenuItem
-                    disabled
-                    value={undefined}
-                    // value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}
-                  >
-                    <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Type'}</em>
-                  </MenuItem>
 
-                  {originalEventTypeUnknown && (
-                    <MenuItem
-                      sx={{ display: 'none' }}
-                      value={JSON.stringify({ id: eventTypeUnknown.id, label: eventTypeUnknown.label })}
-                    >
-                      <em>{eventTypeUnknown.label}</em>
-                    </MenuItem>
-                  )}
-                  {availableEventTypes.map(({ label, id }) => (
-                    <MenuItem key={id} value={JSON.stringify({ id, label })}>
-                      {label}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {/*
-                {Boolean(formik.errors?.eventType?.id) && (
-                  <FormHelperText error sx={{ ml: 2 }}>
-                    {formik.errors.eventType}
-                  </FormHelperText>
-                )} */}
-              </FormControl>
+              <SelectLTHS
+                name="eventType"
+                label="Type"
+                placeholder="Type"
+                //  parsing and stringifying in order to keep {id label structure
+                value={
+                  formik.values.eventType
+                    ? JSON.stringify({
+                        value: formik.values.eventType.id,
+                        label: formik.values.eventType.label,
+                      })
+                    : null
+                }
+                helperText=""
+                error={formik.touched.eventType && Boolean(formik.errors.eventType)}
+                onBlur={() => formik.setFieldTouched('eventType', true)}
+                onChange={async ({ target: value }) => {
+                  formik.setFieldValue('eventType', JSON.parse(value.value as string));
+                  await formik.validateField('eventType');
+                }}
+                options={availableEventTypes}
+                noOptionsAvailableText="Sorry, No available event types."
+              />
+
               <TextField
                 id="Edit-Event--description"
                 name="description"
