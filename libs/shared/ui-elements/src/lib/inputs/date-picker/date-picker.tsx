@@ -18,35 +18,14 @@ type DatePickerLTHSProps = {
   minDate?: Date;
 };
 export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
-  const { value, onChange, onBlur, error, helperText, placeholder, mode, minDate } = props;
+  const { value, onChange, onBlur, error, helperText, placeholder, label, mode, minDate } = props;
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [timePickerFocused, setTimePickerFocused] = useState(false);
+  const [datePickerFocused, setDatePickerFocused] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
-
-  const datePickerSlotProps: DatePickerSlotsComponentsProps<Date> = {
-    textField: {
-      required: false,
-      variant: 'outlined',
-      size: 'small',
-      sx: {
-        '&.MuiTextField-root': {
-          // marginRight: 'unset',
-          // marginTop: 'unset',
-          // color: 'red',
-          // marginTop: '200px',
-          // mb: ,
-        },
-        '&.MuiInputBase-root': {
-          color: 'orange',
-          fontSize: '1rem',
-          fontWeight: '400',
-          lineHeight: '1.5rem',
-          letterSpacing: '0.15px',
-        },
-      },
-    },
-  };
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const openTimePicker = Boolean(anchorEl);
+  const timePickerWidth = '130px';
 
   const handleTimeChange: OnDateChageFn = (value) => {
     // do something with value
@@ -72,8 +51,11 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     setTimePickerFocused(false);
     setAnchorEl(null);
   };
-  const timePickerWidth = '130px';
-  const open = Boolean(anchorEl);
+
+  const handleDatePickerBlur: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> = (value) => {
+    setDatePickerFocused(false);
+    onBlur && onBlur(value);
+  };
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
@@ -83,6 +65,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
           onChange={handleDateChange}
           open={datePickerOpen}
           onOpen={() => setDatePickerOpen(true)}
+          label={label}
           // intentionally not setting minDate for datePicker
           // to allow users to more easily change dates,
           // having parent components handle the date/error validation
@@ -98,14 +81,16 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               onClick: () => setDatePickerOpen(!datePickerOpen),
             },
             textField: {
-              ...datePickerSlotProps.textField,
-
               sx: { width: '185px' },
-              placeholder: placeholder,
-              label: placeholder,
-              onBlur: onBlur,
+              onBlur: handleDatePickerBlur,
+              onFocus: () => setDatePickerFocused(true),
               error: error,
               helperText: helperText,
+              // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
+              InputLabelProps: {
+                shrink: !!value || !!datePickerFocused,
+                sx: { ml: !!value || !!datePickerFocused ? undefined : 4.75 }, // move the label text beyond the start icon
+              },
               InputProps: {
                 endAdornment: (
                   <InputAdornment position="end">
@@ -127,14 +112,14 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             {/* <Box> */}
             <FormControl sx={{ margin: '0.5rem 0 0.25rem 0.5rem' }}>
               <TimeField
-                value={value}
+                // value={value}
                 readOnly
                 onClick={handleClick}
                 focused={timePickerFocused}
                 slotProps={{
                   textField: {
-                    ...datePickerSlotProps.textField,
-                    label: placeholder?.replace('date', 'time'),
+                    // ...datePickerSlotProps.textField,
+                    label: label?.replace('date', 'time'),
                     placeholder: placeholder?.replace('date', 'time'),
                     InputProps: {
                       sx: { width: timePickerWidth },
@@ -149,7 +134,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               />
             </FormControl>
             <Popper
-              open={open}
+              open={openTimePicker}
               anchorEl={anchorEl}
               placement="bottom-start"
               sx={{ zIndex: (theme) => theme.zIndex.modal }}
@@ -169,7 +154,6 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                     slotProps={{}}
                     timeStep={15}
                     minTime={minDate}
-                    // maxTime={}
                     skipDisabled
                     timezone="PST"
                     sx={{

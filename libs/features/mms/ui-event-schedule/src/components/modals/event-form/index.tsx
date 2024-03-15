@@ -1,7 +1,6 @@
 import {
   Dialog,
   Box,
-  OutlinedInput,
   FormGroup,
   FormControlLabel,
   Checkbox,
@@ -45,13 +44,13 @@ export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
   const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
-  const eventTypeFallback = { id: 'none', label: 'Type' };
-  const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | typeof eventTypeFallback } = {
+  // const eventTypeFallback = { id: 'none', label: 'Type' };
+  const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | null } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
     isAllDay: eventValues?.allDay || false,
     startDateTime: eventValues?.start ? new Date(eventValues.start) : null,
     endDateTime: eventValues?.end ? new Date(eventValues.end) : null,
-    eventType: eventValues?.eventType || eventTypeFallback,
+    eventType: eventValues?.eventType || null,
     description: eventValues?.desc?.toString() || '',
     id: eventValues?.id,
     eventId: eventValues?.eventId,
@@ -144,15 +143,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
             <FormGroup>
               <Typography variant="overline">Event</Typography>
               <TextField
-                variant="outlined"
                 data-testid="Edit-Event--event-name"
                 name="eventName"
                 fullWidth
                 margin="dense"
-                size="small"
                 label="Name"
                 placeholder="Name"
-                color={formik.touched.eventName && Boolean(formik.errors.eventName) ? 'error' : 'secondary'}
                 value={formik.values.eventName}
                 onChange={formik.handleChange}
                 onBlur={() => {
@@ -161,41 +157,42 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 }}
                 error={formik.touched.eventName && Boolean(formik.errors.eventName)}
                 helperText={formik.touched.eventName && formik.errors.eventName}
-                sx={{
-                  mb: 2,
-                  '&.MuiTextField-root': {
-                    marginTop: 'unset',
-                  },
-                  '& .MuiInputBase-inputSizeSmall': {
-                    // ...fontStyle,
-                  },
-                }}
               />
               {/* parsing and stringifying in order to keep id label structure */}
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ my: 2 }}>
                 <InputLabel
                   id="Edit-Event--event-type"
-                  color={formik.touched.eventType && Boolean(formik.errors.eventType) ? 'error' : 'secondary'}
+                  color={formik.touched.eventType && Boolean(formik.errors.eventType) ? 'error' : 'primary'}
                 >
                   Type
                 </InputLabel>
                 <Select
                   name="eventType"
                   data-testid="Edit-Event--event-type"
-                  id="Edit-Event--event-type"
-                  value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
-                  required
+                  value={
+                    formik.values.eventType
+                      ? JSON.stringify({
+                          id: formik.values.eventType.id,
+                          label: formik.values.eventType.label,
+                        })
+                      : null
+                  }
+                  // value={JSON.stringify({ id: formik.values.eventType.id, label: formik.values.eventType.label })}
+                  // required
                   label="Type"
-                  // placeholder="Type"
+                  labelId="Edit-Event--event-type-label"
+                  placeholder="Type"
                   renderValue={(selected) => {
+                    console.log({ selected });
+                    if (!selected) return 'banana';
                     const sVal = JSON.parse(selected) as EventType;
-                    if (sVal.id === eventTypeFallback.id) {
-                      return (
-                        <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
-                          {eventTypeFallback.label}
-                        </Box>
-                      );
-                    }
+                    // if (sVal.id === eventTypeFallback.id) {
+                    //   return (
+                    //     <Box component="span" sx={{ color: (theme) => theme.palette.grey[500] }}>
+                    //       {eventTypeFallback.label}
+                    //     </Box>
+                    //   );
+                    // }
                     if (sVal.id === eventTypeUnknown.id) {
                       return <Box component="span">{eventTypeUnknown.label}</Box>;
                     }
@@ -208,14 +205,11 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   onBlur={() => formik.setFieldTouched('eventType', true)}
                   error={formik.touched.eventType && Boolean(formik.errors.eventType)}
                   size="small"
-                  sx={{
-                    // ...fontStyle,
-                    mb: 2,
-                  }}
                 >
                   <MenuItem
                     disabled
-                    value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}
+                    value={undefined}
+                    // value={JSON.stringify({ id: eventTypeFallback.id, label: eventTypeFallback.label })}
                   >
                     <em>{!availableEventTypes?.length ? 'Sorry, No available event types.' : 'Type'}</em>
                   </MenuItem>
@@ -234,23 +228,22 @@ export const EventFormModal = (props: EventFormModalProps) => {
                     </MenuItem>
                   ))}
                 </Select>
-
+                {/*
                 {Boolean(formik.errors?.eventType?.id) && (
                   <FormHelperText error sx={{ ml: 2 }}>
-                    {formik.errors.eventType?.id}
+                    {formik.errors.eventType}
                   </FormHelperText>
-                )}
+                )} */}
               </FormControl>
-
-              <OutlinedInput
-                color="primary"
+              <TextField
+                id="Edit-Event--description"
                 name="description"
+                label="Description"
                 placeholder="Description (optional)"
                 multiline
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 error={formik.touched.description && Boolean(formik.errors.description)}
-                // sx={{ ...fontStyle }}
               />
             </FormGroup>
 
