@@ -42,7 +42,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
   // const eventTypeFallback = { id: 'none', label: 'Type' };
   const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | null } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
-    isAllDay: eventValues?.allDay || false,
+    isAllDay: eventValues?.allDay !== undefined ? eventValues?.allDay : true,
     startDateTime: eventValues?.start ? new Date(eventValues.start) : null,
     endDateTime: eventValues?.end ? new Date(eventValues.end) : null,
     eventType: eventValues?.eventType || null,
@@ -132,6 +132,10 @@ export const EventFormModal = (props: EventFormModalProps) => {
     await formik.validateField(dependentField);
   };
 
+  const handleAddTime = () => {
+    formik.setFieldValue('isAllDay', false);
+  };
+
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -204,6 +208,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   value={formik.values.startDateTime}
                   label="Start date"
                   placeholder="Start date"
+                  onAddTime={handleAddTime}
                   onChange={(value) => {
                     handleDateTimeChange(value, 'startDateTime');
                   }}
@@ -221,6 +226,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                   label="End date"
                   placeholder="End date"
                   minDate={formik.values.startDateTime || undefined}
+                  onAddTime={handleAddTime}
                   onChange={async (value) => {
                     handleDateTimeChange(value, 'endDateTime');
                   }}

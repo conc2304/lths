@@ -1,5 +1,5 @@
 import { FocusEventHandler, MouseEventHandler, useState } from 'react';
-import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
+import { Box, Button, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { DatePicker, DigitalClock, TimeField } from '@mui/x-date-pickers';
@@ -19,7 +19,7 @@ type DatePickerLTHSProps = {
   minDate?: Date;
 };
 export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
-  const { value, onChange, onBlur, error, helperText, placeholder, label, mode, minDate } = props;
+  const { value, onChange, onBlur, error, helperText, placeholder, label, mode, minDate, onAddTime } = props;
 
   const [timePickerFocused, setTimePickerFocused] = useState(false);
   const [datePickerFocused, setDatePickerFocused] = useState(false);
@@ -60,52 +60,59 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
       <ClickAwayListener onClickAway={() => setDatePickerOpen(false)}>
-        <DatePicker
-          value={value}
-          onChange={handleDateChange}
-          open={datePickerOpen}
-          onOpen={() => setDatePickerOpen(true)}
-          label={label}
-          // intentionally not setting minDate for datePicker
-          // to allow users to more easily change dates,
-          // having parent components handle the date/error validation
-          slots={{
-            openPickerIcon: CalendarTodayIcon,
-          }}
-          slotProps={{
-            inputAdornment: {
-              position: 'start',
-            },
-            openPickerButton: {
-              size: 'small',
-              onClick: () => setDatePickerOpen(!datePickerOpen),
-            },
-            textField: {
-              sx: { width: '11.5rem' },
-              onBlur: handleDatePickerBlur,
-              onFocus: () => setDatePickerFocused(true),
-              error: error,
-              helperText: helperText,
-              // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
-              InputLabelProps: {
-                shrink: !!value || !!datePickerFocused || error !== undefined,
-                sx: { ml: !!value || !!datePickerFocused || error !== undefined ? undefined : 4.75 }, // move the label text beyond the start icon
+        <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
+          <DatePicker
+            value={value}
+            onChange={handleDateChange}
+            open={datePickerOpen}
+            onOpen={() => setDatePickerOpen(true)}
+            label={label}
+            // intentionally not setting minDate for datePicker
+            // to allow users to more easily change dates,
+            // having parent components handle the date/error validation
+            slots={{
+              openPickerIcon: CalendarTodayIcon,
+            }}
+            slotProps={{
+              inputAdornment: {
+                position: 'start',
               },
-              InputProps: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Box
-                      onClick={() => setDatePickerOpen(!datePickerOpen)}
-                      sx={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      <ArrowDropDownIcon />
-                    </Box>
-                  </InputAdornment>
-                ),
+              openPickerButton: {
+                size: 'small',
+                onClick: () => setDatePickerOpen(!datePickerOpen),
               },
-            },
-          }}
-        />
+              textField: {
+                sx: { width: '11.5rem' },
+                onBlur: handleDatePickerBlur,
+                onFocus: () => setDatePickerFocused(true),
+                error: error,
+                helperText: helperText,
+                // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
+                InputLabelProps: {
+                  shrink: !!value || !!datePickerFocused || error !== undefined,
+                  sx: { ml: !!value || !!datePickerFocused || error !== undefined ? undefined : 4.75 }, // move the label text beyond the start icon
+                },
+                InputProps: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Box
+                        onClick={() => setDatePickerOpen(!datePickerOpen)}
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <ArrowDropDownIcon />
+                      </Box>
+                    </InputAdornment>
+                  ),
+                },
+              },
+            }}
+          />
+          {mode === 'date' && (
+            <Button variant="text" sx={{ ml: 1 }} onClick={onAddTime}>
+              Add Time
+            </Button>
+          )}
+        </Box>
       </ClickAwayListener>
 
       {mode === 'datetime' && (
