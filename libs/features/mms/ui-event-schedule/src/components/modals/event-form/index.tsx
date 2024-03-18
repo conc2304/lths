@@ -170,7 +170,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                       })
                     : null
                 }
-                helperText=""
+                helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
                 error={formik.touched.eventType && Boolean(formik.errors.eventType)}
                 onBlur={() => formik.setFieldTouched('eventType', true)}
                 onChange={async ({ target: value }) => {
@@ -186,6 +186,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 name="description"
                 label="Description"
                 placeholder="Description (optional)"
+                size="medium"
                 multiline
                 value={formik.values.description}
                 onChange={formik.handleChange}

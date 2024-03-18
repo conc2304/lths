@@ -3,7 +3,7 @@ import { ColorThemeMui } from 'libs/shared/ui-elements/src/lib/types';
 
 type TValue = string | number;
 type SelectLTHSProps = SelectProps & {
-  helperText: string;
+  helperText?: string | false;
   color?: ColorThemeMui;
   options: Array<TValue | { label: string | number; value: TValue }>;
   noOptionsAvailableText?: string;
@@ -83,7 +83,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
       </Select>
 
       {helperText && (
-        <FormHelperText error sx={{ ml: 2 }}>
+        <FormHelperText error={error} sx={{ ml: 2 }}>
           {helperText}
         </FormHelperText>
       )}
