@@ -21,6 +21,18 @@ export const scrollToAnElementInAContainer = (containerSelector: string, element
   }
 };
 
+export const scrollElementIntoView = (elementSelector: string) => {
+  // find the target elements using the provided CSS selectors
+  const element = document.querySelector(elementSelector) as HTMLElement;
+
+  if (element) {
+    // Scroll the element to the center
+    element.scrollIntoView({
+      block: "center"
+    });
+  }
+};
+
 /**
  * Scrolls a specified container to the top.
  *

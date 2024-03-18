@@ -35,6 +35,7 @@ export const useEditorActions = () => {
     duplicateComponent: useMemo(() => duplicateComponent(dispatch), [dispatch]),
     orderComponent: useMemo(() => orderComponent(dispatch), [dispatch]),
     renameComponent: useMemo(() => renameComponent(dispatch), [dispatch]),
+    lastSwap: state.lastSwap,
     components: state.components,
     selectedComponent: state.selectedComponent,
     hasUnsavedEdits: state.hasUnsavedEdits,

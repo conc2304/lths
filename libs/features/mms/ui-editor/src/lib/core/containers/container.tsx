@@ -3,7 +3,7 @@ import { Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useContainerScroll } from '@lths-mui/shared/ui-hooks';
 
-import { scrollToAnElementInAContainer } from '@lths/shared/ui-elements';
+import { scrollToAnElementInAContainer, scrollElementIntoView } from '@lths/shared/ui-elements';
 
 import {
   PAGE_EDITOR_CONTAINER,
@@ -27,7 +27,7 @@ type EditorProps = NavigatorProps & {
 const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
   useContainerScroll([`.${PAGE_EDITOR_CONTAINER}`], [PAGE_EDITOR_CONTAINER_SCROLL]);
 
-  const { selectedComponent } = useEditorActions();
+  const { selectedComponent, components, lastSwap } = useEditorActions();
 
   useEffect(() => {
     if (selectedComponent) {
@@ -36,6 +36,13 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
       scrollToAnElementInAContainer(`#${PAGE_EDITOR_NAVIGATOR_CONTAINER}`, `#navigator-component-${__ui_id__}`);
     }
   }, [selectedComponent]);
+
+  useEffect(() => {
+    if (lastSwap && components[lastSwap.index]) {
+      const { __ui_id__ } = components[lastSwap.index];
+      scrollElementIntoView(`#editor-component-${__ui_id__}`);
+    }
+  }, [lastSwap]);
 
   return (
     <Box>
