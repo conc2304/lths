@@ -83,7 +83,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
     },
   });
 
-  // handle when the backend is screwed up and gives us garbage
   const availableEventTypes = eventTypes
     .filter(({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString()))
     .map((v) => ({ value: v.id, label: v.label }));
@@ -163,20 +162,21 @@ export const EventFormModal = (props: EventFormModalProps) => {
             name="eventType"
             label="Type"
             placeholder="Type"
-            //  parsing and stringifying in order to keep {value, label} structure in order
             value={
               formik.values.eventType
-                ? JSON.stringify({
+                ? {
                     value: formik.values.eventType.id,
                     label: formik.values.eventType.label,
-                  })
+                  }
                 : null
             }
             helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
             error={formik.touched.eventType && Boolean(formik.errors.eventType)}
             onBlur={() => formik.setFieldTouched('eventType', true)}
-            onChange={async ({ target: value }) => {
-              formik.setFieldValue('eventType', JSON.parse(value.value as string));
+            onValueChange={async (value) => {
+              const formattedValue =
+                value && typeof value === 'object' ? { label: value.label, id: value.value } : value;
+              formik.setFieldValue('eventType', formattedValue);
               await formik.validateField('eventType');
             }}
             options={availableEventTypes}

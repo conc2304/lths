@@ -1,15 +1,17 @@
 import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 import { ColorThemeMui } from '../../types';
 
-type TValue = string | number;
+type TValue = string | number | { label: string; value: string | number };
 type SelectLTHSProps = SelectProps & {
   helperText?: string | false;
   color?: ColorThemeMui;
-  options: Array<TValue | { label: string | number; value: TValue }>;
+  options: Array<TValue | { label: string; value: string | number }>;
   noOptionsAvailableText?: string;
   size?: 'small' | 'medium';
   value: TValue | null;
+  onValueChange?: (value: TValue | null) => void;
 };
 
 export const SelectLTHS = (props: SelectLTHSProps) => {
@@ -21,7 +23,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     name,
     noOptionsAvailableText,
     onBlur,
-    onChange,
+    onValueChange,
     options,
     placeholder,
     renderValue: renderValueProp,
@@ -30,23 +32,34 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     value,
   } = props;
 
-  // TODO - handle error states and error messages
   const labelId = `Select-label--${name || Math.random()}`;
-
-  const optionsAreObjects = typeof options?.[0] === 'object';
+  const valuesAreObjects = typeof options?.[0] === 'object' || typeof value === 'object';
+  const formattedValue = !!value && valuesAreObjects ? JSON.stringify(value) : value;
 
   const renderValue =
     renderValueProp ||
     ((selected) => {
       //  parsing and stringifying in order to keep id label structure
       if (!selected) return;
+
       const value =
-        optionsAreObjects && typeof selected === 'string'
+        valuesAreObjects && typeof selected === 'string'
           ? (JSON.parse(selected) as { label: string | number; value: TValue }).label
           : selected;
 
       return <Box>{value.toString()}</Box>;
     });
+  console.log(value);
+
+  const handleOnChange = ({ target: { value } }: SelectChangeEvent<string | number | null>) => {
+    if (valuesAreObjects) {
+      const parsedValue = JSON.parse(value as string);
+      const formValue = { label: parsedValue.label, value: parsedValue.value };
+      onValueChange && onValueChange(formValue);
+    } else {
+      onValueChange && onValueChange(value);
+    }
+  };
 
   return (
     <FormControl fullWidth sx={{ my: 2 }} size={size}>
@@ -57,11 +70,12 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
       )}
       <Select
         name={name}
-        value={value}
+        value={formattedValue}
         required={required}
         label={label}
         labelId={labelId}
-        onChange={onChange}
+        onChange={handleOnChange}
+        // onChange={onChange}
         onBlur={onBlur}
         error={error}
         size={size}

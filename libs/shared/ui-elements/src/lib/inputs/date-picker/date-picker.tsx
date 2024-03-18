@@ -66,6 +66,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             onChange={handleDateChange}
             open={datePickerOpen}
             onOpen={() => setDatePickerOpen(true)}
+            onAccept={() => setDatePickerOpen(false)}
             label={label}
             // intentionally not setting minDate for datePicker
             // to allow users to more easily change dates,
