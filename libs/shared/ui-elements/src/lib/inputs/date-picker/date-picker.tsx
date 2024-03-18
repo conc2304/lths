@@ -3,6 +3,7 @@ import { Box, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } fr
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { DatePicker, DigitalClock, TimeField } from '@mui/x-date-pickers';
+import { isValid } from 'date-fns';
 
 type OnDateChageFn = ((value: Date | null) => void) | undefined;
 type DatePickerLTHSProps = {
@@ -31,7 +32,6 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     // do something with value
     // get the time from the value,
     // update the value with this time
-    console.log('handleTimeChange', value);
     onChange && onChange(value);
     setAnchorEl(null);
     setTimePickerFocused(true);
@@ -56,8 +56,6 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     setDatePickerFocused(false);
     onBlur && onBlur(value);
   };
-
-  console.log({ error, helperText });
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
@@ -117,7 +115,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             {/* <Box> */}
             <FormControl sx={{ margin: '0.5rem 0 0.25rem 0.5rem' }}>
               <TimeField
-                value={value}
+                value={isValid(value) ? value : null}
                 readOnly
                 onClick={handleClick}
                 focused={timePickerFocused}

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { addHours, endOfDay, isAfter, isBefore, isValid, startOfDay } from 'date-fns';
+import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -38,7 +38,7 @@ export type EventFormModalProps = {
 export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
-  const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
+  // const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
   // const eventTypeFallback = { id: 'none', label: 'Type' };
   const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | null } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
@@ -101,15 +101,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
     .filter(({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString()))
     .map((v) => ({ value: v.id, label: v.label }));
 
-  console.log(formik.values.startDateTime);
-
   const handleDateTimeChange = async (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
     // datepickers don't play nice with formik change handlers, so we have to manually do it the onchange on blur things that formik.onChange would handle
 
     const changeField = field;
     const dependentField = field === 'startDateTime' ? 'endDateTime' : 'startDateTime';
 
-    console.log({ value });
     if (value) formik.setFieldValue(changeField, value, false);
 
     // if we move our start date past the end date, then move the end date to be an hour after start
@@ -123,8 +120,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
       const updatedEndDate = addHours(startDate, 1);
       formik.setFieldValue(dependentField, updatedEndDate, false);
     }
-
-    // handle blurring the field
   };
 
   const handleDateTimeBlur = async (field: 'startDateTime' | 'endDateTime') => {
@@ -137,7 +132,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
     await formik.validateField(dependentField);
   };
 
-  console.log(formik.errors.startDateTime, formik.errors.endDateTime);
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
