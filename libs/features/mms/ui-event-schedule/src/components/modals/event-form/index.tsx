@@ -75,9 +75,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
       onCancel();
       resetForm();
     },
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnBlur: true,
-    validateOnMount: false,
+    validateOnMount: true,
     onReset: () => {
       onCancel();
     },
@@ -137,6 +137,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
       isValid={formik.isValid}
       dirty={formik.dirty}
       onSubmit={formik.handleSubmit}
+      hasCloseButton
     >
       <Box>
         <FormGroup>

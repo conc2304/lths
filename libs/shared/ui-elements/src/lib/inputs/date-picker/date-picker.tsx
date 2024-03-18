@@ -60,7 +60,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
       <ClickAwayListener onClickAway={() => setDatePickerOpen(false)}>
-        <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
           <DatePicker
             value={value}
             onChange={handleDateChange}
@@ -85,6 +85,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               textField: {
                 sx: { width: '11.5rem' },
                 onBlur: handleDatePickerBlur,
+                size: 'small',
                 onFocus: () => setDatePickerFocused(true),
                 error: error,
                 helperText: helperText,
@@ -109,7 +110,7 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
             }}
           />
           {mode === 'date' && (
-            <Button variant="text" sx={{ ml: 1 }} onClick={onAddTime}>
+            <Button variant="text" sx={{ ml: 1, mt: 1.25 }} onClick={onAddTime}>
               Add Time
             </Button>
           )}
@@ -127,10 +128,12 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 readOnly
                 onClick={handleClick}
                 focused={timePickerFocused}
+                size="small"
                 slotProps={{
                   textField: {
                     label: label?.replace('date', 'time'),
                     placeholder: placeholder?.replace('date', 'time'),
+                    helperText: helperText ? ' ' : undefined, // keep the inputs inline
                     InputProps: {
                       sx: { width: timePickerWidth },
                       endAdornment: (
