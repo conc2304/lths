@@ -5,17 +5,12 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
-  MenuItem,
-  Select,
-  FormHelperText,
   DialogContent,
   Typography,
-  InputLabel,
-  FormControl,
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
+import { addHours, endOfDay, isAfter, isBefore, isValid, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -66,8 +61,9 @@ export const EventFormModal = (props: EventFormModalProps) => {
         label: Yup.string(),
       })
       .required('Required'),
-    startDateTime: Yup.date().nullable().required('Required'),
+    startDateTime: Yup.date().typeError('Invalid date').nullable().required('Required'),
     endDateTime: Yup.date()
+      .typeError('Invalid date')
       .nullable()
       .test('valid-endDate', 'Invalid end date', function (value) {
         if (!value || !this.parent['startDateTime']) return true;
@@ -101,11 +97,11 @@ export const EventFormModal = (props: EventFormModalProps) => {
   });
 
   // handle when the backend is screwed up and gives us garbage
-  const originalEventTypeUnknown =
-    eventValues?.eventType?.id === eventTypeUnknown.id || eventValues?.eventType?.label === eventTypeUnknown.label;
   const availableEventTypes = eventTypes
     .filter(({ id }) => !UNEDITABLE_EVENT_TYPES.map((e) => e.toString()).includes(id.toString()))
     .map((v) => ({ value: v.id, label: v.label }));
+
+  console.log(formik.values.startDateTime);
 
   const handleDateTimeChange = async (value: Date | null, field: 'startDateTime' | 'endDateTime') => {
     // datepickers don't play nice with formik change handlers, so we have to manually do it the onchange on blur things that formik.onChange would handle
@@ -113,7 +109,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
     const changeField = field;
     const dependentField = field === 'startDateTime' ? 'endDateTime' : 'startDateTime';
 
-    if (value) formik.setFieldValue(changeField, value);
+    console.log({ value });
+    if (value) formik.setFieldValue(changeField, value, false);
 
     // if we move our start date past the end date, then move the end date to be an hour after start
     if (
@@ -124,16 +121,23 @@ export const EventFormModal = (props: EventFormModalProps) => {
     ) {
       const startDate = value || formik.values.startDateTime;
       const updatedEndDate = addHours(startDate, 1);
-      formik.setFieldValue(dependentField, updatedEndDate);
+      formik.setFieldValue(dependentField, updatedEndDate, false);
     }
 
     // handle blurring the field
+  };
+
+  const handleDateTimeBlur = async (field: 'startDateTime' | 'endDateTime') => {
+    const changeField = field;
+    const dependentField = field === 'startDateTime' ? 'endDateTime' : 'startDateTime';
+
     await formik.setFieldTouched(changeField, true);
     // validate both start and end in relation to each other
     await formik.validateField(changeField);
     await formik.validateField(dependentField);
   };
 
+  console.log(formik.errors.startDateTime, formik.errors.endDateTime);
   return (
     <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -209,7 +213,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
                     handleDateTimeChange(value, 'startDateTime');
                   }}
                   onBlur={() => {
-                    handleDateTimeChange(null, 'startDateTime');
+                    handleDateTimeBlur('startDateTime');
                   }}
                   error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
                   helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
@@ -226,7 +230,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
                     handleDateTimeChange(value, 'endDateTime');
                   }}
                   onBlur={() => {
-                    handleDateTimeChange(null, 'endDateTime');
+                    // handleDateTimeChange(null, 'endDateTime', true);
+                    handleDateTimeBlur('endDateTime');
                   }}
                   error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}
                   helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}

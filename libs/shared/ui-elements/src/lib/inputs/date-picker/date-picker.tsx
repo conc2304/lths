@@ -57,6 +57,8 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     onBlur && onBlur(value);
   };
 
+  console.log({ error, helperText });
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
       <ClickAwayListener onClickAway={() => setDatePickerOpen(false)}>
@@ -88,13 +90,16 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               helperText: helperText,
               // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
               InputLabelProps: {
-                shrink: !!value || !!datePickerFocused,
-                sx: { ml: !!value || !!datePickerFocused ? undefined : 4.75 }, // move the label text beyond the start icon
+                shrink: !!value || !!datePickerFocused || error !== undefined,
+                sx: { ml: !!value || !!datePickerFocused || error !== undefined ? undefined : 4.75 }, // move the label text beyond the start icon
               },
               InputProps: {
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Box onClick={() => setDatePickerOpen(!datePickerOpen)}>
+                    <Box
+                      onClick={() => setDatePickerOpen(!datePickerOpen)}
+                      sx={{ display: 'flex', alignItems: 'center' }}
+                    >
                       <ArrowDropDownIcon />
                     </Box>
                   </InputAdornment>

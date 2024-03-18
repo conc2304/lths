@@ -29,6 +29,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     value,
   } = props;
 
+  // TODO - handle error states and error messages
   const labelId = `Select-label--${name || Math.random()}`;
 
   const optionsAreObjects = typeof options?.[0] === 'object';
