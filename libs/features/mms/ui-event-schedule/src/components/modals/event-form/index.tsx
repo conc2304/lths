@@ -1,6 +1,4 @@
 import { Box, FormGroup, FormControlLabel, Checkbox, TextField, Typography } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -29,8 +27,6 @@ export type EventFormModalProps = {
 export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
-  // const eventTypeUnknown = { id: 'N/A', label: 'Unknown' };
-  // const eventTypeFallback = { id: 'none', label: 'Type' };
   const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | null } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
     isAllDay: eventValues?.allDay !== undefined ? eventValues?.allDay : true,
