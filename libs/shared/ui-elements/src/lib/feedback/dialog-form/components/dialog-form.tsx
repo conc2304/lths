@@ -30,6 +30,7 @@ type DialogFormProps = {
   onReset?: () => void;
   onSubmit?: () => void;
   isSubmitting?: boolean;
+  isLoading?: boolean;
   isValid?: boolean;
   dirty?: boolean;
   destructive?: boolean;
@@ -55,6 +56,7 @@ export const DialogForm = (props: DialogFormProps) => {
     onReset,
     onSubmit,
     isSubmitting,
+    isLoading,
     isValid = true,
     dirty = true,
     destructive,
@@ -104,7 +106,7 @@ export const DialogForm = (props: DialogFormProps) => {
           cancelText={cancelText}
           confirmText={confirmText}
           onCancel={handleOnCancel}
-          isSubmitting={isSubmitting}
+          isSubmitting={isSubmitting || isLoading}
           disabled={!isValid || !dirty}
           confirmColor={confirmColor}
           destructive={destructive}

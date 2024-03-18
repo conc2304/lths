@@ -12,7 +12,6 @@ import Dialog from './dialog';
 import Link from './link';
 import Paper from './paper';
 import Table from './table';
-import TextField from './text-field';
 import TimePicker from './time-picker';
 import ToggleButton from './toggle-button';
 import ToggleButtonGroup from './toggle-button-group';
@@ -32,7 +31,6 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...Link(theme),
     ...Paper(theme),
     ...Table(theme),
-    ...TextField(theme),
     ...TimePicker(theme),
     ...ToggleButton(theme),
     ...ToggleButtonGroup(theme),

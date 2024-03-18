@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useTheme, Button, Stack, InputLabel, OutlinedInput, InputAdornment, FormGroup } from '@mui/material';
-import { Clear } from '@mui/icons-material';
+import { useTheme, Stack, FormGroup, TextField } from '@mui/material';
 
 import { DialogForm } from '@lths/shared/ui-elements';
 
@@ -13,7 +12,8 @@ export type RenameModalProps = {
 
 export const RenameModal: React.FC<RenameModalProps> = (props) => {
   const { open, itemToRename, onCancel, onConfirm } = props;
-  const [newName, setNewName] = useState(itemToRename?.slice(0, itemToRename?.lastIndexOf('.')) || '');
+  const fileName = itemToRename?.slice(0, itemToRename?.lastIndexOf('.'));
+  const [newName, setNewName] = useState(fileName || '');
   const [disableOk, setDisableOk] = useState(true);
 
   const theme = useTheme();
@@ -25,7 +25,6 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //ToDO: disabel ok as needed for all existing names
     const nextValue = event.target.value;
     if (nextValue === itemToRename || nextValue === '') {
       !disableOk && setDisableOk(true);
@@ -37,11 +36,8 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
     setNewName(nextValue);
   };
 
-  const handleClearClick = () => {
-    setDisableOk(true);
-    setNewName('');
-  };
-
+  const formIsPristine = fileName === newName;
+  const formisValid = newName.length > 0;
   return (
     <DialogForm
       open={open}
@@ -50,43 +46,18 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
       title={'Rename asset'}
       confirmText="Rename"
       onSubmit={handleSubmit}
+      dirty={!formIsPristine}
+      isValid={formisValid}
     >
       <Stack spacing={1} sx={{ paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }}>
         <FormGroup>
-          <InputLabel htmlFor="new-asset-name">Name</InputLabel>
-          <OutlinedInput
+          <TextField
             fullWidth
-            type={'text'}
-            id="new-asset-name"
             label="Name"
             value={newName}
             onChange={handleNameChange}
             placeholder="Enter New Name"
-            sx={{
-              '& input': {
-                height: theme.spacing(3),
-                padding: theme.spacing(1),
-                paddingLeft: theme.spacing(1.75),
-              },
-            }}
-            endAdornment={
-              <InputAdornment position="end">
-                {newName && (
-                  <Button
-                    sx={{
-                      width: theme.spacing(4),
-                      height: theme.spacing(4),
-                      minWidth: 0,
-                      padding: 0,
-                    }}
-                    color="primary"
-                    onClick={handleClearClick}
-                  >
-                    <Clear />
-                  </Button>
-                )}
-              </InputAdornment>
-            }
+            size="small"
           />
         </FormGroup>
       </Stack>

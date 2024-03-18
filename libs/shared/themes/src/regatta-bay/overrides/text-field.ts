@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material';
 import { Components } from '@mui/material/styles';
 
-export default function TextField(theme: Theme): Components {
+export default function TextField(): Components {
   return {
     MuiTextField: {
       defaultProps: {

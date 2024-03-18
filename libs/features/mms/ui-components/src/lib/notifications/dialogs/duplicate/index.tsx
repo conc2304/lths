@@ -1,4 +1,6 @@
-import { AlertDialog } from '../../../common';
+import { Typography } from '@mui/material';
+
+import { DialogForm } from '@lths/shared/ui-elements';
 
 type DuplicateAlertProps = {
   isOpen: boolean;
@@ -9,16 +11,17 @@ type DuplicateAlertProps = {
 
 const DuplicateAlert = ({ isOpen, handleClose, handleDuplicate, isLoading }: DuplicateAlertProps) => {
   return (
-    <AlertDialog
-      isOpen={isOpen}
-      title="Duplicate?"
-      description="A duplicate of this notification will be created."
+    <DialogForm
+      open={isOpen}
+      title="Duplicate notification"
+      onClose={handleClose}
       cancelText="CANCEL"
-      handleClose={handleClose}
       confirmText="DUPLICATE"
-      handleConfirm={handleDuplicate}
+      onSubmit={handleDuplicate}
       isLoading={isLoading}
-    />
+    >
+      <Typography variant="body1">A duplicate of this notification will be created.</Typography>
+    </DialogForm>
   );
 };
 

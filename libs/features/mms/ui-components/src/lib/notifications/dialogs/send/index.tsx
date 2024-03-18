@@ -1,4 +1,6 @@
-import { AlertDialog } from '../../../common';
+import { Typography } from '@mui/material';
+
+import { DialogForm } from '@lths/shared/ui-elements';
 
 type SendAlertProps = {
   isOpen: boolean;
@@ -9,16 +11,17 @@ type SendAlertProps = {
 
 const SendAlert = ({ isOpen, handleClose, handleSend, isLoading }: SendAlertProps) => {
   return (
-    <AlertDialog
-      isOpen={isOpen}
-      title="Send now?"
-      description="This notification will be sent immediately."
-      cancelText="CANCEL"
-      handleClose={handleClose}
-      confirmText="SEND NOW"
-      handleConfirm={handleSend}
+    <DialogForm
+      title="Send notification now"
+      open={isOpen}
+      onClose={handleClose}
+      onSubmit={handleSend}
       isLoading={isLoading}
-    />
+      cancelText="CANCEL"
+      confirmText="SEND NOW"
+    >
+      <Typography variant="body1">This notification will be sent immediately.</Typography>
+    </DialogForm>
   );
 };
 
