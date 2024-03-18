@@ -23,6 +23,8 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   const { open, onSave, onCancel, eventData, eventStates = [] } = props;
   const { start, end, title } = eventData;
 
+  console.log({ eventStates });
+
   // Formik Initialization
   const initialValues = (() => {
     const values: Record<EventStateID | string, number | undefined> = {};

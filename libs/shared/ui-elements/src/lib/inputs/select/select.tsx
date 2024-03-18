@@ -1,5 +1,6 @@
 import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@mui/material';
-import { ColorThemeMui } from 'libs/shared/ui-elements/src/lib/types';
+
+import { ColorThemeMui } from '../../types';
 
 type TValue = string | number;
 type SelectLTHSProps = SelectProps & {
