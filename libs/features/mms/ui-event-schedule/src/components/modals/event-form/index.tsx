@@ -146,12 +146,12 @@ export const EventFormModal = (props: EventFormModalProps) => {
               <Typography variant="overline">Event</Typography>
               <TextField
                 data-testid="Edit-Event--event-name"
-                name="eventName"
                 fullWidth
-                margin="dense"
                 label="Name"
                 placeholder="Name"
                 value={formik.values.eventName}
+                size="small"
+                name="eventName"
                 onChange={formik.handleChange}
                 onBlur={() => {
                   formik.setFieldTouched('eventName', true);
