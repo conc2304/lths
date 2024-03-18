@@ -1,4 +1,4 @@
-import { Box, Chip, Stack } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 
 import TMLogo from '../../../../../assets/tm-logo.svg';
 import { ICON_HEIGHT, ICON_WIDTH } from '../../../../common';
@@ -10,20 +10,18 @@ const FullHeightEventFloatingTextToolbar = (props: FullHeightEventFloatingTextCo
 
   return (
     <ToolContainer id={id}>
-      <Stack spacing={2}>
-        <ToolbarLabel label="Full Height Event Floating Text" />
-        <GroupLabel label="Source Type" />
-        <Box>
-          <Chip
-            label={'Ticketmaster'}
-            variant="filled"
-            icon={<img src={TMLogo} alt="ticketmaster Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />}
-            sx={{
-              '& .MuiChip-label': { textTransform: 'none' },
-            }}
-          />
-        </Box>
-      </Stack>
+      <ToolbarLabel label="Full Height Event Floating Text" />
+      <GroupLabel label="Source Type" />
+      <Box>
+        <Chip
+          label={'Ticketmaster'}
+          variant="filled"
+          icon={<img src={TMLogo} alt="ticketmaster Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />}
+          sx={{
+            '& .MuiChip-label': { textTransform: 'none' },
+          }}
+        />
+      </Box>
     </ToolContainer>
   );
 };

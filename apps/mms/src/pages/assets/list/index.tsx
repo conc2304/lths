@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useTheme } from '@mui/material/styles';
+import toast from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
   AssetProps,
   PreviewAssetRowProps,
-  useAddResourceMutation,
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
-  useAppSelector,
+  AssetExtendedListProps,
+  useUploadAssetMutation,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -20,19 +20,26 @@ import {
   AssetModals,
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
-import { Table, TablePaginationProps, TableSortingProps, PageContentWithRightDrawer } from '@lths/shared/ui-elements';
+import {
+  Table,
+  TablePaginationProps,
+  TableSortingProps,
+  PageContentWithRightDrawer,
+  RowBuilderFn,
+} from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
 
+// * header keys should match the key they are associated with on the backend for sorting
+// *   not be some random slugified version of label
 const headers = [
   {
-    id: 'unique_file_name',
+    id: 'original_file_name',
     label: 'File Name',
     sortable: true,
   },
   {
-    id: 'created_at',
-    label: 'Created At',
+    id: 'created_on',
+    label: 'Created',
     sortable: true,
   },
   {
@@ -46,7 +53,8 @@ const headers = [
     sortable: true,
   },
   {
-    id: 'owner',
+    // * we use 'created_by' for api calls for sorting, but we use 'computed_created_by' from the assets response for the data to display
+    id: 'created_by',
     label: 'Owner',
     sortable: true,
   },
@@ -57,15 +65,14 @@ const headers = [
   },
 ];
 
+type AssetModalState = 'Delete' | 'Rename' | null;
+
 export default function AssetsPage() {
-  const user = useAppSelector((state) => state.auth);
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
-  const [isRowModalOpen, setIsRowModalOpen] = useState('');
+  const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
   const [selectedRow, setSelectedRow] = useState<AssetProps>(null);
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<PreviewAssetRowProps>(null);
-  const [selectedRowIndex, setSelectedRowIndex] = useState<number>(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -77,8 +84,6 @@ export default function AssetsPage() {
     setIsFocused(false);
   };
 
-  const theme = useTheme();
-
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -89,18 +94,27 @@ export default function AssetsPage() {
   };
 
   const handleClose = () => {
-    setSelectedRowIndex(null);
-    setAnchorEl(null);
+    setSelectedPreviewRow(null);
   };
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetAssetsItemsQuery();
-  const [currPagination, setCurrPagination] = useState<TablePaginationProps>(null);
-  const [currSorting, setCurrSorting] = useState<TableSortingProps>(undefined);
-  const [search, setSearch] = React.useState({ queryString: '' });
+  const [currPage, setCurrPage] = useState<number>(0);
+  const [currPageSize, setCurrPageSize] = useState<number>(25);
+  const [currSorting, setCurrSorting] = useState<TableSortingProps>({ order: 'desc', column: headers[1].id });
+  const [search, setSearch] = useState({ queryString: '' });
 
   useEffect(() => {
+    const currPagination = { page: currPage, pageSize: currPageSize };
     fetchData(currPagination, currSorting, search);
-  }, [currPagination, currSorting, search]);
+  }, [currPage, currPageSize, currSorting, search]);
+
+  useEffect(() => {
+    // if the previously selected preview row is not in the data set then reset it
+    const prevSelectedPreviewInView = data?.data?.find((asset) => asset?._id === selectedPreviewRow?.asset?._id);
+    if (!prevSelectedPreviewInView) {
+      handleDrawerClose();
+    }
+  }, [data]);
 
   async function fetchData(
     pagination: TablePaginationProps,
@@ -123,119 +137,96 @@ export default function AssetsPage() {
     getData(req);
   }
 
-  const onPageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    setCurrPagination(pagination);
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const sorting: TableSortingProps = { order: sortOrder, column: orderBy };
+    setCurrPage(page);
+    setCurrPageSize(rowsPerPage);
     setCurrSorting(sorting);
   };
 
-  const handleOpenModal = (modalName: string, row: AssetProps) => {
+  const handleOpenModal = (modalName: AssetModalState, row: AssetProps) => {
     setSelectedRow(row);
-    setIsRowModalOpen(modalName);
+    setAssetModalState(modalName);
     handleClose();
   };
 
   const handleSearch = (value: string) => {
-    if (currPagination) {
-      setCurrPagination({ ...currPagination, page: 0 });
-    }
+    setCurrPage(0);
     setSearch({ queryString: value });
   };
 
-  const tableRows = data?.data?.map((row, index) => {
-    const handleSelectFile = () => {
-      setSelectedPreviewRow({ asset: row, rowIndex: index });
-      handleDrawerOpen();
+  const RowBuilder = (): RowBuilderFn<AssetProps> => {
+    return (props) => {
+      const { data: asset, rowNumber, selectedRowId } = props;
+      const index = rowNumber - 1;
+
+      const handleSelectFile = () => {
+        setSelectedPreviewRow({ asset, rowIndex: index });
+        handleDrawerOpen();
+      };
+
+      const handlePreview = () => {
+        const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
+        if (previewUrl) {
+          const imageWindow = window.open(previewUrl);
+
+          imageWindow.document.write('<html><head><title>Preview</title></head><body>');
+          imageWindow.document.write(
+            '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
+          );
+          imageWindow.document.write('</body></html>');
+          imageWindow.document.close();
+        }
+      };
+
+      const handleDownload = () => {
+        const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
+        previewUrl && window.open(previewUrl);
+      };
+
+      const handleOpenModal = (action: AssetModalState, row: AssetProps) => {
+        setSelectedRow(row);
+        setAssetModalState(action);
+      };
+
+      const isSelected = selectedRowId === asset._id;
+      return (
+        <TableFileInfoRow
+          assetData={asset}
+          key={asset._id}
+          onSelectFile={handleSelectFile}
+          onDownload={handleDownload}
+          onModalClose={handleClose}
+          onModalOpen={handleOpenModal}
+          onPreview={handlePreview}
+          isSelected={isSelected}
+        />
+      );
     };
-
-    if (selectedPreviewRow?.asset?._id === row._id && selectedPreviewRow?.rowIndex !== index) {
-      setSelectedPreviewRow({ asset: row, rowIndex: index });
-    }
-
-    const handleOpenMenu = (event) => {
-      event.stopPropagation();
-      setAnchorEl(event.currentTarget);
-      setSelectedRowIndex(index);
-    };
-
-    const handlePreview = () => {
-      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
-      if (previewUrl) {
-        const imageWindow = window.open(previewUrl);
-        imageWindow.document.write('<html><head><title>Preview</title></head><body>');
-        imageWindow.document.write(
-          '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
-        );
-        imageWindow.document.write('</body></html>');
-        imageWindow.document.close();
-      }
-    };
-
-    const handleDownload = () => {
-      const previewUrl = (row.media_files.length > 0 && cleanUrl(row.media_files[0]?.url)) || '';
-      previewUrl && window.open(previewUrl);
-      handleClose();
-    };
-
-    const handleOpenModal = (action: string, row: AssetProps) => {
-      setSelectedRow(row);
-      setIsRowModalOpen(action);
-      handleClose();
-    };
-
-    return (
-      <TableFileInfoRow
-        row={row}
-        index={index}
-        key={row._id}
-        handleSelectFile={handleSelectFile}
-        handleOpenMenu={handleOpenMenu}
-        selectedPreviewRow={selectedPreviewRow}
-        theme={theme}
-        selectedRowIndex={selectedRowIndex}
-        anchorEl={anchorEl}
-        handleDownload={handleDownload}
-        handleClose={handleClose}
-        handleOpenModal={handleOpenModal}
-        handlePreview={handlePreview}
-      />
-    );
-  });
+  };
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource] = useAddResourceMutation();
-
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
-  const handleUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
-        await handleAddAsset(file);
-        fetchData(currPagination, currSorting, search);
-      } else {
-        console.error('Invalid file type:', file.type);
-      }
-    }
-    // This small change resets the file input after each upload,
-    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
-    event.target.value = '';
-  };
-  const [getUser] = useLazyGetUserQuery();
+  const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
 
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
-
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      return;
     }
+
+    uploadAsset(file)
+      .unwrap()
+      .then(() => {
+        toast.success(`Successfully uploaded media: ${file.name}`);
+      })
+      .catch((error: { data: string; status: number }) => {
+        toast.error(error.data || 'Unable to upload media. Please try again');
+      });
+
+    event.target.value = ''; // Reset the file input after upload
   };
 
   const [editResource] = useEditResourceMutation();
@@ -253,11 +244,10 @@ export default function AssetsPage() {
           rowIndex: null,
         });
       }
-      setSearch({ queryString: '' });
     } catch (error) {
       console.error('Failed to edit asset:', error);
     }
-    setIsRowModalOpen('');
+    setAssetModalState(null);
   };
 
   const [deleteResource] = useDeleteResourceMutation();
@@ -265,32 +255,39 @@ export default function AssetsPage() {
     try {
       await deleteResource({ id: selectedRow._id }).unwrap();
       if (selectedRow._id === selectedPreviewRow?.asset?._id) {
-        const nextRow = selectedPreviewRow.rowIndex - 1;
-        if (nextRow < 0) {
+        const currRow = data.data.findIndex((a) => a._id === selectedRow._id);
+        let nextRow = Math.min(currRow + 1, data.data.length - 1); // Ensures it doesn't exceed the last index
+        nextRow = nextRow === currRow ? nextRow - 1 : nextRow; // if its the same then choose the one before (for when its last in list)
+        nextRow = Math.max(nextRow, 0); // and make sure that we dont bottom out
+
+        const nextPreviewAsset = data?.data[nextRow];
+        if (currRow < 0) {
           handleDrawerClose();
         }
-        setSelectedPreviewRow({ asset: data?.data[nextRow], rowIndex: nextRow });
-        setSearch({ queryString: '' });
+
+        setSelectedPreviewRow({ asset: nextPreviewAsset, rowIndex: nextRow });
       }
     } catch (error) {
       console.error('Failed to delete asset:', error);
     }
-    setIsRowModalOpen('');
+    setAssetModalState(null);
   };
 
-  const cleanDrawerTitle = data?.data[selectedPreviewRow?.rowIndex]?.original_file_name.slice(
-    0,
-    data?.data[selectedPreviewRow?.rowIndex]?.original_file_name.lastIndexOf('.')
-  );
+  const selectedPreviewAsset: AssetExtendedListProps =
+    data?.data?.length && !!selectedPreviewRow
+      ? data?.data?.find((asset) => asset._id === selectedPreviewRow.asset._id)
+      : undefined;
+
+  const cleanDrawerTitle = selectedPreviewAsset
+    ? selectedPreviewAsset.original_file_name.slice(0, selectedPreviewAsset.original_file_name.lastIndexOf('.'))
+    : 'Asset Preview';
 
   return (
     <PageContentWithRightDrawer
       open={drawerOpen}
       title={cleanDrawerTitle}
       handleDrawerClose={handleDrawerClose}
-      drawerContent={
-        <PreviewDrawerContent data={data?.data[selectedPreviewRow?.rowIndex]} openModal={handleOpenModal} />
-      }
+      drawerContent={<PreviewDrawerContent asset={selectedPreviewAsset} openModal={handleOpenModal} />}
     >
       <PageHeader
         title="Assets"
@@ -329,14 +326,18 @@ export default function AssetsPage() {
 
       <Table
         loading={isLoading}
-        fetching={isFetching}
+        fetching={isFetching || isAddingResource}
         total={total}
         title="{0} Assets"
         headerCells={headers}
-        tableRows={tableRows}
-        pagination={currPagination}
-        sorting={currSorting}
-        onPageChange={onPageChange}
+        data={data?.data}
+        rowBuilder={RowBuilder()}
+        page={currPage}
+        rowsPerPage={currPageSize}
+        selectedRowId={selectedPreviewAsset?._id ?? undefined}
+        sortOrder={currSorting?.order ?? undefined}
+        orderBy={currSorting?.column ?? undefined}
+        onChange={handleOnChange}
         noDataMessage="No assets"
         sx={{
           mt: 1,
@@ -344,11 +345,11 @@ export default function AssetsPage() {
       />
 
       <AssetModals
-        isRowModalOpen={isRowModalOpen}
+        assetModalType={assetModalState}
         selectedRow={selectedRow}
         handleDeleteRow={handleDeleteRow}
         handlRenameRow={handlRenameRow}
-        setIsRowModalOpen={setIsRowModalOpen}
+        setModalState={setAssetModalState}
       />
     </PageContentWithRightDrawer>
   );

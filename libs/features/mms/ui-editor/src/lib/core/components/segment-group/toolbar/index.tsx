@@ -1,9 +1,8 @@
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuid } from 'uuid';
 
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, ToolbarLabel } from '../../../../elements';
+import { AddButton, ToolbarLabel } from '../../../../elements';
+import { ToolPreviewContainer } from '../../common';
 import SegmentToolbar from '../../common/segment-group';
 import { ActionType, SegmentGroupProps } from '../../types';
 
@@ -39,7 +38,7 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
   };
 
   return (
-    <ToolContainer id={id} aria-label="SegmentGroup" sx={{ gap: 0, margin: 2, borderRadius: 0 }}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label="SegmentGroup">
       <ToolbarLabel label={'Segment Group'} />
       {sub_component_data.map(({ title, description, action, segment_id }, index) => {
         return (
@@ -56,17 +55,10 @@ const SegmentGroupToolbar = (props: SegmentGroupProps) => {
           />
         );
       })}
-      <Button
-        data-testid="Add Button"
-        variant="outlined"
-        sx={{ marginTop: 1, fontSize: '0.875rem', fontWeight: 500, textTransform: 'uppercase' }}
-        onClick={handleAdd}
-        startIcon={<AddIcon />}
-        fullWidth
-      >
+      <AddButton onClick={handleAdd}>
         Add Segment
-      </Button>
-    </ToolContainer>
+      </AddButton>
+    </ToolPreviewContainer>
   );
 };
 

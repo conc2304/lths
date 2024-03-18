@@ -39,7 +39,10 @@ export const ViewNamesGroup = (props: ViewNamesGroupProps) => {
                 fontSize: pxToRem(12),
                 textTransform: 'none',
                 py: '0px',
-                fontWeight: isSelected ? 'bold' : 'normal',
+                '&.Mui-selected': {
+                  color: (theme) => theme.palette.common.black,
+                  fontWeight: 'bold',
+                },
               }}
             >
               {upperFirst(messages[name as View])}

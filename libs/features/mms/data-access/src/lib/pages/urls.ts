@@ -33,8 +33,6 @@ export const getPageDetailUrl = (page_id: string) => {
   return `/mms/pages/${page_id}`;
 };
 
-export const getEnumListUrl = (enum_id: string) => `/enums/${enum_id}`;
-
 export const getLocationsUrl = () => `/locations`;
 
 export const getUserSegmentsUrl = () => `/user-segments`;

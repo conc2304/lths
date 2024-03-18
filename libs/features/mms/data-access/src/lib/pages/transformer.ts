@@ -1,9 +1,10 @@
+import { addMonths, getYear, getMonth } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 
 import { Component } from '@lths/features/mms/ui-editor';
 import { convertISOStringToDateTimeFormat } from '@lths/shared/utils';
 
-import { ComponentDetailResponse, PageItemsResponse } from './types';
+import { ComponentDetailResponse, PageItemsResponse, UpdatePageDetailRequest } from './types';
 import { formatConstraintsToReadable } from './utils';
 
 const newKey = (key: string) => (key === 'sub_properties' ? 'sub_component_data' : key);
@@ -15,9 +16,11 @@ const transformToObject = (schema: Record<any, any>): Record<any, any> => {
     if (value?.type === 'object') {
       obj[newKey(key)] = transformToObject(value);
     } else if (value.type === 'array') {
-      obj[newKey(key)] = [transformToObject(value?.items)];
+      obj[newKey(key)] = [];
+      if (value?.items?.properties && Object.keys(value?.items?.properties).length > 0)
+        obj[newKey(key)].push(transformToObject(value?.items));
     } else {
-      obj[key] = value?.placeholder || '';
+      obj[key] = value?.placeholder ?? '';
     }
   }
   return obj;
@@ -39,6 +42,13 @@ export const transformComponentDetailResponse = (response: ComponentDetailRespon
     } else if (payload.component_id === Component.SegmentGroup) {
       data.sub_component_data = [...Array(3)].map(() => ({ ...data.sub_component_data[0], segment_id: uuid() }));
     }
+  } else if (payload.component_id === Component.CalendarView) {
+    const start = new Date();
+    const end = addMonths(start, 11);
+    data.start_month = (getMonth(start)+1).toString();
+    data.start_year = getYear(start).toString();
+    data.end_month = (getMonth(end)+1).toString();
+    data.end_year = getYear(end).toString();
   }
 
   payload.constraints = constraints || [];
@@ -68,4 +78,39 @@ export const transformPageListResponse = (response: PageItemsResponse) => {
     ...response,
     data: transformedPayload,
   };
+};
+
+export const transformUpdatePageDetailRequest = (request: UpdatePageDetailRequest) => {
+  const { components, selectedComponent, hasUnsavedEdits, ...payload } = request;
+  const transformedComponents = components.map((component) => {
+    const {
+      schema,
+      __ui_id__,
+      data: { editor_meta_data, ...componentData } = {},
+      errors,
+      ...restOfComponent
+    } = component;
+    if (componentData && componentData.sub_component_data && Array.isArray(componentData.sub_component_data)) {
+      componentData.sub_component_data = componentData.sub_component_data.map((sub_component) => {
+        const {
+          schema,
+          __ui_id__,
+          data: { editor_meta_data, ...subComponentData },
+          errors,
+          ...restOfSubComponent
+        } = sub_component;
+        if (
+          restOfComponent.component_id === Component.HeroCarousel &&
+          restOfSubComponent.component_id === Component.HeroGameBox
+        ) {
+          delete subComponentData.title;
+          delete subComponentData.show_greetings;
+        }
+
+        return { ...restOfSubComponent, data: subComponentData };
+      });
+    }
+    return { ...restOfComponent, data: componentData };
+  });
+  return { ...payload, components: transformedComponents };
 };

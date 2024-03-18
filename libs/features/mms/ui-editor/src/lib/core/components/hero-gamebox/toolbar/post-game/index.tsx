@@ -3,12 +3,14 @@ import { ChangeEvent } from 'react';
 import { ToolbarProps } from '../../../../../context';
 import { GroupLabel, OutlinedTextField, SwitchButton } from '../../../../../elements';
 import { ActionToolbar } from '../../../common';
-import { HeroGameBoxPostGameProps } from '../../../types';
+import { mergeChildKeys } from '../../../hooks/utils';
+import { HeroGameBoxPostGameProps, ItemPositionalProps } from '../../../types';
 
-type Props = HeroGameBoxPostGameProps & {
-  onPostGamePropChange: (key: string, value: string | boolean) => void;
-  onPropChange: ToolbarProps['onPropChange'];
-};
+type Props = HeroGameBoxPostGameProps &
+  ItemPositionalProps & {
+    onPostGamePropChange: (key: string, value: string | boolean) => void;
+    onPropChange: ToolbarProps['onPropChange'];
+  };
 
 const PostGameToolbar = (props: Props) => {
   const {
@@ -19,7 +21,11 @@ const PostGameToolbar = (props: Props) => {
     onPostGamePropChange,
     onPropChange,
     btn_action,
+    index,
+    keys,
+    childKeys,
   } = props;
+  const mergedChildKeys = mergeChildKeys(childKeys, 'postgame');
 
   const handleButtonTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     onPostGamePropChange('btn_text', e.target.value);
@@ -53,7 +59,14 @@ const PostGameToolbar = (props: Props) => {
       />
       <GroupLabel label="Button" />
       <OutlinedTextField label={'Button Text'} value={btn_text} onChange={handleButtonTextChange} />
-      <ActionToolbar action={btn_action} onPropChange={onPropChange} />
+      <ActionToolbar
+        actionPropName="btn_action"
+        action={btn_action}
+        index={index}
+        keys={keys}
+        childKeys={mergedChildKeys}
+        onPropChange={onPropChange}
+      />
     </>
   );
 };

@@ -10,8 +10,7 @@ import {
   UpdateEventResponse,
 } from './types';
 import { createEventUrl, getEventsUrl, updateEventUrl } from './urls';
-import { QueryParams } from '../../types';
-import { ApiResponse } from '../types';
+import { ApiResponse, QueryParams } from '../types';
 
 const EVENTS_TAG = 'EVENTS';
 const VIRTUAL_ID = 'EVENTS_CACHE';
@@ -24,6 +23,7 @@ export const eventsApi = api.injectEndpoints({
         method: 'GET',
         params: params,
       }),
+
       // Provides a list of `Events` by `id`.
       // If any mutation is executed that `invalidate`s any of these tags,
       // this query will re-run to be always up-to-date.

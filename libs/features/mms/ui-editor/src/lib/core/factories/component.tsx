@@ -61,7 +61,11 @@ import {
   HeroEventComponent,
   HorizontalMediumComponent,
   HorizontalSmallComponent,
+  GameCenterComponent,
+  CalendarViewComponent,
+  ScheduleListComponent,
 } from '../components';
+import HeroCarouselComponent from '../components/hero-carousel/component';
 import {
   ButtonComponentProps,
   CardComponentProps,
@@ -124,6 +128,10 @@ import {
   HeroEventComponentProps,
   HorizontalMediumProps,
   HorizontalSmallComponentProps,
+  HeroCarouselComponentProps,
+  GameCenterComponentProps,
+  CalendarViewComponentProps,
+  ScheduleListComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -250,6 +258,14 @@ export const componentFactory = (props: ComponentProps) => {
       return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
     case Component.HorizontalSmall:
       return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
+    case Component.HeroCarousel:
+      return <HeroCarouselComponent {...(props as HeroCarouselComponentProps)} />;
+    case Component.GameCenter:
+      return <GameCenterComponent {...(props as GameCenterComponentProps)} />;
+    case Component.CalendarView:
+      return <CalendarViewComponent {...(props as CalendarViewComponentProps)} />;
+    case Component.ScheduleList:
+      return <ScheduleListComponent {...(props as ScheduleListComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

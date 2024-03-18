@@ -6,12 +6,14 @@ import LinkIcon from '@mui/icons-material/Link';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import VerticalSplitIcon from '@mui/icons-material/VerticalSplit';
 import { LoadingButton } from '@mui/lab';
 
 import { ICON_HEIGHT, ICON_WIDTH } from '@lths/features/mms/ui-editor';
-import { Colors, PageAction } from '@lths/features/mms/ui-editor';
+import { PageAction } from '@lths/features/mms/ui-editor';
 import { MenuButton } from '@lths/shared/ui-elements';
 import { PageHeader as Header } from '@lths/shared/ui-layouts';
+import { pxToRem } from '@lths/shared/utils';
 
 import { PageActions } from './actions';
 import { PagesStatus } from './status';
@@ -47,6 +49,10 @@ const actions = (type: PageType) => {
     {
       icon: <PreviewOutlinedIcon />,
       action: PageAction.PREVIEW,
+    },
+    {
+      icon: <VerticalSplitIcon />,
+      action: PageAction.COMPARISON,
     },
     {
       icon: <ShowChartIcon />,
@@ -86,8 +92,6 @@ export const PageHeader = ({
     },
   ];
 
-  const saveBtnColor = Colors.saveButton.color;
-
   const statusInfoText = lastUpdatedOn ? new Date(lastUpdatedOn).toLocaleDateString() : '';
 
   return (
@@ -95,35 +99,30 @@ export const PageHeader = ({
       sx={{ my: 1 }}
       title={title}
       leftContent={
-        <Stack direction="row" spacing={2.5}>
+        <Stack direction="row" spacing={1}>
           <PageActions actions={actions(type)} onActionClick={onActionClick} />
           <LoadingButton
             variant="outlined"
             startIcon={<SaveIcon />}
-            sx={{
-              paddingY: 0.5,
-              paddingX: 1.25,
-              borderRadius: 1,
-              border: `1px solid ${saveBtnColor}`,
-              color: saveBtnColor,
-              letterSpacing: '0.46px',
-              fontWeight: 500,
-            }}
+            color="primary"
             onClick={onUpdate}
             loading={isPageUpdating}
+            size="small"
+            sx={{ height: pxToRem(30) }}
           >
             SAVE
           </LoadingButton>
         </Stack>
       }
       rightContent={
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={3}>
           <PagesStatus status={status} statusInfo={statusInfoText} />
           <MenuButton
             startIcon={<img src={PublishIcon} alt="publish icon" width={ICON_WIDTH} height={ICON_HEIGHT} />}
             buttonText="PUBLISH"
             buttonAction={setNotificationStatusSent}
             items={menuItems}
+            size="medium"
           />
         </Stack>
       }

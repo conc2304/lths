@@ -1,19 +1,23 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
+import { styled } from '@mui/material/styles';
+import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   PageDetail,
   useLazyGetComponentDetailQuery,
-  useLazyGetDefaultPagesQuery,
   useLazyGetPageDetailsQuery,
   useUpdatePageDetailsMutation,
   useUpdatePageStatusMutation,
   EnumValue,
   useLazyGetEnumListQuery,
+  ComponentProps,
+  transformUpdatePageDetailRequest,
+  EnumGroup,
+  UseGetPageListQuery,
 } from '@lths/features/mms/data-access';
 import {
   PageAdapterProvider,
@@ -30,8 +34,9 @@ import {
   useEditorActions,
   EditorProvider,
   Callback,
-  AutocompleteItemProps,
+  PageAutocompleteItemProps,
   AutocompleteOptionProps,
+  ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
@@ -58,6 +63,12 @@ const StatusChangeModalData = {
     status: PageStatus.UNPUBLISHED,
   },
 };
+
+const TabStyled = styled(Tab)(({ theme }) => ({
+  '&.Mui-selected': { color: "#3D4752" },
+  letterSpacing: theme.spacing(0.005),
+}));
+
 const TabItems = {
   page_design: { value: 'page_design', label: 'PAGE DESIGN' },
   constraints: { value: 'constraints', label: 'CONSTRAINTS' },
@@ -67,20 +78,25 @@ export function PageEditorTabs() {
   //api
   const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
   const { openAlert } = useAlertActions();
-  const [getPageDetail] = useLazyGetPageDetailsQuery();
+  const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
+  const [getPreviewPageDetail] = useLazyGetPageDetailsQuery();
   const [getEnumList] = useLazyGetEnumListQuery();
   const [updatePageStatus, { isLoading }] = useUpdatePageStatusMutation();
-  const [getDefaultPage] = useLazyGetDefaultPagesQuery();
   const [updatePageDetails, { isLoading: isPageUpdating }] = useUpdatePageDetailsMutation();
   const [getDetail, { isFetching: isFetchingComponentDetail }] = useLazyGetComponentDetailQuery();
+  const getPageList = UseGetPageListQuery();
 
   //state
   const [currentTab, setCurrentTab] = useState(TabItems.page_design.value);
   const [openModal, setOpenModal] = useState(false);
-  const [compModalOpen, setCompModalOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [imageCallback, setImageCallback] = useState(null);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(true);
+  const [compCallback, setCompCallback] = useState(null);
+  const [compModal, setCompModal] = useState({
+    open: false,
+    defaultCategory: null,
+    showCategories: true,
+  });
   const [isPageSaved, setIsPageSaved] = useState(false);
   const [modalData, setModalData] = useState({
     title: '',
@@ -100,6 +116,13 @@ export function PageEditorTabs() {
 
   const { showPrompt, confirmNavigation, cancelNavigation } = useNavigationBlocker(hasUnsavedEdits);
 
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+
+  useBeforeUnload(handleBeforeUnload, hasUnsavedEdits);
+
   //fetch params
   const page_data = data as PageDetail;
 
@@ -112,29 +135,33 @@ export function PageEditorTabs() {
     if (page_data?.name) setPageTitle(page_data.name);
   }, [page_data?.name]);
 
-  //fetch
-  const fetchPageDetail = async (pageId: string) => {
-    const response = await getPageDetail(pageId);
-    if (response.isSuccess) {
-      const payload = response.data;
-      if (payload?.success && payload?.data) initEditor(payload.data);
-      else toast.success('Page details could not be found');
-    }
-  };
-
   //side effects
   useEffect(() => {
-    if (pageId) fetchPageDetail(pageId);
+    if (pageId) getPageDetail(pageId);
   }, [pageId]);
+
+  useEffect(() => {
+    if (pageDetailResponse) {
+      const { data, success } = pageDetailResponse;
+      if (success && data) initEditor(data);
+      else toast.error('Page details could not be found');
+    }
+  }, [pageDetailResponse]);
 
   //modal events
   const handleSelectComponent = async (componentId: string) => {
-    setCompModalOpen(false);
-    const detail = await getDetail(componentId);
-    if (detail?.isSuccess && detail?.data?.data) {
-      addComponent(detail.data.data);
-    } else {
-      console.log('Failed to find component');
+    handleCloseCompModal();
+    try {
+      const response = await getDetail(componentId).unwrap();
+      if (response && response.success && response.data) {
+        if (compCallback) compCallback(response.data);
+        else addComponent(response.data);
+      } else {
+        toast.error('Component details could not be found');
+      }
+    } catch (error) {
+      console.error('Error in fetching the component details', error);
+      toast.error('Component details could not be found');
     }
   };
 
@@ -158,13 +185,21 @@ export function PageEditorTabs() {
   };
 
   const handleCloseCompModal = () => {
-    setCompModalOpen(false);
+    setCompModal((prevState) => ({
+      ...prevState,
+      open: false,
+    }));
+    setCompCallback(null);
   };
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
   const handleAddComponent = () => {
-    setCompModalOpen(true);
+    setCompModal({
+      open: true,
+      defaultCategory: null,
+      showCategories: true,
+    });
   };
   const handleAddImage = (callback: (url: string) => void) => {
     setImageCallback(() => callback);
@@ -173,31 +208,81 @@ export function PageEditorTabs() {
 
   //TODO: API is not typed yet, so using any for now
   const handlAddAction = async (callback: (data) => void) => {
-    const response = await getDefaultPage();
-    if (response.data?.data)
-      return callback(response.data.data.map((o) => ({ label: o.name, value: o.page_id, type: o.type })));
+    try {
+      const pageList = await getPageList();
+      return callback(pageList);
+    } catch (error) {
+      console.error('Error in fetching the default page list', error);
+      toast.error('Default page list could not be found.');
+    }
   };
 
   const handleAddSocialIcon = async (callback: (data) => void) => {
-    const response = await getEnumList('socialIcons').unwrap();
-    if (response && response.success && response.data) return callback(response.data.enum_values);
-    else return callback([]);
+    try {
+      const response = await getEnumList('socialIcons').unwrap();
+      if (response && response.success && response.data) return callback(response.data.enum_values);
+      else {
+        toast.error('Social icon list could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the social icon list', error);
+      toast.error('Social icon list could not be found.');
+    }
   };
 
   const handlAddQuickLinkIcons = async (callback: (data: AutocompleteOptionProps[]) => void) => {
-    const response = await getEnumList('ActionIcons').unwrap();
-    if (response.data) return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+    try {
+      const response = await getEnumList(EnumGroup.ACTION_ICONS).unwrap();
+      if (response && response.success && response.data)
+        return callback(response.data.enum_values.map((o) => ({ label: o.name, value: o.value })));
+      else {
+        toast.error('Icon list could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the icon list', error);
+      toast.error('Icon list could not be found.');
+    }
   };
 
-  function handlePropChange<T>(propName: string, callback: Callback<T>): void {
+  const handleAddHeroCarouselComponent = async (callback: (data: ComponentProps) => void) => {
+    setCompCallback(() => callback);
+    setCompModal({
+      open: true,
+      defaultCategory: 'HERO',
+      showCategories: false,
+    });
+  };
+
+  const handlAddPageDetail = async (pageId: string, callback: (data: ComponentPropsUiEditor[]) => void) => {
+    try {
+      const response = await getPreviewPageDetail(pageId).unwrap();
+      if (response && response.success && response.data) return callback(response.data.components);
+      else {
+        toast.error('Page Detail could not be found.');
+        return callback([]);
+      }
+    } catch (error) {
+      console.error('Error in fetching the Page Detail', error);
+      toast.error('Page Detail could not be found.');
+    }
+  };
+
+  function handlePropChange<T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>): void {
     if (propName === 'image_url') {
       handleAddImage(callback as Callback<string>);
     } else if (propName === 'action') {
-      handlAddAction(callback as Callback<AutocompleteItemProps>);
+      handlAddAction(callback as Callback<PageAutocompleteItemProps[]>);
     } else if (propName === 'social_icon') {
       handleAddSocialIcon(callback as Callback<EnumValue>);
     } else if (propName === 'quickLinkIcons') {
       handlAddQuickLinkIcons(callback as Callback<AutocompleteOptionProps[]>);
+    } else if (propName === 'pageDetail') {
+      const pageId = props.pageId as string || '';
+      handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
+    } else if (propName === 'hero_carousel_component_modal') {
+      handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
     }
   }
 
@@ -207,16 +292,6 @@ export function PageEditorTabs() {
   };
 
   const handleMenuItemSelect = async (status: string) => {
-    if (hasUnsavedChanges) {
-      try {
-        await handleUpdatePageDetails();
-        setHasUnsavedChanges(false);
-      } catch (error) {
-        toast.error('Error in saving page details');
-        console.error('Error in saving page details', error);
-        return;
-      }
-    }
     const data = StatusChangeModalData[status];
     if (data) {
       setModalData(data);
@@ -239,12 +314,25 @@ export function PageEditorTabs() {
           return;
         }
       }
+      if (hasUnsavedEdits) {
+        try {
+          await handleUpdatePageDetails();
+        } catch (error) {
+          toast.error('Error in saving page details');
+          console.error('Error in saving page details', error);
+          return;
+        }
+      }
       const response = await updatePageStatus({
         page_id: pageId,
         status: modalData.status,
       }).unwrap();
-      initEditor(response.data);
-      toast.success(modalData.success);
+      if (response && response.success && response.data) {
+        initEditor(response.data);
+        toast.success(modalData.success);
+      } else {
+        toast.error(modalData.error);
+      }
     } catch (error) {
       console.error('Error in updating the page', error);
       toast.error(modalData.error);
@@ -256,7 +344,9 @@ export function PageEditorTabs() {
     try {
       const updatedData = { ...page_data, components };
 
-      const response = await updatePageDetails(updatedData).unwrap();
+      const payload = transformUpdatePageDetailRequest(updatedData);
+
+      const response = await updatePageDetails(payload).unwrap();
 
       if (response?.success) {
         if (!isPageSaved) {
@@ -277,7 +367,7 @@ export function PageEditorTabs() {
 
   // handlers
   const handleActionClick = (action: PageAction) => {
-    const { page_id, name } = page_data;
+    const { page_id, name, default_page_id } = page_data;
     switch (action) {
       case PageAction.RENAME:
         openAlert(PageAction.RENAME, { page_id, name });
@@ -291,6 +381,9 @@ export function PageEditorTabs() {
       case PageAction.PREVIEW:
         console.log('Not implemented: preview');
         break;
+      case PageAction.COMPARISON:
+        openAlert(PageAction.COMPARISON, { page_id, default_page_id });
+        break;
       case PageAction.INSIGHTS:
         console.log('Not implemented: insights');
         break;
@@ -303,7 +396,6 @@ export function PageEditorTabs() {
   const handleSave = async () => {
     try {
       await handleUpdatePageDetails();
-      setHasUnsavedChanges(false);
       cancelNavigation();
     } catch (error) {
       toast.error('Error in saving page details');
@@ -329,19 +421,19 @@ export function PageEditorTabs() {
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
-          <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
-          <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
+          <TabStyled label={TabItems.page_design.label} value={TabItems.page_design.value} />
+          {isVariantPage && <TabStyled label={TabItems.constraints.label} value={TabItems.constraints.value} />}
+          <TabStyled label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
       <Box>
         <TabPanel value={TabItems.page_design.value} currentTab={currentTab}>
           <BlockEditor onAddComponent={handleAddComponent} onPropChange={handlePropChange} />
           <ComponentModal
-            open={compModalOpen}
             onClose={handleCloseCompModal}
             variant="basic"
             onSelect={handleSelectComponent}
+            {...compModal}
           />
           <AssetsModal open={imageModalOpen} onClose={handleCloseImageModal} onSelect={handleSelectImage} />
         </TabPanel>
@@ -384,7 +476,7 @@ export function PageEditorTabs() {
           </Button>
         </Box>
       </Modal>
-      <Backdrop open={isFetchingComponentDetail}>
+      <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail} sx={{ zIndex: 2 }}>
         <CircularProgress />
       </Backdrop>
       <UnSavedPageAlert

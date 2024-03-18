@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-
       - name: Deploy to environment
         run: echo "Deploying to production..."
 
@@ -36,7 +35,7 @@ jobs:
 
       - name: Get current date in ISO format
         id: date
-        run: echo "::set-output name=date::$(date -u +'utc-%Y%m%d-%H%M')"
+        run: echo "date=$(date -u +'utc-%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -71,7 +70,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64  #,linux/arm64
+          platforms: linux/amd64 #,linux/arm64
           file: apps/mms/docker/Dockerfile_app_service
           push: true
           tags: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}:${{ steps.set-env-vars-step.outputs.image_tag_name }}
@@ -80,16 +79,27 @@ jobs:
             "NX_PUBLIC_HOST_PROTOCOL=https"
             "NX_PUBLIC_API_HOST_DOMAIN=mok-production.briteliteimmersive.io"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
+            "NX_PUBLIC_UI_VERSION=${{ github.sha }}"
+            "NX_PUBLIC_WEB_ENV=production"
             "BASIC_AUTH_USER=${{ secrets.BASIC_AUTH_USER_PRODUCTION }}"
             "BASIC_AUTH_PASS=${{ secrets.BASIC_AUTH_PASS_PRODUCTION }}"
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'lwa-production-westus3-mms'
+          app-name: "lwa-production-westus3-mms"
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE_PRODUCTION }}
           images: ${{ steps.set-env-vars-step.outputs.mms_full_image_name }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS_PRODUCTION }}
+ 
+      - name: Restart Azure Web App
+        run: |
+          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_PRODUCTION }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_PRODUCTION }}"
+      
       - name: Post a message to Slack - lths-deployments
         run: |
           curl -X POST -H 'Content-type: application/json' \

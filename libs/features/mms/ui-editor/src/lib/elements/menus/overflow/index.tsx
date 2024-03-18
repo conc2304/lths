@@ -33,8 +33,9 @@ export default function OverflowMenu({ items, onClick }: Props) {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        size="small"
       >
-        <MoreVertIcon />
+        <MoreVertIcon fontSize="small"/>
       </IconButton>
       <Menu
         id="long-menu"

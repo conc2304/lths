@@ -17,6 +17,7 @@ describe('errorToasterMiddleware', () => {
   beforeEach(() => {
     next = jest.fn() as Dispatch<AnyAction>;
     invokeMiddleware = errorToasterMiddleware({} as MiddlewareAPI)(next);
+    jest.spyOn(console, 'warn').mockImplementation(jest.fn());
   });
 
   afterEach(() => {

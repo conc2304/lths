@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Divider } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
@@ -8,8 +7,8 @@ import { v4 as uuid } from 'uuid';
 import CarouselItemEditor from './carousel-Item-editor';
 import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
-import { CarouselDraggableItemsList } from '../../common';
+import { ToolContainer, AddButton, ToolbarLabel, FlexibleTransition } from '../../../../elements';
+import { ToolPreviewContainer, CarouselDraggableItemsList } from '../../common';
 import { HalfWidthCarouselComponentProps, HalfWidthCarouselProps } from '../../types';
 
 const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
@@ -65,21 +64,14 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
           <ToolContainer id={`Carousel_${id}`} aria-label="Half Width Carousel Floating Text Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
             <CarouselDraggableItemsList props={props} onEdit={handleEdit} />
-            <div>
-              <Button
-                data-testid={'Add Carousel Item'}
-                variant="outlined"
-                onClick={handleAdd}
-                sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
-              >
-                <AddIcon sx={{ width: '18px', height: '18px' }} />
-                ADD ITEM
-              </Button>
-            </div>
+            <Divider/>
+            <AddButton onClick={handleAdd}>
+              ADD ITEM
+            </AddButton>
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer
+          <ToolPreviewContainer onPropChange={onPropChange}
             id={`Carousel_Item${id}`}
             aria-label="Half Width Carousel Floating Text Toolbar: Carousel Item"
           >
@@ -89,7 +81,7 @@ const HalfWidthCarouselToolbar = (props: HalfWidthCarouselComponentProps) => {
               onPropChange={onPropChange}
               index={selectedIndex}
             />
-          </ToolContainer>
+          </ToolPreviewContainer>
         }
       />
     </DndProvider>

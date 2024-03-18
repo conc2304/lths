@@ -1,8 +1,9 @@
+import { BaseRowBuilder } from '@lths/shared/ui-elements';
+
 import { LTHSCalendar } from './calendar';
 import { DEFAULT_LIST_VIEW_COL_HEADER } from '../../constants';
 import { eventsMock } from '../mock-events';
 import { BaseColumnValue } from '../views/list-view/column-to-event-prop';
-import { BaseRowBuilder } from '../views/list-view/row-builder';
 
 import type { Meta } from '@storybook/react';
 

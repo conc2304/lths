@@ -8,6 +8,7 @@ export type DragCardProps = {
   id: string;
   children?: ReactNode;
   text: string;
+  subText?: string;
   index: number;
   onDrag: (dragIndex: number, hoverIndex: number) => void;
   onClick?: (index: number, id: string) => void;

@@ -11,6 +11,7 @@ export const BreadcrumbLink = ({ title, path, children }: BreadcrumbPathProps) =
       to={path}
       sx={{ cursor: 'pointer' }}
       role="link"
+      color="inherit"
       underline="none"
       aria-label={`Navigate to ${title}`}
     >

@@ -10,9 +10,8 @@ import { LTHSView } from '@lths/shared/ui-calendar-scheduler';
 import { pxToRem } from '@lths/shared/utils';
 
 import { AllDayBanner } from './all-day-banner';
-import { EVENT_STATE, EVENT_TYPE } from '../../constants';
-import { EventFormValues, EventState, EventStateID, EventType, MMSEvent } from '../../types';
-import { EventStateUIMap, eventColorMap } from '../../utils';
+import { EventFormValues, EventState, EventType, MMSEvent } from '../../types';
+import { eventColorMap } from '../../utils';
 
 type EventComponentProps<TEvent extends object = Event> = {
   view: LTHSView;
@@ -35,7 +34,7 @@ type SchedulingEventProps = EventComponentProps<MMSEvent>;
 export const SchedulingEvent = (props: SchedulingEventProps) => {
   const { event, view, onEventClick } = props;
 
-  const { title, allDay, start, end, eventType, createdOn, eventState, isBackgroundEvent } = event;
+  const { title, allDay, start, end, eventType, createdOn, isBackgroundEvent, location = undefined } = event;
 
   const theme = useTheme();
 
@@ -61,16 +60,6 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
       : false;
 
   const showNewEventBanner = isNewEvent && (view === 'day' || view === 'week');
-
-  const getGameLocation = (title: string) => {
-    if (title.includes('Anaheim @')) {
-      return 'Away';
-    } else if (title.includes('@ Anaheim')) {
-      return 'Home';
-    } else {
-      return false;
-    }
-  };
 
   const handleClickAway = (event: MouseEvent | TouchEvent) => {
     const target = event.target as HTMLElement;
@@ -119,7 +108,7 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
   const eventBorder = isBackgroundEvent
     ? `2px solid ${eventColorMap(eventType?.id || '')}`
     : eventSelected
-    ? `2px solid ${theme.palette.primary.main}`
+    ? `2px solid ${theme.palette.grey.A700}`
     : `1px solid #FFF`;
 
   return (
@@ -199,12 +188,6 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                     }}
                   >
                     {`${getFormattedTime(start)} - ${getFormattedTime(end)} ${TMZ}`}
-
-                    {!!eventState && eventState !== EVENT_STATE.IN_EVENT && (
-                      <>
-                        <br /> {EventStateUIMap(eventState as EventStateID)?.label || eventState}
-                      </>
-                    )}
                   </Typography>
                 )}
                 <Typography
@@ -238,13 +221,12 @@ export const SchedulingEvent = (props: SchedulingEventProps) => {
                         ref={popperTargetDayRef}
                       >
                         {title as string}
-                        {eventType?.id === EVENT_TYPE.GAME.toString() &&
-                          eventState === EVENT_STATE.IN_EVENT.toString() && (
-                            <Box component={'span'} px={1}>
-                              {getGameLocation(title as string) === 'Home' && <Home fontSize="small" />}
-                              {getGameLocation(title as string) === 'Away' && <FlightTakeoff fontSize="small" />}
-                            </Box>
-                          )}
+                        {!!location && (
+                          <Box component={'span'} px={1}>
+                            {location.toLowerCase() === 'home' && <Home fontSize="small" />}
+                            {location.toLowerCase() === 'away' && <FlightTakeoff fontSize="small" />}
+                          </Box>
+                        )}
                       </Box>
                     </Box>
                   }

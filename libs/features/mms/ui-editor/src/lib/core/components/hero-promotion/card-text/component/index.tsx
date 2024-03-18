@@ -1,7 +1,9 @@
 import { Box, Typography, Card, CardMedia, Stack } from '@mui/material';
 
+import heroBackground from '../../../../../../assets/hero-bg.png';
+import { HERO_HEIGHT, HERO_PADDING_TOP, HERO_PROMO_CARD_HEIGHT, HERO_PROMO_CARD_WIDTH } from '../../../../../common';
 import colors from '../../../../../common/colors';
-import { BasicContainer } from '../../../../../elements';
+import { HeroCardContainer } from '../../../../../elements';
 import { CardTextComponentProps } from '../../../types';
 
 const CardTextComponent = (props: CardTextComponentProps) => {
@@ -10,13 +12,13 @@ const CardTextComponent = (props: CardTextComponentProps) => {
     __ui_id__: id,
   } = props;
   return (
-    <BasicContainer id={id} sx={{ background: colors.hero.background }}>
-      <Stack direction="column" justifyContent="center" alignItems="center" spacing={1.5} sx={{ padding: '32px 0' }}>
+    <HeroCardContainer id={id} height={HERO_HEIGHT} image={heroBackground} sx={{ paddingTop: `${HERO_PADDING_TOP}px` }}>
+      <Stack direction="column" justifyContent="center" alignItems="center">
         <Card
           sx={{
             backgroundColor: colors.hero.cardText.background,
-            width: '335px',
-            height: '192px',
+            width: HERO_PROMO_CARD_WIDTH,
+            height: HERO_PROMO_CARD_HEIGHT,
             borderRadius: '10px',
             boxShadow: colors.hero.boxShadow,
           }}
@@ -28,7 +30,7 @@ const CardTextComponent = (props: CardTextComponentProps) => {
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
           />
         </Card>
-        <Box sx={{ maxWidth: '335px' }}>
+        <Box sx={{ maxWidth: HERO_PROMO_CARD_WIDTH, paddingY: 1.5 }}>
           <Typography
             sx={{
               fontSize: '16px',
@@ -51,7 +53,7 @@ const CardTextComponent = (props: CardTextComponentProps) => {
           </Typography>
         </Box>
       </Stack>
-    </BasicContainer>
+    </HeroCardContainer>
   );
 };
 

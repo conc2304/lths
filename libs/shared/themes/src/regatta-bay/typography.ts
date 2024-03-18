@@ -40,7 +40,7 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
     },
 
     button: {
-      textTransform: 'capitalize',
+      textTransform: 'uppercase',
     },
   };
 };

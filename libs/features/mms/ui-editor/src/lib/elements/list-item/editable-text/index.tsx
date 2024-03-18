@@ -1,18 +1,20 @@
-import { MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties } from 'react';
-import { ListItemText, TextField, Typography } from '@mui/material';
+import { FocusEvent, MouseEvent, ChangeEvent, KeyboardEvent, useRef, useState, useEffect, CSSProperties, useCallback } from 'react';
+import { SxProps, ListItemText, TextField, Typography } from '@mui/material';
 
 import { Colors } from '../../../common';
 import { useClickOutside } from '../../hooks';
 
-interface EditableListItemTextProps { 
+interface EditableListItemTextProps {
   text: string; 
-  sx?: CSSProperties;  
+  sx?: SxProps;  
   textStyle?: CSSProperties;
   onLabelClick?: (event: MouseEvent<HTMLInputElement>) => void;
   onSave: (value: string) => void;
+  fullWidth?: boolean;
+  multiline?: boolean;
 }
 
-const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, onSave }: EditableListItemTextProps) => {
+const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, onSave, fullWidth = false, multiline = false}: EditableListItemTextProps) => {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,24 +36,32 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
     }
   };
 
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEditedText(event.target.value);
   };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       handleClickOutside();
     }
   };
-  const handleClickOutside = () => {
+
+  const handleClickOutside = useCallback(() => {
     setEditing(false);
-    if (editedText) {
+    if (editedText && editedText.trim() !== '') {
       onSave(editedText);
-    } else setEditedText(text);
-  };
+    } else {
+      setEditedText(text);
+    }
+  }, [editedText]);
+
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
+    event.currentTarget?.select();
+  }
 
   useClickOutside(inputRef, handleClickOutside);
-
+  
   return (
     <ListItemText
       onDoubleClick={handleDoubleClick}
@@ -67,19 +77,25 @@ const EditableListItemText = ({ text = 'New Item', sx, textStyle, onLabelClick, 
                 pb: 0.5,
                 m: 0,
                 lineHeight: 1,
+                borderRadius: 'inherit',
                 backgroundColor: Colors.sidebar.textInput.background,
                 ...textStyle,
               },
+              '& .MuiInputBase-root': { p: 0 }
             }}
+            multiline={multiline}
+            fullWidth={fullWidth}
             ref={inputRef}
             value={editedText}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
+            onFocus={handleFocus}
+            autoFocus={true}
           />
         ) : (
           <Typography 
             onClick={handleSingleClick}
-            sx={{ overflow: 'hidden', overflowWrap: "break-word", textOverflow: 'ellipsis', fontSize: '1rem', ...textStyle }} 
+            sx={{ overflow: 'hidden', overflowWrap: "break-word", textOverflow: 'ellipsis', fontSize: '1rem', userSelect: 'none', ...textStyle }} 
           >
             {editedText}
           </Typography>

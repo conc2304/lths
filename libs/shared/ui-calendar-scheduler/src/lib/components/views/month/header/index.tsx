@@ -36,7 +36,7 @@ export const MonthHeader = (props: HeaderProps) => {
       {isToday && (
         <CircleIcon
           data-testid="Calendar-view-header--today-marker"
-          htmlColor={theme.palette.primary.main}
+          className="Calendar-view-header--today-marker"
           sx={{ mx: 1, width: 12, height: 12 }}
         />
       )}

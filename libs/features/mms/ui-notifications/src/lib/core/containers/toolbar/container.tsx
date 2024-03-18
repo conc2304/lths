@@ -13,9 +13,10 @@ import {
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
 
-import { EnumValue, NotificationDataProps, NotificationTargetType } from '@lths/features/mms/data-access';
+import { NotificationDataProps, NotificationTargetType, PageProps } from '@lths/features/mms/data-access';
 import { urlRegexPattern } from '@lths/shared/utils';
 
+import { useEditorActions } from '../../../context';
 import { usePageList } from '../../../hooks';
 import { GroupLabel, OutlinedTextField } from '../../elements';
 import { UpdateEditorStateProps } from '../types';
@@ -54,6 +55,8 @@ const Container = ({
 
   const { pageList } = usePageList();
 
+  const { setEditorFormValid } = useEditorActions();
+
   const onSubmit = async () => {
     onUpdateNotification(notificationData);
   };
@@ -80,12 +83,12 @@ const Container = ({
     handleChange(e);
   };
 
-  const getPageOptionLabel = (option: EnumValue) => (option ? option.name : '');
+  const getPageOptionLabel = (option: PageProps) => (option ? option.label : '');
 
-  const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
+  const renderPageOption = (props: HTMLAttributes<HTMLLIElement>, option: PageProps) => {
     return (
-      <Box component="li" {...props} key={option.display_order}>
-        <Typography>{option.name}</Typography>
+      <Box component="li" {...props}>
+        <Typography>{option.label}</Typography>
       </Box>
     );
   };
@@ -100,6 +103,10 @@ const Container = ({
   useEffect(() => {
     validateForm();
   }, [values.target_type]);
+
+  useEffect(() => {
+    setEditorFormValid(!isNotValid);
+  }, [isNotValid]);
 
   return (
     <Box sx={{ paddingY: 3, paddingX: 4, height: '100%', position: 'relative' }}>
@@ -182,6 +189,7 @@ const Container = ({
         )}
       </Box>
       <Fab
+        color="primary"
         sx={{ position: 'absolute', bottom: 24, left: -72 }}
         disabled={isNotValid || isSubmitting || isUpdating}
         onClick={() => handleSubmit()}

@@ -1,12 +1,17 @@
 import { Event } from 'react-big-calendar';
 
-import { EVENT_STATE, EVENT_TYPE } from './constants';
+import { EVENT_TYPE } from './constants';
 
 export type EventType = { id: EventTypeID | string; label: string };
 
-export type EventTypeID = EVENT_TYPE.GAME | EVENT_TYPE.CONCERT;
+export type EventTypeID =
+  | EVENT_TYPE.GAME
+  | EVENT_TYPE.CONCERT
+  | EVENT_TYPE.GAME
+  | EVENT_TYPE.PRE_GAME
+  | EVENT_TYPE.POST_GAME;
 
-export type EventStateID = EVENT_STATE.IN_EVENT | EVENT_STATE.PRE_EVENT | EVENT_STATE.POST_EVENT;
+export type EventStateID = EVENT_TYPE.GAME | EVENT_TYPE.PRE_GAME | EVENT_TYPE.POST_GAME;
 
 export interface EventStateBase {
   id: string;
@@ -14,20 +19,20 @@ export interface EventStateBase {
   duration: number | undefined;
   start: Date | string;
   end: Date | string;
-  relativeOffsetHrs: number;
+  relativeOffsetHrs: number | null;
   source?: string;
-  type?: EventTypeID;
+  type: EventTypeID;
   name: string;
 }
 
 export type EventStateUI = {
-  state: EventStateID;
+  type: EventTypeID;
   label: string;
   desc: string;
   /**
    * Information on how this event state depends on another event state.
    */
-  stateDependency: {
+  typeDependency: {
     /**
      * The event state that this is relative to.
      */
@@ -53,12 +58,11 @@ export interface MMSEvent extends Event {
   id: string;
   eventId: string;
   isBackgroundEvent?: boolean;
-  eventType?: EventType;
-  desc?: string | JSX.Element;
+  eventType: EventType;
+  desc: string | JSX.Element;
   createdBy?: string;
   createdOn?: Date;
-  eventStates?: EventState[];
-  eventState?: string;
+  location?: 'home' | 'away';
 }
 
 export type EventFormValues = {

@@ -1,7 +1,5 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format, getDay, parse, startOfWeek, subHours } from 'date-fns';
@@ -39,6 +37,10 @@ describe('SchedulingEvent', () => {
     slotEnd: new Date(),
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     const testEvent = getNewEvent({});
 
@@ -58,12 +60,20 @@ describe('SchedulingEvent', () => {
   });
 
   it('shows the event time when view is not month and not in all day row', async () => {
-    const testEvent = getNewEvent({ isAllDay: false, isToday: true });
+    const testEvent = {
+      title: 'You Make Me Feel Like Dancing: Incubate Content',
+      allDay: false,
+      start: new Date('2024-03-01T18:00:00.000Z'), // 6 PM
+      end: new Date('2024-03-01T20:00:00.000Z'), // 8 PM
+      id: 'd4dd5aaecfec4e74f39cebef',
+      eventId: '76a1ccdef34e3823e6af4715',
+      eventType: { id: 'COMEDY', label: 'Comedy' },
+      createdBy: 'Carolyn Bashirian',
+      createdOn: new Date('2024-03-01T11:08:38.845Z'),
+      desc: 'Eum eum nesciunt occaecati cupiditate placeat saepe tenetur expedita reprehenderit. Laudantium possimus sit cupiditate quas mollitia exercitationem.',
+    };
 
-    testEvent.start?.setHours(10, 0, 0, 0);
-    testEvent.end?.setHours(12, 0, 0, 0);
-
-    renderWithTheme(
+    const { getByTestId } = renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
         event={testEvent}
@@ -75,12 +85,10 @@ describe('SchedulingEvent', () => {
       />
     );
 
-    await waitFor(() => {
-      expect(screen.getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
-      expect(screen.getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
-      expect(screen.getByText('10AM - 12PM PST')).toBeInTheDocument();
-    });
-  }, 10000);
+    expect(getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
+    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('6PM - 8PM PST');
+    expect(getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
+  });
 
   it('shows the "NEW EVENT ADDED" icon banner for new events', () => {
     const testEvent = getNewEvent({ isAllDay: false, isToday: true });

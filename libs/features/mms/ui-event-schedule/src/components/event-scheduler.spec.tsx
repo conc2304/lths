@@ -1,7 +1,5 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 import { render, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -147,7 +145,7 @@ describe('EventScheduler', () => {
     // Click on the select filter and filter option
     const selectFilter = within(getByTestId('Calendar-toolbar--filter-select')).getByRole('button');
     await user.click(selectFilter);
-    const eventTypeItem = within(getByRole('presentation')).getByText('Hockey Game');
+    const eventTypeItem = within(getByRole('presentation')).getByText('Game');
     expect(eventTypeItem).toBeInTheDocument();
     await user.click(eventTypeItem);
 

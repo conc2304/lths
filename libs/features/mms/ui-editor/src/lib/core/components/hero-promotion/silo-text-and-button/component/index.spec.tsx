@@ -15,7 +15,7 @@ describe('HeroPromotion: SiloTextAndButtonComponent', () => {
       __ui_id__: '3333333',
       component_id: Component.HeroPromotionSiloTextAndButton,
       data: {
-        image: 'https://i.im.ge/2022/10/13/2qHPSF.Image-1.png',
+        image: 'test.Image-1.png',
         img_alt_text: 'image alth text name',
         title: 'Explore Honda Center',
         description: 'description',

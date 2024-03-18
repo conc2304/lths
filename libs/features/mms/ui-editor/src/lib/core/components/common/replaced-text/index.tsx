@@ -33,6 +33,5 @@ export const ReplacedTextComponent: FC<Props> = ({ title, linked_text, color }) 
     return text;
   }, [title, linked_text, color]);
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{replacedText}</>;
 };

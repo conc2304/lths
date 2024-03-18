@@ -20,17 +20,23 @@ export enum GameEventState {
   POST_GAME = 'Post_Game',
 }
 
-export type AutocompleteItemProps = {
+export type PageAutocompleteItemProps = {
   label: string;
   value: string;
   type: string;
+  static: boolean;
+  image?: string;
 };
 
 export enum ActionType {
   NATIVE = 'native',
   WEBVIEW = 'web',
 }
-
+export type ItemPositionalProps = {
+  keys?: string[] | undefined; //parentKeys
+  index?: number;
+  childKeys?: string[] | undefined;
+};
 export type ActionProps = {
   type: ComponentType;
   page_id: string;
@@ -44,7 +50,7 @@ export type CarouselProps = {
 
 export type SpacerProps = ComponentProps & {
   data: {
-    space: string;
+    space: number;
     type: string;
     background_color: string;
   };
@@ -659,6 +665,64 @@ export type HeroGameboxComponentProps = ComponentProps & {
       game_event_state: GameEventState;
     };
   };
+  showHeader?: boolean;
 };
 
 export type HeroEventComponentProps = ComponentProps;
+
+export type HeroCarouselProps =
+  | HeroGameboxComponentProps
+  | HeroEventComponentProps
+  | SiloTextAndButtonComponentProps
+  | CardTextComponentProps
+  | CardTextOverlayAndButtonComponentProps;
+
+export type HeroCarouselMetaDataProps = {
+  selectedSlideIndex: number;
+};
+
+export type HeroCarouselComponentProps = ComponentProps & {
+  data: {
+    title: string;
+    show_greetings: boolean;
+    component_data: HeroCarouselProps[];
+    editor_meta_data?: HeroCarouselMetaDataProps;
+  };
+};
+
+export type MonthAndYear = {
+  month: number;
+  year: number;
+};
+
+export type GameCenterComponentProps = ComponentProps & {
+  data: {
+    default_tab: number;
+    tab_mode: string;
+  };
+};
+
+export type CalendarViewComponentProps = ComponentProps & {
+  data: {
+    tab_mode: string;
+    start_month: string;
+    start_year: string;
+    end_month: string;
+    end_year: string;
+    selected_month: string;
+    selected_year: string;
+  };
+};
+export type ScheduleListComponentProps = ComponentProps & {
+  data: {
+    allow_infinite_scroll?: boolean;
+    update_frequency_in_ms?: number;
+    selected_month: string;
+    selected_year: string;
+    btn_buy_tickets_txt: string;
+    btn_ingame_txt: string;
+    btn_more_info_txt: string;
+    btn_post_game_txt: string;
+    is_show_ingame_btn_icon: boolean;
+  };
+};

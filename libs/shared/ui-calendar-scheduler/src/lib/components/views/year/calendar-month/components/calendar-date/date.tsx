@@ -50,15 +50,15 @@ export const CalendarDate = (props: CalendarDateProps) => {
     let color: Property.Color = '#000';
 
     if (isActive) color = '#FFF';
-    if (dateIsToday) color = theme.palette.secondaryButton.main;
+    if (dateIsToday) color = theme.palette.secondary.main;
     if (outOfMonth) color = theme.palette.grey[400];
     if (differentiateWeekends && isWeekend && !outOfMonth) return lighten(theme.palette.primary.main, 0.3);
     return color;
   };
 
   const getBackgroundColor = (theme: Theme): Property.BackgroundColor | undefined => {
-    if (isActive) return theme.palette.secondaryButton.light;
-    if (dateIsToday) return lighten(theme.palette.secondaryButton.light, 0.8);
+    if (isActive) return theme.palette.secondary.light;
+    if (dateIsToday) return lighten(theme.palette.secondary.light, 0.8);
     return undefined;
   };
 
@@ -104,7 +104,7 @@ export const CalendarDate = (props: CalendarDateProps) => {
           background: getBackgroundColor,
           color: isActive ? '#FFF' : undefined,
           '&:hover': {
-            background: (theme) => (isActive ? theme.palette.secondaryButton.light : undefined),
+            background: (theme) => (isActive ? theme.palette.secondary.light : undefined),
           },
           transition: 'all 0.3s ease',
         }}

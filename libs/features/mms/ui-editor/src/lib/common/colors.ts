@@ -1,5 +1,5 @@
 const colors = {
-  sidebar: { background: '#f5f5f5', divider: '#0000001f', textInput: { background: '#fff' } },
+  sidebar: { background: '#f5f5f5', divider: '#0000001f', subText: '#00000061', textInput: { background: '#fff' } },
   editor: {
     background: '#D9D9D9',
     highlight: '#FF9A02',
@@ -10,13 +10,14 @@ const colors = {
     divider: '#BA9765',
   },
   navigator: {
-    title: 'rgba(0, 0, 0, 0.60)', addButton: { color: '#46494C', border: '#46494C' },
+    title: 'rgba(0, 0, 0, 0.60)',
+    addButton: { color: '#46494C', border: '#46494C' },
   },
   quicklink: { background: '#BA9765' },
   fanGuide: { background: 'linear-gradient(180deg, rgba(36, 37, 38, 0) 0%, #242526 100%)', underline: '#BA9765' },
   simpleImagePicker: {
-    image: { background: '#F5F5F5' },
-    button: { background: '#FFFFFF', text: '#3D4752', border: '#BDBDBD' },
+    image: { background: '#E0E0E0' },
+    button: { background: '#46494C99', text: '#FFFFFF' },
   },
   container: { background: '#121213' },
   card: {
@@ -59,9 +60,39 @@ const colors = {
     title: 'rgb(158, 158, 158)',
     category: 'rgba(0, 0, 0, 0.6)',
   },
-  saveButton: {
-    color: '#007882',
+  gameCenter: {
+    background: '#313131',
+    tab: {
+      default: '#242526',
+      selected: '#505051',
+      text: '#ABABAC',
+      selectedText: '#fff',
+    },
+    timeline: {
+      dotBorder: '#fff',
+      text: '#D0D0D1',
+      chipBackground: '#121213',
+    },
+    gradient: {
+      start: '#FF6B6B',
+      end: '#556270',
+    },
   },
+  calendar: {
+    tabBar: { background: '#1B1C1D' },
+    background: '#242526',
+    day: {
+      notCurrentMonth: {
+        background: 'unset',
+        text: '#636364',
+      },
+      isCurrentMonth: {
+        background: '#303031',
+        text: '#FFFFFF',
+      },
+    },
+  },
+  icon: { color: 'rgba(0, 0, 0, 0.56)' },
 };
 
 export default colors;

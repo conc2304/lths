@@ -7,8 +7,7 @@ import {
   ToolbarLabel,
   AutocompleteOptionProps,
 } from '../../../../elements';
-import { ToolContainer } from '../../../../elements/containers';
-import { ActionToolbar } from '../../common';
+import { ActionToolbar, ToolPreviewContainer } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { QuicklinkButtonGroupComponentProps } from '../../types';
 
@@ -18,7 +17,6 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
     data: { sub_component_data },
     onPropChange,
   } = props;
-
   const [icons, setIcons] = useState<AutocompleteOptionProps[]>([]);
 
   const receiveIcons = (data: AutocompleteOptionProps[]) => {
@@ -41,7 +39,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
   };
 
   return (
-    <ToolContainer id={id} aria-label={'Quicklink Button Group Toolbar'}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id} aria-label={'Quicklink Button Group Toolbar'}>
       <ToolbarLabel label={'Quick Link'} />
 
       <GroupLabel label={'BUTTON 1'} />
@@ -93,7 +91,7 @@ const QuicklinkButtonGroupToolbar = (props: QuicklinkButtonGroupComponentProps) 
         index={1}
         keys={parentKeys}
       />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default QuicklinkButtonGroupToolbar;
