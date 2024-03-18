@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
-import { DialogProps, Dialog, Typography, Box, DialogContent } from '@mui/material';
+import { DialogProps, Typography, Box } from '@mui/material';
 import { format, getMinutes } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { TMZ } from '@lths/shared/ui-calendar-scheduler';
-import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
+import { DialogForm } from '@lths/shared/ui-elements';
 
 import { EventStateFormItem } from './event-state-form-item';
 import { EVENT_TYPE } from '../../../constants';
@@ -48,6 +48,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
     initialValues,
     validationSchema,
     onSubmit: (values, { setSubmitting }): void => {
+      console.log('ON SUBMIT');
       if (!eventStates || !Object.keys(values).length) {
         setSubmitting(false);
         return;
@@ -79,68 +80,72 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   const formattedTime = formattedEventTime(start || new Date(), end || new Date());
 
   return (
-    <Dialog open={open} aria-labelledby="edit-event-dialog-title" onClose={onCancel}>
-      <Box component="form" role="form" onSubmit={formik.handleSubmit}>
-        <DialogTitle title="Edit event states" onClose={() => formik.handleReset(formik.initialValues)} />
-        <DialogContent>
-          <Box mb={2}>
-            <Typography variant="overline">EVENT</Typography>
-            <Typography variant="body1">Name: {title}</Typography>
-            <Typography variant="body1">Date: {formattedDate}</Typography>
-            <Typography variant="body1">Time: {formattedTime}</Typography>
-          </Box>
+    <DialogForm
+      open={open}
+      aria-labelledby="edit-event-dialog-title"
+      onClose={onCancel}
+      title="Edit event states"
+      onReset={() => formik.handleReset(formik.initialValues)}
+      cancelText="CANCEL"
+      confirmText="UPDATE"
+      onCancel={() => formik.handleReset(formik.initialValues)}
+      isSubmitting={formik.isSubmitting}
+      onSubmit={formik.handleSubmit}
+      dirty={formik.dirty}
+      isValid={formik.isValid}
+      hasCloseButton
+    >
+      <Box>
+        <Box mb={2}>
+          <Typography variant="overline">EVENT</Typography>
+          <Typography variant="body1">Name: {title}</Typography>
+          <Typography variant="body1">Date: {formattedDate}</Typography>
+          <Typography variant="body1">Time: {formattedTime}</Typography>
+        </Box>
 
-          <Typography variant="overline">STATES</Typography>
+        <Typography variant="overline">STATES</Typography>
 
-          {eventStates.sort(sortByEventState).map((eventState, i) => {
-            const isFirst = i === 0;
-            const isLast = i === eventStates.length - 1;
+        {eventStates.sort(sortByEventState).map((eventState, i) => {
+          const isFirst = i === 0;
+          const isLast = i === eventStates.length - 1;
 
-            const paddingMap = {
-              first: '0.5rem 0 1rem 0',
-              middle: '0 0 1rem 0',
-              last: '0 0 0 0',
-            };
-            const pos = isFirst ? 'first' : isLast ? 'last' : 'middle';
+          const paddingMap = {
+            first: '0.5rem 0 1rem 0',
+            middle: '0 0 1rem 0',
+            last: '0 0 0 0',
+          };
+          const pos = isFirst ? 'first' : isLast ? 'last' : 'middle';
 
-            const { desc, label, type, id } = eventState;
-            if (type === EVENT_TYPE.GAME) {
-              return (
-                <EventStateFormItem
-                  editable={false}
-                  key={`form-item-${type}`}
-                  id={id}
-                  title={label}
-                  desc={desc}
-                  sx={{ padding: paddingMap[pos] }}
-                />
-              );
-            } else {
-              return (
-                <EventStateFormItem
-                  key={`form-item-${type}`}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    formik.setFieldValue(type, Number(e.target.value));
-                  }}
-                  id={id}
-                  title={label}
-                  editable
-                  desc={desc}
-                  value={formik.values[type as EventStateID]}
-                  sx={{ padding: paddingMap[pos] }}
-                />
-              );
-            }
-          })}
-        </DialogContent>
-        <DialogActions
-          cancelText="CANCEL"
-          confirmText="UPDATE"
-          onCancel={() => formik.handleReset(formik.initialValues)}
-          isSubmitting={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.dirty}
-        />
+          const { desc, label, type, id } = eventState;
+          if (type === EVENT_TYPE.GAME) {
+            return (
+              <EventStateFormItem
+                editable={false}
+                key={`form-item-${type}`}
+                id={id}
+                title={label}
+                desc={desc}
+                sx={{ padding: paddingMap[pos] }}
+              />
+            );
+          } else {
+            return (
+              <EventStateFormItem
+                key={`form-item-${type}`}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  formik.setFieldValue(type, Number(e.target.value));
+                }}
+                id={id}
+                title={label}
+                editable
+                desc={desc}
+                value={formik.values[type as EventStateID]}
+                sx={{ padding: paddingMap[pos] }}
+              />
+            );
+          }
+        })}
       </Box>
-    </Dialog>
+    </DialogForm>
   );
 };

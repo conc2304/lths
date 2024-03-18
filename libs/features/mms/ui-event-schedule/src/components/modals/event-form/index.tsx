@@ -1,20 +1,11 @@
-import {
-  Dialog,
-  Box,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  TextField,
-  DialogContent,
-  Typography,
-} from '@mui/material';
+import { Box, FormGroup, FormControlLabel, Checkbox, TextField, Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { addHours, endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { DatePickerLTHS, DialogActions, DialogTitle, SelectLTHS } from '@lths/shared/ui-elements';
+import { DatePickerLTHS, DialogForm, SelectLTHS } from '@lths/shared/ui-elements';
 import { pxToRem } from '@lths/shared/utils';
 
 import { UNEDITABLE_EVENT_TYPES } from '../../../constants';
@@ -137,138 +128,139 @@ export const EventFormModal = (props: EventFormModalProps) => {
   };
 
   return (
-    <Dialog open={open} aria-labelledby="edit-event-dialog-title" className="EventForm--Dailog" onClose={onCancel}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DialogTitle title={title} subtitle={subtitle} onClose={() => formik.handleReset(formik.initialValues)} />
-        <DialogContent>
-          <Box component="form" onSubmit={formik.handleSubmit}>
-            <FormGroup>
-              <Typography variant="overline">Event</Typography>
-              <TextField
-                data-testid="Edit-Event--event-name"
-                fullWidth
-                label="Name"
-                placeholder="Name"
-                value={formik.values.eventName}
-                size="small"
-                name="eventName"
-                onChange={formik.handleChange}
-                onBlur={() => {
-                  formik.setFieldTouched('eventName', true);
-                  formik.validateField('eventName');
-                }}
-                error={formik.touched.eventName && Boolean(formik.errors.eventName)}
-                helperText={formik.touched.eventName && formik.errors.eventName}
-              />
+    <DialogForm
+      open={open}
+      aria-labelledby="edit-event-dialog-title"
+      onCancel={onCancel}
+      title={title}
+      subtitle={subtitle}
+      onClose={() => formik.handleReset(formik.initialValues)}
+      cancelText={cancelText}
+      confirmText={confirmText}
+      onReset={() => formik.handleReset(formik.values)}
+      isSubmitting={formik.isSubmitting}
+      isValid={formik.isValid}
+      dirty={formik.dirty}
+      onSubmit={formik.handleSubmit}
+    >
+      <Box>
+        <FormGroup>
+          <Typography variant="overline">Event</Typography>
+          <TextField
+            data-testid="Edit-Event--event-name"
+            fullWidth
+            label="Name"
+            placeholder="Name"
+            value={formik.values.eventName}
+            size="small"
+            name="eventName"
+            onChange={formik.handleChange}
+            onBlur={() => {
+              formik.setFieldTouched('eventName', true);
+              formik.validateField('eventName');
+            }}
+            error={formik.touched.eventName && Boolean(formik.errors.eventName)}
+            helperText={formik.touched.eventName && formik.errors.eventName}
+          />
 
-              <SelectLTHS
-                name="eventType"
-                label="Type"
-                placeholder="Type"
-                //  parsing and stringifying in order to keep {value, label} structure in order
-                value={
-                  formik.values.eventType
-                    ? JSON.stringify({
-                        value: formik.values.eventType.id,
-                        label: formik.values.eventType.label,
-                      })
-                    : null
-                }
-                helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
-                error={formik.touched.eventType && Boolean(formik.errors.eventType)}
-                onBlur={() => formik.setFieldTouched('eventType', true)}
-                onChange={async ({ target: value }) => {
-                  formik.setFieldValue('eventType', JSON.parse(value.value as string));
-                  await formik.validateField('eventType');
-                }}
-                options={availableEventTypes}
-                noOptionsAvailableText="Sorry, No available event types."
-              />
+          <SelectLTHS
+            name="eventType"
+            label="Type"
+            placeholder="Type"
+            //  parsing and stringifying in order to keep {value, label} structure in order
+            value={
+              formik.values.eventType
+                ? JSON.stringify({
+                    value: formik.values.eventType.id,
+                    label: formik.values.eventType.label,
+                  })
+                : null
+            }
+            helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
+            error={formik.touched.eventType && Boolean(formik.errors.eventType)}
+            onBlur={() => formik.setFieldTouched('eventType', true)}
+            onChange={async ({ target: value }) => {
+              formik.setFieldValue('eventType', JSON.parse(value.value as string));
+              await formik.validateField('eventType');
+            }}
+            options={availableEventTypes}
+            noOptionsAvailableText="Sorry, No available event types."
+          />
 
-              <TextField
-                id="Edit-Event--description"
-                name="description"
-                label="Description"
-                placeholder="Description (optional)"
-                size="medium"
-                multiline
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                error={formik.touched.description && Boolean(formik.errors.description)}
-              />
-            </FormGroup>
+          <TextField
+            id="Edit-Event--description"
+            name="description"
+            label="Description"
+            placeholder="Description (optional)"
+            size="medium"
+            multiline
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            error={formik.touched.description && Boolean(formik.errors.description)}
+          />
+        </FormGroup>
 
-            {/* DATE TIME FORM  */}
-            <FormGroup sx={{ marginTop: pxToRem(16) }}>
-              <Typography variant="overline">Schedule</Typography>
-              <Box mb={0.5}>
-                {/* Start Date */}
-                <DatePickerLTHS
-                  mode={formik.values.isAllDay ? 'date' : 'datetime'}
-                  value={formik.values.startDateTime}
-                  label="Start date"
-                  placeholder="Start date"
-                  onAddTime={handleAddTime}
-                  onChange={(value) => {
-                    handleDateTimeChange(value, 'startDateTime');
-                  }}
-                  onBlur={() => {
-                    handleDateTimeBlur('startDateTime');
-                  }}
-                  error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
-                  helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
-                />
+        {/* DATE TIME FORM  */}
+        <FormGroup sx={{ marginTop: pxToRem(16) }}>
+          <Typography variant="overline">Schedule</Typography>
+          <Box mb={0.5}>
+            {/* Start Date */}
+            <DatePickerLTHS
+              mode={formik.values.isAllDay ? 'date' : 'datetime'}
+              value={formik.values.startDateTime}
+              label="Start date"
+              placeholder="Start date"
+              onAddTime={handleAddTime}
+              onChange={(value) => {
+                handleDateTimeChange(value, 'startDateTime');
+              }}
+              onBlur={() => {
+                handleDateTimeBlur('startDateTime');
+              }}
+              error={formik.touched.startDateTime && Boolean(formik.errors.startDateTime)}
+              helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
+            />
 
-                {/* End Date */}
-                <DatePickerLTHS
-                  mode={formik.values.isAllDay ? 'date' : 'datetime'}
-                  value={formik.values.endDateTime}
-                  label="End date"
-                  placeholder="End date"
-                  minDate={formik.values.startDateTime || undefined}
-                  onAddTime={handleAddTime}
-                  onChange={async (value) => {
-                    handleDateTimeChange(value, 'endDateTime');
-                  }}
-                  onBlur={() => {
-                    // handleDateTimeChange(null, 'endDateTime', true);
-                    handleDateTimeBlur('endDateTime');
-                  }}
-                  error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}
-                  helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}
-                />
-              </Box>
-              {/*  DATE TIME FORM */}
-
-              <Box display="flex" justifyContent="space-between"></Box>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    data-testid="Edit-Event--isAllDay"
-                    name="isAllDay"
-                    value={formik.values.isAllDay}
-                    onChange={formik.handleChange}
-                    checked={formik.values.isAllDay}
-                  />
-                }
-                label="All-day event"
-                sx={{
-                  width: 'fit-content',
-                  ml: 0.89, // force the checkox to align with the calendar icon
-                }}
-              />
-            </FormGroup>
+            {/* End Date */}
+            <DatePickerLTHS
+              mode={formik.values.isAllDay ? 'date' : 'datetime'}
+              value={formik.values.endDateTime}
+              label="End date"
+              placeholder="End date"
+              minDate={formik.values.startDateTime || undefined}
+              onAddTime={handleAddTime}
+              onChange={async (value) => {
+                handleDateTimeChange(value, 'endDateTime');
+              }}
+              onBlur={() => {
+                // handleDateTimeChange(null, 'endDateTime', true);
+                handleDateTimeBlur('endDateTime');
+              }}
+              error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}
+              helperText={!formik.touched.endDateTime ? undefined : (formik.errors.endDateTime as string)}
+            />
           </Box>
-        </DialogContent>
-        <DialogActions
-          data-testid="Edit-Event--actions-wrapper"
-          cancelText={cancelText}
-          confirmText={confirmText}
-          onCancel={() => formik.handleReset(formik.values)}
-          isSubmitting={formik.isSubmitting}
-          disabled={!formik.isValid || !formik.dirty}
-        />
-      </LocalizationProvider>
-    </Dialog>
+          {/*  DATE TIME FORM */}
+
+          <Box display="flex" justifyContent="space-between"></Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                data-testid="Edit-Event--isAllDay"
+                name="isAllDay"
+                value={formik.values.isAllDay}
+                onChange={formik.handleChange}
+                checked={formik.values.isAllDay}
+              />
+            }
+            label="All-day event"
+            sx={{
+              width: 'fit-content',
+              ml: 0.89, // force the checkox to align with the calendar icon
+            }}
+          />
+        </FormGroup>
+      </Box>
+    </DialogForm>
   );
 };

@@ -49,8 +49,9 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
       isValid={formik.isValid}
       isSubmitting={formik.isSubmitting}
       hasCloseButton
+      onSubmit={formik.handleSubmit}
     >
-      <Box component="form" onSubmit={formik.handleSubmit}>
+      <Box>
         <DragDropFile
           fullWidth
           multiple
