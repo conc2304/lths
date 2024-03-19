@@ -79,6 +79,7 @@ jobs:
             "NX_PUBLIC_HOST_PROTOCOL=https"
             "NX_PUBLIC_API_HOST_DOMAIN=mok-staging.briteliteimmersive.io"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
+            "NX_PUBLIC_UI_VERSION=${{ github.sha }}"
             "NX_PUBLIC_WEB_ENV=staging"
             "BASIC_AUTH_USER=${{ secrets.BASIC_AUTH_USER_STAGING }}"
             "BASIC_AUTH_PASS=${{ secrets.BASIC_AUTH_PASS_STAGING }}"
@@ -94,14 +95,13 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS_STAGING }}
- 
+
       - name: Restart Azure Web App
         run: |
-          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"  
+          az webapp restart --name "${{ secrets.AZURE_APP_SERVICE_NAME_STAGING }}" --resource-group "${{ secrets.AZURE_APP_SERVICE_RESOURCE_GROUP_STAGING }}"
 
       - name: Post a message to Slack - lths-deployments
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data '{"text":"The STAGING environment is being updated with the latest version of the MMS staging branch. Commit ID: ${{ github.sha }}"}' \
             ${{ secrets.SLACK_WEBHOOK_URL_DEPLOYMENTS_CH}}
-    

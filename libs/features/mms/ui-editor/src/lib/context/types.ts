@@ -88,6 +88,7 @@ export type EditorProps = {
   constraints?: PageConstraints;
   components: ComponentProps[];
   selectedComponent?: ComponentProps | null;
+  lastSwap?: { index: string };
   hasUnsavedEdits?: boolean;
 };
 

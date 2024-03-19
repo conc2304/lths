@@ -17,16 +17,19 @@ const headers = [
     id: 'name',
     label: 'PAGE NAME',
     sortable: true,
+    width: '20%',
   },
   {
     id: 'status',
     label: 'STATUS',
     sortable: true,
+    width: '15%',
   },
   {
     id: 'updated_on',
     label: 'LAST ACTION',
     sortable: true,
+    width: '10%',
   },
   {
     id: 'type',
@@ -44,7 +47,11 @@ const headers = [
     sortable: false,
     width: '20%',
   },
-
+  {
+    id: 'updated_by',
+    label: 'LAST EDITOR',
+    sortable: false,
+  },
   {
     id: 'actions',
     label: '',
@@ -157,7 +164,7 @@ const Page = (): JSX.Element => {
   const RowBuilder = (): RowBuilderFn<PageDetail> => {
     return (props) => {
       const { data, showRowNumber, rowNumber } = props;
-      const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = data;
+      const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id, updated_by } = data;
 
       return (
         <TableRow key={`row_${page_id}`}>
@@ -200,6 +207,9 @@ const Page = (): JSX.Element => {
             </Link>
           </TableCell>
           <TableCell>{constraints_formatted}</TableCell>
+          <TableCell>
+            <Typography variant="subtitle1">{updated_by}</Typography>
+          </TableCell>
           <TableCell>
             <ActionMenu options={menuOptions(data)} />
           </TableCell>
