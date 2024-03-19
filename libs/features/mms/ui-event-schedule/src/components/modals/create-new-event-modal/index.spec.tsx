@@ -71,6 +71,7 @@ describe('CreateNewEventModal', () => {
     await user.type(endDateInput, '01/25/2022 5:00 PM');
     await user.tab();
 
+    // select the event type
     const wrapper = getByTestId('Select-label--eventType');
 
     const dropDownButton = within(wrapper).getByRole('button', { expanded: false });

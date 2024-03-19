@@ -225,7 +225,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
                 handleDateTimeChange(value, 'endDateTime');
               }}
               onBlur={() => {
-                // handleDateTimeChange(null, 'endDateTime', true);
                 handleDateTimeBlur('endDateTime');
               }}
               error={formik.touched.endDateTime && Boolean(formik.errors.endDateTime)}

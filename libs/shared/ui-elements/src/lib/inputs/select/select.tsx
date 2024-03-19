@@ -11,7 +11,7 @@ type SelectLTHSProps = SelectProps & {
   noOptionsAvailableText?: string;
   size?: 'small' | 'medium';
   value: TValue | undefined;
-  onValueChange?: (value: TValue | undefined) => void;
+  onChange?: (value: TValue | undefined) => void;
 };
 
 export const SelectLTHS = (props: SelectLTHSProps) => {
@@ -23,7 +23,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     name,
     noOptionsAvailableText,
     onBlur,
-    onValueChange,
+    onChange,
     options,
     placeholder,
     renderValue: renderValueProp,
@@ -51,13 +51,15 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     });
 
   const handleOnChange = ({ target: { value } }: SelectChangeEvent<string | number | null>) => {
+    console.log('handleOnChange', value);
+    let formValue = undefined;
     if (valuesAreObjects) {
       const parsedValue = JSON.parse(value as string);
-      const formValue = { label: parsedValue.label, value: parsedValue.value };
-      onValueChange && onValueChange(formValue);
+      formValue = { label: parsedValue.label, value: parsedValue.value };
     } else {
-      onValueChange && onValueChange(value ? value : undefined);
+      formValue = value ? value : undefined;
     }
+    onChange && onChange(formValue);
   };
 
   return (

@@ -135,6 +135,7 @@ describe('EventFormModal', () => {
     expect(dropDownButton).toBeInTheDocument();
     await user.click(dropDownButton);
 
+    // select menu option
     const option = screen.getByText('Comedy');
 
     // Select an event type
