@@ -77,6 +77,7 @@ export const DialogForm = (props: DialogFormProps) => {
   // this is essentially the same as on close, but exists so that the Cancel Button can perform other behaviors beyond just closing
   const handleOnCancel = () => {
     onCancel && onCancel();
+    onClose && onClose();
     onReset && onReset();
   };
 
