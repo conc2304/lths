@@ -1,5 +1,5 @@
-import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
-import { render, fireEvent } from '@testing-library/react';
+import { render, within, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { SelectLTHS } from './select';
 
@@ -13,28 +13,43 @@ describe('SelectLTHS', () => {
   const defaultProps = {
     options: options,
     value: options[0],
-    onValueChange: jest.fn(),
+    onchange: jest.fn(),
   };
 
   it('renders without crashing', () => {
     render(<SelectLTHS {...defaultProps} />);
   });
 
-  it('renders options correctly', () => {
-    const { getByText } = render(<SelectLTHS {...defaultProps} />);
-    options.forEach((option) => {
-      expect(getByText(option.label)).toBeInTheDocument();
-    });
-  });
+  it('renders options correctly and handles change', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn();
 
-  it('calls onValueChange when an option is selected', () => {
-    const handleValueChange = jest.fn();
-    const { getByTestId } = render(<SelectLTHS {...defaultProps} onValueChange={handleValueChange} />);
-    const select = getByTestId('Select-label--');
-    fireEvent.change(select, { target: { value: JSON.stringify(options[1]) } } as SelectChangeEvent<
-      string | number | null
-    >);
-    expect(handleValueChange).toHaveBeenCalledWith(options[1]);
+    const [label, placeholder] = ['Label', 'Placeholder'];
+    const { getByTestId } = render(
+      <SelectLTHS {...defaultProps} onChange={handleChange} placeholder={placeholder} label={label} />
+    );
+
+    expect(getByTestId('SelectLTHS--label')).toBeInTheDocument();
+    expect(getByTestId('SelectLTHS--label')).toHaveTextContent(label);
+
+    // open the menu
+    const wrapper = getByTestId('SelectLTHS--selector');
+    const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
+    expect(dropDownButton).toBeInTheDocument();
+    await user.click(dropDownButton);
+
+    options.forEach(async (option) => {
+      await waitFor(() => {
+        expect(screen.getByText(option.label)).toBeInTheDocument();
+      });
+    });
+
+    expect(screen.getByText(placeholder)).toBeInTheDocument();
+
+    await user.click(screen.getByText(options[1].label));
+
+    expect(handleChange).toHaveBeenCalledWith(options[1]);
+    expect(handleChange).toHaveBeenCalledTimes(1);
   });
 
   it('renders helper text when provided', () => {
@@ -42,13 +57,14 @@ describe('SelectLTHS', () => {
     expect(getByText('Helper text')).toBeInTheDocument();
   });
 
-  it('renders placeholder when options are empty', () => {
-    const { getByText } = render(<SelectLTHS {...defaultProps} options={[]} placeholder="Placeholder" />);
-    expect(getByText('Placeholder')).toBeInTheDocument();
-  });
+  it('renders no options available text when options are empty and no placeholder is provided', async () => {
+    const user = userEvent.setup();
+    const { getByText, getByTestId } = render(<SelectLTHS {...defaultProps} options={[]} />);
+    const wrapper = getByTestId('SelectLTHS--selector');
+    const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
+    expect(dropDownButton).toBeInTheDocument();
+    await user.click(dropDownButton);
 
-  it('renders no options available text when options are empty and no placeholder is provided', () => {
-    const { getByText } = render(<SelectLTHS {...defaultProps} options={[]} />);
     expect(getByText('No options available')).toBeInTheDocument();
   });
 });

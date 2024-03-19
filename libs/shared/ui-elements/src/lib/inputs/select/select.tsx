@@ -1,10 +1,11 @@
-import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from '@mui/material';
+import { FocusEventHandler, ReactNode } from 'react';
+import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 import { ColorThemeMui } from '../../types';
 
 type TValue = string | number | { label: string; value: string | number };
-type SelectLTHSProps = SelectProps & {
+type SelectLTHSProps = {
   helperText?: string | false;
   color?: ColorThemeMui;
   options: Array<TValue | { label: string; value: string | number }>;
@@ -12,6 +13,13 @@ type SelectLTHSProps = SelectProps & {
   size?: 'small' | 'medium';
   value: TValue | undefined;
   onChange?: (value: TValue | undefined) => void;
+  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  error?: boolean;
+  name?: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  renderValue?: (value: TValue) => ReactNode;
 };
 
 export const SelectLTHS = (props: SelectLTHSProps) => {
@@ -34,7 +42,10 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
 
   const labelId = `Select-label--${name || Math.random()}`;
   const valuesAreObjects = typeof options?.[0] === 'object' || typeof value === 'object';
-  const formattedValue = !!value && valuesAreObjects ? JSON.stringify(value) : value ?? '';
+  const formattedValue =
+    !!value && valuesAreObjects && typeof value !== 'string' && typeof value !== 'number'
+      ? JSON.stringify({ value: value.value, label: value.label })
+      : value ?? '';
 
   const renderValue =
     renderValueProp ||
@@ -63,14 +74,14 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
   };
 
   return (
-    <FormControl fullWidth sx={{ my: 2 }} size={size}>
+    <FormControl fullWidth sx={{ my: 2 }} size={size} data-testid="SelectLTHS--root">
       {label && (
-        <InputLabel id={labelId} color={error ? 'error' : color}>
+        <InputLabel id={labelId} color={error ? 'error' : color} data-testid="SelectLTHS--label">
           {label}
         </InputLabel>
       )}
       <Select
-        data-testid={labelId}
+        data-testid="SelectLTHS--selector"
         name={name}
         value={formattedValue}
         required={required}

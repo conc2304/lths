@@ -129,7 +129,7 @@ describe('EventFormModal', () => {
     const { getByTestId } = component;
 
     // Open the event type dropdown
-    const wrapper = getByTestId('Select-label--eventType');
+    const wrapper = getByTestId('SelectLTHS--selector');
 
     const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
     expect(dropDownButton).toBeInTheDocument();

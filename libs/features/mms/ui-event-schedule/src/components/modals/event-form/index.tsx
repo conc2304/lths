@@ -171,7 +171,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
             helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
             error={formik.touched.eventType && Boolean(formik.errors.eventType)}
             onBlur={() => formik.setFieldTouched('eventType', true)}
-            onValueChange={async (value) => {
+            onChange={async (value) => {
               const formattedValue =
                 value && typeof value === 'object' ? { label: value.label, id: value.value } : value;
               formik.setFieldValue('eventType', formattedValue);
