@@ -143,19 +143,19 @@ export const FeatureFlagFormModal = (props: FeatureFlagFormModalProps) => {
     id: [],
   };
 
+  const valid = mode === 'delete' || isValid;
+  const isDirty = mode === 'delete' || dirty;
+  const disabled = !valid || !isDirty;
   return (
     <DialogForm
       open={open}
       title={formTitleText}
       cancelText="Cancel"
       confirmText={confirmText}
-      onCancel={handleCancel}
       onClose={handleCancel}
-      onReset={() => handleReset(initialValues)}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      isValid={mode === 'delete' || isValid}
-      dirty={mode === 'delete' || dirty}
+      disabled={disabled}
       confirmColor={mode !== 'delete' ? 'primary' : 'error'}
     >
       <Box>

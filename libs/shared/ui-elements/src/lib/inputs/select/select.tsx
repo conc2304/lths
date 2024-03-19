@@ -10,8 +10,8 @@ type SelectLTHSProps = SelectProps & {
   options: Array<TValue | { label: string; value: string | number }>;
   noOptionsAvailableText?: string;
   size?: 'small' | 'medium';
-  value: TValue | null;
-  onValueChange?: (value: TValue | null) => void;
+  value: TValue | undefined;
+  onValueChange?: (value: TValue | undefined) => void;
 };
 
 export const SelectLTHS = (props: SelectLTHSProps) => {
@@ -34,7 +34,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
 
   const labelId = `Select-label--${name || Math.random()}`;
   const valuesAreObjects = typeof options?.[0] === 'object' || typeof value === 'object';
-  const formattedValue = !!value && valuesAreObjects ? JSON.stringify(value) : value;
+  const formattedValue = !!value && valuesAreObjects ? JSON.stringify(value) : value ?? '';
 
   const renderValue =
     renderValueProp ||
@@ -49,7 +49,6 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
 
       return <Box>{value.toString()}</Box>;
     });
-  console.log(value);
 
   const handleOnChange = ({ target: { value } }: SelectChangeEvent<string | number | null>) => {
     if (valuesAreObjects) {
@@ -57,7 +56,7 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
       const formValue = { label: parsedValue.label, value: parsedValue.value };
       onValueChange && onValueChange(formValue);
     } else {
-      onValueChange && onValueChange(value);
+      onValueChange && onValueChange(value ? value : undefined);
     }
   };
 
@@ -69,13 +68,13 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
         </InputLabel>
       )}
       <Select
+        data-testid={labelId}
         name={name}
         value={formattedValue}
         required={required}
         label={label}
         labelId={labelId}
         onChange={handleOnChange}
-        // onChange={onChange}
         onBlur={onBlur}
         error={error}
         size={size}

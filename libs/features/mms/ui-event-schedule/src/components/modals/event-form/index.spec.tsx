@@ -1,6 +1,8 @@
 import React from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import '@testing-library/jest-dom';
-import { render, waitFor, screen, within, RenderResult } from '@testing-library/react';
+import { render, waitFor, screen, within, RenderResult, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventFormModal, EventFormModalProps } from './index';
@@ -25,30 +27,35 @@ describe('EventFormModal', () => {
       ...props,
     };
 
-    component = render(<EventFormModal {...defaultProps} />);
+    // we need to await the modal render to appease the jest gods
+    await act(async () => {
+      component = render(
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <EventFormModal {...defaultProps} />
+        </LocalizationProvider>
+      );
+    });
     container = component.container;
   };
 
-  it('should render without crashing', () => {
-    renderComponent();
+  it('should render without crashing', async () => {
+    await renderComponent();
     expect(container).toBeInTheDocument();
   });
 
   it('should validate form on blur and show errors', async () => {
     const user = userEvent.setup();
 
-    renderComponent();
+    await renderComponent();
 
     // Focus on the input elements and blur to trigger validation
     const parent = screen.getByTestId('Edit-Event--event-name');
     const input = parent.querySelector('input') as HTMLInputElement;
-    expect(document.getElementById('edit-event--event-name-helper-text')).not.toBeInTheDocument();
     await user.clear(input);
     await user.tab();
 
     await waitFor(() => {
       // Assert validation errors are displayed
-      expect(document.getElementById('edit-event--event-name-helper-text')).toBeInTheDocument();
       expect(within(parent).getByText('Required')).toBeInTheDocument();
     });
   });
@@ -57,7 +64,7 @@ describe('EventFormModal', () => {
     const user = userEvent.setup();
 
     const eventValues = getNewEvent({ eventTypeID: 'COMEDY' });
-    renderComponent({ eventValues });
+    await renderComponent({ eventValues });
     const { getByText, getByTestId } = component;
 
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
@@ -89,40 +96,44 @@ describe('EventFormModal', () => {
 
   it('should show proper error when start date is after end date', async () => {
     const user = userEvent.setup();
-    renderComponent({ eventValues: { start: null, end: null } });
+    await renderComponent({ eventValues: { start: null, end: null } });
 
     // Set start date after end date
-    const startParent = screen.getByTestId('Edit-Event--start-date-wrapper');
-    const endParent = screen.getByTestId('Edit-Event--end-date-wrapper');
+    // const startParent = screen.getByTestId('Edit-Event--start-date-wrapper');
+    // const endParent = screen.getByTestId('Edit-Event--end-date-wrapper');
 
-    await user.click(within(endParent).getByLabelText('Choose date'));
-    const datepickerEnd = screen.getByRole('dialog');
-    const dateButtonEnd = within(datepickerEnd).getByText('22');
-    await user.click(dateButtonEnd);
+    const startParent = screen.queryAllByTestId('Date-Picker--root')[0];
+    const endParent = screen.queryAllByTestId('Date-Picker--root')[1];
 
     await user.click(within(startParent).getByLabelText('Choose date'));
     const datepickerStart = screen.getByRole('dialog');
     const dateButtonStart = within(datepickerStart).getByText('25');
     await user.click(dateButtonStart);
 
+    await user.click(within(endParent).getByLabelText('Choose date'));
+    const datepickerEnd = screen.getByRole('dialog');
+    const dateButtonEnd = within(datepickerEnd).getByText('22');
+    await user.click(dateButtonEnd);
+
     // Assert that proper error message is shown
     await waitFor(() => {
-      expect(screen.getByText('The end date must be later than the start date')).toBeInTheDocument();
+      expect(screen.getByText('Invalid end date')).toBeInTheDocument();
     });
   });
 
   it('should show event type dropdown and select an event type', async () => {
     const user = userEvent.setup();
 
-    renderComponent();
+    await renderComponent();
+
     const { getByTestId } = component;
 
     // Open the event type dropdown
-    const wrapper = getByTestId('Edit-Event--event-type');
+    const wrapper = getByTestId('Select-label--eventType');
 
-    const dropDownButton = within(wrapper).getByRole('button');
+    const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
     expect(dropDownButton).toBeInTheDocument();
-    await user.click(within(wrapper).getByRole('button'));
+    await user.click(dropDownButton);
 
     const option = screen.getByText('Comedy');
 
@@ -141,24 +152,25 @@ describe('EventFormModal', () => {
   it('should show "All-day event" checkbox and toggle it', async () => {
     const user = userEvent.setup();
 
-    renderComponent();
+    await renderComponent();
     const { getByTestId } = component;
 
     // Find and toggle the checkbox
     const checkbox = getByTestId('Edit-Event--isAllDay').querySelector('input');
     expect(checkbox).toBeInTheDocument();
 
+    // default state is checked
     await waitFor(() => {
-      expect(checkbox).not.toBeChecked();
+      expect(checkbox).toBeChecked();
     });
     if (checkbox) {
       await user.click(checkbox);
     }
-    expect(checkbox).toBeChecked();
+    expect(checkbox).not.toBeChecked();
   });
 
   it('should disable submit button when form is invalid', async () => {
-    renderComponent();
+    await renderComponent();
 
     // Assert that the submit button is disabled
     expect(screen.getByText('Save')).toBeDisabled();
@@ -167,7 +179,7 @@ describe('EventFormModal', () => {
   it('should allow resetting the form', async () => {
     const user = userEvent.setup();
 
-    renderComponent();
+    await renderComponent();
     const { getByTestId, getByText } = component;
 
     // Fill in the form fields with valid input

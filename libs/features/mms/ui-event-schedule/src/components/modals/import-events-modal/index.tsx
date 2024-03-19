@@ -36,8 +36,8 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
   return (
     <DialogForm
       open={open}
-      onClose={onClose}
       title="Import event"
+      onClose={() => formik.handleReset(formik.initialValues)}
       subtitle={
         <Typography variant="body1" mt={2} color="text.secondary">
           Add events by uploading a CSV file.
@@ -45,8 +45,7 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
       }
       cancelText="CANCEL"
       confirmText="IMPORT"
-      onCancel={() => formik.handleReset(formik.values)}
-      isValid={formik.isValid}
+      disabled={!formik.isValid}
       isSubmitting={formik.isSubmitting}
       hasCloseButton
       onSubmit={formik.handleSubmit}

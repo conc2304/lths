@@ -42,12 +42,10 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
     <DialogForm
       open={open}
       onClose={onCancel}
-      onCancel={onCancel}
       title={'Rename asset'}
       confirmText="Rename"
       onSubmit={handleSubmit}
-      dirty={!formIsPristine}
-      isValid={formisValid}
+      disabled={formIsPristine || !formisValid}
     >
       <Stack spacing={1} sx={{ paddingBottom: theme.spacing(1), paddingTop: theme.spacing(1) }}>
         <FormGroup>

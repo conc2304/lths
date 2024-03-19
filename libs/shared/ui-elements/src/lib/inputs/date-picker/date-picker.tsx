@@ -38,7 +38,6 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   };
 
   const handleDateChange: OnDateChageFn = (value) => {
-    // do something with value
     onChange && onChange(value);
   };
 
@@ -56,14 +55,13 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     setDatePickerFocused(false);
     onBlur && onBlur(value);
   };
-
   const shrinkLabel = !!value || !!datePickerFocused || (error !== undefined && helperText !== 'Required');
 
   const handleCloseDatePicker = () => setDatePickerOpen(false);
   const handleOpenDatePicker = () => setDatePickerOpen(true);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }} data-testid="Date-Picker--root">
       <ClickAwayListener onClickAway={handleCloseDatePicker}>
         <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
           <DatePicker
@@ -92,11 +90,16 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 onBlur: handleDatePickerBlur,
                 size: 'small',
                 onFocus: () => setDatePickerFocused(true),
-                onBlurCapture: () => setDatePickerFocused(false),
+                onBlurCapture: () => {
+                  setDatePickerFocused(false);
+                },
+                focused: datePickerFocused,
                 error: error,
                 helperText: helperText,
+
                 // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
                 InputLabelProps: {
+                  focused: datePickerFocused,
                   shrink: shrinkLabel,
                   sx: { ml: shrinkLabel ? 0 : 4.75, transition: 'all 0.15s ease-in' }, // move the label text beyond the start icon
                 },

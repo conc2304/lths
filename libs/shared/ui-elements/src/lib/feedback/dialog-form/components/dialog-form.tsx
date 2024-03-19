@@ -21,14 +21,12 @@ type DialogFormProps = {
   title?: string | JSX.Element;
   subtitle?: string | JSX.Element;
   confirmColor?: ColorThemeMui;
-  onCancel?: () => void;
-  onClose?: () => void;
-  onReset?: () => void;
+  onClose?: () => void; // use to handle cancel too
   onSubmit?: () => void;
+  // isSubmitting and isLoading handle the same thing, just different words for different uses
   isSubmitting?: boolean;
   isLoading?: boolean;
-  isValid?: boolean;
-  dirty?: boolean;
+  disabled?: boolean;
   destructive?: boolean;
   hasCloseButton?: boolean;
   slotProps?: {
@@ -47,14 +45,13 @@ export const DialogForm = (props: DialogFormProps) => {
     cancelText,
     confirmText,
     children,
-    onCancel,
+    // onCancel,
     onClose,
-    onReset,
+    // onReset,
     onSubmit,
     isSubmitting,
     isLoading,
-    isValid = true,
-    dirty = true,
+    disabled,
     destructive,
     confirmColor = 'primary',
     hasCloseButton = false,
@@ -70,16 +67,8 @@ export const DialogForm = (props: DialogFormProps) => {
     },
   } = props;
 
-  // this is essentially the same as on close, but exists so that the Cancel Button can perform other behaviors beyond just closing
-  const handleOnCancel = () => {
-    onCancel && onCancel();
-    onClose && onClose();
-    onReset && onReset();
-  };
-
   const handleOnClose = () => {
     onClose && onClose();
-    onReset && onReset();
   };
 
   return (
@@ -95,7 +84,7 @@ export const DialogForm = (props: DialogFormProps) => {
           <DialogTitle
             title={title}
             subtitle={subtitle}
-            onClose={hasCloseButton ? handleOnClose : undefined}
+            onClose={hasCloseButton && onClose ? handleOnClose : undefined}
             slotProps={{ DialogTitle: DialogTitleProps }}
           />
         )}
@@ -103,9 +92,9 @@ export const DialogForm = (props: DialogFormProps) => {
         <DialogActions
           cancelText={cancelText}
           confirmText={confirmText}
-          onCancel={handleOnCancel}
+          onCancel={handleOnClose}
           isSubmitting={isSubmitting || isLoading}
-          disabled={!isValid || !dirty}
+          disabled={disabled}
           confirmColor={confirmColor}
           destructive={destructive}
           slotProps={{ DialogActions: DialogActionsProps }}

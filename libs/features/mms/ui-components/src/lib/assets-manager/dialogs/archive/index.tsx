@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 
-// import { SimpleModal } from '../simple';
 import { DialogForm } from '@lths/shared/ui-elements';
 
 export type ArchiveModalProps = {
@@ -17,12 +16,11 @@ export const ArchiveModal: React.FC<ArchiveModalProps> = (props) => {
   return (
     <DialogForm
       open={open}
-      onCancel={onCancel}
+      onClose={onCancel}
       cancelText="Keep"
       confirmText="Delete"
       destructive
       title={'Delete file'}
-      onClose={onCancel}
       onSubmit={onConfirm}
     >
       <Typography variant="body1">{itemToDelete || 'Placeholder_File_Name'}</Typography>

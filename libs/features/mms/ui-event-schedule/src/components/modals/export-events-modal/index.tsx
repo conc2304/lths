@@ -52,8 +52,7 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
       onClose={() => formik.handleReset(formik.values)}
       cancelText="CANCEL"
       confirmText="EXPORT"
-      isValid={formik.isValid}
-      onCancel={() => formik.handleReset(formik.values)}
+      disabled={!formik.isValid}
       isSubmitting={formik.isSubmitting}
       onSubmit={formik.handleSubmit}
       hasCloseButton

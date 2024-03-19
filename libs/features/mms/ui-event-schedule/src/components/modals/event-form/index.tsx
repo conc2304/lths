@@ -27,12 +27,12 @@ export type EventFormModalProps = {
 export const EventFormModal = (props: EventFormModalProps) => {
   const { open, title, subtitle, cancelText, confirmText, onSave, onCancel, eventValues = null, eventTypes } = props;
 
-  const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | null } = {
+  const initialValues: Omit<EventFormValues, 'eventType'> & { eventType: EventType | undefined } = {
     eventName: eventValues?.title ? eventValues.title.toString() : '',
     isAllDay: eventValues?.allDay !== undefined ? eventValues?.allDay : true,
     startDateTime: eventValues?.start ? new Date(eventValues.start) : null,
     endDateTime: eventValues?.end ? new Date(eventValues.end) : null,
-    eventType: eventValues?.eventType || null,
+    eventType: eventValues?.eventType || undefined,
     description: eventValues?.desc?.toString() || '',
     id: eventValues?.id,
     eventId: eventValues?.eventId,
@@ -40,20 +40,17 @@ export const EventFormModal = (props: EventFormModalProps) => {
 
   const validationSchema = Yup.object().shape({
     eventName: Yup.string().min(8, 'Name is too short').required('Required'),
-    eventType: Yup.object()
-      .shape({
-        id: Yup.string().test('valid-eventType', 'Required', (value) => {
-          return !!value && value !== 'none';
-        }),
-        label: Yup.string(),
-      })
-      .required('Required'),
+    eventType: Yup.object().required('Required'),
     startDateTime: Yup.date().typeError('Invalid date').nullable().required('Required'),
     endDateTime: Yup.date()
       .typeError('Invalid date')
       .nullable()
       .test('valid-endDate', 'Invalid end date', function (value) {
+        // not using yup.ref because we want to make sure start is set before validating
         if (!value || !this.parent['startDateTime']) return true;
+        console.log(value, this.parent['startDateTime']);
+        const result = !isBefore(value, this.parent['startDateTime']);
+        console.log(result);
         return !isBefore(value, this.parent['startDateTime']);
       })
       .required('Required'),
@@ -72,6 +69,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
       }
       onSave(values as EventFormValues, eventValues?.id || null);
       setSubmitting(false);
+
       onCancel();
       resetForm();
     },
@@ -106,6 +104,7 @@ export const EventFormModal = (props: EventFormModalProps) => {
       const updatedEndDate = addHours(startDate, 1);
       formik.setFieldValue(dependentField, updatedEndDate, false);
     }
+    handleDateTimeBlur(field);
   };
 
   const handleDateTimeBlur = async (field: 'startDateTime' | 'endDateTime') => {
@@ -126,16 +125,13 @@ export const EventFormModal = (props: EventFormModalProps) => {
     <DialogForm
       open={open}
       aria-labelledby="edit-event-dialog-title"
-      onCancel={onCancel}
       title={title}
       subtitle={subtitle}
       onClose={() => formik.handleReset(formik.initialValues)}
       cancelText={cancelText}
       confirmText={confirmText}
-      onReset={() => formik.handleReset(formik.values)}
       isSubmitting={formik.isSubmitting}
-      isValid={formik.isValid}
-      dirty={formik.dirty}
+      disabled={!formik.isValid || !formik.dirty}
       onSubmit={formik.handleSubmit}
       hasCloseButton
     >
@@ -163,13 +159,14 @@ export const EventFormModal = (props: EventFormModalProps) => {
             name="eventType"
             label="Type"
             placeholder="Type"
+            data-testid="Edit-Event--event-type"
             value={
               formik.values.eventType
                 ? {
                     value: formik.values.eventType.id,
                     label: formik.values.eventType.label,
                   }
-                : null
+                : undefined
             }
             helperText={formik.touched.eventType && formik.errors.eventType?.toString()}
             error={formik.touched.eventType && Boolean(formik.errors.eventType)}
@@ -201,7 +198,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
         <FormGroup sx={{ marginTop: pxToRem(16) }}>
           <Typography variant="overline">Schedule</Typography>
           <Box mb={0.5}>
-            {/* Start Date */}
             <DatePickerLTHS
               mode={formik.values.isAllDay ? 'date' : 'datetime'}
               value={formik.values.startDateTime}
@@ -218,7 +214,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
               helperText={!formik.touched.startDateTime ? undefined : (formik.errors.startDateTime as string)}
             />
 
-            {/* End Date */}
             <DatePickerLTHS
               mode={formik.values.isAllDay ? 'date' : 'datetime'}
               value={formik.values.endDateTime}

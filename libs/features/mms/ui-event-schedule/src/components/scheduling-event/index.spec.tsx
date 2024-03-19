@@ -63,8 +63,8 @@ describe('SchedulingEvent', () => {
     const testEvent = {
       title: 'You Make Me Feel Like Dancing: Incubate Content',
       allDay: false,
-      start: new Date('2024-03-01T18:00:00.000Z'), // 6 PM
-      end: new Date('2024-03-01T20:00:00.000Z'), // 8 PM
+      start: new Date('2024-03-01T18:00:00.000Z'), // 10AM
+      end: new Date('2024-03-01T20:00:00.000Z'), // 12 PM
       id: 'd4dd5aaecfec4e74f39cebef',
       eventId: '76a1ccdef34e3823e6af4715',
       eventType: { id: 'COMEDY', label: 'Comedy' },
@@ -86,7 +86,7 @@ describe('SchedulingEvent', () => {
     );
 
     expect(getByTestId('CalendarEvent--event-time')).toBeInTheDocument();
-    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('6PM - 8PM PST');
+    expect(getByTestId('CalendarEvent--event-time').textContent).toContain('10AM - 12PM PST');
     expect(getByTestId('CalendarEvent--text-container')).toBeInTheDocument();
   });
 

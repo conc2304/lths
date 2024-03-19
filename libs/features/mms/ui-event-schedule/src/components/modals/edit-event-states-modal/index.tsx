@@ -85,16 +85,13 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
     <DialogForm
       open={open}
       aria-labelledby="edit-event-dialog-title"
-      onClose={onCancel}
+      onClose={() => formik.handleReset(formik.initialValues)}
       title="Edit event states"
-      onReset={() => formik.handleReset(formik.initialValues)}
       cancelText="CANCEL"
       confirmText="UPDATE"
-      onCancel={() => formik.handleReset(formik.initialValues)}
       isSubmitting={formik.isSubmitting}
       onSubmit={formik.handleSubmit}
-      dirty={formik.dirty}
-      isValid={formik.isValid}
+      disabled={!!formik.isValid || !!formik.dirty}
       hasCloseButton
     >
       <Box>
