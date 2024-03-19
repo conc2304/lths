@@ -58,22 +58,9 @@ describe('CreateNewEventModal', () => {
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
     await user.type(inputElem, 'Event Name Mock');
 
-    // Set start date after end date
-    const startDateInput = queryAllByTestId('Date-Picker--root')[0].querySelector('input') as HTMLInputElement;
-    const endDateInput = queryAllByTestId('Date-Picker--root')[1].querySelector('input') as HTMLInputElement;
-
-    expect(startDateInput).toBeInTheDocument();
-    expect(endDateInput).toBeInTheDocument();
-
-    await user.type(startDateInput, '01/22/2022 4:00 PM');
-    await user.tab();
-
-    await user.type(endDateInput, '01/25/2022 5:00 PM');
-    await user.tab();
-
     // select the event type
-    const wrapper = getByTestId('Select-label--eventType');
-
+    // open the menu
+    const wrapper = getByTestId('SelectLTHS--selector');
     const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
     expect(dropDownButton).toBeInTheDocument();
     await user.click(dropDownButton);
@@ -91,8 +78,21 @@ describe('CreateNewEventModal', () => {
       expect(wrapper.querySelector('input')?.value).toContain('Comedy');
     });
 
-    // Click the "CREATE EVENT" button
-    await user.click(screen.getByText('CREATE EVENT'));
+    // Set start date after end date
+    const startDateInput = queryAllByTestId('Date-Picker--root')[0].querySelector('input') as HTMLInputElement;
+    const endDateInput = queryAllByTestId('Date-Picker--root')[1].querySelector('input') as HTMLInputElement;
+
+    expect(startDateInput).toBeInTheDocument();
+    expect(endDateInput).toBeInTheDocument();
+
+    await user.type(startDateInput, '01/22/2022 4:00 PM');
+    await user.tab();
+
+    await user.type(endDateInput, '01/25/2022 5:00 PM');
+    await user.tab();
+
+    // Click the "CREATE" button
+    await user.click(screen.getByText('CREATE'));
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
     expect(mockOnSave).toHaveBeenCalledWith(
@@ -103,7 +103,7 @@ describe('CreateNewEventModal', () => {
         eventName: 'Event Name Mock',
         eventType: { id: 'COMEDY', label: 'Comedy' },
         id: undefined,
-        isAllDay: false,
+        isAllDay: true,
         startDateTime: expect.any(Date),
       }),
       null

@@ -48,9 +48,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
       .test('valid-endDate', 'Invalid end date', function (value) {
         // not using yup.ref because we want to make sure start is set before validating
         if (!value || !this.parent['startDateTime']) return true;
-        console.log(value, this.parent['startDateTime']);
-        const result = !isBefore(value, this.parent['startDateTime']);
-        console.log(result);
+        //todo test this
+        // const result = !isBefore(value, this.parent['startDateTime']);
         return !isBefore(value, this.parent['startDateTime']);
       })
       .required('Required'),
