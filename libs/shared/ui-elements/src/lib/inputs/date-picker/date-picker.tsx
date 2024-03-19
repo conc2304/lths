@@ -57,16 +57,21 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
     onBlur && onBlur(value);
   };
 
+  const shrinkLabel = !!value || !!datePickerFocused || (error !== undefined && helperText !== 'Required');
+
+  const handleCloseDatePicker = () => setDatePickerOpen(false);
+  const handleOpenDatePicker = () => setDatePickerOpen(true);
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
-      <ClickAwayListener onClickAway={() => setDatePickerOpen(false)}>
+      <ClickAwayListener onClickAway={handleCloseDatePicker}>
         <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }}>
           <DatePicker
             value={value}
             onChange={handleDateChange}
             open={datePickerOpen}
-            onOpen={() => setDatePickerOpen(true)}
-            onAccept={() => setDatePickerOpen(false)}
+            onOpen={handleOpenDatePicker}
+            onAccept={handleCloseDatePicker}
             label={label}
             // intentionally not setting minDate for datePicker
             // to allow users to more easily change dates,
@@ -87,12 +92,13 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 onBlur: handleDatePickerBlur,
                 size: 'small',
                 onFocus: () => setDatePickerFocused(true),
+                onBlurCapture: () => setDatePickerFocused(false),
                 error: error,
                 helperText: helperText,
                 // input adornment position start messes with the the label shrinking, so forcing the label shrinking here
                 InputLabelProps: {
-                  shrink: !!value || !!datePickerFocused || error !== undefined,
-                  sx: { ml: !!value || !!datePickerFocused || error !== undefined ? undefined : 4.75 }, // move the label text beyond the start icon
+                  shrink: shrinkLabel,
+                  sx: { ml: shrinkLabel ? 0 : 4.75, transition: 'all 0.15s ease-in' }, // move the label text beyond the start icon
                 },
                 InputProps: {
                   endAdornment: (
