@@ -3,16 +3,15 @@ import {
   Dialog as DialogMui,
   Box,
   DialogContent,
-  ButtonPropsColorOverrides,
   DialogProps,
   DialogContentProps,
   DialogActionsProps,
   DialogTitleProps,
 } from '@mui/material';
-import { OverridableStringUnion } from '@mui/types';
 
 import { DialogActions } from './dialog-action';
 import { DialogTitle } from './dialog-title';
+import { ColorThemeMui } from '../../../types';
 
 type DialogFormProps = {
   open: boolean;
@@ -21,10 +20,7 @@ type DialogFormProps = {
   cancelText?: string;
   title?: string | JSX.Element;
   subtitle?: string | JSX.Element;
-  confirmColor?: OverridableStringUnion<
-    'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
-    ButtonPropsColorOverrides
-  >;
+  confirmColor?: ColorThemeMui;
   onCancel?: () => void;
   onClose?: () => void;
   onReset?: () => void;

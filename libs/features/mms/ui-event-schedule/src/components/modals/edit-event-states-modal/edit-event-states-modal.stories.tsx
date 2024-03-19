@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import { EVENT_TYPE } from 'libs/features/mms/ui-event-schedule/src/constants';
 
 import { EditEventStatesModal, EditEventStatesModalProps } from './index';
+import { EVENT_TYPE } from '../../../constants';
 import { getNewEvent } from '../../../mock-events';
 
 import type { Meta, StoryFn } from '@storybook/react';

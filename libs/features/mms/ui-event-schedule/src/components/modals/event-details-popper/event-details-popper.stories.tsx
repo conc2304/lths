@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { Box, Button } from '@mui/material';
-import { EVENT_TYPE } from 'libs/features/mms/ui-event-schedule/src/constants';
 
 import { PopperWithArrow } from '@lths/shared/ui-elements';
 
 import { EventDetailsPopper } from './index';
+import { EVENT_TYPE } from '../../../constants';
 import { FlagsProviderMock } from '../../../feature-flags';
 import { eventTypesMock, getNewEvent } from '../../../mock-events';
 import { MMSEvent } from '../../../types';
