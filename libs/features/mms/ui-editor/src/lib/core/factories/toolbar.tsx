@@ -127,6 +127,8 @@ import {
   CalendarViewComponentProps,
   ScheduleListToolbar,
   ScheduleListComponentProps,
+  GameCenterComponentProps,
+  GameCenterToolbar,
 } from '../components';
 import HeroCarouselToolbar from '../components/hero-carousel/toolbar';
 
@@ -263,6 +265,8 @@ export const toolbarFactory = (props: ComponentProps) => {
       return <CalendarViewToolbar {...(props as CalendarViewComponentProps)} />;
     case Component.ScheduleList:
       return <ScheduleListToolbar {...(props as ScheduleListComponentProps)} />;
+    case Component.GameCenter:
+      return <GameCenterToolbar {...(props as GameCenterComponentProps)} />;
     default:
       return <GenericToolbar {...props} />;
   }

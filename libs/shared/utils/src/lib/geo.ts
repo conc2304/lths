@@ -18,7 +18,6 @@ export const validatePostalCode = (territoryId: string | undefined, postalCode: 
 
   const regexPattern = PostalRegexByCountryCode[territoryId];
   if (!regexPattern) {
-    console.info(`No postal code pattern found for territory ID: ${territoryId}`);
     return true;
   }
 
