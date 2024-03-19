@@ -174,12 +174,21 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           {/* Event Actions */}
 
           <Box>
-            <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
+            {eventStatesEditable && (
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
-                {eventStatesEditable && 'EDIT EVENT STATES'}
+                <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
+                  EDIT EVENT STATES
+                </Button>
               </Flags>
-              <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>{eventEditable && 'EDIT EVENT'}</Flags>
-            </Button>
+            )}
+
+            {eventEditable && (
+              <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>
+                <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
+                  EDIT EVENT
+                </Button>
+              </Flags>
+            )}
           </Box>
 
           {eventCompleted && (
