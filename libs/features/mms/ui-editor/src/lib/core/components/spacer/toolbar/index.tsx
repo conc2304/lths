@@ -80,7 +80,7 @@ const SpacerToolbar = (props: SpacerProps) => {
   };
   const getOptionLabel = (option) => option.label;
   const renderOption = (props, option) => (
-    <Box component="li" {...props}>
+    <Box component="li" {...props} key={option.label}>
       {option.label}
     </Box>
   );
@@ -98,7 +98,7 @@ const SpacerToolbar = (props: SpacerProps) => {
         onChange={handleAutocompleteChange}
         value={selectedvalue}
         size="small"
-        disableClearable 
+        disableClearable
       />
     </ToolContainer>
   );

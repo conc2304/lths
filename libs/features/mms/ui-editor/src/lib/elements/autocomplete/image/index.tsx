@@ -12,13 +12,17 @@ type ImageAutocompleteProps = {
 };
 
 const ImageAutocomplete = (props: ImageAutocompleteProps) => {
-  const { label, data, value = '', onChange, ...rest } = props
+  const { label, data, value = '', onChange, ...rest } = props;
 
-  const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option:  AutocompleteOptionProps) => (
-    <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
-      <Avatar variant="square" alt={`${option.label}_image`} src={option.value} 
-        sx={{ 
-          width: 20, height: 20,
+  const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => (
+    <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props} key={option.label}>
+      <Avatar
+        variant="square"
+        alt={`${option.label}_image`}
+        src={option.value}
+        sx={{
+          width: 20,
+          height: 20,
           '& img': { objectFit: 'contain' },
         }}
       />
@@ -27,26 +31,30 @@ const ImageAutocomplete = (props: ImageAutocompleteProps) => {
   );
 
   const handleRenderStartAdornment = (value: string, label?: string) => (
-    <Avatar variant="square" alt={`${label || 'unnamed'}_image`} src={value} 
-      sx={{ 
-        width: 20, height: 20,
+    <Avatar
+      variant="square"
+      alt={`${label || 'unnamed'}_image`}
+      src={value}
+      sx={{
+        width: 20,
+        height: 20,
         visibility: value ? 'visible' : 'hidden',
         '& img': {
           objectFit: 'contain',
         },
-      }} 
+      }}
     />
   );
 
   return (
     <GenericAutocomplete
-        label={label}
-        value={value}
-        data={data}
-        onChange={onChange}
-        renderOption={handleRenderOption}
-        renderStartAdornment={handleRenderStartAdornment}
-        {...rest}
+      label={label}
+      value={value}
+      data={data}
+      onChange={onChange}
+      renderOption={handleRenderOption}
+      renderStartAdornment={handleRenderStartAdornment}
+      {...rest}
     />
   );
 };
