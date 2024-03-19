@@ -59,6 +59,8 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
     eventType?.id && EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString());
   const eventEditable = eventType?.id && !EVENTS_W_STATES.map((e) => e.toString()).includes(eventType.id.toString());
 
+  const handleOpenModal = () => onSetEditModalOpen(true);
+
   return (
     <>
       <Box className="EventDetailsPopper--root" width={pxToRem(323)} data-testid={id}>
@@ -176,7 +178,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
           <Box>
             {eventStatesEditable && (
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENT_STATES_FLAG]}>
-                <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
+                <Button onClick={handleOpenModal} color="secondary" variant="text" size="small">
                   EDIT EVENT STATES
                 </Button>
               </Flags>
@@ -184,7 +186,7 @@ export const EventDetailsPopper = (props: EventDetailsPopperProps) => {
 
             {eventEditable && (
               <Flags authorizedFlags={[EVENT_SCHEDULER_UPDATE_EVENTS_FLAG]}>
-                <Button onClick={() => onSetEditModalOpen(true)} color="secondary" variant="text" size="small">
+                <Button onClick={handleOpenModal} color="secondary" variant="text" size="small">
                   EDIT EVENT
                 </Button>
               </Flags>
