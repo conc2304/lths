@@ -9,10 +9,11 @@ import { ComponentProps, useEditorActions } from '../../../context';
 import './container.scss';
 
 export type Props = {
-  components: ComponentProps[];
+  components?: ComponentProps[];
+  onAddComponent: (index?: number) => void;
 };
 
-export default function Container() {
+export default function Container({ onAddComponent }: Props) {
   const { components } = useEditorActions();
   return (
     <Box
@@ -33,7 +34,7 @@ export default function Container() {
         }}
       >
         <MobileBar.Status />
-        <Editor components={components} />
+        <Editor components={components} onAddComponent={onAddComponent} />
       </Box>
       <MobileBar.Bottom />
     </Box>

@@ -11,7 +11,7 @@ import { areEqual, componentIdToName } from '../../utils';
 import { PAGE_EDITOR_CONTAINER, PAGE_EDITOR_NAVIGATOR_CONTAINER } from '../constants';
 
 export type NavigatorProps = {
-  onAddComponent: () => void;
+  onAddComponent: (index?: number) => void;
 };
 export const Container = ({ onAddComponent }: NavigatorProps) => {
   const theme = useTheme();
@@ -65,20 +65,26 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
         text={name}
         subText={subText}
         selected={selected}
+        addComponent={() => onAddComponent(index)}
       ></Card>
     );
   };
 
   return (
     <Box className={PAGE_EDITOR_CONTAINER} id={PAGE_EDITOR_NAVIGATOR_CONTAINER}>
-      <Box 
-        sx={{ 
-          backgroundColor: colors.sidebar.background, 
-          position: 'sticky', top: 0, zIndex: 1,
+      <Box
+        sx={{
+          backgroundColor: colors.sidebar.background,
+          position: 'sticky',
+          top: 0,
+          zIndex: 2,
         }}
       >
-        <Stack 
-          direction="row" justifyContent="space-between" alignItems="center" spacing={1} 
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={1}
           sx={{ padding: theme.spacing(1.5), paddingLeft: theme.spacing(3) }}
         >
           <Typography
@@ -93,13 +99,17 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
           <Button
             data-testid="Add Component"
             variant="outlined"
-            sx={{ 
-              fontSize: 13, fontWeight: 500, lineHeight: theme.spacing(2.75), letterSpacing: '0.46px',
-              color: colors.navigator.addButton.color, border: `1px solid ${colors.navigator.addButton.border}`,
-              padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)}` 
+            sx={{
+              fontSize: 13,
+              fontWeight: 500,
+              lineHeight: theme.spacing(2.75),
+              letterSpacing: '0.46px',
+              color: colors.navigator.addButton.color,
+              border: `1px solid ${colors.navigator.addButton.border}`,
+              padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)}`,
             }}
-            onClick={onAddComponent}
-            startIcon={<AddIcon/>}
+            onClick={() => onAddComponent()}
+            startIcon={<AddIcon />}
           >
             ADD
           </Button>

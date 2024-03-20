@@ -1,7 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { styled } from '@mui/material/styles';
 import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
 import { toast } from 'react-hot-toast';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
@@ -64,11 +63,6 @@ const StatusChangeModalData = {
   },
 };
 
-const TabStyled = styled(Tab)(({ theme }) => ({
-  '&.Mui-selected': { color: "#3D4752" },
-  letterSpacing: theme.spacing(0.005),
-}));
-
 const TabItems = {
   page_design: { value: 'page_design', label: 'PAGE DESIGN' },
   constraints: { value: 'constraints', label: 'CONSTRAINTS' },
@@ -107,6 +101,7 @@ export function PageEditorTabs() {
     success: '',
   });
   const [isConstraintAlertOpen, setIsConstraintAlertOpen] = useState(false);
+  const [addIndex, setAddIndex] = useState(null);
 
   //route params
   const { pageId } = useParams();
@@ -155,7 +150,7 @@ export function PageEditorTabs() {
       const response = await getDetail(componentId).unwrap();
       if (response && response.success && response.data) {
         if (compCallback) compCallback(response.data);
-        else addComponent(response.data);
+        else addComponent(response.data, addIndex);
       } else {
         toast.error('Component details could not be found');
       }
@@ -194,7 +189,8 @@ export function PageEditorTabs() {
   const handleCloseImageModal = () => {
     setImageModalOpen(false);
   };
-  const handleAddComponent = () => {
+  const handleAddComponent = (index?: number) => {
+    setAddIndex(() => index);
     setCompModal({
       open: true,
       defaultCategory: null,
@@ -421,9 +417,9 @@ export function PageEditorTabs() {
       />
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={currentTab} onChange={handleTabChange}>
-          <TabStyled label={TabItems.page_design.label} value={TabItems.page_design.value} />
-          {isVariantPage && <TabStyled label={TabItems.constraints.label} value={TabItems.constraints.value} />}
-          <TabStyled label={TabItems.settings.label} value={TabItems.settings.value} />
+          <Tab label={TabItems.page_design.label} value={TabItems.page_design.value} />
+          {isVariantPage && <Tab label={TabItems.constraints.label} value={TabItems.constraints.value} />}
+          <Tab label={TabItems.settings.label} value={TabItems.settings.value} />
         </Tabs>
       </Box>
       <Box>
