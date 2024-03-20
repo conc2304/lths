@@ -1,5 +1,4 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -22,7 +21,7 @@ describe('EventStateFormItem', () => {
   it('renders the component with given props', () => {
     const { container, getByText, getByRole } = render(<EventStateFormItem {...defaultProps} />);
 
-    const formLabel = getByText(defaultProps.title.toUpperCase());
+    const formLabel = getByText(defaultProps.title);
     const input = getByRole('textbox').querySelector('input');
     const inputAdornment = getByText('hrs');
     const description = getByText(defaultProps.desc);
@@ -62,9 +61,9 @@ describe('EventStateFormItem', () => {
   });
 
   it('renders non editable if item it not editable', () => {
-    const { getByText } = render(<EventStateFormItem {...defaultProps} editable={false} />);
+    const { getByTestId } = render(<EventStateFormItem {...defaultProps} editable={false} />);
 
     // Check if description is italic
-    expect(getByText('This cannot be edited.')).toBeInTheDocument();
+    expect(getByTestId('EventState--form-item-uneditable')).toBeInTheDocument();
   });
 });

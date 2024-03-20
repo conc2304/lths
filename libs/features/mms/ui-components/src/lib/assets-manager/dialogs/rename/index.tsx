@@ -21,7 +21,6 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
   const handleSubmit = () => {
     const extension = itemToRename?.split('.').pop();
     const nameWithExtension = `${newName}.${extension}`;
-    console.log({ nameWithExtension });
     onConfirm && onConfirm(nameWithExtension);
   };
 

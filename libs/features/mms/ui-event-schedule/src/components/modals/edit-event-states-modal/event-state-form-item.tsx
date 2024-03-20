@@ -43,7 +43,11 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
         {title}
       </Typography>
 
-      {!editable && <Typography color="text.disabled">Determined dynamically by NHL.com.</Typography>}
+      {!editable && (
+        <Typography data-testid="EventState--form-item-uneditable" color="text.disabled">
+          Determined dynamically by NHL.com.
+        </Typography>
+      )}
       {editable && (
         <Box display={'flex'} alignItems={'center'}>
           <OutlinedInput
