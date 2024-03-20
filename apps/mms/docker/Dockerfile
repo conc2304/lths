@@ -47,7 +47,6 @@ RUN apk update && \
     yarn install && \
     # touch .htpasswd file
     touch /etc/nginx/.htpasswd && \
-    htpasswd -cb /etc/nginx/.htpasswd $BASIC_AUTH_USER $BASIC_AUTH_PASS && \
     # build the app
     yarn nx build mms --configuration=development --skip-nx-cache --baseHref=$([[ -z "$BASE_PATH" ]] && echo "/" || echo $BASE_PATH)
 
