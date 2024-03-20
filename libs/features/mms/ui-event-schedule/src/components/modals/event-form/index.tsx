@@ -48,8 +48,6 @@ export const EventFormModal = (props: EventFormModalProps) => {
       .test('valid-endDate', 'Invalid end date', function (value) {
         // not using yup.ref because we want to make sure start is set before validating
         if (!value || !this.parent['startDateTime']) return true;
-        //todo test this
-        // const result = !isBefore(value, this.parent['startDateTime']);
         return !isBefore(value, this.parent['startDateTime']);
       })
       .required('Required'),
@@ -92,7 +90,8 @@ export const EventFormModal = (props: EventFormModalProps) => {
 
     if (value) formik.setFieldValue(changeField, value, false);
 
-    // if we move our start date past the end date, then move the end date to be an hour after start
+    // if we move our start date past the end date,
+    // then move the end date to be an hour after start
     if (
       value && // current value not null
       changeField === 'startDateTime' && // only change when changing 'startdate'
