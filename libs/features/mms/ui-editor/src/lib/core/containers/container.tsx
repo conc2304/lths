@@ -12,7 +12,6 @@ import {
   PAGE_EDITOR_WYSIWYG_CONTAINER,
 } from './constants';
 import Navigator from './navigator';
-import { NavigatorProps } from './navigator/container';
 import { Toolbar } from './toolbar';
 import { Wysiwyg } from './wysiwyg';
 import colors from '../../common/colors';
@@ -20,8 +19,9 @@ import { ToolbarProps, useEditorActions } from '../../context';
 
 import './index.scss';
 
-type EditorProps = NavigatorProps & {
+type EditorProps = {
   onPropChange: ToolbarProps['onPropChange'];
+  onAddComponent: (index?: number) => void;
 };
 
 const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
@@ -59,7 +59,7 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
             className={PAGE_EDITOR_CONTAINER}
             id={PAGE_EDITOR_WYSIWYG_CONTAINER}
           >
-            <Wysiwyg />
+            <Wysiwyg onAddComponent={onAddComponent} />
           </Stack>
         </Grid>
         <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar }}>

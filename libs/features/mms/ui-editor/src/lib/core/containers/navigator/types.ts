@@ -15,6 +15,7 @@ export type DragCardProps = {
   onRename?: (id: string, value: string) => void;
   onMenuClick?: (index: number, id: string, action: string) => void;
   selected?: boolean;
+  addComponent?: () => void;
 };
 
 export type DragItemProps = {

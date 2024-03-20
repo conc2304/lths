@@ -2,12 +2,14 @@ const colors = {
   sidebar: { background: '#f5f5f5', divider: '#0000001f', subText: '#00000061', textInput: { background: '#fff' } },
   editor: {
     background: '#D9D9D9',
-    highlight: '#FF9A02',
+    highlight: '#007882',
     mobile: { background: '#121213' },
     text: '#FFFFFF',
     subText: '#ABABAC',
     smallText: '#E2E2E3',
     divider: '#BA9765',
+    hoveredBg: '#00788205',
+    highlightBg: '#00788266',
   },
   navigator: {
     title: 'rgba(0, 0, 0, 0.60)',

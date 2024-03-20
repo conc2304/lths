@@ -19,8 +19,8 @@ export const selectComponent = (dispatch: Dispatch<EditorActionProps>) => (compo
 export const clearSelectedComponent = (dispatch: Dispatch<EditorActionProps>) => () => {
   dispatch({ type: EditorActionType.CLEAR_CURRENT_COMPONENT });
 };
-export const addComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
-  dispatch({ type: EditorActionType.ADD_COMPONENT, component });
+export const addComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps, index?: number) => {
+  dispatch({ type: EditorActionType.ADD_COMPONENT, component, index });
 };
 export const updateComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
   dispatch({ type: EditorActionType.UPDATE_COMPONENT, component });

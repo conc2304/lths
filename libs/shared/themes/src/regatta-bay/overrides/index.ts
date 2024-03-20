@@ -11,6 +11,7 @@ import DateTimePicker from './date-time-picker';
 import Dialog from './dialog';
 import Link from './link';
 import Paper from './paper';
+import Tab from './tab';
 import Table from './table';
 import TimePicker from './time-picker';
 import ToggleButton from './toggle-button';
@@ -30,6 +31,7 @@ export default function getComponentOverrides(theme: Theme): Components {
     ...Dialog(theme),
     ...Link(theme),
     ...Paper(theme),
+    ...Tab(theme),
     ...Table(theme),
     ...TimePicker(theme),
     ...ToggleButton(theme),
