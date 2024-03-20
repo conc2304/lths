@@ -39,7 +39,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
 
   return (
     <FormGroup sx={{ ...sx }} key={`form-group-${id}`}>
-      <Typography variant="body1" mb={1}>
+      <Typography variant="body1" mb={1} id={`${title}-form-label`}>
         {title}
       </Typography>
 
@@ -54,7 +54,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
             type="number"
             size="small"
             id={`${title}-form-id`}
-            role="textbox"
+            // role="textbox"
             name={title}
             value={formattedValue}
             onChange={onChange}
@@ -63,7 +63,13 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
                 <Typography color="text.disabled">hrs</Typography>
               </InputAdornment>
             }
-            inputProps={{ min: minHours, max: maxHours, step }}
+            inputProps={{
+              min: minHours,
+              max: maxHours,
+              step,
+              role: 'textbox',
+              'aria-labelledby': `${title}-form-label`,
+            }}
             placeholder="0"
             sx={{
               width: '6.875rem',

@@ -64,9 +64,9 @@ describe('EditEventStatesModal', () => {
     );
 
     expect(container).toBeInTheDocument();
-    expect(screen.getByText('Edit Event States')).toBeInTheDocument();
+    expect(screen.getByText('Edit event states')).toBeInTheDocument();
     expect(screen.getByText('CANCEL')).toBeInTheDocument();
-    expect(screen.getByText('UPDATE EVENT STATES')).toBeInTheDocument();
+    expect(screen.getByText('UPDATE')).toBeInTheDocument();
   });
 
   it('calls onCancel when the "Cancel" button is clicked', () => {
@@ -100,8 +100,8 @@ describe('EditEventStatesModal', () => {
     expect(mockOnSave).toHaveBeenCalledTimes(0);
 
     // Simulate user input by changing offset value
-    const inputField = screen.getByLabelText('PRE-EVENT');
-    const onSaveButton = screen.getByText('UPDATE EVENT STATES');
+    const inputField = screen.getByRole('textbox', { name: 'Pre-Event' });
+    const onSaveButton = screen.getByText('UPDATE');
     expect(inputField).toBeInTheDocument();
     expect(onSaveButton).toBeInTheDocument();
     expect(onSaveButton).toBeDisabled();
@@ -112,6 +112,8 @@ describe('EditEventStatesModal', () => {
     await user.clear(inputField);
     await user.type(inputField, newDuration.toString());
     await user.click(document.body);
+
+    expect(inputField).toHaveValue(newDuration);
 
     expect(onSaveButton).not.toBeDisabled();
 

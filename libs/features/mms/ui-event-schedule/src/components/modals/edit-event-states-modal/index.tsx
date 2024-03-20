@@ -23,8 +23,6 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
   const { open, onSave, onCancel, eventData, eventStates = [] } = props;
   const { start, end, title } = eventData;
 
-  console.log({ eventStates });
-
   // Formik Initialization
   const initialValues = (() => {
     const values: Record<EventStateID | string, number | undefined> = {};
@@ -50,7 +48,6 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
     initialValues,
     validationSchema,
     onSubmit: (values, { setSubmitting }): void => {
-      console.log('ON SUBMIT');
       if (!eventStates || !Object.keys(values).length) {
         setSubmitting(false);
         return;
@@ -91,7 +88,7 @@ export const EditEventStatesModal = (props: EditEventStatesModalProps) => {
       confirmText="UPDATE"
       isSubmitting={formik.isSubmitting}
       onSubmit={formik.handleSubmit}
-      disabled={!!formik.isValid || !!formik.dirty}
+      disabled={!formik.isValid || !formik.dirty}
       hasCloseButton
     >
       <Box>
