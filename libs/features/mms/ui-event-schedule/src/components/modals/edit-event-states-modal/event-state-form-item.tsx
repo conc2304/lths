@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Box, FormGroup, InputAdornment, OutlinedInput, SxProps, Typography } from '@mui/material';
 
-import { roundNumToNearestX, truncateToDecimalPlace } from '@lths/shared/utils';
+import { roundNumToNearestX, slugify, truncateToDecimalPlace } from '@lths/shared/utils';
 
 type EventStateFormItemProps = {
   onChange?: {
@@ -39,7 +39,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
 
   return (
     <FormGroup sx={{ ...sx }} key={`form-group-${id}`}>
-      <Typography variant="body1" mb={1} id={`${title}-form-label`}>
+      <Typography variant="body1" mb={1} id={`${slugify(title)}-form-label`}>
         {title}
       </Typography>
 
@@ -53,8 +53,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
           <OutlinedInput
             type="number"
             size="small"
-            id={`${title}-form-id`}
-            // role="textbox"
+            id={`${slugify(title)}-form-id`}
             name={title}
             value={formattedValue}
             onChange={onChange}
@@ -68,7 +67,7 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
               max: maxHours,
               step,
               role: 'textbox',
-              'aria-labelledby': `${title}-form-label`,
+              'aria-labelledby': `${slugify(title)}-form-label`,
             }}
             placeholder="0"
             sx={{

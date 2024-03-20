@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventStateFormItem } from './event-state-form-item';
@@ -22,7 +22,8 @@ describe('EventStateFormItem', () => {
     const { container, getByText, getByRole } = render(<EventStateFormItem {...defaultProps} />);
 
     const formLabel = getByText(defaultProps.title);
-    const input = getByRole('textbox').querySelector('input');
+    const input = getByRole('textbox', { name: defaultProps.title });
+
     const inputAdornment = getByText('hrs');
     const description = getByText(defaultProps.desc);
 
@@ -39,9 +40,9 @@ describe('EventStateFormItem', () => {
   it('calls onChange when input value changes', async () => {
     const user = userEvent.setup();
 
-    render(<EventStateFormItem {...defaultProps} />);
+    const { getByRole } = render(<EventStateFormItem {...defaultProps} />);
 
-    const input = screen.getByRole('textbox').querySelector('input');
+    const input = getByRole('textbox', { name: defaultProps.title });
 
     // Change input value
     if (!input) throw new Error('No Input element found on page');
