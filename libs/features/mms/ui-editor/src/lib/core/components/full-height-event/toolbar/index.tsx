@@ -27,7 +27,7 @@ const FullHeightEventToolbar = (props: FullHeightEventComponentProps) => {
 
   const renderOption = (props: HTMLAttributes<HTMLLIElement>, option: SourceType) => {
     return (
-      <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+      <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} key={option}>
         <img src={NHLLogo} alt="NHL Logo" width={ICON_WIDTH} height={ICON_HEIGHT} />
         <Typography sx={{ fontSize: 12 }}>{option}</Typography>
       </Box>

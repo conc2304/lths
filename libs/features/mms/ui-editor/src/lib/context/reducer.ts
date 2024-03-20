@@ -95,7 +95,7 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;
       const components = swapComponent(state.components, dragIndex, hoverIndex);
-      return { ...state, components, hasUnsavedEdits: true };
+      return { ...state, components, lastSwap: { index: hoverIndex }, hasUnsavedEdits: true };
     }
 
     case EditorActionType.DUPLICATE_COMPONENT: {

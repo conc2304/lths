@@ -93,6 +93,7 @@ jobs:
             "NX_PUBLIC_API_HOST_DOMAIN=mok-dev-k8s.briteliteimmersive.io"
             "NX_PUBLIC_WEB_ENV=dev"
             "NX_PUBLIC_API_KEY=${{ steps.set-env-vars-step.outputs.mok_api_key }}"
+            "NX_PUBLIC_UI_VERSION=${{ github.sha }}"
             "BASE_PATH=./mms/"
             "GITHUB_BRANCH=develop"
 

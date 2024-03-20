@@ -28,3 +28,5 @@ export * from './lib/action-menu';
 export * from './lib/menu-button';
 
 export * from './lib/transitions';
+
+export * from './lib/types';

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TableRow, TableCell, Box, lighten } from '@mui/material';
+import { BrokenImage } from '@mui/icons-material';
 
 import { AssetExtendedListProps } from '@lths/features/mms/data-access';
 import { ActionMenu } from '@lths/shared/ui-elements';
@@ -15,6 +16,23 @@ type TableFileInfoRowProps = {
   onPreview: () => void;
   onDownload: () => void;
 };
+
+const ImageFallback = (): JSX.Element => (
+  <Box
+    sx={{
+      width: 50,
+      height: 50,
+      mr: '15px',
+      bgcolor: (theme) => theme.palette.action.disabledBackground,
+      borderRadius: '4px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <BrokenImage fontSize="large" color="inherit" />
+  </Box>
+);
 
 const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
   assetData,
@@ -59,6 +77,7 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     onSelectFile();
   };
 
+  const [imageFound, setImageFound] = useState(true);
   const cleanName =
     assetData.original_file_name.slice(0, assetData.original_file_name.lastIndexOf('.')) ||
     assetData.original_file_name;
@@ -72,11 +91,16 @@ const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({
     >
       <TableCell onClick={handleOnClick} sx={{ cursor: 'pointer' }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <img
-            src={(assetData.media_files.length > 0 && cleanUrl(assetData.media_files[0]?.url)) || ''}
-            alt={assetData.unique_file_name}
-            style={{ width: 50, height: 50, marginRight: 15, objectFit: 'contain' }}
-          />
+          {imageFound ? (
+            <img
+              src={(assetData.media_files.length > 0 && cleanUrl(assetData.media_files[0]?.url)) || ''}
+              alt={assetData.unique_file_name}
+              style={{ width: 50, height: 50, marginRight: 15, objectFit: 'contain' }}
+              onError={() => setImageFound(false)}
+            />
+          ) : (
+            <ImageFallback />
+          )}
           {cleanName}
         </Box>
       </TableCell>
