@@ -73,6 +73,9 @@ describe('SchedulingEvent', () => {
       desc: 'Eum eum nesciunt occaecati cupiditate placeat saepe tenetur expedita reprehenderit. Laudantium possimus sit cupiditate quas mollitia exercitationem.',
     };
 
+    testEvent.start.setHours(10);
+    testEvent.end.setHours(12);
+
     const { getByTestId } = renderWithTheme(
       <SchedulingEvent
         {...RBCEventProps}
