@@ -21,6 +21,7 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
   const handleSubmit = () => {
     const extension = itemToRename?.split('.').pop();
     const nameWithExtension = `${newName}.${extension}`;
+    console.log({ nameWithExtension });
     onConfirm && onConfirm(nameWithExtension);
   };
 
@@ -51,6 +52,7 @@ export const RenameModal: React.FC<RenameModalProps> = (props) => {
         <FormGroup>
           <TextField
             fullWidth
+            id="rename-asset--textfield"
             label="Name"
             value={newName}
             onChange={handleNameChange}

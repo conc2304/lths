@@ -62,7 +62,6 @@ export const SelectLTHS = (props: SelectLTHSProps) => {
     });
 
   const handleOnChange = ({ target: { value } }: SelectChangeEvent<string | number | null>) => {
-    console.log('handleOnChange', value);
     let formValue = undefined;
     if (valuesAreObjects) {
       const parsedValue = JSON.parse(value as string);
