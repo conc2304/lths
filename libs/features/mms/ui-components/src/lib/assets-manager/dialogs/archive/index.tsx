@@ -5,7 +5,7 @@ import { DialogForm } from '@lths/shared/ui-elements';
 
 export type ArchiveModalProps = {
   open: boolean;
-  itemToDelete?: string;
+  itemToDelete: string;
   onCancel: () => void;
   onConfirm: () => void;
 };
@@ -23,7 +23,7 @@ export const ArchiveModal: React.FC<ArchiveModalProps> = (props) => {
       title={'Delete file'}
       onSubmit={onConfirm}
     >
-      <Typography variant="body1">{itemToDelete || 'Placeholder_File_Name'}</Typography>
+      <Typography variant="body1">{itemToDelete}</Typography>
     </DialogForm>
   );
 };
