@@ -2,7 +2,7 @@ import React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import '@testing-library/jest-dom';
-import { render, waitFor, screen, within, RenderResult, act } from '@testing-library/react';
+import { render, waitFor, screen, within, RenderResult, act, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventFormModal, EventFormModalProps } from './index';
@@ -37,6 +37,10 @@ describe('EventFormModal', () => {
     });
     container = component.container;
   };
+
+  afterEach(() => {
+    cleanup();
+  });
 
   it('should render without crashing', async () => {
     await renderComponent();

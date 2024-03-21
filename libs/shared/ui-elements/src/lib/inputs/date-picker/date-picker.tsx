@@ -1,4 +1,4 @@
-import { FocusEventHandler, MouseEventHandler, useState } from 'react';
+import { FocusEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { Box, Button, ClickAwayListener, FormControl, InputAdornment, Paper, Popper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -6,7 +6,7 @@ import { DatePicker, DigitalClock, TimeField } from '@mui/x-date-pickers';
 import { isValid } from 'date-fns';
 
 type OnDateChageFn = ((value: Date | null) => void) | undefined;
-type DatePickerLTHSProps = {
+export type DatePickerLTHSProps = {
   value: Date | null;
   onChange?: OnDateChageFn;
   mode: 'date' | 'datetime';
@@ -24,9 +24,14 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
   const [timePickerFocused, setTimePickerFocused] = useState(false);
   const [datePickerFocused, setDatePickerFocused] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [displayMode, setDisplayMode] = useState(mode);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openTimePicker = Boolean(anchorEl);
   const timePickerWidth = '8.125rem';
+
+  useEffect(() => {
+    setDisplayMode(mode);
+  }, [mode]);
 
   const handleTimeChange: OnDateChageFn = (value) => {
     // do something with value
@@ -59,7 +64,10 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
 
   const handleCloseDatePicker = () => setDatePickerOpen(false);
   const handleOpenDatePicker = () => setDatePickerOpen(true);
-
+  const handleAddTime = () => {
+    setDisplayMode('datetime');
+    onAddTime && onAddTime();
+  };
   return (
     <Box sx={{ display: 'flex', justifyContent: 'start', alignItems: 'start' }} data-testid="Date-Picker--root">
       <ClickAwayListener onClickAway={handleCloseDatePicker}>
@@ -118,21 +126,22 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
               },
             }}
           />
-          {mode === 'date' && (
-            <Button variant="text" sx={{ ml: 1, mt: 1.25 }} onClick={onAddTime}>
+          {displayMode === 'date' && (
+            <Button variant="text" sx={{ ml: 1, mt: 1.25 }} onClick={handleAddTime}>
               Add Time
             </Button>
           )}
         </Box>
       </ClickAwayListener>
 
-      {mode === 'datetime' && (
+      {displayMode === 'datetime' && (
         // have clicking on input value open the digital clock modal
         <ClickAwayListener onClickAway={handleClickAway}>
           <Box>
             {/* <Box> */}
             <FormControl sx={{ margin: '0.5rem 0 0.25rem 0.5rem' }}>
               <TimeField
+                data-testid="DatePicker--time-field"
                 value={isValid(value) ? value : null}
                 readOnly
                 onClick={handleClick}
@@ -140,8 +149,8 @@ export const DatePickerLTHS = (props: DatePickerLTHSProps) => {
                 size="small"
                 slotProps={{
                   textField: {
-                    label: label?.replace('date', 'time'),
-                    placeholder: placeholder?.replace('date', 'time'),
+                    label: label?.replace(/date/gi, 'time'),
+                    placeholder: placeholder?.replace(/date/gi, 'time'),
                     helperText: helperText ? ' ' : undefined, // keep the inputs inline
                     InputProps: {
                       sx: { width: timePickerWidth },
