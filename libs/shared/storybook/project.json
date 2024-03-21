@@ -3,12 +3,44 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/storybook/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["type:storybook"],
+  "implicitDependencies": [
+    "features-mms-ui-components",
+    "features-mms-ui-editor",
+    "features-mms-ui-event-schedule",
+    "features-mms-ui-notifications",
+    "shared-ui-admin",
+    "shared-ui-calendar-scheduler",
+    "shared-ui-charts",
+    "shared-ui-elements",
+    "shared-ui-layouts",
+    "shared-ui-login"
+  ],
   "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/storybook/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
     "storybook": {
       "executor": "@nx/storybook:storybook",
       "options": {
         "port": 4400,
+        "configDir": "libs/shared/storybook/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/shared-storybook",
         "configDir": "libs/shared/storybook/.storybook"
       },
       "configurations": {
