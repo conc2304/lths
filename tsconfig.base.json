@@ -17,6 +17,7 @@
     "paths": {
       "@lths-mui/features/mms/ui-assets-manager": ["libs/features/mms/ui-assets-manager/src/index.ts"],
       "@lths-mui/shared/storybook": ["libs/shared/storybook/src/index.ts"],
+      "@lths-mui/shared/storybook-host": ["libs/shared/storybook-host/src/index.ts"],
       "@lths-mui/shared/themes": ["libs/shared/themes/src/index.ts"],
       "@lths-mui/shared/ui-hooks": ["libs/shared/ui-hooks/src/index.ts"],
       "@lths/assets": ["apps/mms/src/assets/index.ts"],
