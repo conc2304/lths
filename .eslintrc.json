@@ -86,6 +86,22 @@
               ["type", "object", "unknown"]
             ]
           }
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react-hot-toast",
+                "importNames": ["toast"],
+                "message": "Importing 'toast' from 'react-hot-toast' is not allowed. Use 'toastQueueService' from '@lths/shared/ui-elements' instead."
+              },
+              {
+                "name": "react-hot-toast",
+                "message": "Using 'react-hot-toast' for notifications is now deprecated. Use import { toast } from '@lths/shared/ui-elements' instead."
+              }
+            ]
+          }
         ]
       }
     },

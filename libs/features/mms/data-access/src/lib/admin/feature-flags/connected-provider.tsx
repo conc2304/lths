@@ -1,6 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { FlagsProvider } from 'react-feature-flags';
-import { toast } from 'react-hot-toast';
+
+import { toast } from '@lths/shared/ui-elements';
 
 import { useLazyGetFeatureFlagsQuery } from './api';
 import { useAppSelector } from '../../store';
@@ -16,8 +17,11 @@ export const ConnectedFlagsProvider = (props: ConnectedFlagsProviderProps) => {
   const [getFeatureFlags, { data }] = useLazyGetFeatureFlagsQuery();
 
   if (data === null) {
-    // adding id makes sure that it doenst respawn multiple times
-    toast.error('Sorry! Looks like someone deleted all the feature flags, whoops!', { id: 'ft-flags-erased' });
+    toast.add('Sorry! Looks like someone deleted all the feature flags, whoops!', {
+      // adding id makes sure that it doenst respawn multiple times
+      id: 'ft-flags-erased',
+      type: 'error',
+    });
   }
   const enum_values = data ? data.enum_values : [];
   const featureFlagData = enum_values.map((f) => f.value);

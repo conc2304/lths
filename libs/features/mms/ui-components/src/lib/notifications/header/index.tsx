@@ -12,7 +12,7 @@ type Props = {
   onActionClick: (action: string) => void;
   status: string;
   title: string;
-  disableButtons: boolean;
+  disableButtons?: boolean;
 };
 
 export const NotificationHeader = ({

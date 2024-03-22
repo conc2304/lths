@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { toast } from 'react-hot-toast';
 
 import { AssetsRequestProps, useLazyGetAssetsItemsQuery, useUploadAssetMutation } from '@lths/features/mms/data-access';
+import { toast } from '@lths/shared/ui-elements';
 import { TablePaginationProps, TableSortingProps } from '@lths/shared/ui-elements';
 
 import AssetsModal from './modal';
@@ -117,10 +117,10 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
     uploadAsset(file)
       .unwrap()
       .then(() => {
-        toast.success(`Successfully uploaded media: ${file.name}`);
+        toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
       })
       .catch((error: { data: string; status: number }) => {
-        toast.error(error.data || 'Unable to upload media. Please try again');
+        toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
       });
 
     event.target.value = ''; // Reset the file input after upload

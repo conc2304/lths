@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Backdrop, Box, CircularProgress } from '@mui/material';
-import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -14,6 +13,7 @@ import {
   NotificationStatusProps,
 } from '@lths/features/mms/ui-components';
 import { EditorContainer, NotificationAction, useEditorActions } from '@lths/features/mms/ui-notifications';
+import { toast } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 const NotificationEditor = () => {
@@ -33,8 +33,6 @@ const NotificationEditor = () => {
 
   const { setPageTitle } = useLayoutActions();
 
-  const { isEditorFormValid } = useEditorActions();
-
   // fetch
   const fetchNotificationDetail = async (notificationId: string) => {
     try {
@@ -49,7 +47,7 @@ const NotificationEditor = () => {
       }
     } catch (error) {
       console.error('Error in fetching the notification details', error);
-      toast.error('Notification details could not be found');
+      toast.add('Notification details could not be found', { type: 'error' });
     }
   };
 
@@ -70,7 +68,7 @@ const NotificationEditor = () => {
       const response = await updatenotification(requestData).unwrap();
       if (response.success) {
         closeNotificationAlert();
-        toast.success('Notification has been updated successfully.');
+        toast.add('Notification has been updated successfully.', { type: 'success' });
         if (response?.data) {
           selectNotification(response.data);
         }
@@ -79,7 +77,7 @@ const NotificationEditor = () => {
       }
     } catch (error) {
       console.error('Error in updating the notification', error);
-      toast.error('Failed to update the notification');
+      toast.add('Failed to update the notification', { type: 'error' });
     }
   };
   const handleStatusChange = (status: NotificationStatusProps) => {
@@ -136,7 +134,6 @@ const NotificationEditor = () => {
         status={status}
         onStatusChange={handleStatusChange}
         onActionClick={handleActionClick}
-        disableButtons={!isEditorFormValid}
       />
       <EditorContainer
         notificationData={data}

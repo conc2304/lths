@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import toast from 'react-hot-toast';
 
 import {
   AssetsRequestProps,
@@ -20,6 +19,7 @@ import {
   AssetModals,
   PreviewDrawerContent,
 } from '@lths/features/mms/ui-components';
+import { toast } from '@lths/shared/ui-elements';
 import {
   Table,
   TablePaginationProps,
@@ -220,10 +220,10 @@ export default function AssetsPage() {
     uploadAsset(file)
       .unwrap()
       .then(() => {
-        toast.success(`Successfully uploaded media: ${file.name}`);
+        toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
       })
       .catch((error: { data: string; status: number }) => {
-        toast.error(error.data || 'Unable to upload media. Please try again');
+        toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
       });
 
     event.target.value = ''; // Reset the file input after upload
