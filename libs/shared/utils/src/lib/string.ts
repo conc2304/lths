@@ -1,3 +1,5 @@
+import { capitalize } from '@mui/material';
+
 export const slugify = (str: string) =>
   str
     .toLowerCase()
@@ -21,4 +23,21 @@ export const hashString = (string: string) => {
     a = (a << 5) - a + b.charCodeAt(0);
     return a & a;
   }, 0);
+};
+
+export const capitalizeString = (string: string, splitter = ' ', joiner: string | undefined = undefined) => {
+  const joinerStr = joiner ?? splitter;
+  return (string.toLowerCase() ?? '')
+    .trim()
+    .split(new RegExp(splitter + '+'))
+    .map((word) => capitalize(word))
+    .join(joinerStr);
+};
+
+export const getFileExtension = (filename: string) => {
+  return filename.split('.').pop();
+};
+
+export const generateRandomString = () => {
+  return Math.random().toString(36).slice(2);
 };

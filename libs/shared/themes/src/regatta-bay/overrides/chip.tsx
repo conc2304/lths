@@ -10,14 +10,16 @@ export default function Chip(theme: Theme): Components {
       },
       styleOverrides: {
         root: {
-          backgroundColor: theme.palette.grey[300],
           marginRight: theme.spacing(2.5),
           marginBottom: theme.spacing(0.5),
           marginTop: theme.spacing(0.5),
 
           '& .MuiChip-label': {
             paddingTop: '1px', // tweak to center better
-            paddingRight: theme.spacing(4),
+            paddingRight: theme.spacing(2.25),
+            '&. MuiChip-deletable': {
+              paddingRight: theme.spacing(4),
+            },
             paddingLeft: theme.spacing(2.25),
             textTransform: 'uppercase',
             fontWeight: 400,

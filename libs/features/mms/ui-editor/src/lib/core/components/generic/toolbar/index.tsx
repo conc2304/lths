@@ -12,12 +12,10 @@ enum FormControl {
 }
 
 const GenericToolbar = (props: ComponentProps) => {
-  console.log('props', props.component_id, Object.getOwnPropertyNames(props.data));
+  const { handleImageChange, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
+  if (!props) return null;
 
   const { __ui_id__: id, data, onPropChange } = props;
-
-  const { handleImageChange, handleTitleChange, handleDescChange, handleColorChange } = useToolbarChange();
-
   const formFactory = (key: string) => {
     switch (key) {
       case FormControl.Image:

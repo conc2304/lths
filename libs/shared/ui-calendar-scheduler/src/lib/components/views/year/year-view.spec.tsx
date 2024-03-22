@@ -19,6 +19,15 @@ const mockLocalizer = dateFnsLocalizer({
 });
 
 describe('YearView Component', () => {
+  beforeEach(() => {
+    jest.useFakeTimers({ advanceTimers: true });
+    jest.setSystemTime(new Date('2023-05-05'));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   const renderWithTheme = (ui: ReactElement<any, string | JSXElementConstructor<any>>) => {
     return render(ui, { wrapper: RBThemeProvider });
   };

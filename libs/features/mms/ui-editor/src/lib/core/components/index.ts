@@ -1,9 +1,6 @@
 export { default as UnsupportedComponent } from './unsupported/component';
 export { default as UnsupportedToolbar } from './unsupported/toolbar';
 
-export { default as ExternalDataComponent } from './external-data/component';
-export { default as ExternalDataToolbar } from './external-data/toolbar';
-
 export { default as GenericToolbar } from './generic/toolbar';
 
 export * from './hero-promotion';
@@ -91,6 +88,24 @@ export { default as TitleTextToolbar } from './title-text-block/toolbar';
 
 export { default as HeroGameboxComponent } from './hero-gamebox/component';
 export { default as HeroGameboxToolbar } from './hero-gamebox/toolbar';
+
+export { default as HeroEventComponent } from './hero-event/component';
+export { default as HeroEventToolbar } from './hero-event/toolbar';
+
+export { default as HorizontalMediumComponent } from './horizontal-medium/component';
+export { default as HorizontalMediumToolbar } from './horizontal-medium/toolbar';
+
+export { default as HorizontalSmallComponent } from './horizontal-small/component';
+export { default as HorizontalSmallToolbar } from './horizontal-small/toolbar';
+
+export { default as GameCenterComponent } from './game-center/component';
+export { default as GameCenterToolbar } from './game-center/toolbar';
+
+export { default as CalendarViewComponent } from './calendar-view/component';
+export { default as CalendarViewToolbar } from './calendar-view/toolbar';
+
+export { default as ScheduleListComponent } from './schedule-list/component';
+export { default as ScheduleListToolbar } from './schedule-list/toolbar';
 
 export * from './types';
 

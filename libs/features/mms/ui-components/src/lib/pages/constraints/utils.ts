@@ -170,3 +170,18 @@ export const transformEventConstraintPayload: TransformEventConstraintPayload = 
   }
   return updatedData;
 };
+
+export const formatEventNameLabel = (type: string, name: string) => {
+  const pattern = /^\[.*\]/;
+  const label =
+    pattern.test(name) || type === null
+      ? name
+      : type === 'GAME'
+      ? `[IN-GAME]: ${name}`
+      : type === 'PRE_GAME'
+      ? `[PRE-GAME]: ${name}`
+      : type === 'POST_GAME'
+      ? `[POST-GAME]: ${name}`
+      : `[${type}]: ${name}`;
+  return label;
+};

@@ -7,7 +7,7 @@ import { DashRoutes, AuthenticationRoutes } from './configs';
 export default function Routes() {
   const auth = useAppSelector((state) => state.auth);
   const { authenticated } = auth;
-  const routes = [DashRoutes(authenticated), AuthenticationRoutes(authenticated)];
+  const routes = [DashRoutes(authenticated), AuthenticationRoutes()];
   const hashRoutes = createHashRouter(routes);
 
   return <RouterProvider router={hashRoutes} />;

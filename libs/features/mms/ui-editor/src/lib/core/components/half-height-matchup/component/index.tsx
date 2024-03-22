@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import DucksLogo from '../../../../../assets/Ducks-logo.svg';
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import MatchupComponent from '../../common/matchup';
 import { HalfHeightMatchUpComponentProps } from '../../types';
 const HalfHeightMatchupComponent = (props: HalfHeightMatchUpComponentProps) => {
@@ -48,6 +48,7 @@ const HalfHeightMatchupComponent = (props: HalfHeightMatchUpComponentProps) => {
           '&:hover': {
             color: colors.editor.text,
           },
+          textTransform: 'none',
         }}
         fullWidth
         variant="outlined"

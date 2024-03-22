@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Avatar,
   Box,
@@ -13,20 +12,17 @@ import {
   useTheme,
 } from '@mui/material';
 import { EditAttributes, LogoutOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
-import { useAppSelector, selectUserId } from '@lths/features/mms/data-access';
+import { useAppSelector, selectUserId, selectUserDisplayName } from '@lths/features/mms/data-access';
 import { useLogoutMutation } from '@lths/shared/data-access';
 
 export const UserProfileMenu = () => {
   const [logout] = useLogoutMutation();
   const userId = useAppSelector((state) => selectUserId(state));
+  const userName = useAppSelector(selectUserDisplayName);
 
   const theme = useTheme();
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
 
   const handleLogout = async () => {
     await logout(userId);
@@ -39,7 +35,7 @@ export const UserProfileMenu = () => {
           <Stack direction="row" spacing={1.25} alignItems="center">
             <Avatar alt="profile user" sx={{ width: 32, height: 32 }} />
             <Stack>
-              <Typography variant="h6">User Name</Typography>
+              <Typography variant="h6">{userName}</Typography>
             </Stack>
           </Stack>
         </Grid>
@@ -59,14 +55,14 @@ export const UserProfileMenu = () => {
           },
         }}
       >
-        <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
+        <ListItemButton component={Link} to="/user/profile">
           <ListItemIcon>
             <EditAttributes />
           </ListItemIcon>
           <ListItemText primary="Edit Profile" />
         </ListItemButton>
 
-        <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
+        <ListItemButton onClick={handleLogout}>
           <ListItemIcon>
             <LogoutOutlined />
           </ListItemIcon>

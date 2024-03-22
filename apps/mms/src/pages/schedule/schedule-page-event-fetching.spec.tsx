@@ -1,9 +1,8 @@
 import React from 'react';
 import { RBThemeProvider } from '@lths-mui/shared/themes';
-import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 import { render, waitFor, screen, act, fireEvent } from '@testing-library/react';
 import { addMonths, format } from 'date-fns';
+import { FlagsProvider } from 'react-feature-flags';
 
 import {
   useLazyGetEventsQuery,
@@ -11,8 +10,9 @@ import {
   useCreateEventMutation,
   useLazyGetEnumListQuery,
 } from '@lths/features/mms/data-access';
-import { FlagsProviderMock, getNewEvent } from '@lths/features/mms/ui-event-schedule';
+import { getNewEvent } from '@lths/features/mms/ui-event-schedule';
 
+import { mockFlagData } from './mock-feature-flags.stub';
 import SchedulePage from './schedule-page'; // Replace with your component's path
 import { constructRange } from './utils';
 
@@ -67,6 +67,8 @@ describe('SchedulePage', () => {
     (useLazyGetEnumListQuery as jest.Mock).mockReturnValue([jest.fn()]);
   });
 
+  const formattedFlags = mockFlagData.map(({ value }) => ({ isActive: value.enabled, name: value.id }));
+
   it('fetches new data when navigating past the date threshold', async () => {
     // Mock the useLazyGetEventsQuery to simulate fetching data
     const getEventsDataMock = jest.fn().mockResolvedValue({ data: { data: mockEvents } });
@@ -78,9 +80,9 @@ describe('SchedulePage', () => {
     render(
       RBThemeProvider({
         children: (
-          <FlagsProviderMock>
+          <FlagsProvider value={formattedFlags}>
             <SchedulePage />
-          </FlagsProviderMock>
+          </FlagsProvider>
         ),
       })
     );
@@ -119,11 +121,14 @@ describe('SchedulePage', () => {
 
     // Assert that the getEventsData function was called with the correct parameters
     expect(getEventsDataMock).toBeCalledTimes(1);
-    expect(getEventsDataMock).toHaveBeenCalledWith({
-      start_date_time: start,
-      end_date_time: end,
-      sort: expect.any(String),
-      limit: expect.any(Number),
-    });
+    expect(getEventsDataMock).toHaveBeenCalledWith(
+      {
+        start_date_time: start,
+        end_date_time: end,
+        sort: expect.any(String),
+        limit: expect.any(Number),
+      },
+      true
+    );
   });
 });

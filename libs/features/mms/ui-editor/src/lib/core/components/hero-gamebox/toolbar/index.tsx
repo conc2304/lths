@@ -1,63 +1,14 @@
-import { ChangeEvent } from 'react';
-import { MenuItem, TextField } from '@mui/material';
-
-import InGameToolbar from './in-game';
-import PostGameToolbar from './post-game';
-import PreGameToolbar from './pre-game';
-import { GroupLabel, SimpleImagePicker, ToolContainer, ToolbarLabel } from '../../../../elements';
-import { useToolbarChange } from '../../hooks';
-import { GameEventState, HeroGameboxComponentProps } from '../../types';
+import GameBoxEditor from './editor';
+import { ToolContainer, ToolbarLabel } from '../../../../elements';
+import { HeroGameboxComponentProps } from '../../types';
 
 const HeroGameboxToolbar = (props: HeroGameboxComponentProps) => {
-  const {
-    __ui_id__: id,
-    data: { pregame, ingame, postgame, image, editor_meta_data },
-    onPropChange,
-  } = props;
-
-  const { handlePropChange } = useToolbarChange();
-
-  const handleImageChange = (value: string) => {
-    handlePropChange('image', value, undefined, []);
-  };
-
-  const handleEventStateChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    handlePropChange('editor_meta_data', { game_event_state: event.target.value });
-  };
-
-  const handlePreGamePropChange = (key: string, value: string | boolean) => {
-    handlePropChange('pregame', { [key]: value });
-  };
-
-  const handleInGamePropChange = (key: string, value: string | boolean) => {
-    handlePropChange('ingame', { [key]: value });
-  };
-
-  const handlePostGamePropChange = (key: string, value: string | boolean) => {
-    handlePropChange('postgame', { [key]: value });
-  };
-
-  const { PRE_GAME, IN_GAME, POST_GAME } = GameEventState;
-
-  const eventState = editor_meta_data ? editor_meta_data.game_event_state : PRE_GAME;
+  const { __ui_id__: id } = props;
 
   return (
     <ToolContainer id={id}>
       <ToolbarLabel label="Gamebox" />
-      <SimpleImagePicker value={image} onChange={handleImageChange} onReplace={onPropChange} />
-      <GroupLabel label="Game Events" />
-      <TextField value={eventState} onChange={handleEventStateChange} label="Event State" select fullWidth>
-        <MenuItem value={PRE_GAME}>Pre Game</MenuItem>
-        <MenuItem value={IN_GAME}>In Game</MenuItem>
-        <MenuItem value={POST_GAME}>Post Game</MenuItem>
-      </TextField>
-      {eventState === PRE_GAME && <PreGameToolbar {...pregame} onPreGamePropChange={handlePreGamePropChange} />}
-      {eventState === IN_GAME && (
-        <InGameToolbar {...ingame} onInGamePropChange={handleInGamePropChange} onPropChange={onPropChange} />
-      )}
-      {eventState === POST_GAME && (
-        <PostGameToolbar {...postgame} onPropChange={onPropChange} onPostGamePropChange={handlePostGamePropChange} />
-      )}
+      <GameBoxEditor {...props} />
     </ToolContainer>
   );
 };

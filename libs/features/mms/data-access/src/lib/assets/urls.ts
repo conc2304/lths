@@ -8,12 +8,14 @@ export const getAssetsUrl = (req: AssetsRequestProps) => {
   return `/media/query?${params.join('&')}`;
 };
 
-export const searchAssetsUrl = getAssetsUrl;
-
 export const getAddAssetUrl = () => {
   return `/media`;
 };
 
 export const getUpdateAssetUrl = (id: string) => {
   return `/media/${id}`;
+};
+
+export const getSecureCloudUploadUrl = (fileName: string) => {
+  return `/cloud/signed-upload-url?fileName=${encodeURIComponent(fileName)}`;
 };

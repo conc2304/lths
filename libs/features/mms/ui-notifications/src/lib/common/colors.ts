@@ -9,9 +9,6 @@ const colors = {
   heading: {
     color: 'rgba(0, 0, 0, 0.6)',
   },
-  button: {
-    background: '#007882',
-  },
 };
 
 export default colors;

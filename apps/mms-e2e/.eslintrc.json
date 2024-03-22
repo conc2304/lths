@@ -7,7 +7,9 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+      "rules": {
+        "react/jsx-no-useless-fragment": "off"
+      }
     },
     {
       "files": ["src/plugins/index.js"],

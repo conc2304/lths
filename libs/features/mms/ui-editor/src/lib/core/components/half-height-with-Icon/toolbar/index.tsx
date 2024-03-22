@@ -7,8 +7,7 @@ import {
   ImageAutocomplete,
   AutocompleteOptionProps,
 } from '../../../../elements';
-import { ToolContainer } from '../../../../elements';
-import { ActionToolbar } from '../../common';
+import { ToolPreviewContainer, ActionToolbar } from '../../common';
 import { useToolbarChange } from '../../hooks';
 import { HalfHeightWithIconProps } from '../../types';
 
@@ -38,7 +37,7 @@ const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
   };
 
   return (
-    <ToolContainer id={id}>
+    <ToolPreviewContainer onPropChange={onPropChange} id={id}>
       <ToolbarLabel label={'Half-Height with Icon'} />
 
       <ImageAutocomplete
@@ -61,7 +60,7 @@ const HalfHeightWithIconToolbar = (props: HalfHeightWithIconProps) => {
         onChange={(e) => updateComponentProp('description', e.target.value)}
       />
       <ActionToolbar action={action} onPropChange={onPropChange} />
-    </ToolContainer>
+    </ToolPreviewContainer>
   );
 };
 export default HalfHeightWithIconToolbar;

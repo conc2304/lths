@@ -24,6 +24,9 @@
     "../../declaration-files/*.d.ts",
     "../../libs/shared/mocks/src/lib/services/insights/overview/analytics-filter-form-schema.ts",
     "../../libs/features/mms/ui-components/src/lib/assets-manager/table/utils.ts",
-    "../../libs/features/mms/ui-components/src/lib/assets-manager/drawer/file-info.tsx"
+    "../../libs/features/mms/ui-components/src/lib/assets-manager/drawer/file-info.tsx",
+    "../../libs/shared/ui-elements/src/lib/inputs/country-select/country-select.spec.tsx",
+    "../../libs/shared/ui-elements/src/lib/inputs/country-select/country-select.tsx",
+    "src/pages/admin/feature-flags/index.tx"
   ]
 }

@@ -1,11 +1,9 @@
 import { UTCDate } from '@date-fns/utc';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
-import { setupServer } from 'msw/node';
 import 'whatwg-fetch';
 
 import { api } from '@lths/shared/data-access';
-import { Handlers } from '@lths/shared/mocks';
 import { FormStateValue } from '@lths/shared/ui-elements';
 
 import {
@@ -22,18 +20,13 @@ import {
 
 describe('Filters Slice', () => {
   let store: ToolkitStore;
-  const server = setupServer(...Handlers.default);
 
   beforeEach(() => {
-    server.listen();
     store = configureStore({
       reducer: { filters: filtersReducer, [api.reducerPath]: api.reducer },
     });
     store.dispatch(setFormState({ formState: {} }));
   });
-
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
 
   it('should handle setDateRange action', () => {
     // Arrange

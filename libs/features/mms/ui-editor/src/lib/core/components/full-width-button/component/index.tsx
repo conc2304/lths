@@ -1,7 +1,5 @@
-import { Button } from '@mui/material';
-
 import colors from '../../../../common/colors';
-import { BasicContainer } from '../../../../elements/containers';
+import { BasicContainer, ReadOnlyButton as Button } from '../../../../elements';
 import { FullWidthButtonComponentProps } from '../../types';
 const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
   const {
@@ -48,6 +46,7 @@ const FullWidthButtonComponent = (props: FullWidthButtonComponentProps) => {
             backgroundColor: { background },
             color: { color },
           },
+          textTransform: 'none',
         }}
         fullWidth
         variant={variantStyle}

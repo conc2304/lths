@@ -39,8 +39,14 @@ export function sortAndPopulateDisplayOrder(components: ComponentProps[]): Compo
 export const initComponents = (components: ComponentProps[] = []) => {
   return sortAndPopulateDisplayOrder(components.map((component) => fillUuid(component)));
 };
-export const addNewComponent = (components: ComponentProps[], component: ComponentProps) => {
-  return populateDisplayOrder([...components, clearExternalIds(component)]);
+export const addNewComponent = (components: ComponentProps[], component: ComponentProps, index?: number) => {
+  if (index !== undefined && index >= 0 && index <= components.length) {
+    const updatedComponents = [...components];
+    updatedComponents.splice(index + 1, 0, clearExternalIds(component));
+    return populateDisplayOrder(updatedComponents);
+  } else {
+    return populateDisplayOrder([...components, clearExternalIds(component)]);
+  }
 };
 export const renameComponent = (component: ComponentProps, name: string) => {
   return !component ? null : !name || name.trim() === '' ? component : { ...component, name };
@@ -95,6 +101,9 @@ export const duplicateComponent = (components: ComponentProps[], uuid: string) =
   if (index !== -1) {
     const duplicate = { ...clearExternalIds(components[index]) };
     duplicate.name = getNextDuplicateName(components, duplicate);
-    return populateDisplayOrder([...components.slice(0, index + 1), duplicate, ...components.slice(index + 1)]);
+    return {
+      components: populateDisplayOrder([...components.slice(0, index + 1), duplicate, ...components.slice(index + 1)]),
+      selectedComponent: duplicate,
+    };
   }
 };

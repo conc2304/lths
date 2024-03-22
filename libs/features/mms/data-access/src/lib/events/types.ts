@@ -1,4 +1,4 @@
-import { EVENT_STATE, EventState, MMSEvent } from '@lths/features/mms/ui-event-schedule';
+import { MMSEvent } from '@lths/features/mms/ui-event-schedule';
 
 export type CreateEventPayload = {
   _id?: string;
@@ -59,6 +59,7 @@ export type GetEventsEvent = {
   type: string;
   updated_on: string;
   visibility: string;
+  location?: 'home' | 'away';
 };
 
 export type UpdateEventArgs = {
@@ -109,29 +110,4 @@ type TransformDateToString<T> = {
 
 export type TransormedGetEventsResponse = { events: SerializableMMSEvent[]; eventStates: SerializableMMSEvent[] };
 
-type TransformedEventStateEnum = TransformDateToString<EVENT_STATE>;
-
-export interface TransformedEventStateBase {
-  id: string;
-  eventId: string;
-  duration: number | undefined;
-  start: Date | string;
-  end: Date | string;
-}
-
-export interface TransformedEventState {
-  state: TransformedEventStateEnum;
-  label: string;
-  desc: string;
-  relativeState: TransformedEventStateEnum | null;
-  relativeTime: string | null;
-  direction: string | null;
-}
-
-export type TransformedEventStateUI = Omit<TransformedEventState, keyof TransformedEventStateBase>;
-
-export type SerializableEventState = TransformDateToString<EventState>;
-
-export interface SerializableMMSEvent extends TransformDateToString<MMSEvent> {
-  eventStates?: SerializableEventState[];
-}
+export type SerializableMMSEvent = TransformDateToString<MMSEvent>;

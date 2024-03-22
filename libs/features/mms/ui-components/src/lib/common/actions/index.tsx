@@ -5,6 +5,7 @@ type ActionItem = {
   icon: ReactNode;
   action: string;
   title?: string;
+  hide?: boolean;
 };
 
 type Props = {
@@ -15,13 +16,15 @@ type Props = {
 
 export const Actions = ({ onActionClick, actions, sx = {} }: Props) => {
   return (
-    <Stack direction="row" sx={sx}>
-      {actions.map(({ icon, action, title }) => {
+    <Stack direction="row" sx={sx} spacing={1}>
+      {actions.map(({ icon, action, title, hide = false }) => {
         const actionTitle = title ? title : action.toLowerCase();
         return (
-          <Tooltip key={action} title={actionTitle} arrow>
-            <IconButton onClick={() => onActionClick(action)}>{icon}</IconButton>
-          </Tooltip>
+          !hide && (
+            <Tooltip key={action} title={actionTitle} arrow>
+              <IconButton size='small' sx={{ padding: 0.5 }} onClick={() => onActionClick(action)}>{icon}</IconButton>
+            </Tooltip>
+          )
         );
       })}
     </Stack>

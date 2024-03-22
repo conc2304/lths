@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Divider } from '@mui/material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { v4 as uuid } from 'uuid';
 
 import CarouselItemEditor from './carousel-Item-editor';
-import { FLEXIBLE_TRANSITION_MIN_WIDTH } from '../../../../common';
 import { useEditorActions } from '../../../../context';
-import { ToolContainer, ToolbarLabel, FlexibleTransition } from '../../../../elements';
+import { ToolContainer, ToolbarLabel, FlexibleTransition, AddButton } from '../../../../elements';
+import { ToolPreviewContainer } from '../../common';
 import { CarouselDraggableItemsList } from '../../common/index';
-import { CardViewCarouselComponentProps } from '../../types';
+import { CardViewCarouselComponentProps,CardViewCarouselProps } from '../../types';
 
 const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   const {
@@ -22,6 +21,7 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   const { updateComponent } = useEditorActions();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [selectedItem, setSelectedItem] = useState<CardViewCarouselProps>();
 
   const onClose = () => {
     setSelectedIndex(-1);
@@ -29,11 +29,12 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
 
   const onEdit = (index: number) => {
     setSelectedIndex(index);
+    setSelectedItem(sub_component_data[index]);
   };
 
   useEffect(() => {
-    onClose();
-  }, [id]);
+    if(selectedIndex >= 0) setSelectedItem(sub_component_data[selectedIndex]);
+  }, [sub_component_data]);
 
   const onAdd = () => {
     const data = {
@@ -55,34 +56,26 @@ const CardViewCarouselToolbar = (props: CardViewCarouselComponentProps) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <FlexibleTransition
-        minWidth={FLEXIBLE_TRANSITION_MIN_WIDTH}
         displayRightItem={selectedIndex >= 0}
         leftItem={
           <ToolContainer id={`Carousel_${id}`} aria-label="Card View Carousel Toolbar: Carousel">
             <ToolbarLabel label={'Carousel'} />
             <CarouselDraggableItemsList props={props} onEdit={onEdit} />
-            <div>
-              <Button
-                data-testid={'Add Carousel Item'}
-                variant="outlined"
-                onClick={onAdd}
-                sx={{ padding: '4px 10px', gap: 1, fontSize: 13 }}
-              >
-                <AddIcon sx={{ width: '18px', height: '18px' }} />
-                ADD ITEM
-              </Button>
-            </div>
+            <Divider/>
+            <AddButton onClick={onAdd}>
+              ADD ITEM
+            </AddButton>
           </ToolContainer>
         }
         rightItem={
-          <ToolContainer id={`Carousel_Item${id}`} aria-label="Card View Carousel Toolbar: Carousel Item">
+          <ToolPreviewContainer onPropChange={onPropChange} id={`Carousel_Item${id}`} aria-label="Card View Carousel Toolbar: Carousel Item">
             <CarouselItemEditor
-              item={sub_component_data[selectedIndex]}
+              item={selectedItem}
               onClose={onClose}
               onPropChange={onPropChange}
               index={selectedIndex}
             />
-          </ToolContainer>
+          </ToolPreviewContainer>
         }
       />
     </DndProvider>

@@ -12,13 +12,14 @@ $scrollbar-width: var(--scrollbar-width, 5px);
 $margin-scroll: calc(var(--scrollbar-width) + 1px);
 $show-more-color: var(--show-more-color, #3d4752);
 $current-day-color: var(--current-day-highlight-color, #cddce787);
+$current-day-marker-color: var(--current-day-marker-color, #2c87f6);
 $event-min-height: var(--event-min-height, 3.5rem);
 
 .rbc-today.rbc-today {
   background-color: $current-day-color;
 }
 .rbc-month-row .rbc-today.rbc-today {
-  border: 1px solid lighten(#2c87f6, 10);
+  border: 1px solid $current-day-marker-color;
   background-color: unset;
   height: 100%;
 }
@@ -116,6 +117,9 @@ $event-min-height: var(--event-min-height, 3.5rem);
   .rbc-event-label {
     display: none;
   }
+}
+.Calendar-view-header--today-marker path {
+  color: $current-day-marker-color;
 }
 
 .rbc-day-slot .rbc-event.rbc-event {

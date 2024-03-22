@@ -1,30 +1,39 @@
 import { Box } from '@mui/material';
 
 import HalfWidthCarouselFloatingTextComponent from './index';
+import { MOBILE_SCREEN_WIDTH } from '../../../../common';
+import colors from '../../../../common/colors';
 import mockComponentProps from '../../../../context/mock-data';
 import { Component } from '../../enum';
+
 
 import type { Meta, StoryFn } from '@storybook/react';
 
 const Story: Meta<typeof HalfWidthCarouselFloatingTextComponent> = {
   component: HalfWidthCarouselFloatingTextComponent,
   title: 'core/ Components/ half-width-carousel-floating-text / Component',
+  parameters: {
+    backgrounds: {
+      default: 'editor',
+      values: [
+        { name: 'editor', value: colors.editor.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+        <Box sx={{ width: MOBILE_SCREEN_WIDTH, backgroundColor: colors.editor.mobile.background }}>
+          <Story />
+        </Box>
+      </Box>
+    ),
+  ],
 };
 export default Story;
 
 const Template: StoryFn<typeof HalfWidthCarouselFloatingTextComponent> = (args) => (
-  <Box
-    sx={{
-      backgroundColor: 'rgb(245, 245, 245)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    <Box sx={{ width: '375px', backgroundColor: 'white' }}>
-      <HalfWidthCarouselFloatingTextComponent {...args} />
-    </Box>
-  </Box>
+  <HalfWidthCarouselFloatingTextComponent {...args} />
 );
 
 export const Primary = Template.bind({});
@@ -36,31 +45,31 @@ Primary.args = {
     sub_component_data: [
       {
         name: 'Carousel Name 1',
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-1.png',
+        image: 'image.one',
         img_alt_text: 'ImageAlt1',
         title: 'A Title 1',
-        action: { type: '', page_id: 'pageId1', page_link: 'pageLink1' },
+        action: { type: 'native', page_id: 'pageId1', page_link: 'pageLink1' },
       },
       {
         name: 'Carousel Name 2',
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-2.png',
+        image: 'image.two',
         img_alt_text: 'ImageAlt2',
         title: 'A Title 2',
-        action: { type: '', page_id: 'pageId2', page_link: 'pageLink2' },
+        action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
       },
       {
         name: 'Carousel Name 3',
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-3.png',
+        image: 'image.three',
         img_alt_text: 'ImageAlt3',
         title: 'A Title 3',
-        action: { type: '', page_id: 'pageId3', page_link: 'pageLink3' },
+        action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
       },
       {
         name: 'Carousel Name 4',
-        image: 'https://i.im.ge/2023/03/21/DVJcSM.Image-4.png',
+        image: 'image.four',
         img_alt_text: 'ImageAlt4',
         title: 'A Title 4',
-        action: { type: '', page_id: 'pageId4', page_link: 'pageLink4' },
+        action: { type: 'web', page_id: 'pageId4', page_link: 'pageLink4' },
       },
     ],
   },

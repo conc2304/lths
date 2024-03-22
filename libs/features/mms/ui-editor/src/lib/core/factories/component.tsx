@@ -34,7 +34,6 @@ import {
   FanGuideThreeIsToFourAspectRatioComponent,
   QuicklinkButtonGroupComponent,
   HalfWidthCarouselFloatingTextComponent,
-  ExternalDataComponent,
   FullHeightFloatingTextComponent,
   HalfHeightWithIconComponent,
   HeadlineTextBlockComponent,
@@ -59,7 +58,14 @@ import {
   FullHeightEventFloatingTextComponent,
   TitleTextComponent,
   HeroGameboxComponent,
+  HeroEventComponent,
+  HorizontalMediumComponent,
+  HorizontalSmallComponent,
+  GameCenterComponent,
+  CalendarViewComponent,
+  ScheduleListComponent,
 } from '../components';
+import HeroCarouselComponent from '../components/hero-carousel/component';
 import {
   ButtonComponentProps,
   CardComponentProps,
@@ -119,6 +125,13 @@ import {
   FullHeightEventFloatingTextComponentProps,
   TitleTextComponentProps,
   HeroGameboxComponentProps,
+  HeroEventComponentProps,
+  HorizontalMediumProps,
+  HorizontalSmallComponentProps,
+  HeroCarouselComponentProps,
+  GameCenterComponentProps,
+  CalendarViewComponentProps,
+  ScheduleListComponentProps,
 } from '../components/types';
 
 export const componentFactory = (props: ComponentProps) => {
@@ -208,13 +221,7 @@ export const componentFactory = (props: ComponentProps) => {
     case Component.HalfWidthCarousel:
       return <HalfWidthCarouselComponent {...(props as HalfWidthCarouselComponentProps)} />;
     case Component.HeroEvent:
-      return (
-        <ExternalDataComponent
-          img_alt="Hero Event"
-          id={props.__ui_id__}
-          image={'https://devblobstorageacc.blob.core.windows.net/files-lths-dev/files-lths-mok-dev/cHeroEvent.svg'}
-        />
-      );
+      return <HeroEventComponent {...(props as HeroEventComponentProps)} />;
     case Component.HeroGameBox:
       return <HeroGameboxComponent {...(props as HeroGameboxComponentProps)} />;
     case Component.HalfHeightMatchup:
@@ -247,6 +254,18 @@ export const componentFactory = (props: ComponentProps) => {
       return <CardViewCarouselComponent {...(props as CardViewCarouselComponentProps)} />;
     case Component.TitleTextBlock:
       return <TitleTextComponent {...(props as TitleTextComponentProps)} />;
+    case Component.HorizontalMedium:
+      return <HorizontalMediumComponent {...(props as HorizontalMediumProps)} />;
+    case Component.HorizontalSmall:
+      return <HorizontalSmallComponent {...(props as HorizontalSmallComponentProps)} />;
+    case Component.HeroCarousel:
+      return <HeroCarouselComponent {...(props as HeroCarouselComponentProps)} />;
+    case Component.GameCenter:
+      return <GameCenterComponent {...(props as GameCenterComponentProps)} />;
+    case Component.CalendarView:
+      return <CalendarViewComponent {...(props as CalendarViewComponentProps)} />;
+    case Component.ScheduleList:
+      return <ScheduleListComponent {...(props as ScheduleListComponentProps)} />;
     default:
       return <UnsupportedComponent {...props} />;
   }

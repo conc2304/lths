@@ -5,23 +5,23 @@ import { Event } from 'react-big-calendar';
 import { CalendarDate, WeekItem } from './components';
 import { createCalendar } from '../utils/create-calendar';
 
-type CalendarMonthProps<TEvent extends object = Event> = {
+type CalendarMonthProps<TEvent extends object = Event & { id?: string }> = {
   date: Date;
   selectedDateId?: string | number;
-  events: Event[];
+  events: TEvent[];
   size?: 'small' | 'large';
   differentiateWeekends?: boolean;
   showWeekNumber?: boolean;
   onMonthClick: (date: Date) => void;
   onWeekClick?: (date: Date) => void;
   onDateClick: ({
-    events,
+    eventIds,
     anchorEl,
     popperPlacement,
     date,
     dateId,
   }: {
-    events: TEvent[];
+    eventIds: string[];
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
     date: Date;
@@ -58,7 +58,7 @@ export const CalendarMonth = (props: CalendarMonthProps) => {
             cursor: 'pointer',
             color: (theme) => (isPastMonth ? theme.palette.grey[600] : undefined),
             '&:hover': {
-              color: (theme) => theme.palette.secondaryButton.main,
+              color: (theme) => theme.palette.secondary.main,
             },
           }}
         >
@@ -102,8 +102,8 @@ export const CalendarMonth = (props: CalendarMonthProps) => {
                   key={format(calendarDate, 'MM-dd')}
                   currentDate={currentDate}
                   dateToRender={calendarDate}
-                  onClick={(calendarDate, events, anchorEl, popperPlacement, dateId) => {
-                    onDateClick({ events, anchorEl, popperPlacement, date: calendarDate, dateId });
+                  onClick={(calendarDate, eventIds, anchorEl, popperPlacement, dateId) => {
+                    onDateClick({ eventIds, anchorEl, popperPlacement, date: calendarDate, dateId });
                   }}
                   events={events.filter((event) => !!event.start && isSameDay(event.start, calendarDate))}
                 />

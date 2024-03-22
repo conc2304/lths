@@ -18,7 +18,14 @@ export const ReplacedTextComponent: FC<Props> = ({ title, linked_text, color }) 
       const escapedLinkKey = escapeRegExp(link_key);
       const regex = new RegExp(`(${escapedLinkKey})`, 'g');
       text = reactStringReplace(text, regex, () => (
-        <Link key={`link_${link_id}`} href="#" color={color}>
+        <Link
+          key={`link_${link_id}`}
+          href="#"
+          color={color}
+          onClick={(event) => {
+            event.preventDefault();
+          }}
+        >
           {link_key}
         </Link>
       ));
@@ -26,6 +33,5 @@ export const ReplacedTextComponent: FC<Props> = ({ title, linked_text, color }) 
     return text;
   }, [title, linked_text, color]);
 
-  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{replacedText}</>;
 };

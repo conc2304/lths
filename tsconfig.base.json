@@ -27,12 +27,12 @@
       "@lths/features/mms/ui-notifications": ["libs/features/mms/ui-notifications/src/index.ts"],
       "@lths/shared/data-access": ["libs/shared/data-access/src/index.ts"],
       "@lths/shared/mocks": ["libs/shared/mocks/src/index.ts"],
+      "@lths/shared/ui-admin": ["libs/shared/ui-admin/src/index.ts"],
       "@lths/shared/ui-calendar-scheduler": ["libs/shared/ui-calendar-scheduler/src/index.ts"],
       "@lths/shared/ui-charts": ["libs/shared/ui-charts/src/index.ts"],
       "@lths/shared/ui-elements": ["libs/shared/ui-elements/src/index.ts"],
       "@lths/shared/ui-layouts": ["libs/shared/ui-layouts/src/index.ts"],
       "@lths/shared/ui-login": ["libs/shared/ui-login/src/index.ts"],
-      "@lths/shared/ui-login/login": ["libs/shared/ui-login/src/lib/login.tsx"],
       "@lths/shared/utils": ["libs/shared/utils/src/index.ts"]
     }
   },

@@ -11,7 +11,7 @@ import { cleanUrl } from '../table/utils';
 
 export type PreviewDrawerContentProps = {
   openModal: (modalName: string, row: AssetExtendedListProps) => void;
-  data: AssetExtendedListProps;
+  asset?: AssetExtendedListProps;
 };
 
 const height = 215;
@@ -19,18 +19,18 @@ const width = 323;
 
 export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
   const theme = useTheme();
-  const { data, openModal } = props;
+  const { asset, openModal } = props;
   const perc = (height / width) * 100;
 
-  if (!data) return null;
+  if (!asset) return null;
 
-  const previewUrl = (data.media_files.length > 0 && cleanUrl(data.media_files[0]?.url)) || '';
+  const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
 
   const iconStyle = { width: theme.spacing(2.25), height: theme.spacing(2.25) };
   const buttonStyle = { fontSize: theme.spacing(1.625), padding: `${theme.spacing(0.5)} ${theme.spacing(0.625)}` };
 
   const handlePreview = () => {
-    const previewUrl = (data.media_files.length > 0 && cleanUrl(data.media_files[0]?.url)) || '';
+    const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
     if (previewUrl) {
       const imageWindow = window.open('', '_blank');
       if (imageWindow) {
@@ -48,13 +48,13 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
     }
   };
   const cleanName =
-    data.original_file_name.slice(0, data.original_file_name.lastIndexOf('.')) || data.original_file_name;
+    asset.original_file_name.slice(0, asset.original_file_name.lastIndexOf('.')) || asset.original_file_name;
   return (
     <>
       <Box sx={{ margin: theme.spacing(3), marginTop: 0, marginBottom: theme.spacing(2) }}>
         <Box
-          id={`${data._id}-image-display`}
-          data-testid={`${data._id}-image-display`}
+          id={`${asset._id}-image-display`}
+          data-testid={`${asset._id}-image-display`}
           sx={{
             backgroundImage: `url(${previewUrl})`,
             backgroundSize: 'cover',
@@ -97,7 +97,7 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
             variant="text"
             startIcon={<Edit sx={iconStyle} />}
             sx={buttonStyle}
-            onClick={() => openModal('Rename', data)}
+            onClick={() => openModal('Rename', asset)}
           >
             RENAME
           </Button>
@@ -105,7 +105,7 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
             variant="text"
             startIcon={<Delete sx={iconStyle} />}
             sx={buttonStyle}
-            onClick={() => openModal('Delete', data)}
+            onClick={() => openModal('Delete', asset)}
           >
             DELETE
           </Button>
@@ -121,10 +121,10 @@ export const PreviewDrawerContent = (props: PreviewDrawerContentProps) => {
       >
         <Typography sx={{ fontWeight: 600, fontSize: theme.spacing(2.5) }}>File details</Typography>
         <FileInfo infoType="File Name" infoData={cleanName} />
-        <FileInfo infoType="File Extension" infoData={data.file_extension} />
-        <FileInfo infoType="Owner" infoData={data.created_by} />
-        <FileInfo infoType="File Type" infoData={data.mime_type} />
-        <FileInfo infoType="Created At" infoData={data.created_at_formatted} />
+        <FileInfo infoType="File Extension" infoData={asset.file_extension} />
+        <FileInfo infoType="Owner" infoData={asset.created_by} />
+        <FileInfo infoType="File Type" infoData={asset.mime_type} />
+        <FileInfo infoType="Created At" infoData={asset.created_at_formatted} />
       </Stack>
     </>
   );

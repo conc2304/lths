@@ -1,7 +1,7 @@
 import { addMonths, isToday, subMonths } from 'date-fns';
 
 import { SerializableMMSEvent } from '@lths/features/mms/data-access';
-import { EventStateID, MMSEvent } from '@lths/features/mms/ui-event-schedule';
+import { MMSEvent } from '@lths/features/mms/ui-event-schedule';
 import { LTHSView, ViewMode } from '@lths/shared/ui-calendar-scheduler';
 
 import { BasePath } from './paths';
@@ -50,14 +50,6 @@ export const convertEventDates = (events: SerializableMMSEvent[]): MMSEvent[] =>
     start: event.start ? new Date(event.start) : undefined,
     end: event.end ? new Date(event.end) : undefined,
     createdOn: event.createdOn ? new Date(event.createdOn) : undefined,
-    eventStates: event.eventStates
-      ? event.eventStates.map((eState) => ({
-          ...eState,
-          state: (eState.state as EventStateID) || null || undefined,
-          start: new Date(eState.start),
-          end: new Date(eState.end),
-        }))
-      : event.eventStates,
   }));
 
   return datedEvents;

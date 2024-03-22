@@ -9,39 +9,39 @@ import { QuicklinkButtonGroupComponentProps } from '../../types';
 describe('QuicklinkButtonGroupComponent', () => {
   let props: QuicklinkButtonGroupComponentProps;
 
-    beforeEach(() => {
-      props = {
-          ...mockComponentProps,
-          __ui_id__ : "3333333",
-          component_id: Component.QuicklinkButtonGroup,
-          data: {    
-            sub_component_data: [
-              {
-                card_background_color: "",
-                icon: "nonexistent png",
-                text_color: "",
-                title: "LABEL",
-                action: {
-                  type: 'webview',
-                  page_id: 'medical page',
-                  page_link: 'first aid link',
-                },
-              },
-              {
-                card_background_color: "",
-                icon: "nonexistent png 2",
-                text_color: "",
-                title: "LABEL2",
-                action: {
-                  type: 'webview',
-                  page_id: 'report crime',
-                  page_link: 'local police department link',
-                },
-              }
-            ],
-          }
-      }
-    });
+  beforeEach(() => {
+    props = {
+      ...mockComponentProps,
+      __ui_id__: '3333333',
+      component_id: Component.QuicklinkButtonGroup,
+      data: {
+        sub_component_data: [
+          {
+            card_background_color: '',
+            icon: 'nonexistent png',
+            text_color: '',
+            title: 'LABEL',
+            action: {
+              type: 'web',
+              page_id: 'medical page',
+              page_link: 'first aid link',
+            },
+          },
+          {
+            card_background_color: '',
+            icon: 'nonexistent png 2',
+            text_color: '',
+            title: 'LABEL2',
+            action: {
+              type: 'web',
+              page_id: 'report crime',
+              page_link: 'local police department link',
+            },
+          },
+        ],
+      },
+    };
+  });
 
   afterEach(() => {
     jest.clearAllMocks();

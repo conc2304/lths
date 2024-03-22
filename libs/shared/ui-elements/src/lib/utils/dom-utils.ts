@@ -20,3 +20,33 @@ export const scrollToAnElementInAContainer = (containerSelector: string, element
     });
   }
 };
+
+export const scrollElementIntoView = (elementSelector: string) => {
+  // find the target elements using the provided CSS selectors
+  const element = document.querySelector(elementSelector) as HTMLElement;
+
+  if (element) {
+    // Scroll the element to the center
+    element.scrollIntoView({
+      block: "center"
+    });
+  }
+};
+
+/**
+ * Scrolls a specified container to the top.
+ *
+ * @param containerSelector - CSS selector for the container element.
+ */
+export const scrollToTopInAContainer = (containerSelector: string) => {
+  // Find the container using the provided CSS selector
+  const container = document.querySelector(containerSelector) as HTMLElement;
+
+  if (container) {
+    // Scroll the container to the top position smoothly
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+};

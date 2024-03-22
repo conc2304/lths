@@ -1,6 +1,6 @@
 import { PopperPlacementType } from '@mui/material';
 
-import { RowBuilderFn } from '@lths/shared/ui-calendar-scheduler';
+import { RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { Row } from './row';
 import { EventFormValues, EventState, EventType, MMSEvent } from '../../types';
@@ -10,30 +10,21 @@ type MMSEventListRow = {
   onSaveEvent?: (values: EventFormValues, id: string | number | null) => void;
   onSaveEventStates?: (updatedEventStates: EventState[]) => void;
   onEventClick?: ({
-    event,
+    eventId,
     anchorEl,
     popperPlacement,
   }: {
-    event: MMSEvent;
+    eventId: string;
     anchorEl: HTMLElement;
     popperPlacement: PopperPlacementType;
   }) => void;
 };
 
-export const RowBuilder = ({ eventTypes, onEventClick }: MMSEventListRow): RowBuilderFn => {
+export const RowBuilder = ({ eventTypes, onEventClick }: MMSEventListRow): RowBuilderFn<MMSEvent> => {
   return (props) => {
-    const { headerCells } = props;
-    const event = props.event as MMSEvent;
+    const { headerCells, data } = props;
+    const event = data;
 
-    return (
-      <Row
-        headerCells={headerCells}
-        event={event}
-        eventTypes={eventTypes}
-        onEventClick={onEventClick}
-        // onSaveEvent={onSaveEvent}
-        // onSaveEventStates={onSaveEventStates}
-      />
-    );
+    return <Row headerCells={headerCells} data={event} eventTypes={eventTypes} onEventClick={onEventClick} />;
   };
 };

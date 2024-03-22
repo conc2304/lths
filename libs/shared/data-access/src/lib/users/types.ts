@@ -71,8 +71,27 @@ export type User = {
   roles: unknown[];
   user_type: unknown;
   username: string;
+  phone_number: string;
+  // TODO - find out what format that backend has decided on
+  dob: string;
+  date_of_birth: string;
+  city: string;
+  country: string;
+  zip_code: string;
   __v: number;
   _id: string;
+};
+
+export type UserProfileData = {
+  email: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  phone_number: string;
+  date_of_birth: string;
+  city: string;
+  country: string;
+  zip_code: string;
 };
 
 export type UserResponse = {

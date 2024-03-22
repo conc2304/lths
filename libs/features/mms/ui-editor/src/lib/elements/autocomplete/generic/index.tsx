@@ -1,4 +1,4 @@
-import { ChangeEvent, HTMLAttributes, ReactNode  } from 'react';
+import { ChangeEvent, HTMLAttributes, ReactNode } from 'react';
 import { TextField, Autocomplete, Box } from '@mui/material';
 
 import { AutocompleteOptionProps } from '../types';
@@ -9,22 +9,22 @@ type GenericAutocompleteProps = {
   data: AutocompleteOptionProps[];
   onChange: (value: string) => void;
   getOptionLabel?: (option: AutocompleteOptionProps) => string;
-  renderOption?:(props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => ReactNode;
+  renderOption?: (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => ReactNode;
   renderStartAdornment?: (value: string, label?: string) => ReactNode;
 };
 
 const GenericAutocomplete = (props: GenericAutocompleteProps) => {
-  const { label, data, value = '', onChange, getOptionLabel, renderOption, renderStartAdornment, ...rest } = props
+  const { label, data, value = '', onChange, getOptionLabel, renderOption, renderStartAdornment, ...rest } = props;
 
   const handleGetOptionLabel = (option: AutocompleteOptionProps) => {
-    if(getOptionLabel) return getOptionLabel(option);
-    return (option?.label || option?.value ? `${option.label || option.value}` : '');
-  }
+    if (getOptionLabel) return getOptionLabel(option);
+    return option?.label || option?.value ? `${option.label || option.value}` : '';
+  };
 
   const handleRenderOption = (props: HTMLAttributes<HTMLLIElement>, option: AutocompleteOptionProps) => {
-    if(renderOption) return renderOption(props, option);
-    return ( 
-      <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props}>
+    if (renderOption) return renderOption(props, option);
+    return (
+      <Box component="li" sx={{ '& > svg': { mr: 2, flexShrink: 0 } }} {...props} key={option.label}>
         <Box>{option.label}</Box>
       </Box>
     );
@@ -33,20 +33,20 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
   const handleAutocompleteChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     item: AutocompleteOptionProps,
-    reason: string,
-  ) => { 
+    reason: string
+  ) => {
     let result = '';
-    if(reason  === "createOption") {
+    if (reason === 'createOption') {
       const customInput = event.target.value.toLowerCase();
       result = data.find((a) => a.label.toLowerCase() === customInput)?.value || '';
-    } else if(item) {
+    } else if (item) {
       result = item.value;
     }
     onChange(result);
   };
 
   const selectedOption = data.find((a) => a.value === value);
-  const selectedAutocompleteOptionProps = selectedOption || { value: value };
+  const selectedAutocompleteOptionProps = selectedOption || (value ? { value: value } : null);
   return (
     <Autocomplete
       value={selectedAutocompleteOptionProps}
@@ -54,13 +54,16 @@ const GenericAutocomplete = (props: GenericAutocompleteProps) => {
       getOptionLabel={handleGetOptionLabel}
       renderOption={handleRenderOption}
       onChange={handleAutocompleteChange}
+      size="small"
       renderInput={(params) => (
         <TextField
           {...params}
           label={label}
           InputProps={{
             ...params.InputProps,
-            startAdornment: renderStartAdornment ? renderStartAdornment(selectedOption?.value || value, selectedOption?.label) : params.InputProps.startAdornment,  
+            startAdornment: renderStartAdornment
+              ? renderStartAdornment(selectedOption?.value || value, selectedOption?.label)
+              : params.InputProps.startAdornment,
             autoComplete: 'off', // disable autofill
           }}
         />

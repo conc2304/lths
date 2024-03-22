@@ -35,6 +35,7 @@ const SocailIconAutoComplete = ({ socialIcons, onChange, value }: SocialIconAuto
       renderOption={renderOption}
       renderInput={(params) => <TextField {...params} label="Icon" />}
       onChange={handleAutocompleteChange}
+      size="small"
       value={selectedIcon}
     />
   );

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
 import Action from './';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import { ActionProps } from '../../types';
 
 describe('Action', () => {
@@ -17,7 +17,9 @@ describe('Action', () => {
 
     return render(
       <EditorProvider initialValue={mockInitialValue}>
-        <Action action={action} onPropChange={onPropChange} />
+        <ToolbarContextProvider initialValue={{}}>
+          <Action action={action} isRadioButton={false} onPropChange={onPropChange} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
   };
@@ -36,10 +38,10 @@ describe('Action', () => {
     expect(queryByLabelText('Page Link')).not.toBeInTheDocument();
   });
 
-  it('should render page_link when type is "webview"', () => {
+  it('should render page_link when type is "web"', () => {
     const { getByTestId, getByDisplayValue, queryByLabelText } = renderAction({
       ...mockAction,
-      type: 'webview',
+      type: 'web',
     });
 
     const typeInput = getByTestId('Action--type');
@@ -47,7 +49,7 @@ describe('Action', () => {
     fireEvent.mouseDown(typeInput);
 
     // Select native from the menu
-    const menuItem = getByDisplayValue('webview');
+    const menuItem = getByDisplayValue('web');
     fireEvent.click(menuItem);
 
     expect(queryByLabelText('Page ID')).not.toBeInTheDocument();

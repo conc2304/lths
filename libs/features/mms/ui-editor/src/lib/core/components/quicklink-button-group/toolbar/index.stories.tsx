@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
-
 import QuicklinkButtonGroupToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import colors from '../../../../common/colors';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponent from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
@@ -12,6 +11,23 @@ import type { Meta, StoryFn } from '@storybook/react';
 const Story: Meta<typeof QuicklinkButtonGroupToolbar> = {
   component: QuicklinkButtonGroupToolbar,
   title: 'core/ Components/ quicklink-button-group / Toolbar',
+  parameters: {
+    backgrounds: {
+      default: 'sidebar',
+      values: [
+        { name: 'sidebar', value: colors.sidebar.background },
+      ],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <EditorProvider initialValue={{components: []}}>
+        <ToolbarContextProvider initialValue={{}}>
+          <Story />
+        </ToolbarContextProvider>
+      </EditorProvider>
+    ),
+  ],
 };
 export default Story;
 
@@ -20,11 +36,6 @@ type StoryArgs = QuicklinkButtonGroupComponentProps & {
 };
 
 const Template: StoryFn<StoryArgs> = (args) => {
-  const initialState = {
-    components: [],
-    selectedComponent: args,
-  };
-
   function mockOnPropChange(propName, callback) {
     if (propName === 'quickLinkIcons') {
       callback(args.mock_quickLinkIcons);
@@ -32,11 +43,7 @@ const Template: StoryFn<StoryArgs> = (args) => {
   }
 
   return (
-    <EditorProvider initialValue={initialState}>
-      <Box sx={{ padding: '16px', backgroundColor: 'rgb(245, 245, 245)' }}>
-        <QuicklinkButtonGroupToolbar {...args} onPropChange={mockOnPropChange} />
-      </Box>
-    </EditorProvider>
+    <QuicklinkButtonGroupToolbar {...args} onPropChange={mockOnPropChange} />
   );
 };
 
@@ -53,7 +60,7 @@ Primary.args = {
         text_color: '',
         title: 'LABEL',
         action: {
-          type: '',
+          type: 'native',
           page_id: 'medical page',
           page_link: 'first aid link',
         },
@@ -64,7 +71,7 @@ Primary.args = {
         text_color: '',
         title: 'LABEL2',
         action: {
-          type: '',
+          type: 'web',
           page_id: 'report crime',
           page_link: 'local police department link',
         },

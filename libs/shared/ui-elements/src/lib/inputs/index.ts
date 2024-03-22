@@ -1,5 +1,6 @@
 export * from './chip-container';
 export * from './close-button';
+export * from './country-select';
 export * from './date-range-selector';
 export * from './drag-drop-file';
 export * from './filter-form';
@@ -7,3 +8,5 @@ export * from './form-builder';
 export * from './form-children';
 export * from './switch';
 export * from './vertical-form-group';
+export * from './search-bar';
+export * from './multi-select-w-chip';

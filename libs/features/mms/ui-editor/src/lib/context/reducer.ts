@@ -46,20 +46,36 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
       const {
         data: { components, ...rest },
       } = action;
+
+      const selectedIndex = state.selectedComponent
+        ? state.components.findIndex((o) => o.__ui_id__ === state.selectedComponent.__ui_id__)
+        : -1;
       const initialComponents = initComponents(components);
+      const selectedComponent =
+        selectedIndex !== -1
+          ? { ...initialComponents[selectedIndex] }
+          : initialComponents.length > 0
+          ? { ...initialComponents[0] }
+          : null;
+
       return {
         ...state,
         ...rest,
         components: initialComponents,
-        selectedComponent: initialComponents?.length > 0 ? initialComponents[0] : null,
+        selectedComponent,
         hasUnsavedEdits: false,
       };
     }
 
     case EditorActionType.ADD_COMPONENT: {
-      const { component } = action;
-      const components = addNewComponent(state.components, component);
-      return { ...state, components, selectedComponent: components[components.length - 1], hasUnsavedEdits: true };
+      const { component, index } = action;
+      const components = addNewComponent(state.components, component, index);
+      return {
+        ...state,
+        components,
+        selectedComponent: index >= 0 ? components[index + 1] : components[components.length - 1],
+        hasUnsavedEdits: true,
+      };
     }
     case EditorActionType.RENAME_COMPONENT: {
       const { id, name } = action;
@@ -84,17 +100,18 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;
       const components = swapComponent(state.components, dragIndex, hoverIndex);
-      return { ...state, components, hasUnsavedEdits: true };
+      return { ...state, components, lastSwap: { index: hoverIndex }, hasUnsavedEdits: true };
     }
 
     case EditorActionType.DUPLICATE_COMPONENT: {
       const { id } = action;
-      const components = duplicateComponent(state.components, id);
+      const { components, selectedComponent } = duplicateComponent(state.components, id);
 
       return {
         ...state,
         components,
         hasUnsavedEdits: true,
+        selectedComponent: selectedComponent,
       };
     }
 

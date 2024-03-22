@@ -1,71 +1,33 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
 
-import { useAddResourceMutation, useAppSelector } from '@lths/features/mms/data-access';
-import { useLazyGetUserQuery } from '@lths/shared/data-access';
-import { Table } from '@lths/shared/ui-elements';
+import { AssetProps } from '@lths/features/mms/data-access';
+import { AssetSearchBar } from '@lths/features/mms/ui-components';
+import { TableSortingProps, TablePaginationProps, Table, RowBuilderFn } from '@lths/shared/ui-elements';
 
 import { TableFileInfoRow } from './table-row';
 import { AssetModalProps } from './types';
 
-const headers = [
-  {
-    id: 'name',
-    label: 'Name',
-    sortable: true,
-  },
-  {
-    id: 'created',
-    label: 'Created',
-    sortable: true,
-  },
-  {
-    id: 'file_extension',
-    label: 'File Extension',
-    sortable: true,
-  },
-  {
-    id: 'filetype',
-    label: 'File Type',
-    sortable: true,
-  },
-  {
-    id: 'owner',
-    label: 'Owner',
-    sortable: true,
-  },
-];
-
+// update
 const AssetsModal = ({
   open,
   onClose,
   onSelect,
+  headerCells,
   data = [],
   isFetching,
   isLoading,
   total,
+  pagination,
+  sorting,
   onPageChange,
-  onFetch,
+  onUpload,
   search,
   onSearch,
 }: AssetModalProps) => {
-  const user = useAppSelector((state) => state.auth);
   const theme = useTheme();
-  const [addResource] = useAddResourceMutation();
 
   const [isFocused, setIsFocused] = React.useState(false);
 
@@ -77,44 +39,29 @@ const AssetsModal = ({
     setIsFocused(false);
   };
 
-  const handleAssetSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(event.target.value);
+  const handleSearch = (value: string) => {
+    onSearch(value);
   };
 
-  const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml'];
-
-  const handleAssetsUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (allowedFileTypes.includes(file.type)) {
-        await handleAddAsset(file);
-        await onFetch(null, undefined);
-      } else {
-        console.error('Invalid file type:', file.type);
-      }
-    }
+  const RowBuilder = (): RowBuilderFn<AssetProps> => {
+    return ({ data }) => {
+      return <TableFileInfoRow key={data.id} row={data} onSelect={onSelect} />;
+    };
   };
 
-  const [getUser] = useLazyGetUserQuery();
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const pagination: TablePaginationProps = {
+      page,
+      pageSize: rowsPerPage,
+    };
 
-  const handleAddAsset = async (file) => {
-    const newAsset = file;
+    const sorting: TableSortingProps = {
+      order: sortOrder,
+      column: orderBy,
+    };
 
-    try {
-      const owner = await getUser(user.userId);
-      await addResource({ newAsset, user: owner?.data?.data?.username }).unwrap();
-    } catch (error) {
-      console.error('Failed to add asset:', error);
-    }
+    onPageChange({} as React.MouseEvent<HTMLButtonElement, MouseEvent>, pagination, sorting);
   };
-
-  const tableRows = data?.map((row) => <TableFileInfoRow key={row.id} row={row} onSelect={onSelect} />);
-
-  React.useEffect(() => {
-    if (open) {
-      onSearch('');
-    }
-  }, [open]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xl">
@@ -134,31 +81,12 @@ const AssetsModal = ({
         </IconButton>
         <Grid container flexWrap="nowrap" marginTop={'1vw'} justifyContent="space-evenly" sx={{ padding: 1 }}>
           <Grid item xs={10}>
-            <TextField
-              fullWidth
-              onChange={handleAssetSearch}
-              value={search}
-              label="Search"
-              variant="outlined"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              InputLabelProps={{
-                shrink: isFocused,
-                style: isFocused
-                  ? {
-                      marginLeft: '10px',
-                      backgroundColor: '#fff',
-                      paddingRight: '10px',
-                    }
-                  : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
+            <AssetSearchBar
+              onSearch={handleSearch}
+              search={search}
+              isFocused={isFocused}
+              handleFocus={handleFocus}
+              handleBlur={handleBlur}
             />
           </Grid>
 
@@ -167,7 +95,7 @@ const AssetsModal = ({
               type="file"
               id="assets-modal-file-upload"
               style={{ display: 'none' }}
-              onChange={handleAssetsUpload}
+              onChange={onUpload}
               accept=".jpg,.jpeg,.png"
             />
             <Button
@@ -189,16 +117,18 @@ const AssetsModal = ({
           <Table
             loading={isLoading}
             fetching={isFetching}
+            data={data}
             total={total}
             title="{0} Assets"
-            headerCells={headers}
-            tableRows={tableRows}
-            onPageChange={onPageChange}
+            headerCells={headerCells}
+            onChange={handleOnChange}
             noDataMessage="No assets"
-            sx={{
-              mt: 1,
-            }}
-            fixPagination={true}
+            page={pagination?.page ?? undefined}
+            rowsPerPage={pagination?.pageSize ?? undefined}
+            sortOrder={sorting?.order ?? undefined}
+            orderBy={sorting?.column ?? undefined}
+            rowBuilder={RowBuilder()}
+            sx={{ mt: 1 }}
           />
         </Grid>
       </DialogContent>

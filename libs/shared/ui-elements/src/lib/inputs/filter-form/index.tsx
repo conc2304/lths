@@ -115,12 +115,7 @@ export const FilterForm = ({
         <Divider variant="middle" sx={{ mt: 3 }} />
         <DialogActions sx={{ m: 3 }}>
           {!isLoading && (
-            <Button
-              variant="text"
-              color="secondaryButton"
-              onClick={onClearFilters}
-              sx={{ fontSize: '0.75rem', mr: 1.75 }}
-            >
+            <Button variant="text" color="secondary" onClick={onClearFilters} sx={{ fontSize: '0.75rem', mr: 1.75 }}>
               CLEAR ALL FILTERS
             </Button>
           )}

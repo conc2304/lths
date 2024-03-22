@@ -2,8 +2,8 @@ import { Box, Dialog, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { CalendarDialogActions } from '../dialog-actions';
-import { CalendarDialogTitle } from '../dialog-title';
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
+
 import { FormLabel, StyledDialogContent } from '../utils';
 
 type ExportFormats = 'csv' | 'pdf' | null;
@@ -40,8 +40,8 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
   return (
     <Dialog open={open} aria-label="Export Calendar Events" maxWidth="md">
       <Box width={'24rem'}>
-        <form onSubmit={formik.handleSubmit}>
-          <CalendarDialogTitle
+        <Box component="form" onSubmit={formik.handleSubmit}>
+          <DialogTitle
             title="Export Events"
             subtitle="You can export the data on this page in a couple different formats. Choose .CSV to import your data into another program like Excel."
             onClose={() => formik.handleReset(formik.values)}
@@ -58,14 +58,14 @@ export const ExportEventsModal = (props: ExportEventsModalProps) => {
               <FormControlLabel value="pdf" control={<Radio />} label=".PDF file" />
             </RadioGroup>
           </StyledDialogContent>
-          <CalendarDialogActions
+          <DialogActions
             cancelText="CANCEL"
             confirmText="EXPORT EVENTS"
             disabled={!formik.isValid}
             onCancel={() => formik.handleReset(formik.values)}
             isSubmitting={formik.isSubmitting}
           />
-        </form>
+        </Box>
       </Box>
     </Dialog>
   );

@@ -18,19 +18,19 @@ describe('CardViewCarouselComponent', () => {
       data: {
         sub_component_data: [
           {
-            image: 'https://Image-1.png',
-            action: { type: 'webview', page_id: 'pageId1', page_link: 'pageLink1' },
+            image: 'test.Image-1.png',
+            action: { type: 'web', page_id: 'pageId1', page_link: 'pageLink1' },
           },
           {
-            image: 'https://Image-2.png',
-            action: { type: 'webview', page_id: 'pageId2', page_link: 'pageLink2' },
+            image: 'test.Image-2.png',
+            action: { type: 'web', page_id: 'pageId2', page_link: 'pageLink2' },
           },
           {
-            image: 'https://Image-3.png',
+            image: 'test.Image-3.png',
             action: { type: 'native', page_id: 'pageId3', page_link: 'pageLink3' },
           },
           {
-            image: 'https://Image-4.png',
+            image: 'test.Image-4.png',
             action: { type: 'native', page_id: 'pageId4', page_link: 'pageLink4' },
           },
         ],

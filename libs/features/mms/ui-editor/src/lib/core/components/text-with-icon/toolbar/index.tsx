@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { OutlinedTextField, ImageAutocomplete, AutocompleteOptionProps, GroupLabel } from '../../../../elements';
+import { OutlinedTextField, ImageAutocomplete, AutocompleteOptionProps, ToolbarLabel } from '../../../../elements';
 import { ToolContainer } from '../../../../elements/containers';
 import { useToolbarChange } from '../../hooks';
 import { TextWithIconProps } from '../../types';
@@ -29,7 +29,7 @@ const TextwithIconToolbar = (props: TextWithIconProps) => {
 
   return (
     <ToolContainer key={id} aria-label={'TextWithIcon Toolbar'}>
-      <GroupLabel label={'Text With Icon'} />
+      <ToolbarLabel label={'Text With Icon'} />
       <OutlinedTextField label={'Title'} value={title} onChange={handleTitleChange} />
       <ImageAutocomplete
         aria-label="Icon"

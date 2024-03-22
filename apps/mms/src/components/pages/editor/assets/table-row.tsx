@@ -28,7 +28,7 @@ export const TableFileInfoRow: React.FC<TableFileInfoRowProps> = ({ row, onSelec
       <TableCell>{row.created_at_formatted}</TableCell>
       <TableCell>{row.file_extension}</TableCell>
       <TableCell>{row.mime_type}</TableCell>
-      <TableCell>{row.created_by}</TableCell>
+      <TableCell>{row.computed_created_by}</TableCell>
       <TableCell>
         <Button
           variant="outlined"

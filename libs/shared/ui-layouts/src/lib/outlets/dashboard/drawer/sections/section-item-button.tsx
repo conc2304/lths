@@ -3,14 +3,13 @@ import { styled } from '@mui/material/styles';
 
 const ListItemButtonStyled = styled(ListItemButton)(({ theme }) => ({
   '&:hover': {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.light,
   },
   '&.Mui-selected': {
-    borderRight: `2px solid ${theme.palette.secondary.contrastText}`,
-    backgroundColor: theme.palette.secondary.main,
+    borderRight: `2px solid ${theme.palette.primary.main}`,
     '&:hover': {
-      color: theme.palette.primary.dark,
-      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.grey.A700,
+      backgroundColor: theme.palette.secondary.light,
     },
   },
 }));

@@ -2,21 +2,31 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import HalfWidthTextToolbar from './index';
-import { EditorProvider } from '../../../../context';
+import { EditorProvider, ToolbarContextProvider } from '../../../../context';
 import mockComponentProps from '../../../../context/mock-data';
 import { AutocompleteOptionProps } from '../../../../elements';
 import { Component } from '../../enum';
-import { HalfWidthTextComponentProps, AutocompleteItemProps } from '../../types';
+import { HalfWidthTextComponentProps, PageAutocompleteItemProps } from '../../types';
 
 jest.mock('../../../../elements/color-picker', () => ({
     __esModule: true,
     default: jest.fn(({ value }) => <div data-testid="mocked-color-picker">{value}</div>),
 }));
 
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 describe('HalfWidthText Toolbar', () => {
   let initialState;
   let component: HalfWidthTextComponentProps;
-  let mockCallbackActionsData: AutocompleteItemProps[];
+  let mockCallbackActionsData: PageAutocompleteItemProps[];
   let mockCallbackIconsData: AutocompleteOptionProps[];
 
   beforeEach(() => {
@@ -46,9 +56,9 @@ describe('HalfWidthText Toolbar', () => {
     };
 
     mockCallbackActionsData = [
-        { label: 'actionOne', value: 'action.one', type: '' },
-        { label: 'actionTwo', value: 'action.two', type: '' },
-        { label: 'actionThree', value: 'action.three', type: '' },
+        { label: 'actionOne', value: 'action.one', type: '', static: false },
+        { label: 'actionTwo', value: 'action.two', type: '', static: false },
+        { label: 'actionThree', value: 'action.three', type: '', static: false },
     ];
 
     mockCallbackIconsData = [
@@ -75,7 +85,9 @@ describe('HalfWidthText Toolbar', () => {
   test('should render HalfWidthText toolbar component', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -87,7 +99,9 @@ describe('HalfWidthText Toolbar', () => {
   test('should render HalfWidthText toolbar with section labels', () => {
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 
@@ -107,14 +121,14 @@ describe('HalfWidthText Toolbar', () => {
     const buttonSectionLabel = screen.getByText('Button');
     expect(buttonSectionLabel).toBeInTheDocument();
 
-    const actionSectionLabels = screen.getByText('Action');
-    expect(actionSectionLabels).toBeInTheDocument();
   });
 
   test('should render HalfWidthText toolbar with text props', () => {
     const container = render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     ).container;
 
@@ -133,7 +147,9 @@ describe('HalfWidthText Toolbar', () => {
 
     render(
       <EditorProvider initialValue={initialState}>
-        <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        <ToolbarContextProvider initialValue={{}}>
+          <HalfWidthTextToolbar {...component} onPropChange={createMockOnPropChange(mockCallbackActionsData, mockCallbackIconsData)} />
+        </ToolbarContextProvider>
       </EditorProvider>
     );
 

@@ -1,20 +1,20 @@
 import { useCallback } from 'react';
-import { Divider } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Divider, Stack, Box, Button, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useTheme } from '@mui/material/styles';
 
 import Card from './list-items/draggable';
 import colors from '../../../common/colors';
 import { ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
-import { areEqual } from '../../utils';
+import { areEqual, componentIdToName } from '../../utils';
 import { PAGE_EDITOR_CONTAINER, PAGE_EDITOR_NAVIGATOR_CONTAINER } from '../constants';
 
 export type NavigatorProps = {
-  onAddComponent: () => void;
+  onAddComponent: (index?: number) => void;
 };
 export const Container = ({ onAddComponent }: NavigatorProps) => {
+  const theme = useTheme();
   const {
     components,
     orderComponent,
@@ -50,7 +50,7 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
 
   const renderCard = (component: ComponentProps, index: number) => {
     const { __ui_id__, name, component_id } = component;
-    const text = name || component_id;
+    const subText = componentIdToName(component_id);
     const selected = selectedComponent?.__ui_id__ === __ui_id__;
 
     return (
@@ -62,32 +62,61 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
         onClick={handleClick}
         onRename={handleRename}
         onMenuClick={handleMenuClick}
-        text={text}
+        text={name}
+        subText={subText}
         selected={selected}
+        addComponent={() => onAddComponent(index)}
       ></Card>
     );
   };
 
   return (
     <Box className={PAGE_EDITOR_CONTAINER} id={PAGE_EDITOR_NAVIGATOR_CONTAINER}>
-      <Typography
-        fontSize={'.875rem'}
-        fontWeight={500}
-        textTransform={'uppercase'}
-        paddingX={3}
-        paddingY={2}
-        color={colors.navigator.title}
-        letterSpacing="0.17px"
+      <Box
+        sx={{
+          backgroundColor: colors.sidebar.background,
+          position: 'sticky',
+          top: 0,
+          zIndex: 2,
+        }}
       >
-        Page Components
-      </Typography>
-      <Divider />
-      {components.map((component, i) => renderCard(component, i))}
-      <Box sx={{ margin: 5 }}>
-        <Button variant="outlined" onClick={onAddComponent} fullWidth>
-          Add Component
-        </Button>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={1}
+          sx={{ padding: theme.spacing(1.5), paddingLeft: theme.spacing(3) }}
+        >
+          <Typography
+            fontSize={'.875rem'}
+            fontWeight={500}
+            textTransform={'uppercase'}
+            color={colors.navigator.title}
+            letterSpacing="0.17px"
+          >
+            Page Components
+          </Typography>
+          <Button
+            data-testid="Add Component"
+            variant="outlined"
+            sx={{
+              fontSize: 13,
+              fontWeight: 500,
+              lineHeight: theme.spacing(2.75),
+              letterSpacing: '0.46px',
+              color: colors.navigator.addButton.color,
+              border: `1px solid ${colors.navigator.addButton.border}`,
+              padding: `${theme.spacing(0.5)} ${theme.spacing(1.25)}`,
+            }}
+            onClick={() => onAddComponent()}
+            startIcon={<AddIcon />}
+          >
+            ADD
+          </Button>
+        </Stack>
+        <Divider />
       </Box>
+      {components.map((component, i) => renderCard(component, i))}
     </Box>
   );
 };

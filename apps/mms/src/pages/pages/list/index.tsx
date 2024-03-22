@@ -2,29 +2,34 @@ import React, { useEffect } from 'react';
 import { Box, Button, Link, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, useSearchParams } from 'react-router-dom';
 
 import { PageDetail, PageItemsRequest, useLazyGetPagesItemsQuery } from '@lths/features/mms/data-access';
 import { PageAdapterProvider, PagesStatus, useAlertActions } from '@lths/features/mms/ui-components';
 import { PageAction } from '@lths/features/mms/ui-editor';
-import { Table, TablePaginationProps, TableSortingProps, ActionMenu } from '@lths/shared/ui-elements';
+import { ActionMenu, SearchBar, Table, RowBuilderFn, SortDirection } from '@lths/shared/ui-elements';
 import { PageHeader } from '@lths/shared/ui-layouts';
+
+type SearchParam = Record<string, string | number | null | undefined>;
 
 const headers = [
   {
     id: 'name',
     label: 'PAGE NAME',
     sortable: true,
+    width: '20%',
   },
   {
     id: 'status',
     label: 'STATUS',
     sortable: true,
+    width: '15%',
   },
   {
     id: 'updated_on',
     label: 'LAST ACTION',
     sortable: true,
+    width: '10%',
   },
   {
     id: 'type',
@@ -42,61 +47,73 @@ const headers = [
     sortable: false,
     width: '20%',
   },
-
+  {
+    id: 'updated_by',
+    label: 'LAST EDITOR',
+    sortable: false,
+  },
   {
     id: 'actions',
     label: '',
     sortable: false,
   },
 ];
-//TODO: Add a response type for RTK queries
 const Page = (): JSX.Element => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryParams = Object.fromEntries(searchParams.entries());
+
+  const { name, limit, offset, sort_field, sort_by } = queryParams;
+
   const navigate = useNavigate();
 
   const { openAlert } = useAlertActions();
 
   const [getData, { isFetching, isLoading, data }] = useLazyGetPagesItemsQuery();
 
-  async function fetchData(pagination: TablePaginationProps, sorting: TableSortingProps) {
-    const req: PageItemsRequest = {};
-    if (pagination != null) {
-      req.page = pagination.page;
-      req.page_size = pagination.pageSize;
-    }
-    if (sorting != null) {
-      req.sort_key = sorting.column;
-      req.sort_order = sorting.order;
-    }
-
-    getData(req);
-  }
+  const persistantTableSettingsKey = 'persist:mms:pages-table-settings';
+  const persistantSettings = localStorage.getItem(persistantTableSettingsKey);
+  const { rowsPerPage } = persistantSettings ? JSON.parse(persistantSettings) : { rowsPerPage: undefined };
 
   useEffect(() => {
-    fetchData(null, undefined);
-  }, []);
+    const req: PageItemsRequest = { name, limit, offset, sort_field, sort_by };
 
-  const onPageChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    fetchData(pagination, sorting);
+    // use query params if present, if not use persistantSettings
+    req.limit = !!req.limit && Number(req.limit) > 0 ? req.limit : rowsPerPage;
+    getData(req);
+  }, [name, limit, offset, sort_field, sort_by]);
+
+  const updateSearchParams = (params: SearchParam) => {
+    setSearchParams((searchParams) => {
+      for (const name in params) {
+        const value = params[name];
+        if (value === null || value === undefined || value === '') searchParams.delete(name);
+        else searchParams.set(name, value.toString());
+      }
+      return searchParams;
+    });
   };
 
-  const onRowsPerPageChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    pagination: TablePaginationProps,
-    sorting: TableSortingProps
-  ) => {
-    fetchData(pagination, sorting);
+  const handleSearch = (value: string) => {
+    updateSearchParams({ name: value, offset: 0 });
   };
 
-  const onSortClick = (pagination: TablePaginationProps, sorting: TableSortingProps) => {
-    fetchData(pagination, sorting);
+  const handleOnChange = ({ page, rowsPerPage, sortOrder, orderBy }) => {
+    const params: SearchParam = {
+      limit: rowsPerPage,
+      offset: page * rowsPerPage, // * page is 0 indexed from mui components
+      ...(orderBy &&
+        sortOrder && {
+          sort_field: orderBy,
+          sort_by: sortOrder,
+        }),
+    };
+
+    updateSearchParams(params);
   };
 
   const menuOptions = (page: PageDetail) => {
-    const { page_id, name } = page;
+    const { page_id, name, type } = page;
     return [
       {
         id: PageAction.RENAME,
@@ -139,44 +156,71 @@ const Page = (): JSX.Element => {
         action: () => {
           openAlert(PageAction.DELETE, { page_id });
         },
+        hide: type === 'Pre-Defined',
       },
     ];
   };
 
-  const tableRows = data?.data?.map((row) => {
-    const { _id, page_id, name, type, status, updated_on, constraints_formatted, default_page_id } = row;
-    return (
-      <TableRow key={`row_${_id}`}>
-        <TableCell>
-          <Stack>
-            <Link component={RouterLink} to={`/pages/editor/${page_id}`} color="inherit" underline="hover" variant="h5">
-              {name}
+  const RowBuilder = (): RowBuilderFn<PageDetail> => {
+    return (props) => {
+      const { data, showRowNumber, rowNumber } = props;
+      const { page_id, name, type, status, updated_on, constraints_formatted, default_page_id, updated_by } = data;
+
+      return (
+        <TableRow key={`row_${page_id}`}>
+          {!!showRowNumber && (
+            <TableCell
+              align="center"
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+                fontsize: '0.75rem',
+              }}
+            >
+              {rowNumber}
+            </TableCell>
+          )}
+
+          <TableCell>
+            <Stack>
+              <Link
+                component={RouterLink}
+                to={`/pages/editor/${page_id}`}
+                color="inherit"
+                underline="hover"
+                variant="h5"
+              >
+                {name}
+              </Link>
+              <Typography variant="subtitle1">{page_id}</Typography>
+            </Stack>
+          </TableCell>
+          <TableCell>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <PagesStatus status={status} />
+            </Stack>
+          </TableCell>
+          <TableCell>{updated_on}</TableCell>
+          <TableCell>{type}</TableCell>
+          <TableCell>
+            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
+              {default_page_id}
             </Link>
-            <Typography variant="subtitle1">{page_id}</Typography>
-          </Stack>
-        </TableCell>
-        <TableCell>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <PagesStatus status={status} />
-          </Stack>
-        </TableCell>
-        <TableCell>{updated_on}</TableCell>
-        <TableCell>{type}</TableCell>
-        <TableCell>
-          <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
-            {default_page_id}
-          </Link>
-        </TableCell>
-        <TableCell>{constraints_formatted}</TableCell>
-        <TableCell>
-          <ActionMenu options={menuOptions(row)} />
-        </TableCell>
-      </TableRow>
-    );
-  });
+          </TableCell>
+          <TableCell>{constraints_formatted}</TableCell>
+          <TableCell>
+            <Typography variant="subtitle1">{updated_by}</Typography>
+          </TableCell>
+          <TableCell>
+            <ActionMenu options={menuOptions(data)} />
+          </TableCell>
+        </TableRow>
+      );
+    };
+  };
 
   const total = data?.pagination?.totalItems;
-
+  const page = offset && limit ? Math.max(parseInt(offset) / parseInt(limit), 0) : 0;
+  const pageLimit = !!limit && Number(limit) > 0 ? Number(limit) : rowsPerPage || 25;
   return (
     <Box>
       <PageHeader
@@ -185,7 +229,7 @@ const Page = (): JSX.Element => {
           <Button
             startIcon={<AddIcon />}
             variant="contained"
-            color="primaryButton"
+            color="primary"
             onClick={() => openAlert(PageAction.CREATE)}
           >
             CREATE
@@ -194,19 +238,23 @@ const Page = (): JSX.Element => {
         sx={{ mt: 2, mb: 2 }}
       />
       <Divider />
+      <SearchBar value={name} onSearch={handleSearch} sx={{ marginY: 2 }} />
       <Table
+        data={data?.data ?? []}
+        headerCells={headers}
+        rowBuilder={RowBuilder()}
         loading={isLoading}
         fetching={isFetching}
         total={total}
         title="{0} total pages"
-        headerCells={headers}
-        tableRows={tableRows}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        onSortClick={onSortClick}
-        sx={{
-          mt: 4,
-        }}
+        onChange={handleOnChange}
+        page={page}
+        rowsPerPage={pageLimit}
+        sortOrder={sort_by ? (sort_by as SortDirection) : undefined}
+        orderBy={sort_field ? sort_field : undefined}
+        userSettingsStorageKey={persistantTableSettingsKey}
+        showFirstButton
+        showLastButton
       />
     </Box>
   );

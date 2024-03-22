@@ -1,7 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
-import { render, waitFor, screen, within, act, RenderResult } from '@testing-library/react';
+import { render, waitFor, screen, within, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventFormModal, EventFormModalProps } from './index';
@@ -26,13 +25,11 @@ describe('EventFormModal', () => {
       ...props,
     };
 
-    await act(async () => {
-      component = render(<EventFormModal {...defaultProps} />);
-      container = component.container;
-    });
+    component = render(<EventFormModal {...defaultProps} />);
+    container = component.container;
   };
 
-  fit('should render without crashing', () => {
+  it('should render without crashing', () => {
     renderComponent();
     expect(container).toBeInTheDocument();
   });
@@ -43,31 +40,42 @@ describe('EventFormModal', () => {
     renderComponent();
 
     // Focus on the input elements and blur to trigger validation
+    const parent = screen.getByTestId('Edit-Event--event-name');
+    const input = parent.querySelector('input') as HTMLInputElement;
     expect(document.getElementById('edit-event--event-name-helper-text')).not.toBeInTheDocument();
-    await act(async () => {
-      await user.click(screen.getByTestId('Edit-Event--event-name'));
-      await user.tab();
-    });
+    await user.clear(input);
+    await user.tab();
 
     await waitFor(() => {
       // Assert validation errors are displayed
-      expect(document.getElementById('edit-event--event-name-helper-text')?.textContent).toBe('Required');
+      expect(document.getElementById('edit-event--event-name-helper-text')).toBeInTheDocument();
+      expect(within(parent).getByText('Required')).toBeInTheDocument();
     });
   });
 
   it('should allow submit when filled', async () => {
+    const user = userEvent.setup();
+
     const eventValues = getNewEvent({ eventTypeID: 'COMEDY' });
     renderComponent({ eventValues });
-    const { getByText } = component;
+    const { getByText, getByTestId } = component;
 
-    await userEvent.click(getByText('Save'));
+    const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
+    const saveBtn = getByText('Save');
+    expect(saveBtn).toBeDisabled();
+    const textToAdd = ' Add text'; // form needs to be dirty to change
+    await user.type(inputElem, textToAdd);
+    await user.tab();
+    expect(saveBtn).not.toBeDisabled();
+
+    await user.click(saveBtn);
 
     // Wait for the form to be submitted and the modal to close
     await waitFor(() => {
       // Assert that onSaveMock has been called with the correct values
       expect(onSaveMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          eventName: eventValues.title,
+          eventName: eventValues.title + textToAdd,
           description: eventValues.desc,
           isAllDay: eventValues.allDay,
         }),
@@ -81,27 +89,27 @@ describe('EventFormModal', () => {
 
   it('should show proper error when start date is after end date', async () => {
     const user = userEvent.setup();
-
-    renderComponent();
+    renderComponent({ eventValues: { start: null, end: null } });
 
     // Set start date after end date
-    const startDateInput = screen
-      .getByTestId('Edit-Event--start-date-wrapper')
-      .querySelector('input') as HTMLInputElement;
-    const endDateInput = screen.getByTestId('Edit-Event--end-date-wrapper').querySelector('input') as HTMLInputElement;
+    const startParent = screen.getByTestId('Edit-Event--start-date-wrapper');
+    const endParent = screen.getByTestId('Edit-Event--end-date-wrapper');
 
-    // Set end date before start date
-    await user.clear(endDateInput);
-    await user.type(endDateInput, '01/22/2022 5:00 PM');
-    await user.tab();
+    await user.click(within(endParent).getByLabelText('Choose date'));
+    const datepickerEnd = screen.getByRole('dialog');
+    const dateButtonEnd = within(datepickerEnd).getByText('22');
+    await user.click(dateButtonEnd);
 
-    await user.clear(startDateInput);
-    await user.type(startDateInput, '01/25/2022 4:00 PM');
-    await user.tab();
+    await user.click(within(startParent).getByLabelText('Choose date'));
+    const datepickerStart = screen.getByRole('dialog');
+    const dateButtonStart = within(datepickerStart).getByText('25');
+    await user.click(dateButtonStart);
 
     // Assert that proper error message is shown
-    expect(screen.getByText('The end date must be later than the start date')).toBeInTheDocument();
-  }, 20000);
+    await waitFor(() => {
+      expect(screen.getByText('The end date must be later than the start date')).toBeInTheDocument();
+    });
+  });
 
   it('should show event type dropdown and select an event type', async () => {
     const user = userEvent.setup();
@@ -150,12 +158,7 @@ describe('EventFormModal', () => {
   });
 
   it('should disable submit button when form is invalid', async () => {
-    const user = userEvent.setup();
-
     renderComponent();
-
-    // Try to submit the form with invalid input
-    await user.click(screen.getByText('Save'));
 
     // Assert that the submit button is disabled
     expect(screen.getByText('Save')).toBeDisabled();

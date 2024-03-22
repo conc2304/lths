@@ -1,10 +1,11 @@
-import { Box, Button, Divider, TextField } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import { ActionToolbar } from '..';
 import BinIcon from '../../../../../assets/bin-icon.svg';
+import { TOOLBAR_GAP } from '../../../../common/constants';
 import { ToolbarProps } from '../../../../context';
-import { GroupLabel } from '../../../../elements';
+import { GroupLabel, OutlinedTextField } from '../../../../elements';
 import { useToolbarChange } from '../../hooks';
 import { ActionProps } from '../../types';
 
@@ -24,10 +25,10 @@ const SegmentToolbar = (props: SegmentGroupToolbarProps) => {
 
   return (
     <Box>
-      <Stack spacing={2}>
+      <Stack spacing={TOOLBAR_GAP}>
         <GroupLabel label={`Segment Group ${index + 1}`} />
-        <TextField label={'Title'} value={title} onChange={(event) => handleTitleChange(event, index, parent_key)} />
-        <TextField
+        <OutlinedTextField label={'Title'} value={title} onChange={(event) => handleTitleChange(event, index, parent_key)} />
+        <OutlinedTextField
           label={'Description'}
           value={description}
           onChange={(event) => handleDescriptionChange(event, index, parent_key)}
@@ -43,8 +44,8 @@ const SegmentToolbar = (props: SegmentGroupToolbarProps) => {
             Remove
           </Button>
         </Stack>
+        <Divider/>
       </Stack>
-      <Divider sx={{ marginY: 3 }} />
     </Box>
   );
 };
