@@ -1,6 +1,6 @@
 import { afterEach } from 'node:test';
 
-import { getAppEnvironmentName, getAppEnvTitle } from './env';
+import { getAppEnvironmentName, getAppEnvTitle, WebEnvName } from './env';
 
 describe('getEnv', () => {
   describe('getAppEnvironmentName', () => {
@@ -59,6 +59,40 @@ describe('getEnv', () => {
         const mockTitleGenerator = jest.fn((envTitle) => `Custom Title [${envTitle}]`);
         expect(getAppEnvTitle({ envName: 'dev', titleGenerator: mockTitleGenerator })).toBe('Custom Title [DEV]');
         expect(mockTitleGenerator).toHaveBeenCalledWith('DEV');
+      });
+    });
+
+    describe('environment indicator', () => {
+      jest.mock(
+        '../../../../../.env',
+        () => {
+          ('');
+        },
+        { virtual: true }
+      );
+
+      // The first item in the tuple is the env variable passed down from the ci pipeline
+      const envs: WebEnvName[] = ['dev', 'local', 'qa', 'staging', 'production'];
+
+      for (const nxWebEnv of envs) {
+        it(`returns correct environment title for ${nxWebEnv} : NX_PUBLIC_WEB_ENV.`, () => {
+          jest.isolateModules(() => {
+            require('../../../../../.env');
+            process.env.NX_PUBLIC_WEB_ENV = nxWebEnv;
+          });
+
+          expect(getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV)).toBe(nxWebEnv);
+        });
+      }
+
+      it('returns "production" when NX_PUBLIC_WEB_ENV does not match expected and on production url', () => {
+        window.location = { hostname: 'mms.lths.app' } as any;
+        jest.isolateModules(() => {
+          require('../../../../../.env');
+          process.env.NX_PUBLIC_WEB_ENV = 'BANANA';
+        });
+
+        expect(getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV)).toBe('production');
       });
     });
   });

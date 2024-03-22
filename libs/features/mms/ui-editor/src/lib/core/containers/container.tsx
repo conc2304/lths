@@ -3,7 +3,7 @@ import { Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useContainerScroll } from '@lths-mui/shared/ui-hooks';
 
-import { scrollToAnElementInAContainer } from '@lths/shared/ui-elements';
+import { scrollToAnElementInAContainer, scrollElementIntoView } from '@lths/shared/ui-elements';
 
 import {
   PAGE_EDITOR_CONTAINER,
@@ -12,7 +12,6 @@ import {
   PAGE_EDITOR_WYSIWYG_CONTAINER,
 } from './constants';
 import Navigator from './navigator';
-import { NavigatorProps } from './navigator/container';
 import { Toolbar } from './toolbar';
 import { Wysiwyg } from './wysiwyg';
 import colors from '../../common/colors';
@@ -20,14 +19,15 @@ import { ToolbarProps, useEditorActions } from '../../context';
 
 import './index.scss';
 
-type EditorProps = NavigatorProps & {
+type EditorProps = {
   onPropChange: ToolbarProps['onPropChange'];
+  onAddComponent: (index?: number) => void;
 };
 
 const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
   useContainerScroll([`.${PAGE_EDITOR_CONTAINER}`], [PAGE_EDITOR_CONTAINER_SCROLL]);
 
-  const { selectedComponent } = useEditorActions();
+  const { selectedComponent, components, lastSwap } = useEditorActions();
 
   useEffect(() => {
     if (selectedComponent) {
@@ -36,6 +36,13 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
       scrollToAnElementInAContainer(`#${PAGE_EDITOR_NAVIGATOR_CONTAINER}`, `#navigator-component-${__ui_id__}`);
     }
   }, [selectedComponent]);
+
+  useEffect(() => {
+    if (lastSwap && components[lastSwap.index]) {
+      const { __ui_id__ } = components[lastSwap.index];
+      scrollElementIntoView(`#editor-component-${__ui_id__}`);
+    }
+  }, [lastSwap]);
 
   return (
     <Box>
@@ -52,7 +59,7 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
             className={PAGE_EDITOR_CONTAINER}
             id={PAGE_EDITOR_WYSIWYG_CONTAINER}
           >
-            <Wysiwyg />
+            <Wysiwyg onAddComponent={onAddComponent} />
           </Stack>
         </Grid>
         <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar }}>

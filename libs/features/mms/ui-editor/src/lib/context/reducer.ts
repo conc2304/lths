@@ -68,9 +68,14 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
     }
 
     case EditorActionType.ADD_COMPONENT: {
-      const { component } = action;
-      const components = addNewComponent(state.components, component);
-      return { ...state, components, selectedComponent: components[components.length - 1], hasUnsavedEdits: true };
+      const { component, index } = action;
+      const components = addNewComponent(state.components, component, index);
+      return {
+        ...state,
+        components,
+        selectedComponent: index >= 0 ? components[index + 1] : components[components.length - 1],
+        hasUnsavedEdits: true,
+      };
     }
     case EditorActionType.RENAME_COMPONENT: {
       const { id, name } = action;
@@ -95,7 +100,7 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
     case EditorActionType.ORDER_COMPONENT: {
       const { dragIndex, hoverIndex } = action;
       const components = swapComponent(state.components, dragIndex, hoverIndex);
-      return { ...state, components, hasUnsavedEdits: true };
+      return { ...state, components, lastSwap: { index: hoverIndex }, hasUnsavedEdits: true };
     }
 
     case EditorActionType.DUPLICATE_COMPONENT: {

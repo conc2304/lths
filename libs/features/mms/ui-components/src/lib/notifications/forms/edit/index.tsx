@@ -38,7 +38,7 @@ const NotificationForm = ({
 
   const renderTopicOption = (props: HTMLAttributes<HTMLLIElement>, option: EnumValue) => {
     return (
-      <Box component="li" {...props}>
+      <Box component="li" {...props} key={option.value}>
         <Typography>{option.name}</Typography>
       </Box>
     );

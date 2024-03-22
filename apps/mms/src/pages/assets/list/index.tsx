@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -6,12 +6,11 @@ import {
   AssetsRequestProps,
   AssetProps,
   PreviewAssetRowProps,
-  useAddResourceMutation,
   useLazyGetAssetsItemsQuery,
   useEditResourceMutation,
   useDeleteResourceMutation,
-  useAppSelector,
   AssetExtendedListProps,
+  useUploadAssetMutation,
 } from '@lths/features/mms/data-access';
 import {
   cleanUrl,
@@ -69,7 +68,6 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
-  const currentUser = useAppSelector((state) => state.users.user);
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -171,6 +169,7 @@ export default function AssetsPage() {
         const previewUrl = (asset.media_files.length > 0 && cleanUrl(asset.media_files[0]?.url)) || '';
         if (previewUrl) {
           const imageWindow = window.open(previewUrl);
+
           imageWindow.document.write('<html><head><title>Preview</title></head><body>');
           imageWindow.document.write(
             '<img src="' + previewUrl + '" alt="Image Preview" style="max-width:100%; height:auto;">'
@@ -208,28 +207,26 @@ export default function AssetsPage() {
 
   const total = data?.pagination?.totalItems || 0;
 
-  const [addResource, { isLoading: isAddingResource }] = useAddResourceMutation();
-
   const allowedFileTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/gif'];
 
-  const handleUpload = async (event) => {
-    const newAsset = event.target.files[0];
-    if (newAsset && allowedFileTypes.includes(newAsset.type)) {
-      try {
-        await addResource({ newAsset, user: currentUser.username }).unwrap();
-        toast.add(`Asset has been added successfully.`, { type: 'success' });
-        setCurrPage(0);
-        setSearch({ queryString: '' });
-        setCurrSorting({ order: 'desc', column: headers[1].id });
-      } catch (error) {
-        console.error('Failed to add asset:', error);
-      }
-    } else {
-      console.error('Invalid file type:', newAsset.type);
+  const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
+
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      return;
     }
-    // This small change resets the file input after each upload,
-    // which solves the problem of not being able to re-upload the same file after it has been deleted fixes MMS-473
-    event.target.value = '';
+
+    uploadAsset(file)
+      .unwrap()
+      .then(() => {
+        toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
+      })
+      .catch((error: { data: string; status: number }) => {
+        toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
+      });
+
+    event.target.value = ''; // Reset the file input after upload
   };
 
   const [editResource] = useEditResourceMutation();

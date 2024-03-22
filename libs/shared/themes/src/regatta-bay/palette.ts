@@ -1,20 +1,5 @@
 import { PaletteMode } from '@mui/material';
 import { PaletteOptions } from '@mui/material/styles';
-import { Property } from 'csstype';
-
-import { WebEnvName, getAppEnvironmentName } from '@lths/shared/utils';
-
-const env = getAppEnvironmentName(process.env.NX_PUBLIC_WEB_ENV);
-const AppBarBlack = '#110922';
-const AppBarColorMap: Record<WebEnvName, Property.BackgroundColor> = {
-  production: AppBarBlack,
-  dev: '#D21F3C', // red
-  staging: '#0C7A31', // green
-  qa: '#0C7A31', // green
-  local: AppBarBlack,
-};
-
-const appBarColor = env && env !== undefined && Boolean(AppBarColorMap?.[env]) ? AppBarColorMap[env] : AppBarBlack;
 
 const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
   return {
@@ -52,7 +37,8 @@ const getPalette = (mode: PaletteMode = 'light'): PaletteOptions => {
       contrastText: '#FFFFFF',
     },
     appBar: {
-      background: appBarColor,
+      background: '#110922',
+      // background: appBarColor,
     },
     snackBar: {
       main: '#2A2F34',

@@ -15,6 +15,7 @@ import { RBThemeProvider as LayoutThemeProvider } from './themes';
 
 function App() {
   const mockingEnable = process.env.NX_PUBLIC_API_MOCKING === 'enabled';
+  const githashVersion = process.env.NX_PUBLIC_UI_VERSION || 'No Version - Local Development';
   const [shouldRender, setShouldRender] = useState(!mockingEnable);
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function App() {
   return (
     <>
       <Helmet>
+        <meta name="UI Version" content={githashVersion} />
         <title>{envTitle}</title>
       </Helmet>
       <Provider store={store}>

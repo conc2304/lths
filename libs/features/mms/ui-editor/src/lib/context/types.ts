@@ -88,6 +88,7 @@ export type EditorProps = {
   constraints?: PageConstraints;
   components: ComponentProps[];
   selectedComponent?: ComponentProps | null;
+  lastSwap?: { index: string };
   hasUnsavedEdits?: boolean;
 };
 
@@ -130,7 +131,7 @@ export type EditorActionProps<T extends EditorProps = EditorProps> =
   | { type: EditorActionType.UPDATE_EXTENDED; data: Partial<T> }
   | { type: EditorActionType.SET_CURRENT_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.CLEAR_CURRENT_COMPONENT }
-  | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps }
+  | { type: EditorActionType.ADD_COMPONENT; component: ComponentProps; index?: number }
   | { type: EditorActionType.UPDATE_COMPONENT; component: ComponentProps }
   | { type: EditorActionType.CLEAR_COMPONENTS }
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }

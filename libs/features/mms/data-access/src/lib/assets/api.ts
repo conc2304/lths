@@ -85,8 +85,6 @@ export const assetsApi = api.enhanceEndpoints({ addTagTypes: [ASSETS_TAG, VIRTUA
 
         // ask the backend to give us a signed url for Azure Blob Storage upload
         const response = await queryApi.dispatch(assetsApi.endpoints.getSecureUploadUrl.initiate(fileName));
-        // TODO - remove console.log after we have finished debuggin thins
-        console.log({ response });
         const signedUrl = response.data;
 
         if (!signedUrl) {
@@ -167,10 +165,7 @@ export const uploadFileToBlobStorage = async (file: File, signedUrl: string) => 
       body: file,
     });
 
-    // TODO - remove log after testing
-    console.log({ response });
     if (!response.ok) {
-      console.log({ response });
       throw new Error(`Failed to upload file: ${response.statusText}`);
     }
 

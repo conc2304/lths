@@ -8,12 +8,15 @@ export const getAppEnvironmentName = (processEnvVar: string | WebEnvName | undef
   const envStr = processEnvVar ?? process?.env?.NX_PUBLIC_WEB_ENV ?? '';
   const env = envStr.trim().toLowerCase() as WebEnvName | undefined;
 
+  console.log(env);
+
   // bail out early if production or if env variable matches expected
   if (env === 'production') return 'production';
   if (env !== undefined && WEB_ENVS.includes(env)) {
     return env;
   }
 
+  // there was no direct env variable match, base env on host url
   const hostname = window?.location?.hostname ?? '';
   if (env === 'local' || hostname.includes('localhost') || hostname.includes('gitpod')) {
     return 'local';
@@ -23,6 +26,7 @@ export const getAppEnvironmentName = (processEnvVar: string | WebEnvName | undef
     return 'staging';
   }
 
+  // always fall back to production for lewks
   return 'production';
 };
 
