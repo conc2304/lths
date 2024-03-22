@@ -66,9 +66,9 @@ export const getCalendarStateFromPath = (
   month: number;
   day: number;
 } => {
+  console.log('getCalendarStateFromPath');
   const regex = /vm\/([^/]+)\/v\/([^/]+)\/(\d{4})\/(\d{1,2})\/(\d{1,2})/;
-  console.log(path);
-  const isIndex = Boolean(path.indexOf('schedule'));
+  const isIndex = path.indexOf('schedule') >= 0 || path === '/';
   const match = path.match(regex);
 
   if (match) {
@@ -79,7 +79,7 @@ export const getCalendarStateFromPath = (
       viewMode: viewMode as ViewMode,
       view: view as LTHSView,
       year: parseInt(year, 10),
-      month: parseInt(month, 10) - 1,
+      month: parseInt(month, 10) - 1, // url is 1 indexed
       day: parseInt(day, 10),
     };
   } else {
@@ -90,8 +90,8 @@ export const getCalendarStateFromPath = (
       viewMode: 'calendar',
       view: 'month',
       year: today.getFullYear(),
-      month: today.getMonth() - 1,
-      day: today.getDay(),
+      month: today.getMonth(), // get month is 0 indexed
+      day: today.getDate(),
     };
   }
 };

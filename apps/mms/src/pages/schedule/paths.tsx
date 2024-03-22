@@ -18,7 +18,7 @@ const section: SectionItemProps = {
           hidden: true,
         },
         {
-          path: `${BasePath}/schedule/vm/:viewMode/v/:view/:year/:month/:day`,
+          path: `${BasePath}/vm/:viewMode/v/:view/:year/:month/:day`,
           file: '/schedule/schedule-page',
           hidden: true,
         },

@@ -200,6 +200,7 @@ export const EventScheduler = (props: EventSchedulerProps) => {
     '--event-min-height': '5.5rem',
   };
 
+  console.log('Event Scheduler', { date });
   return (
     <>
       <LTHSCalendar

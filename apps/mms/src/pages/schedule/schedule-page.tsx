@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { differenceInSeconds, isAfter, isBefore } from 'date-fns';
 import { Flags } from 'react-feature-flags';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   useLazyGetEventsQuery,
@@ -39,14 +39,18 @@ const SchedulePage = () => {
 
   // State from Path / Routing
   const location = useLocation();
+  const navigate = useNavigate();
+
   const { viewMode: viewModeParam, view: viewParam, year, month, day } = getCalendarStateFromPath(location.pathname);
 
-  let date: Date;
-  if (year && month && day) {
-    date = new Date(year, month, day);
-  } else {
-    date = new Date();
-  }
+  // console.log(year, month, day);
+  // let date: Date;
+  // if (year && month && day) {
+  //   date = new Date(year, month, day);
+  // } else {
+  //   date = new Date();
+  // }
+  // console.log(date);
 
   // State
   const [importModalOpen, setImportModelOpen] = useState(false);
@@ -55,7 +59,16 @@ const SchedulePage = () => {
   const [eventTypes, setEventTypes] = useState<EventType[]>([]);
   const [view, setView] = useState<LTHSView>(viewParam);
   const [viewMode, setViewMode] = useState<ViewMode>(viewModeParam);
-  const [calendarDate, setCalendarDate] = useState<Date>(date);
+  const [calendarDate, setCalendarDate] = useState<Date>(new Date());
+
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect', year, month, day);
+    // let date: Date;
+    if (year && month && day) {
+      setCalendarDate(new Date(year, month, day));
+    }
+  }, [location]);
+  console.log('Schedule Page', { calendarDate });
 
   const { events: unformattedEvents = [], eventStates: unformattedBackgroundEvents = [] } = data || {};
 
@@ -149,7 +162,9 @@ const SchedulePage = () => {
   };
 
   const doNavigate = (path: string) => {
-    window.history.pushState({}, '', `/#${path}`);
+    console.log('Do Navigate(): ', path);
+    // window.history.pushState({}, '', `/#${path}`);
+    navigate(path);
   };
 
   const handleOnRangeChange = (range: Date[] | { start: Date; end: Date }) => {

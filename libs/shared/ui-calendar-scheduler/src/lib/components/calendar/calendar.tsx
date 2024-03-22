@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { isTuesday, format, getDay, parse, startOfWeek } from 'date-fns';
@@ -110,6 +110,12 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
   }
 
   const [date, setDate] = useState(dateProp || new Date());
+
+  useEffect(() => {
+    console.log('--- Calendar UE()', date);
+    if (dateProp) setDate(dateProp);
+  }, [dateProp]);
+
   const [view, setView] = useState<LTHSView>(viewProp || 'month');
   const viewRef = useRef(view);
   const [viewMode, setViewMode] = useState<ViewMode>(viewModeProp || 'calendar');
@@ -148,6 +154,7 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
 
   const handleOnNavigate = (date: Date, newView: View, action: NavigateAction) => {
     setDate(date);
+    console.log('handleOnNavigate', date);
     // !! Hack Warning
     // we are using viewRef here bc when we click on a date onView gets called
     //  and this has the previous view instead of the next vies
@@ -216,6 +223,8 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
     };
   }, [view, viewMode, customComponents]);
 
+  console.log('--*  Calendar Render', dateProp);
+
   return (
     <Box
       className={`Calendar-Scheduler--root Calendar-Scheduler--view-${view}`}
@@ -250,6 +259,7 @@ export const LTHSCalendar = <TEvent extends object = Event>(props: LTHSCalendarP
             style={{ height: '100%' }}
             messages={CALENDAR_MESSAGES}
             date={date}
+            // date={dateProp}
             onView={handleOnView}
             view={view as View}
             views={views}
