@@ -35,11 +35,13 @@ const headers = [
     id: 'type',
     label: 'TYPE',
     sortable: true,
+    width: '8%',
   },
   {
     id: 'default_page_id',
     label: 'DEFAULT PAGE',
     sortable: true,
+    width: '11%',
   },
   {
     id: 'constraints',
@@ -51,11 +53,13 @@ const headers = [
     id: 'updated_by',
     label: 'LAST EDITOR',
     sortable: false,
+    width: '9%',
   },
   {
     id: 'actions',
     label: '',
     sortable: false,
+    width: '7%',
   },
 ];
 const Page = (): JSX.Element => {
@@ -181,7 +185,7 @@ const Page = (): JSX.Element => {
           )}
 
           <TableCell>
-            <Stack>
+            <Stack sx={{ wordBreak: 'break-word' }}>
               <Link
                 component={RouterLink}
                 to={`/pages/editor/${page_id}`}
@@ -195,14 +199,17 @@ const Page = (): JSX.Element => {
             </Stack>
           </TableCell>
           <TableCell>
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction="row" spacing={2} alignItems="center" sx={{ wordBreak: 'break-word' }}>
               <PagesStatus status={status} />
             </Stack>
           </TableCell>
           <TableCell>{updated_on}</TableCell>
           <TableCell>{type}</TableCell>
           <TableCell>
-            <Link component={RouterLink} to={`/pages/editor/${default_page_id}`} color="inherit" underline="hover">
+            <Link 
+              component={RouterLink} to={`/pages/editor/${default_page_id}`} 
+              color="inherit" underline="hover" sx={{ wordBreak: 'break-word' }}
+            >
               {default_page_id}
             </Link>
           </TableCell>
