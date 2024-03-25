@@ -18,8 +18,9 @@ import {
   TableFileInfoRow,
   AssetModals,
   PreviewDrawerContent,
+  UploadConfirmDialog,
 } from '@lths/features/mms/ui-components';
-import { toast } from '@lths/shared/ui-elements';
+import { DialogForm, FileList, toast } from '@lths/shared/ui-elements';
 import {
   Table,
   TablePaginationProps,
@@ -75,6 +76,9 @@ export default function AssetsPage() {
   const [selectedPreviewRow, setSelectedPreviewRow] = useState<PreviewAssetRowProps>(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  const [filesToUpload, setFilesToUpload] = useState<FileList | null>(null);
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -211,22 +215,71 @@ export default function AssetsPage() {
 
   const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
 
-  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file || !allowedFileTypes.includes(file.type)) {
+  const maxFiles = 10;
+  const maxFileSize = 1;
+  const handleOnFilesAdded = async (event: ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files;
+    const numFiles = fileList.length;
+
+    // if only 1 file then dont show modal, otherwise show confirmation modal
+    if (!fileList) {
+      // todo handle when a file is the wrong type
+      return;
+    }
+    console.log('fileinput', fileInputRef.current.value);
+
+    if (numFiles === 1) {
+      handleUpload(fileList);
+    } else {
+      setFilesToUpload(fileList);
+      setConfirmationDialogOpen(true);
+    }
+    console.log('fileinput', fileInputRef.current.value);
+
+    // event.target.value = ''; // Reset the file input after upload
+  };
+
+  const handleUpload = async (fileList: FileList) => {
+    const files = Array.from(fileList);
+
+    if (!files) {
+      // todo handle when a file is the wrong type
       return;
     }
 
-    uploadAsset(file)
-      .unwrap()
-      .then(() => {
-        toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
+    const uploadFile = (file: File) => {
+      return uploadAsset(file)
+        .unwrap()
+        .then(() => {
+          // toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
+          return `Successfully uploaded media: ${file.name}`;
+        })
+        .catch((error) => {
+          return error;
+          // toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
+        });
+    };
+
+    const uploadPromises = files.map(uploadFile);
+
+    Promise.allSettled(uploadPromises)
+      .then((results) => {
+        results.forEach((result, index) => {
+          console.log(result);
+          if (result.status === 'fulfilled') {
+            console.log(`File ${index + 1} uploaded successfully.`);
+          } else {
+            console.error(`File ${index + 1} failed to upload: ${result.reason}`);
+          }
+        });
       })
-      .catch((error: { data: string; status: number }) => {
+      .catch((error) => {
+        console.error('Error uploading files.', error);
         toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
       });
 
-    event.target.value = ''; // Reset the file input after upload
+    setFilesToUpload(null);
+    fileInputRef.current.value = '';
   };
 
   const [editResource] = useEditResourceMutation();
@@ -295,9 +348,10 @@ export default function AssetsPage() {
           <div>
             <input
               type="file"
+              multiple
               ref={fileInputRef}
               style={{ display: 'none' }}
-              onChange={handleUpload}
+              onChange={handleOnFilesAdded}
               accept={acceptedFileTypes}
             />
             <Button
@@ -351,6 +405,17 @@ export default function AssetsPage() {
         handlRenameRow={handlRenameRow}
         setModalState={setAssetModalState}
       />
+      {filesToUpload && (
+        <UploadConfirmDialog
+          open={confirmationDialogOpen}
+          onClose={() => {
+            setConfirmationDialogOpen(false);
+            fileInputRef.current.value = '';
+          }}
+          onSubmit={handleUpload}
+          files={filesToUpload}
+        />
+      )}
     </PageContentWithRightDrawer>
   );
 }

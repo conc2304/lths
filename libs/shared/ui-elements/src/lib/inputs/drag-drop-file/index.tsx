@@ -1,26 +1,9 @@
 import { ChangeEventHandler, DragEventHandler, useRef, useState } from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  FormLabel,
-  IconButton,
-  Input,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-  hexToRgb,
-  useTheme,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FolderIcon from '@mui/icons-material/Folder';
+import { Box, Button, Divider, FormLabel, Input, Typography, hexToRgb, useTheme } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Property } from 'csstype';
 
-import { humanFileSize } from '@lths/shared/utils';
+import { FileList } from '../../data-display';
 
 type DragDropFileProps = {
   files: FileList | null;
@@ -195,89 +178,7 @@ border-radius: 8px`,
         </Box>
       </FormLabel>
       {showFilesAdded && files && files.length > 0 && (
-        <Box
-          sx={{
-            pt: 0.5,
-            position: 'relative',
-          }}
-        >
-          <Box
-            sx={{
-              height: '25px',
-              display: 'block',
-              background: 'linear-gradient(to bottom, #FFF 0% 20%, transparent 90% 100%)',
-              position: 'absolute',
-              top: 0,
-              width: 'calc(100% - 5px)',
-              zIndex: 1,
-            }}
-          />
-          <Box
-            sx={{
-              height: '18px',
-              display: 'block',
-              background: 'linear-gradient(to top, #FFF 0% 20%, transparent 90% 100%)',
-              position: 'absolute',
-              bottom: 0,
-              width: 'calc(100% - 5px)',
-              zIndex: 1,
-            }}
-          />
-          <List
-            dense
-            sx={{
-              maxHeight: '8.5rem',
-              overflowY: 'scroll',
-              position: 'relative',
-
-              '&::-webkit-scrollbar': {
-                display: 'block',
-                width: '5px',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-              },
-              '&::-webkit-scrollbar-button': {
-                display: 'none',
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: '#00000000',
-              },
-              '&::-webkit-scrollbar-track-piece': {
-                backgroundColor: '#00000000',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                borderRadius: '20px',
-                border: (theme) => `5px solid ${theme.palette.grey[300]}`,
-              },
-            }}
-          >
-            {Array.from(files).map((file: File, i) => (
-              <ListItem
-                key={file.name}
-                secondaryAction={
-                  filesRemovable && (
-                    <IconButton
-                      edge="end"
-                      data-testid="Drag-Drop-File--delete-file-button"
-                      aria-label="delete file"
-                      onClick={() => handleRemoveFile(i)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  )
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={file.name} secondary={humanFileSize(file.size)} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
+        <FileList files={files} filesRemovable={filesRemovable} onRemoveFile={handleRemoveFile} />
       )}
       {dragActive && (
         <Box

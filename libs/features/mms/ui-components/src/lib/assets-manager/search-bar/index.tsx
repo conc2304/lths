@@ -33,8 +33,8 @@ export function AssetSearchBar({
       timer = setTimeout(() => {
         onSearch(e.target.value);
       }, debounceTime);
-    }
-  }
+    };
+  };
 
   const handleChange = useCallback(debounceSearch(), [onSearch, debounceTime]);
 
@@ -45,17 +45,19 @@ export function AssetSearchBar({
       value={inputValue}
       label="Search"
       variant="outlined"
+      size="small"
       onFocus={handleFocus}
       onBlur={handleBlur}
       InputLabelProps={{
-        shrink: (isFocused || !!inputValue),
-        style: (isFocused || !!inputValue)
-          ? {
-              marginLeft: '10px',
-              backgroundColor: '#fff',
-              paddingRight: '10px',
-            }
-          : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
+        shrink: isFocused || !!inputValue,
+        style:
+          isFocused || !!inputValue
+            ? {
+                marginLeft: '10px',
+                backgroundColor: '#fff',
+                paddingRight: '10px',
+              }
+            : { marginLeft: '30px', backgroundColor: '#fff', paddingRight: '10px' },
       }}
       InputProps={{
         startAdornment: (
