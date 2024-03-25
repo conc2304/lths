@@ -1,4 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { RBTheme } from '@lths-mui/shared/themes';
 import { withKnobs, select } from "@storybook/addon-knobs";
 
@@ -29,6 +31,12 @@ const withTestingMount = (Story) => (
   </div>
 )
 
-export const decorators = [withKnobs, withThemeSelector, withTestingMount];
+const withLocalizationProvider = (Story) => (
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <Story />
+  </LocalizationProvider>
+)
+
+export const decorators = [withKnobs, withThemeSelector, withLocalizationProvider, withTestingMount];
 export const parameters = {};
 export const globalTypes = {};

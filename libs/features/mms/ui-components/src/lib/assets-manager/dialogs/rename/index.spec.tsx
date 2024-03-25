@@ -2,24 +2,19 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { RenameModal, RenameModalProps } from '.';
 
 describe('RenameModal Component', () => {
-  let props: RenameModalProps;
-  let onClickCancelButton: jest.Mock;
-  let onClickOkButtonMock: jest.Mock;
-  beforeEach(() => {
-    // Set up the props for each test case
-    onClickCancelButton = jest.fn();
-    onClickOkButtonMock = jest.fn();
-    props = {
-      open: true,
-      itemToRename: 'renameThisItemName',
-      onClickCancelButton: onClickCancelButton,
-      onClickOkButton: onClickOkButtonMock,
-    };
-  });
+  const onCancel = jest.fn();
+  const onConfirm = jest.fn();
+  const props: RenameModalProps = {
+    open: true,
+    itemToRename: 'renameThisItemName.file',
+    onCancel: onCancel,
+    onConfirm: onConfirm,
+  };
 
   afterEach(() => {
     // Set up the props for each test case
@@ -29,8 +24,8 @@ describe('RenameModal Component', () => {
   const ModalWrapper = () => {
     const [open, setOpen] = useState(false);
     props.open = open;
-    props.onClickCancelButton = () => {
-      onClickCancelButton();
+    props.onCancel = () => {
+      onCancel();
       setOpen(false);
     };
 
@@ -46,116 +41,89 @@ describe('RenameModal Component', () => {
     render(<RenameModal {...props} />);
 
     // Assert that the expected elements are rendered with the correct values
-    expect(screen.getByText('Rename asset?')).toBeInTheDocument();
-    expect(screen.getByText('CANCEL')).toBeInTheDocument();
-    expect(screen.getByText('OK')).toBeInTheDocument();
-    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Rename asset')).toBeInTheDocument();
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
+    expect(screen.getByText('Rename')).toBeInTheDocument();
+    expect(screen.getByLabelText('Name')).toBeInTheDocument();
   });
 
   test('should render RenameModal on open', () => {
     render(<ModalWrapper />);
 
     // Assert
-    expect(screen.queryByText('Rename asset?')).not.toBeInTheDocument();
-    expect(screen.queryByText('CANCEL')).not.toBeInTheDocument();
-    expect(screen.queryByText('OK')).not.toBeInTheDocument();
-    expect(screen.queryByText('Name')).not.toBeInTheDocument();
+    expect(screen.queryByText('Rename asset')).not.toBeInTheDocument();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    expect(screen.queryByText('Rename')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Name')).not.toBeInTheDocument();
 
     // Act
     const openButton = screen.getByText('Open Modal');
     fireEvent.click(openButton);
 
     // Assert that the expected elements are rendered with the correct values
-    expect(screen.getByText('Rename asset?')).toBeInTheDocument();
-    expect(screen.getByText('CANCEL')).toBeInTheDocument();
-    expect(screen.getByText('OK')).toBeInTheDocument();
-    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Rename asset')).toBeInTheDocument();
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
+    expect(screen.getByText('Rename')).toBeInTheDocument();
+    expect(screen.getByLabelText('Name')).toBeInTheDocument();
   });
 
   test('RenameModal calls correct function on cancal', () => {
     render(<RenameModal {...props} />);
 
     // Act
-    const cancelButton = screen.getByText('CANCEL');
+    const cancelButton = screen.getByText('Cancel');
     fireEvent.click(cancelButton);
 
     //Assert
-    expect(onClickCancelButton).toHaveBeenCalledTimes(1);
+    expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
-  xtest('RenameModal ok function is called with correct prop', () => {
+  test('RenameModal ok function is called with correct prop', async () => {
+    const user = userEvent.setup();
     render(<RenameModal {...props} />);
 
+    const extension = props.itemToRename?.split('.').pop();
+
     // test name has changed
-    const nameLabelP = screen.getByText('Name').parentElement;
-    if (nameLabelP === null) throw new Error('Label Parent element is null');
-    const nameInput = nameLabelP.querySelector('input');
-    if (nameInput === null) throw new Error('Input element is null');
+    const inputElem = screen.getByLabelText('Name');
+    expect(inputElem).toBeInTheDocument();
 
     // Act
-    fireEvent.change(nameInput, { target: { value: 'The Best File Name' } });
-    const okButton = screen.getByText('OK');
-    fireEvent.click(okButton);
+    const newFileName = 'new-file-name';
+    const confirmButton = screen.getByText('Rename');
+    expect(confirmButton).toBeDisabled();
+
+    await user.clear(inputElem);
+    await user.type(inputElem, newFileName);
+    expect(inputElem).toHaveValue(newFileName);
+
+    expect(confirmButton).not.toBeDisabled();
+
+    await user.click(confirmButton);
 
     // assert
-    expect(onClickOkButtonMock).toHaveBeenCalledWith('The Best File Name');
+    expect(onConfirm).toHaveBeenCalledWith(`${newFileName}.${extension}`);
+    expect(onConfirm).toHaveBeenCalledTimes(1);
   });
 
   test('RenameModal ok cant be clicked when empty or no change', () => {
     render(<RenameModal {...props} />);
 
-    // test name hasn't changed
     // Act
-    const okButton = screen.getByText('OK');
-    fireEvent.click(okButton);
+    const confirmButton = screen.getByText('Rename');
+    fireEvent.click(confirmButton);
 
     // assert
-    expect(onClickOkButtonMock).toHaveBeenCalledTimes(0);
+    expect(onConfirm).toHaveBeenCalledTimes(0);
 
-    // test name is empty
-    const nameLabelP = screen.getByText('Name').parentElement;
-    if (nameLabelP === null) throw new Error('Label Parent element is null');
-    const nameInput = nameLabelP.querySelector('input') as HTMLInputElement;
+    const inputElem = screen.getByLabelText('Name');
 
     // Act
-    fireEvent.change(nameInput, { target: { value: '' } });
-    fireEvent.click(okButton);
-    // assert
-    expect(onClickOkButtonMock).toHaveBeenCalledTimes(0);
-  });
-
-  xtest('RenameModal test change input', () => {
-    render(<RenameModal {...props} />);
-
-    // Get name input
-    const nameLabelP = screen.getByText('Name').parentElement;
-    if (nameLabelP === null) throw new Error('Label Parent element is null');
-    const nameInput = nameLabelP.querySelector('input') as HTMLInputElement;
-
-    expect(nameInput.value).toBe(props.itemToRename);
-
-    // Act
-    fireEvent.change(nameInput, { target: { value: 'New Name2' } });
+    fireEvent.change(inputElem, { target: { value: '' } });
+    fireEvent.click(confirmButton);
 
     // assert
-    expect(nameInput.value).toBe('New Name2');
-  });
-
-  xtest('RenameModal test clear input', () => {
-    render(<RenameModal {...props} />);
-
-    // Get name input
-    const nameLabelP = screen.getByText('Name').parentElement;
-    if (nameLabelP === null) throw new Error('Label Parent element is null');
-    const nameInput = nameLabelP.querySelector('input') as HTMLInputElement;
-    const clearButton = nameLabelP.querySelector('button') as HTMLButtonElement;
-
-    expect(nameInput.value).toBe(props.itemToRename);
-
-    // Act
-    fireEvent.click(clearButton);
-
-    // assert
-    expect(nameInput.value).toBe('');
+    expect(confirmButton).toBeDisabled();
+    expect(onConfirm).toHaveBeenCalledTimes(0);
   });
 });

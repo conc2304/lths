@@ -1,34 +1,40 @@
 import { ReactNode } from 'react';
-import { Dialog as DialogMui, Box, styled, DialogContent, ButtonPropsColorOverrides } from '@mui/material';
-import { OverridableStringUnion } from '@mui/types';
-
-import { pxToRem } from '@lths/shared/utils';
+import {
+  Dialog as DialogMui,
+  Box,
+  DialogContent,
+  DialogProps,
+  DialogContentProps,
+  DialogActionsProps,
+  DialogTitleProps,
+} from '@mui/material';
 
 import { DialogActions } from './dialog-action';
 import { DialogTitle } from './dialog-title';
-
-const StyledDialogContent = styled(DialogContent)(() => ({
-  padding: pxToRem(24),
-}));
+import { ColorThemeMui } from '../../../types';
 
 type DialogFormProps = {
   open: boolean;
   children: ReactNode;
   confirmText?: string;
   cancelText?: string;
-  title: string | JSX.Element;
+  title?: string | JSX.Element;
   subtitle?: string | JSX.Element;
-  confirmColor?: OverridableStringUnion<
-    'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
-    ButtonPropsColorOverrides
-  >;
-  onCancel?: () => void;
-  onClose?: () => void;
-  onReset?: () => void;
+  confirmColor?: ColorThemeMui;
+  onClose?: () => void; // use to handle cancel too
   onSubmit?: () => void;
+  // isSubmitting and isLoading handle the same thing, just different words for different uses
   isSubmitting?: boolean;
-  isValid?: boolean;
-  dirty?: boolean;
+  isLoading?: boolean;
+  disabled?: boolean;
+  destructive?: boolean;
+  hasCloseButton?: boolean;
+  slotProps?: {
+    Dialog?: DialogProps;
+    DialogTitle?: DialogTitleProps;
+    DialogContent?: DialogContentProps;
+    DialogActions?: DialogActionsProps;
+  };
 };
 
 export const DialogForm = (props: DialogFormProps) => {
@@ -39,37 +45,59 @@ export const DialogForm = (props: DialogFormProps) => {
     cancelText,
     confirmText,
     children,
-    onCancel,
+    // onCancel,
     onClose,
-    onReset,
+    // onReset,
     onSubmit,
     isSubmitting,
-    isValid = true,
-    dirty = true,
+    isLoading,
+    disabled,
+    destructive,
     confirmColor = 'primary',
+    hasCloseButton = false,
+    slotProps: {
+      Dialog: DialogProps = {},
+      DialogTitle: DialogTitleProps = {},
+      DialogContent: DialogContentProps = {},
+      DialogActions: DialogActionsProps = {},
+    } = {
+      DialogProps: {},
+      DialogContentProps: {},
+      DialogActionsProps: {},
+    },
   } = props;
 
-  const handleOnCancel = () => {
-    onCancel && onCancel();
-    onReset && onReset();
-  };
   const handleOnClose = () => {
     onClose && onClose();
-    onReset && onReset();
   };
 
   return (
-    <DialogMui open={open} aria-labelledby="Dialog-Form--root" data-testid="DialogFormModal--root" maxWidth="md">
-      <Box component="form" onSubmit={onSubmit} style={{ width: '25rem', paddingRight: '0.5rem' }} role="form">
-        <DialogTitle title={title} subtitle={subtitle} onClose={handleOnClose} />
-        <StyledDialogContent>{children}</StyledDialogContent>
+    <DialogMui
+      open={open}
+      onClose={onClose}
+      aria-labelledby="Dialog-Form--root"
+      data-testid="DialogFormModal--root"
+      {...DialogProps}
+    >
+      <Box component="form" onSubmit={onSubmit} role="form">
+        {title && (
+          <DialogTitle
+            title={title}
+            subtitle={subtitle}
+            onClose={hasCloseButton && onClose ? handleOnClose : undefined}
+            slotProps={{ DialogTitle: DialogTitleProps }}
+          />
+        )}
+        <DialogContent {...DialogContentProps}>{children}</DialogContent>
         <DialogActions
           cancelText={cancelText}
           confirmText={confirmText}
-          onCancel={handleOnCancel}
-          isSubmitting={isSubmitting}
-          disabled={!isValid || !dirty}
+          onCancel={handleOnClose}
+          isSubmitting={isSubmitting || isLoading}
+          disabled={disabled}
           confirmColor={confirmColor}
+          destructive={destructive}
+          slotProps={{ DialogActions: DialogActionsProps }}
         />
       </Box>
     </DialogMui>

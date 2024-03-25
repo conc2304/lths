@@ -1,7 +1,9 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 
 import { EditEventModal } from './index';
 import { eventTypesMock } from '../../../mock-events';
@@ -25,63 +27,55 @@ const mockEvent: MMSEvent = {
 };
 
 describe('EditEventModal', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
-  it('renders the modal with correct props', () => {
-    const { getByText, container } = render(
-      <EditEventModal
-        open={true}
-        onCancel={mockOnCancel}
-        onSave={mockOnSave}
-        eventTypes={mockEventTypes}
-        event={mockEvent}
-      />
-    );
 
-    expect(container).toBeInTheDocument();
-    expect(getByText('Edit Event')).toBeInTheDocument();
-    expect(getByText('CANCEL')).toBeInTheDocument();
-    expect(getByText('SAVE UPDATES')).toBeInTheDocument();
+  const renderComponent = async () => {
+    await act(() =>
+      render(
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <EditEventModal
+            open={true}
+            onCancel={mockOnCancel}
+            onSave={mockOnSave}
+            eventTypes={mockEventTypes}
+            event={mockEvent}
+          />
+        </LocalizationProvider>
+      )
+    );
+  };
+
+  it('renders the modal with correct props', async () => {
+    await renderComponent();
+
+    expect(screen.getByText('Edit event')).toBeInTheDocument();
+    expect(screen.getByText('CANCEL')).toBeInTheDocument();
+    expect(screen.getByText('UPDATE')).toBeInTheDocument();
   });
 
   it('calls onCancel when the "Cancel" button is clicked', async () => {
     const user = userEvent.setup();
-    const { getByText } = render(
-      <EditEventModal
-        open={true}
-        onCancel={mockOnCancel}
-        onSave={mockOnSave}
-        eventTypes={mockEventTypes}
-        event={mockEvent}
-      />
-    );
+    await renderComponent();
 
-    await user.click(getByText('CANCEL'));
+    await user.click(screen.getByText('CANCEL'));
     expect(mockOnCancel).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onSave with correct values when the "Save Updates" button is clicked', async () => {
+  it('calls onSave with correct values when the "Update" button is clicked', async () => {
     const user = userEvent.setup();
 
-    const { getByText, getByTestId } = render(
-      <EditEventModal
-        open={true}
-        onCancel={mockOnCancel}
-        onSave={mockOnSave}
-        eventTypes={mockEventTypes}
-        event={mockEvent}
-      />
-    );
+    await renderComponent();
 
     // Simulate filling out the form fields
-    const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
+    const inputElem = screen.getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
     const newEventTitle = 'Updated Event Name Mock';
     await user.clear(inputElem);
     await user.type(inputElem, newEventTitle);
 
-    expect(getByText('SAVE UPDATES')).not.toBeDisabled();
-    await user.click(getByText('SAVE UPDATES'));
+    expect(screen.getByText('UPDATE')).not.toBeDisabled();
+    await user.click(screen.getByText('UPDATE'));
     expect(mockOnSave).toHaveBeenCalledWith(
       {
         eventName: newEventTitle,

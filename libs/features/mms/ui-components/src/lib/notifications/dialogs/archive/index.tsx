@@ -1,4 +1,6 @@
-import { AlertDialog } from '../../../common';
+import { Typography } from '@mui/material';
+
+import { DialogForm } from '@lths/shared/ui-elements';
 
 type ArchiveAlertProps = {
   isOpen: boolean;
@@ -9,16 +11,17 @@ type ArchiveAlertProps = {
 
 const ArchiveAlert = ({ isOpen, handleClose, handleArchive, isLoading }: ArchiveAlertProps) => {
   return (
-    <AlertDialog
-      isOpen={isOpen}
-      title="Archive?"
-      description="Once archived this notification cannot be restored."
-      cancelText="KEEP"
-      handleClose={handleClose}
-      confirmText="ARCHIVE"
-      handleConfirm={handleArchive}
+    <DialogForm
+      title="Archive notification"
+      open={isOpen}
+      onClose={handleClose}
+      onSubmit={handleArchive}
       isLoading={isLoading}
-    />
+      cancelText="KEEP"
+      confirmText="ARCHIVE"
+    >
+      <Typography variant="body1">Once archived this notification cannot be restored.</Typography>
+    </DialogForm>
   );
 };
 

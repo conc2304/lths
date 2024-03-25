@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Box, Tab, Tabs, Backdrop, CircularProgress, Dialog, DialogContent, Typography } from '@mui/material';
 import { useBeforeUnload, useCopy, useNavigationBlocker, usePaste } from '@lths-mui/shared/ui-hooks';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
@@ -42,7 +41,7 @@ import {
   ComponentProps as ComponentPropsUiEditor,
   PageAction,
 } from '@lths/features/mms/ui-editor';
-import { toast } from '@lths/shared/ui-elements';
+import { DialogActions, DialogTitle, toast } from '@lths/shared/ui-elements';
 import { useLayoutActions } from '@lths/shared/ui-layouts';
 
 import { ComponentModal } from '../../../components/pages/editor';
@@ -51,16 +50,21 @@ import TabPanel from '../tab-panel';
 
 const StatusChangeModalData = {
   [PageStatus.PUBLISHED]: {
-    title: 'Are you sure you want to publish this page?',
-    description: 'Once you publish this page, it will be accessible by app users',
-    action: 'PUBLISH NOW',
+    title: 'Publish page now',
+    description: 'Once you publish this page, it will be viewable on the mobile app.',
+    action: 'PUBLISH',
     error: 'Failed to publish the page',
     success: 'Page has been Published Successfully.',
     status: PageStatus.PUBLISHED,
   },
   [PageStatus.UNPUBLISHED]: {
-    title: 'Are you sure you want to unpublish this page?',
-    description: 'This page will no longer appear on the app and all links to this page will become inactive.',
+    title: 'Unublish page now',
+    description: (
+      <Typography maxWidth={'26rem'}>
+        Once you unpublish this page, it will not be viewable on the mobile app and links to this page will become
+        inactive.
+      </Typography>
+    ),
     action: 'UNPUBLISH',
     error: 'Failed to unpublish the page',
     success: 'Page has been Unpublished Successfully',
@@ -405,10 +409,10 @@ export function PageEditorTabs() {
         openAlert(PageAction.RENAME, { page_id, name });
         break;
       case PageAction.DELETE:
-        openAlert(PageAction.DELETE, { page_id });
+        openAlert(PageAction.DELETE, { page_id, name });
         break;
       case PageAction.DUPLICATE:
-        openAlert(PageAction.DUPLICATE, { page_id });
+        openAlert(PageAction.DUPLICATE, { page_id, name });
         break;
       case PageAction.PREVIEW:
         console.log('Not implemented: preview');
@@ -491,38 +495,26 @@ export function PageEditorTabs() {
           <PageSettings data={page_data} onUpdateSettings={updateExtended} />
         </TabPanel>
       </Box>
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            borderRadius: 3,
-            boxShadow: 24,
-            p: 3,
-          }}
-        >
-          <h2 style={{ marginTop: -1.5 }}>{modalData.title}</h2>
-          <p>{modalData.description}</p>
-          <LoadingButton
-            sx={{ float: 'right', ml: 1, mt: 2 }}
-            variant="contained"
-            onClick={handleUpdatePageStatus}
-            loading={isLoading}
-          >
-            {modalData.action}
-          </LoadingButton>
-          <Button sx={{ float: 'right', mt: 2 }} variant="outlined" onClick={handleCloseModal}>
-            CANCEL
-          </Button>
-        </Box>
-      </Modal>
+
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle title={modalData.title} />
+        <DialogContent>
+          <Typography variant="body1" color="text.primary" flexWrap="wrap">
+            {modalData.description}
+          </Typography>
+        </DialogContent>
+        <DialogActions
+          confirmText={modalData.action}
+          onConfirm={handleUpdatePageStatus}
+          onCancel={handleCloseModal}
+          isSubmitting={isLoading}
+        />
+      </Dialog>
+
       <Backdrop open={isFetchingComponentDetail || isFetchingPageDetail} sx={{ zIndex: 2 }}>
         <CircularProgress />
       </Backdrop>
+
       <UnSavedPageAlert
         isOpen={showPrompt}
         onCancel={confirmNavigation}

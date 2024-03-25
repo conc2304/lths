@@ -125,12 +125,14 @@ const PageAdapter = ({ children }: Props) => {
         isOpen={selectedAlert === PageAction.DELETE}
         handleClose={closeAlert}
         handleDelete={handleDeletePage}
+        description={name}
       />
       <DuplicatePageAlert
         isLoading={isDuplicating}
         isOpen={selectedAlert === PageAction.DUPLICATE}
         handleClose={closeAlert}
         handleDuplicate={handleDuplicatePage}
+        description={name}
       />
       <ComparisonAlert
         isOpen={selectedAlert === PageAction.COMPARISON}

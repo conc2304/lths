@@ -1,6 +1,8 @@
 import React from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { CreateNewEventModal } from './index';
@@ -14,7 +16,9 @@ describe('CreateNewEventModal', () => {
 
   const renderComponent = (open = true) => {
     return render(
-      <CreateNewEventModal open={open} onCancel={mockOnCancel} onSave={mockOnSave} eventTypes={eventTypes} />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <CreateNewEventModal open={open} onCancel={mockOnCancel} onSave={mockOnSave} eventTypes={eventTypes} />
+      </LocalizationProvider>
     );
   };
 
@@ -27,9 +31,9 @@ describe('CreateNewEventModal', () => {
 
     // Ensure the component is rendered with the correct props
     await waitFor(() => {
-      expect(screen.getByText('Create New Event')).toBeInTheDocument();
+      expect(screen.getByText('Create event')).toBeInTheDocument();
       expect(screen.getByText('CANCEL')).toBeInTheDocument();
-      expect(screen.getByText('CREATE EVENT')).toBeInTheDocument();
+      expect(screen.getByText('CREATE')).toBeInTheDocument();
     });
   });
 
@@ -37,6 +41,7 @@ describe('CreateNewEventModal', () => {
     const user = userEvent.setup();
 
     renderComponent();
+    expect(mockOnCancel).toHaveBeenCalledTimes(0);
 
     // Click the "CANCEL" button
     await user.click(screen.getByText('CANCEL'));
@@ -47,15 +52,35 @@ describe('CreateNewEventModal', () => {
 
   it('calls onSave when clicking "CREATE EVENT"', async () => {
     const user = userEvent.setup();
-    const { getByTestId } = renderComponent();
+    const { getByTestId, queryAllByTestId } = renderComponent();
 
     // Fill in the form fields
     const inputElem = getByTestId('Edit-Event--event-name').querySelector('input') as HTMLInputElement;
     await user.type(inputElem, 'Event Name Mock');
 
+    // select the event type
+    // open the menu
+    const wrapper = getByTestId('SelectLTHS--selector');
+    const dropDownButton = within(wrapper).getByRole('button', { expanded: false });
+    expect(dropDownButton).toBeInTheDocument();
+    await user.click(dropDownButton);
+
+    const option = screen.getByText('Comedy');
+
+    // Select an event type
+    await waitFor(() => {
+      expect(option).toBeInTheDocument();
+    });
+
+    await user.click(option);
+
+    await waitFor(() => {
+      expect(wrapper.querySelector('input')?.value).toContain('Comedy');
+    });
+
     // Set start date after end date
-    const startDateInput = getByTestId('Edit-Event--start-date-wrapper').querySelector('input') as HTMLInputElement;
-    const endDateInput = getByTestId('Edit-Event--end-date-wrapper').querySelector('input') as HTMLInputElement;
+    const startDateInput = queryAllByTestId('Date-Picker--root')[0].querySelector('input') as HTMLInputElement;
+    const endDateInput = queryAllByTestId('Date-Picker--root')[1].querySelector('input') as HTMLInputElement;
 
     expect(startDateInput).toBeInTheDocument();
     expect(endDateInput).toBeInTheDocument();
@@ -66,19 +91,8 @@ describe('CreateNewEventModal', () => {
     await user.type(endDateInput, '01/25/2022 5:00 PM');
     await user.tab();
 
-    const dropDownButton = getByTestId('Edit-Event--event-type').querySelector('#edit-event--event-type');
-    expect(dropDownButton).toBeInTheDocument();
-    if (dropDownButton) await user.click(dropDownButton);
-
-    const option = screen.getByText('Comedy');
-
-    // Select an event type
-    expect(option).toBeInTheDocument();
-
-    await user.click(option);
-
-    // Click the "CREATE EVENT" button
-    await user.click(screen.getByText('CREATE EVENT'));
+    // Click the "CREATE" button
+    await user.click(screen.getByText('CREATE'));
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
     expect(mockOnSave).toHaveBeenCalledWith(
@@ -89,7 +103,7 @@ describe('CreateNewEventModal', () => {
         eventName: 'Event Name Mock',
         eventType: { id: 'COMEDY', label: 'Comedy' },
         id: undefined,
-        isAllDay: false,
+        isAllDay: true,
         startDateTime: expect.any(Date),
       }),
       null

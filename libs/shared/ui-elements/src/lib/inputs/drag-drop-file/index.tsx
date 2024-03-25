@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   FormLabel,
   IconButton,
   Input,
@@ -11,11 +12,12 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
+  hexToRgb,
   useTheme,
 } from '@mui/material';
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Property } from 'csstype';
 
 import { humanFileSize } from '@lths/shared/utils';
@@ -46,13 +48,13 @@ export const DragDropFile = (props: DragDropFileProps) => {
     filesRemovable = false,
     showFilesAdded = false,
     multiple = false,
-    borderColor = theme.palette.secondary.main,
-    backgroundDragColor = theme.palette.grey[100],
+    borderColor = theme.palette.primary.main,
+    backgroundDragColor = theme.palette.grey[300],
     maxFileSize = 'XXX',
     promptText = 'Drag and drop your file here.',
     buttonText = 'Browse Files',
     iconColor = theme.palette.primary.main,
-    iconSize = '4.5rem',
+    iconSize = '2.5rem',
     fullWidth = false,
     accept = '*',
   } = props;
@@ -115,8 +117,6 @@ export const DragDropFile = (props: DragDropFileProps) => {
     onFilesChanged(dt.files);
   };
 
-  const GreyDivider = () => <Box sx={{ flex: 1, height: '1px', backgroundColor: theme.palette.grey[300] }} />;
-
   return (
     <Box
       component={'div'}
@@ -150,15 +150,19 @@ export const DragDropFile = (props: DragDropFileProps) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: `1px dashed ${borderColor}`,
-          borderRadius: '0.5rem',
+          borderRadius: '8px',
           px: 1.5,
-          py: 1.8,
-          backgroundColor: dragActive ? backgroundDragColor : null,
+          py: 2.5,
+          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='${
+            dragActive ? hexToRgb(backgroundDragColor) : 'none'
+          }' rx='8' ry='8' stroke='${hexToRgb(
+            borderColor
+          )}' stroke-width='2' stroke-dasharray='5%2c11' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+border-radius: 8px`,
         }}
       >
         <Box>
-          <CloudUploadOutlinedIcon htmlColor={iconColor} sx={{ fontSize: iconSize }} />
+          <UploadFileIcon htmlColor={iconColor} sx={{ fontSize: iconSize }} />
           <Typography
             sx={{
               textAlign: 'center',
@@ -168,19 +172,12 @@ export const DragDropFile = (props: DragDropFileProps) => {
           >
             {promptText}
           </Typography>
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <GreyDivider />
-            <Typography sx={{ fontSize: '1.125rem', letterSpacing: '0.15px', px: 2, py: 3 }}>Or</Typography>
-            <GreyDivider />
+          <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+            <Divider sx={{ width: '40px' }} />
+            <Typography sx={{ fontSize: '1.125rem', letterSpacing: '0.15px', px: 1, py: 2 }}>or</Typography>
+            <Divider sx={{ width: '40px' }} />
           </Box>
-          <Button
-            className="upload-button"
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            onClick={onButtonClick}
-            sx={{ borderRadius: '24px', mb: 2.5 }}
-          >
+          <Button className="upload-button" variant="outlined" onClick={onButtonClick}>
             {buttonText}
           </Button>
           <Typography
@@ -190,6 +187,7 @@ export const DragDropFile = (props: DragDropFileProps) => {
               fontSize: '0.75rem',
               lineHeight: '1.125rem',
               letterSpacing: '0.15px',
+              mt: '1rem',
             }}
           >
             Maximum file size {maxFileSize}MB

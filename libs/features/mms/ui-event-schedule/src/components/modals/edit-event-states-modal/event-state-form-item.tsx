@@ -1,9 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Box, FormGroup, InputAdornment, OutlinedInput, SxProps, Typography } from '@mui/material';
 
-import { roundNumToNearestX, truncateToDecimalPlace } from '@lths/shared/utils';
-
-import { fontStyle, FormLabel } from '../utils';
+import { roundNumToNearestX, slugify, truncateToDecimalPlace } from '@lths/shared/utils';
 
 type EventStateFormItemProps = {
   onChange?: {
@@ -37,33 +35,53 @@ export const EventStateFormItem = (props: EventStateFormItemProps) => {
     step = 0.25,
   } = props;
 
-  const descSx = {
-    fontSize: '0.75rem',
-    letterSpacing: '0.15px',
-  };
-
   const formattedValue = value ? truncateToDecimalPlace(roundNumToNearestX(value, step), 2) : value;
 
   return (
     <FormGroup sx={{ ...sx }} key={`form-group-${id}`}>
-      <FormLabel htmlFor={`${title}-form-id`}>{title.toUpperCase()}</FormLabel>
+      <Typography variant="body1" mb={1} id={`${slugify(title)}-form-label`}>
+        {title}
+      </Typography>
 
-      {!editable && <Typography sx={{ ...descSx, fontStyle: 'italic' }}>This cannot be edited.</Typography>}
+      {!editable && (
+        <Typography data-testid="EventState--form-item-uneditable" color="text.disabled">
+          Determined dynamically by NHL.com.
+        </Typography>
+      )}
       {editable && (
         <Box display={'flex'} alignItems={'center'}>
           <OutlinedInput
             type="number"
             size="small"
-            id={`${title}-form-id`}
-            role="textbox"
+            id={`${slugify(title)}-form-id`}
             name={title}
             value={formattedValue}
             onChange={onChange}
-            endAdornment={<InputAdornment position="end">hrs</InputAdornment>}
-            inputProps={{ min: minHours, max: maxHours, step }}
-            placeholder="Hours"
+            endAdornment={
+              <InputAdornment position="end">
+                <Typography color="text.disabled">hrs</Typography>
+              </InputAdornment>
+            }
+            inputProps={{
+              min: minHours,
+              max: maxHours,
+              step,
+              role: 'textbox',
+              'aria-labelledby': `${slugify(title)}-form-label`,
+            }}
+            placeholder="0"
+            sx={{
+              width: '6.875rem',
+            }}
           />
-          <Typography sx={{ ...fontStyle, pl: 1.5 }}>{desc}</Typography>
+          <Typography
+            color="text.secondary"
+            sx={{
+              pl: 1.5,
+            }}
+          >
+            {desc}
+          </Typography>
         </Box>
       )}
     </FormGroup>

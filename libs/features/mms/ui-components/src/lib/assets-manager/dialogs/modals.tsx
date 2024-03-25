@@ -21,16 +21,19 @@ export function AssetModals({
         <ArchiveModal
           open={true}
           itemToDelete={selectedRow?.original_file_name}
-          onClickKeepButton={() => setModalState(null)}
-          onClickDeleteButton={handleDeleteRow}
+          onCancel={() => setModalState(null)}
+          onConfirm={handleDeleteRow}
         />
       )}
       {assetModalType === 'Rename' && (
         <RenameModal
           open={true}
           itemToRename={selectedRow?.original_file_name}
-          onClickCancelButton={() => setModalState(null)}
-          onClickOkButton={handlRenameRow}
+          onCancel={() => {
+            console.log('CANCEL');
+            setModalState(null);
+          }}
+          onConfirm={handlRenameRow}
         />
       )}
     </>

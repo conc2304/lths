@@ -1,57 +1,58 @@
-import { DialogTitle as DialogTitleMui, Typography } from '@mui/material';
+import { DialogTitle as DialogTitleMui, DialogTitleProps, Typography } from '@mui/material';
 import { Box, SxProps } from '@mui/system';
 
 import { pxToRem } from '@lths/shared/utils';
 
 import { CloseButton } from '../../../inputs';
 
-type DialogTitleProps = {
+type DialogTitleLTHSProps = {
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
-  onClose: () => void;
+  onClose?: () => void;
   sx?: SxProps;
+  slotProps?: { DialogTitle?: DialogTitleProps };
 };
 
-export const DialogTitle = (props: DialogTitleProps) => {
-  const { title, subtitle, onClose, sx = {} } = props;
+export const DialogTitle = (props: DialogTitleLTHSProps) => {
+  const {
+    title,
+    subtitle,
+    onClose,
+    sx = {},
+    slotProps = {
+      DialogTitle: {},
+    },
+  } = props;
   return (
-    <DialogTitleMui position="relative" mb={2} sx={sx}>
-      <Typography
-        sx={{
-          fontWeight: 400,
-          fontSize: pxToRem(24),
-          lineHeight: pxToRem(42),
-          letterSpacing: '0.15px',
-          pt: 1.5,
-        }}
-      >
-        {title}
-      </Typography>
-      {subtitle && (
+    <DialogTitleMui position="relative" sx={sx} {...slotProps.DialogTitle}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography
+          variant="h6"
           sx={{
-            fontWeight: 400,
-            fontSize: pxToRem(12),
-            lineHeight: pxToRem(16),
+            color: (theme) => theme.palette.text.primary,
+            fontWeight: 500,
+            fontSize: pxToRem(20),
+            lineHeight: pxToRem(32),
             letterSpacing: '0.15px',
           }}
         >
-          {subtitle}
+          {title}
         </Typography>
-      )}
-
-      <Box position="absolute" top={22} right={20}>
-        <CloseButton
-          size={pxToRem(17)}
-          color="#000"
-          thickness="1px"
-          onClick={onClose}
-          hoverStyles={{
-            opacity: 0.7,
-            transition: '0.1s ease-in ',
-          }}
-        />
+        <Box>
+          {onClose && (
+            <CloseButton
+              size={pxToRem(12)}
+              thickness="2px"
+              onClick={onClose}
+              hoverStyles={{
+                opacity: 0.7,
+                transition: '0.1s linear',
+              }}
+            />
+          )}
+        </Box>
       </Box>
+      {subtitle && <Box>{subtitle}</Box>}
     </DialogTitleMui>
   );
 };

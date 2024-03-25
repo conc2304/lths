@@ -8,8 +8,6 @@ export const getAppEnvironmentName = (processEnvVar: string | WebEnvName | undef
   const envStr = processEnvVar ?? process?.env?.NX_PUBLIC_WEB_ENV ?? '';
   const env = envStr.trim().toLowerCase() as WebEnvName | undefined;
 
-  console.log(env);
-
   // bail out early if production or if env variable matches expected
   if (env === 'production') return 'production';
   if (env !== undefined && WEB_ENVS.includes(env)) {

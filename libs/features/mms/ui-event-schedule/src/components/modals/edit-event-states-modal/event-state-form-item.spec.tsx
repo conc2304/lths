@@ -1,6 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { EventStateFormItem } from './event-state-form-item';
@@ -22,8 +21,9 @@ describe('EventStateFormItem', () => {
   it('renders the component with given props', () => {
     const { container, getByText, getByRole } = render(<EventStateFormItem {...defaultProps} />);
 
-    const formLabel = getByText(defaultProps.title.toUpperCase());
-    const input = getByRole('textbox').querySelector('input');
+    const formLabel = getByText(defaultProps.title);
+    const input = getByRole('textbox', { name: defaultProps.title });
+
     const inputAdornment = getByText('hrs');
     const description = getByText(defaultProps.desc);
 
@@ -40,9 +40,9 @@ describe('EventStateFormItem', () => {
   it('calls onChange when input value changes', async () => {
     const user = userEvent.setup();
 
-    render(<EventStateFormItem {...defaultProps} />);
+    const { getByRole } = render(<EventStateFormItem {...defaultProps} />);
 
-    const input = screen.getByRole('textbox').querySelector('input');
+    const input = getByRole('textbox', { name: defaultProps.title });
 
     // Change input value
     if (!input) throw new Error('No Input element found on page');
@@ -62,9 +62,9 @@ describe('EventStateFormItem', () => {
   });
 
   it('renders non editable if item it not editable', () => {
-    const { getByText } = render(<EventStateFormItem {...defaultProps} editable={false} />);
+    const { getByTestId } = render(<EventStateFormItem {...defaultProps} editable={false} />);
 
     // Check if description is italic
-    expect(getByText('This cannot be edited.')).toBeInTheDocument();
+    expect(getByTestId('EventState--form-item-uneditable')).toBeInTheDocument();
   });
 });

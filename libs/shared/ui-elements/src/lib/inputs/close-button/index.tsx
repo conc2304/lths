@@ -1,6 +1,5 @@
 import { CSSProperties } from 'react';
-import { Box, SxProps } from '@mui/material';
-import { Theme } from '@mui/system';
+import { Box, SxProps, Theme, useTheme } from '@mui/material';
 import { Property } from 'csstype';
 
 import { pxToRem } from '@lths/shared/utils';
@@ -20,7 +19,7 @@ type CloseButtonProps = {
 export const CloseButton = ({
   size = pxToRem(17),
   thickness = '1px',
-  color = '#000',
+  color: colorProp,
   onClick,
   hoverStyles,
   buttonStyles,
@@ -29,9 +28,12 @@ export const CloseButton = ({
   const [numericValue, unit] = extractNumericValue(size);
   const lineLength = Math.hypot(Number(numericValue), Number(numericValue));
 
+  const theme = useTheme();
+  const color = colorProp || theme.palette.action.active;
   const lineSx: SxProps<Theme> = {
     background: color,
     position: 'absolute',
+    opacity: 1,
     top: 0,
     right: `${Number(numericValue) / 2}${unit}`,
     bottom: 0,
@@ -46,6 +48,7 @@ export const CloseButton = ({
       sx={{
         p: 0.25,
         cursor: 'pointer',
+        position: 'relative',
         ...buttonStyles,
         '&:hover': { ...hoverStyles },
         '&:active': { ...activeStyles },

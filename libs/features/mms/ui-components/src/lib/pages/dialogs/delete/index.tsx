@@ -5,17 +5,26 @@ type DeleteAlertProps = {
   handleClose: () => void;
   handleDelete: () => void;
   isLoading: boolean;
+  description?: string;
 };
 
-export const DeletePageAlert = ({ isOpen, handleClose, handleDelete, isLoading }: DeleteAlertProps) => {
+export const DeletePageAlert = (props: DeleteAlertProps) => {
+  const { 
+    isOpen, 
+    handleClose, 
+    handleDelete, 
+    isLoading,
+    description = "Once deleted this page cannot be restored."
+  } = props;
   return (
     <AlertDialog
       isOpen={isOpen}
-      title="Delete?"
-      description="Once deleted this page cannot be restored."
-      cancelText="KEEP"
+      title="Delete page"
+      description={description}
+      cancelText="Keep"
       handleClose={handleClose}
-      confirmText="DELETE"
+      destructive={true}
+      confirmText="Delete"
       handleConfirm={handleDelete}
       isLoading={isLoading}
     />

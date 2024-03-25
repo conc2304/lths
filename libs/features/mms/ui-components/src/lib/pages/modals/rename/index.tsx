@@ -1,17 +1,12 @@
 import {
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
-  FormHelperText,
-  InputLabel,
-  OutlinedInput,
-  Stack,
+  TextField,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { useFormik } from 'formik';
 import { string, object } from 'yup';
+
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
 export type RenameData = {
   name: string;
@@ -45,44 +40,31 @@ export const RenamePageModal = ({ isOpen, handleClose, handleRename, isLoading, 
 
   return (
     <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Rename Page?</DialogTitle>
+      <DialogTitle title="Rename page"/>
       <DialogContent>
         <form>
-          <Stack spacing={1}>
-            <InputLabel htmlFor="name">Name</InputLabel>
-            <OutlinedInput
-              error={touched.name && Boolean(errors.name)}
-              fullWidth
-              id="name"
-              name="name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              type="text"
-              value={values.name}
-            />
-            {touched.name && errors.name && (
-              <FormHelperText error id="name_helper_text">
-                {errors.name}
-              </FormHelperText>
-            )}
-          </Stack>
+          <TextField
+            id="name"
+            label="Name"
+            variant="outlined"
+            size="small"
+            sx={{ marginTop: 1 }}
+            fullWidth
+            helperText={touched.name && errors.name}
+            error={touched.name && Boolean(errors.name)}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.name}
+          />
         </form>
       </DialogContent>
-      <DialogActions sx={{ marginBottom: 2 }}>
-        <Button onClick={handleClose} variant="text" sx={{ marginRight: 1 }}>
-          CANCEL
-        </Button>
-        <LoadingButton
-          sx={{ fontWeight: 600 }}
-          variant="text"
-          loading={isLoading}
-          disabled={isSubmitting}
-          type="submit"
-          onClick={() => handleSubmit()}
-        >
-          OK
-        </LoadingButton>
-      </DialogActions>
+      <DialogActions
+        confirmText={'Rename'}
+        onCancel={handleClose}
+        isLoading={isLoading}
+        isSubmitting={isSubmitting}
+        onConfirm={() => handleSubmit()}
+      />
     </Dialog>
   );
 };

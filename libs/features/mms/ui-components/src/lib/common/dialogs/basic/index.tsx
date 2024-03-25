@@ -1,5 +1,6 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Dialog, DialogContent } from '@mui/material';
+
+import { DialogActions, DialogTitle } from '@lths/shared/ui-elements';
 
 type AlertDialogProps = {
   isOpen: boolean;
@@ -10,6 +11,7 @@ type AlertDialogProps = {
   cancelText?: string;
   confirmText: string;
   isLoading?: boolean;
+  destructive?: boolean;
 };
 
 export const AlertDialog = ({
@@ -21,25 +23,22 @@ export const AlertDialog = ({
   cancelText,
   confirmText,
   isLoading,
+  destructive,
 }: AlertDialogProps) => {
   return (
     <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle fontWeight={500} fontSize="1.5rem">
-        {title}
-      </DialogTitle>
-      <DialogContent sx={{ fontSize: '0.875rem', fontWeight: 400, color: 'rgba(0,0,0,0.6)' }}>
+      <DialogTitle title={title}/>
+      <DialogContent sx={{ fontSize: '1rem', fontWeight: 400, marginTop: 1 }}>
         {description}
       </DialogContent>
-      <DialogActions>
-        {cancelText && (
-          <Button onClick={handleClose} sx={{ fontWeight: 600 }}>
-            {cancelText}
-          </Button>
-        )}
-        <LoadingButton disabled={isLoading} loading={isLoading} onClick={handleConfirm} sx={{ fontWeight: 600 }}>
-          {confirmText}
-        </LoadingButton>
-      </DialogActions>
+      <DialogActions
+        confirmText={confirmText}
+        cancelText={cancelText}
+        onCancel={handleClose}
+        isLoading={isLoading}
+        onConfirm={handleConfirm}
+        destructive={destructive}
+      />
     </Dialog>
   );
 };

@@ -137,7 +137,7 @@ const Page = (): JSX.Element => {
         id: PageAction.DUPLICATE,
         label: 'Duplicate',
         action: () => {
-          openAlert(PageAction.DUPLICATE, { page_id });
+          openAlert(PageAction.DUPLICATE, { page_id, name });
         },
       },
       {
@@ -158,7 +158,7 @@ const Page = (): JSX.Element => {
         id: PageAction.DELETE,
         label: 'Delete',
         action: () => {
-          openAlert(PageAction.DELETE, { page_id });
+          openAlert(PageAction.DELETE, { page_id, name });
         },
         hide: type === 'Pre-Defined',
       },

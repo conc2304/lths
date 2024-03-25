@@ -38,7 +38,32 @@ const TypographyTheme = (fontFamily: string): TypographyOptions => {
       fontSize: '0.875rem',
       lineHeight: 1.52,
     },
-
+    body1: {
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: '1.5rem',
+      letterSpacing: '0.15px',
+    },
+    overline: {
+      fontWeight: 400,
+      fontSize: '0.75rem',
+      lineHeight: '2rem',
+      letterSpacing: '1px',
+    },
+    subtitle2: {
+      // fontWeight: 500, // this is that it should be but not getting the expected results
+      fontWeight: 'bold',
+      fontSize: '0.875rem',
+      lineHeight: '1.375rem',
+      letterSpacing: '0.1px',
+      textTransform: 'uppercase',
+    },
+    input: {
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem',
+      letterSpacing: '0.15px',
+    },
     button: {
       textTransform: 'uppercase',
     },

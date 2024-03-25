@@ -1,10 +1,8 @@
-import { Box, Dialog, Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { DialogActions, DialogTitle, DragDropFile } from '@lths/shared/ui-elements';
-
-import { StyledDialogContent } from '../utils';
+import { DialogForm, DragDropFile } from '@lths/shared/ui-elements';
 
 type ImportEventsModalProps = {
   open: boolean;
@@ -36,51 +34,50 @@ export const ImportEventsModal = (props: ImportEventsModalProps) => {
   });
 
   return (
-    <Dialog open={open} aria-label="Import Calendar Events" maxWidth="md">
-      <Box width={'24rem'}>
-        <form onSubmit={formik.handleSubmit}>
-          <DialogTitle
-            title="Import Events"
-            subtitle={
-              <>
-                You can add events to the schedule by uploading a CSV file to the system.
-                <br />
-                <br />
-                Check the{' '}
-                <Link
-                  // TODO - Dont know where this is linking
-                  underline="hover"
-                  color={(theme) => theme.palette.secondary.main}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Visit the Data Format Template page to see what files formats are valid."
-                >
-                  data format template
-                </Link>{' '}
-                before uploading your file.
-              </>
-            }
-            onClose={onClose}
-          />
-          <StyledDialogContent>
-            <DragDropFile
-              fullWidth
-              multiple
-              showFilesAdded
-              filesRemovable
-              onFilesChanged={(files) => formik.setFieldValue('files', files)}
-              files={formik.values.files}
-            />
-          </StyledDialogContent>
-          <DialogActions
-            cancelText="CANCEL"
-            confirmText="IMPORT EVENTS"
-            onCancel={() => formik.handleReset(formik.values)}
-            disabled={!formik.isValid}
-            isSubmitting={formik.isSubmitting}
-          />
-        </form>
+    <DialogForm
+      open={open}
+      title="Import event"
+      onClose={() => formik.handleReset(formik.initialValues)}
+      subtitle={
+        <Typography variant="body1" mt={2} color="text.secondary">
+          Add events by uploading a CSV file.
+        </Typography>
+      }
+      cancelText="CANCEL"
+      confirmText="IMPORT"
+      disabled={!formik.isValid}
+      isSubmitting={formik.isSubmitting}
+      hasCloseButton
+      onSubmit={formik.handleSubmit}
+    >
+      <Box>
+        <DragDropFile
+          fullWidth
+          multiple
+          showFilesAdded
+          filesRemovable
+          onFilesChanged={(files) => formik.setFieldValue('files', files)}
+          files={formik.values.files}
+          promptText="Drag and drop file here"
+        />
+        <Box sx={{ mt: 1.75 }}>
+          <Typography variant="caption" sx={{ color: (theme) => theme.palette.text.secondary }}>
+            Review the{' '}
+            <Link
+              // TODO - Dont know where this is linking
+              underline="hover"
+              color={(theme) => theme.palette.primary.main}
+              target="_blank"
+              rel="noopener"
+              aria-label="Visit the Data Format Template page to see what files formats are valid."
+              sx={{ cursor: 'pointer' }}
+            >
+              data format template
+            </Link>{' '}
+            before uploading.
+          </Typography>
+        </Box>
       </Box>
-    </Dialog>
+    </DialogForm>
   );
 };
