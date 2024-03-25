@@ -1,5 +1,12 @@
 import { EditorActionType, EditorActionProps, EditorProps } from './types';
-import { addNewComponent, duplicateComponent, initComponents, renameComponent, swapComponent } from './utils';
+import {
+  addNewComponent,
+  duplicateComponent,
+  initComponents,
+  pasteComponent,
+  renameComponent,
+  swapComponent,
+} from './utils';
 
 const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorActionProps<T>) => {
   switch (action.type) {
@@ -113,6 +120,12 @@ const reducer = <T extends EditorProps = EditorProps>(state: T, action: EditorAc
         hasUnsavedEdits: true,
         selectedComponent: selectedComponent,
       };
+    }
+
+    case EditorActionType.PASTE_COMPONENT: {
+      const { component } = action;
+      const { components, selectedComponent } = pasteComponent(state.components, state.selectedComponent, component);
+      return { ...state, components, selectedComponent, hasUnsavedEdits: true };
     }
 
     default: {

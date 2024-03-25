@@ -1,5 +1,5 @@
 export * from './lib/store';
-export * from './lib/selectors/user-selectors';
+export * from './lib/selectors';
 
 export * from './lib/filters';
 

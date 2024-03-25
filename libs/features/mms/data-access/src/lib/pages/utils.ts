@@ -1,4 +1,5 @@
-import { PageConstraints } from './types';
+import { ComponentProps, PageConstraints } from './types';
+import { COPIED_COMPONENT } from '../constants';
 
 export const formatConstraintsToReadable = (constraints: PageConstraints) => {
   let text = '';
@@ -13,4 +14,14 @@ export const formatConstraintsToReadable = (constraints: PageConstraints) => {
   if (user_segments.length > 0) text += user_segments.map((us) => us.name).join(', ');
   text = text.replace(/, ?$/, '').toLowerCase();
   return text;
+};
+
+export const removeCopiedComponentFromStorage = () => {
+  localStorage.removeItem(COPIED_COMPONENT);
+};
+export const saveCopiedComponentToStorage = (component: ComponentProps) => {
+  localStorage.setItem(COPIED_COMPONENT, JSON.stringify(component));
+};
+export const getCopiedComponentFromStorage = () => {
+  return JSON.parse(localStorage.getItem(COPIED_COMPONENT));
 };

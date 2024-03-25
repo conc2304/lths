@@ -3,17 +3,20 @@ import { Divider, Stack, Box, Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 
+import { toast } from '@lths/shared/ui-elements';
+
 import Card from './list-items/draggable';
 import colors from '../../../common/colors';
-import { ComponentProps } from '../../../context';
+import { Callback, ComponentProps } from '../../../context';
 import { useEditorActions } from '../../../context/hooks';
 import { areEqual, componentIdToName } from '../../utils';
 import { PAGE_EDITOR_CONTAINER, PAGE_EDITOR_NAVIGATOR_CONTAINER } from '../constants';
 
 export type NavigatorProps = {
+  onPropChange: <T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>) => void;
   onAddComponent: (index?: number) => void;
 };
-export const Container = ({ onAddComponent }: NavigatorProps) => {
+export const Container = ({ onAddComponent, onPropChange }: NavigatorProps) => {
   const theme = useTheme();
   const {
     components,
@@ -42,6 +45,11 @@ export const Container = ({ onAddComponent }: NavigatorProps) => {
     if (areEqual(action, 'delete')) removeComponent(id);
     else if (areEqual(action, 'duplicate')) {
       duplicateComponent(id);
+    } else if (areEqual(action, 'copy')) {
+      const onSuccess = (componentName: string) => {
+        toast.add(`Copied ${componentName} component to the clipboard`, { type: 'success' });
+      };
+      onPropChange('copy_component', onSuccess, { components, id });
     }
   };
   const handleRename = (id: string, value: string) => {

@@ -33,7 +33,6 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: { ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] },
     }).concat(thunk, api.middleware, errorToasterMiddleware, unauthorizedHandlerMiddleware),
-
   devTools: process.env.NODE_ENV !== 'production',
 });
 

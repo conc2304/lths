@@ -12,6 +12,7 @@ import {
   clearSelectedComponent,
   duplicateComponent,
   renameComponent,
+  pasteComponent,
 } from './actions';
 import { useEditor } from './context';
 
@@ -35,6 +36,7 @@ export const useEditorActions = () => {
     duplicateComponent: useMemo(() => duplicateComponent(dispatch), [dispatch]),
     orderComponent: useMemo(() => orderComponent(dispatch), [dispatch]),
     renameComponent: useMemo(() => renameComponent(dispatch), [dispatch]),
+    pasteComponent: useMemo(() => pasteComponent(dispatch), [dispatch]),
     lastSwap: state.lastSwap,
     components: state.components,
     selectedComponent: state.selectedComponent,

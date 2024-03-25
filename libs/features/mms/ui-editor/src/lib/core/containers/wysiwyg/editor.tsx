@@ -2,7 +2,7 @@ import { ComponentProps, useEditorActions } from '../../../context';
 import HighlightableComponent from '../../components/high-lighter';
 import { componentFactory as factory } from '../../factories';
 
-export default function Editor(props: { components: ComponentProps[]; onAddComponent: (index?: number) => void; }) {
+export default function Editor(props: { components: ComponentProps[]; onAddComponent: (index?: number) => void }) {
   const { components, onAddComponent } = props;
   const { selectComponent, selectedComponent, clearSelectedComponent } = useEditorActions();
 
@@ -22,9 +22,10 @@ export default function Editor(props: { components: ComponentProps[]; onAddCompo
         return (
           <HighlightableComponent
             id={`editor-component-${__ui_id__}`}
+            __ui_id__={__ui_id__}
             onClick={() => handleComponentClick(item)}
             selected={selected}
-            key={item.__ui_id__}
+            key={__ui_id__}
             onAddComponent={onAddComponent}
             index={index}
           >

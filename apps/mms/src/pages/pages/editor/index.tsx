@@ -1,7 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, Button, Modal, Backdrop, CircularProgress } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useBeforeUnload, useNavigationBlocker } from '@lths-mui/shared/ui-hooks';
+import { useBeforeUnload, useCopy, useNavigationBlocker, usePaste } from '@lths-mui/shared/ui-hooks';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import {
@@ -14,8 +14,12 @@ import {
   useLazyGetEnumListQuery,
   ComponentProps,
   transformUpdatePageDetailRequest,
+  copyComponentToClipboard,
+  useAppDispatch,
+  removeComponentFromClipboard,
   EnumGroup,
   UseGetPageListQuery,
+  getCopiedComponentFromStorage,
 } from '@lths/features/mms/data-access';
 import {
   PageAdapterProvider,
@@ -26,6 +30,7 @@ import {
   UnSavedPageAlert,
   NoConstraintAlert,
   useAlertActions,
+  PasteComponentAlert,
 } from '@lths/features/mms/ui-components';
 import {
   BlockEditor,
@@ -70,7 +75,8 @@ const TabItems = {
 };
 export function PageEditorTabs() {
   //api
-  const { initEditor, addComponent, components, data, updateExtended, hasUnsavedEdits } = useEditorActions();
+  const { initEditor, addComponent, pasteComponent, components, data, updateExtended, hasUnsavedEdits } =
+    useEditorActions();
   const { openAlert } = useAlertActions();
   const [getPageDetail, { isFetching: isFetchingPageDetail, data: pageDetailResponse }] = useLazyGetPageDetailsQuery();
   const [getPreviewPageDetail] = useLazyGetPageDetailsQuery();
@@ -101,6 +107,9 @@ export function PageEditorTabs() {
     success: '',
   });
   const [isConstraintAlertOpen, setIsConstraintAlertOpen] = useState(false);
+  const [isPasteComponentAlertOpen, setIsPasteComponentAlertOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
   const [addIndex, setAddIndex] = useState(null);
 
   //route params
@@ -125,6 +134,23 @@ export function PageEditorTabs() {
 
   // Breadcrumbs title
   const { setPageTitle } = useLayoutActions();
+
+  const handleCopyEvent = () => {
+    const targetedComponent = document.querySelector('[data-component-id]:hover') as HTMLElement;
+    if (!targetedComponent) return;
+    const componentId = targetedComponent.dataset.componentId;
+    const selectedComponent = components.find((component) => component.__ui_id__ === componentId);
+    dispatch(copyComponentToClipboard(selectedComponent));
+    toast.add(`Copied ${selectedComponent.name} component to the clipboard`, { type: 'success' });
+  };
+
+  const handlePasteEvent = () => {
+    const copiedComponent = getCopiedComponentFromStorage();
+    copiedComponent && setIsPasteComponentAlertOpen(true);
+  };
+
+  useCopy(handleCopyEvent, [components]);
+  usePaste(handlePasteEvent);
 
   useEffect(() => {
     if (page_data?.name) setPageTitle(page_data.name);
@@ -265,6 +291,12 @@ export function PageEditorTabs() {
     }
   };
 
+  const handleCopyComponent = (components: ComponentProps[], id: string, callback: (componentName: string) => void) => {
+    const selectedComponent = components.find((component) => component.__ui_id__ === id);
+    dispatch(copyComponentToClipboard(selectedComponent));
+    return callback(selectedComponent.name);
+  };
+
   function handlePropChange<T>(propName: string, callback: Callback<T>, props?: Record<string, unknown>): void {
     if (propName === 'image_url') {
       handleAddImage(callback as Callback<string>);
@@ -279,6 +311,10 @@ export function PageEditorTabs() {
       handlAddPageDetail(pageId as string, callback as Callback<ComponentPropsUiEditor[]>);
     } else if (propName === 'hero_carousel_component_modal') {
       handleAddHeroCarouselComponent(callback as Callback<ComponentProps>);
+    } else if (propName === 'copy_component') {
+      const components = (props.components as ComponentProps[]) || [];
+      const id = (props.id as string) || '';
+      handleCopyComponent(components, id, callback as Callback<string>);
     }
   }
 
@@ -403,6 +439,18 @@ export function PageEditorTabs() {
     setIsConstraintAlertOpen(false);
   };
 
+  const handlePasteComponent = () => {
+    handlePasteComponentAlertClose();
+    const copiedComponent = getCopiedComponentFromStorage();
+    pasteComponent(copiedComponent);
+    toast.add(`The copied ${copiedComponent.name} component has been added to this page.`, { type: 'success' });
+    dispatch(removeComponentFromClipboard());
+  };
+
+  const handlePasteComponentAlertClose = () => {
+    setIsPasteComponentAlertOpen(false);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <PageHeader
@@ -485,6 +533,11 @@ export function PageEditorTabs() {
         isOpen={isConstraintAlertOpen}
         handleConfirm={handleNoConstraintAlertClose}
         handleClose={handleNoConstraintAlertClose}
+      />
+      <PasteComponentAlert
+        isOpen={isPasteComponentAlertOpen}
+        handleConfirm={handlePasteComponent}
+        handleClose={handlePasteComponentAlertClose}
       />
     </Box>
   );

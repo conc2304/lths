@@ -48,7 +48,7 @@ const BlockEditor = ({ onAddComponent, onPropChange }: EditorProps) => {
     <Box>
       <Grid container>
         <Grid item xs={3.5} sx={{ backgroundColor: colors.sidebar.background }}>
-          <Navigator onAddComponent={onAddComponent} />
+          <Navigator onAddComponent={onAddComponent} onPropChange={onPropChange} />
         </Grid>
 
         <Grid item xs={5} sx={{ backgroundColor: colors.editor.background }}>

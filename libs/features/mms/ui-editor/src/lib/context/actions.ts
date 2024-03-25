@@ -40,3 +40,6 @@ export const renameComponent = (dispatch: Dispatch<EditorActionProps>) => (id: s
 export const clearEditor = (dispatch: Dispatch<EditorActionProps>) => () => {
   dispatch({ type: EditorActionType.CLEAR_COMPONENTS });
 };
+export const pasteComponent = (dispatch: Dispatch<EditorActionProps>) => (component: ComponentProps) => {
+  dispatch({ type: EditorActionType.PASTE_COMPONENT, component });
+};

@@ -8,6 +8,7 @@ import { COMPONENT_ADD_TOUCH_TARGET, Colors } from '../../common';
 
 type HighlightableComponentProps = {
   id?: string;
+  __ui_id__?: string;
   children: ReactNode;
   selected: boolean;
   onClick?: () => void;
@@ -17,6 +18,7 @@ type HighlightableComponentProps = {
 
 const HighlightableComponent = ({
   id,
+  __ui_id__,
   children,
   selected = false,
   onClick,
@@ -85,6 +87,7 @@ const HighlightableComponent = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleOnClick}
+        data-component-id={__ui_id__}
       >
         {/*<Box
         sx={{
@@ -119,12 +122,12 @@ const HighlightableComponent = ({
           onClick={handleAddComponent}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          sx={{ 
-            position: 'relative', 
-            top: theme.spacing(-COMPONENT_ADD_TOUCH_TARGET/2),  
-            paddingTop: theme.spacing(COMPONENT_ADD_TOUCH_TARGET/2), 
-            paddingBottom: theme.spacing(COMPONENT_ADD_TOUCH_TARGET/2), 
-            zIndex: 100 
+          sx={{
+            position: 'relative',
+            top: theme.spacing(-COMPONENT_ADD_TOUCH_TARGET / 2),
+            paddingTop: theme.spacing(COMPONENT_ADD_TOUCH_TARGET / 2),
+            paddingBottom: theme.spacing(COMPONENT_ADD_TOUCH_TARGET / 2),
+            zIndex: 100,
           }}
         >
           <Divider sx={{ borderColor: isHovered ? Colors.editor.highlight : '' }} />

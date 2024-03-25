@@ -11,7 +11,7 @@ const style = {
   backgroundColor: Colors.sidebar.background,
 };
 //TODO: move this to constants??
-const menuOptions = ['delete', 'duplicate'];
+const menuOptions = ['delete', 'duplicate', 'copy'];
 
 export const Card = ({
   id,

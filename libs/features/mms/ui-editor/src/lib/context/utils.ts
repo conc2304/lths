@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { ComponentProps } from './types';
 const fillUuid = (component: ComponentProps) => ({ ...component, __ui_id__: uuid() });
-const clearExternalIds = (component: ComponentProps) => fillUuid({ ...component, variation_id: '', _id: '' });
+export const clearExternalIds = (component: ComponentProps) => fillUuid({ ...component, variation_id: '', _id: '' });
 
 export function sort(components: ComponentProps[]): ComponentProps[] {
   if (components.length === 0) return components;
@@ -106,4 +106,32 @@ export const duplicateComponent = (components: ComponentProps[], uuid: string) =
       selectedComponent: duplicate,
     };
   }
+};
+
+export const pasteComponent = (
+  components: ComponentProps[],
+  selectedComponent: ComponentProps,
+  component: ComponentProps
+) => {
+  const isDuplicate = components.find((c) => c.component_id === component.component_id && c.name === component.name);
+  const pastedComponent = { ...clearExternalIds(component) };
+  if (isDuplicate) {
+    pastedComponent.name = getNextDuplicateName(components, pastedComponent);
+  }
+  const selectedComponentIndex = selectedComponent
+    ? components.findIndex((c) => c.__ui_id__ === selectedComponent.__ui_id__)
+    : -1;
+
+  return {
+    selectedComponent: pastedComponent,
+    components: populateDisplayOrder(
+      selectedComponentIndex === -1
+        ? [...components, pastedComponent]
+        : [
+            ...components.slice(0, selectedComponentIndex + 1),
+            pastedComponent,
+            ...components.slice(selectedComponentIndex + 1),
+          ]
+    ),
+  };
 };

@@ -119,6 +119,7 @@ export enum EditorActionType {
   DUPLICATE_COMPONENT = 'DUPLICATE_COMPONENT',
   UPDATE_EXTENDED = 'UPDATE_EXTENDED',
   RENAME_COMPONENT = 'RENAME_COMPONENT',
+  PASTE_COMPONENT = 'PASTE_COMPONENT',
 }
 
 export const initialState2: EditorProps = {
@@ -137,4 +138,5 @@ export type EditorActionProps<T extends EditorProps = EditorProps> =
   | { type: EditorActionType.REMOVE_COMPONENT; id: string }
   | { type: EditorActionType.DUPLICATE_COMPONENT; id: string }
   | { type: EditorActionType.RENAME_COMPONENT; id: string; name: string }
-  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number };
+  | { type: EditorActionType.ORDER_COMPONENT; dragIndex: number; hoverIndex: number }
+  | { type: EditorActionType.PASTE_COMPONENT; component: ComponentProps };
