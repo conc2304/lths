@@ -251,6 +251,8 @@ export default function AssetsPage() {
       return uploadAsset(file)
         .unwrap()
         .then(() => {
+          handleOnChange({ page: 0, rowsPerPage: currPageSize, sortOrder: 'desc', orderBy: 'created_on' });
+          toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
           // toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
           return `Successfully uploaded media: ${file.name}`;
         })
