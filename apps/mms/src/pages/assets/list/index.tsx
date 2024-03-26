@@ -21,7 +21,7 @@ import {
   PreviewDrawerContent,
   UploadConfirmDialog,
 } from '@lths/features/mms/ui-components';
-import { DialogForm, FileList, toast } from '@lths/shared/ui-elements';
+import { toast } from '@lths/shared/ui-elements';
 import {
   Table,
   TablePaginationProps,
@@ -70,7 +70,6 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
-  console.log('Render AssetPage');
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -232,7 +231,6 @@ export default function AssetsPage() {
       setFilesToUpload(files);
       setConfirmationDialogOpen(true);
     }
-    console.log('fileinput', fileInputRef.current.value);
   };
 
   const handleUpload = async (files: File[]) => {
@@ -245,23 +243,25 @@ export default function AssetsPage() {
       return uploadAsset(file)
         .unwrap()
         .then(() => {
-          handleOnChange({ page: 0, rowsPerPage: currPageSize, sortOrder: 'desc', orderBy: 'created_on' });
-          toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
-          // toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
           return `Successfully uploaded media: ${file.name}`;
         })
         .catch((error) => {
           return error;
-          // toast.add(error.data || 'Unable to upload media. Please try again', { type: 'error' });
         });
     };
 
     const uploadPromises = Array.from(files).map(uploadFile);
 
-    Promise.allSettled(uploadPromises)
+    await Promise.allSettled(uploadPromises)
       .then((results) => {
+        // make the page refresh the data, and have all recent uploads at the top
+        handleOnChange({ page: 0, rowsPerPage: currPageSize, sortOrder: 'desc', orderBy: 'created_on' });
+        toast.add(`Asset${results.length > 1 ? 's' : ''} uploaded.`, { type: 'success' });
+
+        // check the results for any uploads that failed to display in a status modal
         results.forEach((result, index) => {
           console.log(result);
+
           if (result.status === 'fulfilled') {
             console.log(`File ${index + 1} uploaded successfully.`);
           } else {

@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -13,7 +12,6 @@ type UploadConfirmDialogProps = {
   onSubmit: (files: File[]) => Promise<void>;
 };
 export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
-  console.log('UploadConfirmDialog');
   const { open, onClose, files: filesProp, onSubmit } = props;
   const maxUploadSizeMB = 100;
   const maxUploadQty = 10;
@@ -27,10 +25,8 @@ export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { setSubmitting }) => {
-      console.log('Formik onsubmit');
       if (!values.files) return;
       setSubmitting(true);
-      console.log('Formik onsubmit');
       await onSubmit(values.files);
       setSubmitting(false);
       onClose();
@@ -78,7 +74,6 @@ export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
 
   const totalFileSizeBytes = getTotalUploadSize(files);
   const formattedFileSize = humanFileSize(totalFileSizeBytes);
-  console.log(formik.errors.files);
 
   return (
     <DialogForm
