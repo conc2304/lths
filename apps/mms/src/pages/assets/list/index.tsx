@@ -256,7 +256,7 @@ export default function AssetsPage() {
         });
     };
 
-    const uploadPromises = files.map(uploadFile);
+    const uploadPromises = Array.from(files).map(uploadFile);
 
     Promise.allSettled(uploadPromises)
       .then((results) => {

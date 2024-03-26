@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -15,6 +15,10 @@ type UploadConfirmDialogProps = {
 export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
   console.log('UploadConfirmDialog');
   const { open, onClose, files: filesProp, onSubmit } = props;
+  const maxUploadSizeMB = 100;
+  const maxUploadQty = 10;
+
+  const getTotalUploadSize = (files: File[]) => Array.from(files).reduce((acc, file) => acc + file.size, 0);
 
   const initialValues: { files: File[] | null } = {
     files: filesProp,
@@ -36,16 +40,15 @@ export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
       files: Yup.mixed()
         .test('null-check', 'No files uploaded.', (values) => values !== null)
         .test('max-files', 'Maximum of 10 files', (values) => {
-          console.log({ values });
-          return true;
+          return Array.from(values as File[]).length <= maxUploadQty;
         })
-        .test('max-files-size', 'Total file size over limit', (values) => {
-          console.log({ values });
-          return true;
+        .test('max-files-size', 'Maximum upload size of 100mb', (values) => {
+          const bytesInMB = 1000000;
+          const totalBytes = getTotalUploadSize(values as File[]);
+          return totalBytes < maxUploadSizeMB * bytesInMB;
         }),
     }),
     onReset: () => {
-      console.log('reset');
       onClose();
     },
   });
@@ -73,13 +76,9 @@ export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
     formik.validateField('files');
   };
 
-  const totalFileSize = Array.from(files).reduce((acc, file) => acc + file.size, 0);
-  console.log(totalFileSize, files?.length);
-
-  // const errorMsg =
-  //   (maxTotalSizeMB && totalFileSize > maxTotalSizeMB) || (maxFiles && files.length > maxFiles)
-  //     ? 'Total number or size of files exceed maximium.'
-  //     : null;
+  const totalFileSizeBytes = getTotalUploadSize(files);
+  const formattedFileSize = humanFileSize(totalFileSizeBytes);
+  console.log(formik.errors.files);
 
   return (
     <DialogForm
@@ -92,9 +91,11 @@ export const UploadConfirmDialog = (props: UploadConfirmDialogProps) => {
       disabled={!formik.isValid}
       onSubmit={formik.handleSubmit}
     >
-      <Typography>Total Files: {files?.length}</Typography>
-      <Typography>Total Size: {humanFileSize(totalFileSize)}</Typography>
-      {/* {errorMsg && <Typography>{errorMsg}</Typography>} */}
+      <Box sx={{ display: 'fex', justifyContent: 'space-between' }}>
+        <Typography>Total Files: {files?.length}</Typography>
+        <Typography>Total Size: {formattedFileSize}</Typography>
+      </Box>
+      {Boolean(formik.errors.files) && <Typography color="error">{formik.errors.files as string}</Typography>}
       <FileList files={formik.values.files} filesRemovable onRemoveFile={handleRemoveFile} maxHeight={'15rem'} />
     </DialogForm>
   );
