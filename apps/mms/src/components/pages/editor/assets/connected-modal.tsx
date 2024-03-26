@@ -119,6 +119,7 @@ const ConnectedAssetsModal = ({ open, onClose, onSelect }: ConnectedAssetsModalP
       .then(() => {
         // update the sorting, which will trigger a refetch with the most recent uploads at the top
         setCurrSorting({ order: 'desc', column: 'created_on' });
+        setCurrPagination({ page: 0, pageSize: currPagination.pageSize });
         toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
       })
       .catch((error: { data: string; status: number }) => {
