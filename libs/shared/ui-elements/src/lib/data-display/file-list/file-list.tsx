@@ -2,39 +2,26 @@ import { useEffect, useState } from 'react';
 import { Avatar, Box, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
+import { Property } from 'csstype';
 
 import { humanFileSize } from '@lths/shared/utils';
 
 type FileListProps = {
-  files: FileList | null;
+  files: File[] | null;
   filesRemovable?: boolean;
   onRemoveFile?: (index: number) => void;
-  maxFiles?: number;
-  maxTotalSizeMB?: number;
-  allowedFileTypes?: string[];
+  maxHeight?: Property.MaxHeight;
 };
 export const FileList = (props: FileListProps) => {
-  const { files: filesProp, filesRemovable, onRemoveFile, maxFiles, maxTotalSizeMB } = props;
+  const { files: filesProp, filesRemovable, onRemoveFile, maxHeight } = props;
 
-  const [files, setFiles] = useState(filesProp);
+  const [files, setFiles] = useState<File[]>([]);
   useEffect(() => {
-    setFiles(filesProp);
+    if (filesProp) setFiles(filesProp);
   }, [filesProp]);
-
-  const filesArr = files ? Array.from(files) : [];
-
-  filesArr.map((file) => console.log(file));
-
-  const totalFileSize = filesArr.reduce((acc, file) => acc + file.size, 0);
-
-  const errorMsg =
-    (maxTotalSizeMB && totalFileSize > maxTotalSizeMB) || (maxFiles && filesArr.length > maxFiles)
-      ? 'Total number or size of files exceed maximium.'
-      : null;
 
   return (
     <Box>
-      {errorMsg && <Typography>{errorMsg}</Typography>}
       <Box
         sx={{
           pt: 0.5,
@@ -66,7 +53,7 @@ export const FileList = (props: FileListProps) => {
         <List
           dense
           sx={{
-            maxHeight: '8.5rem',
+            maxHeight: maxHeight || '8.5rem',
             overflowY: 'scroll',
             position: 'relative',
 

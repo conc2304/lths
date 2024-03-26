@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Input } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Box } from '@mui/system';
 
 import {
   AssetsRequestProps,
@@ -69,6 +70,7 @@ const headers = [
 type AssetModalState = 'Delete' | 'Rename' | null;
 
 export default function AssetsPage() {
+  console.log('Render AssetPage');
   const fileInputRef = useRef(null);
   const acceptedFileTypes = '.jpg,.jpeg,.png,.svg,.gif';
   const [assetModalState, setAssetModalState] = useState<AssetModalState>(null);
@@ -77,7 +79,7 @@ export default function AssetsPage() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
-  const [filesToUpload, setFilesToUpload] = useState<FileList | null>(null);
+  const [filesToUpload, setFilesToUpload] = useState<File[] | null>(null);
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
 
   const handleFocus = () => {
@@ -215,33 +217,25 @@ export default function AssetsPage() {
 
   const [uploadAsset, { isFetching: isAddingResource }] = useUploadAssetMutation();
 
-  const maxFiles = 10;
-  const maxFileSize = 1;
   const handleOnFilesAdded = async (event: ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
-    const numFiles = fileList.length;
 
     // if only 1 file then dont show modal, otherwise show confirmation modal
     if (!fileList) {
-      // todo handle when a file is the wrong type
       return;
     }
-    console.log('fileinput', fileInputRef.current.value);
+    const files = Array.from(fileList);
 
-    if (numFiles === 1) {
-      handleUpload(fileList);
+    if (fileList.length === 1) {
+      handleUpload(files);
     } else {
-      setFilesToUpload(fileList);
+      setFilesToUpload(files);
       setConfirmationDialogOpen(true);
     }
     console.log('fileinput', fileInputRef.current.value);
-
-    // event.target.value = ''; // Reset the file input after upload
   };
 
-  const handleUpload = async (fileList: FileList) => {
-    const files = Array.from(fileList);
-
+  const handleUpload = async (files: File[]) => {
     if (!files) {
       // todo handle when a file is the wrong type
       return;
@@ -347,14 +341,19 @@ export default function AssetsPage() {
       <PageHeader
         title="Assets"
         rightContent={
-          <div>
-            <input
+          <Box>
+            <Input
+              inputComponent={'input'}
+              inputRef={fileInputRef}
+              name="assets"
               type="file"
-              multiple
-              ref={fileInputRef}
-              style={{ display: 'none' }}
+              id="upload-assets"
               onChange={handleOnFilesAdded}
-              accept={acceptedFileTypes}
+              sx={{ display: 'none' }}
+              inputProps={{
+                multiple: true,
+                accept: acceptedFileTypes,
+              }}
             />
             <Button
               variant="contained"
@@ -364,7 +363,7 @@ export default function AssetsPage() {
             >
               <AddIcon /> ADD ASSET
             </Button>
-          </div>
+          </Box>
         }
         sx={{ mt: 2 }}
       />
@@ -412,6 +411,7 @@ export default function AssetsPage() {
           open={confirmationDialogOpen}
           onClose={() => {
             setConfirmationDialogOpen(false);
+            setFilesToUpload(null);
             fileInputRef.current.value = '';
           }}
           onSubmit={handleUpload}

@@ -178,7 +178,7 @@ border-radius: 8px`,
         </Box>
       </FormLabel>
       {showFilesAdded && files && files.length > 0 && (
-        <FileList files={files} filesRemovable={filesRemovable} onRemoveFile={handleRemoveFile} />
+        <FileList files={Array.from(files)} filesRemovable={filesRemovable} onRemoveFile={handleRemoveFile} />
       )}
       {dragActive && (
         <Box
