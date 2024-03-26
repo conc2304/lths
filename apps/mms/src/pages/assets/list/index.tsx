@@ -220,6 +220,8 @@ export default function AssetsPage() {
     uploadAsset(file)
       .unwrap()
       .then(() => {
+        // refetch the asset data, and force sorting by created
+        handleOnChange({ page: currPage, rowsPerPage: currPageSize, sortOrder: 'desc', orderBy: 'created_on' });
         toast.add(`Successfully uploaded media: ${file.name}`, { type: 'success' });
       })
       .catch((error: { data: string; status: number }) => {
